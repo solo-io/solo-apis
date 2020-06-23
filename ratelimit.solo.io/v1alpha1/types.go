@@ -4,10 +4,7 @@
 package v1alpha1
 
 import (
-	. "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-	. "github.com/solo-io/solo-apis/ratelimit.solo.io/v1alpha1/types"
 )
 
 // +genclient
