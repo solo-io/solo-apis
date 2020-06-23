@@ -5,6 +5,9 @@ go 1.14
 replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
 
 require (
+	github.com/gogo/protobuf v1.3.1
+	github.com/mitchellh/hashstructure v1.0.0
+	github.com/solo-io/protoc-gen-ext v0.0.9
 	github.com/solo-io/skv2 v0.4.2
 	k8s.io/apimachinery v0.17.2
 	k8s.io/client-go v8.0.0+incompatible

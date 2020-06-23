@@ -28,14 +28,14 @@ func main() {
 						Kind: "RateLimitConfig",
 						Spec: model.Field{
 							Type: model.Type{
-								Name:      "RateLimitConfigSpec",
-								GoPackage: "github.com/solo-io/solo-apis/ratelimit.solo.io/v1alpha1/types",
+								Name: "RateLimitConfigSpec",
+								//GoPackage: "github.com/solo-io/solo-apis/ratelimit.solo.io/v1alpha1/types",
 							},
 						},
 						Status: &model.Field{
 							Type: model.Type{
-								Name:      "RateLimitConfigStatus",
-								GoPackage: "github.com/solo-io/solo-apis/ratelimit.solo.io/v1alpha1/types",
+								Name: "RateLimitConfigStatus",
+								//GoPackage: "github.com/solo-io/solo-apis/ratelimit.solo.io/v1alpha1/types",
 							},
 						},
 					},
