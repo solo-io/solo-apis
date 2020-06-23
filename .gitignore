@@ -1,0 +1,15 @@
+# Editor temp files
+*.swp
+*.#*
+
+# build artifacts
+vendor*/
+_vendor*/
+*.out
+bin/
+
+# IDE
+.idea
+.vscode
+
+.DS_Store
