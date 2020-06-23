@@ -1,7 +1,7 @@
 syntax = "proto3";
 package ratelimit.solo.io;
 
-//option go_package = "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/types";
+option go_package = "github.com/solo-io/solo-apis/ratelimit.solo.io/v1alpha1/types";
 
 
 import "google/protobuf/wrappers.proto";
