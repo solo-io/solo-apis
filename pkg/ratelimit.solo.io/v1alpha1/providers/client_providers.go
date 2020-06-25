@@ -3,7 +3,7 @@
 package v1alpha1
 
 import (
-	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/ratelimit.solo.io/v1alpha1"
+	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1"
 
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"

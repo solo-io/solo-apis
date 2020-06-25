@@ -5,7 +5,7 @@
 package v1alpha1sets
 
 import (
-	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/ratelimit.solo.io/v1alpha1"
+	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1"
 
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
