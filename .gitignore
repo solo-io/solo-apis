@@ -13,3 +13,7 @@ bin/
 .vscode
 
 .DS_Store
+
+# Directory for stuff that you use locally but
+# don't want to commit (personal scrips, data, etc.)
+_local/
