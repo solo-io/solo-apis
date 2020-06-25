@@ -2,11 +2,15 @@ module github.com/solo-io/solo-apis
 
 go 1.14
 
-replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
+replace (
+	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
+	k8s.io/client-go => k8s.io/client-go v0.17.1
+)
 
 require (
 	github.com/gogo/protobuf v1.3.1
 	github.com/mitchellh/hashstructure v1.0.0
+	github.com/pkg/errors v0.9.1
 	github.com/solo-io/protoc-gen-ext v0.0.9
 	github.com/solo-io/skv2 v0.4.2
 	github.com/solo-io/solo-kit v0.12.2
