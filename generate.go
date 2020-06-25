@@ -1,57 +1,15 @@
 package main
 
 import (
-	"github.com/solo-io/skv2/contrib"
-	"github.com/solo-io/solo-kit/pkg/code-generator/sk_anyvendor"
-	"k8s.io/apimachinery/pkg/runtime/schema"
+	"github.com/solo-io/solo-apis/codegen"
 	"log"
-
-	"github.com/solo-io/skv2/codegen"
-	"github.com/solo-io/skv2/codegen/model"
 )
 
 func main() {
-	log.Println("starting generate")
-
-	skv2Cmd := codegen.Command{
-		AnyVendorConfig: sk_anyvendor.CreateDefaultMatchOptions([]string{"api/**/*.proto"}),
-		Groups: []model.Group{
-			{
-				GroupVersion: schema.GroupVersion{
-					Group:   "ratelimit.solo.io",
-					Version: "v1alpha1",
-				},
-				Module: "github.com/solo-io/solo-apis",
-				//ApiRoot: "pkg",
-				Resources: []model.Resource{
-					{
-						Kind: "RateLimitConfig",
-						Spec: model.Field{
-							Type: model.Type{
-								Name: "RateLimitConfigSpec",
-								//GoPackage: "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/types",
-							},
-						},
-						Status: &model.Field{
-							Type: model.Type{
-								Name: "RateLimitConfigStatus",
-								//GoPackage: "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/types",
-							},
-						},
-					},
-				},
-				RenderTypes:      true,
-				RenderClients:    true,
-				RenderController: true,
-				MockgenDirective: true,
-				RenderProtos:     true,
-				CustomTemplates:  contrib.AllCustomTemplates,
-			},
-		},
-	}
+	log.Println("Starting skv2 code generation")
+	skv2Cmd := codegen.Command()
 	if err := skv2Cmd.Execute(); err != nil {
 		log.Fatal(err)
 	}
-
-	log.Println("Finished generating code")
+	log.Println("Finished generating skv2 code")
 }
