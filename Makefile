@@ -1,5 +1,5 @@
 .PHONY: generate
-generate: generate-code generate-mocks
+generate: generate-code generate-mocks tidy
 
 .PHONY: generate-code
 generate-code:
