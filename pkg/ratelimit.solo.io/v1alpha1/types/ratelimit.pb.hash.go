@@ -40,14 +40,14 @@ func (m *RateLimitConfigSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	switch m.ConfigType.(type) {
 
-	case *RateLimitConfigSpec_Envoy_:
+	case *RateLimitConfigSpec_Raw_:
 
-		if h, ok := interface{}(m.GetEnvoy()).(safe_hasher.SafeHasher); ok {
+		if h, ok := interface{}(m.GetRaw()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if val, err := hashstructure.Hash(m.GetEnvoy(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetRaw(), nil); err != nil {
 				return 0, err
 			} else {
 				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
@@ -150,6 +150,66 @@ func (m *Descriptor) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	err = binary.Write(hasher, binary.LittleEndian, m.GetAlwaysApply())
+	if err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *RateLimitActions) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("ratelimit.solo.io.github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/types.RateLimitActions")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetActions() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *RateLimit) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("ratelimit.solo.io.github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/types.RateLimit")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetUnit())
+	if err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetRequestsPerUnit())
 	if err != nil {
 		return 0, err
 	}
@@ -274,7 +334,7 @@ func (m *Action) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *RateLimitConfigSpec_Envoy) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *RateLimitConfigSpec_Raw) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -282,7 +342,7 @@ func (m *RateLimitConfigSpec_Envoy) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("ratelimit.solo.io.github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/types.RateLimitConfigSpec_Envoy")); err != nil {
+	if _, err = hasher.Write([]byte("ratelimit.solo.io.github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/types.RateLimitConfigSpec_Raw")); err != nil {
 		return 0, err
 	}
 
@@ -320,66 +380,6 @@ func (m *RateLimitConfigSpec_Envoy) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *RateLimitConfigSpec_Envoy_RateLimit) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("ratelimit.solo.io.github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/types.RateLimitConfigSpec_Envoy_RateLimit")); err != nil {
-		return 0, err
-	}
-
-	for _, v := range m.GetActions() {
-
-		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if val, err := hashstructure.Hash(v, nil); err != nil {
-				return 0, err
-			} else {
-				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *Descriptor_RateLimit) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("ratelimit.solo.io.github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/types.Descriptor_RateLimit")); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetUnit())
-	if err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetRequestsPerUnit())
-	if err != nil {
-		return 0, err
 	}
 
 	return hasher.Sum64(), nil

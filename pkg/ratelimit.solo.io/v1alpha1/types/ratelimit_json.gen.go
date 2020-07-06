@@ -6,12 +6,13 @@ package types
 import (
 	bytes "bytes"
 	fmt "fmt"
+	math "math"
+
 	_ "github.com/gogo/protobuf/gogoproto"
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -30,25 +31,14 @@ func (this *RateLimitConfigSpec) UnmarshalJSON(b []byte) error {
 	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for RateLimitConfigSpec_Envoy
-func (this *RateLimitConfigSpec_Envoy) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for RateLimitConfigSpec_Raw
+func (this *RateLimitConfigSpec_Raw) MarshalJSON() ([]byte, error) {
 	str, err := RatelimitMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for RateLimitConfigSpec_Envoy
-func (this *RateLimitConfigSpec_Envoy) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for RateLimitConfigSpec_Envoy_RateLimit
-func (this *RateLimitConfigSpec_Envoy_RateLimit) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for RateLimitConfigSpec_Envoy_RateLimit
-func (this *RateLimitConfigSpec_Envoy_RateLimit) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for RateLimitConfigSpec_Raw
+func (this *RateLimitConfigSpec_Raw) UnmarshalJSON(b []byte) error {
 	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -74,14 +64,25 @@ func (this *Descriptor) UnmarshalJSON(b []byte) error {
 	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for Descriptor_RateLimit
-func (this *Descriptor_RateLimit) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for RateLimitActions
+func (this *RateLimitActions) MarshalJSON() ([]byte, error) {
 	str, err := RatelimitMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for Descriptor_RateLimit
-func (this *Descriptor_RateLimit) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for RateLimitActions
+func (this *RateLimitActions) UnmarshalJSON(b []byte) error {
+	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for RateLimit
+func (this *RateLimit) MarshalJSON() ([]byte, error) {
+	str, err := RatelimitMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for RateLimit
+func (this *RateLimit) UnmarshalJSON(b []byte) error {
 	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -186,5 +187,5 @@ func (this *Action_HeaderValueMatch_HeaderMatcher_Int64Range) UnmarshalJSON(b []
 
 var (
 	RatelimitMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
-	RatelimitUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
+	RatelimitUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{AllowUnknownFields: true}
 )

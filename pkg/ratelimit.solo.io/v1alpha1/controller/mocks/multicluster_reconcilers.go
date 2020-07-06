@@ -6,11 +6,12 @@ package mock_controller
 
 import (
 	context "context"
+	reflect "reflect"
+
 	gomock "github.com/golang/mock/gomock"
 	reconcile "github.com/solo-io/skv2/pkg/reconcile"
 	v1alpha1 "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1"
 	controller "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/controller"
-	reflect "reflect"
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 

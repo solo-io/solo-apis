@@ -9,3 +9,7 @@ generate-code:
 generate-mocks:
 	go generate ./...
 
+.PHONY: tidy
+tidy:
+	goimports -w pkg
+	go mod tidy
