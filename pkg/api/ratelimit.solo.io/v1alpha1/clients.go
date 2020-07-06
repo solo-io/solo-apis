@@ -189,3 +189,25 @@ func (c *rateLimitConfigClient) UpdateRateLimitConfigStatus(ctx context.Context,
 func (c *rateLimitConfigClient) PatchRateLimitConfigStatus(ctx context.Context, obj *RateLimitConfig, patch client.Patch, opts ...client.PatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
+
+// Provides RateLimitConfigClients for multiple clusters.
+type MulticlusterRateLimitConfigClient interface {
+	// Cluster returns a RateLimitConfigClient for the given cluster
+	Cluster(cluster string) (RateLimitConfigClient, error)
+}
+
+type multiclusterRateLimitConfigClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterRateLimitConfigClient(client multicluster.Client) MulticlusterRateLimitConfigClient {
+	return &multiclusterRateLimitConfigClient{client: client}
+}
+
+func (m *multiclusterRateLimitConfigClient) Cluster(cluster string) (RateLimitConfigClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewRateLimitConfigClient(client), nil
+}

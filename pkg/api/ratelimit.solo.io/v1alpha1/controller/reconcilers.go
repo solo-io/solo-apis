@@ -8,7 +8,7 @@ package controller
 import (
 	"context"
 
-	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1"
+	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/ezkube"
@@ -28,12 +28,12 @@ type RateLimitConfigReconciler interface {
 // before being deleted.
 // implemented by the user
 type RateLimitConfigDeletionReconciler interface {
-	ReconcileRateLimitConfigDeletion(req reconcile.Request)
+	ReconcileRateLimitConfigDeletion(req reconcile.Request) error
 }
 
 type RateLimitConfigReconcilerFuncs struct {
 	OnReconcileRateLimitConfig         func(obj *ratelimit_solo_io_v1alpha1.RateLimitConfig) (reconcile.Result, error)
-	OnReconcileRateLimitConfigDeletion func(req reconcile.Request)
+	OnReconcileRateLimitConfigDeletion func(req reconcile.Request) error
 }
 
 func (f *RateLimitConfigReconcilerFuncs) ReconcileRateLimitConfig(obj *ratelimit_solo_io_v1alpha1.RateLimitConfig) (reconcile.Result, error) {
@@ -43,11 +43,11 @@ func (f *RateLimitConfigReconcilerFuncs) ReconcileRateLimitConfig(obj *ratelimit
 	return f.OnReconcileRateLimitConfig(obj)
 }
 
-func (f *RateLimitConfigReconcilerFuncs) ReconcileRateLimitConfigDeletion(req reconcile.Request) {
+func (f *RateLimitConfigReconcilerFuncs) ReconcileRateLimitConfigDeletion(req reconcile.Request) error {
 	if f.OnReconcileRateLimitConfigDeletion == nil {
-		return
+		return nil
 	}
-	f.OnReconcileRateLimitConfigDeletion(req)
+	return f.OnReconcileRateLimitConfigDeletion(req)
 }
 
 // Reconcile and finalize the RateLimitConfig Resource
@@ -108,10 +108,11 @@ func (r genericRateLimitConfigReconciler) Reconcile(object ezkube.Object) (recon
 	return r.reconciler.ReconcileRateLimitConfig(obj)
 }
 
-func (r genericRateLimitConfigReconciler) ReconcileDeletion(request reconcile.Request) {
+func (r genericRateLimitConfigReconciler) ReconcileDeletion(request reconcile.Request) error {
 	if deletionReconciler, ok := r.reconciler.(RateLimitConfigDeletionReconciler); ok {
-		deletionReconciler.ReconcileRateLimitConfigDeletion(request)
+		return deletionReconciler.ReconcileRateLimitConfigDeletion(request)
 	}
+	return nil
 }
 
 // genericRateLimitConfigFinalizer implements a generic reconcile.FinalizingReconciler

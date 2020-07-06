@@ -23,14 +23,14 @@ func rateLimiterGroups() []model.Group {
 					Kind: "RateLimitConfig",
 					Spec: model.Field{
 						Type: model.Type{
-							Name: "RateLimitConfigSpec",
-							//GoPackage: "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1",
+							Name:      "RateLimitConfigSpec",
+							GoPackage: "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/types",
 						},
 					},
 					Status: &model.Field{
 						Type: model.Type{
-							Name: "RateLimitConfigStatus",
-							//GoPackage: "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1",
+							Name:      "RateLimitConfigStatus",
+							GoPackage: "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/types",
 						},
 					},
 				},
@@ -39,8 +39,7 @@ func rateLimiterGroups() []model.Group {
 			RenderClients:    true,
 			RenderController: true,
 			MockgenDirective: true,
-			RenderProtos:     true,
-			CustomTemplates:  contrib.AllCustomTemplates,
+			CustomTemplates:  contrib.AllGroupCustomTemplates,
 		},
 	}
 }

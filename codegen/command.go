@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	apiRoot = "pkg"
+	apiRoot = "pkg/api"
 )
 
 var groups []model.Group
@@ -20,6 +20,7 @@ func Command() codegen.Command {
 
 	return codegen.Command{
 		AnyVendorConfig: sk_anyvendor.CreateDefaultMatchOptions([]string{"**/*.proto"}),
+		RenderProtos:    true,
 		Groups:          groups,
 	}
 }

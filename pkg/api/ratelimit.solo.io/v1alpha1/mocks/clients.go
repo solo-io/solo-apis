@@ -9,7 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	v1alpha1 "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1"
+	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -552,4 +552,42 @@ func (mr *MockRateLimitConfigClientMockRecorder) PatchRateLimitConfigStatus(ctx,
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRateLimitConfigStatus", reflect.TypeOf((*MockRateLimitConfigClient)(nil).PatchRateLimitConfigStatus), varargs...)
+}
+
+// MockMulticlusterRateLimitConfigClient is a mock of MulticlusterRateLimitConfigClient interface.
+type MockMulticlusterRateLimitConfigClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterRateLimitConfigClientMockRecorder
+}
+
+// MockMulticlusterRateLimitConfigClientMockRecorder is the mock recorder for MockMulticlusterRateLimitConfigClient.
+type MockMulticlusterRateLimitConfigClientMockRecorder struct {
+	mock *MockMulticlusterRateLimitConfigClient
+}
+
+// NewMockMulticlusterRateLimitConfigClient creates a new mock instance.
+func NewMockMulticlusterRateLimitConfigClient(ctrl *gomock.Controller) *MockMulticlusterRateLimitConfigClient {
+	mock := &MockMulticlusterRateLimitConfigClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterRateLimitConfigClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterRateLimitConfigClient) EXPECT() *MockMulticlusterRateLimitConfigClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterRateLimitConfigClient) Cluster(cluster string) (v1alpha1.RateLimitConfigClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v1alpha1.RateLimitConfigClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterRateLimitConfigClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterRateLimitConfigClient)(nil).Cluster), cluster)
 }

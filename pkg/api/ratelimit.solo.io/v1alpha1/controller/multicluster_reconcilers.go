@@ -8,7 +8,7 @@ package controller
 import (
 	"context"
 
-	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1"
+	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/ezkube"
@@ -29,12 +29,12 @@ type MulticlusterRateLimitConfigReconciler interface {
 // before being deleted.
 // implemented by the user
 type MulticlusterRateLimitConfigDeletionReconciler interface {
-	ReconcileRateLimitConfigDeletion(clusterName string, req reconcile.Request)
+	ReconcileRateLimitConfigDeletion(clusterName string, req reconcile.Request) error
 }
 
 type MulticlusterRateLimitConfigReconcilerFuncs struct {
 	OnReconcileRateLimitConfig         func(clusterName string, obj *ratelimit_solo_io_v1alpha1.RateLimitConfig) (reconcile.Result, error)
-	OnReconcileRateLimitConfigDeletion func(clusterName string, req reconcile.Request)
+	OnReconcileRateLimitConfigDeletion func(clusterName string, req reconcile.Request) error
 }
 
 func (f *MulticlusterRateLimitConfigReconcilerFuncs) ReconcileRateLimitConfig(clusterName string, obj *ratelimit_solo_io_v1alpha1.RateLimitConfig) (reconcile.Result, error) {
@@ -44,11 +44,11 @@ func (f *MulticlusterRateLimitConfigReconcilerFuncs) ReconcileRateLimitConfig(cl
 	return f.OnReconcileRateLimitConfig(clusterName, obj)
 }
 
-func (f *MulticlusterRateLimitConfigReconcilerFuncs) ReconcileRateLimitConfigDeletion(clusterName string, req reconcile.Request) {
+func (f *MulticlusterRateLimitConfigReconcilerFuncs) ReconcileRateLimitConfigDeletion(clusterName string, req reconcile.Request) error {
 	if f.OnReconcileRateLimitConfigDeletion == nil {
-		return
+		return nil
 	}
-	f.OnReconcileRateLimitConfigDeletion(clusterName, req)
+	return f.OnReconcileRateLimitConfigDeletion(clusterName, req)
 }
 
 type MulticlusterRateLimitConfigReconcileLoop interface {
@@ -74,10 +74,11 @@ type genericRateLimitConfigMulticlusterReconciler struct {
 	reconciler MulticlusterRateLimitConfigReconciler
 }
 
-func (g genericRateLimitConfigMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) {
+func (g genericRateLimitConfigMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
 	if deletionReconciler, ok := g.reconciler.(MulticlusterRateLimitConfigDeletionReconciler); ok {
-		deletionReconciler.ReconcileRateLimitConfigDeletion(cluster, req)
+		return deletionReconciler.ReconcileRateLimitConfigDeletion(cluster, req)
 	}
+	return nil
 }
 
 func (g genericRateLimitConfigMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {

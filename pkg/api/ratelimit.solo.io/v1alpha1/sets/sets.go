@@ -5,10 +5,10 @@
 package v1alpha1sets
 
 import (
-	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1"
+	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
 
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"github.com/solo-io/skv2/pkg/ezkube"
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
@@ -23,10 +23,12 @@ type RateLimitConfigSet interface {
 	Union(set RateLimitConfigSet) RateLimitConfigSet
 	Difference(set RateLimitConfigSet) RateLimitConfigSet
 	Intersection(set RateLimitConfigSet) RateLimitConfigSet
+	Find(id ezkube.ResourceId) (*ratelimit_solo_io_v1alpha1.RateLimitConfig, error)
+	Length() int
 }
 
 func makeGenericRateLimitConfigSet(rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig) sksets.ResourceSet {
-	var genericResources []metav1.Object
+	var genericResources []ezkube.ResourceId
 	for _, obj := range rateLimitConfigList {
 		genericResources = append(genericResources, obj)
 	}
@@ -41,11 +43,19 @@ func NewRateLimitConfigSet(rateLimitConfigList ...*ratelimit_solo_io_v1alpha1.Ra
 	return &rateLimitConfigSet{set: makeGenericRateLimitConfigSet(rateLimitConfigList)}
 }
 
-func (s rateLimitConfigSet) Keys() sets.String {
+func NewRateLimitConfigSetFromList(rateLimitConfigList *ratelimit_solo_io_v1alpha1.RateLimitConfigList) RateLimitConfigSet {
+	list := make([]*ratelimit_solo_io_v1alpha1.RateLimitConfig, 0, len(rateLimitConfigList.Items))
+	for idx := range rateLimitConfigList.Items {
+		list = append(list, &rateLimitConfigList.Items[idx])
+	}
+	return &rateLimitConfigSet{set: makeGenericRateLimitConfigSet(list)}
+}
+
+func (s *rateLimitConfigSet) Keys() sets.String {
 	return s.set.Keys()
 }
 
-func (s rateLimitConfigSet) List() []*ratelimit_solo_io_v1alpha1.RateLimitConfig {
+func (s *rateLimitConfigSet) List() []*ratelimit_solo_io_v1alpha1.RateLimitConfig {
 	var rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig
 	for _, obj := range s.set.List() {
 		rateLimitConfigList = append(rateLimitConfigList, obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
@@ -53,7 +63,7 @@ func (s rateLimitConfigSet) List() []*ratelimit_solo_io_v1alpha1.RateLimitConfig
 	return rateLimitConfigList
 }
 
-func (s rateLimitConfigSet) Map() map[string]*ratelimit_solo_io_v1alpha1.RateLimitConfig {
+func (s *rateLimitConfigSet) Map() map[string]*ratelimit_solo_io_v1alpha1.RateLimitConfig {
 	newMap := map[string]*ratelimit_solo_io_v1alpha1.RateLimitConfig{}
 	for k, v := range s.set.Map() {
 		newMap[k] = v.(*ratelimit_solo_io_v1alpha1.RateLimitConfig)
@@ -61,7 +71,7 @@ func (s rateLimitConfigSet) Map() map[string]*ratelimit_solo_io_v1alpha1.RateLim
 	return newMap
 }
 
-func (s rateLimitConfigSet) Insert(
+func (s *rateLimitConfigSet) Insert(
 	rateLimitConfigList ...*ratelimit_solo_io_v1alpha1.RateLimitConfig,
 ) {
 	for _, obj := range rateLimitConfigList {
@@ -69,34 +79,47 @@ func (s rateLimitConfigSet) Insert(
 	}
 }
 
-func (s rateLimitConfigSet) Has(rateLimitConfig *ratelimit_solo_io_v1alpha1.RateLimitConfig) bool {
+func (s *rateLimitConfigSet) Has(rateLimitConfig *ratelimit_solo_io_v1alpha1.RateLimitConfig) bool {
 	return s.set.Has(rateLimitConfig)
 }
 
-func (s rateLimitConfigSet) Equal(
+func (s *rateLimitConfigSet) Equal(
 	rateLimitConfigSet RateLimitConfigSet,
 ) bool {
 	return s.set.Equal(makeGenericRateLimitConfigSet(rateLimitConfigSet.List()))
 }
 
-func (s rateLimitConfigSet) Delete(RateLimitConfig *ratelimit_solo_io_v1alpha1.RateLimitConfig) {
+func (s *rateLimitConfigSet) Delete(RateLimitConfig *ratelimit_solo_io_v1alpha1.RateLimitConfig) {
 	s.set.Delete(RateLimitConfig)
 }
 
-func (s rateLimitConfigSet) Union(set RateLimitConfigSet) RateLimitConfigSet {
+func (s *rateLimitConfigSet) Union(set RateLimitConfigSet) RateLimitConfigSet {
 	return NewRateLimitConfigSet(append(s.List(), set.List()...)...)
 }
 
-func (s rateLimitConfigSet) Difference(set RateLimitConfigSet) RateLimitConfigSet {
+func (s *rateLimitConfigSet) Difference(set RateLimitConfigSet) RateLimitConfigSet {
 	newSet := s.set.Difference(makeGenericRateLimitConfigSet(set.List()))
-	return rateLimitConfigSet{set: newSet}
+	return &rateLimitConfigSet{set: newSet}
 }
 
-func (s rateLimitConfigSet) Intersection(set RateLimitConfigSet) RateLimitConfigSet {
+func (s *rateLimitConfigSet) Intersection(set RateLimitConfigSet) RateLimitConfigSet {
 	newSet := s.set.Intersection(makeGenericRateLimitConfigSet(set.List()))
 	var rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig
 	for _, obj := range newSet.List() {
 		rateLimitConfigList = append(rateLimitConfigList, obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
 	}
 	return NewRateLimitConfigSet(rateLimitConfigList...)
+}
+
+func (s *rateLimitConfigSet) Find(id ezkube.ResourceId) (*ratelimit_solo_io_v1alpha1.RateLimitConfig, error) {
+	obj, err := s.set.Find(&ratelimit_solo_io_v1alpha1.RateLimitConfig{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig), nil
+}
+
+func (s *rateLimitConfigSet) Length() int {
+	return s.set.Length()
 }

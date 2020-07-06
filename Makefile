@@ -3,6 +3,7 @@ generate: generate-code generate-mocks tidy
 
 .PHONY: generate-code
 generate-code:
+	rm -rf vendor_any || true
 	go run generate.go
 
 .PHONY: generate-mocks

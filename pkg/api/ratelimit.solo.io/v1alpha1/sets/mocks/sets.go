@@ -8,8 +8,9 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	v1alpha1 "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1"
-	v1alpha1sets "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/sets"
+	ezkube "github.com/solo-io/skv2/pkg/ezkube"
+	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
+	v1alpha1sets "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/sets"
 	sets "k8s.io/apimachinery/pkg/util/sets"
 )
 
@@ -174,4 +175,33 @@ func (m *MockRateLimitConfigSet) Intersection(set v1alpha1sets.RateLimitConfigSe
 func (mr *MockRateLimitConfigSetMockRecorder) Intersection(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Intersection), set)
+}
+
+// Find mocks base method.
+func (m *MockRateLimitConfigSet) Find(id ezkube.ResourceId) (*v1alpha1.RateLimitConfig, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v1alpha1.RateLimitConfig)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockRateLimitConfigSetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Find), id)
+}
+
+// Length mocks base method.
+func (m *MockRateLimitConfigSet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockRateLimitConfigSetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Length))
 }

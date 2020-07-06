@@ -10,8 +10,8 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	reconcile "github.com/solo-io/skv2/pkg/reconcile"
-	v1alpha1 "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1"
-	controller "github.com/solo-io/solo-apis/pkg/ratelimit.solo.io/v1alpha1/controller"
+	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
+	controller "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/controller"
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
@@ -77,9 +77,11 @@ func (m *MockMulticlusterRateLimitConfigDeletionReconciler) EXPECT() *MockMultic
 }
 
 // ReconcileRateLimitConfigDeletion mocks base method.
-func (m *MockMulticlusterRateLimitConfigDeletionReconciler) ReconcileRateLimitConfigDeletion(clusterName string, req reconcile.Request) {
+func (m *MockMulticlusterRateLimitConfigDeletionReconciler) ReconcileRateLimitConfigDeletion(clusterName string, req reconcile.Request) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "ReconcileRateLimitConfigDeletion", clusterName, req)
+	ret := m.ctrl.Call(m, "ReconcileRateLimitConfigDeletion", clusterName, req)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // ReconcileRateLimitConfigDeletion indicates an expected call of ReconcileRateLimitConfigDeletion.
