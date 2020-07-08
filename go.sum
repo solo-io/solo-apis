@@ -608,8 +608,8 @@ github.com/solo-io/go-utils v0.15.2/go.mod h1:pA8kwWDNlJueffTcC1BYddTerO8zpUUGl5
 github.com/solo-io/protoc-gen-ext v0.0.7/go.mod h1:zZIFs9Ch3EU3uQgL2ZwCHlUGAtwiz4Cbw6tBcmaNsEk=
 github.com/solo-io/protoc-gen-ext v0.0.9 h1:dU9C8nSLNkjqLXd5QGJ2dvBcrNUvNUP92qlxMfe3t7A=
 github.com/solo-io/protoc-gen-ext v0.0.9/go.mod h1:zZIFs9Ch3EU3uQgL2ZwCHlUGAtwiz4Cbw6tBcmaNsEk=
-github.com/solo-io/skv2 v0.6.2-0.20200708184011-bfdd1fe18002 h1:IezrQPaSu2JlYOO8PElrsWeRsegHGlRXD136mhhY9gU=
-github.com/solo-io/skv2 v0.6.2-0.20200708184011-bfdd1fe18002/go.mod h1:IP3Wx1Cj6kiJpxNU/705AAIAhEHeWIAx4xxKjF6HiCU=
+github.com/solo-io/skv2 v0.7.0 h1:uHTFHDu/0YY2jQiyLrs76hZECQQGBe0R7FCpCQaxL00=
+github.com/solo-io/skv2 v0.7.0/go.mod h1:IP3Wx1Cj6kiJpxNU/705AAIAhEHeWIAx4xxKjF6HiCU=
 github.com/solo-io/solo-kit v0.13.8 h1:3FVs2g71vQp1zjrEh9kdjAQ650MijRxRW/X2E00eghI=
 github.com/solo-io/solo-kit v0.13.8/go.mod h1:1cSoxO1Cgzn++03nnp5V1iGf0S45OLDTUmj70rD/+hY=
 github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=
