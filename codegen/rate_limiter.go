@@ -17,7 +17,7 @@ func rateLimiterGroups() []model.Group {
 				Group:   "ratelimit.solo.io",
 				Version: "v1alpha1",
 			},
-			Module: "github.com/solo-io/solo-apis", // TODO
+			Module: "github.com/solo-io/solo-apis",
 			Resources: []model.Resource{
 				{
 					Kind: "RateLimitConfig",

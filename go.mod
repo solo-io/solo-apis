@@ -4,6 +4,7 @@ go 1.14
 
 replace (
 	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
+	k8s.io/apimachinery => k8s.io/apimachinery v0.17.1
 	k8s.io/client-go => k8s.io/client-go v0.17.1
 )
 
