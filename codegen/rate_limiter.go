@@ -23,14 +23,14 @@ func rateLimiterGroups() []model.Group {
 					Kind: "RateLimitConfig",
 					Spec: model.Field{
 						Type: model.Type{
-							Name:      "RateLimitConfigSpec",
-							GoPackage: "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/types",
+							Name:         "RateLimitConfigSpec",
+							ProtoPackage: "ratelimit.api.solo.io",
 						},
 					},
 					Status: &model.Field{
 						Type: model.Type{
-							Name:      "RateLimitConfigStatus",
-							GoPackage: "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/types",
+							Name:         "RateLimitConfigStatus",
+							ProtoPackage: "ratelimit.api.solo.io",
 						},
 					},
 				},

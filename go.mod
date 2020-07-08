@@ -14,7 +14,7 @@ require (
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/pkg/errors v0.9.1
 	github.com/solo-io/protoc-gen-ext v0.0.9
-	github.com/solo-io/skv2 v0.6.1
+	github.com/solo-io/skv2 v0.6.2-0.20200708184011-bfdd1fe18002
 	github.com/solo-io/solo-kit v0.13.8
 	k8s.io/apimachinery v0.18.1
 	k8s.io/client-go v8.0.0+incompatible
