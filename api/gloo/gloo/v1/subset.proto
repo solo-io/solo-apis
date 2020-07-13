@@ -1,0 +1,12 @@
+syntax = "proto3";
+package gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1";
+
+import "gogoproto/gogo.proto";
+option (gogoproto.equal_all) = true;
+import "extproto/ext.proto";
+option (extproto.hash_all) = true;
+
+message Subset {
+   map<string, string> values = 1;
+}

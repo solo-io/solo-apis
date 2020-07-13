@@ -1,0 +1,89 @@
+
+syntax = "proto3";
+package gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1";
+
+import "gogoproto/gogo.proto";
+option (gogoproto.equal_all) = true;
+import "extproto/ext.proto";
+option (extproto.hash_all) = true;
+
+import "solo-kit/api/v1/metadata.proto";
+import "solo-apis/api/gloo/gloo/v1/ssl.proto";
+import "solo-apis/api/gloo/gloo/v1/circuit_breaker.proto";
+import "solo-apis/api/gloo/gloo/v1/load_balancer.proto";
+import "solo-apis/api/gloo/gloo/v1/connection.proto";
+import "solo-apis/api/gloo/gloo/external/envoy/api/v2/core/health_check.proto";
+import "solo-kit/api/v1/status.proto";
+import "solo-apis/api/gloo/gloo/external/envoy/api/v2/cluster/outlier_detection.proto";
+import "solo-kit/api/v1/solo-kit.proto";
+import "solo-apis/api/gloo/gloo/v1/options/static/static.proto";
+import "solo-apis/api/gloo/gloo/v1/options/pipe/pipe.proto";
+import "solo-apis/api/gloo/gloo/v1/options/kubernetes/kubernetes.proto";
+import "solo-apis/api/gloo/gloo/v1/options/aws/aws.proto";
+import "solo-apis/api/gloo/gloo/v1/options/azure/azure.proto";
+import "solo-apis/api/gloo/gloo/v1/options/consul/consul.proto";
+import "solo-apis/api/gloo/gloo/v1/options/aws/ec2/aws_ec2.proto";
+import "solo-apis/api/gloo/gloo/v1/options.proto";
+import "solo-apis/api/gloo/gloo/v1/failover.proto";
+import "google/protobuf/wrappers.proto";
+
+
+/*
+ * Upstreams represent destination for routing HTTP requests. Upstreams can be compared to
+ * [clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto) in Envoy terminology.
+ * Each upstream in Gloo has a type. Supported types include `static`, `kubernetes`, `aws`, `consul`, and more.
+ * Each upstream type is handled by a corresponding Gloo plugin. (plugins currently need to be compiled into Gloo)
+ */
+message Upstream {
+
+    option (core.solo.io.resource).short_name = "us";
+    option (core.solo.io.resource).plural_name = "upstreams";
+
+    // Status indicates the validation status of the resource. Status is read-only by clients, and set by gloo during validation
+    core.solo.io.Status status = 1 [(gogoproto.nullable) = false, (gogoproto.moretags) = "testdiff:\"ignore\"", (extproto.skip_hashing) = true];
+
+    // Metadata contains the object metadata for this resource
+    core.solo.io.Metadata metadata = 2 [(gogoproto.nullable) = false];
+
+    // Upstreams and their configuration can be automatically by Gloo Discovery
+    // if this upstream is created or modified by Discovery, metadata about the operation will be placed here.
+    DiscoveryMetadata discovery_metadata = 3;
+
+
+    UpstreamSslConfig ssl_config = 4;
+
+    // Circuit breakers for this upstream. if not set, the defaults ones from the Gloo settings will be used.
+    // if those are not set, [envoy's defaults](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster/circuit_breaker.proto#envoy-api-msg-cluster-circuitbreakers)
+    // will be used.
+    CircuitBreakerConfig circuit_breakers = 5;
+    LoadBalancerConfig load_balancer_config = 6;
+    ConnectionConfig connection_config = 7;
+    repeated envoy.api.v2.core.HealthCheck health_checks = 8;
+    envoy.api.v2.cluster.OutlierDetection outlier_detection = 9;
+
+    // Use http2 when communicating with this upstream
+    // this field is evaluated `true` for upstreams
+    // with a grpc service spec. otherwise defaults to `false`
+    google.protobuf.BoolValue use_http2 = 10;
+
+    // Note to developers: new Upstream plugins must be added to this oneof field
+    // to be usable by Gloo. (plugins currently need to be compiled into Gloo)
+    oneof upstream_type {
+        kubernetes.options.gloo.solo.io.UpstreamSpec kube = 11;
+        static.options.gloo.solo.io.UpstreamSpec static = 12;
+        pipe.options.gloo.solo.io.UpstreamSpec pipe = 13;
+        aws.options.gloo.solo.io.UpstreamSpec aws = 14;
+        azure.options.gloo.solo.io.UpstreamSpec azure = 15;
+        consul.options.gloo.solo.io.UpstreamSpec consul = 16;
+        aws_ec2.options.gloo.solo.io.UpstreamSpec aws_ec2 = 17;
+    }
+
+    // Failover endpoints for this upstream. If omitted (the default) no failovers will be applied.
+    gloo.solo.io.Failover failover = 18;
+}
+
+// created by discovery services
+message DiscoveryMetadata {
+    
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+package gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1";
+
+import "google/protobuf/struct.proto";
+
+import "gogoproto/gogo.proto";
+option (gogoproto.equal_all) = true;
+import "extproto/ext.proto";
+option (extproto.hash_all) = true;
+
+message Extensions {
+    map<string, google.protobuf.Struct> configs = 1;
+}
+
+message Extension {
+    google.protobuf.Struct config = 1;
+}
