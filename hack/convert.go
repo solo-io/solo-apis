@@ -55,12 +55,13 @@ func main() {
 			scan := bufio.NewScanner(bytes.NewBuffer(wholeFileBytes))
 			for scan.Scan() {
 				line := scan.Text()
-
-				if strings.Contains(line, "option (core.solo.io.resource)") ||
+				if strings.Contains(line, "// Metadata contains the object metadata for this resource") ||
+					strings.Contains(line, "// Status is read-only by clients, and set by gloo during validation") ||
+					strings.Contains(line, "// Status indicates the validation status of this resource.") ||
+					strings.Contains(line, "option (core.solo.io.resource)") ||
 					strings.Contains(line, "solo-kit/api/v1/status.proto") ||
-					strings.Contains(line, "solo-kit/api/v1/metadata.proto") {
-					continue
-				} else if strings.Contains(line, "core.solo.io.Metadata") ||
+					strings.Contains(line, "solo-kit/api/v1/metadata.proto") ||
+					strings.Contains(line, "core.solo.io.Metadata") ||
 					strings.Contains(line, "core.solo.io.Status") {
 					continue
 				}

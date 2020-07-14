@@ -24,10 +24,7 @@ import "google/protobuf/wrappers.proto";
 message AuthConfigSpec {
 
 
-  // Status indicates the validation status of this resource.
-  // Status is read-only by clients, and set by gloo during validation
 
-  // Metadata contains the object metadata for this resource
 
   message Config {
     oneof auth_config {
