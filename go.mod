@@ -13,10 +13,11 @@ require (
 	github.com/golang/mock v1.4.4-0.20200406172829-6d816de489c1
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/pkg/errors v0.9.1
+	github.com/solo-io/go-utils v0.16.5
 	github.com/solo-io/protoc-gen-ext v0.0.9
-	github.com/solo-io/skv2 v0.7.0
-	github.com/solo-io/solo-kit v0.13.8
-	k8s.io/apimachinery v0.18.1
+	github.com/solo-io/skv2 v0.7.1
+	github.com/solo-io/solo-kit v0.13.9
+	k8s.io/apimachinery v0.18.4
 	k8s.io/client-go v8.0.0+incompatible
-	sigs.k8s.io/controller-runtime v0.5.6
+	sigs.k8s.io/controller-runtime v0.6.1
 )

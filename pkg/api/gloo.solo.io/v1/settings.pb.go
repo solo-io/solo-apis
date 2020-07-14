@@ -13,7 +13,7 @@ import (
 	v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1"
 	ratelimit "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/ratelimit"
 	rbac "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/rbac"
-	core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
+	_ "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	math "math"
 )
 
@@ -31,44 +31,81 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 // Possible modes for running the function discovery service (FDS). FDS polls services in-cluster for Swagger
 // and gRPC endpoints. This behavior can be controlled with the use of annotations.
 // FdsMode specifies what policy FDS will use when determining which services to poll.
-type Settings_DiscoveryOptions_FdsMode int32
+type SettingsSpec_DiscoveryOptions_FdsMode int32
 
 const (
 	// In BLACKLIST mode (default), FDS will poll all services in cluster except those services labeled with
 	// `discovery.solo.io/function_discovery=disabled`. This label can also be used on namespaces to apply to
 	// all services within a namespace **which are not explicitly whitelisted**.
 	// Note that `kube-system` and `kube-public` namespaces must be explicitly whitelisted even in blacklist mode.
-	Settings_DiscoveryOptions_BLACKLIST Settings_DiscoveryOptions_FdsMode = 0
+	SettingsSpec_DiscoveryOptions_BLACKLIST SettingsSpec_DiscoveryOptions_FdsMode = 0
 	// In WHITELIST mode, FDS will poll only services in cluster labeled with
 	// `discovery.solo.io/function_discovery=enabled`. This label can also be used on namespaces to apply to all
 	// services **which are not explicitly blacklisted** within a namespace.
-	Settings_DiscoveryOptions_WHITELIST Settings_DiscoveryOptions_FdsMode = 1
+	SettingsSpec_DiscoveryOptions_WHITELIST SettingsSpec_DiscoveryOptions_FdsMode = 1
 	// In DISABLED mode, FDS will not run.
-	Settings_DiscoveryOptions_DISABLED Settings_DiscoveryOptions_FdsMode = 2
+	SettingsSpec_DiscoveryOptions_DISABLED SettingsSpec_DiscoveryOptions_FdsMode = 2
 )
 
-var Settings_DiscoveryOptions_FdsMode_name = map[int32]string{
+var SettingsSpec_DiscoveryOptions_FdsMode_name = map[int32]string{
 	0: "BLACKLIST",
 	1: "WHITELIST",
 	2: "DISABLED",
 }
 
-var Settings_DiscoveryOptions_FdsMode_value = map[string]int32{
+var SettingsSpec_DiscoveryOptions_FdsMode_value = map[string]int32{
 	"BLACKLIST": 0,
 	"WHITELIST": 1,
 	"DISABLED":  2,
 }
 
-func (x Settings_DiscoveryOptions_FdsMode) String() string {
-	return proto.EnumName(Settings_DiscoveryOptions_FdsMode_name, int32(x))
+func (x SettingsSpec_DiscoveryOptions_FdsMode) String() string {
+	return proto.EnumName(SettingsSpec_DiscoveryOptions_FdsMode_name, int32(x))
 }
 
-func (Settings_DiscoveryOptions_FdsMode) EnumDescriptor() ([]byte, []int) {
+func (SettingsSpec_DiscoveryOptions_FdsMode) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 7, 0}
 }
 
+type SettingsStatus_State int32
+
+const (
+	// Pending status indicates the resource has not yet been validated
+	SettingsStatus_Pending SettingsStatus_State = 0
+	// Accepted indicates the resource has been validated
+	SettingsStatus_Accepted SettingsStatus_State = 1
+	// Rejected indicates an invalid configuration by the user
+	// Rejected resources may be propagated to the xDS server depending on their severity
+	SettingsStatus_Rejected SettingsStatus_State = 2
+	// Warning indicates a partially invalid configuration by the user
+	// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+	SettingsStatus_Warning SettingsStatus_State = 3
+)
+
+var SettingsStatus_State_name = map[int32]string{
+	0: "Pending",
+	1: "Accepted",
+	2: "Rejected",
+	3: "Warning",
+}
+
+var SettingsStatus_State_value = map[string]int32{
+	"Pending":  0,
+	"Accepted": 1,
+	"Rejected": 2,
+	"Warning":  3,
+}
+
+func (x SettingsStatus_State) String() string {
+	return proto.EnumName(SettingsStatus_State_name, int32(x))
+}
+
+func (SettingsStatus_State) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_d3cc1f00029ec6bc, []int{3, 0}
+}
+
 // Represents global settings for all the Gloo components.
-type Settings struct {
+type SettingsSpec struct {
 	// This is the namespace to which Gloo controllers will write their own resources, e.g. discovered Upstreams or default Gateways.
 	// If empty, this will default to "gloo-system".
 	DiscoveryNamespace string `protobuf:"bytes,1,opt,name=discovery_namespace,json=discoveryNamespace,proto3" json:"discovery_namespace,omitempty"`
@@ -82,24 +119,24 @@ type Settings struct {
 	// This setting determines where Gloo controllers will store its resources
 	//
 	// Types that are valid to be assigned to ConfigSource:
-	//	*Settings_KubernetesConfigSource
-	//	*Settings_DirectoryConfigSource
-	//	*Settings_ConsulKvSource
-	ConfigSource isSettings_ConfigSource `protobuf_oneof:"config_source"`
+	//	*SettingsSpec_KubernetesConfigSource
+	//	*SettingsSpec_DirectoryConfigSource
+	//	*SettingsSpec_ConsulKvSource
+	ConfigSource isSettingsSpec_ConfigSource `protobuf_oneof:"config_source"`
 	// Determines where Gloo will read/write secrets from/to.
 	//
 	// Types that are valid to be assigned to SecretSource:
-	//	*Settings_KubernetesSecretSource
-	//	*Settings_VaultSecretSource
-	//	*Settings_DirectorySecretSource
-	SecretSource isSettings_SecretSource `protobuf_oneof:"secret_source"`
+	//	*SettingsSpec_KubernetesSecretSource
+	//	*SettingsSpec_VaultSecretSource
+	//	*SettingsSpec_DirectorySecretSource
+	SecretSource isSettingsSpec_SecretSource `protobuf_oneof:"secret_source"`
 	// Where to read artifacts from.
 	//
 	// Types that are valid to be assigned to ArtifactSource:
-	//	*Settings_KubernetesArtifactSource
-	//	*Settings_DirectoryArtifactSource
-	//	*Settings_ConsulKvArtifactSource
-	ArtifactSource isSettings_ArtifactSource `protobuf_oneof:"artifact_source"`
+	//	*SettingsSpec_KubernetesArtifactSource
+	//	*SettingsSpec_DirectoryArtifactSource
+	//	*SettingsSpec_ConsulKvArtifactSource
+	ArtifactSource isSettingsSpec_ArtifactSource `protobuf_oneof:"artifact_source"`
 	// How frequently to resync watches, etc
 	RefreshRate *types.Duration `protobuf:"bytes,12,opt,name=refresh_rate,json=refreshRate,proto3" json:"refresh_rate,omitempty"`
 	// Enable serving debug data on port 9090
@@ -107,9 +144,9 @@ type Settings struct {
 	// Enable automatic linkerd upstream header addition for easier routing to linkerd services
 	Linkerd bool `protobuf:"varint,17,opt,name=linkerd,proto3" json:"linkerd,omitempty"`
 	// Configuration options for the Clusteringress Controller (for Knative).
-	Knative *Settings_KnativeOptions `protobuf:"bytes,18,opt,name=knative,proto3" json:"knative,omitempty"`
+	Knative *SettingsSpec_KnativeOptions `protobuf:"bytes,18,opt,name=knative,proto3" json:"knative,omitempty"`
 	// Options for configuring Gloo's Discovery service
-	Discovery *Settings_DiscoveryOptions `protobuf:"bytes,19,opt,name=discovery,proto3" json:"discovery,omitempty"`
+	Discovery *SettingsSpec_DiscoveryOptions `protobuf:"bytes,19,opt,name=discovery,proto3" json:"discovery,omitempty"`
 	// Options for configuring `gloo`, the core Gloo controller,
 	// which serves dynamic configuration to Envoy
 	Gloo *GlooOptions `protobuf:"bytes,24,opt,name=gloo,proto3" json:"gloo,omitempty"`
@@ -117,9 +154,9 @@ type Settings struct {
 	// which enables the VirtualService/Gateway API in Gloo
 	Gateway *GatewayOptions `protobuf:"bytes,25,opt,name=gateway,proto3" json:"gateway,omitempty"`
 	// Options to configure Gloo's integration with [HashiCorp Consul](https://www.consul.io/).
-	Consul *Settings_ConsulConfiguration `protobuf:"bytes,20,opt,name=consul,proto3" json:"consul,omitempty"`
+	Consul *SettingsSpec_ConsulConfiguration `protobuf:"bytes,20,opt,name=consul,proto3" json:"consul,omitempty"`
 	// Options to configure Gloo's integration with [Kubernetes](https://www.kubernetes.io/).
-	Kubernetes *Settings_KubernetesConfiguration `protobuf:"bytes,22,opt,name=kubernetes,proto3" json:"kubernetes,omitempty"`
+	Kubernetes *SettingsSpec_KubernetesConfiguration `protobuf:"bytes,22,opt,name=kubernetes,proto3" json:"kubernetes,omitempty"`
 	// Extensions will be passed along from Listeners, Gateways, VirtualServices, Routes, and Route tables to the
 	// underlying Proxy, making them useful for controllers, validation tools, etc. which interact with kubernetes yaml.
 	//
@@ -139,379 +176,360 @@ type Settings struct {
 	// Enterprise-only: Settings for RBAC across all Gloo resources (VirtualServices, Routes, etc.)
 	Rbac *rbac.Settings `protobuf:"bytes,28,opt,name=rbac,proto3" json:"rbac,omitempty"`
 	// Enterprise-only: External auth related settings
-	Extauth *v1.Settings `protobuf:"bytes,29,opt,name=extauth,proto3" json:"extauth,omitempty"`
-	// Metadata contains the object metadata for this resource
-	Metadata core.Metadata `protobuf:"bytes,14,opt,name=metadata,proto3" json:"metadata"`
-	// Status indicates the validation status of this resource.
-	// Status is read-only by clients, and set by gloo during validation
-	Status               core.Status `protobuf:"bytes,15,opt,name=status,proto3" json:"status" testdiff:"ignore"`
-	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
-	XXX_unrecognized     []byte      `json:"-"`
-	XXX_sizecache        int32       `json:"-"`
+	Extauth              *v1.Settings `protobuf:"bytes,29,opt,name=extauth,proto3" json:"extauth,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *Settings) Reset()         { *m = Settings{} }
-func (m *Settings) String() string { return proto.CompactTextString(m) }
-func (*Settings) ProtoMessage()    {}
-func (*Settings) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec) Reset()         { *m = SettingsSpec{} }
+func (m *SettingsSpec) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec) ProtoMessage()    {}
+func (*SettingsSpec) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0}
 }
-func (m *Settings) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings.Unmarshal(m, b)
+func (m *SettingsSpec) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec.Unmarshal(m, b)
 }
-func (m *Settings) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings.Marshal(b, m, deterministic)
+func (m *SettingsSpec) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec.Marshal(b, m, deterministic)
 }
-func (m *Settings) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings.Merge(m, src)
+func (m *SettingsSpec) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec.Merge(m, src)
 }
-func (m *Settings) XXX_Size() int {
-	return xxx_messageInfo_Settings.Size(m)
+func (m *SettingsSpec) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec.Size(m)
 }
-func (m *Settings) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings.DiscardUnknown(m)
+func (m *SettingsSpec) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec proto.InternalMessageInfo
 
-type isSettings_ConfigSource interface {
-	isSettings_ConfigSource()
+type isSettingsSpec_ConfigSource interface {
+	isSettingsSpec_ConfigSource()
 	Equal(interface{}) bool
 }
-type isSettings_SecretSource interface {
-	isSettings_SecretSource()
+type isSettingsSpec_SecretSource interface {
+	isSettingsSpec_SecretSource()
 	Equal(interface{}) bool
 }
-type isSettings_ArtifactSource interface {
-	isSettings_ArtifactSource()
+type isSettingsSpec_ArtifactSource interface {
+	isSettingsSpec_ArtifactSource()
 	Equal(interface{}) bool
 }
 
-type Settings_KubernetesConfigSource struct {
-	KubernetesConfigSource *Settings_KubernetesCrds `protobuf:"bytes,4,opt,name=kubernetes_config_source,json=kubernetesConfigSource,proto3,oneof" json:"kubernetes_config_source,omitempty"`
+type SettingsSpec_KubernetesConfigSource struct {
+	KubernetesConfigSource *SettingsSpec_KubernetesCrds `protobuf:"bytes,4,opt,name=kubernetes_config_source,json=kubernetesConfigSource,proto3,oneof" json:"kubernetes_config_source,omitempty"`
 }
-type Settings_DirectoryConfigSource struct {
-	DirectoryConfigSource *Settings_Directory `protobuf:"bytes,5,opt,name=directory_config_source,json=directoryConfigSource,proto3,oneof" json:"directory_config_source,omitempty"`
+type SettingsSpec_DirectoryConfigSource struct {
+	DirectoryConfigSource *SettingsSpec_Directory `protobuf:"bytes,5,opt,name=directory_config_source,json=directoryConfigSource,proto3,oneof" json:"directory_config_source,omitempty"`
 }
-type Settings_ConsulKvSource struct {
-	ConsulKvSource *Settings_ConsulKv `protobuf:"bytes,21,opt,name=consul_kv_source,json=consulKvSource,proto3,oneof" json:"consul_kv_source,omitempty"`
+type SettingsSpec_ConsulKvSource struct {
+	ConsulKvSource *SettingsSpec_ConsulKv `protobuf:"bytes,21,opt,name=consul_kv_source,json=consulKvSource,proto3,oneof" json:"consul_kv_source,omitempty"`
 }
-type Settings_KubernetesSecretSource struct {
-	KubernetesSecretSource *Settings_KubernetesSecrets `protobuf:"bytes,6,opt,name=kubernetes_secret_source,json=kubernetesSecretSource,proto3,oneof" json:"kubernetes_secret_source,omitempty"`
+type SettingsSpec_KubernetesSecretSource struct {
+	KubernetesSecretSource *SettingsSpec_KubernetesSecrets `protobuf:"bytes,6,opt,name=kubernetes_secret_source,json=kubernetesSecretSource,proto3,oneof" json:"kubernetes_secret_source,omitempty"`
 }
-type Settings_VaultSecretSource struct {
-	VaultSecretSource *Settings_VaultSecrets `protobuf:"bytes,7,opt,name=vault_secret_source,json=vaultSecretSource,proto3,oneof" json:"vault_secret_source,omitempty"`
+type SettingsSpec_VaultSecretSource struct {
+	VaultSecretSource *SettingsSpec_VaultSecrets `protobuf:"bytes,7,opt,name=vault_secret_source,json=vaultSecretSource,proto3,oneof" json:"vault_secret_source,omitempty"`
 }
-type Settings_DirectorySecretSource struct {
-	DirectorySecretSource *Settings_Directory `protobuf:"bytes,8,opt,name=directory_secret_source,json=directorySecretSource,proto3,oneof" json:"directory_secret_source,omitempty"`
+type SettingsSpec_DirectorySecretSource struct {
+	DirectorySecretSource *SettingsSpec_Directory `protobuf:"bytes,8,opt,name=directory_secret_source,json=directorySecretSource,proto3,oneof" json:"directory_secret_source,omitempty"`
 }
-type Settings_KubernetesArtifactSource struct {
-	KubernetesArtifactSource *Settings_KubernetesConfigmaps `protobuf:"bytes,9,opt,name=kubernetes_artifact_source,json=kubernetesArtifactSource,proto3,oneof" json:"kubernetes_artifact_source,omitempty"`
+type SettingsSpec_KubernetesArtifactSource struct {
+	KubernetesArtifactSource *SettingsSpec_KubernetesConfigmaps `protobuf:"bytes,9,opt,name=kubernetes_artifact_source,json=kubernetesArtifactSource,proto3,oneof" json:"kubernetes_artifact_source,omitempty"`
 }
-type Settings_DirectoryArtifactSource struct {
-	DirectoryArtifactSource *Settings_Directory `protobuf:"bytes,10,opt,name=directory_artifact_source,json=directoryArtifactSource,proto3,oneof" json:"directory_artifact_source,omitempty"`
+type SettingsSpec_DirectoryArtifactSource struct {
+	DirectoryArtifactSource *SettingsSpec_Directory `protobuf:"bytes,10,opt,name=directory_artifact_source,json=directoryArtifactSource,proto3,oneof" json:"directory_artifact_source,omitempty"`
 }
-type Settings_ConsulKvArtifactSource struct {
-	ConsulKvArtifactSource *Settings_ConsulKv `protobuf:"bytes,23,opt,name=consul_kv_artifact_source,json=consulKvArtifactSource,proto3,oneof" json:"consul_kv_artifact_source,omitempty"`
+type SettingsSpec_ConsulKvArtifactSource struct {
+	ConsulKvArtifactSource *SettingsSpec_ConsulKv `protobuf:"bytes,23,opt,name=consul_kv_artifact_source,json=consulKvArtifactSource,proto3,oneof" json:"consul_kv_artifact_source,omitempty"`
 }
 
-func (*Settings_KubernetesConfigSource) isSettings_ConfigSource()     {}
-func (*Settings_DirectoryConfigSource) isSettings_ConfigSource()      {}
-func (*Settings_ConsulKvSource) isSettings_ConfigSource()             {}
-func (*Settings_KubernetesSecretSource) isSettings_SecretSource()     {}
-func (*Settings_VaultSecretSource) isSettings_SecretSource()          {}
-func (*Settings_DirectorySecretSource) isSettings_SecretSource()      {}
-func (*Settings_KubernetesArtifactSource) isSettings_ArtifactSource() {}
-func (*Settings_DirectoryArtifactSource) isSettings_ArtifactSource()  {}
-func (*Settings_ConsulKvArtifactSource) isSettings_ArtifactSource()   {}
+func (*SettingsSpec_KubernetesConfigSource) isSettingsSpec_ConfigSource()     {}
+func (*SettingsSpec_DirectoryConfigSource) isSettingsSpec_ConfigSource()      {}
+func (*SettingsSpec_ConsulKvSource) isSettingsSpec_ConfigSource()             {}
+func (*SettingsSpec_KubernetesSecretSource) isSettingsSpec_SecretSource()     {}
+func (*SettingsSpec_VaultSecretSource) isSettingsSpec_SecretSource()          {}
+func (*SettingsSpec_DirectorySecretSource) isSettingsSpec_SecretSource()      {}
+func (*SettingsSpec_KubernetesArtifactSource) isSettingsSpec_ArtifactSource() {}
+func (*SettingsSpec_DirectoryArtifactSource) isSettingsSpec_ArtifactSource()  {}
+func (*SettingsSpec_ConsulKvArtifactSource) isSettingsSpec_ArtifactSource()   {}
 
-func (m *Settings) GetConfigSource() isSettings_ConfigSource {
+func (m *SettingsSpec) GetConfigSource() isSettingsSpec_ConfigSource {
 	if m != nil {
 		return m.ConfigSource
 	}
 	return nil
 }
-func (m *Settings) GetSecretSource() isSettings_SecretSource {
+func (m *SettingsSpec) GetSecretSource() isSettingsSpec_SecretSource {
 	if m != nil {
 		return m.SecretSource
 	}
 	return nil
 }
-func (m *Settings) GetArtifactSource() isSettings_ArtifactSource {
+func (m *SettingsSpec) GetArtifactSource() isSettingsSpec_ArtifactSource {
 	if m != nil {
 		return m.ArtifactSource
 	}
 	return nil
 }
 
-func (m *Settings) GetDiscoveryNamespace() string {
+func (m *SettingsSpec) GetDiscoveryNamespace() string {
 	if m != nil {
 		return m.DiscoveryNamespace
 	}
 	return ""
 }
 
-func (m *Settings) GetWatchNamespaces() []string {
+func (m *SettingsSpec) GetWatchNamespaces() []string {
 	if m != nil {
 		return m.WatchNamespaces
 	}
 	return nil
 }
 
-func (m *Settings) GetKubernetesConfigSource() *Settings_KubernetesCrds {
-	if x, ok := m.GetConfigSource().(*Settings_KubernetesConfigSource); ok {
+func (m *SettingsSpec) GetKubernetesConfigSource() *SettingsSpec_KubernetesCrds {
+	if x, ok := m.GetConfigSource().(*SettingsSpec_KubernetesConfigSource); ok {
 		return x.KubernetesConfigSource
 	}
 	return nil
 }
 
-func (m *Settings) GetDirectoryConfigSource() *Settings_Directory {
-	if x, ok := m.GetConfigSource().(*Settings_DirectoryConfigSource); ok {
+func (m *SettingsSpec) GetDirectoryConfigSource() *SettingsSpec_Directory {
+	if x, ok := m.GetConfigSource().(*SettingsSpec_DirectoryConfigSource); ok {
 		return x.DirectoryConfigSource
 	}
 	return nil
 }
 
-func (m *Settings) GetConsulKvSource() *Settings_ConsulKv {
-	if x, ok := m.GetConfigSource().(*Settings_ConsulKvSource); ok {
+func (m *SettingsSpec) GetConsulKvSource() *SettingsSpec_ConsulKv {
+	if x, ok := m.GetConfigSource().(*SettingsSpec_ConsulKvSource); ok {
 		return x.ConsulKvSource
 	}
 	return nil
 }
 
-func (m *Settings) GetKubernetesSecretSource() *Settings_KubernetesSecrets {
-	if x, ok := m.GetSecretSource().(*Settings_KubernetesSecretSource); ok {
+func (m *SettingsSpec) GetKubernetesSecretSource() *SettingsSpec_KubernetesSecrets {
+	if x, ok := m.GetSecretSource().(*SettingsSpec_KubernetesSecretSource); ok {
 		return x.KubernetesSecretSource
 	}
 	return nil
 }
 
-func (m *Settings) GetVaultSecretSource() *Settings_VaultSecrets {
-	if x, ok := m.GetSecretSource().(*Settings_VaultSecretSource); ok {
+func (m *SettingsSpec) GetVaultSecretSource() *SettingsSpec_VaultSecrets {
+	if x, ok := m.GetSecretSource().(*SettingsSpec_VaultSecretSource); ok {
 		return x.VaultSecretSource
 	}
 	return nil
 }
 
-func (m *Settings) GetDirectorySecretSource() *Settings_Directory {
-	if x, ok := m.GetSecretSource().(*Settings_DirectorySecretSource); ok {
+func (m *SettingsSpec) GetDirectorySecretSource() *SettingsSpec_Directory {
+	if x, ok := m.GetSecretSource().(*SettingsSpec_DirectorySecretSource); ok {
 		return x.DirectorySecretSource
 	}
 	return nil
 }
 
-func (m *Settings) GetKubernetesArtifactSource() *Settings_KubernetesConfigmaps {
-	if x, ok := m.GetArtifactSource().(*Settings_KubernetesArtifactSource); ok {
+func (m *SettingsSpec) GetKubernetesArtifactSource() *SettingsSpec_KubernetesConfigmaps {
+	if x, ok := m.GetArtifactSource().(*SettingsSpec_KubernetesArtifactSource); ok {
 		return x.KubernetesArtifactSource
 	}
 	return nil
 }
 
-func (m *Settings) GetDirectoryArtifactSource() *Settings_Directory {
-	if x, ok := m.GetArtifactSource().(*Settings_DirectoryArtifactSource); ok {
+func (m *SettingsSpec) GetDirectoryArtifactSource() *SettingsSpec_Directory {
+	if x, ok := m.GetArtifactSource().(*SettingsSpec_DirectoryArtifactSource); ok {
 		return x.DirectoryArtifactSource
 	}
 	return nil
 }
 
-func (m *Settings) GetConsulKvArtifactSource() *Settings_ConsulKv {
-	if x, ok := m.GetArtifactSource().(*Settings_ConsulKvArtifactSource); ok {
+func (m *SettingsSpec) GetConsulKvArtifactSource() *SettingsSpec_ConsulKv {
+	if x, ok := m.GetArtifactSource().(*SettingsSpec_ConsulKvArtifactSource); ok {
 		return x.ConsulKvArtifactSource
 	}
 	return nil
 }
 
-func (m *Settings) GetRefreshRate() *types.Duration {
+func (m *SettingsSpec) GetRefreshRate() *types.Duration {
 	if m != nil {
 		return m.RefreshRate
 	}
 	return nil
 }
 
-func (m *Settings) GetDevMode() bool {
+func (m *SettingsSpec) GetDevMode() bool {
 	if m != nil {
 		return m.DevMode
 	}
 	return false
 }
 
-func (m *Settings) GetLinkerd() bool {
+func (m *SettingsSpec) GetLinkerd() bool {
 	if m != nil {
 		return m.Linkerd
 	}
 	return false
 }
 
-func (m *Settings) GetKnative() *Settings_KnativeOptions {
+func (m *SettingsSpec) GetKnative() *SettingsSpec_KnativeOptions {
 	if m != nil {
 		return m.Knative
 	}
 	return nil
 }
 
-func (m *Settings) GetDiscovery() *Settings_DiscoveryOptions {
+func (m *SettingsSpec) GetDiscovery() *SettingsSpec_DiscoveryOptions {
 	if m != nil {
 		return m.Discovery
 	}
 	return nil
 }
 
-func (m *Settings) GetGloo() *GlooOptions {
+func (m *SettingsSpec) GetGloo() *GlooOptions {
 	if m != nil {
 		return m.Gloo
 	}
 	return nil
 }
 
-func (m *Settings) GetGateway() *GatewayOptions {
+func (m *SettingsSpec) GetGateway() *GatewayOptions {
 	if m != nil {
 		return m.Gateway
 	}
 	return nil
 }
 
-func (m *Settings) GetConsul() *Settings_ConsulConfiguration {
+func (m *SettingsSpec) GetConsul() *SettingsSpec_ConsulConfiguration {
 	if m != nil {
 		return m.Consul
 	}
 	return nil
 }
 
-func (m *Settings) GetKubernetes() *Settings_KubernetesConfiguration {
+func (m *SettingsSpec) GetKubernetes() *SettingsSpec_KubernetesConfiguration {
 	if m != nil {
 		return m.Kubernetes
 	}
 	return nil
 }
 
-func (m *Settings) GetExtensions() *Extensions {
+func (m *SettingsSpec) GetExtensions() *Extensions {
 	if m != nil {
 		return m.Extensions
 	}
 	return nil
 }
 
-func (m *Settings) GetRatelimit() *ratelimit.ServiceSettings {
+func (m *SettingsSpec) GetRatelimit() *ratelimit.ServiceSettings {
 	if m != nil {
 		return m.Ratelimit
 	}
 	return nil
 }
 
-func (m *Settings) GetRatelimitServer() *ratelimit.Settings {
+func (m *SettingsSpec) GetRatelimitServer() *ratelimit.Settings {
 	if m != nil {
 		return m.RatelimitServer
 	}
 	return nil
 }
 
-func (m *Settings) GetRbac() *rbac.Settings {
+func (m *SettingsSpec) GetRbac() *rbac.Settings {
 	if m != nil {
 		return m.Rbac
 	}
 	return nil
 }
 
-func (m *Settings) GetExtauth() *v1.Settings {
+func (m *SettingsSpec) GetExtauth() *v1.Settings {
 	if m != nil {
 		return m.Extauth
 	}
 	return nil
 }
 
-func (m *Settings) GetMetadata() core.Metadata {
-	if m != nil {
-		return m.Metadata
-	}
-	return core.Metadata{}
-}
-
-func (m *Settings) GetStatus() core.Status {
-	if m != nil {
-		return m.Status
-	}
-	return core.Status{}
-}
-
 // XXX_OneofWrappers is for the internal use of the proto package.
-func (*Settings) XXX_OneofWrappers() []interface{} {
+func (*SettingsSpec) XXX_OneofWrappers() []interface{} {
 	return []interface{}{
-		(*Settings_KubernetesConfigSource)(nil),
-		(*Settings_DirectoryConfigSource)(nil),
-		(*Settings_ConsulKvSource)(nil),
-		(*Settings_KubernetesSecretSource)(nil),
-		(*Settings_VaultSecretSource)(nil),
-		(*Settings_DirectorySecretSource)(nil),
-		(*Settings_KubernetesArtifactSource)(nil),
-		(*Settings_DirectoryArtifactSource)(nil),
-		(*Settings_ConsulKvArtifactSource)(nil),
+		(*SettingsSpec_KubernetesConfigSource)(nil),
+		(*SettingsSpec_DirectoryConfigSource)(nil),
+		(*SettingsSpec_ConsulKvSource)(nil),
+		(*SettingsSpec_KubernetesSecretSource)(nil),
+		(*SettingsSpec_VaultSecretSource)(nil),
+		(*SettingsSpec_DirectorySecretSource)(nil),
+		(*SettingsSpec_KubernetesArtifactSource)(nil),
+		(*SettingsSpec_DirectoryArtifactSource)(nil),
+		(*SettingsSpec_ConsulKvArtifactSource)(nil),
 	}
 }
 
 // Use Kubernetes CRDs as storage.
-type Settings_KubernetesCrds struct {
+type SettingsSpec_KubernetesCrds struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Settings_KubernetesCrds) Reset()         { *m = Settings_KubernetesCrds{} }
-func (m *Settings_KubernetesCrds) String() string { return proto.CompactTextString(m) }
-func (*Settings_KubernetesCrds) ProtoMessage()    {}
-func (*Settings_KubernetesCrds) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_KubernetesCrds) Reset()         { *m = SettingsSpec_KubernetesCrds{} }
+func (m *SettingsSpec_KubernetesCrds) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_KubernetesCrds) ProtoMessage()    {}
+func (*SettingsSpec_KubernetesCrds) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 0}
 }
-func (m *Settings_KubernetesCrds) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_KubernetesCrds.Unmarshal(m, b)
+func (m *SettingsSpec_KubernetesCrds) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_KubernetesCrds.Unmarshal(m, b)
 }
-func (m *Settings_KubernetesCrds) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_KubernetesCrds.Marshal(b, m, deterministic)
+func (m *SettingsSpec_KubernetesCrds) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_KubernetesCrds.Marshal(b, m, deterministic)
 }
-func (m *Settings_KubernetesCrds) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_KubernetesCrds.Merge(m, src)
+func (m *SettingsSpec_KubernetesCrds) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_KubernetesCrds.Merge(m, src)
 }
-func (m *Settings_KubernetesCrds) XXX_Size() int {
-	return xxx_messageInfo_Settings_KubernetesCrds.Size(m)
+func (m *SettingsSpec_KubernetesCrds) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_KubernetesCrds.Size(m)
 }
-func (m *Settings_KubernetesCrds) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_KubernetesCrds.DiscardUnknown(m)
+func (m *SettingsSpec_KubernetesCrds) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_KubernetesCrds.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_KubernetesCrds proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_KubernetesCrds proto.InternalMessageInfo
 
 // Use Kubernetes as storage for secret data.
-type Settings_KubernetesSecrets struct {
+type SettingsSpec_KubernetesSecrets struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Settings_KubernetesSecrets) Reset()         { *m = Settings_KubernetesSecrets{} }
-func (m *Settings_KubernetesSecrets) String() string { return proto.CompactTextString(m) }
-func (*Settings_KubernetesSecrets) ProtoMessage()    {}
-func (*Settings_KubernetesSecrets) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_KubernetesSecrets) Reset()         { *m = SettingsSpec_KubernetesSecrets{} }
+func (m *SettingsSpec_KubernetesSecrets) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_KubernetesSecrets) ProtoMessage()    {}
+func (*SettingsSpec_KubernetesSecrets) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 1}
 }
-func (m *Settings_KubernetesSecrets) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_KubernetesSecrets.Unmarshal(m, b)
+func (m *SettingsSpec_KubernetesSecrets) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_KubernetesSecrets.Unmarshal(m, b)
 }
-func (m *Settings_KubernetesSecrets) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_KubernetesSecrets.Marshal(b, m, deterministic)
+func (m *SettingsSpec_KubernetesSecrets) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_KubernetesSecrets.Marshal(b, m, deterministic)
 }
-func (m *Settings_KubernetesSecrets) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_KubernetesSecrets.Merge(m, src)
+func (m *SettingsSpec_KubernetesSecrets) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_KubernetesSecrets.Merge(m, src)
 }
-func (m *Settings_KubernetesSecrets) XXX_Size() int {
-	return xxx_messageInfo_Settings_KubernetesSecrets.Size(m)
+func (m *SettingsSpec_KubernetesSecrets) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_KubernetesSecrets.Size(m)
 }
-func (m *Settings_KubernetesSecrets) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_KubernetesSecrets.DiscardUnknown(m)
+func (m *SettingsSpec_KubernetesSecrets) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_KubernetesSecrets.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_KubernetesSecrets proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_KubernetesSecrets proto.InternalMessageInfo
 
 // Use [HashiCorp Vault](https://www.vaultproject.io/) as storage for secret data.
-type Settings_VaultSecrets struct {
+type SettingsSpec_VaultSecrets struct {
 	// the Token used to authenticate to Vault
 	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
 	// address is the address of the Vault server. This should be a complete
@@ -541,87 +559,87 @@ type Settings_VaultSecrets struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Settings_VaultSecrets) Reset()         { *m = Settings_VaultSecrets{} }
-func (m *Settings_VaultSecrets) String() string { return proto.CompactTextString(m) }
-func (*Settings_VaultSecrets) ProtoMessage()    {}
-func (*Settings_VaultSecrets) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_VaultSecrets) Reset()         { *m = SettingsSpec_VaultSecrets{} }
+func (m *SettingsSpec_VaultSecrets) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_VaultSecrets) ProtoMessage()    {}
+func (*SettingsSpec_VaultSecrets) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 2}
 }
-func (m *Settings_VaultSecrets) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_VaultSecrets.Unmarshal(m, b)
+func (m *SettingsSpec_VaultSecrets) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_VaultSecrets.Unmarshal(m, b)
 }
-func (m *Settings_VaultSecrets) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_VaultSecrets.Marshal(b, m, deterministic)
+func (m *SettingsSpec_VaultSecrets) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_VaultSecrets.Marshal(b, m, deterministic)
 }
-func (m *Settings_VaultSecrets) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_VaultSecrets.Merge(m, src)
+func (m *SettingsSpec_VaultSecrets) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_VaultSecrets.Merge(m, src)
 }
-func (m *Settings_VaultSecrets) XXX_Size() int {
-	return xxx_messageInfo_Settings_VaultSecrets.Size(m)
+func (m *SettingsSpec_VaultSecrets) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_VaultSecrets.Size(m)
 }
-func (m *Settings_VaultSecrets) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_VaultSecrets.DiscardUnknown(m)
+func (m *SettingsSpec_VaultSecrets) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_VaultSecrets.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_VaultSecrets proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_VaultSecrets proto.InternalMessageInfo
 
-func (m *Settings_VaultSecrets) GetToken() string {
+func (m *SettingsSpec_VaultSecrets) GetToken() string {
 	if m != nil {
 		return m.Token
 	}
 	return ""
 }
 
-func (m *Settings_VaultSecrets) GetAddress() string {
+func (m *SettingsSpec_VaultSecrets) GetAddress() string {
 	if m != nil {
 		return m.Address
 	}
 	return ""
 }
 
-func (m *Settings_VaultSecrets) GetCaCert() string {
+func (m *SettingsSpec_VaultSecrets) GetCaCert() string {
 	if m != nil {
 		return m.CaCert
 	}
 	return ""
 }
 
-func (m *Settings_VaultSecrets) GetCaPath() string {
+func (m *SettingsSpec_VaultSecrets) GetCaPath() string {
 	if m != nil {
 		return m.CaPath
 	}
 	return ""
 }
 
-func (m *Settings_VaultSecrets) GetClientCert() string {
+func (m *SettingsSpec_VaultSecrets) GetClientCert() string {
 	if m != nil {
 		return m.ClientCert
 	}
 	return ""
 }
 
-func (m *Settings_VaultSecrets) GetClientKey() string {
+func (m *SettingsSpec_VaultSecrets) GetClientKey() string {
 	if m != nil {
 		return m.ClientKey
 	}
 	return ""
 }
 
-func (m *Settings_VaultSecrets) GetTlsServerName() string {
+func (m *SettingsSpec_VaultSecrets) GetTlsServerName() string {
 	if m != nil {
 		return m.TlsServerName
 	}
 	return ""
 }
 
-func (m *Settings_VaultSecrets) GetInsecure() *types.BoolValue {
+func (m *SettingsSpec_VaultSecrets) GetInsecure() *types.BoolValue {
 	if m != nil {
 		return m.Insecure
 	}
 	return nil
 }
 
-func (m *Settings_VaultSecrets) GetRootKey() string {
+func (m *SettingsSpec_VaultSecrets) GetRootKey() string {
 	if m != nil {
 		return m.RootKey
 	}
@@ -631,7 +649,7 @@ func (m *Settings_VaultSecrets) GetRootKey() string {
 // Use [HashiCorp Consul Key-Value](https://www.consul.io/api/kv.html/) as storage for config data.
 // Configuration options for connecting to Consul can be configured in the Settings' root
 // `consul` field
-type Settings_ConsulKv struct {
+type SettingsSpec_ConsulKv struct {
 	// all keys stored in Consul will begin with this prefix
 	// this can be used to run multiple instances of Gloo against the same Consul cluster
 	// defaults to `gloo`
@@ -641,31 +659,31 @@ type Settings_ConsulKv struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Settings_ConsulKv) Reset()         { *m = Settings_ConsulKv{} }
-func (m *Settings_ConsulKv) String() string { return proto.CompactTextString(m) }
-func (*Settings_ConsulKv) ProtoMessage()    {}
-func (*Settings_ConsulKv) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_ConsulKv) Reset()         { *m = SettingsSpec_ConsulKv{} }
+func (m *SettingsSpec_ConsulKv) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_ConsulKv) ProtoMessage()    {}
+func (*SettingsSpec_ConsulKv) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 3}
 }
-func (m *Settings_ConsulKv) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_ConsulKv.Unmarshal(m, b)
+func (m *SettingsSpec_ConsulKv) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_ConsulKv.Unmarshal(m, b)
 }
-func (m *Settings_ConsulKv) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_ConsulKv.Marshal(b, m, deterministic)
+func (m *SettingsSpec_ConsulKv) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_ConsulKv.Marshal(b, m, deterministic)
 }
-func (m *Settings_ConsulKv) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_ConsulKv.Merge(m, src)
+func (m *SettingsSpec_ConsulKv) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_ConsulKv.Merge(m, src)
 }
-func (m *Settings_ConsulKv) XXX_Size() int {
-	return xxx_messageInfo_Settings_ConsulKv.Size(m)
+func (m *SettingsSpec_ConsulKv) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_ConsulKv.Size(m)
 }
-func (m *Settings_ConsulKv) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_ConsulKv.DiscardUnknown(m)
+func (m *SettingsSpec_ConsulKv) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_ConsulKv.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_ConsulKv proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_ConsulKv proto.InternalMessageInfo
 
-func (m *Settings_ConsulKv) GetRootKey() string {
+func (m *SettingsSpec_ConsulKv) GetRootKey() string {
 	if m != nil {
 		return m.RootKey
 	}
@@ -673,77 +691,77 @@ func (m *Settings_ConsulKv) GetRootKey() string {
 }
 
 // Use Kubernetes ConfigMaps as storage.
-type Settings_KubernetesConfigmaps struct {
+type SettingsSpec_KubernetesConfigmaps struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Settings_KubernetesConfigmaps) Reset()         { *m = Settings_KubernetesConfigmaps{} }
-func (m *Settings_KubernetesConfigmaps) String() string { return proto.CompactTextString(m) }
-func (*Settings_KubernetesConfigmaps) ProtoMessage()    {}
-func (*Settings_KubernetesConfigmaps) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_KubernetesConfigmaps) Reset()         { *m = SettingsSpec_KubernetesConfigmaps{} }
+func (m *SettingsSpec_KubernetesConfigmaps) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_KubernetesConfigmaps) ProtoMessage()    {}
+func (*SettingsSpec_KubernetesConfigmaps) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 4}
 }
-func (m *Settings_KubernetesConfigmaps) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_KubernetesConfigmaps.Unmarshal(m, b)
+func (m *SettingsSpec_KubernetesConfigmaps) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_KubernetesConfigmaps.Unmarshal(m, b)
 }
-func (m *Settings_KubernetesConfigmaps) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_KubernetesConfigmaps.Marshal(b, m, deterministic)
+func (m *SettingsSpec_KubernetesConfigmaps) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_KubernetesConfigmaps.Marshal(b, m, deterministic)
 }
-func (m *Settings_KubernetesConfigmaps) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_KubernetesConfigmaps.Merge(m, src)
+func (m *SettingsSpec_KubernetesConfigmaps) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_KubernetesConfigmaps.Merge(m, src)
 }
-func (m *Settings_KubernetesConfigmaps) XXX_Size() int {
-	return xxx_messageInfo_Settings_KubernetesConfigmaps.Size(m)
+func (m *SettingsSpec_KubernetesConfigmaps) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_KubernetesConfigmaps.Size(m)
 }
-func (m *Settings_KubernetesConfigmaps) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_KubernetesConfigmaps.DiscardUnknown(m)
+func (m *SettingsSpec_KubernetesConfigmaps) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_KubernetesConfigmaps.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_KubernetesConfigmaps proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_KubernetesConfigmaps proto.InternalMessageInfo
 
 // As an alternative to Kubernetes CRDs, Gloo is able to store resources in a local file system.
 // This option determines the root of the directory tree used to this end.
-type Settings_Directory struct {
+type SettingsSpec_Directory struct {
 	Directory            string   `protobuf:"bytes,1,opt,name=directory,proto3" json:"directory,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Settings_Directory) Reset()         { *m = Settings_Directory{} }
-func (m *Settings_Directory) String() string { return proto.CompactTextString(m) }
-func (*Settings_Directory) ProtoMessage()    {}
-func (*Settings_Directory) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_Directory) Reset()         { *m = SettingsSpec_Directory{} }
+func (m *SettingsSpec_Directory) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_Directory) ProtoMessage()    {}
+func (*SettingsSpec_Directory) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 5}
 }
-func (m *Settings_Directory) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_Directory.Unmarshal(m, b)
+func (m *SettingsSpec_Directory) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_Directory.Unmarshal(m, b)
 }
-func (m *Settings_Directory) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_Directory.Marshal(b, m, deterministic)
+func (m *SettingsSpec_Directory) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_Directory.Marshal(b, m, deterministic)
 }
-func (m *Settings_Directory) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_Directory.Merge(m, src)
+func (m *SettingsSpec_Directory) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_Directory.Merge(m, src)
 }
-func (m *Settings_Directory) XXX_Size() int {
-	return xxx_messageInfo_Settings_Directory.Size(m)
+func (m *SettingsSpec_Directory) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_Directory.Size(m)
 }
-func (m *Settings_Directory) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_Directory.DiscardUnknown(m)
+func (m *SettingsSpec_Directory) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_Directory.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_Directory proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_Directory proto.InternalMessageInfo
 
-func (m *Settings_Directory) GetDirectory() string {
+func (m *SettingsSpec_Directory) GetDirectory() string {
 	if m != nil {
 		return m.Directory
 	}
 	return ""
 }
 
-type Settings_KnativeOptions struct {
+type SettingsSpec_KnativeOptions struct {
 	// Address of the clusteringress proxy.
 	// If empty, it will default to clusteringress-proxy.$POD_NAMESPACE.svc.cluster.local.
 	// Use if running Knative Version 0.7.X or less
@@ -761,87 +779,87 @@ type Settings_KnativeOptions struct {
 	XXX_sizecache               int32    `json:"-"`
 }
 
-func (m *Settings_KnativeOptions) Reset()         { *m = Settings_KnativeOptions{} }
-func (m *Settings_KnativeOptions) String() string { return proto.CompactTextString(m) }
-func (*Settings_KnativeOptions) ProtoMessage()    {}
-func (*Settings_KnativeOptions) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_KnativeOptions) Reset()         { *m = SettingsSpec_KnativeOptions{} }
+func (m *SettingsSpec_KnativeOptions) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_KnativeOptions) ProtoMessage()    {}
+func (*SettingsSpec_KnativeOptions) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 6}
 }
-func (m *Settings_KnativeOptions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_KnativeOptions.Unmarshal(m, b)
+func (m *SettingsSpec_KnativeOptions) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_KnativeOptions.Unmarshal(m, b)
 }
-func (m *Settings_KnativeOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_KnativeOptions.Marshal(b, m, deterministic)
+func (m *SettingsSpec_KnativeOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_KnativeOptions.Marshal(b, m, deterministic)
 }
-func (m *Settings_KnativeOptions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_KnativeOptions.Merge(m, src)
+func (m *SettingsSpec_KnativeOptions) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_KnativeOptions.Merge(m, src)
 }
-func (m *Settings_KnativeOptions) XXX_Size() int {
-	return xxx_messageInfo_Settings_KnativeOptions.Size(m)
+func (m *SettingsSpec_KnativeOptions) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_KnativeOptions.Size(m)
 }
-func (m *Settings_KnativeOptions) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_KnativeOptions.DiscardUnknown(m)
+func (m *SettingsSpec_KnativeOptions) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_KnativeOptions.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_KnativeOptions proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_KnativeOptions proto.InternalMessageInfo
 
-func (m *Settings_KnativeOptions) GetClusterIngressProxyAddress() string {
+func (m *SettingsSpec_KnativeOptions) GetClusterIngressProxyAddress() string {
 	if m != nil {
 		return m.ClusterIngressProxyAddress
 	}
 	return ""
 }
 
-func (m *Settings_KnativeOptions) GetKnativeExternalProxyAddress() string {
+func (m *SettingsSpec_KnativeOptions) GetKnativeExternalProxyAddress() string {
 	if m != nil {
 		return m.KnativeExternalProxyAddress
 	}
 	return ""
 }
 
-func (m *Settings_KnativeOptions) GetKnativeInternalProxyAddress() string {
+func (m *SettingsSpec_KnativeOptions) GetKnativeInternalProxyAddress() string {
 	if m != nil {
 		return m.KnativeInternalProxyAddress
 	}
 	return ""
 }
 
-type Settings_DiscoveryOptions struct {
-	FdsMode              Settings_DiscoveryOptions_FdsMode `protobuf:"varint,1,opt,name=fds_mode,json=fdsMode,proto3,enum=gloo.solo.io.Settings_DiscoveryOptions_FdsMode" json:"fds_mode,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                          `json:"-"`
-	XXX_unrecognized     []byte                            `json:"-"`
-	XXX_sizecache        int32                             `json:"-"`
+type SettingsSpec_DiscoveryOptions struct {
+	FdsMode              SettingsSpec_DiscoveryOptions_FdsMode `protobuf:"varint,1,opt,name=fds_mode,json=fdsMode,proto3,enum=gloo.solo.io.SettingsSpec_DiscoveryOptions_FdsMode" json:"fds_mode,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                              `json:"-"`
+	XXX_unrecognized     []byte                                `json:"-"`
+	XXX_sizecache        int32                                 `json:"-"`
 }
 
-func (m *Settings_DiscoveryOptions) Reset()         { *m = Settings_DiscoveryOptions{} }
-func (m *Settings_DiscoveryOptions) String() string { return proto.CompactTextString(m) }
-func (*Settings_DiscoveryOptions) ProtoMessage()    {}
-func (*Settings_DiscoveryOptions) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_DiscoveryOptions) Reset()         { *m = SettingsSpec_DiscoveryOptions{} }
+func (m *SettingsSpec_DiscoveryOptions) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_DiscoveryOptions) ProtoMessage()    {}
+func (*SettingsSpec_DiscoveryOptions) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 7}
 }
-func (m *Settings_DiscoveryOptions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_DiscoveryOptions.Unmarshal(m, b)
+func (m *SettingsSpec_DiscoveryOptions) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_DiscoveryOptions.Unmarshal(m, b)
 }
-func (m *Settings_DiscoveryOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_DiscoveryOptions.Marshal(b, m, deterministic)
+func (m *SettingsSpec_DiscoveryOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_DiscoveryOptions.Marshal(b, m, deterministic)
 }
-func (m *Settings_DiscoveryOptions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_DiscoveryOptions.Merge(m, src)
+func (m *SettingsSpec_DiscoveryOptions) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_DiscoveryOptions.Merge(m, src)
 }
-func (m *Settings_DiscoveryOptions) XXX_Size() int {
-	return xxx_messageInfo_Settings_DiscoveryOptions.Size(m)
+func (m *SettingsSpec_DiscoveryOptions) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_DiscoveryOptions.Size(m)
 }
-func (m *Settings_DiscoveryOptions) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_DiscoveryOptions.DiscardUnknown(m)
+func (m *SettingsSpec_DiscoveryOptions) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_DiscoveryOptions.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_DiscoveryOptions proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_DiscoveryOptions proto.InternalMessageInfo
 
-func (m *Settings_DiscoveryOptions) GetFdsMode() Settings_DiscoveryOptions_FdsMode {
+func (m *SettingsSpec_DiscoveryOptions) GetFdsMode() SettingsSpec_DiscoveryOptions_FdsMode {
 	if m != nil {
 		return m.FdsMode
 	}
-	return Settings_DiscoveryOptions_BLACKLIST
+	return SettingsSpec_DiscoveryOptions_BLACKLIST
 }
 
 // Provides overrides for the default configuration parameters used to connect to Consul.
@@ -849,7 +867,7 @@ func (m *Settings_DiscoveryOptions) GetFdsMode() Settings_DiscoveryOptions_FdsMo
 // Note: It is also possible to configure the Consul client Gloo uses via the environment variables
 // described [here](https://www.consul.io/docs/commands/index.html#environment-variables). These
 // need to be set on the Gloo container.
-type Settings_ConsulConfiguration struct {
+type SettingsSpec_ConsulConfiguration struct {
 	// Deprecated: prefer http_address.
 	// The address of the Consul HTTP server.
 	// Used by service discovery and key-value storage (if-enabled).
@@ -896,136 +914,136 @@ type Settings_ConsulConfiguration struct {
 	WaitTime *types.Duration `protobuf:"bytes,11,opt,name=wait_time,json=waitTime,proto3" json:"wait_time,omitempty"`
 	// Enable Service Discovery via Consul with this field
 	// set to empty struct `{}` to enable with defaults
-	ServiceDiscovery     *Settings_ConsulConfiguration_ServiceDiscoveryOptions `protobuf:"bytes,12,opt,name=service_discovery,json=serviceDiscovery,proto3" json:"service_discovery,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                                              `json:"-"`
-	XXX_unrecognized     []byte                                                `json:"-"`
-	XXX_sizecache        int32                                                 `json:"-"`
+	ServiceDiscovery     *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions `protobuf:"bytes,12,opt,name=service_discovery,json=serviceDiscovery,proto3" json:"service_discovery,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                                                  `json:"-"`
+	XXX_unrecognized     []byte                                                    `json:"-"`
+	XXX_sizecache        int32                                                     `json:"-"`
 }
 
-func (m *Settings_ConsulConfiguration) Reset()         { *m = Settings_ConsulConfiguration{} }
-func (m *Settings_ConsulConfiguration) String() string { return proto.CompactTextString(m) }
-func (*Settings_ConsulConfiguration) ProtoMessage()    {}
-func (*Settings_ConsulConfiguration) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_ConsulConfiguration) Reset()         { *m = SettingsSpec_ConsulConfiguration{} }
+func (m *SettingsSpec_ConsulConfiguration) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_ConsulConfiguration) ProtoMessage()    {}
+func (*SettingsSpec_ConsulConfiguration) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 8}
 }
-func (m *Settings_ConsulConfiguration) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_ConsulConfiguration.Unmarshal(m, b)
+func (m *SettingsSpec_ConsulConfiguration) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_ConsulConfiguration.Unmarshal(m, b)
 }
-func (m *Settings_ConsulConfiguration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_ConsulConfiguration.Marshal(b, m, deterministic)
+func (m *SettingsSpec_ConsulConfiguration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_ConsulConfiguration.Marshal(b, m, deterministic)
 }
-func (m *Settings_ConsulConfiguration) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_ConsulConfiguration.Merge(m, src)
+func (m *SettingsSpec_ConsulConfiguration) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_ConsulConfiguration.Merge(m, src)
 }
-func (m *Settings_ConsulConfiguration) XXX_Size() int {
-	return xxx_messageInfo_Settings_ConsulConfiguration.Size(m)
+func (m *SettingsSpec_ConsulConfiguration) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_ConsulConfiguration.Size(m)
 }
-func (m *Settings_ConsulConfiguration) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_ConsulConfiguration.DiscardUnknown(m)
+func (m *SettingsSpec_ConsulConfiguration) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_ConsulConfiguration.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_ConsulConfiguration proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_ConsulConfiguration proto.InternalMessageInfo
 
 // Deprecated: Do not use.
-func (m *Settings_ConsulConfiguration) GetAddress() string {
+func (m *SettingsSpec_ConsulConfiguration) GetAddress() string {
 	if m != nil {
 		return m.Address
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetHttpAddress() string {
+func (m *SettingsSpec_ConsulConfiguration) GetHttpAddress() string {
 	if m != nil {
 		return m.HttpAddress
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetDnsAddress() string {
+func (m *SettingsSpec_ConsulConfiguration) GetDnsAddress() string {
 	if m != nil {
 		return m.DnsAddress
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetDnsPollingInterval() *types.Duration {
+func (m *SettingsSpec_ConsulConfiguration) GetDnsPollingInterval() *types.Duration {
 	if m != nil {
 		return m.DnsPollingInterval
 	}
 	return nil
 }
 
-func (m *Settings_ConsulConfiguration) GetDatacenter() string {
+func (m *SettingsSpec_ConsulConfiguration) GetDatacenter() string {
 	if m != nil {
 		return m.Datacenter
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetUsername() string {
+func (m *SettingsSpec_ConsulConfiguration) GetUsername() string {
 	if m != nil {
 		return m.Username
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetPassword() string {
+func (m *SettingsSpec_ConsulConfiguration) GetPassword() string {
 	if m != nil {
 		return m.Password
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetToken() string {
+func (m *SettingsSpec_ConsulConfiguration) GetToken() string {
 	if m != nil {
 		return m.Token
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetCaFile() string {
+func (m *SettingsSpec_ConsulConfiguration) GetCaFile() string {
 	if m != nil {
 		return m.CaFile
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetCaPath() string {
+func (m *SettingsSpec_ConsulConfiguration) GetCaPath() string {
 	if m != nil {
 		return m.CaPath
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetCertFile() string {
+func (m *SettingsSpec_ConsulConfiguration) GetCertFile() string {
 	if m != nil {
 		return m.CertFile
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetKeyFile() string {
+func (m *SettingsSpec_ConsulConfiguration) GetKeyFile() string {
 	if m != nil {
 		return m.KeyFile
 	}
 	return ""
 }
 
-func (m *Settings_ConsulConfiguration) GetInsecureSkipVerify() *types.BoolValue {
+func (m *SettingsSpec_ConsulConfiguration) GetInsecureSkipVerify() *types.BoolValue {
 	if m != nil {
 		return m.InsecureSkipVerify
 	}
 	return nil
 }
 
-func (m *Settings_ConsulConfiguration) GetWaitTime() *types.Duration {
+func (m *SettingsSpec_ConsulConfiguration) GetWaitTime() *types.Duration {
 	if m != nil {
 		return m.WaitTime
 	}
 	return nil
 }
 
-func (m *Settings_ConsulConfiguration) GetServiceDiscovery() *Settings_ConsulConfiguration_ServiceDiscoveryOptions {
+func (m *SettingsSpec_ConsulConfiguration) GetServiceDiscovery() *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions {
 	if m != nil {
 		return m.ServiceDiscovery
 	}
@@ -1033,7 +1051,7 @@ func (m *Settings_ConsulConfiguration) GetServiceDiscovery() *Settings_ConsulCon
 }
 
 // service discovery options for Consul
-type Settings_ConsulConfiguration_ServiceDiscoveryOptions struct {
+type SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions struct {
 	// Use this parameter to restrict the data centers that will be considered when discovering and routing to
 	// services. If not provided, Gloo will use all available data centers.
 	DataCenters          []string `protobuf:"bytes,1,rep,name=data_centers,json=dataCenters,proto3" json:"data_centers,omitempty"`
@@ -1042,35 +1060,35 @@ type Settings_ConsulConfiguration_ServiceDiscoveryOptions struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) Reset() {
-	*m = Settings_ConsulConfiguration_ServiceDiscoveryOptions{}
+func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) Reset() {
+	*m = SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions{}
 }
-func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) String() string {
+func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) String() string {
 	return proto.CompactTextString(m)
 }
-func (*Settings_ConsulConfiguration_ServiceDiscoveryOptions) ProtoMessage() {}
-func (*Settings_ConsulConfiguration_ServiceDiscoveryOptions) Descriptor() ([]byte, []int) {
+func (*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) ProtoMessage() {}
+func (*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 8, 0}
 }
-func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_ConsulConfiguration_ServiceDiscoveryOptions.Unmarshal(m, b)
+func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions.Unmarshal(m, b)
 }
-func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_ConsulConfiguration_ServiceDiscoveryOptions.Marshal(b, m, deterministic)
+func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions.Marshal(b, m, deterministic)
 }
-func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_ConsulConfiguration_ServiceDiscoveryOptions.Merge(m, src)
+func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions.Merge(m, src)
 }
-func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) XXX_Size() int {
-	return xxx_messageInfo_Settings_ConsulConfiguration_ServiceDiscoveryOptions.Size(m)
+func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions.Size(m)
 }
-func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_ConsulConfiguration_ServiceDiscoveryOptions.DiscardUnknown(m)
+func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_ConsulConfiguration_ServiceDiscoveryOptions proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions proto.InternalMessageInfo
 
-func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) GetDataCenters() []string {
+func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) GetDataCenters() []string {
 	if m != nil {
 		return m.DataCenters
 	}
@@ -1078,46 +1096,46 @@ func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) GetDataCenters() 
 }
 
 // Provides overrides for the default configuration parameters used to interact with Kubernetes.
-type Settings_KubernetesConfiguration struct {
+type SettingsSpec_KubernetesConfiguration struct {
 	// Rate limits for the kubernetes clients
-	RateLimits           *Settings_KubernetesConfiguration_RateLimits `protobuf:"bytes,1,opt,name=rate_limits,json=rateLimits,proto3" json:"rate_limits,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                                     `json:"-"`
-	XXX_unrecognized     []byte                                       `json:"-"`
-	XXX_sizecache        int32                                        `json:"-"`
+	RateLimits           *SettingsSpec_KubernetesConfiguration_RateLimits `protobuf:"bytes,1,opt,name=rate_limits,json=rateLimits,proto3" json:"rate_limits,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                                         `json:"-"`
+	XXX_unrecognized     []byte                                           `json:"-"`
+	XXX_sizecache        int32                                            `json:"-"`
 }
 
-func (m *Settings_KubernetesConfiguration) Reset()         { *m = Settings_KubernetesConfiguration{} }
-func (m *Settings_KubernetesConfiguration) String() string { return proto.CompactTextString(m) }
-func (*Settings_KubernetesConfiguration) ProtoMessage()    {}
-func (*Settings_KubernetesConfiguration) Descriptor() ([]byte, []int) {
+func (m *SettingsSpec_KubernetesConfiguration) Reset()         { *m = SettingsSpec_KubernetesConfiguration{} }
+func (m *SettingsSpec_KubernetesConfiguration) String() string { return proto.CompactTextString(m) }
+func (*SettingsSpec_KubernetesConfiguration) ProtoMessage()    {}
+func (*SettingsSpec_KubernetesConfiguration) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 9}
 }
-func (m *Settings_KubernetesConfiguration) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_KubernetesConfiguration.Unmarshal(m, b)
+func (m *SettingsSpec_KubernetesConfiguration) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_KubernetesConfiguration.Unmarshal(m, b)
 }
-func (m *Settings_KubernetesConfiguration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_KubernetesConfiguration.Marshal(b, m, deterministic)
+func (m *SettingsSpec_KubernetesConfiguration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_KubernetesConfiguration.Marshal(b, m, deterministic)
 }
-func (m *Settings_KubernetesConfiguration) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_KubernetesConfiguration.Merge(m, src)
+func (m *SettingsSpec_KubernetesConfiguration) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_KubernetesConfiguration.Merge(m, src)
 }
-func (m *Settings_KubernetesConfiguration) XXX_Size() int {
-	return xxx_messageInfo_Settings_KubernetesConfiguration.Size(m)
+func (m *SettingsSpec_KubernetesConfiguration) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_KubernetesConfiguration.Size(m)
 }
-func (m *Settings_KubernetesConfiguration) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_KubernetesConfiguration.DiscardUnknown(m)
+func (m *SettingsSpec_KubernetesConfiguration) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_KubernetesConfiguration.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_KubernetesConfiguration proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_KubernetesConfiguration proto.InternalMessageInfo
 
-func (m *Settings_KubernetesConfiguration) GetRateLimits() *Settings_KubernetesConfiguration_RateLimits {
+func (m *SettingsSpec_KubernetesConfiguration) GetRateLimits() *SettingsSpec_KubernetesConfiguration_RateLimits {
 	if m != nil {
 		return m.RateLimits
 	}
 	return nil
 }
 
-type Settings_KubernetesConfiguration_RateLimits struct {
+type SettingsSpec_KubernetesConfiguration_RateLimits struct {
 	// The maximum queries-per-second Gloo can make to the Kubernetes API Server.
 	QPS float32 `protobuf:"fixed32,1,opt,name=QPS,proto3" json:"QPS,omitempty"`
 	// Maximum burst for throttle. When a steady state of QPS requests per second,
@@ -1128,42 +1146,42 @@ type Settings_KubernetesConfiguration_RateLimits struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Settings_KubernetesConfiguration_RateLimits) Reset() {
-	*m = Settings_KubernetesConfiguration_RateLimits{}
+func (m *SettingsSpec_KubernetesConfiguration_RateLimits) Reset() {
+	*m = SettingsSpec_KubernetesConfiguration_RateLimits{}
 }
-func (m *Settings_KubernetesConfiguration_RateLimits) String() string {
+func (m *SettingsSpec_KubernetesConfiguration_RateLimits) String() string {
 	return proto.CompactTextString(m)
 }
-func (*Settings_KubernetesConfiguration_RateLimits) ProtoMessage() {}
-func (*Settings_KubernetesConfiguration_RateLimits) Descriptor() ([]byte, []int) {
+func (*SettingsSpec_KubernetesConfiguration_RateLimits) ProtoMessage() {}
+func (*SettingsSpec_KubernetesConfiguration_RateLimits) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d3cc1f00029ec6bc, []int{0, 9, 0}
 }
-func (m *Settings_KubernetesConfiguration_RateLimits) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Settings_KubernetesConfiguration_RateLimits.Unmarshal(m, b)
+func (m *SettingsSpec_KubernetesConfiguration_RateLimits) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsSpec_KubernetesConfiguration_RateLimits.Unmarshal(m, b)
 }
-func (m *Settings_KubernetesConfiguration_RateLimits) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Settings_KubernetesConfiguration_RateLimits.Marshal(b, m, deterministic)
+func (m *SettingsSpec_KubernetesConfiguration_RateLimits) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsSpec_KubernetesConfiguration_RateLimits.Marshal(b, m, deterministic)
 }
-func (m *Settings_KubernetesConfiguration_RateLimits) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Settings_KubernetesConfiguration_RateLimits.Merge(m, src)
+func (m *SettingsSpec_KubernetesConfiguration_RateLimits) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsSpec_KubernetesConfiguration_RateLimits.Merge(m, src)
 }
-func (m *Settings_KubernetesConfiguration_RateLimits) XXX_Size() int {
-	return xxx_messageInfo_Settings_KubernetesConfiguration_RateLimits.Size(m)
+func (m *SettingsSpec_KubernetesConfiguration_RateLimits) XXX_Size() int {
+	return xxx_messageInfo_SettingsSpec_KubernetesConfiguration_RateLimits.Size(m)
 }
-func (m *Settings_KubernetesConfiguration_RateLimits) XXX_DiscardUnknown() {
-	xxx_messageInfo_Settings_KubernetesConfiguration_RateLimits.DiscardUnknown(m)
+func (m *SettingsSpec_KubernetesConfiguration_RateLimits) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsSpec_KubernetesConfiguration_RateLimits.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Settings_KubernetesConfiguration_RateLimits proto.InternalMessageInfo
+var xxx_messageInfo_SettingsSpec_KubernetesConfiguration_RateLimits proto.InternalMessageInfo
 
-func (m *Settings_KubernetesConfiguration_RateLimits) GetQPS() float32 {
+func (m *SettingsSpec_KubernetesConfiguration_RateLimits) GetQPS() float32 {
 	if m != nil {
 		return m.QPS
 	}
 	return 0
 }
 
-func (m *Settings_KubernetesConfiguration_RateLimits) GetBurst() uint32 {
+func (m *SettingsSpec_KubernetesConfiguration_RateLimits) GetBurst() uint32 {
 	if m != nil {
 		return m.Burst
 	}
@@ -1576,26 +1594,104 @@ func (m *GatewayOptions_ValidationOptions) GetAllowWarnings() *types.BoolValue {
 	return nil
 }
 
+type SettingsStatus struct {
+	// State is the enum indicating the state of the resource
+	State SettingsStatus_State `protobuf:"varint,1,opt,name=state,proto3,enum=gloo.solo.io.SettingsStatus_State" json:"state,omitempty"`
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	Reason string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	// Reference to the reporter who wrote this status
+	ReportedBy string `protobuf:"bytes,3,opt,name=reported_by,json=reportedBy,proto3" json:"reported_by,omitempty"`
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	SubresourceStatuses map[string]*SettingsStatus `protobuf:"bytes,4,rep,name=subresource_statuses,json=subresourceStatuses,proto3" json:"subresource_statuses,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// Opaque details about status results
+	Details              *types.Struct `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
+}
+
+func (m *SettingsStatus) Reset()         { *m = SettingsStatus{} }
+func (m *SettingsStatus) String() string { return proto.CompactTextString(m) }
+func (*SettingsStatus) ProtoMessage()    {}
+func (*SettingsStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_d3cc1f00029ec6bc, []int{3}
+}
+func (m *SettingsStatus) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettingsStatus.Unmarshal(m, b)
+}
+func (m *SettingsStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettingsStatus.Marshal(b, m, deterministic)
+}
+func (m *SettingsStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettingsStatus.Merge(m, src)
+}
+func (m *SettingsStatus) XXX_Size() int {
+	return xxx_messageInfo_SettingsStatus.Size(m)
+}
+func (m *SettingsStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettingsStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SettingsStatus proto.InternalMessageInfo
+
+func (m *SettingsStatus) GetState() SettingsStatus_State {
+	if m != nil {
+		return m.State
+	}
+	return SettingsStatus_Pending
+}
+
+func (m *SettingsStatus) GetReason() string {
+	if m != nil {
+		return m.Reason
+	}
+	return ""
+}
+
+func (m *SettingsStatus) GetReportedBy() string {
+	if m != nil {
+		return m.ReportedBy
+	}
+	return ""
+}
+
+func (m *SettingsStatus) GetSubresourceStatuses() map[string]*SettingsStatus {
+	if m != nil {
+		return m.SubresourceStatuses
+	}
+	return nil
+}
+
+func (m *SettingsStatus) GetDetails() *types.Struct {
+	if m != nil {
+		return m.Details
+	}
+	return nil
+}
+
 func init() {
-	proto.RegisterEnum("gloo.solo.io.Settings_DiscoveryOptions_FdsMode", Settings_DiscoveryOptions_FdsMode_name, Settings_DiscoveryOptions_FdsMode_value)
-	proto.RegisterType((*Settings)(nil), "gloo.solo.io.Settings")
-	proto.RegisterType((*Settings_KubernetesCrds)(nil), "gloo.solo.io.Settings.KubernetesCrds")
-	proto.RegisterType((*Settings_KubernetesSecrets)(nil), "gloo.solo.io.Settings.KubernetesSecrets")
-	proto.RegisterType((*Settings_VaultSecrets)(nil), "gloo.solo.io.Settings.VaultSecrets")
-	proto.RegisterType((*Settings_ConsulKv)(nil), "gloo.solo.io.Settings.ConsulKv")
-	proto.RegisterType((*Settings_KubernetesConfigmaps)(nil), "gloo.solo.io.Settings.KubernetesConfigmaps")
-	proto.RegisterType((*Settings_Directory)(nil), "gloo.solo.io.Settings.Directory")
-	proto.RegisterType((*Settings_KnativeOptions)(nil), "gloo.solo.io.Settings.KnativeOptions")
-	proto.RegisterType((*Settings_DiscoveryOptions)(nil), "gloo.solo.io.Settings.DiscoveryOptions")
-	proto.RegisterType((*Settings_ConsulConfiguration)(nil), "gloo.solo.io.Settings.ConsulConfiguration")
-	proto.RegisterType((*Settings_ConsulConfiguration_ServiceDiscoveryOptions)(nil), "gloo.solo.io.Settings.ConsulConfiguration.ServiceDiscoveryOptions")
-	proto.RegisterType((*Settings_KubernetesConfiguration)(nil), "gloo.solo.io.Settings.KubernetesConfiguration")
-	proto.RegisterType((*Settings_KubernetesConfiguration_RateLimits)(nil), "gloo.solo.io.Settings.KubernetesConfiguration.RateLimits")
+	proto.RegisterEnum("gloo.solo.io.SettingsSpec_DiscoveryOptions_FdsMode", SettingsSpec_DiscoveryOptions_FdsMode_name, SettingsSpec_DiscoveryOptions_FdsMode_value)
+	proto.RegisterEnum("gloo.solo.io.SettingsStatus_State", SettingsStatus_State_name, SettingsStatus_State_value)
+	proto.RegisterType((*SettingsSpec)(nil), "gloo.solo.io.SettingsSpec")
+	proto.RegisterType((*SettingsSpec_KubernetesCrds)(nil), "gloo.solo.io.SettingsSpec.KubernetesCrds")
+	proto.RegisterType((*SettingsSpec_KubernetesSecrets)(nil), "gloo.solo.io.SettingsSpec.KubernetesSecrets")
+	proto.RegisterType((*SettingsSpec_VaultSecrets)(nil), "gloo.solo.io.SettingsSpec.VaultSecrets")
+	proto.RegisterType((*SettingsSpec_ConsulKv)(nil), "gloo.solo.io.SettingsSpec.ConsulKv")
+	proto.RegisterType((*SettingsSpec_KubernetesConfigmaps)(nil), "gloo.solo.io.SettingsSpec.KubernetesConfigmaps")
+	proto.RegisterType((*SettingsSpec_Directory)(nil), "gloo.solo.io.SettingsSpec.Directory")
+	proto.RegisterType((*SettingsSpec_KnativeOptions)(nil), "gloo.solo.io.SettingsSpec.KnativeOptions")
+	proto.RegisterType((*SettingsSpec_DiscoveryOptions)(nil), "gloo.solo.io.SettingsSpec.DiscoveryOptions")
+	proto.RegisterType((*SettingsSpec_ConsulConfiguration)(nil), "gloo.solo.io.SettingsSpec.ConsulConfiguration")
+	proto.RegisterType((*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions)(nil), "gloo.solo.io.SettingsSpec.ConsulConfiguration.ServiceDiscoveryOptions")
+	proto.RegisterType((*SettingsSpec_KubernetesConfiguration)(nil), "gloo.solo.io.SettingsSpec.KubernetesConfiguration")
+	proto.RegisterType((*SettingsSpec_KubernetesConfiguration_RateLimits)(nil), "gloo.solo.io.SettingsSpec.KubernetesConfiguration.RateLimits")
 	proto.RegisterType((*GlooOptions)(nil), "gloo.solo.io.GlooOptions")
 	proto.RegisterType((*GlooOptions_AWSOptions)(nil), "gloo.solo.io.GlooOptions.AWSOptions")
 	proto.RegisterType((*GlooOptions_InvalidConfigPolicy)(nil), "gloo.solo.io.GlooOptions.InvalidConfigPolicy")
 	proto.RegisterType((*GatewayOptions)(nil), "gloo.solo.io.GatewayOptions")
 	proto.RegisterType((*GatewayOptions_ValidationOptions)(nil), "gloo.solo.io.GatewayOptions.ValidationOptions")
+	proto.RegisterType((*SettingsStatus)(nil), "gloo.solo.io.SettingsStatus")
+	proto.RegisterMapType((map[string]*SettingsStatus)(nil), "gloo.solo.io.SettingsStatus.SubresourceStatusesEntry")
 }
 
 func init() {
@@ -1603,161 +1699,167 @@ func init() {
 }
 
 var fileDescriptor_d3cc1f00029ec6bc = []byte{
-	// 2303 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x58, 0xcb, 0x72, 0x23, 0xb7,
-	0xd5, 0x1e, 0x6a, 0x34, 0x23, 0xf2, 0x50, 0x17, 0x0a, 0x92, 0xa5, 0x16, 0xa5, 0xb9, 0x58, 0xff,
-	0xef, 0x64, 0x1c, 0x97, 0x49, 0x7b, 0xec, 0x38, 0x8e, 0xaf, 0x25, 0x72, 0xa4, 0x91, 0x22, 0x8d,
-	0x23, 0x37, 0xe5, 0x51, 0x95, 0x2b, 0x95, 0x2e, 0xb0, 0x1b, 0xa4, 0x50, 0x6c, 0x36, 0xba, 0x00,
-	0x90, 0x12, 0xbd, 0xf4, 0x3e, 0xab, 0x54, 0x16, 0x79, 0x83, 0x54, 0xf9, 0x05, 0xf2, 0x00, 0x59,
-	0x24, 0xcb, 0x3c, 0x40, 0xbc, 0xc8, 0x1b, 0x38, 0x55, 0xd9, 0xa7, 0x70, 0xe9, 0x0b, 0x29, 0x91,
-	0xa3, 0xd9, 0x48, 0x0d, 0x9c, 0xef, 0xfb, 0xd0, 0x7d, 0x80, 0x73, 0x01, 0xe1, 0xb3, 0x2e, 0x95,
-	0x17, 0x83, 0x76, 0xcd, 0x67, 0xfd, 0xba, 0x60, 0x21, 0x7b, 0x97, 0x32, 0xf3, 0x1f, 0xc7, 0x54,
-	0xd4, 0x71, 0x4c, 0xeb, 0xdd, 0x90, 0x31, 0xf3, 0x67, 0xf8, 0x7e, 0x5d, 0x10, 0x29, 0x69, 0xd4,
-	0x15, 0xb5, 0x98, 0x33, 0xc9, 0xd0, 0xa2, 0x9a, 0xaf, 0x29, 0x7c, 0x8d, 0xb2, 0xea, 0x7a, 0x97,
-	0x75, 0x99, 0x36, 0xd4, 0xd5, 0x93, 0xc1, 0x54, 0x11, 0xb9, 0x92, 0x66, 0x92, 0x5c, 0x49, 0x3b,
-	0xf7, 0x50, 0x2f, 0xd1, 0xa3, 0x52, 0xaf, 0x30, 0x7c, 0xbf, 0xde, 0x27, 0x12, 0x07, 0x58, 0x62,
-	0x6b, 0xdf, 0x99, 0xb4, 0x0b, 0x89, 0xe5, 0x40, 0x4c, 0x63, 0x27, 0x63, 0x6b, 0x7f, 0x67, 0xc6,
-	0x07, 0x90, 0x2b, 0x49, 0x22, 0x41, 0x59, 0x94, 0x88, 0x3d, 0x9f, 0x05, 0x8e, 0x24, 0xe1, 0x31,
-	0xa7, 0x82, 0xd4, 0x59, 0x2c, 0x15, 0xa9, 0xce, 0xb1, 0x24, 0x21, 0xed, 0x53, 0x99, 0x3d, 0x59,
-	0xa1, 0x83, 0xd7, 0x13, 0x22, 0x57, 0x12, 0x0f, 0xe4, 0x85, 0x7d, 0x27, 0xf5, 0x68, 0x75, 0x3e,
-	0x7f, 0xcd, 0x17, 0x6a, 0x63, 0x5f, 0xff, 0xb1, 0xf4, 0xf7, 0x66, 0xd0, 0x7d, 0xca, 0xfd, 0x01,
-	0x95, 0x5e, 0x9b, 0x13, 0xdc, 0x23, 0x3c, 0x71, 0x67, 0x97, 0xb1, 0x6e, 0x48, 0xea, 0x7a, 0xd4,
-	0x1e, 0x74, 0xea, 0xc1, 0x80, 0x63, 0x25, 0x3e, 0xcd, 0x7e, 0xc9, 0x71, 0x1c, 0x13, 0x6e, 0x3d,
-	0xb8, 0xfb, 0x87, 0x07, 0x50, 0x6c, 0xd9, 0x73, 0x81, 0xea, 0xb0, 0x16, 0x50, 0xe1, 0xb3, 0x21,
-	0xe1, 0x23, 0x2f, 0xc2, 0x7d, 0x22, 0x62, 0xec, 0x13, 0xa7, 0xf0, 0xb8, 0xf0, 0xa4, 0xe4, 0xa2,
-	0xd4, 0xf4, 0x55, 0x62, 0x41, 0x6f, 0x43, 0xe5, 0x12, 0x4b, 0xff, 0x22, 0x03, 0x0b, 0x67, 0xee,
-	0xf1, 0xdd, 0x27, 0x25, 0x77, 0x45, 0xcf, 0xa7, 0x48, 0x81, 0x30, 0x38, 0xbd, 0x41, 0x9b, 0xf0,
-	0x88, 0x48, 0x22, 0x3c, 0x9f, 0x45, 0x1d, 0xda, 0xf5, 0x04, 0x1b, 0x70, 0x9f, 0x38, 0xf3, 0x8f,
-	0x0b, 0x4f, 0xca, 0x4f, 0xdf, 0xaa, 0xe5, 0x0f, 0x64, 0x2d, 0x79, 0xab, 0xda, 0x71, 0x4a, 0x6b,
-	0xf2, 0x40, 0x1c, 0xde, 0x71, 0x37, 0x32, 0xa1, 0xa6, 0xd6, 0x69, 0x69, 0x19, 0xf4, 0x2d, 0x6c,
-	0x06, 0x94, 0x13, 0x5f, 0x32, 0x3e, 0x9a, 0x58, 0xe1, 0x9e, 0x5e, 0xe1, 0xf1, 0x94, 0x15, 0x9e,
-	0x25, 0xac, 0xc3, 0x3b, 0xee, 0x1b, 0xa9, 0xc4, 0x98, 0xf6, 0x31, 0x54, 0x7c, 0x16, 0x89, 0x41,
-	0xe8, 0xf5, 0x86, 0x89, 0xe8, 0x1b, 0x5a, 0xf4, 0xd1, 0x14, 0xd1, 0xa6, 0x86, 0x1f, 0x0f, 0x0f,
-	0xef, 0xb8, 0xcb, 0xbe, 0x7d, 0xb6, 0x62, 0xc1, 0x98, 0x2f, 0x04, 0xf1, 0x39, 0x91, 0x89, 0xe8,
-	0x7d, 0x2d, 0xfa, 0xe4, 0x95, 0xbe, 0x68, 0x69, 0x96, 0x38, 0x2c, 0xe4, 0xdd, 0x61, 0x26, 0xed,
-	0x2a, 0xdf, 0xc0, 0xda, 0x10, 0x0f, 0x42, 0x39, 0xb1, 0xc0, 0x82, 0x5e, 0xe0, 0xff, 0xa6, 0x2c,
-	0xf0, 0x52, 0x31, 0x32, 0xed, 0xd5, 0x61, 0x36, 0xbe, 0xc9, 0xcb, 0xe3, 0xd2, 0xc5, 0x5b, 0x7a,
-	0xb9, 0x90, 0xf3, 0xf2, 0x98, 0x76, 0x0f, 0xaa, 0x39, 0xc7, 0x60, 0x2e, 0x69, 0x07, 0xfb, 0xa9,
-	0x7c, 0x49, 0xcb, 0xbf, 0xf3, 0xea, 0x63, 0xa2, 0x37, 0xae, 0x8f, 0x63, 0x71, 0x38, 0xe7, 0xe6,
-	0x3c, 0xbd, 0x67, 0xf5, 0xec, 0x62, 0xbf, 0x87, 0xad, 0xec, 0x43, 0x26, 0xd7, 0x82, 0x5b, 0x7e,
-	0xca, 0x9c, 0x9b, 0x79, 0x63, 0x42, 0xff, 0x77, 0xb0, 0x95, 0x1d, 0x99, 0x49, 0xfd, 0xcd, 0xdb,
-	0x9d, 0x9d, 0x39, 0x77, 0x23, 0x39, 0x3b, 0x13, 0xea, 0x9f, 0xc1, 0x22, 0x27, 0x1d, 0x4e, 0xc4,
-	0x85, 0xa7, 0x92, 0x99, 0xb3, 0xa8, 0x05, 0xb7, 0x6a, 0x26, 0xde, 0x6b, 0x49, 0xbc, 0xd7, 0x9e,
-	0xd9, 0x7c, 0xe0, 0x96, 0x2d, 0xdc, 0xc5, 0x92, 0xa0, 0x2d, 0x28, 0x06, 0x64, 0xe8, 0xf5, 0x59,
-	0x40, 0x9c, 0xa5, 0xc7, 0x85, 0x27, 0x45, 0x77, 0x21, 0x20, 0xc3, 0x17, 0x2c, 0x20, 0xc8, 0x81,
-	0x85, 0x90, 0x46, 0x3d, 0xc2, 0x03, 0x67, 0xd5, 0x58, 0xec, 0x10, 0x7d, 0x09, 0x0b, 0xbd, 0x08,
-	0x4b, 0x3a, 0x24, 0x0e, 0x9a, 0x1d, 0xb1, 0x06, 0xf5, 0x5b, 0x93, 0xe5, 0xdc, 0x84, 0x85, 0xf6,
-	0xa1, 0x94, 0x26, 0x11, 0x67, 0x4d, 0x4b, 0xfc, 0x7c, 0xaa, 0x87, 0x2d, 0x2e, 0x11, 0xc9, 0x98,
-	0xe8, 0x5d, 0x98, 0x57, 0x24, 0xc7, 0x49, 0x3e, 0x39, 0xaf, 0xf0, 0x3c, 0x64, 0x2c, 0xe1, 0x68,
-	0x18, 0xfa, 0x08, 0x16, 0xba, 0x58, 0x92, 0x4b, 0x3c, 0x72, 0xb6, 0x34, 0x63, 0x67, 0x82, 0x61,
-	0x8c, 0xe9, 0xdb, 0x5a, 0x30, 0x6a, 0xc0, 0x7d, 0xe3, 0x7b, 0x67, 0x5d, 0xd3, 0x7e, 0x31, 0x73,
-	0xb3, 0xcc, 0xa1, 0x4b, 0x9c, 0x6d, 0x99, 0xe8, 0x2b, 0x80, 0xec, 0xfc, 0x39, 0x1b, 0x5a, 0xa7,
-	0x76, 0xcb, 0x03, 0x9c, 0x68, 0xe5, 0x14, 0xd0, 0xc7, 0x00, 0x59, 0x11, 0x74, 0x2a, 0x5a, 0xcf,
-	0x19, 0xd7, 0xdb, 0x4f, 0xed, 0x6e, 0x0e, 0x8b, 0x5e, 0x40, 0x29, 0x2d, 0x7a, 0x4e, 0x55, 0x13,
-	0xeb, 0xb5, 0xac, 0x0c, 0xda, 0x8a, 0x34, 0xf9, 0x6a, 0x7c, 0x48, 0x7d, 0x92, 0xbc, 0xa1, 0x9b,
-	0x29, 0xa0, 0x16, 0x54, 0xd2, 0x81, 0x27, 0x08, 0x1f, 0x12, 0xee, 0x6c, 0xdb, 0xd4, 0xf5, 0x4a,
-	0x55, 0x2b, 0xb7, 0x92, 0x02, 0x5b, 0x5a, 0x00, 0xfd, 0x0a, 0xe6, 0x55, 0x31, 0x74, 0x76, 0x6c,
-	0x8a, 0xd2, 0x95, 0x71, 0xb6, 0x86, 0x26, 0xa0, 0x4f, 0x61, 0xc1, 0xd6, 0x61, 0xe7, 0x81, 0xe6,
-	0xbe, 0x59, 0xcb, 0xaa, 0xed, 0x14, 0x66, 0xc2, 0x40, 0x1f, 0x43, 0x31, 0xe9, 0x60, 0x9c, 0x65,
-	0xcd, 0xde, 0xa8, 0xf9, 0x8c, 0x93, 0x94, 0xf2, 0xc2, 0x5a, 0x1b, 0xf3, 0x7f, 0xff, 0xf1, 0xd1,
-	0x1d, 0x37, 0x45, 0xa3, 0x63, 0xb8, 0x6f, 0x7a, 0x1b, 0x67, 0x45, 0xf3, 0xd6, 0xc7, 0x79, 0x2d,
-	0x6d, 0x6b, 0x3c, 0xf8, 0xeb, 0x7f, 0xe7, 0x0b, 0x8a, 0xf9, 0x9f, 0x1f, 0x1f, 0xad, 0x4a, 0x22,
-	0x64, 0x40, 0x3b, 0x9d, 0x4f, 0x76, 0x69, 0x37, 0x62, 0x9c, 0xec, 0xba, 0x56, 0xa2, 0x5a, 0x81,
-	0xe5, 0xf1, 0x4a, 0x57, 0x5d, 0x83, 0xd5, 0x6b, 0xf9, 0xbe, 0xfa, 0xc3, 0x1c, 0x2c, 0xe6, 0x93,
-	0x34, 0x5a, 0x87, 0x7b, 0x92, 0xf5, 0x48, 0x64, 0xcb, 0xb4, 0x19, 0xa8, 0x28, 0xc6, 0x41, 0xc0,
-	0x89, 0x50, 0x05, 0x59, 0xcd, 0x27, 0x43, 0xb4, 0x09, 0x0b, 0x3e, 0xf6, 0x7c, 0xc2, 0xa5, 0x73,
-	0x57, 0x5b, 0xee, 0xfb, 0xb8, 0x49, 0xb8, 0xb4, 0x86, 0x18, 0xcb, 0x0b, 0x5d, 0x90, 0xb5, 0xe1,
-	0x14, 0xcb, 0x0b, 0xf4, 0x08, 0xca, 0x7e, 0x48, 0x49, 0x24, 0x0d, 0xeb, 0x9e, 0x36, 0x82, 0x99,
-	0xd2, 0xcc, 0x07, 0x60, 0x47, 0x5e, 0x8f, 0x8c, 0x74, 0x05, 0x2b, 0xb9, 0x25, 0x33, 0x73, 0x4c,
-	0x46, 0xe8, 0x67, 0xb0, 0x22, 0x43, 0x61, 0x4f, 0x89, 0x6e, 0x15, 0x74, 0x11, 0x2a, 0xb9, 0x4b,
-	0x32, 0x14, 0x66, 0xeb, 0x55, 0xa3, 0x80, 0x3e, 0x82, 0x22, 0x8d, 0x04, 0xf1, 0x07, 0x3c, 0x29,
-	0x25, 0xd5, 0x6b, 0xe9, 0xac, 0xc1, 0x58, 0xf8, 0x12, 0x87, 0x03, 0xe2, 0xa6, 0x58, 0x95, 0xcc,
-	0x38, 0x63, 0x66, 0xf1, 0x92, 0xf9, 0x58, 0x35, 0x3e, 0x26, 0xa3, 0xea, 0x5b, 0x50, 0x4c, 0x72,
-	0xe9, 0x18, 0xac, 0x30, 0x0e, 0xdb, 0x80, 0xf5, 0x9b, 0xca, 0x47, 0xf5, 0x6d, 0x28, 0xa5, 0xa9,
-	0x1e, 0xed, 0xa8, 0xec, 0x65, 0x07, 0x56, 0x20, 0x9b, 0xa8, 0xfe, 0xab, 0x00, 0xcb, 0xe3, 0x79,
-	0x0f, 0xed, 0xc1, 0x03, 0x3f, 0x1c, 0x08, 0x49, 0xb8, 0x47, 0xa3, 0xae, 0x72, 0xbe, 0x17, 0x73,
-	0x76, 0x35, 0xf2, 0x92, 0x9d, 0x31, 0x22, 0x55, 0x0b, 0x3a, 0x32, 0x98, 0x53, 0x05, 0xd9, 0xb3,
-	0x9b, 0xd5, 0x84, 0x87, 0x36, 0x79, 0x7a, 0x2a, 0x96, 0x79, 0x84, 0xc3, 0x09, 0x0d, 0xb3, 0xbb,
-	0xdb, 0x16, 0xb5, 0x6f, 0x41, 0xd3, 0x44, 0x68, 0x74, 0xa3, 0xc8, 0xdd, 0x31, 0x91, 0xa3, 0xe8,
-	0xba, 0x48, 0xf5, 0x4f, 0x05, 0xa8, 0x4c, 0x26, 0x65, 0xf4, 0x1b, 0x28, 0x76, 0x02, 0x61, 0xca,
-	0x88, 0xfa, 0x98, 0xe5, 0xa7, 0xf5, 0x5b, 0xe6, 0xf3, 0xda, 0x41, 0x20, 0x54, 0xb9, 0x71, 0x17,
-	0x3a, 0xe6, 0x61, 0xf7, 0x97, 0xb0, 0x60, 0xe7, 0xd0, 0x12, 0x94, 0x1a, 0x27, 0x7b, 0xcd, 0xe3,
-	0x93, 0xa3, 0xd6, 0x59, 0xe5, 0x8e, 0x1a, 0x9e, 0x1f, 0x1e, 0x9d, 0xed, 0xeb, 0x61, 0x01, 0x2d,
-	0x42, 0xf1, 0xd9, 0x51, 0x6b, 0xaf, 0x71, 0xb2, 0xff, 0xac, 0x32, 0x57, 0xfd, 0xe7, 0x3d, 0x58,
-	0xbb, 0x21, 0x03, 0xa3, 0x9d, 0x2c, 0x00, 0xb4, 0x9b, 0x1b, 0x73, 0x4e, 0x21, 0x0b, 0x82, 0x37,
-	0x61, 0xf1, 0x42, 0xca, 0x38, 0x75, 0xc0, 0x92, 0x76, 0x40, 0x59, 0xcd, 0x25, 0x5e, 0x7b, 0x04,
-	0xe5, 0x20, 0x12, 0x29, 0x62, 0xd9, 0x9c, 0xfa, 0x20, 0x12, 0x09, 0xe0, 0x18, 0xd6, 0x15, 0x20,
-	0x66, 0x61, 0x48, 0xa3, 0xae, 0x71, 0xed, 0x10, 0x87, 0x36, 0x17, 0xcc, 0xa8, 0xc4, 0x28, 0x88,
-	0xc4, 0xa9, 0x61, 0x1d, 0x59, 0x12, 0x7a, 0x08, 0xa0, 0x52, 0x8a, 0xaf, 0xd3, 0x96, 0xdd, 0xd4,
-	0xdc, 0x0c, 0xaa, 0x42, 0x71, 0x20, 0xd4, 0xae, 0xf4, 0x89, 0xdd, 0xad, 0x74, 0xac, 0x6c, 0x31,
-	0x16, 0xe2, 0x92, 0xf1, 0xc0, 0x46, 0x6e, 0x3a, 0xce, 0xb2, 0xc3, 0xbd, 0x7c, 0x76, 0x30, 0xa1,
-	0xde, 0xa1, 0x21, 0xb1, 0xd1, 0x7a, 0xdf, 0xc7, 0x07, 0x34, 0x24, 0xf9, 0x1c, 0xb0, 0x30, 0x96,
-	0x03, 0xb6, 0xa1, 0xa4, 0x82, 0xdf, 0x70, 0x8a, 0x66, 0x11, 0x35, 0xa1, 0x59, 0x5b, 0x50, 0xec,
-	0x91, 0x91, 0xb1, 0xd9, 0x00, 0xec, 0x91, 0x91, 0x36, 0x9d, 0xc0, 0x7a, 0x12, 0xa7, 0x9e, 0xe8,
-	0xd1, 0xd8, 0x1b, 0x12, 0x4e, 0x3b, 0x23, 0xdb, 0x5f, 0xcd, 0x8a, 0x6f, 0x94, 0xf0, 0x5a, 0x3d,
-	0x1a, 0xbf, 0xd4, 0x2c, 0xf4, 0x11, 0x94, 0x2e, 0x31, 0x95, 0x9e, 0xa4, 0x7d, 0xe2, 0x94, 0x5f,
-	0xe5, 0xe7, 0xa2, 0xc2, 0x9e, 0xd1, 0x3e, 0x41, 0x0c, 0x56, 0x85, 0xa9, 0x65, 0x5e, 0xd6, 0x80,
-	0x98, 0x8e, 0xa9, 0x71, 0xfb, 0xaa, 0x9e, 0xd4, 0xc3, 0x6b, 0xbd, 0x49, 0x45, 0x4c, 0x18, 0xaa,
-	0x9f, 0xc1, 0xe6, 0x14, 0xb0, 0x3a, 0x7a, 0x6a, 0x5f, 0x3d, 0xb3, 0xb1, 0xea, 0x74, 0xaa, 0xfb,
-	0x52, 0x59, 0xcd, 0x35, 0xcd, 0x54, 0xf5, 0x87, 0x02, 0x6c, 0x4e, 0xe9, 0x06, 0xd0, 0xb7, 0x50,
-	0x56, 0x65, 0xd3, 0xd3, 0x75, 0xd3, 0x9c, 0xed, 0xf2, 0xd3, 0x5f, 0xbf, 0x5e, 0x4b, 0x51, 0x53,
-	0x3d, 0xe0, 0x89, 0x16, 0x70, 0x81, 0xa7, 0xcf, 0xd5, 0x0f, 0x01, 0x32, 0x0b, 0xaa, 0xc0, 0xdd,
-	0xaf, 0x4f, 0x5b, 0x7a, 0x85, 0x39, 0x57, 0x3d, 0xaa, 0xc3, 0xd4, 0x1e, 0x70, 0x21, 0xf5, 0xf9,
-	0x5c, 0x72, 0xcd, 0xe0, 0x93, 0x8d, 0xef, 0x7f, 0x9a, 0x9f, 0x87, 0x39, 0x21, 0xbf, 0xff, 0x69,
-	0x1e, 0x50, 0x31, 0xf9, 0x95, 0xa1, 0xb1, 0x02, 0x4b, 0x63, 0x97, 0x30, 0x35, 0x31, 0x76, 0x5f,
-	0x68, 0xac, 0xc2, 0xca, 0x44, 0x5f, 0xbc, 0xfb, 0xc7, 0x22, 0x94, 0x73, 0x2d, 0x1c, 0xda, 0x85,
-	0xa5, 0xab, 0x40, 0x78, 0x6d, 0x1a, 0x05, 0x3a, 0x14, 0x6d, 0xce, 0x2c, 0x5f, 0x05, 0xa2, 0x41,
-	0xa3, 0x40, 0xc5, 0x22, 0x7a, 0x0f, 0xd6, 0x87, 0x38, 0xa4, 0x81, 0xfe, 0xb6, 0x1c, 0xd4, 0x44,
-	0x11, 0xca, 0x6c, 0x29, 0xe3, 0x05, 0x54, 0x26, 0xae, 0xd3, 0x26, 0x07, 0x96, 0x9f, 0xee, 0x8e,
-	0x7b, 0xb2, 0x69, 0x50, 0x0d, 0x03, 0x32, 0x4e, 0x74, 0x57, 0xfc, 0xb1, 0x59, 0x81, 0xbe, 0x81,
-	0x2d, 0x12, 0x05, 0x31, 0xa3, 0x91, 0x14, 0xde, 0x25, 0xe6, 0x7d, 0x95, 0x0f, 0xd4, 0x19, 0x65,
-	0x03, 0x69, 0x2f, 0xb7, 0x33, 0x8e, 0xe9, 0x66, 0xca, 0x3d, 0x37, 0xd4, 0x33, 0xc3, 0x44, 0xfb,
-	0x50, 0xc6, 0x97, 0xc2, 0xb3, 0x0d, 0x90, 0xbd, 0xc3, 0xfe, 0xff, 0xd4, 0x76, 0xb7, 0xb6, 0x77,
-	0xde, 0x4a, 0x4e, 0x24, 0xe0, 0x4b, 0x91, 0xb8, 0x10, 0xc3, 0x1b, 0x34, 0xd2, 0x4e, 0x48, 0x2e,
-	0xc5, 0x31, 0x0b, 0xa9, 0x3f, 0xb2, 0x57, 0xcd, 0x77, 0xa7, 0x0b, 0x1e, 0x19, 0x9a, 0xf9, 0xec,
-	0x53, 0x4d, 0x72, 0xd7, 0xe8, 0xf5, 0x49, 0x74, 0x00, 0x8f, 0x02, 0x2a, 0x70, 0x3b, 0x24, 0x5e,
-	0xee, 0xfe, 0x16, 0x10, 0x21, 0x69, 0x84, 0xcd, 0xdb, 0x2f, 0xe8, 0xbb, 0xc4, 0x03, 0x0b, 0xcb,
-	0x0e, 0xe6, 0xb3, 0x1c, 0x08, 0x3d, 0x83, 0x4a, 0xa2, 0xd3, 0xe5, 0xb1, 0xef, 0x5d, 0x92, 0xf6,
-	0x2d, 0x3a, 0x81, 0x65, 0xcb, 0x79, 0xce, 0x63, 0xff, 0x9c, 0xb4, 0x91, 0x0f, 0x8f, 0x13, 0x15,
-	0x53, 0xe6, 0xba, 0x98, 0xb7, 0x71, 0x97, 0x78, 0x3e, 0x0b, 0x43, 0xe2, 0xab, 0xa5, 0xec, 0x5d,
-	0x72, 0x96, 0x6a, 0xf2, 0xaa, 0xba, 0x0a, 0x3e, 0x37, 0x0a, 0xcd, 0x54, 0x00, 0x7d, 0x0d, 0x1b,
-	0x9c, 0x74, 0xc9, 0x95, 0xd7, 0xc7, 0x57, 0x6a, 0x99, 0x2e, 0xc7, 0x7d, 0x4f, 0xd0, 0xef, 0x92,
-	0xab, 0xe3, 0xce, 0x35, 0xe9, 0x6f, 0x8e, 0x22, 0xf9, 0xc1, 0x53, 0x23, 0xbe, 0xa6, 0xb9, 0x2f,
-	0xf0, 0xd5, 0xa9, 0x61, 0xb6, 0xe8, 0x77, 0xa4, 0x7a, 0x02, 0x90, 0x6d, 0x21, 0xfa, 0x02, 0xb6,
-	0x49, 0xa4, 0x3f, 0xc2, 0xe7, 0x24, 0x20, 0x91, 0xa4, 0x38, 0x14, 0x49, 0xfa, 0x32, 0x0d, 0x48,
-	0xd1, 0xdd, 0x32, 0x90, 0x66, 0x86, 0xb0, 0xf9, 0x66, 0x54, 0xfd, 0x47, 0x01, 0xd6, 0x6e, 0xd8,
-	0x40, 0xf4, 0xa1, 0x7a, 0xf1, 0x38, 0xc4, 0xbe, 0xea, 0x06, 0xcc, 0xb1, 0xe0, 0x6c, 0xa0, 0xae,
-	0x27, 0x46, 0x72, 0xdd, 0x5a, 0x2d, 0xd7, 0xd5, 0x36, 0xf4, 0x39, 0x6c, 0x8f, 0xa1, 0x3d, 0x4e,
-	0x44, 0xcc, 0x22, 0xa1, 0x9c, 0x1a, 0x10, 0x9b, 0x10, 0x1c, 0x9a, 0xe3, 0xb8, 0x16, 0xd0, 0x54,
-	0x15, 0x7d, 0x3a, 0xbd, 0xcd, 0x82, 0x91, 0xad, 0x68, 0x37, 0xd2, 0x1b, 0x2c, 0x18, 0xed, 0xfe,
-	0xed, 0x1e, 0x2c, 0x8f, 0x5f, 0xd3, 0xd4, 0x67, 0xe4, 0x82, 0xde, 0xf6, 0x96, 0xb9, 0x0c, 0x91,
-	0x4b, 0x09, 0xa6, 0xc5, 0xd4, 0x81, 0xff, 0x15, 0x40, 0x36, 0x6f, 0x43, 0xbe, 0x36, 0xeb, 0x3a,
-	0x58, 0x7b, 0x99, 0xc2, 0xd3, 0xd8, 0xca, 0x14, 0xd0, 0x21, 0xbc, 0xc9, 0x09, 0x0e, 0x3c, 0x7b,
-	0x67, 0x14, 0x5e, 0x87, 0xb3, 0xbe, 0x87, 0xc3, 0x30, 0xff, 0x8b, 0xd8, 0xbc, 0x39, 0xfa, 0x0a,
-	0x68, 0xc5, 0xc5, 0x01, 0x67, 0xfd, 0xbd, 0x30, 0xcc, 0xfd, 0x3e, 0x76, 0x00, 0x0f, 0x71, 0xa8,
-	0x25, 0x04, 0xe3, 0xd2, 0x7a, 0x49, 0xea, 0xfd, 0xb7, 0xdb, 0xa3, 0xe2, 0xbf, 0xa8, 0xdb, 0x98,
-	0xaa, 0x41, 0xb6, 0x18, 0x97, 0xda, 0x57, 0x67, 0x0a, 0x66, 0x36, 0xaa, 0xfa, 0xe7, 0xbb, 0xb0,
-	0x7a, 0xed, 0x9d, 0xd1, 0x97, 0xb0, 0x63, 0x42, 0x61, 0x8a, 0xcf, 0x4c, 0xaa, 0xdc, 0xd2, 0x98,
-	0x97, 0x37, 0x39, 0xee, 0x73, 0xd8, 0xce, 0x51, 0x2f, 0x49, 0xfb, 0x82, 0xb1, 0x9e, 0xa7, 0xda,
-	0xfa, 0xdc, 0x4d, 0xc2, 0xc9, 0x20, 0xe7, 0x06, 0x71, 0x16, 0x0a, 0x7d, 0x43, 0xf8, 0x14, 0xaa,
-	0x53, 0xe8, 0xaa, 0x1b, 0x37, 0x4d, 0xcb, 0xe6, 0x4d, 0x6c, 0x75, 0x7f, 0x68, 0xc2, 0x43, 0x73,
-	0x59, 0xf2, 0xd4, 0x46, 0xe5, 0x3f, 0xa1, 0x83, 0x69, 0xa8, 0x6e, 0x0b, 0xda, 0x35, 0xee, 0xb6,
-	0x41, 0xa9, 0x0c, 0x96, 0x7d, 0xc3, 0x81, 0x81, 0xa0, 0x2f, 0x61, 0xc9, 0xfa, 0x17, 0xfb, 0x3e,
-	0x89, 0xa5, 0xcd, 0x7e, 0xb3, 0x32, 0xc0, 0xa2, 0x21, 0xec, 0x69, 0x3c, 0xda, 0x83, 0x65, 0x1c,
-	0x86, 0xec, 0x52, 0x25, 0xf8, 0x48, 0x15, 0x38, 0xfb, 0x4b, 0xda, 0x2c, 0x85, 0x25, 0xcd, 0x38,
-	0xb7, 0x84, 0xc6, 0x17, 0xea, 0x26, 0xf8, 0x97, 0x7f, 0x3f, 0x2c, 0x7c, 0xfb, 0xe1, 0xcc, 0x5f,
-	0xee, 0xe3, 0x5e, 0x37, 0xfd, 0xfd, 0x37, 0x39, 0x97, 0xf5, 0xe1, 0xfb, 0xed, 0xfb, 0x7a, 0x89,
-	0x0f, 0xfe, 0x17, 0x00, 0x00, 0xff, 0xff, 0x91, 0x3d, 0xe3, 0x5b, 0xf8, 0x17, 0x00, 0x00,
+	// 2387 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x59, 0xdd, 0x72, 0x1b, 0xb7,
+	0x15, 0x36, 0x25, 0xcb, 0x24, 0x0f, 0xf5, 0x43, 0x43, 0x8a, 0xb5, 0x5a, 0xc9, 0x8e, 0xa3, 0xfe,
+	0x39, 0x93, 0x86, 0x4c, 0x94, 0x9f, 0x66, 0x9a, 0x38, 0x19, 0x89, 0x92, 0x2c, 0x8d, 0x64, 0x47,
+	0x59, 0x2a, 0xd6, 0xb4, 0x17, 0xd9, 0x82, 0xbb, 0x10, 0x85, 0x72, 0xb9, 0xd8, 0x01, 0x40, 0x4a,
+	0xcc, 0x6b, 0xf4, 0x2a, 0x6f, 0xd0, 0x99, 0x5e, 0x74, 0xa6, 0x57, 0x7d, 0x80, 0xf6, 0xa2, 0x0f,
+	0xd0, 0xcb, 0xde, 0xf4, 0x1d, 0x7a, 0xdf, 0xc1, 0xcf, 0xfe, 0x90, 0x92, 0x68, 0xeb, 0xc6, 0x5a,
+	0x00, 0xdf, 0xf7, 0x01, 0x38, 0x07, 0xe7, 0x1c, 0x80, 0x86, 0xaf, 0xba, 0x54, 0x5e, 0x0c, 0x3a,
+	0x8d, 0x80, 0xf5, 0x9b, 0x82, 0x45, 0xec, 0x43, 0xca, 0xcc, 0x5f, 0x9c, 0x50, 0xd1, 0xc4, 0x09,
+	0x6d, 0x76, 0x23, 0xc6, 0xcc, 0x3f, 0xc3, 0x8f, 0x9b, 0x82, 0x48, 0x49, 0xe3, 0xae, 0x68, 0x24,
+	0x9c, 0x49, 0x86, 0xe6, 0x55, 0x7f, 0x43, 0xe1, 0x1b, 0x94, 0xb9, 0x1b, 0x5d, 0xc6, 0xba, 0x11,
+	0x69, 0xea, 0xb1, 0xce, 0xe0, 0xbc, 0x29, 0x24, 0x1f, 0x04, 0xd2, 0x60, 0xdd, 0x95, 0x2e, 0xeb,
+	0x32, 0xfd, 0xd9, 0x54, 0x5f, 0xb6, 0x17, 0x91, 0x2b, 0x69, 0x3a, 0xc9, 0x55, 0x8a, 0x7c, 0xa2,
+	0x17, 0xd0, 0xa3, 0x52, 0xcf, 0xaf, 0x66, 0xb5, 0x6d, 0x3b, 0xfe, 0xc1, 0x94, 0x05, 0x92, 0x2b,
+	0x49, 0x62, 0x41, 0x59, 0x6c, 0x97, 0xe8, 0xbe, 0x98, 0x06, 0x8e, 0x25, 0xe1, 0x09, 0xa7, 0x82,
+	0x34, 0x59, 0x22, 0x15, 0xa9, 0xc9, 0xb1, 0x24, 0x11, 0xed, 0x53, 0x99, 0x7f, 0x59, 0xa1, 0xfd,
+	0xbb, 0x09, 0x91, 0x2b, 0x89, 0x07, 0xf2, 0xc2, 0xae, 0x49, 0x7d, 0x5a, 0x9d, 0xe7, 0x77, 0x5c,
+	0x50, 0x07, 0x07, 0xfa, 0x1f, 0x4b, 0xff, 0x68, 0x0a, 0x3d, 0xa0, 0x3c, 0x18, 0x50, 0xe9, 0x77,
+	0x38, 0xc1, 0x3d, 0xc2, 0x53, 0x73, 0x4e, 0xba, 0x25, 0x1c, 0x70, 0xac, 0xc4, 0x6f, 0x1b, 0xbf,
+	0xe4, 0x38, 0x49, 0x08, 0xb7, 0x16, 0xdc, 0xfc, 0xdb, 0x06, 0xcc, 0xb7, 0xad, 0xdf, 0xdb, 0x09,
+	0x09, 0x50, 0x13, 0x96, 0x43, 0x2a, 0x02, 0x36, 0x24, 0x7c, 0xe4, 0xc7, 0xb8, 0x4f, 0x44, 0x82,
+	0x03, 0xe2, 0x94, 0x9e, 0x96, 0x9e, 0x55, 0x3d, 0x94, 0x0d, 0xbd, 0x4a, 0x47, 0xd0, 0xfb, 0x50,
+	0xbf, 0xc4, 0x32, 0xb8, 0xc8, 0xc1, 0xc2, 0x99, 0x79, 0x3a, 0xfb, 0xac, 0xea, 0x2d, 0xe9, 0xfe,
+	0x0c, 0x29, 0x10, 0x01, 0xa7, 0x37, 0xe8, 0x10, 0x1e, 0x13, 0x49, 0x84, 0x1f, 0xb0, 0xf8, 0x9c,
+	0x76, 0x7d, 0xc1, 0x06, 0x3c, 0x20, 0xce, 0xfd, 0xa7, 0xa5, 0x67, 0xb5, 0xad, 0xf7, 0x1b, 0xc5,
+	0x43, 0xd7, 0x28, 0xae, 0xac, 0x71, 0x94, 0x51, 0x5b, 0x3c, 0x14, 0x07, 0xf7, 0xbc, 0x47, 0xb9,
+	0x58, 0x4b, 0x6b, 0xb5, 0xb5, 0x14, 0xfa, 0x01, 0x56, 0x43, 0xca, 0x49, 0x20, 0x19, 0x1f, 0x4d,
+	0xcc, 0x32, 0xa7, 0x67, 0xf9, 0xf9, 0x94, 0x59, 0x76, 0x53, 0xe6, 0xc1, 0x3d, 0xef, 0x9d, 0x4c,
+	0x66, 0x4c, 0xff, 0x5b, 0xa8, 0x07, 0x2c, 0x16, 0x83, 0xc8, 0xef, 0x0d, 0x53, 0xe1, 0x77, 0xb4,
+	0xf0, 0xcf, 0xa6, 0x08, 0xb7, 0x34, 0xe5, 0x68, 0x78, 0x70, 0xcf, 0x5b, 0x0c, 0xec, 0xb7, 0x15,
+	0xbc, 0x18, 0xb3, 0x8b, 0x20, 0x01, 0x27, 0x32, 0x15, 0x7e, 0xa0, 0x85, 0x7f, 0xfd, 0x56, 0x76,
+	0x69, 0x6b, 0xa6, 0x38, 0x28, 0x15, 0x4d, 0x63, 0x3a, 0xed, 0x4c, 0xbf, 0x83, 0xe5, 0x21, 0x1e,
+	0x44, 0x72, 0x62, 0x92, 0xb2, 0x9e, 0xe4, 0x57, 0x53, 0x26, 0x79, 0xad, 0x58, 0xb9, 0xfe, 0xc3,
+	0x61, 0xde, 0xbe, 0xc9, 0xea, 0xe3, 0xf2, 0x95, 0x3b, 0x58, 0xbd, 0x54, 0xb0, 0xfa, 0x98, 0x3e,
+	0x03, 0xb7, 0x60, 0x24, 0xcc, 0x25, 0x3d, 0xc7, 0x41, 0x36, 0x45, 0x55, 0x4f, 0xd1, 0x7c, 0xbb,
+	0xe3, 0xa3, 0x9d, 0xd9, 0xc7, 0x89, 0x38, 0x98, 0xf1, 0x0a, 0x96, 0xdf, 0xb6, 0x9a, 0x76, 0xc2,
+	0x0e, 0xac, 0xe5, 0x1b, 0x9a, 0x9c, 0x0f, 0xee, 0xb0, 0xa5, 0x19, 0x2f, 0xb7, 0xcc, 0xc4, 0x1c,
+	0x7f, 0x80, 0xb5, 0xfc, 0x28, 0x4d, 0xce, 0xb1, 0xfa, 0xf6, 0x67, 0x6a, 0xc6, 0x7b, 0x94, 0x9e,
+	0xa9, 0x89, 0x19, 0xbe, 0x82, 0x79, 0x4e, 0xce, 0x39, 0x11, 0x17, 0xbe, 0x4a, 0x7a, 0xce, 0xbc,
+	0x16, 0x5d, 0x6b, 0x98, 0xbc, 0xd0, 0x48, 0xf3, 0x42, 0x63, 0xd7, 0xe6, 0x0d, 0xaf, 0x66, 0xe1,
+	0x1e, 0x96, 0x04, 0xad, 0x41, 0x25, 0x24, 0x43, 0xbf, 0xcf, 0x42, 0xe2, 0x2c, 0x3c, 0x2d, 0x3d,
+	0xab, 0x78, 0xe5, 0x90, 0x0c, 0x5f, 0xb2, 0x90, 0x20, 0x07, 0xca, 0x11, 0x8d, 0x7b, 0x84, 0x87,
+	0xce, 0x43, 0x33, 0x62, 0x9b, 0xa8, 0x05, 0xe5, 0x5e, 0x8c, 0x25, 0x1d, 0x12, 0x07, 0xbd, 0x39,
+	0xaa, 0x0d, 0xf2, 0x5b, 0x93, 0x11, 0xbd, 0x94, 0x89, 0x0e, 0xa1, 0x9a, 0x25, 0x1b, 0x67, 0x59,
+	0xcb, 0x7c, 0x30, 0xd5, 0xda, 0x16, 0x9b, 0x0a, 0xe5, 0x6c, 0xf4, 0x21, 0xdc, 0x57, 0x44, 0xc7,
+	0x49, 0xb7, 0x5e, 0x54, 0x79, 0x11, 0x31, 0x96, 0x72, 0x34, 0x0c, 0x7d, 0x0e, 0xe5, 0x2e, 0x96,
+	0xe4, 0x12, 0x8f, 0x9c, 0x35, 0xcd, 0xd8, 0x98, 0x60, 0x98, 0xc1, 0x6c, 0xc5, 0x16, 0x8c, 0xf6,
+	0xe1, 0x81, 0xf1, 0x81, 0xb3, 0xa2, 0x69, 0x8d, 0x37, 0x3a, 0xce, 0x1c, 0xc4, 0xd4, 0xf0, 0x96,
+	0x8d, 0x3c, 0x80, 0xfc, 0x4c, 0x3a, 0x8f, 0xb4, 0xd6, 0xd6, 0x1d, 0x0e, 0x76, 0xaa, 0x57, 0x50,
+	0x41, 0x5f, 0x00, 0xe4, 0xc5, 0xd3, 0xa9, 0x6b, 0x4d, 0x67, 0x5c, 0x73, 0x2f, 0x1b, 0xf7, 0x0a,
+	0x58, 0xf4, 0x12, 0xaa, 0x59, 0xb1, 0x74, 0x5c, 0x1b, 0x65, 0x79, 0xf9, 0xb4, 0x95, 0x6c, 0x72,
+	0x79, 0x7c, 0x48, 0x03, 0x92, 0xae, 0xd2, 0xcb, 0x15, 0x50, 0x1b, 0xea, 0x59, 0xc3, 0x17, 0x84,
+	0x0f, 0x09, 0x77, 0xd6, 0xb5, 0xea, 0xb3, 0x37, 0xab, 0x5a, 0xb9, 0xa5, 0x0c, 0xd8, 0xd6, 0x02,
+	0xe8, 0x37, 0x70, 0x5f, 0x15, 0x51, 0x67, 0xc3, 0x06, 0x8c, 0xae, 0xa8, 0xd3, 0x35, 0x34, 0x01,
+	0x7d, 0x09, 0x65, 0x5b, 0xbf, 0x9d, 0xc7, 0x9a, 0xfb, 0x5e, 0x23, 0xaf, 0xd2, 0xb7, 0x30, 0x53,
+	0x86, 0x5b, 0x87, 0xc5, 0xf1, 0x92, 0xe4, 0x2e, 0xc3, 0xc3, 0x6b, 0xc9, 0xd8, 0xfd, 0xcb, 0x0c,
+	0xcc, 0x17, 0xb3, 0x27, 0x5a, 0x81, 0x39, 0xc9, 0x7a, 0x24, 0xb6, 0x35, 0xd5, 0x34, 0x54, 0x38,
+	0xe1, 0x30, 0xe4, 0x44, 0xa8, 0xea, 0xa9, 0xfa, 0xd3, 0x26, 0x5a, 0x85, 0x72, 0x80, 0xfd, 0x80,
+	0x70, 0xe9, 0xcc, 0xea, 0x91, 0x07, 0x01, 0x6e, 0x11, 0x2e, 0xed, 0x40, 0x82, 0xe5, 0x85, 0xae,
+	0x9e, 0x7a, 0xe0, 0x04, 0xcb, 0x0b, 0xf4, 0x2e, 0xd4, 0x82, 0x88, 0x92, 0x58, 0x1a, 0xd6, 0x9c,
+	0x1e, 0x04, 0xd3, 0xa5, 0x99, 0x8f, 0xc1, 0xb6, 0xfc, 0x1e, 0x19, 0xe9, 0x12, 0x53, 0xf5, 0xaa,
+	0xa6, 0xe7, 0x88, 0x8c, 0xd0, 0x2f, 0x61, 0x49, 0x46, 0xc2, 0xba, 0x47, 0xd7, 0x75, 0x5d, 0x21,
+	0xaa, 0xde, 0x82, 0x8c, 0x84, 0xb1, 0xb9, 0xaa, 0xea, 0xe8, 0x73, 0xa8, 0xd0, 0x58, 0x90, 0x60,
+	0xc0, 0xd3, 0x1c, 0xef, 0x5e, 0xcb, 0x2b, 0x3b, 0x8c, 0x45, 0xaf, 0x71, 0x34, 0x20, 0x5e, 0x86,
+	0x55, 0x59, 0x85, 0x33, 0x66, 0x26, 0xaf, 0x9a, 0xcd, 0xaa, 0xf6, 0x11, 0x19, 0xb9, 0xbf, 0x80,
+	0x4a, 0x9a, 0xd4, 0xc6, 0x60, 0xa5, 0x71, 0xd8, 0x23, 0x58, 0xb9, 0x29, 0x9f, 0xbb, 0xef, 0x43,
+	0x35, 0xcb, 0xbb, 0x68, 0x43, 0xa5, 0x10, 0xdb, 0xb0, 0x02, 0x79, 0x87, 0xfb, 0x9f, 0x12, 0x2c,
+	0x8e, 0x27, 0x1f, 0xb4, 0x0d, 0x8f, 0x83, 0x68, 0x20, 0x24, 0xe1, 0x3e, 0x8d, 0xbb, 0xca, 0xf8,
+	0x7e, 0xc2, 0xd9, 0xd5, 0xc8, 0x4f, 0x3d, 0x63, 0x44, 0x5c, 0x0b, 0x3a, 0x34, 0x98, 0x13, 0x05,
+	0xd9, 0xb6, 0xce, 0x6a, 0xc1, 0x13, 0x9b, 0xc1, 0x7c, 0x15, 0x44, 0x3c, 0xc6, 0xd1, 0x84, 0x86,
+	0xf1, 0xee, 0xba, 0x45, 0xed, 0x59, 0xd0, 0x6d, 0x22, 0x34, 0xbe, 0x51, 0x64, 0x76, 0x4c, 0xe4,
+	0x30, 0xbe, 0x2e, 0xe2, 0xfe, 0x54, 0x82, 0xfa, 0x64, 0x56, 0x44, 0xaf, 0xa0, 0x72, 0x1e, 0x0a,
+	0x93, 0xcf, 0xd5, 0x66, 0x16, 0xb7, 0x3e, 0xb9, 0x43, 0x52, 0x6d, 0xec, 0x87, 0x42, 0xe5, 0x7e,
+	0xaf, 0x7c, 0x6e, 0x3e, 0x36, 0x3f, 0x83, 0xb2, 0xed, 0x43, 0x0b, 0x50, 0xdd, 0x39, 0xde, 0x6e,
+	0x1d, 0x1d, 0x1f, 0xb6, 0x4f, 0xeb, 0xf7, 0x54, 0xf3, 0xec, 0xe0, 0xf0, 0x74, 0x4f, 0x37, 0x4b,
+	0x68, 0x1e, 0x2a, 0xbb, 0x87, 0xed, 0xed, 0x9d, 0xe3, 0xbd, 0xdd, 0xfa, 0x8c, 0xfb, 0xef, 0x39,
+	0x58, 0xbe, 0x21, 0x05, 0xa2, 0x8d, 0x3c, 0x08, 0xb4, 0xa9, 0x77, 0x66, 0x9c, 0x52, 0x1e, 0x08,
+	0xef, 0xc1, 0xfc, 0x85, 0x94, 0x49, 0x66, 0x84, 0x05, 0x6d, 0x84, 0x9a, 0xea, 0x4b, 0x2d, 0xf7,
+	0x2e, 0xd4, 0xc2, 0x58, 0x64, 0x88, 0x45, 0x73, 0xf2, 0xc3, 0x58, 0xa4, 0x80, 0x23, 0x58, 0x51,
+	0x80, 0x84, 0x45, 0x11, 0x8d, 0xbb, 0xc6, 0xbc, 0x43, 0x1c, 0x39, 0x4b, 0x6f, 0x2a, 0x8b, 0x28,
+	0x8c, 0xc5, 0x89, 0x61, 0x1d, 0x5a, 0x12, 0x7a, 0x02, 0x10, 0x62, 0x89, 0x03, 0x9d, 0x33, 0xac,
+	0x63, 0x0b, 0x3d, 0xc8, 0x85, 0xca, 0x40, 0x28, 0xcf, 0xf4, 0x89, 0xf5, 0x58, 0xd6, 0x56, 0x63,
+	0x09, 0x16, 0xe2, 0x92, 0xf1, 0xd0, 0x46, 0x6f, 0xd6, 0xce, 0x33, 0xc4, 0x5c, 0x31, 0x43, 0x98,
+	0x70, 0x3f, 0xa7, 0x11, 0xb1, 0x11, 0xfb, 0x20, 0xc0, 0xfb, 0x34, 0x22, 0xc5, 0x3c, 0x50, 0x1e,
+	0xcb, 0x03, 0xeb, 0x50, 0x55, 0x09, 0xc0, 0x70, 0x2a, 0x66, 0x12, 0xd5, 0xa1, 0x59, 0x6b, 0x50,
+	0xe9, 0x91, 0x91, 0x19, 0xb3, 0x41, 0xd8, 0x23, 0x23, 0x3d, 0x74, 0x0c, 0x2b, 0x69, 0xac, 0xfa,
+	0xa2, 0x47, 0x13, 0x7f, 0x48, 0x38, 0x3d, 0x1f, 0xd9, 0x4b, 0xcf, 0xb4, 0x18, 0x47, 0x29, 0xaf,
+	0xdd, 0xa3, 0xc9, 0x6b, 0xcd, 0x42, 0x9f, 0x43, 0xf5, 0x12, 0x53, 0xe9, 0x4b, 0xda, 0x27, 0x4e,
+	0xed, 0x4d, 0x76, 0xae, 0x28, 0xec, 0x29, 0xed, 0x13, 0x24, 0xe0, 0xa1, 0x30, 0x85, 0xc4, 0xcf,
+	0x6f, 0x02, 0xe6, 0xfa, 0xb2, 0x7f, 0xb7, 0xd2, 0x9a, 0x16, 0xa4, 0x6b, 0x97, 0x84, 0xba, 0x98,
+	0x18, 0x70, 0xbf, 0x82, 0xd5, 0x5b, 0xc0, 0xea, 0xf8, 0x29, 0xdf, 0xfa, 0xc6, 0xb9, 0xea, 0x84,
+	0xaa, 0x47, 0x4e, 0x4d, 0xf5, 0xb5, 0x4c, 0x97, 0xfb, 0xd7, 0x12, 0xac, 0xde, 0x52, 0x8e, 0xd1,
+	0x0f, 0x50, 0x53, 0x75, 0xcb, 0xd7, 0x85, 0xcb, 0x9c, 0xef, 0xda, 0xd6, 0xf3, 0xbb, 0xd7, 0xf5,
+	0x86, 0xba, 0x98, 0x1d, 0x6b, 0x11, 0x0f, 0x78, 0xf6, 0xed, 0x7e, 0x0a, 0x90, 0x8f, 0xa0, 0x3a,
+	0xcc, 0x7e, 0x77, 0xd2, 0xd6, 0xb3, 0xcc, 0x78, 0xea, 0x53, 0x1d, 0xaa, 0xce, 0x80, 0x0b, 0xa9,
+	0xcf, 0xe9, 0x82, 0x67, 0x1a, 0x3b, 0x4b, 0xb0, 0x30, 0xf6, 0x42, 0x52, 0x1d, 0x63, 0x97, 0xf7,
+	0x9d, 0x87, 0xb0, 0x34, 0x71, 0x31, 0xdd, 0xfc, 0x53, 0x05, 0x6a, 0x85, 0x7b, 0x13, 0xda, 0x84,
+	0x85, 0xab, 0x50, 0xf8, 0x1d, 0x1a, 0x87, 0x3a, 0xf4, 0x6c, 0x9e, 0xac, 0x5d, 0x85, 0x62, 0x87,
+	0xc6, 0xa1, 0x8a, 0x3d, 0xf4, 0x11, 0xac, 0x0c, 0x71, 0x44, 0x43, 0xbd, 0x87, 0x02, 0xd4, 0x44,
+	0x0d, 0xca, 0xc7, 0x32, 0xc6, 0x4b, 0xa8, 0x4f, 0xbc, 0x79, 0x4d, 0xde, 0xab, 0x6d, 0x6d, 0x8e,
+	0x5b, 0xad, 0x65, 0x50, 0x3b, 0x06, 0x64, 0x8c, 0xe5, 0x2d, 0x05, 0x63, 0xbd, 0x02, 0x7d, 0x0f,
+	0x6b, 0x24, 0x0e, 0x13, 0x46, 0x63, 0x29, 0xfc, 0x4b, 0xcc, 0xfb, 0x2a, 0xfe, 0xd5, 0x99, 0x64,
+	0x03, 0x69, 0x5f, 0x9f, 0x53, 0x8e, 0xe5, 0x6a, 0xc6, 0x3d, 0x33, 0xd4, 0x53, 0xc3, 0x44, 0x7b,
+	0x50, 0xc3, 0x97, 0xc2, 0xb7, 0xb7, 0x8d, 0x9b, 0x1f, 0x98, 0x05, 0x5b, 0x35, 0xb6, 0xcf, 0xda,
+	0xe9, 0xe9, 0x03, 0x7c, 0x29, 0x52, 0x13, 0x62, 0x78, 0x87, 0xc6, 0xda, 0x08, 0xe9, 0x8b, 0x35,
+	0x61, 0x11, 0x0d, 0x46, 0xf6, 0xfd, 0xf7, 0xe1, 0xed, 0x82, 0x87, 0x86, 0x66, 0xb6, 0x7d, 0xa2,
+	0x49, 0xde, 0x32, 0xbd, 0xde, 0x89, 0xf6, 0xe1, 0xdd, 0x90, 0x0a, 0xdc, 0x89, 0x88, 0x5f, 0x78,
+	0x48, 0x85, 0x44, 0x48, 0x1a, 0x63, 0xb3, 0xfa, 0xb2, 0xbe, 0xc8, 0x3f, 0xb6, 0xb0, 0xfc, 0x00,
+	0xee, 0x16, 0x40, 0x68, 0x17, 0xea, 0xa9, 0x4e, 0x97, 0x27, 0x81, 0x7f, 0x49, 0x3a, 0x6f, 0x51,
+	0xfd, 0x17, 0x2d, 0xe7, 0x05, 0x4f, 0x82, 0x33, 0xd2, 0x41, 0x01, 0x3c, 0x4d, 0x55, 0x4c, 0x69,
+	0xeb, 0x62, 0xde, 0xc1, 0x5d, 0xe2, 0x07, 0x2c, 0x8a, 0x48, 0xa0, 0xa6, 0xb2, 0x8f, 0xba, 0x69,
+	0xaa, 0xe9, 0x52, 0x75, 0xe5, 0x7b, 0x61, 0x14, 0x5a, 0x99, 0x00, 0xfa, 0x0e, 0x1e, 0x71, 0xd2,
+	0x25, 0x57, 0x7e, 0x1f, 0x5f, 0xa9, 0x69, 0xba, 0x1c, 0xf7, 0x7d, 0x41, 0x7f, 0x4c, 0xdf, 0x6f,
+	0x1b, 0xd7, 0xa4, 0xbf, 0x3f, 0x8c, 0xe5, 0x27, 0x5b, 0x46, 0x7c, 0x59, 0x73, 0x5f, 0xe2, 0xab,
+	0x13, 0xc3, 0x6c, 0xd3, 0x1f, 0x89, 0x7b, 0x0c, 0x90, 0xbb, 0x10, 0x7d, 0x0d, 0xeb, 0x24, 0xd6,
+	0x9b, 0x08, 0x38, 0x09, 0x49, 0x2c, 0x29, 0x8e, 0x44, 0x9a, 0xae, 0xcc, 0xa5, 0xa3, 0xe2, 0xad,
+	0x19, 0x48, 0x2b, 0x47, 0xd8, 0xdc, 0x32, 0x72, 0xff, 0x55, 0x82, 0xe5, 0x1b, 0x1c, 0x88, 0x3e,
+	0x55, 0x0b, 0x4f, 0x22, 0x1c, 0xa8, 0x1b, 0x80, 0x39, 0x16, 0x9c, 0x0d, 0xd4, 0x7b, 0xc0, 0x48,
+	0xae, 0xd8, 0x51, 0xcb, 0xf5, 0xf4, 0x18, 0x7a, 0x0e, 0xeb, 0x63, 0x68, 0x9f, 0x13, 0x91, 0xb0,
+	0x58, 0x28, 0xa3, 0x86, 0xc4, 0x06, 0xbe, 0x43, 0x0b, 0x1c, 0xcf, 0x02, 0x5a, 0xaa, 0x82, 0xdf,
+	0x4e, 0xef, 0xb0, 0x70, 0x64, 0x2b, 0xd8, 0x8d, 0xf4, 0x1d, 0x16, 0x8e, 0x36, 0xff, 0x31, 0x07,
+	0x8b, 0xe3, 0x6f, 0x23, 0xb5, 0x8d, 0x42, 0xd0, 0xdb, 0xfb, 0x64, 0x21, 0x43, 0x14, 0x52, 0x82,
+	0xb9, 0x56, 0xea, 0xc0, 0x7f, 0x05, 0x90, 0xf7, 0xdb, 0x90, 0x6f, 0x4c, 0x7b, 0x83, 0x35, 0x5e,
+	0x67, 0xf0, 0x2c, 0xb6, 0x72, 0x05, 0x74, 0x00, 0xef, 0x71, 0x82, 0x43, 0xdf, 0x3e, 0xd4, 0x84,
+	0x7f, 0xce, 0x59, 0xdf, 0xc7, 0x51, 0x54, 0xfc, 0xc9, 0xea, 0xbe, 0x39, 0xfa, 0x0a, 0x68, 0xc5,
+	0xc5, 0x3e, 0x67, 0xfd, 0xed, 0x28, 0x2a, 0xfc, 0x80, 0xb5, 0x0f, 0x4f, 0x70, 0xa4, 0x25, 0x04,
+	0xe3, 0xd2, 0x5a, 0x49, 0x6a, 0xff, 0x5b, 0xf7, 0xa8, 0xf8, 0xaf, 0xe8, 0x6b, 0x8b, 0x6b, 0x90,
+	0x6d, 0xc6, 0xa5, 0xb6, 0xd5, 0xa9, 0x82, 0x19, 0x47, 0xb9, 0x3f, 0xcd, 0xc2, 0xc3, 0x6b, 0x6b,
+	0x46, 0xdf, 0xc0, 0x86, 0x09, 0x85, 0x5b, 0x6c, 0x66, 0x52, 0xe5, 0x9a, 0xc6, 0xbc, 0xbe, 0xc9,
+	0x70, 0xcf, 0x61, 0xbd, 0x40, 0xbd, 0x24, 0x9d, 0x0b, 0xc6, 0x7a, 0xbe, 0xba, 0xca, 0x17, 0x5e,
+	0x0f, 0x4e, 0x0e, 0x39, 0x33, 0x88, 0xd3, 0x48, 0xe8, 0x57, 0xc1, 0x97, 0xe0, 0xde, 0x42, 0x57,
+	0x37, 0x70, 0x73, 0x49, 0x59, 0xbd, 0x89, 0xad, 0xde, 0x0c, 0x2d, 0x78, 0x42, 0xbb, 0x31, 0xe3,
+	0xc4, 0x57, 0x8e, 0x2a, 0x6e, 0xe1, 0x1c, 0xd3, 0x48, 0xbd, 0x10, 0xb4, 0x69, 0xbc, 0x75, 0x83,
+	0x52, 0x19, 0x2c, 0xdf, 0xc3, 0xbe, 0x81, 0xa0, 0x6f, 0x60, 0xc1, 0xda, 0x17, 0x07, 0x01, 0x49,
+	0xa4, 0xcd, 0x7e, 0xd3, 0x32, 0xc0, 0xbc, 0x21, 0x6c, 0x6b, 0x3c, 0xda, 0x86, 0x45, 0x1c, 0x45,
+	0xec, 0x52, 0x25, 0xf8, 0x58, 0x55, 0x52, 0xfb, 0xd3, 0xd6, 0x34, 0x85, 0x05, 0xcd, 0x38, 0xb3,
+	0x84, 0xcd, 0x7f, 0xce, 0xc2, 0x62, 0x56, 0x87, 0x25, 0x96, 0x03, 0xf5, 0x7a, 0x9e, 0x13, 0x12,
+	0xcb, 0xf4, 0xca, 0xbc, 0x79, 0x4b, 0xd1, 0xd6, 0xe0, 0x86, 0xfa, 0x43, 0x3c, 0x43, 0x40, 0x8f,
+	0xe0, 0x01, 0x27, 0x58, 0xb0, 0xd8, 0x3a, 0xcf, 0xb6, 0xd4, 0x3d, 0x95, 0x93, 0x84, 0x71, 0x49,
+	0x42, 0xbf, 0x93, 0x86, 0x16, 0xa4, 0x5d, 0x3b, 0x23, 0x74, 0x01, 0x2b, 0x62, 0xd0, 0xe1, 0xc4,
+	0x54, 0x5c, 0x5f, 0x68, 0x6d, 0x7d, 0x4c, 0x67, 0x9f, 0xd5, 0xb6, 0x3e, 0x9b, 0xbe, 0x82, 0x9c,
+	0xd8, 0xb6, 0xbc, 0xbd, 0x58, 0xf2, 0x91, 0xb7, 0x2c, 0xae, 0x8f, 0xa0, 0x8f, 0xa1, 0x1c, 0x12,
+	0x89, 0x69, 0x94, 0x16, 0xaf, 0xd5, 0x6b, 0xb6, 0x6a, 0xeb, 0x9f, 0xfa, 0xbd, 0x14, 0xe7, 0x86,
+	0xe0, 0xdc, 0x36, 0x87, 0xba, 0x78, 0xe4, 0xef, 0x35, 0xf5, 0x89, 0xb6, 0x60, 0x6e, 0xa8, 0x0c,
+	0xad, 0x4d, 0x70, 0xed, 0xd7, 0x94, 0xf1, 0xb5, 0x7b, 0x06, 0xfa, 0xdb, 0x99, 0x2f, 0x4a, 0x9b,
+	0xcf, 0x61, 0x4e, 0xdb, 0x12, 0xd5, 0xa0, 0x7c, 0x42, 0xe2, 0x90, 0xc6, 0xdd, 0xfa, 0x3d, 0xf5,
+	0x90, 0x30, 0xbe, 0x26, 0xa1, 0x79, 0x56, 0x78, 0xe4, 0x8f, 0x24, 0x50, 0xad, 0x19, 0x05, 0xb4,
+	0x6e, 0xac, 0xcf, 0xee, 0x7c, 0xfd, 0xf7, 0xff, 0xdd, 0x2f, 0xfd, 0xf9, 0xbf, 0x4f, 0x4a, 0xbf,
+	0xff, 0x74, 0xea, 0x7f, 0x83, 0x24, 0xbd, 0x6e, 0xf6, 0x63, 0x7b, 0xba, 0xaa, 0xe6, 0xf0, 0xe3,
+	0xce, 0x03, 0xbd, 0xfd, 0x4f, 0xfe, 0x1f, 0x00, 0x00, 0xff, 0xff, 0x8c, 0x37, 0x2e, 0x01, 0x45,
+	0x19, 0x00, 0x00,
 }
 
-func (this *Settings) Equal(that interface{}) bool {
+func (this *SettingsSpec) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings)
+	that1, ok := that.(*SettingsSpec)
 	if !ok {
-		that2, ok := that.(Settings)
+		that2, ok := that.(SettingsSpec)
 		if ok {
 			that1 = &that2
 		} else {
@@ -1849,25 +1951,19 @@ func (this *Settings) Equal(that interface{}) bool {
 	if !this.Extauth.Equal(that1.Extauth) {
 		return false
 	}
-	if !this.Metadata.Equal(&that1.Metadata) {
-		return false
-	}
-	if !this.Status.Equal(&that1.Status) {
-		return false
-	}
 	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
 		return false
 	}
 	return true
 }
-func (this *Settings_KubernetesConfigSource) Equal(that interface{}) bool {
+func (this *SettingsSpec_KubernetesConfigSource) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_KubernetesConfigSource)
+	that1, ok := that.(*SettingsSpec_KubernetesConfigSource)
 	if !ok {
-		that2, ok := that.(Settings_KubernetesConfigSource)
+		that2, ok := that.(SettingsSpec_KubernetesConfigSource)
 		if ok {
 			that1 = &that2
 		} else {
@@ -1884,14 +1980,14 @@ func (this *Settings_KubernetesConfigSource) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_DirectoryConfigSource) Equal(that interface{}) bool {
+func (this *SettingsSpec_DirectoryConfigSource) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_DirectoryConfigSource)
+	that1, ok := that.(*SettingsSpec_DirectoryConfigSource)
 	if !ok {
-		that2, ok := that.(Settings_DirectoryConfigSource)
+		that2, ok := that.(SettingsSpec_DirectoryConfigSource)
 		if ok {
 			that1 = &that2
 		} else {
@@ -1908,14 +2004,14 @@ func (this *Settings_DirectoryConfigSource) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_ConsulKvSource) Equal(that interface{}) bool {
+func (this *SettingsSpec_ConsulKvSource) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_ConsulKvSource)
+	that1, ok := that.(*SettingsSpec_ConsulKvSource)
 	if !ok {
-		that2, ok := that.(Settings_ConsulKvSource)
+		that2, ok := that.(SettingsSpec_ConsulKvSource)
 		if ok {
 			that1 = &that2
 		} else {
@@ -1932,14 +2028,14 @@ func (this *Settings_ConsulKvSource) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_KubernetesSecretSource) Equal(that interface{}) bool {
+func (this *SettingsSpec_KubernetesSecretSource) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_KubernetesSecretSource)
+	that1, ok := that.(*SettingsSpec_KubernetesSecretSource)
 	if !ok {
-		that2, ok := that.(Settings_KubernetesSecretSource)
+		that2, ok := that.(SettingsSpec_KubernetesSecretSource)
 		if ok {
 			that1 = &that2
 		} else {
@@ -1956,14 +2052,14 @@ func (this *Settings_KubernetesSecretSource) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_VaultSecretSource) Equal(that interface{}) bool {
+func (this *SettingsSpec_VaultSecretSource) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_VaultSecretSource)
+	that1, ok := that.(*SettingsSpec_VaultSecretSource)
 	if !ok {
-		that2, ok := that.(Settings_VaultSecretSource)
+		that2, ok := that.(SettingsSpec_VaultSecretSource)
 		if ok {
 			that1 = &that2
 		} else {
@@ -1980,14 +2076,14 @@ func (this *Settings_VaultSecretSource) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_DirectorySecretSource) Equal(that interface{}) bool {
+func (this *SettingsSpec_DirectorySecretSource) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_DirectorySecretSource)
+	that1, ok := that.(*SettingsSpec_DirectorySecretSource)
 	if !ok {
-		that2, ok := that.(Settings_DirectorySecretSource)
+		that2, ok := that.(SettingsSpec_DirectorySecretSource)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2004,14 +2100,14 @@ func (this *Settings_DirectorySecretSource) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_KubernetesArtifactSource) Equal(that interface{}) bool {
+func (this *SettingsSpec_KubernetesArtifactSource) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_KubernetesArtifactSource)
+	that1, ok := that.(*SettingsSpec_KubernetesArtifactSource)
 	if !ok {
-		that2, ok := that.(Settings_KubernetesArtifactSource)
+		that2, ok := that.(SettingsSpec_KubernetesArtifactSource)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2028,14 +2124,14 @@ func (this *Settings_KubernetesArtifactSource) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_DirectoryArtifactSource) Equal(that interface{}) bool {
+func (this *SettingsSpec_DirectoryArtifactSource) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_DirectoryArtifactSource)
+	that1, ok := that.(*SettingsSpec_DirectoryArtifactSource)
 	if !ok {
-		that2, ok := that.(Settings_DirectoryArtifactSource)
+		that2, ok := that.(SettingsSpec_DirectoryArtifactSource)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2052,14 +2148,14 @@ func (this *Settings_DirectoryArtifactSource) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_ConsulKvArtifactSource) Equal(that interface{}) bool {
+func (this *SettingsSpec_ConsulKvArtifactSource) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_ConsulKvArtifactSource)
+	that1, ok := that.(*SettingsSpec_ConsulKvArtifactSource)
 	if !ok {
-		that2, ok := that.(Settings_ConsulKvArtifactSource)
+		that2, ok := that.(SettingsSpec_ConsulKvArtifactSource)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2076,14 +2172,14 @@ func (this *Settings_ConsulKvArtifactSource) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_KubernetesCrds) Equal(that interface{}) bool {
+func (this *SettingsSpec_KubernetesCrds) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_KubernetesCrds)
+	that1, ok := that.(*SettingsSpec_KubernetesCrds)
 	if !ok {
-		that2, ok := that.(Settings_KubernetesCrds)
+		that2, ok := that.(SettingsSpec_KubernetesCrds)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2100,14 +2196,14 @@ func (this *Settings_KubernetesCrds) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_KubernetesSecrets) Equal(that interface{}) bool {
+func (this *SettingsSpec_KubernetesSecrets) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_KubernetesSecrets)
+	that1, ok := that.(*SettingsSpec_KubernetesSecrets)
 	if !ok {
-		that2, ok := that.(Settings_KubernetesSecrets)
+		that2, ok := that.(SettingsSpec_KubernetesSecrets)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2124,14 +2220,14 @@ func (this *Settings_KubernetesSecrets) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_VaultSecrets) Equal(that interface{}) bool {
+func (this *SettingsSpec_VaultSecrets) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_VaultSecrets)
+	that1, ok := that.(*SettingsSpec_VaultSecrets)
 	if !ok {
-		that2, ok := that.(Settings_VaultSecrets)
+		that2, ok := that.(SettingsSpec_VaultSecrets)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2175,14 +2271,14 @@ func (this *Settings_VaultSecrets) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_ConsulKv) Equal(that interface{}) bool {
+func (this *SettingsSpec_ConsulKv) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_ConsulKv)
+	that1, ok := that.(*SettingsSpec_ConsulKv)
 	if !ok {
-		that2, ok := that.(Settings_ConsulKv)
+		that2, ok := that.(SettingsSpec_ConsulKv)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2202,14 +2298,14 @@ func (this *Settings_ConsulKv) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_KubernetesConfigmaps) Equal(that interface{}) bool {
+func (this *SettingsSpec_KubernetesConfigmaps) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_KubernetesConfigmaps)
+	that1, ok := that.(*SettingsSpec_KubernetesConfigmaps)
 	if !ok {
-		that2, ok := that.(Settings_KubernetesConfigmaps)
+		that2, ok := that.(SettingsSpec_KubernetesConfigmaps)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2226,14 +2322,14 @@ func (this *Settings_KubernetesConfigmaps) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_Directory) Equal(that interface{}) bool {
+func (this *SettingsSpec_Directory) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_Directory)
+	that1, ok := that.(*SettingsSpec_Directory)
 	if !ok {
-		that2, ok := that.(Settings_Directory)
+		that2, ok := that.(SettingsSpec_Directory)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2253,14 +2349,14 @@ func (this *Settings_Directory) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_KnativeOptions) Equal(that interface{}) bool {
+func (this *SettingsSpec_KnativeOptions) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_KnativeOptions)
+	that1, ok := that.(*SettingsSpec_KnativeOptions)
 	if !ok {
-		that2, ok := that.(Settings_KnativeOptions)
+		that2, ok := that.(SettingsSpec_KnativeOptions)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2286,14 +2382,14 @@ func (this *Settings_KnativeOptions) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_DiscoveryOptions) Equal(that interface{}) bool {
+func (this *SettingsSpec_DiscoveryOptions) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_DiscoveryOptions)
+	that1, ok := that.(*SettingsSpec_DiscoveryOptions)
 	if !ok {
-		that2, ok := that.(Settings_DiscoveryOptions)
+		that2, ok := that.(SettingsSpec_DiscoveryOptions)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2313,14 +2409,14 @@ func (this *Settings_DiscoveryOptions) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_ConsulConfiguration) Equal(that interface{}) bool {
+func (this *SettingsSpec_ConsulConfiguration) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_ConsulConfiguration)
+	that1, ok := that.(*SettingsSpec_ConsulConfiguration)
 	if !ok {
-		that2, ok := that.(Settings_ConsulConfiguration)
+		that2, ok := that.(SettingsSpec_ConsulConfiguration)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2382,14 +2478,14 @@ func (this *Settings_ConsulConfiguration) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_ConsulConfiguration_ServiceDiscoveryOptions) Equal(that interface{}) bool {
+func (this *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_ConsulConfiguration_ServiceDiscoveryOptions)
+	that1, ok := that.(*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions)
 	if !ok {
-		that2, ok := that.(Settings_ConsulConfiguration_ServiceDiscoveryOptions)
+		that2, ok := that.(SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2414,14 +2510,14 @@ func (this *Settings_ConsulConfiguration_ServiceDiscoveryOptions) Equal(that int
 	}
 	return true
 }
-func (this *Settings_KubernetesConfiguration) Equal(that interface{}) bool {
+func (this *SettingsSpec_KubernetesConfiguration) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_KubernetesConfiguration)
+	that1, ok := that.(*SettingsSpec_KubernetesConfiguration)
 	if !ok {
-		that2, ok := that.(Settings_KubernetesConfiguration)
+		that2, ok := that.(SettingsSpec_KubernetesConfiguration)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2441,14 +2537,14 @@ func (this *Settings_KubernetesConfiguration) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *Settings_KubernetesConfiguration_RateLimits) Equal(that interface{}) bool {
+func (this *SettingsSpec_KubernetesConfiguration_RateLimits) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Settings_KubernetesConfiguration_RateLimits)
+	that1, ok := that.(*SettingsSpec_KubernetesConfiguration_RateLimits)
 	if !ok {
-		that2, ok := that.(Settings_KubernetesConfiguration_RateLimits)
+		that2, ok := that.(SettingsSpec_KubernetesConfiguration_RateLimits)
 		if ok {
 			that1 = &that2
 		} else {
@@ -2656,6 +2752,50 @@ func (this *GatewayOptions_ValidationOptions) Equal(that interface{}) bool {
 		return false
 	}
 	if !this.AllowWarnings.Equal(that1.AllowWarnings) {
+		return false
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return false
+	}
+	return true
+}
+func (this *SettingsStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*SettingsStatus)
+	if !ok {
+		that2, ok := that.(SettingsStatus)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.State != that1.State {
+		return false
+	}
+	if this.Reason != that1.Reason {
+		return false
+	}
+	if this.ReportedBy != that1.ReportedBy {
+		return false
+	}
+	if len(this.SubresourceStatuses) != len(that1.SubresourceStatuses) {
+		return false
+	}
+	for i := range this.SubresourceStatuses {
+		if !this.SubresourceStatuses[i].Equal(that1.SubresourceStatuses[i]) {
+			return false
+		}
+	}
+	if !this.Details.Equal(that1.Details) {
 		return false
 	}
 	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
