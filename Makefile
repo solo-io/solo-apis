@@ -5,6 +5,7 @@ generate: generate-code generate-mocks tidy
 generate-code:
 	rm -rf vendor_any
 	go run generate.go
+	./api/gloo/post-generate.sh
 
 .PHONY: generate-mocks
 generate-mocks:
@@ -12,5 +13,5 @@ generate-mocks:
 
 .PHONY: tidy
 tidy:
-	goimports -w pkg
+	goimports -w .
 	go mod tidy
