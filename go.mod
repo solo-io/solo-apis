@@ -23,5 +23,6 @@ require (
 	google.golang.org/grpc v1.26.0
 	k8s.io/apimachinery v0.18.4
 	k8s.io/client-go v8.0.0+incompatible
+	k8s.io/code-generator v0.18.4
 	sigs.k8s.io/controller-runtime v0.6.1
 )
