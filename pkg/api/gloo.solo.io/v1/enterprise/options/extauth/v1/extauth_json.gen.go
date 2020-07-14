@@ -177,6 +177,39 @@ func (this *OAuth) UnmarshalJSON(b []byte) error {
 	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for OAuth2
+func (this *OAuth2) MarshalJSON() ([]byte, error) {
+	str, err := ExtauthMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for OAuth2
+func (this *OAuth2) UnmarshalJSON(b []byte) error {
+	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for OidcAuthorizationCode
+func (this *OidcAuthorizationCode) MarshalJSON() ([]byte, error) {
+	str, err := ExtauthMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for OidcAuthorizationCode
+func (this *OidcAuthorizationCode) UnmarshalJSON(b []byte) error {
+	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for AccessTokenValidation
+func (this *AccessTokenValidation) MarshalJSON() ([]byte, error) {
+	str, err := ExtauthMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for AccessTokenValidation
+func (this *AccessTokenValidation) UnmarshalJSON(b []byte) error {
+	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for OauthSecret
 func (this *OauthSecret) MarshalJSON() ([]byte, error) {
 	str, err := ExtauthMarshaler.MarshalToString(this)
@@ -262,6 +295,28 @@ func (this *ExtAuthConfig_OAuthConfig) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for ExtAuthConfig_OAuthConfig
 func (this *ExtAuthConfig_OAuthConfig) UnmarshalJSON(b []byte) error {
+	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for ExtAuthConfig_OidcAuthorizationCodeConfig
+func (this *ExtAuthConfig_OidcAuthorizationCodeConfig) MarshalJSON() ([]byte, error) {
+	str, err := ExtauthMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for ExtAuthConfig_OidcAuthorizationCodeConfig
+func (this *ExtAuthConfig_OidcAuthorizationCodeConfig) UnmarshalJSON(b []byte) error {
+	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for ExtAuthConfig_OAuth2Config
+func (this *ExtAuthConfig_OAuth2Config) MarshalJSON() ([]byte, error) {
+	str, err := ExtauthMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for ExtAuthConfig_OAuth2Config
+func (this *ExtAuthConfig_OAuth2Config) UnmarshalJSON(b []byte) error {
 	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
