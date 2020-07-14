@@ -15,3 +15,18 @@ generate-mocks:
 tidy:
 	goimports -w .
 	go mod tidy
+
+
+.PHONY: mod-download
+mod-download:
+	go mod download
+
+.PHONY: update-deps
+update-deps: mod-download
+	cd $(shell go list -f '{{ .Dir }}' -m istio.io/tools) && \
+	  go install ./cmd/protoc-gen-jsonshim
+	go get -v golang.org/x/tools/cmd/goimports@v0.0.0-20200423205358-59e73619c742
+	go get -v github.com/gogo/protobuf/gogoproto@v1.3.1
+	go get -v github.com/gogo/protobuf/protoc-gen-gogo@v1.3.1
+	go get -v github.com/solo-io/protoc-gen-ext@v0.0.7
+	go get -v github.com/golang/mock/mockgen@v1.4.3
