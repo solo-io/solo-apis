@@ -8,3 +8,7 @@ Syncing the Gloo APIs is currently a manual process and can be completed with 2 
 before running `make generate`
 1. Ensure gloo is checked out to master and available at `../`
 2. run `./hack/sync-apis.sh`
+
+After running make generate a PR should be created against solo-apis with the tag of Gloo being
+used. Once the PR has merged a tag should be created off of master correspnding to the Gloo tag 
+which was used.
