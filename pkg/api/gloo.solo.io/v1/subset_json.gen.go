@@ -30,6 +30,6 @@ func (this *Subset) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	SubsetMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	SubsetMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	SubsetUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

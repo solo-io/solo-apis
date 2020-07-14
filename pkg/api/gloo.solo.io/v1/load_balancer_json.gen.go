@@ -98,6 +98,6 @@ func (this *LoadBalancerConfig_Maglev) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	LoadBalancerMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	LoadBalancerMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	LoadBalancerUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

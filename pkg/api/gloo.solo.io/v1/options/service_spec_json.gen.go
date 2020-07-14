@@ -32,6 +32,6 @@ func (this *ServiceSpec) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	ServiceSpecMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	ServiceSpecMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ServiceSpecUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

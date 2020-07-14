@@ -126,6 +126,6 @@ func (this *WeightedDestinationOptions) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	OptionsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	OptionsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	OptionsUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

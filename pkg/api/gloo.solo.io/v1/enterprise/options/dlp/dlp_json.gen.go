@@ -76,6 +76,6 @@ func (this *CustomAction) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	DlpMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	DlpMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	DlpUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

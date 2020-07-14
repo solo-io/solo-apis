@@ -89,6 +89,6 @@ func (this *VirtualServiceStatus) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	VirtualServiceMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	VirtualServiceMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	VirtualServiceUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

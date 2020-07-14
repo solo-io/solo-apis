@@ -42,6 +42,6 @@ func (this *CoreRuleSet) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	WafMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	WafMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	WafUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

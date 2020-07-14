@@ -120,6 +120,6 @@ func (this *ClaimToHeader) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	JwtMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	JwtMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	JwtUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

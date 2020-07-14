@@ -31,6 +31,6 @@ func (this *RetryPolicy) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	RetriesMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	RetriesMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	RetriesUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

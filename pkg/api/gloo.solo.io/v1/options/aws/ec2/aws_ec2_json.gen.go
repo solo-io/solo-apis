@@ -53,6 +53,6 @@ func (this *TagFilter_KvPair) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	AwsEc2Marshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	AwsEc2Marshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	AwsEc2Unmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

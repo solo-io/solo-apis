@@ -53,6 +53,6 @@ func (this *HeaderValue) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	HeadersMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	HeadersMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	HeadersUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

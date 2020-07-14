@@ -52,6 +52,6 @@ func (this *FilterStage) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	WasmMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	WasmMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	WasmUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

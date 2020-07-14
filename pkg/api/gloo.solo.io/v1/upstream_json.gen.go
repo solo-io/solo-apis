@@ -63,6 +63,6 @@ func (this *UpstreamStatus) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	UpstreamMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	UpstreamMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	UpstreamUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

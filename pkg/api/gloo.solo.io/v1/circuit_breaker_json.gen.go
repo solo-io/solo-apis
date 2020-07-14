@@ -31,6 +31,6 @@ func (this *CircuitBreakerConfig) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	CircuitBreakerMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	CircuitBreakerMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	CircuitBreakerUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

@@ -231,6 +231,6 @@ func (this *ProxyStatus) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	ProxyMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	ProxyMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ProxyUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

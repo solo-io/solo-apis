@@ -43,6 +43,6 @@ func (this *Host) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	StaticMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	StaticMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	StaticUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

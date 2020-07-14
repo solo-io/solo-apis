@@ -41,6 +41,6 @@ func (this *VirtualCluster) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	StatsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	StatsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	StatsUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

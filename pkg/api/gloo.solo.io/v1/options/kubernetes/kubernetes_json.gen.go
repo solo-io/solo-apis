@@ -31,6 +31,6 @@ func (this *UpstreamSpec) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	KubernetesMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	KubernetesMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	KubernetesUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

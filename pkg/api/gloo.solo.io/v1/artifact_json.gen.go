@@ -30,6 +30,6 @@ func (this *Artifact) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	ArtifactMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	ArtifactMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ArtifactUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

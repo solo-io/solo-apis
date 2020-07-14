@@ -42,6 +42,6 @@ func (this *Extension) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	ExtensionsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	ExtensionsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ExtensionsUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

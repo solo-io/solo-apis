@@ -309,6 +309,6 @@ func (this *AuthConfigStatus) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	ExtauthMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	ExtauthMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ExtauthUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

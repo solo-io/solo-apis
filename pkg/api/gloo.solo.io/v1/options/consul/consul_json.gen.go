@@ -31,6 +31,6 @@ func (this *UpstreamSpec) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	ConsulMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	ConsulMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ConsulUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

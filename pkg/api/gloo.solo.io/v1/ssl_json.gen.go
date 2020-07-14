@@ -97,6 +97,6 @@ func (this *SslParameters) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	SslMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	SslMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	SslUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

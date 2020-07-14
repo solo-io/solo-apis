@@ -66,6 +66,6 @@ func (this *GatewayStatus) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	GatewayMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	GatewayMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	GatewayUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

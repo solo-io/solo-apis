@@ -32,6 +32,6 @@ func (this *RouteShadowing) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	ShadowingMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	ShadowingMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ShadowingUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

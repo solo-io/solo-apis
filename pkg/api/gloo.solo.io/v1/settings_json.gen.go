@@ -233,6 +233,6 @@ func (this *SettingsStatus) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	SettingsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	SettingsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	SettingsUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

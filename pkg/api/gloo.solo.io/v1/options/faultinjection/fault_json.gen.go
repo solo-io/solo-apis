@@ -54,6 +54,6 @@ func (this *RouteFaults) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	FaultMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	FaultMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	FaultUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

@@ -31,6 +31,6 @@ func (this *TcpProxySettings) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	TcpMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	TcpMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	TcpUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

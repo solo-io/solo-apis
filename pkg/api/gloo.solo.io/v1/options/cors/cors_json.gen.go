@@ -31,6 +31,6 @@ func (this *CorsPolicy) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	CorsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	CorsMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	CorsUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

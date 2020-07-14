@@ -85,6 +85,6 @@ func (this *Permissions) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	RbacMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	RbacMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	RbacUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

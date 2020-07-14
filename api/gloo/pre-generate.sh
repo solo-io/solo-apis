@@ -2,6 +2,9 @@
 
 set -e
 
+rsync -ax --exclude 'solo-kit.json' --exclude 'grpc/v*'  ../gloo/projects/gloo/api/  ./api/gloo/gloo
+rsync -ax --exclude 'solo-kit.json'  ../gloo/projects/gateway/api/  ./api/gloo/gateway
+
 for file in $(find api/gloo -type f | grep ".proto")
 do
 
@@ -14,7 +17,4 @@ do
   sed "s|github.com/solo-io/gloo/projects/gateway/pkg/api|github.com/solo-io/solo-apis/pkg/api/gateway.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 done
 
-# for file in $(find pkg/api/gateway.solo.io/v1/types -type f | grep "_json.gen.go")
-# do
-#   sed "s|github_com_gogo_protobuf_jsonpb.Marshaler{}|github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
-# done
+go run hack/convert.go

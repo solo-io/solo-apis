@@ -219,6 +219,6 @@ func (this *QueryParameterMatcher) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	RatelimitMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	RatelimitMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	RatelimitUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

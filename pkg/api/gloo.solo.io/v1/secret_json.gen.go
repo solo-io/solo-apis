@@ -65,6 +65,6 @@ func (this *TlsSecret) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	SecretMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	SecretMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	SecretUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

@@ -53,6 +53,6 @@ func (this *DestinationSpec) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	GrpcMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	GrpcMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	GrpcUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

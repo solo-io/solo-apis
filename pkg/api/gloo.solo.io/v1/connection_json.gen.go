@@ -42,6 +42,6 @@ func (this *ConnectionConfig_TcpKeepAlive) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	ConnectionMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	ConnectionMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ConnectionUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

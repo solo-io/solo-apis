@@ -53,6 +53,6 @@ func (this *TracePercentages) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	TracingMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	TracingMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	TracingUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

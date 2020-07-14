@@ -42,6 +42,6 @@ func (this *ProtocolUpgradeConfig_ProtocolUpgradeSpec) UnmarshalJSON(b []byte) e
 }
 
 var (
-	ProtocolUpgradeMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	ProtocolUpgradeMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ProtocolUpgradeUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

@@ -43,6 +43,6 @@ func (this *RouteTableStatus) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	RouteTableMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	RouteTableMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	RouteTableUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

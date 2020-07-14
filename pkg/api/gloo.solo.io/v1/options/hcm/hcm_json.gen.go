@@ -44,6 +44,6 @@ func (this *HttpConnectionManagerSettings_SetCurrentClientCertDetails) Unmarshal
 }
 
 var (
-	HcmMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	HcmMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	HcmUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

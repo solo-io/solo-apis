@@ -86,6 +86,6 @@ func (this *Locality) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	FailoverMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	FailoverMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	FailoverUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

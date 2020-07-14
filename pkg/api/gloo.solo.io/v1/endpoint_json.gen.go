@@ -42,6 +42,6 @@ func (this *HealthCheckConfig) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	EndpointMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	EndpointMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	EndpointUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )

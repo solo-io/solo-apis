@@ -52,6 +52,6 @@ func (this *QueryParameterMatcher) UnmarshalJSON(b []byte) error {
 }
 
 var (
-	MatchersMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{}
+	MatchersMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	MatchersUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
 )
