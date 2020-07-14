@@ -5,7 +5,7 @@
 package v1alpha1sets
 
 import (
-	ratelimit_solo_io_v1alpha1 "github.com/solo-io/gloo-fed/pkg/api/ratelimit.solo.io/v1alpha1"
+	ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
 
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	"github.com/solo-io/skv2/pkg/ezkube"

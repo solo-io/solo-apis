@@ -20,25 +20,14 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-// MarshalJSON is a custom marshaler for RouteTableSpec
-func (this *RouteTableSpec) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for RouteTable
+func (this *RouteTable) MarshalJSON() ([]byte, error) {
 	str, err := RouteTableMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for RouteTableSpec
-func (this *RouteTableSpec) UnmarshalJSON(b []byte) error {
-	return RouteTableUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for RouteTableStatus
-func (this *RouteTableStatus) MarshalJSON() ([]byte, error) {
-	str, err := RouteTableMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for RouteTableStatus
-func (this *RouteTableStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for RouteTable
+func (this *RouteTable) UnmarshalJSON(b []byte) error {
 	return RouteTableUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 

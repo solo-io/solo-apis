@@ -11,6 +11,7 @@ import (
 	"text/template"
 
 	"github.com/solo-io/go-utils/log"
+	"github.com/solo-io/skv2/codegen/model"
 	"github.com/solo-io/skv2/codegen/util"
 	"github.com/solo-io/solo-apis/codegen"
 )
@@ -89,35 +90,51 @@ func main() {
 }
 
 func isRelevantFile(file []byte) ([]byte, bool) {
-	var relevantPackage, relevantMessage bool
+	var relevantMessage bool
 	glooGroups := codegen.GlooGroups()
-	for _, group := range glooGroups {
-		if bytes.Contains(file, []byte(fmt.Sprintf("package %s", group.Group))) {
-			relevantPackage = true
-			break
-		}
-	}
-	if !relevantPackage {
+	relevantTypes := getRelevantTypes(file, glooGroups)
+	// If there are no relevant types in this file, return
+	if len(relevantTypes) == 0 {
 		return nil, false
 	}
+	for _, relevantType := range relevantTypes {
+		// Make sure to add extra space after to check specifically for only Message
+		oldMessageBytes := []byte(fmt.Sprintf("message %s ", relevantType))
+		if bytes.Contains(file, oldMessageBytes) {
+			oldMessageBytes = oldMessageBytes[:len(oldMessageBytes)-1]
+			file = bytes.ReplaceAll(file, oldMessageBytes, append(oldMessageBytes, []byte("Spec")...))
+			statusBytes := &bytes.Buffer{}
+			if err := statusTemplate.Execute(statusBytes, relevantType); err != nil {
+				panic(err)
+			}
+			file = append(file, statusBytes.Bytes()...)
+			file = addImport(file)
+			relevantMessage = true
+		}
+	}
+
+	return file, relevantMessage
+}
+
+func getRelevantTypes(file []byte, glooGroups []model.Group) []string {
+	var resources []string
 	for _, group := range glooGroups {
 		for _, resource := range group.Resources {
-			// Make sure to add extra space after to check specifically for only Message
-			oldMessageBytes := []byte(fmt.Sprintf("message %s ", resource.Kind))
-			if bytes.Contains(file, oldMessageBytes) {
-				oldMessageBytes = oldMessageBytes[:len(oldMessageBytes)-1]
-				file = bytes.ReplaceAll(file, oldMessageBytes, append(oldMessageBytes, []byte("Spec")...))
-				statusBytes := &bytes.Buffer{}
-				if err := statusTemplate.Execute(statusBytes, resource.Kind); err != nil {
-					panic(err)
+			if resource.Spec.Type.ProtoPackage != "" {
+				if bytes.Contains(file, []byte(fmt.Sprintf("package %s", resource.Spec.Type.ProtoPackage))) {
+					resources = append(resources, resource.Kind)
+					break
 				}
-				file = append(file, statusBytes.Bytes()...)
-				file = addImport(file)
-				relevantMessage = true
+				if resource.Status != nil && resource.Status.Type.ProtoPackage != "" {
+					if bytes.Contains(file, []byte(fmt.Sprintf("package %s", resource.Spec.Type.ProtoPackage))) {
+						resources = append(resources, resource.Kind)
+						break
+					}
+				}
 			}
 		}
 	}
-	return file, relevantMessage
+	return resources
 }
 
 func addImport(file []byte) []byte {

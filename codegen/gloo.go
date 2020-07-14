@@ -11,7 +11,11 @@ func init() {
 func GlooGroups() []model.Group {
 	return []model.Group{
 		makeGroup("gloo", "v1", []resourceToGenerate{
-			{kind: "AuthConfig"},
+			{
+				kind:         "AuthConfig",
+				protoPackage: "enterprise.gloo.solo.io",
+				goPackage:    "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1",
+			},
 			{kind: "Settings", noStatus: true},
 			{kind: "Upstream"},
 			{kind: "UpstreamGroup"},

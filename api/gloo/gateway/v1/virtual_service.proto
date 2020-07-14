@@ -2,12 +2,13 @@ syntax = "proto3";
 package gateway.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1";
 
-import "google/protobuf/struct.proto";
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
 
+import "solo-kit/api/v1/metadata.proto";
+import "solo-kit/api/v1/status.proto";
 import "solo-kit/api/v1/ref.proto";
 import "solo-kit/api/v1/solo-kit.proto";
 import "solo-apis/api/gloo/gloo/v1/ssl.proto";
@@ -110,8 +111,10 @@ import "solo-apis/api/gloo/gloo/v1/core/matchers/matchers.proto";
 * - `routeOptions` configuration will be inherited from parent routes, but can be overridden by the child
 *
 */
-message VirtualServiceSpec {
+message VirtualService {
 
+    option (core.solo.io.resource).short_name = "vs";
+    option (core.solo.io.resource).plural_name = "virtual_services";
 
     // The VirtualHost contains the
     // The list of HTTP routes define routing actions to be taken
@@ -130,8 +133,10 @@ message VirtualServiceSpec {
 
     // Status indicates the validation status of this resource.
     // Status is read-only by clients, and set by gloo during validation
+    core.solo.io.Status status = 6 [(gogoproto.nullable) = false, (gogoproto.moretags) = "testdiff:\"ignore\"", (extproto.skip_hashing) = true];
 
     // Metadata contains the object metadata for this resource
+    core.solo.io.Metadata metadata = 7 [(gogoproto.nullable) = false];
 }
 
 
@@ -240,31 +245,4 @@ message RouteTableSelector {
     // Delegate to Route Tables whose labels match the ones specified here.
     map<string, string> labels = 2;
 
-}
-
-
-message VirtualServiceStatus {
-	enum State {
-			// Pending status indicates the resource has not yet been validated
-			Pending = 0;
-			// Accepted indicates the resource has been validated
-			Accepted = 1;
-			// Rejected indicates an invalid configuration by the user
-			// Rejected resources may be propagated to the xDS server depending on their severity
-			Rejected = 2;
-			// Warning indicates a partially invalid configuration by the user
-			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
-			Warning = 3;
-	}
-	// State is the enum indicating the state of the resource
-	State state = 1;
-	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
-	string reason = 2;
-	// Reference to the reporter who wrote this status
-	string reported_by = 3;
-	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
-	map<string, VirtualServiceStatus> subresource_statuses = 4;
-
-	// Opaque details about status results
-	google.protobuf.Struct details = 5;
 }

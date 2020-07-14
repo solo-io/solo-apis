@@ -21,14 +21,14 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-// MarshalJSON is a custom marshaler for GatewaySpec
-func (this *GatewaySpec) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Gateway
+func (this *Gateway) MarshalJSON() ([]byte, error) {
 	str, err := GatewayMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for GatewaySpec
-func (this *GatewaySpec) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Gateway
+func (this *Gateway) UnmarshalJSON(b []byte) error {
 	return GatewayUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -51,17 +51,6 @@ func (this *TcpGateway) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for TcpGateway
 func (this *TcpGateway) UnmarshalJSON(b []byte) error {
-	return GatewayUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for GatewayStatus
-func (this *GatewayStatus) MarshalJSON() ([]byte, error) {
-	str, err := GatewayMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for GatewayStatus
-func (this *GatewayStatus) UnmarshalJSON(b []byte) error {
 	return GatewayUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 

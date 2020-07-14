@@ -21,14 +21,14 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-// MarshalJSON is a custom marshaler for ProxySpec
-func (this *ProxySpec) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Proxy
+func (this *Proxy) MarshalJSON() ([]byte, error) {
 	str, err := ProxyMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for ProxySpec
-func (this *ProxySpec) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Proxy
+func (this *Proxy) UnmarshalJSON(b []byte) error {
 	return ProxyUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -153,14 +153,14 @@ func (this *ConsulServiceDestination) UnmarshalJSON(b []byte) error {
 	return ProxyUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for UpstreamGroupSpec
-func (this *UpstreamGroupSpec) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for UpstreamGroup
+func (this *UpstreamGroup) MarshalJSON() ([]byte, error) {
 	str, err := ProxyMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for UpstreamGroupSpec
-func (this *UpstreamGroupSpec) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for UpstreamGroup
+func (this *UpstreamGroup) UnmarshalJSON(b []byte) error {
 	return ProxyUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -205,28 +205,6 @@ func (this *DirectResponseAction) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for DirectResponseAction
 func (this *DirectResponseAction) UnmarshalJSON(b []byte) error {
-	return ProxyUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for UpstreamGroupStatus
-func (this *UpstreamGroupStatus) MarshalJSON() ([]byte, error) {
-	str, err := ProxyMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for UpstreamGroupStatus
-func (this *UpstreamGroupStatus) UnmarshalJSON(b []byte) error {
-	return ProxyUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for ProxyStatus
-func (this *ProxyStatus) MarshalJSON() ([]byte, error) {
-	str, err := ProxyMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for ProxyStatus
-func (this *ProxyStatus) UnmarshalJSON(b []byte) error {
 	return ProxyUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 

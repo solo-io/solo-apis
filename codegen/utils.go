@@ -7,12 +7,13 @@ import (
 )
 
 const (
-	module = "github.com/solo-io/gloo-fed"
+	module = "github.com/solo-io/solo-apis"
 )
 
 type resourceToGenerate struct {
 	kind         string
 	protoPackage string // set if different from group name
+	goPackage    string // Set if different than root folder
 	noStatus     bool   // don't put a status on this resource
 }
 
@@ -28,6 +29,7 @@ func makeGroup(
 				Type: model.Type{
 					Name:         resource.kind + "Spec",
 					ProtoPackage: resource.protoPackage,
+					GoPackage:    resource.goPackage,
 				},
 			},
 		}
@@ -35,6 +37,7 @@ func makeGroup(
 			res.Status = &model.Field{Type: model.Type{
 				Name:         resource.kind + "Status",
 				ProtoPackage: resource.protoPackage,
+				GoPackage:    resource.goPackage,
 			}}
 		}
 		resources = append(resources, res)

@@ -23,146 +23,146 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-// MarshalJSON is a custom marshaler for SettingsSpec
-func (this *SettingsSpec) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings
+func (this *Settings) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec
-func (this *SettingsSpec) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings
+func (this *Settings) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_KubernetesCrds
-func (this *SettingsSpec_KubernetesCrds) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_KubernetesCrds
+func (this *Settings_KubernetesCrds) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_KubernetesCrds
-func (this *SettingsSpec_KubernetesCrds) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_KubernetesCrds
+func (this *Settings_KubernetesCrds) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_KubernetesSecrets
-func (this *SettingsSpec_KubernetesSecrets) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_KubernetesSecrets
+func (this *Settings_KubernetesSecrets) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_KubernetesSecrets
-func (this *SettingsSpec_KubernetesSecrets) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_KubernetesSecrets
+func (this *Settings_KubernetesSecrets) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_VaultSecrets
-func (this *SettingsSpec_VaultSecrets) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_VaultSecrets
+func (this *Settings_VaultSecrets) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_VaultSecrets
-func (this *SettingsSpec_VaultSecrets) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_VaultSecrets
+func (this *Settings_VaultSecrets) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_ConsulKv
-func (this *SettingsSpec_ConsulKv) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_ConsulKv
+func (this *Settings_ConsulKv) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_ConsulKv
-func (this *SettingsSpec_ConsulKv) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_ConsulKv
+func (this *Settings_ConsulKv) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_KubernetesConfigmaps
-func (this *SettingsSpec_KubernetesConfigmaps) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_KubernetesConfigmaps
+func (this *Settings_KubernetesConfigmaps) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_KubernetesConfigmaps
-func (this *SettingsSpec_KubernetesConfigmaps) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_KubernetesConfigmaps
+func (this *Settings_KubernetesConfigmaps) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_Directory
-func (this *SettingsSpec_Directory) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_Directory
+func (this *Settings_Directory) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_Directory
-func (this *SettingsSpec_Directory) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_Directory
+func (this *Settings_Directory) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_KnativeOptions
-func (this *SettingsSpec_KnativeOptions) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_KnativeOptions
+func (this *Settings_KnativeOptions) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_KnativeOptions
-func (this *SettingsSpec_KnativeOptions) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_KnativeOptions
+func (this *Settings_KnativeOptions) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_DiscoveryOptions
-func (this *SettingsSpec_DiscoveryOptions) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_DiscoveryOptions
+func (this *Settings_DiscoveryOptions) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_DiscoveryOptions
-func (this *SettingsSpec_DiscoveryOptions) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_DiscoveryOptions
+func (this *Settings_DiscoveryOptions) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_ConsulConfiguration
-func (this *SettingsSpec_ConsulConfiguration) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_ConsulConfiguration
+func (this *Settings_ConsulConfiguration) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_ConsulConfiguration
-func (this *SettingsSpec_ConsulConfiguration) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_ConsulConfiguration
+func (this *Settings_ConsulConfiguration) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions
-func (this *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_ConsulConfiguration_ServiceDiscoveryOptions
+func (this *Settings_ConsulConfiguration_ServiceDiscoveryOptions) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions
-func (this *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_ConsulConfiguration_ServiceDiscoveryOptions
+func (this *Settings_ConsulConfiguration_ServiceDiscoveryOptions) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_KubernetesConfiguration
-func (this *SettingsSpec_KubernetesConfiguration) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_KubernetesConfiguration
+func (this *Settings_KubernetesConfiguration) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_KubernetesConfiguration
-func (this *SettingsSpec_KubernetesConfiguration) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_KubernetesConfiguration
+func (this *Settings_KubernetesConfiguration) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsSpec_KubernetesConfiguration_RateLimits
-func (this *SettingsSpec_KubernetesConfiguration_RateLimits) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for Settings_KubernetesConfiguration_RateLimits
+func (this *Settings_KubernetesConfiguration_RateLimits) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsSpec_KubernetesConfiguration_RateLimits
-func (this *SettingsSpec_KubernetesConfiguration_RateLimits) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for Settings_KubernetesConfiguration_RateLimits
+func (this *Settings_KubernetesConfiguration_RateLimits) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -218,17 +218,6 @@ func (this *GatewayOptions_ValidationOptions) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for GatewayOptions_ValidationOptions
 func (this *GatewayOptions_ValidationOptions) UnmarshalJSON(b []byte) error {
-	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for SettingsStatus
-func (this *SettingsStatus) MarshalJSON() ([]byte, error) {
-	str, err := SettingsMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for SettingsStatus
-func (this *SettingsStatus) UnmarshalJSON(b []byte) error {
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 

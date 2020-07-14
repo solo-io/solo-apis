@@ -22,25 +22,25 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-// MarshalJSON is a custom marshaler for AuthConfig
-func (this *AuthConfig) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for AuthConfigSpec
+func (this *AuthConfigSpec) MarshalJSON() ([]byte, error) {
 	str, err := ExtauthMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for AuthConfig
-func (this *AuthConfig) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for AuthConfigSpec
+func (this *AuthConfigSpec) UnmarshalJSON(b []byte) error {
 	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for AuthConfig_Config
-func (this *AuthConfig_Config) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for AuthConfigSpec_Config
+func (this *AuthConfigSpec_Config) MarshalJSON() ([]byte, error) {
 	str, err := ExtauthMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for AuthConfig_Config
-func (this *AuthConfig_Config) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for AuthConfigSpec_Config
+func (this *AuthConfigSpec_Config) UnmarshalJSON(b []byte) error {
 	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -294,6 +294,17 @@ func (this *ExtAuthConfig_Config) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for ExtAuthConfig_Config
 func (this *ExtAuthConfig_Config) UnmarshalJSON(b []byte) error {
+	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for AuthConfigStatus
+func (this *AuthConfigStatus) MarshalJSON() ([]byte, error) {
+	str, err := ExtauthMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for AuthConfigStatus
+func (this *AuthConfigStatus) UnmarshalJSON(b []byte) error {
 	return ExtauthUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 

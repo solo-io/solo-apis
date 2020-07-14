@@ -26,7 +26,7 @@ var (
 )
 
 // Hash function
-func (m *GatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Gateway) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -34,7 +34,7 @@ func (m *GatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.GatewaySpec")); err != nil {
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.Gateway")); err != nil {
 		return 0, err
 	}
 
@@ -58,6 +58,20 @@ func (m *GatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	} else {
 		if val, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if h, ok := interface{}(&m.Metadata).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(&m.Metadata, nil); err != nil {
 			return 0, err
 		} else {
 			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
@@ -90,7 +104,7 @@ func (m *GatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	switch m.GatewayType.(type) {
 
-	case *GatewaySpec_HttpGateway:
+	case *Gateway_HttpGateway:
 
 		if h, ok := interface{}(m.GetHttpGateway()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -106,7 +120,7 @@ func (m *GatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *GatewaySpec_TcpGateway:
+	case *Gateway_TcpGateway:
 
 		if h, ok := interface{}(m.GetTcpGateway()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -243,82 +257,6 @@ func (m *TcpGateway) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	} else {
 		if val, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
-			return 0, err
-		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *GatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.GatewayStatus")); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetState())
-	if err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetReason())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetReportedBy())); err != nil {
-		return 0, err
-	}
-
-	{
-		var result uint64
-		innerHash := fnv.New64()
-		for k, v := range m.GetSubresourceStatuses() {
-			innerHash.Reset()
-
-			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = h.Hash(innerHash); err != nil {
-					return 0, err
-				}
-			} else {
-				if val, err := hashstructure.Hash(v, nil); err != nil {
-					return 0, err
-				} else {
-					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
-						return 0, err
-					}
-				}
-			}
-
-			if _, err = innerHash.Write([]byte(k)); err != nil {
-				return 0, err
-			}
-
-			result = result ^ innerHash.Sum64()
-		}
-		err = binary.Write(hasher, binary.LittleEndian, result)
-		if err != nil {
-			return 0, err
-		}
-
-	}
-
-	if h, ok := interface{}(m.GetDetails()).(safe_hasher.SafeHasher); ok {
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if val, err := hashstructure.Hash(m.GetDetails(), nil); err != nil {
 			return 0, err
 		} else {
 			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {

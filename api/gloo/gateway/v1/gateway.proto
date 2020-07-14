@@ -2,7 +2,6 @@ syntax = "proto3";
 package gateway.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1";
 
-import "google/protobuf/struct.proto";
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
@@ -10,6 +9,8 @@ option (extproto.hash_all) = true;
 
 
 import "google/protobuf/wrappers.proto";
+import "solo-kit/api/v1/metadata.proto";
+import "solo-kit/api/v1/status.proto";
 import "solo-kit/api/v1/ref.proto";
 import "solo-kit/api/v1/solo-kit.proto";
 
@@ -20,8 +21,10 @@ import "solo-apis/api/gloo/gloo/v1/options.proto";
 A Gateway describes a single Listener (bind address:port)
 and the routing configuration to upstreams that are reachable via a specific port on the Gateway Proxy itself.
 */
-message GatewaySpec {
+message Gateway {
 
+    option (core.solo.io.resource).short_name = "gw";
+    option (core.solo.io.resource).plural_name = "gateways";
 
     // if set to false, only use virtual services without ssl configured.
     // if set to true, only use virtual services with ssl configured.
@@ -38,8 +41,10 @@ message GatewaySpec {
 
     // Status indicates the validation status of this resource.
     // Status is read-only by clients, and set by gloo during validation
+    core.solo.io.Status status = 6 [(gogoproto.nullable) = false, (gogoproto.moretags) = "testdiff:\"ignore\"", (extproto.skip_hashing) = true];
 
     // Metadata contains the object metadata for this resource
+    core.solo.io.Metadata metadata = 7 [(gogoproto.nullable) = false];
 
     // Enable ProxyProtocol support for this listener
     google.protobuf.BoolValue use_proxy_proto = 8;
@@ -104,31 +109,4 @@ message TcpGateway {
     repeated gloo.solo.io.TcpHost tcp_hosts = 1;
     // TCP Gateway configuration
     gloo.solo.io.TcpListenerOptions options = 8;
-}
-
-
-message GatewayStatus {
-	enum State {
-			// Pending status indicates the resource has not yet been validated
-			Pending = 0;
-			// Accepted indicates the resource has been validated
-			Accepted = 1;
-			// Rejected indicates an invalid configuration by the user
-			// Rejected resources may be propagated to the xDS server depending on their severity
-			Rejected = 2;
-			// Warning indicates a partially invalid configuration by the user
-			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
-			Warning = 3;
-	}
-	// State is the enum indicating the state of the resource
-	State state = 1;
-	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
-	string reason = 2;
-	// Reference to the reporter who wrote this status
-	string reported_by = 3;
-	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
-	map<string, GatewayStatus> subresource_statuses = 4;
-
-	// Opaque details about status results
-	google.protobuf.Struct details = 5;
 }

@@ -26,7 +26,7 @@ var (
 )
 
 // Hash function
-func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -34,7 +34,7 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings")); err != nil {
 		return 0, err
 	}
 
@@ -228,9 +228,23 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	if h, ok := interface{}(&m.Metadata).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(&m.Metadata, nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	switch m.ConfigSource.(type) {
 
-	case *SettingsSpec_KubernetesConfigSource:
+	case *Settings_KubernetesConfigSource:
 
 		if h, ok := interface{}(m.GetKubernetesConfigSource()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -246,7 +260,7 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *SettingsSpec_DirectoryConfigSource:
+	case *Settings_DirectoryConfigSource:
 
 		if h, ok := interface{}(m.GetDirectoryConfigSource()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -262,7 +276,7 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *SettingsSpec_ConsulKvSource:
+	case *Settings_ConsulKvSource:
 
 		if h, ok := interface{}(m.GetConsulKvSource()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -282,7 +296,7 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	switch m.SecretSource.(type) {
 
-	case *SettingsSpec_KubernetesSecretSource:
+	case *Settings_KubernetesSecretSource:
 
 		if h, ok := interface{}(m.GetKubernetesSecretSource()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -298,7 +312,7 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *SettingsSpec_VaultSecretSource:
+	case *Settings_VaultSecretSource:
 
 		if h, ok := interface{}(m.GetVaultSecretSource()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -314,7 +328,7 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *SettingsSpec_DirectorySecretSource:
+	case *Settings_DirectorySecretSource:
 
 		if h, ok := interface{}(m.GetDirectorySecretSource()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -334,7 +348,7 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	switch m.ArtifactSource.(type) {
 
-	case *SettingsSpec_KubernetesArtifactSource:
+	case *Settings_KubernetesArtifactSource:
 
 		if h, ok := interface{}(m.GetKubernetesArtifactSource()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -350,7 +364,7 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *SettingsSpec_DirectoryArtifactSource:
+	case *Settings_DirectoryArtifactSource:
 
 		if h, ok := interface{}(m.GetDirectoryArtifactSource()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -366,7 +380,7 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *SettingsSpec_ConsulKvArtifactSource:
+	case *Settings_ConsulKvArtifactSource:
 
 		if h, ok := interface{}(m.GetConsulKvArtifactSource()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -559,7 +573,7 @@ func (m *GatewayOptions) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *SettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_KubernetesCrds) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -567,83 +581,7 @@ func (m *SettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsStatus")); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetState())
-	if err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetReason())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetReportedBy())); err != nil {
-		return 0, err
-	}
-
-	{
-		var result uint64
-		innerHash := fnv.New64()
-		for k, v := range m.GetSubresourceStatuses() {
-			innerHash.Reset()
-
-			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = h.Hash(innerHash); err != nil {
-					return 0, err
-				}
-			} else {
-				if val, err := hashstructure.Hash(v, nil); err != nil {
-					return 0, err
-				} else {
-					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
-						return 0, err
-					}
-				}
-			}
-
-			if _, err = innerHash.Write([]byte(k)); err != nil {
-				return 0, err
-			}
-
-			result = result ^ innerHash.Sum64()
-		}
-		err = binary.Write(hasher, binary.LittleEndian, result)
-		if err != nil {
-			return 0, err
-		}
-
-	}
-
-	if h, ok := interface{}(m.GetDetails()).(safe_hasher.SafeHasher); ok {
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if val, err := hashstructure.Hash(m.GetDetails(), nil); err != nil {
-			return 0, err
-		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *SettingsSpec_KubernetesCrds) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_KubernetesCrds")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_KubernetesCrds")); err != nil {
 		return 0, err
 	}
 
@@ -651,7 +589,7 @@ func (m *SettingsSpec_KubernetesCrds) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *SettingsSpec_KubernetesSecrets) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_KubernetesSecrets) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -659,7 +597,7 @@ func (m *SettingsSpec_KubernetesSecrets) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_KubernetesSecrets")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_KubernetesSecrets")); err != nil {
 		return 0, err
 	}
 
@@ -667,7 +605,7 @@ func (m *SettingsSpec_KubernetesSecrets) Hash(hasher hash.Hash64) (uint64, error
 }
 
 // Hash function
-func (m *SettingsSpec_VaultSecrets) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_VaultSecrets) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -675,7 +613,7 @@ func (m *SettingsSpec_VaultSecrets) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_VaultSecrets")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_VaultSecrets")); err != nil {
 		return 0, err
 	}
 
@@ -729,7 +667,7 @@ func (m *SettingsSpec_VaultSecrets) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *SettingsSpec_ConsulKv) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_ConsulKv) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -737,7 +675,7 @@ func (m *SettingsSpec_ConsulKv) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_ConsulKv")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_ConsulKv")); err != nil {
 		return 0, err
 	}
 
@@ -749,7 +687,7 @@ func (m *SettingsSpec_ConsulKv) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *SettingsSpec_KubernetesConfigmaps) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_KubernetesConfigmaps) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -757,7 +695,7 @@ func (m *SettingsSpec_KubernetesConfigmaps) Hash(hasher hash.Hash64) (uint64, er
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_KubernetesConfigmaps")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_KubernetesConfigmaps")); err != nil {
 		return 0, err
 	}
 
@@ -765,7 +703,7 @@ func (m *SettingsSpec_KubernetesConfigmaps) Hash(hasher hash.Hash64) (uint64, er
 }
 
 // Hash function
-func (m *SettingsSpec_Directory) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_Directory) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -773,7 +711,7 @@ func (m *SettingsSpec_Directory) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_Directory")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_Directory")); err != nil {
 		return 0, err
 	}
 
@@ -785,7 +723,7 @@ func (m *SettingsSpec_Directory) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *SettingsSpec_KnativeOptions) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_KnativeOptions) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -793,7 +731,7 @@ func (m *SettingsSpec_KnativeOptions) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_KnativeOptions")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_KnativeOptions")); err != nil {
 		return 0, err
 	}
 
@@ -813,7 +751,7 @@ func (m *SettingsSpec_KnativeOptions) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *SettingsSpec_DiscoveryOptions) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_DiscoveryOptions) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -821,7 +759,7 @@ func (m *SettingsSpec_DiscoveryOptions) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_DiscoveryOptions")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_DiscoveryOptions")); err != nil {
 		return 0, err
 	}
 
@@ -834,7 +772,7 @@ func (m *SettingsSpec_DiscoveryOptions) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
-func (m *SettingsSpec_ConsulConfiguration) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_ConsulConfiguration) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -842,7 +780,7 @@ func (m *SettingsSpec_ConsulConfiguration) Hash(hasher hash.Hash64) (uint64, err
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_ConsulConfiguration")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_ConsulConfiguration")); err != nil {
 		return 0, err
 	}
 
@@ -950,7 +888,7 @@ func (m *SettingsSpec_ConsulConfiguration) Hash(hasher hash.Hash64) (uint64, err
 }
 
 // Hash function
-func (m *SettingsSpec_KubernetesConfiguration) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_KubernetesConfiguration) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -958,7 +896,7 @@ func (m *SettingsSpec_KubernetesConfiguration) Hash(hasher hash.Hash64) (uint64,
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_KubernetesConfiguration")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_KubernetesConfiguration")); err != nil {
 		return 0, err
 	}
 
@@ -980,7 +918,7 @@ func (m *SettingsSpec_KubernetesConfiguration) Hash(hasher hash.Hash64) (uint64,
 }
 
 // Hash function
-func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_ConsulConfiguration_ServiceDiscoveryOptions) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -988,7 +926,7 @@ func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) Hash(hasher h
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_ConsulConfiguration_ServiceDiscoveryOptions")); err != nil {
 		return 0, err
 	}
 
@@ -1004,7 +942,7 @@ func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) Hash(hasher h
 }
 
 // Hash function
-func (m *SettingsSpec_KubernetesConfiguration_RateLimits) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Settings_KubernetesConfiguration_RateLimits) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -1012,7 +950,7 @@ func (m *SettingsSpec_KubernetesConfiguration_RateLimits) Hash(hasher hash.Hash6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_KubernetesConfiguration_RateLimits")); err != nil {
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.Settings_KubernetesConfiguration_RateLimits")); err != nil {
 		return 0, err
 	}
 

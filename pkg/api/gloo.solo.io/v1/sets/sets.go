@@ -5,7 +5,7 @@
 package v1sets
 
 import (
-	gloo_solo_io_v1 "github.com/solo-io/gloo-fed/pkg/api/gloo.solo.io/v1"
+	gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	"github.com/solo-io/skv2/pkg/ezkube"

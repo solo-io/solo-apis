@@ -8,7 +8,7 @@ package controller
 import (
 	"context"
 
-	gateway_solo_io_v1 "github.com/solo-io/gloo-fed/pkg/api/gateway.solo.io/v1"
+	gateway_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1"
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/events"

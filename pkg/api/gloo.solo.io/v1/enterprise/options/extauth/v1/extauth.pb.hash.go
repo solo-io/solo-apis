@@ -26,7 +26,7 @@ var (
 )
 
 // Hash function
-func (m *AuthConfig) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *AuthConfigSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -34,36 +34,8 @@ func (m *AuthConfig) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1.AuthConfig")); err != nil {
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1.AuthConfigSpec")); err != nil {
 		return 0, err
-	}
-
-	if h, ok := interface{}(&m.Status).(safe_hasher.SafeHasher); ok {
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if val, err := hashstructure.Hash(&m.Status, nil); err != nil {
-			return 0, err
-		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	if h, ok := interface{}(&m.Metadata).(safe_hasher.SafeHasher); ok {
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if val, err := hashstructure.Hash(&m.Metadata, nil); err != nil {
-			return 0, err
-		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
-				return 0, err
-			}
-		}
 	}
 
 	for _, v := range m.GetConfigs() {
@@ -740,7 +712,7 @@ func (m *ExtAuthConfig) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *AuthConfig_Config) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *AuthConfigStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -748,13 +720,89 @@ func (m *AuthConfig_Config) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1.AuthConfig_Config")); err != nil {
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1.AuthConfigStatus")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetState())
+	if err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetReason())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetReportedBy())); err != nil {
+		return 0, err
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetSubresourceStatuses() {
+			innerHash.Reset()
+
+			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+				if _, err = h.Hash(innerHash); err != nil {
+					return 0, err
+				}
+			} else {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
+					return 0, err
+				} else {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
+						return 0, err
+					}
+				}
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetDetails(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *AuthConfigSpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1.AuthConfigSpec_Config")); err != nil {
 		return 0, err
 	}
 
 	switch m.AuthConfig.(type) {
 
-	case *AuthConfig_Config_BasicAuth:
+	case *AuthConfigSpec_Config_BasicAuth:
 
 		if h, ok := interface{}(m.GetBasicAuth()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -770,7 +818,7 @@ func (m *AuthConfig_Config) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *AuthConfig_Config_Oauth:
+	case *AuthConfigSpec_Config_Oauth:
 
 		if h, ok := interface{}(m.GetOauth()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -786,7 +834,7 @@ func (m *AuthConfig_Config) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *AuthConfig_Config_ApiKeyAuth:
+	case *AuthConfigSpec_Config_ApiKeyAuth:
 
 		if h, ok := interface{}(m.GetApiKeyAuth()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -802,7 +850,7 @@ func (m *AuthConfig_Config) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *AuthConfig_Config_PluginAuth:
+	case *AuthConfigSpec_Config_PluginAuth:
 
 		if h, ok := interface{}(m.GetPluginAuth()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -818,7 +866,7 @@ func (m *AuthConfig_Config) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *AuthConfig_Config_OpaAuth:
+	case *AuthConfigSpec_Config_OpaAuth:
 
 		if h, ok := interface{}(m.GetOpaAuth()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -834,7 +882,7 @@ func (m *AuthConfig_Config) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *AuthConfig_Config_Ldap:
+	case *AuthConfigSpec_Config_Ldap:
 
 		if h, ok := interface{}(m.GetLdap()).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
