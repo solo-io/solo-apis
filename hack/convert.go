@@ -45,7 +45,6 @@ func main() {
 			if err != nil {
 				return err
 			}
-
 			// If the proto file is not from a relevant package skip it.
 			wholeFileBytes, ok := isRelevantFile(wholeFileBytes)
 			if !ok {
@@ -123,14 +122,13 @@ func getRelevantTypes(file []byte, glooGroups []model.Group) []string {
 			if resource.Spec.Type.ProtoPackage != "" {
 				if bytes.Contains(file, []byte(fmt.Sprintf("package %s", resource.Spec.Type.ProtoPackage))) {
 					resources = append(resources, resource.Kind)
-					break
 				}
-				if resource.Status != nil && resource.Status.Type.ProtoPackage != "" {
-					if bytes.Contains(file, []byte(fmt.Sprintf("package %s", resource.Spec.Type.ProtoPackage))) {
-						resources = append(resources, resource.Kind)
-						break
-					}
+			} else if resource.Status != nil && resource.Status.Type.ProtoPackage != "" {
+				if bytes.Contains(file, []byte(fmt.Sprintf("package %s", resource.Spec.Type.ProtoPackage))) {
+					resources = append(resources, resource.Kind)
 				}
+			} else if bytes.Contains(file, []byte(fmt.Sprintf("package %s", group.Group))) {
+				resources = append(resources, resource.Kind)
 			}
 		}
 	}

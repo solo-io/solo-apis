@@ -29,14 +29,14 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-// MarshalJSON is a custom marshaler for Upstream
-func (this *Upstream) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for UpstreamSpec
+func (this *UpstreamSpec) MarshalJSON() ([]byte, error) {
 	str, err := UpstreamMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for Upstream
-func (this *Upstream) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for UpstreamSpec
+func (this *UpstreamSpec) UnmarshalJSON(b []byte) error {
 	return UpstreamUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -48,6 +48,17 @@ func (this *DiscoveryMetadata) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for DiscoveryMetadata
 func (this *DiscoveryMetadata) UnmarshalJSON(b []byte) error {
+	return UpstreamUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for UpstreamStatus
+func (this *UpstreamStatus) MarshalJSON() ([]byte, error) {
+	str, err := UpstreamMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for UpstreamStatus
+func (this *UpstreamStatus) UnmarshalJSON(b []byte) error {
 	return UpstreamUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
