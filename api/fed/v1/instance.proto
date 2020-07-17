@@ -1,7 +1,7 @@
 syntax = "proto3";
 package fed.solo.io;
 
-option go_package = "github.com/solo-io/gloo-fed/pkg/api/fed.solo.io/v1/types";
+option go_package = "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types";
 
 import "skv2/api/core/v1/core.proto";
 
