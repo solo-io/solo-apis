@@ -382,7 +382,6 @@ message DirectResponseAction {
     string body = 2;
 }
 
-
 message UpstreamGroupStatus {
 	enum State {
 			// Pending status indicates the resource has not yet been validated

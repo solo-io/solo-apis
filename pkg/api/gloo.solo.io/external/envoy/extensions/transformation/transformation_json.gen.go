@@ -13,7 +13,8 @@ import (
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
-	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/api/v2/route"
+	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/route/v3"
+	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/type/matcher/v3"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -43,6 +44,17 @@ func (this *TransformationRule) UnmarshalJSON(b []byte) error {
 	return TransformationUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for TransformationRule_Transformations
+func (this *TransformationRule_Transformations) MarshalJSON() ([]byte, error) {
+	str, err := TransformationMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for TransformationRule_Transformations
+func (this *TransformationRule_Transformations) UnmarshalJSON(b []byte) error {
+	return TransformationUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for RouteTransformations
 func (this *RouteTransformations) MarshalJSON() ([]byte, error) {
 	str, err := TransformationMarshaler.MarshalToString(this)
@@ -51,6 +63,61 @@ func (this *RouteTransformations) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for RouteTransformations
 func (this *RouteTransformations) UnmarshalJSON(b []byte) error {
+	return TransformationUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for RouteTransformations_RouteTransformation
+func (this *RouteTransformations_RouteTransformation) MarshalJSON() ([]byte, error) {
+	str, err := TransformationMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for RouteTransformations_RouteTransformation
+func (this *RouteTransformations_RouteTransformation) UnmarshalJSON(b []byte) error {
+	return TransformationUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for RouteTransformations_RouteTransformation_RequestMatch
+func (this *RouteTransformations_RouteTransformation_RequestMatch) MarshalJSON() ([]byte, error) {
+	str, err := TransformationMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for RouteTransformations_RouteTransformation_RequestMatch
+func (this *RouteTransformations_RouteTransformation_RequestMatch) UnmarshalJSON(b []byte) error {
+	return TransformationUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for RouteTransformations_RouteTransformation_ResponseMatch
+func (this *RouteTransformations_RouteTransformation_ResponseMatch) MarshalJSON() ([]byte, error) {
+	str, err := TransformationMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for RouteTransformations_RouteTransformation_ResponseMatch
+func (this *RouteTransformations_RouteTransformation_ResponseMatch) UnmarshalJSON(b []byte) error {
+	return TransformationUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for ResponseMatcher
+func (this *ResponseMatcher) MarshalJSON() ([]byte, error) {
+	str, err := TransformationMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for ResponseMatcher
+func (this *ResponseMatcher) UnmarshalJSON(b []byte) error {
+	return TransformationUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for ResponseTransformationRule
+func (this *ResponseTransformationRule) MarshalJSON() ([]byte, error) {
+	str, err := TransformationMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for ResponseTransformationRule
+func (this *ResponseTransformationRule) UnmarshalJSON(b []byte) error {
 	return TransformationUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 

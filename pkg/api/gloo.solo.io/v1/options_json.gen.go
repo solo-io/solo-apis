@@ -41,6 +41,7 @@ import (
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/stats"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/tcp"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/tracing"
+	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/transformation"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/wasm"
 )
 

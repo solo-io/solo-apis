@@ -13,6 +13,7 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
+	_ "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
 	_ "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
@@ -20,28 +21,6 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-
-// MarshalJSON is a custom marshaler for Descriptor
-func (this *Descriptor) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for Descriptor
-func (this *Descriptor) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for RateLimit
-func (this *RateLimit) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for RateLimit
-func (this *RateLimit) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
 
 // MarshalJSON is a custom marshaler for IngressRateLimit
 func (this *IngressRateLimit) MarshalJSON() ([]byte, error) {
@@ -76,14 +55,25 @@ func (this *ServiceSettings) UnmarshalJSON(b []byte) error {
 	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for RateLimitActions
-func (this *RateLimitActions) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for RateLimitConfigRefs
+func (this *RateLimitConfigRefs) MarshalJSON() ([]byte, error) {
 	str, err := RatelimitMarshaler.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for RateLimitActions
-func (this *RateLimitActions) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for RateLimitConfigRefs
+func (this *RateLimitConfigRefs) UnmarshalJSON(b []byte) error {
+	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for RateLimitConfigRef
+func (this *RateLimitConfigRef) MarshalJSON() ([]byte, error) {
+	str, err := RatelimitMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for RateLimitConfigRef
+func (this *RateLimitConfigRef) UnmarshalJSON(b []byte) error {
 	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -106,116 +96,6 @@ func (this *RateLimitRouteExtension) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for RateLimitRouteExtension
 func (this *RateLimitRouteExtension) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for Action
-func (this *Action) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for Action
-func (this *Action) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for Action_SourceCluster
-func (this *Action_SourceCluster) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for Action_SourceCluster
-func (this *Action_SourceCluster) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for Action_DestinationCluster
-func (this *Action_DestinationCluster) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for Action_DestinationCluster
-func (this *Action_DestinationCluster) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for Action_RequestHeaders
-func (this *Action_RequestHeaders) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for Action_RequestHeaders
-func (this *Action_RequestHeaders) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for Action_RemoteAddress
-func (this *Action_RemoteAddress) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for Action_RemoteAddress
-func (this *Action_RemoteAddress) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for Action_GenericKey
-func (this *Action_GenericKey) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for Action_GenericKey
-func (this *Action_GenericKey) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for Action_HeaderValueMatch
-func (this *Action_HeaderValueMatch) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for Action_HeaderValueMatch
-func (this *Action_HeaderValueMatch) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for Int64Range
-func (this *Int64Range) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for Int64Range
-func (this *Int64Range) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for HeaderMatcher
-func (this *HeaderMatcher) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for HeaderMatcher
-func (this *HeaderMatcher) UnmarshalJSON(b []byte) error {
-	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for QueryParameterMatcher
-func (this *QueryParameterMatcher) MarshalJSON() ([]byte, error) {
-	str, err := RatelimitMarshaler.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for QueryParameterMatcher
-func (this *QueryParameterMatcher) UnmarshalJSON(b []byte) error {
 	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
