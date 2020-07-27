@@ -8,18 +8,6 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 )
 
-// DeepCopyInto for the AuthConfig.Spec
-func (in *AuthConfigSpec) DeepCopyInto(out *AuthConfigSpec) {
-	p := proto.Clone(in).(*AuthConfigSpec)
-	*out = *p
-}
-
-// DeepCopyInto for the AuthConfig.Status
-func (in *AuthConfigStatus) DeepCopyInto(out *AuthConfigStatus) {
-	p := proto.Clone(in).(*AuthConfigStatus)
-	*out = *p
-}
-
 // DeepCopyInto for the Settings.Spec
 func (in *SettingsSpec) DeepCopyInto(out *SettingsSpec) {
 	p := proto.Clone(in).(*SettingsSpec)

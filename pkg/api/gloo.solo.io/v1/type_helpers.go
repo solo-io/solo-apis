@@ -3,9 +3,6 @@
 // Definitions for the Kubernetes types
 package v1
 
-// AuthConfigSlice represents a slice of *AuthConfig
-type AuthConfigSlice []*AuthConfig
-
 // SettingsSlice represents a slice of *Settings
 type SettingsSlice []*Settings
 

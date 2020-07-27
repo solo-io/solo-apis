@@ -17,34 +17,6 @@ import (
   See package `github.com/solo-io/skv2/pkg/multicluster/register` for example
 */
 
-// Provider for AuthConfigClient from Clientset
-func AuthConfigClientFromClientsetProvider(clients gloo_solo_io_v1.Clientset) gloo_solo_io_v1.AuthConfigClient {
-	return clients.AuthConfigs()
-}
-
-// Provider for AuthConfig Client from Client
-func AuthConfigClientProvider(client client.Client) gloo_solo_io_v1.AuthConfigClient {
-	return gloo_solo_io_v1.NewAuthConfigClient(client)
-}
-
-type AuthConfigClientFactory func(client client.Client) gloo_solo_io_v1.AuthConfigClient
-
-func AuthConfigClientFactoryProvider() AuthConfigClientFactory {
-	return AuthConfigClientProvider
-}
-
-type AuthConfigClientFromConfigFactory func(cfg *rest.Config) (gloo_solo_io_v1.AuthConfigClient, error)
-
-func AuthConfigClientFromConfigFactoryProvider() AuthConfigClientFromConfigFactory {
-	return func(cfg *rest.Config) (gloo_solo_io_v1.AuthConfigClient, error) {
-		clients, err := gloo_solo_io_v1.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.AuthConfigs(), nil
-	}
-}
-
 // Provider for SettingsClient from Clientset
 func SettingsClientFromClientsetProvider(clients gloo_solo_io_v1.Clientset) gloo_solo_io_v1.SettingsClient {
 	return clients.Settings()

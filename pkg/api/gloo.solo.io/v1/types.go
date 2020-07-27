@@ -4,34 +4,8 @@
 package v1
 
 import (
-	. "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-	. "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1"
 )
-
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +k8s:openapi-gen=true
-// +kubebuilder:subresource:status
-
-// AuthConfig is the Schema for the authConfig API
-type AuthConfig struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   AuthConfigSpec   `json:"spec,omitempty"`
-	Status AuthConfigStatus `json:"status,omitempty"`
-}
-
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// AuthConfigList contains a list of AuthConfig
-type AuthConfigList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []AuthConfig `json:"items"`
-}
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -125,7 +99,6 @@ type ProxyList struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&AuthConfig{}, &AuthConfigList{})
 	SchemeBuilder.Register(&Settings{}, &SettingsList{})
 	SchemeBuilder.Register(&Upstream{}, &UpstreamList{})
 	SchemeBuilder.Register(&UpstreamGroup{}, &UpstreamGroupList{})
