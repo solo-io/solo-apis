@@ -12,7 +12,7 @@ import "solo-kit/api/v1/solo-kit.proto";
 
 import "solo-apis/api/gloo/gloo/v1/extensions.proto";
 import "solo-apis/api/gloo/gloo/v1/enterprise/options/ratelimit/ratelimit.proto";
-import "solo-apis/api/gloo/gloo/v1/enterprise/options/extauth/v1/extauth.proto";
+import "solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto";
 import "solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto";
 import "solo-apis/api/gloo/gloo/v1/circuit_breaker.proto";
 

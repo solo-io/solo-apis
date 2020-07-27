@@ -35,7 +35,7 @@ import "solo-apis/api/gloo/gloo/external/envoy/extensions/proxylatency/proxylate
 import "solo-apis/api/gloo/gloo/external/envoy/extensions/filters/http/buffer/v3/buffer.proto";
 import "solo-apis/api/gloo/gloo/external/envoy/config/filter/http/gzip/v2/gzip.proto";
 
-import "solo-apis/api/gloo/gloo/v1/enterprise/options/extauth/v1/extauth.proto";
+import "solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto";
 import "solo-apis/api/gloo/gloo/v1/enterprise/options/jwt/jwt.proto";
 import "solo-apis/api/gloo/gloo/v1/enterprise/options/ratelimit/ratelimit.proto";
 import "solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto";

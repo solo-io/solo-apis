@@ -13,7 +13,7 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
-	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1"
+	_ "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/ratelimit"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/rbac"
 	_ "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
