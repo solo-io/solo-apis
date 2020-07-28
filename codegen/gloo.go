@@ -11,7 +11,7 @@ func init() {
 func GlooGroups() []model.Group {
 	return []model.Group{
 		makeGroup("gloo", "v1", []resourceToGenerate{
-			{kind: "Settings", noStatus: true},
+			{kind: "Settings"},
 			{kind: "Upstream"},
 			{kind: "UpstreamGroup"},
 			{kind: "Proxy"},

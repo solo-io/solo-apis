@@ -15,7 +15,8 @@ spec:
     plural: settings
     singular: settings
   scope: Namespaced
-  subresources: {}
+  subresources:
+    status: {}
   versions:
   - name: v1
     served: true

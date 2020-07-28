@@ -14,6 +14,12 @@ func (in *SettingsSpec) DeepCopyInto(out *SettingsSpec) {
 	*out = *p
 }
 
+// DeepCopyInto for the Settings.Status
+func (in *SettingsStatus) DeepCopyInto(out *SettingsStatus) {
+	p := proto.Clone(in).(*SettingsStatus)
+	*out = *p
+}
+
 // DeepCopyInto for the Upstream.Spec
 func (in *UpstreamSpec) DeepCopyInto(out *UpstreamSpec) {
 	p := proto.Clone(in).(*UpstreamSpec)
