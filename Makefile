@@ -15,12 +15,12 @@ generate-mocks:
 
 .PHONY: tidy
 tidy:
-	goimports -w .
-	go mod tidy
+	PATH=$(DEPSGOBIN):$$PATH goimports -w .
+	PATH=$(DEPSGOBIN):$$PATH go mod tidy
 
 .PHONY: mod-download
 mod-download:
-	go mod download
+	PATH=$(DEPSGOBIN):$$PATH go mod download
 
 .PHONY: update-deps
 update-deps: mod-download
