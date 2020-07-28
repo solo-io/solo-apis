@@ -14,30 +14,30 @@ import (
 	sets "k8s.io/apimachinery/pkg/util/sets"
 )
 
-// MockRateLimitConfigSet is a mock of RateLimitConfigSet interface
+// MockRateLimitConfigSet is a mock of RateLimitConfigSet interface.
 type MockRateLimitConfigSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitConfigSetMockRecorder
 }
 
-// MockRateLimitConfigSetMockRecorder is the mock recorder for MockRateLimitConfigSet
+// MockRateLimitConfigSetMockRecorder is the mock recorder for MockRateLimitConfigSet.
 type MockRateLimitConfigSetMockRecorder struct {
 	mock *MockRateLimitConfigSet
 }
 
-// NewMockRateLimitConfigSet creates a new mock instance
+// NewMockRateLimitConfigSet creates a new mock instance.
 func NewMockRateLimitConfigSet(ctrl *gomock.Controller) *MockRateLimitConfigSet {
 	mock := &MockRateLimitConfigSet{ctrl: ctrl}
 	mock.recorder = &MockRateLimitConfigSetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockRateLimitConfigSet) EXPECT() *MockRateLimitConfigSetMockRecorder {
 	return m.recorder
 }
 
-// Keys mocks base method
+// Keys mocks base method.
 func (m *MockRateLimitConfigSet) Keys() sets.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -45,13 +45,13 @@ func (m *MockRateLimitConfigSet) Keys() sets.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys
+// Keys indicates an expected call of Keys.
 func (mr *MockRateLimitConfigSetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Keys))
 }
 
-// List mocks base method
+// List mocks base method.
 func (m *MockRateLimitConfigSet) List() []*v1alpha1.RateLimitConfig {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "List")
@@ -59,13 +59,13 @@ func (m *MockRateLimitConfigSet) List() []*v1alpha1.RateLimitConfig {
 	return ret0
 }
 
-// List indicates an expected call of List
+// List indicates an expected call of List.
 func (mr *MockRateLimitConfigSetMockRecorder) List() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRateLimitConfigSet)(nil).List))
 }
 
-// Map mocks base method
+// Map mocks base method.
 func (m *MockRateLimitConfigSet) Map() map[string]*v1alpha1.RateLimitConfig {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Map")
@@ -73,13 +73,13 @@ func (m *MockRateLimitConfigSet) Map() map[string]*v1alpha1.RateLimitConfig {
 	return ret0
 }
 
-// Map indicates an expected call of Map
+// Map indicates an expected call of Map.
 func (mr *MockRateLimitConfigSetMockRecorder) Map() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Map))
 }
 
-// Insert mocks base method
+// Insert mocks base method.
 func (m *MockRateLimitConfigSet) Insert(rateLimitConfig ...*v1alpha1.RateLimitConfig) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -89,13 +89,13 @@ func (m *MockRateLimitConfigSet) Insert(rateLimitConfig ...*v1alpha1.RateLimitCo
 	m.ctrl.Call(m, "Insert", varargs...)
 }
 
-// Insert indicates an expected call of Insert
+// Insert indicates an expected call of Insert.
 func (mr *MockRateLimitConfigSetMockRecorder) Insert(rateLimitConfig ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Insert), rateLimitConfig...)
 }
 
-// Equal mocks base method
+// Equal mocks base method.
 func (m *MockRateLimitConfigSet) Equal(rateLimitConfigSet v1alpha1sets.RateLimitConfigSet) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Equal", rateLimitConfigSet)
@@ -103,13 +103,13 @@ func (m *MockRateLimitConfigSet) Equal(rateLimitConfigSet v1alpha1sets.RateLimit
 	return ret0
 }
 
-// Equal indicates an expected call of Equal
+// Equal indicates an expected call of Equal.
 func (mr *MockRateLimitConfigSetMockRecorder) Equal(rateLimitConfigSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Equal), rateLimitConfigSet)
 }
 
-// Has mocks base method
+// Has mocks base method.
 func (m *MockRateLimitConfigSet) Has(rateLimitConfig *v1alpha1.RateLimitConfig) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Has", rateLimitConfig)
@@ -117,25 +117,25 @@ func (m *MockRateLimitConfigSet) Has(rateLimitConfig *v1alpha1.RateLimitConfig) 
 	return ret0
 }
 
-// Has indicates an expected call of Has
+// Has indicates an expected call of Has.
 func (mr *MockRateLimitConfigSetMockRecorder) Has(rateLimitConfig interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Has), rateLimitConfig)
 }
 
-// Delete mocks base method
+// Delete mocks base method.
 func (m *MockRateLimitConfigSet) Delete(rateLimitConfig *v1alpha1.RateLimitConfig) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Delete", rateLimitConfig)
 }
 
-// Delete indicates an expected call of Delete
+// Delete indicates an expected call of Delete.
 func (mr *MockRateLimitConfigSetMockRecorder) Delete(rateLimitConfig interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Delete), rateLimitConfig)
 }
 
-// Union mocks base method
+// Union mocks base method.
 func (m *MockRateLimitConfigSet) Union(set v1alpha1sets.RateLimitConfigSet) v1alpha1sets.RateLimitConfigSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
@@ -143,13 +143,13 @@ func (m *MockRateLimitConfigSet) Union(set v1alpha1sets.RateLimitConfigSet) v1al
 	return ret0
 }
 
-// Union indicates an expected call of Union
+// Union indicates an expected call of Union.
 func (mr *MockRateLimitConfigSetMockRecorder) Union(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Union), set)
 }
 
-// Difference mocks base method
+// Difference mocks base method.
 func (m *MockRateLimitConfigSet) Difference(set v1alpha1sets.RateLimitConfigSet) v1alpha1sets.RateLimitConfigSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
@@ -157,13 +157,13 @@ func (m *MockRateLimitConfigSet) Difference(set v1alpha1sets.RateLimitConfigSet)
 	return ret0
 }
 
-// Difference indicates an expected call of Difference
+// Difference indicates an expected call of Difference.
 func (mr *MockRateLimitConfigSetMockRecorder) Difference(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Difference), set)
 }
 
-// Intersection mocks base method
+// Intersection mocks base method.
 func (m *MockRateLimitConfigSet) Intersection(set v1alpha1sets.RateLimitConfigSet) v1alpha1sets.RateLimitConfigSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
@@ -171,13 +171,13 @@ func (m *MockRateLimitConfigSet) Intersection(set v1alpha1sets.RateLimitConfigSe
 	return ret0
 }
 
-// Intersection indicates an expected call of Intersection
+// Intersection indicates an expected call of Intersection.
 func (mr *MockRateLimitConfigSetMockRecorder) Intersection(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Intersection), set)
 }
 
-// Find mocks base method
+// Find mocks base method.
 func (m *MockRateLimitConfigSet) Find(id ezkube.ResourceId) (*v1alpha1.RateLimitConfig, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Find", id)
@@ -186,13 +186,13 @@ func (m *MockRateLimitConfigSet) Find(id ezkube.ResourceId) (*v1alpha1.RateLimit
 	return ret0, ret1
 }
 
-// Find indicates an expected call of Find
+// Find indicates an expected call of Find.
 func (mr *MockRateLimitConfigSetMockRecorder) Find(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Find), id)
 }
 
-// Length mocks base method
+// Length mocks base method.
 func (m *MockRateLimitConfigSet) Length() int {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Length")
@@ -200,7 +200,7 @@ func (m *MockRateLimitConfigSet) Length() int {
 	return ret0
 }
 
-// Length indicates an expected call of Length
+// Length indicates an expected call of Length.
 func (mr *MockRateLimitConfigSetMockRecorder) Length() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Length))
