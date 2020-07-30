@@ -125,7 +125,7 @@ func getRelevantTypes(file []byte, glooGroups []model.Group) []string {
 					resources = append(resources, resource.Kind)
 				}
 			} else if resource.Status != nil && resource.Status.Type.ProtoPackage != "" {
-				if bytes.Contains(file, []byte(fmt.Sprintf("package %s", resource.Spec.Type.ProtoPackage))) {
+				if bytes.Contains(file, []byte(fmt.Sprintf("package %s", resource.Status.Type.ProtoPackage))) {
 					resources = append(resources, resource.Kind)
 				}
 			} else if bytes.Contains(file, []byte(fmt.Sprintf("package %s", group.Group))) {
