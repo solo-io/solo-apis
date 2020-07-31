@@ -15,6 +15,8 @@ require (
 	github.com/golang/mock v1.4.4-0.20200406172829-6d816de489c1
 	github.com/golang/protobuf v1.3.5 // indirect
 	github.com/mitchellh/hashstructure v1.0.0
+	github.com/onsi/ginkgo v1.12.0
+	github.com/onsi/gomega v1.8.1
 	github.com/pkg/errors v0.9.1
 	github.com/solo-io/go-utils v0.16.5
 	github.com/solo-io/protoc-gen-ext v0.0.9
