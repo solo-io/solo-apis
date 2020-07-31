@@ -177,4 +177,3 @@ message {{ . }}Status {
 }
 
 `))
-

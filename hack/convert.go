@@ -1,12 +1,13 @@
 package main
 
 import (
+	"os"
+	"path/filepath"
+
 	"github.com/solo-io/go-utils/log"
 	"github.com/solo-io/skv2/codegen/util"
 	"github.com/solo-io/solo-apis/codegen"
 	"github.com/solo-io/solo-apis/hack/convert"
-	"os"
-	"path/filepath"
 )
 
 func main() {
