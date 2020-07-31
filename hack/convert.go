@@ -26,62 +26,7 @@ func main() {
 	moduleRoot := util.GetModuleRoot()
 	err := filepath.Walk(
 		filepath.Join(moduleRoot, "api/gloo"),
-		func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
-			if info.IsDir() {
-				return nil
-			}
-			if !strings.HasSuffix(info.Name(), ".proto") {
-				return nil
-			}
-			file, err := os.OpenFile(path, os.O_RDWR, os.ModePerm)
-			if err != nil {
-				return err
-			}
-			defer file.Close()
-			wholeFileBytes, err := ioutil.ReadAll(file)
-			if err != nil {
-				return err
-			}
-			// If the proto file is not from a relevant package skip it.
-			wholeFileBytes, ok := isRelevantFile(wholeFileBytes)
-			if !ok {
-				return nil
-			}
-
-			var fileByLine []string
-			scan := bufio.NewScanner(bytes.NewBuffer(wholeFileBytes))
-			for scan.Scan() {
-				line := scan.Text()
-				if strings.Contains(line, "// Metadata contains the object metadata for this resource") ||
-					strings.Contains(line, "// Status is read-only by clients, and set by gloo during validation") ||
-					strings.Contains(line, "// Status indicates the validation status of this resource.") ||
-					strings.Contains(line, "option (core.solo.io.resource)") ||
-					strings.Contains(line, "solo-kit/api/v1/status.proto") ||
-					strings.Contains(line, "solo-kit/api/v1/metadata.proto") ||
-					strings.Contains(line, "core.solo.io.Metadata") ||
-					strings.Contains(line, "core.solo.io.Status") {
-					continue
-				}
-
-				fileByLine = append(fileByLine, line)
-			}
-			err = file.Truncate(0)
-			if err != nil {
-				return err
-			}
-			_, err = file.Seek(0, 0)
-			if err != nil {
-				return err
-			}
-			_, err = file.WriteString(strings.Join(fileByLine, "\n"))
-			if err != nil {
-				return err
-			}
-			return nil
-		},
+		convertToSkv2ProtoFile,
 	)
 	if err != nil {
 		log.Printf(err.Error())
@@ -89,7 +34,70 @@ func main() {
 	}
 }
 
-func isRelevantFile(file []byte) ([]byte, bool) {
+func convertToSkv2ProtoFile(path string, info os.FileInfo, err error) error {
+	if err != nil {
+		return err
+	}
+	if info.IsDir() {
+		return nil
+	}
+	if !strings.HasSuffix(info.Name(), ".proto") {
+		return nil
+	}
+	file, err := os.OpenFile(path, os.O_RDWR, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	fileContents, err := ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	// If the proto file is not from a relevant package skip it.
+	wholeFileBytes, ok := modifyRelevantFile(fileContents)
+	if !ok {
+		return nil
+	}
+
+	fileByLine := filterRelevantLines(wholeFileBytes)
+
+	err = file.Truncate(0)
+	if err != nil {
+		return err
+	}
+	_, err = file.Seek(0, 0)
+	if err != nil {
+		return err
+	}
+	_, err = file.WriteString(strings.Join(fileByLine, "\n"))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func filterRelevantLines(fileBytes []byte) []string {
+	var fileByLine []string
+	scan := bufio.NewScanner(bytes.NewBuffer(fileBytes))
+	for scan.Scan() {
+		line := scan.Text()
+		if strings.Contains(line, "// Metadata contains the object metadata for this resource") ||
+			strings.Contains(line, "// Status is read-only by clients, and set by gloo during validation") ||
+			strings.Contains(line, "// Status indicates the validation status of this resource.") ||
+			strings.Contains(line, "option (core.solo.io.resource)") ||
+			strings.Contains(line, "solo-kit/api/v1/status.proto") ||
+			strings.Contains(line, "solo-kit/api/v1/metadata.proto") ||
+			strings.Contains(line, "core.solo.io.Metadata") ||
+			strings.Contains(line, "core.solo.io.Status") {
+			continue
+		}
+
+		fileByLine = append(fileByLine, line)
+	}
+	return fileByLine
+}
+
+func modifyRelevantFile(file []byte) ([]byte, bool) {
 	var relevantMessage bool
 	glooGroups := codegen.GlooGroups()
 	relevantTypes := getRelevantTypes(file, glooGroups)
@@ -101,13 +109,8 @@ func isRelevantFile(file []byte) ([]byte, bool) {
 		// Make sure to add extra space after to check specifically for only Message
 		oldMessageBytes := []byte(fmt.Sprintf("message %s ", relevantType))
 		if bytes.Contains(file, oldMessageBytes) {
-			oldMessageBytes = oldMessageBytes[:len(oldMessageBytes)-1]
-			file = bytes.ReplaceAll(file, oldMessageBytes, append(oldMessageBytes, []byte("Spec")...))
-			statusBytes := &bytes.Buffer{}
-			if err := statusTemplate.Execute(statusBytes, relevantType); err != nil {
-				panic(err)
-			}
-			file = append(file, statusBytes.Bytes()...)
+			file = patchSpecMessage(file, oldMessageBytes)
+			file = appendStatusMessage(file, relevantType)
 			file = addImport(file)
 			relevantMessage = true
 		}
@@ -116,24 +119,40 @@ func isRelevantFile(file []byte) ([]byte, bool) {
 	return file, relevantMessage
 }
 
+// List the kind names of all gloo groups (defined in gloo.go)
 func getRelevantTypes(file []byte, glooGroups []model.Group) []string {
 	var resources []string
 	for _, group := range glooGroups {
 		for _, resource := range group.Resources {
+			appendIfRelevant := func(packageName, kind string) {
+				if bytes.Contains(file, []byte(fmt.Sprintf("package %s", packageName))) {
+					resources = append(resources, kind)
+				}
+			}
 			if resource.Spec.Type.ProtoPackage != "" {
-				if bytes.Contains(file, []byte(fmt.Sprintf("package %s", resource.Spec.Type.ProtoPackage))) {
-					resources = append(resources, resource.Kind)
-				}
+				appendIfRelevant(resource.Spec.Type.ProtoPackage, resource.Kind)
 			} else if resource.Status != nil && resource.Status.Type.ProtoPackage != "" {
-				if bytes.Contains(file, []byte(fmt.Sprintf("package %s", resource.Status.Type.ProtoPackage))) {
-					resources = append(resources, resource.Kind)
-				}
-			} else if bytes.Contains(file, []byte(fmt.Sprintf("package %s", group.Group))) {
-				resources = append(resources, resource.Kind)
+				appendIfRelevant(resource.Status.Type.ProtoPackage, resource.Kind)
+			} else {
+				appendIfRelevant(group.Group, resource.Kind)
 			}
 		}
 	}
 	return resources
+}
+
+func patchSpecMessage(file []byte, oldMessageBytes []byte) []byte {
+	oldMessageBytes = oldMessageBytes[:len(oldMessageBytes)-1]
+	return bytes.ReplaceAll(file, oldMessageBytes, append(oldMessageBytes, []byte("Spec")...))
+}
+
+func appendStatusMessage(fileContents []byte, relevantType string) []byte {
+	statusBytes := &bytes.Buffer{}
+	if err := statusTemplate.Execute(statusBytes, relevantType); err != nil {
+		panic(err)
+	}
+	fileContents = append(fileContents, statusBytes.Bytes()...)
+	return fileContents
 }
 
 func addImport(file []byte) []byte {
