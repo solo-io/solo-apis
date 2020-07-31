@@ -33,6 +33,3 @@ do
   sed "s|skv2-enterprise/pkg/multicluster-admission-webhook/api/multicluster|solo-apis/api/skv2-enterprise|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 
 done
-
-# Extra hack due to upstream_group being defined in the proxy.proto, which is imported twice here
-sed '15d' api/gloo-fed/fed.rpc/v1/gloo_resources.proto > gloo_resources.proto.tmp && mv gloo_resources.proto.tmp api/gloo-fed/fed.rpc/v1/gloo_resources.proto

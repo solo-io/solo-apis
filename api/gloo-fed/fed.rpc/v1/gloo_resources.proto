@@ -12,6 +12,7 @@ option go_package = "github.com/solo-io/solo-apis/pkg/api/fed.rpc/v1";
 import "solo-apis/api/gloo/gloo/v1/upstream.proto";
 
 import "solo-apis/api/gloo/gloo/v1/settings.proto";
+import "solo-apis/api/gloo/gloo/v1/proxy.proto";
 import "skv2/api/core/v1/core.proto";
 import "solo-apis/api/gloo-fed/fed.rpc/v1/common.proto";
 
