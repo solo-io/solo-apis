@@ -2,8 +2,7 @@
 
 set -e
 
-rsync -ax --exclude 'gloo/*' --exclude 'gateway/*' --exclude 'enterprise.gloo/*' ../gloo-fed/api/  ./api/gloo-fed
-rmdir api/gloo-fed/gloo api/gloo-fed/gateway api/gloo-fed/enterprise.gloo
+rsync -ax ../gloo-fed/api/  ./api/gloo-fed
 
 for file in $(find api/gloo-fed -type f | grep ".proto")
 do
