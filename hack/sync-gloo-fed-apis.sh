@@ -26,7 +26,8 @@ do
   sed "s|solo-apis/api/gloo-fed/gateway|solo-apis/api/gloo/gateway|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 
 # Gloo Enterprise API changes
-  sed "s|solo-apis/api/gloo-fed/enterprise.gloo/v1/auth_config.proto|api/gloo/gloo/v1/enterprise/options/extauth/v1/extauth.proto|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+  sed "s|gloo/v1/enterprise/options/extauth/v1/extauth.proto|enterprise.gloo/v1/auth_config.proto|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+  sed "s|gloo.solo.io/v1/enterprise/options/extauth|enterprise.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 
 # Skv2 Enterprise Api changes
   sed "s|gloo-fed/services/multicluster-admission-webhook/api/multicluster|api/skv2-enterprise|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
