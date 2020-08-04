@@ -9,9 +9,11 @@ import (
 	math "math"
 
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
+	_ "github.com/gogo/protobuf/gogoproto"
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
+	_ "github.com/solo-io/protoc-gen-ext/extproto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -49,6 +51,17 @@ func (this *AWSLambdaConfig) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for AWSLambdaConfig
 func (this *AWSLambdaConfig) UnmarshalJSON(b []byte) error {
+	return FilterUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for AWSLambdaConfig_ServiceAccountCredentials
+func (this *AWSLambdaConfig_ServiceAccountCredentials) MarshalJSON() ([]byte, error) {
+	str, err := FilterMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for AWSLambdaConfig_ServiceAccountCredentials
+func (this *AWSLambdaConfig_ServiceAccountCredentials) UnmarshalJSON(b []byte) error {
 	return FilterUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
