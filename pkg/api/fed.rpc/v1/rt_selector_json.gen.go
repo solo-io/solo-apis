@@ -13,6 +13,8 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	_ "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
+	_ "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1"
+	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/core/matchers"
 )
 
