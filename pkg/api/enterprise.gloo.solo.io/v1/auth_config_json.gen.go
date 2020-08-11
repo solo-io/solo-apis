@@ -232,6 +232,17 @@ func (this *ApiKeyAuth) UnmarshalJSON(b []byte) error {
 	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for ApiKeyAuth_SecretKey
+func (this *ApiKeyAuth_SecretKey) MarshalJSON() ([]byte, error) {
+	str, err := AuthConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for ApiKeyAuth_SecretKey
+func (this *ApiKeyAuth_SecretKey) UnmarshalJSON(b []byte) error {
+	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for ApiKeySecret
 func (this *ApiKeySecret) MarshalJSON() ([]byte, error) {
 	str, err := AuthConfigMarshaler.MarshalToString(this)
@@ -328,6 +339,17 @@ func (this *ExtAuthConfig_ApiKeyAuthConfig) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for ExtAuthConfig_ApiKeyAuthConfig
 func (this *ExtAuthConfig_ApiKeyAuthConfig) UnmarshalJSON(b []byte) error {
+	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata
+func (this *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) MarshalJSON() ([]byte, error) {
+	str, err := AuthConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata
+func (this *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) UnmarshalJSON(b []byte) error {
 	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
