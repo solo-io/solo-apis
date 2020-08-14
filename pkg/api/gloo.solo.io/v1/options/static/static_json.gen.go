@@ -43,6 +43,17 @@ func (this *Host) UnmarshalJSON(b []byte) error {
 	return StaticUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for Host_HealthCheckConfig
+func (this *Host_HealthCheckConfig) MarshalJSON() ([]byte, error) {
+	str, err := StaticMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for Host_HealthCheckConfig
+func (this *Host_HealthCheckConfig) UnmarshalJSON(b []byte) error {
+	return StaticUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 var (
 	StaticMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	StaticUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
