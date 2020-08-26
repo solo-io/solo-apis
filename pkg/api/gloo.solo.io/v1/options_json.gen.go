@@ -29,6 +29,7 @@ import (
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/cors"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/faultinjection"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/grpc"
+	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/grpc_json"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/grpc_web"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/hcm"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/headers"
