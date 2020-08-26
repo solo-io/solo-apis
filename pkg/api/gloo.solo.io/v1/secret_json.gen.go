@@ -65,6 +65,17 @@ func (this *TlsSecret) UnmarshalJSON(b []byte) error {
 	return SecretUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for HeaderSecret
+func (this *HeaderSecret) MarshalJSON() ([]byte, error) {
+	str, err := SecretMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for HeaderSecret
+func (this *HeaderSecret) UnmarshalJSON(b []byte) error {
+	return SecretUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 var (
 	SecretMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	SecretUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
