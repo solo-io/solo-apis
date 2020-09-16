@@ -144,6 +144,7 @@ message Descriptor {
 //      unit: MINUTE
 message RateLimitActions {
   repeated Action actions = 1;
+  repeated Action table_actions = 2;
 }
 
 // A `RateLimit` specifies the actual rate limit that will be used when there is a match.
