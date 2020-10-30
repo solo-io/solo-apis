@@ -188,6 +188,61 @@ func (this *OAuth2) UnmarshalJSON(b []byte) error {
 	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for RedisOptions
+func (this *RedisOptions) MarshalJSON() ([]byte, error) {
+	str, err := AuthConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for RedisOptions
+func (this *RedisOptions) UnmarshalJSON(b []byte) error {
+	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for UserSession
+func (this *UserSession) MarshalJSON() ([]byte, error) {
+	str, err := AuthConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for UserSession
+func (this *UserSession) UnmarshalJSON(b []byte) error {
+	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for UserSession_InternalSession
+func (this *UserSession_InternalSession) MarshalJSON() ([]byte, error) {
+	str, err := AuthConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for UserSession_InternalSession
+func (this *UserSession_InternalSession) UnmarshalJSON(b []byte) error {
+	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for UserSession_RedisSession
+func (this *UserSession_RedisSession) MarshalJSON() ([]byte, error) {
+	str, err := AuthConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for UserSession_RedisSession
+func (this *UserSession_RedisSession) UnmarshalJSON(b []byte) error {
+	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for UserSession_CookieOptions
+func (this *UserSession_CookieOptions) MarshalJSON() ([]byte, error) {
+	str, err := AuthConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for UserSession_CookieOptions
+func (this *UserSession_CookieOptions) UnmarshalJSON(b []byte) error {
+	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for OidcAuthorizationCode
 func (this *OidcAuthorizationCode) MarshalJSON() ([]byte, error) {
 	str, err := AuthConfigMarshaler.MarshalToString(this)
