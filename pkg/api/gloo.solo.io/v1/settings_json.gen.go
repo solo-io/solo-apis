@@ -146,6 +146,17 @@ func (this *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) UnmarshalJ
 	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for SettingsSpec_ConsulUpstreamDiscoveryConfiguration
+func (this *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) MarshalJSON() ([]byte, error) {
+	str, err := SettingsMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for SettingsSpec_ConsulUpstreamDiscoveryConfiguration
+func (this *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) UnmarshalJSON(b []byte) error {
+	return SettingsUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for SettingsSpec_KubernetesConfiguration
 func (this *SettingsSpec_KubernetesConfiguration) MarshalJSON() ([]byte, error) {
 	str, err := SettingsMarshaler.MarshalToString(this)

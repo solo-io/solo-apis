@@ -27,6 +27,13 @@ message AuthConfigSpec {
 
 
   message Config {
+
+    // optional: used when defining complex boolean logic, if `boolean_expr` is defined below. Also used
+    // in logging. If omitted, an automatically generated name will be used (e.g. config_0, of the
+    // pattern 'config_$INDEX_IN_CHAIN'). In the case of plugin auth, this field is ignored in favor of
+    // the name assigned on the plugin config itself.
+    google.protobuf.StringValue name = 9;
+
     oneof auth_config {
       BasicAuth basic_auth = 1;
       OAuth oauth = 2 [deprecated=true];
@@ -38,7 +45,18 @@ message AuthConfigSpec {
     }
   }
 
+  // List of auth configs to be checked for requests on a route referencing this auth config,
+  // By default, every config must be authorized for the entire request to be authorized. This
+  // behavior can be changed by defining names for each config and defining `boolean_expr` below.
+  //
+  // State is shared between successful requests on the chain, i.e., the headers returned from each
+  // successful auth service get appended into the final auth response.
   repeated Config configs = 3;
+
+  // How to handle processing of named configs within an auth config chain.
+  // An example config might be: ( basic1 || basic2 || (oidc1 && !oidc2) )
+  // The boolean expression is evaluated left to right but honors parenthesis and short-circuiting.
+  google.protobuf.StringValue boolean_expr = 10;
 }
 
 // Auth configurations defined on virtual hosts, routes, and weighted destinations will be unmarshalled to this message.
@@ -229,6 +247,55 @@ message OAuth2 {
   }
 }
 
+message RedisOptions {
+  // address of the redis. can be address:port or unix://path/to/unix.sock
+  string host = 1;
+  // db to use. can leave unset for db 0.
+  int32 db = 2;
+  // size of the connection pool. can leave unset for default.
+  // defaults to 10 connections per every CPU
+  int32 pool_size = 3;
+}
+
+message UserSession {
+  message InternalSession{}
+  message RedisSession{
+    // Options to connect to redis
+    RedisOptions options = 1;
+    // Key prefix inside redis
+    string key_prefix = 2;
+    // Cookie name to set and store the session id. If empty the default "__session" is used.
+    string cookie_name = 3;
+  }
+  
+  // should we fail auth flow when failing to get a session from redis, or allow it to continue,
+  // potentially starting a new auth flow and setting a new session.
+  bool fail_on_fetch_failure = 1;
+
+  message CookieOptions {
+    // Max age for the cookie. Leave unset for a default of 30 days (2592000 seconds).
+    // To disable cookie expiry, set explicitly to 0.
+    google.protobuf.UInt32Value max_age = 1;
+    // Use a non-secure cookie. Note - this should only be used for testing and in trusted 
+    // environments.
+    bool not_secure = 2;
+    // Path of the cookie. If unset, defaults to "/". Set it explicitly to "" to avoid setting a 
+    // path.
+    google.protobuf.StringValue path = 3;
+    // Cookie domain
+    string domain = 4;
+  }
+
+  // Set-Cookie options
+  CookieOptions cookie_options = 2;
+  oneof session {
+    // Set the tokens in the cookie itself. No need for server side state.
+    InternalSession cookie = 3;
+    // Use redis to store the tokens and just store a random id in the cookie.
+    RedisSession redis = 4;
+  }
+}
+
 message OidcAuthorizationCode {
   // your client id as registered with the issuer
   string client_id = 1;
@@ -248,11 +315,17 @@ message OidcAuthorizationCode {
   string app_url = 5;
 
   // a callback path relative to app url that will be used for OIDC callbacks.
-  // needs to not be used by the application
+  // should not be used by the application.
   string callback_path = 6;
+
+  // a path relative to app url that will be used for logging out from an OIDC session.
+  // should not be used by the application.
+  // If not provided, logout functionality will be disabled.
+  string logout_path = 9;
 
   // Scopes to request in addition to openid scope.
   repeated string scopes = 7;
+  UserSession session = 8;
 
   // in the future we may implement this:
   // add optional configuration for validation of the access token received during the OIDC flow
@@ -419,6 +492,7 @@ message ExtAuthConfig {
   }
 
   message OidcAuthorizationCodeConfig {
+    
     // your client id as registered with the issuer
     string client_id = 1;
 
@@ -440,8 +514,15 @@ message ExtAuthConfig {
     // needs to not be used by the application
     string callback_path = 6;
 
+    // a path relative to app url that will be used for logging out from an OIDC session.
+    // should not be used by the application.
+    // If not provided, logout functionality will be disabled.
+    string logout_path = 9;
+
     // scopes to request in addition to the openid scope.
     repeated string scopes = 7;
+
+    UserSession session = 8;
 
     // in the future we may implement this:
     // add optional configuration for validation of the access token received during the OIDC flow
@@ -503,6 +584,12 @@ message ExtAuthConfig {
 
     reserved 1, 2;
 
+    // optional: used when defining complex boolean logic, if `boolean_expr` is defined below. Also used
+    // in logging. If omitted, an automatically generated name will be used (e.g. config_0, of the
+    // pattern 'config_$INDEX_IN_CHAIN'). In the case of plugin auth, this field is ignored in favor of
+    // the name assigned on the plugin config itself.
+    google.protobuf.StringValue name = 11;
+
     oneof auth_config {
       OAuthConfig oauth = 3 [deprecated=true];
       OAuth2Config oauth2 = 9;
@@ -514,7 +601,18 @@ message ExtAuthConfig {
     }
   }
 
+  // List of auth configs to be checked for requests on a route referencing this auth config,
+  // By default, every config must be authorized for the entire request to be authorized. This
+  // behavior can be changed by defining names for each config and defining `boolean_expr` below.
+  //
+  // State is shared between successful requests on the chain, i.e., the headers returned from each
+  // successful auth service get appended into the final auth response.
   repeated Config configs = 8;
+
+  // How to handle processing of named configs within an auth config chain.
+  // An example config might be: ( basic1 || basic2 || (oidc1 && !oidc2) )
+  // The boolean expression is evaluated left to right but honors parenthesis and short-circuiting.
+  google.protobuf.StringValue boolean_expr = 10;
 }
 
 /*

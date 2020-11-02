@@ -42,6 +42,17 @@ func (this *ConnectionConfig_TcpKeepAlive) UnmarshalJSON(b []byte) error {
 	return ConnectionUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for ConnectionConfig_HttpProtocolOptions
+func (this *ConnectionConfig_HttpProtocolOptions) MarshalJSON() ([]byte, error) {
+	str, err := ConnectionMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for ConnectionConfig_HttpProtocolOptions
+func (this *ConnectionConfig_HttpProtocolOptions) UnmarshalJSON(b []byte) error {
+	return ConnectionUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 var (
 	ConnectionMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	ConnectionUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
