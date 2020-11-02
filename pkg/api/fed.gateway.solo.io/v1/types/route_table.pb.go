@@ -6,6 +6,8 @@ package types
 import (
 	bytes "bytes"
 	fmt "fmt"
+	math "math"
+
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
@@ -13,7 +15,6 @@ import (
 	v11 "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/core/v1"
 	v1 "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1"
 	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

@@ -6,6 +6,8 @@ package enterprise
 import (
 	bytes "bytes"
 	fmt "fmt"
+	math "math"
+
 	_ "github.com/envoyproxy/go-control-plane/envoy/api/v2"
 	_ "github.com/gogo/protobuf/gogoproto"
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
@@ -13,7 +15,6 @@ import (
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	_ "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

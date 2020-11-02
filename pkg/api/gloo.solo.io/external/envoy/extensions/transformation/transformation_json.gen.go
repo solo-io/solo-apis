@@ -6,6 +6,8 @@ package transformation
 import (
 	bytes "bytes"
 	fmt "fmt"
+	math "math"
+
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	_ "github.com/gogo/protobuf/gogoproto"
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
@@ -13,7 +15,6 @@ import (
 	_ "github.com/gogo/protobuf/types"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/route/v3"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/type/matcher/v3"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

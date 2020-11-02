@@ -6,6 +6,8 @@ package route
 import (
 	bytes "bytes"
 	fmt "fmt"
+	math "math"
+
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	_ "github.com/gogo/protobuf/gogoproto"
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
@@ -15,7 +17,6 @@ import (
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/type"
 	_ "github.com/solo-io/solo-kit/pkg/api/external/envoy/api/v2/core"
 	_ "github.com/solo-io/solo-kit/pkg/api/external/envoy/type"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
