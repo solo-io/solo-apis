@@ -6,13 +6,12 @@ package v1alpha1
 import (
 	bytes "bytes"
 	fmt "fmt"
-	math "math"
-
 	_ "github.com/gogo/protobuf/gogoproto"
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -61,6 +60,28 @@ func (this *Descriptor) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for Descriptor
 func (this *Descriptor) UnmarshalJSON(b []byte) error {
+	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for SetDescriptor
+func (this *SetDescriptor) MarshalJSON() ([]byte, error) {
+	str, err := RatelimitMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for SetDescriptor
+func (this *SetDescriptor) UnmarshalJSON(b []byte) error {
+	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for SimpleDescriptor
+func (this *SimpleDescriptor) MarshalJSON() ([]byte, error) {
+	str, err := RatelimitMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for SimpleDescriptor
+func (this *SimpleDescriptor) UnmarshalJSON(b []byte) error {
 	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 

@@ -158,6 +158,83 @@ func (m *Descriptor) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *SetDescriptor) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1.SetDescriptor")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetSimpleDescriptors() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetRateLimit()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetRateLimit(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetAlwaysApply())
+	if err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *SimpleDescriptor) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1.SimpleDescriptor")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetKey())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetValue())); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *RateLimitActions) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -188,7 +265,7 @@ func (m *RateLimitActions) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
-	for _, v := range m.GetTableActions() {
+	for _, v := range m.GetSetActions() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {
@@ -383,6 +460,24 @@ func (m *RateLimitConfigSpec_Raw) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	for _, v := range m.GetRateLimits() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	for _, v := range m.GetSetDescriptors() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
 			if _, err = h.Hash(hasher); err != nil {

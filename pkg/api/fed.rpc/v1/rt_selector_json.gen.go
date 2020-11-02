@@ -6,8 +6,6 @@ package v1
 import (
 	bytes "bytes"
 	fmt "fmt"
-	math "math"
-
 	_ "github.com/gogo/protobuf/gogoproto"
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
 	proto "github.com/gogo/protobuf/proto"
@@ -16,6 +14,7 @@ import (
 	_ "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/core/matchers"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

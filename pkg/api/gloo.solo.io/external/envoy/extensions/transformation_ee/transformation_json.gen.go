@@ -6,13 +6,12 @@ package transformation_ee
 import (
 	bytes "bytes"
 	fmt "fmt"
-	math "math"
-
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/api/v2/route"
 	_ "github.com/solo-io/solo-kit/pkg/api/external/envoy/type"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

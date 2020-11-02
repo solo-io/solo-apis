@@ -6,14 +6,13 @@ package transformation
 import (
 	bytes "bytes"
 	fmt "fmt"
-	math "math"
-
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	transformation "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/extensions/transformation"
 	matchers "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/core/matchers"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

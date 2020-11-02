@@ -6,11 +6,10 @@ package annotations
 import (
 	bytes "bytes"
 	fmt "fmt"
-	math "math"
-
 	github_com_gogo_protobuf_jsonpb "github.com/gogo/protobuf/jsonpb"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/protoc-gen-gogo/descriptor"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

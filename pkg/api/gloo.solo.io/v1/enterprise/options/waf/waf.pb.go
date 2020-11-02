@@ -6,12 +6,11 @@ package waf
 import (
 	bytes "bytes"
 	fmt "fmt"
-	math "math"
-
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	waf "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/extensions/waf"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
