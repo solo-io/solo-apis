@@ -144,6 +144,20 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	if h, ok := interface{}(m.GetConsulDiscovery()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetConsulDiscovery(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	if h, ok := interface{}(m.GetKubernetes()).(safe_hasher.SafeHasher); ok {
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
@@ -859,28 +873,6 @@ func (m *SettingsSpec_ConsulConfiguration) Hash(hasher hash.Hash64) (uint64, err
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetHttpAddress())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetDnsAddress())); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetDnsPollingInterval()).(safe_hasher.SafeHasher); ok {
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if val, err := hashstructure.Hash(m.GetDnsPollingInterval(), nil); err != nil {
-			return 0, err
-		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
-				return 0, err
-			}
-		}
-	}
-
 	if _, err = hasher.Write([]byte(m.GetDatacenter())); err != nil {
 		return 0, err
 	}
@@ -953,6 +945,72 @@ func (m *SettingsSpec_ConsulConfiguration) Hash(hasher hash.Hash64) (uint64, err
 				return 0, err
 			}
 		}
+	}
+
+	if _, err = hasher.Write([]byte(m.GetHttpAddress())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetDnsAddress())); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetDnsPollingInterval()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetDnsPollingInterval(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_ConsulUpstreamDiscoveryConfiguration")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetUseTlsTagging())
+	if err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetTlsTagName())); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetRootCa()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetRootCa(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetSplitTlsServices())
+	if err != nil {
+		return 0, err
 	}
 
 	return hasher.Sum64(), nil
