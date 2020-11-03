@@ -64,6 +64,28 @@ func (this *Descriptor) UnmarshalJSON(b []byte) error {
 	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for SetDescriptor
+func (this *SetDescriptor) MarshalJSON() ([]byte, error) {
+	str, err := RatelimitMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for SetDescriptor
+func (this *SetDescriptor) UnmarshalJSON(b []byte) error {
+	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for SimpleDescriptor
+func (this *SimpleDescriptor) MarshalJSON() ([]byte, error) {
+	str, err := RatelimitMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for SimpleDescriptor
+func (this *SimpleDescriptor) UnmarshalJSON(b []byte) error {
+	return RatelimitUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for RateLimitActions
 func (this *RateLimitActions) MarshalJSON() ([]byte, error) {
 	str, err := RatelimitMarshaler.MarshalToString(this)
