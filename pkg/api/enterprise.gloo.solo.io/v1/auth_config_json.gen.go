@@ -243,6 +243,17 @@ func (this *UserSession_CookieOptions) UnmarshalJSON(b []byte) error {
 	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for HeaderConfiguration
+func (this *HeaderConfiguration) MarshalJSON() ([]byte, error) {
+	str, err := AuthConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for HeaderConfiguration
+func (this *HeaderConfiguration) UnmarshalJSON(b []byte) error {
+	return AuthConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for OidcAuthorizationCode
 func (this *OidcAuthorizationCode) MarshalJSON() ([]byte, error) {
 	str, err := AuthConfigMarshaler.MarshalToString(this)
