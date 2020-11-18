@@ -237,6 +237,23 @@ message SimpleDescriptor {
 //  rateLimit:
 //    requestsPerUnit: 20
 //    unit: MINUTE
+//
+// It would also match the following setDescriptor which includes only a subset of the setActions enumerated:
+//
+// setDescriptors:
+// - simpleDescriptors:
+//   - key: account_id
+//  rateLimit:
+//    requestsPerUnit: 20
+//    unit: MINUTE
+//
+// It would even match the following setDescriptor.
+// Any setActions list would match this setDescriptor which has simpleDescriptors omitted entirely:
+//
+// setDescriptors:
+// - rateLimit:
+//    requestsPerUnit: 20
+//    unit: MINUTE
 message RateLimitActions {
   repeated Action actions = 1;
   repeated Action set_actions = 2;

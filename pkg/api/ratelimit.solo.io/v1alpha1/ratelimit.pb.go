@@ -604,6 +604,23 @@ func (m *SimpleDescriptor) GetValue() string {
 //  rateLimit:
 //    requestsPerUnit: 20
 //    unit: MINUTE
+//
+// It would also match the following setDescriptor which includes only a subset of the setActions enumerated:
+//
+// setDescriptors:
+// - simpleDescriptors:
+//   - key: account_id
+//  rateLimit:
+//    requestsPerUnit: 20
+//    unit: MINUTE
+//
+// It would even match the following setDescriptor.
+// Any setActions list would match this setDescriptor which has simpleDescriptors omitted entirely:
+//
+// setDescriptors:
+// - rateLimit:
+//    requestsPerUnit: 20
+//    unit: MINUTE
 type RateLimitActions struct {
 	Actions              []*Action `protobuf:"bytes,1,rep,name=actions,proto3" json:"actions,omitempty"`
 	SetActions           []*Action `protobuf:"bytes,2,rep,name=set_actions,json=setActions,proto3" json:"set_actions,omitempty"`
