@@ -13,6 +13,8 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/types"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
+	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/trace/v3"
+	_ "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
