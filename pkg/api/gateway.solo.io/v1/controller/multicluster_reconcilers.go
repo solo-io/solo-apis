@@ -66,8 +66,8 @@ func (m *multiclusterGatewayReconcileLoop) AddMulticlusterGatewayReconciler(ctx 
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterGatewayReconcileLoop(name string, cw multicluster.ClusterWatcher) MulticlusterGatewayReconcileLoop {
-	return &multiclusterGatewayReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.Gateway{})}
+func NewMulticlusterGatewayReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterGatewayReconcileLoop {
+	return &multiclusterGatewayReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.Gateway{}, options)}
 }
 
 type genericGatewayMulticlusterReconciler struct {
@@ -137,8 +137,8 @@ func (m *multiclusterRouteTableReconcileLoop) AddMulticlusterRouteTableReconcile
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterRouteTableReconcileLoop(name string, cw multicluster.ClusterWatcher) MulticlusterRouteTableReconcileLoop {
-	return &multiclusterRouteTableReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.RouteTable{})}
+func NewMulticlusterRouteTableReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterRouteTableReconcileLoop {
+	return &multiclusterRouteTableReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.RouteTable{}, options)}
 }
 
 type genericRouteTableMulticlusterReconciler struct {
@@ -208,8 +208,8 @@ func (m *multiclusterVirtualServiceReconcileLoop) AddMulticlusterVirtualServiceR
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterVirtualServiceReconcileLoop(name string, cw multicluster.ClusterWatcher) MulticlusterVirtualServiceReconcileLoop {
-	return &multiclusterVirtualServiceReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.VirtualService{})}
+func NewMulticlusterVirtualServiceReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterVirtualServiceReconcileLoop {
+	return &multiclusterVirtualServiceReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.VirtualService{}, options)}
 }
 
 type genericVirtualServiceMulticlusterReconciler struct {

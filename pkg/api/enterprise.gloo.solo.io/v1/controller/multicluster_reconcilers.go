@@ -66,8 +66,8 @@ func (m *multiclusterAuthConfigReconcileLoop) AddMulticlusterAuthConfigReconcile
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterAuthConfigReconcileLoop(name string, cw multicluster.ClusterWatcher) MulticlusterAuthConfigReconcileLoop {
-	return &multiclusterAuthConfigReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &enterprise_gloo_solo_io_v1.AuthConfig{})}
+func NewMulticlusterAuthConfigReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterAuthConfigReconcileLoop {
+	return &multiclusterAuthConfigReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &enterprise_gloo_solo_io_v1.AuthConfig{}, options)}
 }
 
 type genericAuthConfigMulticlusterReconciler struct {

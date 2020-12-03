@@ -3,6 +3,7 @@ package codegen
 import (
 	"github.com/solo-io/skv2/codegen"
 	"github.com/solo-io/skv2/codegen/model"
+	"github.com/solo-io/skv2/codegen/skv2_anyvendor"
 	"github.com/solo-io/solo-kit/pkg/code-generator/sk_anyvendor"
 )
 
@@ -25,8 +26,11 @@ func Command() codegen.Command {
 	}
 
 	return codegen.Command{
-		AnyVendorConfig: skv2Imports,
-		RenderProtos:    true,
-		Groups:          groups,
+		AnyVendorConfig: &skv2_anyvendor.Imports{
+			Local:    skv2Imports.Local,
+			External: skv2Imports.External,
+		},
+		RenderProtos: true,
+		Groups:       groups,
 	}
 }

@@ -14,8 +14,12 @@ func (in *Gateway) DeepCopyInto(out *Gateway) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
 	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
 	in.Status.DeepCopyInto(&out.Status)
+
 	return
 }
 
@@ -71,8 +75,12 @@ func (in *RouteTable) DeepCopyInto(out *RouteTable) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
 	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
 	in.Status.DeepCopyInto(&out.Status)
+
 	return
 }
 
@@ -128,8 +136,12 @@ func (in *VirtualService) DeepCopyInto(out *VirtualService) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
 	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
 	in.Status.DeepCopyInto(&out.Status)
+
 	return
 }
 

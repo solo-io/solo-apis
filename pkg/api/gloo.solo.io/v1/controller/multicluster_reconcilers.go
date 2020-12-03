@@ -66,8 +66,8 @@ func (m *multiclusterSettingsReconcileLoop) AddMulticlusterSettingsReconciler(ct
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterSettingsReconcileLoop(name string, cw multicluster.ClusterWatcher) MulticlusterSettingsReconcileLoop {
-	return &multiclusterSettingsReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gloo_solo_io_v1.Settings{})}
+func NewMulticlusterSettingsReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterSettingsReconcileLoop {
+	return &multiclusterSettingsReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gloo_solo_io_v1.Settings{}, options)}
 }
 
 type genericSettingsMulticlusterReconciler struct {
@@ -137,8 +137,8 @@ func (m *multiclusterUpstreamReconcileLoop) AddMulticlusterUpstreamReconciler(ct
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterUpstreamReconcileLoop(name string, cw multicluster.ClusterWatcher) MulticlusterUpstreamReconcileLoop {
-	return &multiclusterUpstreamReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gloo_solo_io_v1.Upstream{})}
+func NewMulticlusterUpstreamReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterUpstreamReconcileLoop {
+	return &multiclusterUpstreamReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gloo_solo_io_v1.Upstream{}, options)}
 }
 
 type genericUpstreamMulticlusterReconciler struct {
@@ -208,8 +208,8 @@ func (m *multiclusterUpstreamGroupReconcileLoop) AddMulticlusterUpstreamGroupRec
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterUpstreamGroupReconcileLoop(name string, cw multicluster.ClusterWatcher) MulticlusterUpstreamGroupReconcileLoop {
-	return &multiclusterUpstreamGroupReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gloo_solo_io_v1.UpstreamGroup{})}
+func NewMulticlusterUpstreamGroupReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterUpstreamGroupReconcileLoop {
+	return &multiclusterUpstreamGroupReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gloo_solo_io_v1.UpstreamGroup{}, options)}
 }
 
 type genericUpstreamGroupMulticlusterReconciler struct {
@@ -279,8 +279,8 @@ func (m *multiclusterProxyReconcileLoop) AddMulticlusterProxyReconciler(ctx cont
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterProxyReconcileLoop(name string, cw multicluster.ClusterWatcher) MulticlusterProxyReconcileLoop {
-	return &multiclusterProxyReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gloo_solo_io_v1.Proxy{})}
+func NewMulticlusterProxyReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterProxyReconcileLoop {
+	return &multiclusterProxyReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gloo_solo_io_v1.Proxy{}, options)}
 }
 
 type genericProxyMulticlusterReconciler struct {

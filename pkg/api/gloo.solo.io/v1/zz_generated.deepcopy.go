@@ -14,8 +14,12 @@ func (in *Settings) DeepCopyInto(out *Settings) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
 	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
 	in.Status.DeepCopyInto(&out.Status)
+
 	return
 }
 
@@ -71,8 +75,12 @@ func (in *Upstream) DeepCopyInto(out *Upstream) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
 	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
 	in.Status.DeepCopyInto(&out.Status)
+
 	return
 }
 
@@ -128,8 +136,12 @@ func (in *UpstreamGroup) DeepCopyInto(out *UpstreamGroup) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
 	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
 	in.Status.DeepCopyInto(&out.Status)
+
 	return
 }
 
@@ -185,8 +197,12 @@ func (in *Proxy) DeepCopyInto(out *Proxy) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
 	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
 	in.Status.DeepCopyInto(&out.Status)
+
 	return
 }
 

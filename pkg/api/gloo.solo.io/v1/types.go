@@ -5,6 +5,7 @@ package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // +genclient
@@ -19,6 +20,15 @@ type Settings struct {
 
 	Spec   SettingsSpec   `json:"spec,omitempty"`
 	Status SettingsStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (Settings) GVK() schema.GroupVersionKind {
+	return schema.GroupVersionKind{
+		Group:   "gloo.solo.io",
+		Version: "v1",
+		Kind:    "Settings",
+	}
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -44,6 +54,15 @@ type Upstream struct {
 	Status UpstreamStatus `json:"status,omitempty"`
 }
 
+// GVK returns the GroupVersionKind associated with the resource type.
+func (Upstream) GVK() schema.GroupVersionKind {
+	return schema.GroupVersionKind{
+		Group:   "gloo.solo.io",
+		Version: "v1",
+		Kind:    "Upstream",
+	}
+}
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // UpstreamList contains a list of Upstream
@@ -67,6 +86,15 @@ type UpstreamGroup struct {
 	Status UpstreamGroupStatus `json:"status,omitempty"`
 }
 
+// GVK returns the GroupVersionKind associated with the resource type.
+func (UpstreamGroup) GVK() schema.GroupVersionKind {
+	return schema.GroupVersionKind{
+		Group:   "gloo.solo.io",
+		Version: "v1",
+		Kind:    "UpstreamGroup",
+	}
+}
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // UpstreamGroupList contains a list of UpstreamGroup
@@ -88,6 +116,15 @@ type Proxy struct {
 
 	Spec   ProxySpec   `json:"spec,omitempty"`
 	Status ProxyStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (Proxy) GVK() schema.GroupVersionKind {
+	return schema.GroupVersionKind{
+		Group:   "gloo.solo.io",
+		Version: "v1",
+		Kind:    "Proxy",
+	}
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
