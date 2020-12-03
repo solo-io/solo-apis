@@ -74,7 +74,8 @@ type gatewayReconcileLoop struct {
 
 func NewGatewayReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) GatewayReconcileLoop {
 	return &gatewayReconcileLoop{
-		loop: reconcile.NewLoop(name, mgr, &gateway_solo_io_v1.Gateway{}, options),
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gateway_solo_io_v1.Gateway{}, options),
 	}
 }
 
@@ -190,7 +191,8 @@ type routeTableReconcileLoop struct {
 
 func NewRouteTableReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) RouteTableReconcileLoop {
 	return &routeTableReconcileLoop{
-		loop: reconcile.NewLoop(name, mgr, &gateway_solo_io_v1.RouteTable{}, options),
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gateway_solo_io_v1.RouteTable{}, options),
 	}
 }
 
@@ -306,7 +308,8 @@ type virtualServiceReconcileLoop struct {
 
 func NewVirtualServiceReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) VirtualServiceReconcileLoop {
 	return &virtualServiceReconcileLoop{
-		loop: reconcile.NewLoop(name, mgr, &gateway_solo_io_v1.VirtualService{}, options),
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gateway_solo_io_v1.VirtualService{}, options),
 	}
 }
 

@@ -66,8 +66,8 @@ func (m *multiclusterRateLimitConfigReconcileLoop) AddMulticlusterRateLimitConfi
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterRateLimitConfigReconcileLoop(name string, cw multicluster.ClusterWatcher) MulticlusterRateLimitConfigReconcileLoop {
-	return &multiclusterRateLimitConfigReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &ratelimit_solo_io_v1alpha1.RateLimitConfig{})}
+func NewMulticlusterRateLimitConfigReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterRateLimitConfigReconcileLoop {
+	return &multiclusterRateLimitConfigReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &ratelimit_solo_io_v1alpha1.RateLimitConfig{}, options)}
 }
 
 type genericRateLimitConfigMulticlusterReconciler struct {

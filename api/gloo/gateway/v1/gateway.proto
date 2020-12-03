@@ -103,7 +103,6 @@ message TcpGateway {
     gloo.solo.io.TcpListenerOptions options = 8;
 }
 
-
 message GatewayStatus {
 	enum State {
 			// Pending status indicates the resource has not yet been validated

@@ -74,7 +74,8 @@ type settingsReconcileLoop struct {
 
 func NewSettingsReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) SettingsReconcileLoop {
 	return &settingsReconcileLoop{
-		loop: reconcile.NewLoop(name, mgr, &gloo_solo_io_v1.Settings{}, options),
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.Settings{}, options),
 	}
 }
 
@@ -190,7 +191,8 @@ type upstreamReconcileLoop struct {
 
 func NewUpstreamReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) UpstreamReconcileLoop {
 	return &upstreamReconcileLoop{
-		loop: reconcile.NewLoop(name, mgr, &gloo_solo_io_v1.Upstream{}, options),
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.Upstream{}, options),
 	}
 }
 
@@ -306,7 +308,8 @@ type upstreamGroupReconcileLoop struct {
 
 func NewUpstreamGroupReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) UpstreamGroupReconcileLoop {
 	return &upstreamGroupReconcileLoop{
-		loop: reconcile.NewLoop(name, mgr, &gloo_solo_io_v1.UpstreamGroup{}, options),
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.UpstreamGroup{}, options),
 	}
 }
 
@@ -422,7 +425,8 @@ type proxyReconcileLoop struct {
 
 func NewProxyReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) ProxyReconcileLoop {
 	return &proxyReconcileLoop{
-		loop: reconcile.NewLoop(name, mgr, &gloo_solo_io_v1.Proxy{}, options),
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.Proxy{}, options),
 	}
 }
 

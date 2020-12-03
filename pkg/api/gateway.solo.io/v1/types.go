@@ -5,6 +5,7 @@ package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // +genclient
@@ -19,6 +20,15 @@ type Gateway struct {
 
 	Spec   GatewaySpec   `json:"spec,omitempty"`
 	Status GatewayStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (Gateway) GVK() schema.GroupVersionKind {
+	return schema.GroupVersionKind{
+		Group:   "gateway.solo.io",
+		Version: "v1",
+		Kind:    "Gateway",
+	}
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -44,6 +54,15 @@ type RouteTable struct {
 	Status RouteTableStatus `json:"status,omitempty"`
 }
 
+// GVK returns the GroupVersionKind associated with the resource type.
+func (RouteTable) GVK() schema.GroupVersionKind {
+	return schema.GroupVersionKind{
+		Group:   "gateway.solo.io",
+		Version: "v1",
+		Kind:    "RouteTable",
+	}
+}
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // RouteTableList contains a list of RouteTable
@@ -65,6 +84,15 @@ type VirtualService struct {
 
 	Spec   VirtualServiceSpec   `json:"spec,omitempty"`
 	Status VirtualServiceStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (VirtualService) GVK() schema.GroupVersionKind {
+	return schema.GroupVersionKind{
+		Group:   "gateway.solo.io",
+		Version: "v1",
+		Kind:    "VirtualService",
+	}
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

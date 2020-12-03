@@ -7,23 +7,36 @@ package v1sets
 import (
 	gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 
+	"github.com/rotisserie/eris"
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	"github.com/solo-io/skv2/pkg/ezkube"
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
 type SettingsSet interface {
+	// Get the set stored keys
 	Keys() sets.String
-	List() []*gloo_solo_io_v1.Settings
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	List(filterResource ...func(*gloo_solo_io_v1.Settings) bool) []*gloo_solo_io_v1.Settings
+	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.Settings
+	// Insert a resource into the set.
 	Insert(settings ...*gloo_solo_io_v1.Settings)
+	// Compare the equality of the keys in two sets (not the resources themselves)
 	Equal(settingsSet SettingsSet) bool
-	Has(settings *gloo_solo_io_v1.Settings) bool
-	Delete(settings *gloo_solo_io_v1.Settings)
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(settings ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(settings ezkube.ResourceId)
+	// Return the union with the provided set
 	Union(set SettingsSet) SettingsSet
+	// Return the difference with the provided set
 	Difference(set SettingsSet) SettingsSet
+	// Return the intersection with the provided set
 	Intersection(set SettingsSet) SettingsSet
+	// Find the resource with the given ID
 	Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Settings, error)
+	// Get the length of the set
 	Length() int
 }
 
@@ -52,18 +65,35 @@ func NewSettingsSetFromList(settingsList *gloo_solo_io_v1.SettingsList) Settings
 }
 
 func (s *settingsSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
 	return s.set.Keys()
 }
 
-func (s *settingsSet) List() []*gloo_solo_io_v1.Settings {
+func (s *settingsSet) List(filterResource ...func(*gloo_solo_io_v1.Settings) bool) []*gloo_solo_io_v1.Settings {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Settings))
+		})
+	}
+
 	var settingsList []*gloo_solo_io_v1.Settings
-	for _, obj := range s.set.List() {
+	for _, obj := range s.set.List(genericFilters...) {
 		settingsList = append(settingsList, obj.(*gloo_solo_io_v1.Settings))
 	}
 	return settingsList
 }
 
 func (s *settingsSet) Map() map[string]*gloo_solo_io_v1.Settings {
+	if s == nil {
+		return nil
+	}
+
 	newMap := map[string]*gloo_solo_io_v1.Settings{}
 	for k, v := range s.set.Map() {
 		newMap[k] = v.(*gloo_solo_io_v1.Settings)
@@ -74,35 +104,57 @@ func (s *settingsSet) Map() map[string]*gloo_solo_io_v1.Settings {
 func (s *settingsSet) Insert(
 	settingsList ...*gloo_solo_io_v1.Settings,
 ) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
 	for _, obj := range settingsList {
 		s.set.Insert(obj)
 	}
 }
 
-func (s *settingsSet) Has(settings *gloo_solo_io_v1.Settings) bool {
+func (s *settingsSet) Has(settings ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
 	return s.set.Has(settings)
 }
 
 func (s *settingsSet) Equal(
 	settingsSet SettingsSet,
 ) bool {
+	if s == nil {
+		return settingsSet == nil
+	}
 	return s.set.Equal(makeGenericSettingsSet(settingsSet.List()))
 }
 
-func (s *settingsSet) Delete(Settings *gloo_solo_io_v1.Settings) {
+func (s *settingsSet) Delete(Settings ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
 	s.set.Delete(Settings)
 }
 
 func (s *settingsSet) Union(set SettingsSet) SettingsSet {
+	if s == nil {
+		return set
+	}
 	return NewSettingsSet(append(s.List(), set.List()...)...)
 }
 
 func (s *settingsSet) Difference(set SettingsSet) SettingsSet {
+	if s == nil {
+		return set
+	}
 	newSet := s.set.Difference(makeGenericSettingsSet(set.List()))
 	return &settingsSet{set: newSet}
 }
 
 func (s *settingsSet) Intersection(set SettingsSet) SettingsSet {
+	if s == nil {
+		return nil
+	}
 	newSet := s.set.Intersection(makeGenericSettingsSet(set.List()))
 	var settingsList []*gloo_solo_io_v1.Settings
 	for _, obj := range newSet.List() {
@@ -112,6 +164,9 @@ func (s *settingsSet) Intersection(set SettingsSet) SettingsSet {
 }
 
 func (s *settingsSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Settings, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find Settings %v", sksets.Key(id))
+	}
 	obj, err := s.set.Find(&gloo_solo_io_v1.Settings{}, id)
 	if err != nil {
 		return nil, err
@@ -121,21 +176,36 @@ func (s *settingsSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Settings, err
 }
 
 func (s *settingsSet) Length() int {
+	if s == nil {
+		return 0
+	}
 	return s.set.Length()
 }
 
 type UpstreamSet interface {
+	// Get the set stored keys
 	Keys() sets.String
-	List() []*gloo_solo_io_v1.Upstream
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	List(filterResource ...func(*gloo_solo_io_v1.Upstream) bool) []*gloo_solo_io_v1.Upstream
+	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.Upstream
+	// Insert a resource into the set.
 	Insert(upstream ...*gloo_solo_io_v1.Upstream)
+	// Compare the equality of the keys in two sets (not the resources themselves)
 	Equal(upstreamSet UpstreamSet) bool
-	Has(upstream *gloo_solo_io_v1.Upstream) bool
-	Delete(upstream *gloo_solo_io_v1.Upstream)
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(upstream ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(upstream ezkube.ResourceId)
+	// Return the union with the provided set
 	Union(set UpstreamSet) UpstreamSet
+	// Return the difference with the provided set
 	Difference(set UpstreamSet) UpstreamSet
+	// Return the intersection with the provided set
 	Intersection(set UpstreamSet) UpstreamSet
+	// Find the resource with the given ID
 	Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Upstream, error)
+	// Get the length of the set
 	Length() int
 }
 
@@ -164,18 +234,35 @@ func NewUpstreamSetFromList(upstreamList *gloo_solo_io_v1.UpstreamList) Upstream
 }
 
 func (s *upstreamSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
 	return s.set.Keys()
 }
 
-func (s *upstreamSet) List() []*gloo_solo_io_v1.Upstream {
+func (s *upstreamSet) List(filterResource ...func(*gloo_solo_io_v1.Upstream) bool) []*gloo_solo_io_v1.Upstream {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Upstream))
+		})
+	}
+
 	var upstreamList []*gloo_solo_io_v1.Upstream
-	for _, obj := range s.set.List() {
+	for _, obj := range s.set.List(genericFilters...) {
 		upstreamList = append(upstreamList, obj.(*gloo_solo_io_v1.Upstream))
 	}
 	return upstreamList
 }
 
 func (s *upstreamSet) Map() map[string]*gloo_solo_io_v1.Upstream {
+	if s == nil {
+		return nil
+	}
+
 	newMap := map[string]*gloo_solo_io_v1.Upstream{}
 	for k, v := range s.set.Map() {
 		newMap[k] = v.(*gloo_solo_io_v1.Upstream)
@@ -186,35 +273,57 @@ func (s *upstreamSet) Map() map[string]*gloo_solo_io_v1.Upstream {
 func (s *upstreamSet) Insert(
 	upstreamList ...*gloo_solo_io_v1.Upstream,
 ) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
 	for _, obj := range upstreamList {
 		s.set.Insert(obj)
 	}
 }
 
-func (s *upstreamSet) Has(upstream *gloo_solo_io_v1.Upstream) bool {
+func (s *upstreamSet) Has(upstream ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
 	return s.set.Has(upstream)
 }
 
 func (s *upstreamSet) Equal(
 	upstreamSet UpstreamSet,
 ) bool {
+	if s == nil {
+		return upstreamSet == nil
+	}
 	return s.set.Equal(makeGenericUpstreamSet(upstreamSet.List()))
 }
 
-func (s *upstreamSet) Delete(Upstream *gloo_solo_io_v1.Upstream) {
+func (s *upstreamSet) Delete(Upstream ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
 	s.set.Delete(Upstream)
 }
 
 func (s *upstreamSet) Union(set UpstreamSet) UpstreamSet {
+	if s == nil {
+		return set
+	}
 	return NewUpstreamSet(append(s.List(), set.List()...)...)
 }
 
 func (s *upstreamSet) Difference(set UpstreamSet) UpstreamSet {
+	if s == nil {
+		return set
+	}
 	newSet := s.set.Difference(makeGenericUpstreamSet(set.List()))
 	return &upstreamSet{set: newSet}
 }
 
 func (s *upstreamSet) Intersection(set UpstreamSet) UpstreamSet {
+	if s == nil {
+		return nil
+	}
 	newSet := s.set.Intersection(makeGenericUpstreamSet(set.List()))
 	var upstreamList []*gloo_solo_io_v1.Upstream
 	for _, obj := range newSet.List() {
@@ -224,6 +333,9 @@ func (s *upstreamSet) Intersection(set UpstreamSet) UpstreamSet {
 }
 
 func (s *upstreamSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Upstream, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find Upstream %v", sksets.Key(id))
+	}
 	obj, err := s.set.Find(&gloo_solo_io_v1.Upstream{}, id)
 	if err != nil {
 		return nil, err
@@ -233,21 +345,36 @@ func (s *upstreamSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Upstream, err
 }
 
 func (s *upstreamSet) Length() int {
+	if s == nil {
+		return 0
+	}
 	return s.set.Length()
 }
 
 type UpstreamGroupSet interface {
+	// Get the set stored keys
 	Keys() sets.String
-	List() []*gloo_solo_io_v1.UpstreamGroup
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	List(filterResource ...func(*gloo_solo_io_v1.UpstreamGroup) bool) []*gloo_solo_io_v1.UpstreamGroup
+	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.UpstreamGroup
+	// Insert a resource into the set.
 	Insert(upstreamGroup ...*gloo_solo_io_v1.UpstreamGroup)
+	// Compare the equality of the keys in two sets (not the resources themselves)
 	Equal(upstreamGroupSet UpstreamGroupSet) bool
-	Has(upstreamGroup *gloo_solo_io_v1.UpstreamGroup) bool
-	Delete(upstreamGroup *gloo_solo_io_v1.UpstreamGroup)
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(upstreamGroup ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(upstreamGroup ezkube.ResourceId)
+	// Return the union with the provided set
 	Union(set UpstreamGroupSet) UpstreamGroupSet
+	// Return the difference with the provided set
 	Difference(set UpstreamGroupSet) UpstreamGroupSet
+	// Return the intersection with the provided set
 	Intersection(set UpstreamGroupSet) UpstreamGroupSet
+	// Find the resource with the given ID
 	Find(id ezkube.ResourceId) (*gloo_solo_io_v1.UpstreamGroup, error)
+	// Get the length of the set
 	Length() int
 }
 
@@ -276,18 +403,35 @@ func NewUpstreamGroupSetFromList(upstreamGroupList *gloo_solo_io_v1.UpstreamGrou
 }
 
 func (s *upstreamGroupSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
 	return s.set.Keys()
 }
 
-func (s *upstreamGroupSet) List() []*gloo_solo_io_v1.UpstreamGroup {
+func (s *upstreamGroupSet) List(filterResource ...func(*gloo_solo_io_v1.UpstreamGroup) bool) []*gloo_solo_io_v1.UpstreamGroup {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.UpstreamGroup))
+		})
+	}
+
 	var upstreamGroupList []*gloo_solo_io_v1.UpstreamGroup
-	for _, obj := range s.set.List() {
+	for _, obj := range s.set.List(genericFilters...) {
 		upstreamGroupList = append(upstreamGroupList, obj.(*gloo_solo_io_v1.UpstreamGroup))
 	}
 	return upstreamGroupList
 }
 
 func (s *upstreamGroupSet) Map() map[string]*gloo_solo_io_v1.UpstreamGroup {
+	if s == nil {
+		return nil
+	}
+
 	newMap := map[string]*gloo_solo_io_v1.UpstreamGroup{}
 	for k, v := range s.set.Map() {
 		newMap[k] = v.(*gloo_solo_io_v1.UpstreamGroup)
@@ -298,35 +442,57 @@ func (s *upstreamGroupSet) Map() map[string]*gloo_solo_io_v1.UpstreamGroup {
 func (s *upstreamGroupSet) Insert(
 	upstreamGroupList ...*gloo_solo_io_v1.UpstreamGroup,
 ) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
 	for _, obj := range upstreamGroupList {
 		s.set.Insert(obj)
 	}
 }
 
-func (s *upstreamGroupSet) Has(upstreamGroup *gloo_solo_io_v1.UpstreamGroup) bool {
+func (s *upstreamGroupSet) Has(upstreamGroup ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
 	return s.set.Has(upstreamGroup)
 }
 
 func (s *upstreamGroupSet) Equal(
 	upstreamGroupSet UpstreamGroupSet,
 ) bool {
+	if s == nil {
+		return upstreamGroupSet == nil
+	}
 	return s.set.Equal(makeGenericUpstreamGroupSet(upstreamGroupSet.List()))
 }
 
-func (s *upstreamGroupSet) Delete(UpstreamGroup *gloo_solo_io_v1.UpstreamGroup) {
+func (s *upstreamGroupSet) Delete(UpstreamGroup ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
 	s.set.Delete(UpstreamGroup)
 }
 
 func (s *upstreamGroupSet) Union(set UpstreamGroupSet) UpstreamGroupSet {
+	if s == nil {
+		return set
+	}
 	return NewUpstreamGroupSet(append(s.List(), set.List()...)...)
 }
 
 func (s *upstreamGroupSet) Difference(set UpstreamGroupSet) UpstreamGroupSet {
+	if s == nil {
+		return set
+	}
 	newSet := s.set.Difference(makeGenericUpstreamGroupSet(set.List()))
 	return &upstreamGroupSet{set: newSet}
 }
 
 func (s *upstreamGroupSet) Intersection(set UpstreamGroupSet) UpstreamGroupSet {
+	if s == nil {
+		return nil
+	}
 	newSet := s.set.Intersection(makeGenericUpstreamGroupSet(set.List()))
 	var upstreamGroupList []*gloo_solo_io_v1.UpstreamGroup
 	for _, obj := range newSet.List() {
@@ -336,6 +502,9 @@ func (s *upstreamGroupSet) Intersection(set UpstreamGroupSet) UpstreamGroupSet {
 }
 
 func (s *upstreamGroupSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.UpstreamGroup, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find UpstreamGroup %v", sksets.Key(id))
+	}
 	obj, err := s.set.Find(&gloo_solo_io_v1.UpstreamGroup{}, id)
 	if err != nil {
 		return nil, err
@@ -345,21 +514,36 @@ func (s *upstreamGroupSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Upstream
 }
 
 func (s *upstreamGroupSet) Length() int {
+	if s == nil {
+		return 0
+	}
 	return s.set.Length()
 }
 
 type ProxySet interface {
+	// Get the set stored keys
 	Keys() sets.String
-	List() []*gloo_solo_io_v1.Proxy
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	List(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*gloo_solo_io_v1.Proxy
+	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.Proxy
+	// Insert a resource into the set.
 	Insert(proxy ...*gloo_solo_io_v1.Proxy)
+	// Compare the equality of the keys in two sets (not the resources themselves)
 	Equal(proxySet ProxySet) bool
-	Has(proxy *gloo_solo_io_v1.Proxy) bool
-	Delete(proxy *gloo_solo_io_v1.Proxy)
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(proxy ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(proxy ezkube.ResourceId)
+	// Return the union with the provided set
 	Union(set ProxySet) ProxySet
+	// Return the difference with the provided set
 	Difference(set ProxySet) ProxySet
+	// Return the intersection with the provided set
 	Intersection(set ProxySet) ProxySet
+	// Find the resource with the given ID
 	Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Proxy, error)
+	// Get the length of the set
 	Length() int
 }
 
@@ -388,18 +572,35 @@ func NewProxySetFromList(proxyList *gloo_solo_io_v1.ProxyList) ProxySet {
 }
 
 func (s *proxySet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
 	return s.set.Keys()
 }
 
-func (s *proxySet) List() []*gloo_solo_io_v1.Proxy {
+func (s *proxySet) List(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*gloo_solo_io_v1.Proxy {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Proxy))
+		})
+	}
+
 	var proxyList []*gloo_solo_io_v1.Proxy
-	for _, obj := range s.set.List() {
+	for _, obj := range s.set.List(genericFilters...) {
 		proxyList = append(proxyList, obj.(*gloo_solo_io_v1.Proxy))
 	}
 	return proxyList
 }
 
 func (s *proxySet) Map() map[string]*gloo_solo_io_v1.Proxy {
+	if s == nil {
+		return nil
+	}
+
 	newMap := map[string]*gloo_solo_io_v1.Proxy{}
 	for k, v := range s.set.Map() {
 		newMap[k] = v.(*gloo_solo_io_v1.Proxy)
@@ -410,35 +611,57 @@ func (s *proxySet) Map() map[string]*gloo_solo_io_v1.Proxy {
 func (s *proxySet) Insert(
 	proxyList ...*gloo_solo_io_v1.Proxy,
 ) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
 	for _, obj := range proxyList {
 		s.set.Insert(obj)
 	}
 }
 
-func (s *proxySet) Has(proxy *gloo_solo_io_v1.Proxy) bool {
+func (s *proxySet) Has(proxy ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
 	return s.set.Has(proxy)
 }
 
 func (s *proxySet) Equal(
 	proxySet ProxySet,
 ) bool {
+	if s == nil {
+		return proxySet == nil
+	}
 	return s.set.Equal(makeGenericProxySet(proxySet.List()))
 }
 
-func (s *proxySet) Delete(Proxy *gloo_solo_io_v1.Proxy) {
+func (s *proxySet) Delete(Proxy ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
 	s.set.Delete(Proxy)
 }
 
 func (s *proxySet) Union(set ProxySet) ProxySet {
+	if s == nil {
+		return set
+	}
 	return NewProxySet(append(s.List(), set.List()...)...)
 }
 
 func (s *proxySet) Difference(set ProxySet) ProxySet {
+	if s == nil {
+		return set
+	}
 	newSet := s.set.Difference(makeGenericProxySet(set.List()))
 	return &proxySet{set: newSet}
 }
 
 func (s *proxySet) Intersection(set ProxySet) ProxySet {
+	if s == nil {
+		return nil
+	}
 	newSet := s.set.Intersection(makeGenericProxySet(set.List()))
 	var proxyList []*gloo_solo_io_v1.Proxy
 	for _, obj := range newSet.List() {
@@ -448,6 +671,9 @@ func (s *proxySet) Intersection(set ProxySet) ProxySet {
 }
 
 func (s *proxySet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Proxy, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find Proxy %v", sksets.Key(id))
+	}
 	obj, err := s.set.Find(&gloo_solo_io_v1.Proxy{}, id)
 	if err != nil {
 		return nil, err
@@ -457,5 +683,8 @@ func (s *proxySet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Proxy, error) {
 }
 
 func (s *proxySet) Length() int {
+	if s == nil {
+		return 0
+	}
 	return s.set.Length()
 }
