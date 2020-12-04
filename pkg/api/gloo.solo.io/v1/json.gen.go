@@ -5,13 +5,13 @@
 package v1
 
 import (
-    bytes "bytes"
-    fmt "fmt"
-    math "math"
+	bytes "bytes"
+	fmt "fmt"
+	math "math"
 
-    skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
-    jsonpb "github.com/golang/protobuf/jsonpb"
-    proto "github.com/golang/protobuf/proto"
+	jsonpb "github.com/golang/protobuf/jsonpb"
+	proto "github.com/golang/protobuf/proto"
+	skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -20,7 +20,7 @@ var _ = fmt.Errorf
 var _ = math.Inf
 
 var (
-	marshaller = &skv2jsonpb.Marshaler{}
+	marshaller   = &skv2jsonpb.Marshaler{}
 	unmarshaller = &jsonpb.Unmarshaler{}
 )
 
@@ -34,6 +34,7 @@ func (this *SettingsSpec) MarshalJSON() ([]byte, error) {
 func (this *SettingsSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for SettingsStatus
 func (this *SettingsStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -55,6 +56,7 @@ func (this *UpstreamSpec) MarshalJSON() ([]byte, error) {
 func (this *UpstreamSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for UpstreamStatus
 func (this *UpstreamStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -76,6 +78,7 @@ func (this *UpstreamGroupSpec) MarshalJSON() ([]byte, error) {
 func (this *UpstreamGroupSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for UpstreamGroupStatus
 func (this *UpstreamGroupStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -97,6 +100,7 @@ func (this *ProxySpec) MarshalJSON() ([]byte, error) {
 func (this *ProxySpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for ProxyStatus
 func (this *ProxyStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
