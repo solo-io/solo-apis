@@ -3,20 +3,19 @@ package gloo.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1";
 
 import "google/protobuf/struct.proto";
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
+option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 
-import "solo-kit/api/v1/solo-kit.proto";
-import "solo-kit/api/v1/ref.proto";
+import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
+import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 
-import "solo-apis/api/gloo/gloo/v1/extensions.proto";
-import "solo-apis/api/gloo/gloo/v1/enterprise/options/ratelimit/ratelimit.proto";
-import "solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto";
-import "solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto";
-import "solo-apis/api/gloo/gloo/v1/circuit_breaker.proto";
-import "solo-apis/api/gloo/gloo/external/envoy/extensions/aws/filter.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/extensions.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/ratelimit/ratelimit.proto";
+import "github.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/circuit_breaker.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/aws/filter.proto";
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/wrappers.proto";

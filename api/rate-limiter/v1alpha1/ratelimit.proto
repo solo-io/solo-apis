@@ -5,10 +5,9 @@ option go_package = "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1al
 
 
 import "google/protobuf/wrappers.proto";
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
+option (extproto.equal_all) = true;
 
 // A `RateLimitConfig` describes a rate limit policy.
 message RateLimitConfigSpec {

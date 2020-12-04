@@ -3,12 +3,11 @@ package grpc.options.gloo.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/grpc";
 
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
+option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 
-import "solo-apis/api/gloo/gloo/v1/options/transformation/parameters.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options/transformation/parameters.proto";
 
 // Service spec describing GRPC upstreams. This will usually be filled
 // automatically via function discovery (if the upstream supports reflection).

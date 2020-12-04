@@ -5,17 +5,16 @@
 package types
 
 import (
-	proto "github.com/gogo/protobuf/proto"
+    proto "github.com/golang/protobuf/proto"
 )
 
 // DeepCopyInto for the GlooInstance.Spec
 func (in *GlooInstanceSpec) DeepCopyInto(out *GlooInstanceSpec) {
-	p := proto.Clone(in).(*GlooInstanceSpec)
-	*out = *p
+    p := proto.Clone(in).(*GlooInstanceSpec)
+    *out = *p
 }
-
 // DeepCopyInto for the GlooInstance.Status
 func (in *GlooInstanceStatus) DeepCopyInto(out *GlooInstanceStatus) {
-	p := proto.Clone(in).(*GlooInstanceStatus)
-	*out = *p
+    p := proto.Clone(in).(*GlooInstanceStatus)
+    *out = *p
 }

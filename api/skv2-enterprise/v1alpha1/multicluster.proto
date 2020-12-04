@@ -1,15 +1,14 @@
 syntax = "proto3";
 package multicluster.solo.io;
 
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
+option (extproto.equal_all) = true;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1";
 
 import "google/protobuf/wrappers.proto";
-import "skv2/api/core/v1/core.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
 
 /*
     Object representing the clusters and namespaces on which resources are created/updated/deleted,

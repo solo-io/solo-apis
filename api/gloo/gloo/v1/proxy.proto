@@ -6,19 +6,18 @@ import "google/protobuf/wrappers.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/struct.proto";
 
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
+option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 
-import "solo-kit/api/v1/ref.proto";
-import "solo-kit/api/v1/solo-kit.proto";
+import "github.com/solo-io/solo-kit/api/v1/ref.proto";
+import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
 
-import "solo-apis/api/gloo/gloo/v1/ssl.proto";
-import "solo-apis/api/gloo/gloo/v1/subset.proto";
-import "solo-apis/api/gloo/gloo/v1/options.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/subset.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
 
-import "solo-apis/api/gloo/gloo/v1/core/matchers/matchers.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/core/matchers/matchers.proto";
 
 /*
 A Proxy is a container for the entire set of configuration that will to be applied to one or more Proxy instances.
@@ -274,7 +273,7 @@ message Destination {
 message KubernetesServiceDestination {
 
     // The target service
-    core.solo.io.ResourceRef ref = 1 [(gogoproto.nullable) = false];
+    core.solo.io.ResourceRef ref = 1;
 
     // The port attribute of the service
     uint32 port = 2;
@@ -386,6 +385,7 @@ message DirectResponseAction {
     //   Route, Virtual Host, or Listener options.
     string body = 2;
 }
+
 
 message UpstreamGroupStatus {
 	enum State {
