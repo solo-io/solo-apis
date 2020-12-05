@@ -4,8 +4,9 @@
 package v1
 
 import (
-    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-    "k8s.io/apimachinery/pkg/runtime/schema")
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+)
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -14,31 +15,31 @@ import (
 
 // AuthConfig is the Schema for the authConfig API
 type AuthConfig struct {
-    metav1.TypeMeta   `json:",inline"`
-    metav1.ObjectMeta `json:"metadata,omitempty"`
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-    Spec AuthConfigSpec `json:"spec,omitempty"`
-    Status AuthConfigStatus `json:"status,omitempty"`
+	Spec   AuthConfigSpec   `json:"spec,omitempty"`
+	Status AuthConfigStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (AuthConfig)  GVK() schema.GroupVersionKind {
+func (AuthConfig) GVK() schema.GroupVersionKind {
 	return schema.GroupVersionKind{
-		Group: "enterprise.gloo.solo.io",
+		Group:   "enterprise.gloo.solo.io",
 		Version: "v1",
-		Kind: "AuthConfig",
-    }
+		Kind:    "AuthConfig",
+	}
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // AuthConfigList contains a list of AuthConfig
 type AuthConfigList struct {
-    metav1.TypeMeta `json:",inline"`
-    metav1.ListMeta `json:"metadata,omitempty"`
-    Items           []AuthConfig `json:"items"`
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []AuthConfig `json:"items"`
 }
 
 func init() {
-    SchemeBuilder.Register(&AuthConfig{}, &AuthConfigList{})
+	SchemeBuilder.Register(&AuthConfig{}, &AuthConfigList{})
 }

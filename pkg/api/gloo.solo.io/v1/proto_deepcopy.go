@@ -5,49 +5,53 @@
 package v1
 
 import (
-    proto "github.com/golang/protobuf/proto"
+	proto "github.com/golang/protobuf/proto"
 )
 
 // DeepCopyInto for the Settings.Spec
 func (in *SettingsSpec) DeepCopyInto(out *SettingsSpec) {
-    p := proto.Clone(in).(*SettingsSpec)
-    *out = *p
+	p := proto.Clone(in).(*SettingsSpec)
+	*out = *p
 }
+
 // DeepCopyInto for the Settings.Status
 func (in *SettingsStatus) DeepCopyInto(out *SettingsStatus) {
-    p := proto.Clone(in).(*SettingsStatus)
-    *out = *p
+	p := proto.Clone(in).(*SettingsStatus)
+	*out = *p
 }
 
 // DeepCopyInto for the Upstream.Spec
 func (in *UpstreamSpec) DeepCopyInto(out *UpstreamSpec) {
-    p := proto.Clone(in).(*UpstreamSpec)
-    *out = *p
+	p := proto.Clone(in).(*UpstreamSpec)
+	*out = *p
 }
+
 // DeepCopyInto for the Upstream.Status
 func (in *UpstreamStatus) DeepCopyInto(out *UpstreamStatus) {
-    p := proto.Clone(in).(*UpstreamStatus)
-    *out = *p
+	p := proto.Clone(in).(*UpstreamStatus)
+	*out = *p
 }
 
 // DeepCopyInto for the UpstreamGroup.Spec
 func (in *UpstreamGroupSpec) DeepCopyInto(out *UpstreamGroupSpec) {
-    p := proto.Clone(in).(*UpstreamGroupSpec)
-    *out = *p
+	p := proto.Clone(in).(*UpstreamGroupSpec)
+	*out = *p
 }
+
 // DeepCopyInto for the UpstreamGroup.Status
 func (in *UpstreamGroupStatus) DeepCopyInto(out *UpstreamGroupStatus) {
-    p := proto.Clone(in).(*UpstreamGroupStatus)
-    *out = *p
+	p := proto.Clone(in).(*UpstreamGroupStatus)
+	*out = *p
 }
 
 // DeepCopyInto for the Proxy.Spec
 func (in *ProxySpec) DeepCopyInto(out *ProxySpec) {
-    p := proto.Clone(in).(*ProxySpec)
-    *out = *p
+	p := proto.Clone(in).(*ProxySpec)
+	*out = *p
 }
+
 // DeepCopyInto for the Proxy.Status
 func (in *ProxyStatus) DeepCopyInto(out *ProxyStatus) {
-    p := proto.Clone(in).(*ProxyStatus)
-    *out = *p
+	p := proto.Clone(in).(*ProxyStatus)
+	*out = *p
 }
