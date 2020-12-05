@@ -14,7 +14,6 @@ require (
 	// Note the correct version when updating.
 	github.com/Azure/go-autorest/autorest v0.10.2 // indirect
 	github.com/Azure/go-autorest/autorest/adal v0.9.5 // indirect
-	github.com/envoyproxy/go-control-plane v0.9.6-0.20200529035633-fc42e08917e9
 	github.com/envoyproxy/protoc-gen-validate v0.4.0
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/mock v1.4.4
