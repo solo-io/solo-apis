@@ -5,41 +5,38 @@
 package v1
 
 import (
-	proto "github.com/golang/protobuf/proto"
+    proto "github.com/golang/protobuf/proto"
 )
 
 // DeepCopyInto for the Gateway.Spec
 func (in *GatewaySpec) DeepCopyInto(out *GatewaySpec) {
-	p := proto.Clone(in).(*GatewaySpec)
-	*out = *p
+    p := proto.Clone(in).(*GatewaySpec)
+    *out = *p
 }
-
 // DeepCopyInto for the Gateway.Status
 func (in *GatewayStatus) DeepCopyInto(out *GatewayStatus) {
-	p := proto.Clone(in).(*GatewayStatus)
-	*out = *p
+    p := proto.Clone(in).(*GatewayStatus)
+    *out = *p
 }
 
 // DeepCopyInto for the RouteTable.Spec
 func (in *RouteTableSpec) DeepCopyInto(out *RouteTableSpec) {
-	p := proto.Clone(in).(*RouteTableSpec)
-	*out = *p
+    p := proto.Clone(in).(*RouteTableSpec)
+    *out = *p
 }
-
 // DeepCopyInto for the RouteTable.Status
 func (in *RouteTableStatus) DeepCopyInto(out *RouteTableStatus) {
-	p := proto.Clone(in).(*RouteTableStatus)
-	*out = *p
+    p := proto.Clone(in).(*RouteTableStatus)
+    *out = *p
 }
 
 // DeepCopyInto for the VirtualService.Spec
 func (in *VirtualServiceSpec) DeepCopyInto(out *VirtualServiceSpec) {
-	p := proto.Clone(in).(*VirtualServiceSpec)
-	*out = *p
+    p := proto.Clone(in).(*VirtualServiceSpec)
+    *out = *p
 }
-
 // DeepCopyInto for the VirtualService.Status
 func (in *VirtualServiceStatus) DeepCopyInto(out *VirtualServiceStatus) {
-	p := proto.Clone(in).(*VirtualServiceStatus)
-	*out = *p
+    p := proto.Clone(in).(*VirtualServiceStatus)
+    *out = *p
 }
