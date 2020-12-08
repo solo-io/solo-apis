@@ -2,7 +2,7 @@
 
 syntax = "proto3";
 
-package envoy.extensions.filters.http.wasm.v3;
+package solo.io.envoy.extensions.filters.http.wasm.v3;
 
 import "envoy/extensions/wasm/v3/wasm.proto";
 
@@ -10,9 +10,8 @@ import "validate/validate.proto";
 // manually removed udpa annotations and added gogo equal/hash, go_package
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/extensions/filters/http/wasm/v3";
 
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
+option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 
 
@@ -25,5 +24,5 @@ option java_multiple_files = true;
 
 message Wasm {
   // General Plugin configuration.
-  envoy.extensions.wasm.v3.PluginConfig config = 1;
+  .solo.io.envoy.extensions.wasm.v3.PluginConfig config = 1;
 }

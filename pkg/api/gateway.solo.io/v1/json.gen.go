@@ -9,9 +9,9 @@ import (
 	fmt "fmt"
 	math "math"
 
-	proto "github.com/gogo/protobuf/proto"
-	_ "github.com/gogo/protobuf/types"
-	skv2jsonpb "github.com/solo-io/skv2/pkg/jsonpb"
+	jsonpb "github.com/golang/protobuf/jsonpb"
+	proto "github.com/golang/protobuf/proto"
+	skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -20,8 +20,8 @@ var _ = fmt.Errorf
 var _ = math.Inf
 
 var (
-	marshaller   = &skv2jsonpb.Marshaler{}
-	unmarshaller = &skv2jsonpb.Unmarshaler{}
+	marshaller   = &skv2jsonpb.Marshaler{EnumsAsInts: true}
+	unmarshaller = &jsonpb.Unmarshaler{}
 )
 
 // MarshalJSON is a custom marshaler for GatewaySpec

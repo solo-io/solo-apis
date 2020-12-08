@@ -4,14 +4,13 @@ package fed.gateway.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/fed.gateway.solo.io/v1/types";
 
 
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
+option (extproto.equal_all) = true;
 
-import "solo-apis/api/skv2-enterprise/v1alpha1/multicluster.proto";
-import "solo-apis/api/gloo-fed/fed/core/v1/placement.proto";
-import "solo-apis/api/gloo/gateway/v1/route_table.proto";
+import "github.com/solo-io/solo-apis/api/skv2-enterprise/v1alpha1/multicluster.proto";
+import "github.com/solo-io/solo-apis/api/gloo-fed/fed/core/v1/placement.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gateway/v1/route_table.proto";
 
 import "google/protobuf/wrappers.proto";
 

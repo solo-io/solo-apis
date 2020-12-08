@@ -3,12 +3,11 @@ package fed.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types";
 
-import "skv2/api/core/v1/core.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
 
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
+option (extproto.equal_all) = true;
 
 message GlooInstanceSpec {
 
