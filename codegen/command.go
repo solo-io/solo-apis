@@ -3,7 +3,7 @@ package codegen
 import (
 	"github.com/solo-io/skv2/codegen"
 	"github.com/solo-io/skv2/codegen/model"
-	"github.com/solo-io/solo-kit/pkg/code-generator/sk_anyvendor"
+	"github.com/solo-io/skv2/codegen/skv2_anyvendor"
 )
 
 const (
@@ -17,7 +17,7 @@ func Command() codegen.Command {
 		group.ApiRoot = apiRoot
 		groups[i] = group
 	}
-	skv2Imports := sk_anyvendor.CreateDefaultMatchOptions([]string{
+	skv2Imports := skv2_anyvendor.CreateDefaultMatchOptions([]string{
 		"**/*.proto",
 	})
 	skv2Imports.External["github.com/solo-io/skv2"] = []string{
