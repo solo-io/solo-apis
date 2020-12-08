@@ -3,18 +3,17 @@ package gateway.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1";
 
 import "google/protobuf/struct.proto";
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
+option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 
 
 import "google/protobuf/wrappers.proto";
-import "solo-kit/api/v1/ref.proto";
-import "solo-kit/api/v1/solo-kit.proto";
+import "github.com/solo-io/solo-kit/api/v1/ref.proto";
+import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
 
-import "solo-apis/api/gloo/gloo/v1/proxy.proto";
-import "solo-apis/api/gloo/gloo/v1/options.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
 
 /*
 A Gateway describes a single Listener (bind address:port)
@@ -77,7 +76,7 @@ message HttpGateway {
     // with accordance to `ssl` flag on `Gateway` above.
     // The default namespace matching behavior can be overridden via `virtual_service_namespaces` flag below.
     // Only one of `virtualServices` or `virtualServiceSelector` should be provided.
-    repeated core.solo.io.ResourceRef virtual_services = 1 [(gogoproto.nullable) = false];
+    repeated core.solo.io.ResourceRef virtual_services = 1;
 
     // Select virtual services by their label. If `virtual_service_namespaces` is provided below, this will apply only
     // to virtual services in the namespaces specified.

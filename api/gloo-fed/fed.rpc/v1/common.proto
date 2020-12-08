@@ -5,10 +5,9 @@ package fed.rpc.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/fed.rpc/v1";
 
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
+option (extproto.equal_all) = true;
 
 // ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
 // This is a boiled-down version of Kubernetes ObjectMeta which can be found at:

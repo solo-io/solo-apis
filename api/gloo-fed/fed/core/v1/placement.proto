@@ -1,10 +1,9 @@
 syntax = "proto3";
 package core.fed.solo.io;
 
-import "gogoproto/gogo.proto";
-option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
+option (extproto.equal_all) = true;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/core/v1";
 

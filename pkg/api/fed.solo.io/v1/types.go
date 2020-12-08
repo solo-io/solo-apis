@@ -6,6 +6,7 @@ package v1
 import (
 	. "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // +genclient
@@ -20,6 +21,15 @@ type GlooInstance struct {
 
 	Spec   GlooInstanceSpec   `json:"spec,omitempty"`
 	Status GlooInstanceStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (GlooInstance) GVK() schema.GroupVersionKind {
+	return schema.GroupVersionKind{
+		Group:   "fed.solo.io",
+		Version: "v1",
+		Kind:    "GlooInstance",
+	}
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

@@ -5,6 +5,7 @@ package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // +genclient
@@ -19,6 +20,15 @@ type AuthConfig struct {
 
 	Spec   AuthConfigSpec   `json:"spec,omitempty"`
 	Status AuthConfigStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (AuthConfig) GVK() schema.GroupVersionKind {
+	return schema.GroupVersionKind{
+		Group:   "enterprise.gloo.solo.io",
+		Version: "v1",
+		Kind:    "AuthConfig",
+	}
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

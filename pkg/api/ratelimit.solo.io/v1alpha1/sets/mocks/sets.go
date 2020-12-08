@@ -52,17 +52,21 @@ func (mr *MockRateLimitConfigSetMockRecorder) Keys() *gomock.Call {
 }
 
 // List mocks base method
-func (m *MockRateLimitConfigSet) List() []*v1alpha1.RateLimitConfig {
+func (m *MockRateLimitConfigSet) List(filterResource ...func(*v1alpha1.RateLimitConfig) bool) []*v1alpha1.RateLimitConfig {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List")
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "List", varargs...)
 	ret0, _ := ret[0].([]*v1alpha1.RateLimitConfig)
 	return ret0
 }
 
 // List indicates an expected call of List
-func (mr *MockRateLimitConfigSetMockRecorder) List() *gomock.Call {
+func (mr *MockRateLimitConfigSetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRateLimitConfigSet)(nil).List))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRateLimitConfigSet)(nil).List), filterResource...)
 }
 
 // Map mocks base method
@@ -110,7 +114,7 @@ func (mr *MockRateLimitConfigSetMockRecorder) Equal(rateLimitConfigSet interface
 }
 
 // Has mocks base method
-func (m *MockRateLimitConfigSet) Has(rateLimitConfig *v1alpha1.RateLimitConfig) bool {
+func (m *MockRateLimitConfigSet) Has(rateLimitConfig ezkube.ResourceId) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Has", rateLimitConfig)
 	ret0, _ := ret[0].(bool)
@@ -124,7 +128,7 @@ func (mr *MockRateLimitConfigSetMockRecorder) Has(rateLimitConfig interface{}) *
 }
 
 // Delete mocks base method
-func (m *MockRateLimitConfigSet) Delete(rateLimitConfig *v1alpha1.RateLimitConfig) {
+func (m *MockRateLimitConfigSet) Delete(rateLimitConfig ezkube.ResourceId) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Delete", rateLimitConfig)
 }

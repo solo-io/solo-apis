@@ -74,7 +74,8 @@ type authConfigReconcileLoop struct {
 
 func NewAuthConfigReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) AuthConfigReconcileLoop {
 	return &authConfigReconcileLoop{
-		loop: reconcile.NewLoop(name, mgr, &enterprise_gloo_solo_io_v1.AuthConfig{}, options),
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &enterprise_gloo_solo_io_v1.AuthConfig{}, options),
 	}
 }
 

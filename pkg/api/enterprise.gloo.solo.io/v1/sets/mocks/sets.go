@@ -52,17 +52,21 @@ func (mr *MockAuthConfigSetMockRecorder) Keys() *gomock.Call {
 }
 
 // List mocks base method
-func (m *MockAuthConfigSet) List() []*v1.AuthConfig {
+func (m *MockAuthConfigSet) List(filterResource ...func(*v1.AuthConfig) bool) []*v1.AuthConfig {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List")
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "List", varargs...)
 	ret0, _ := ret[0].([]*v1.AuthConfig)
 	return ret0
 }
 
 // List indicates an expected call of List
-func (mr *MockAuthConfigSetMockRecorder) List() *gomock.Call {
+func (mr *MockAuthConfigSetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockAuthConfigSet)(nil).List))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockAuthConfigSet)(nil).List), filterResource...)
 }
 
 // Map mocks base method
@@ -110,7 +114,7 @@ func (mr *MockAuthConfigSetMockRecorder) Equal(authConfigSet interface{}) *gomoc
 }
 
 // Has mocks base method
-func (m *MockAuthConfigSet) Has(authConfig *v1.AuthConfig) bool {
+func (m *MockAuthConfigSet) Has(authConfig ezkube.ResourceId) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Has", authConfig)
 	ret0, _ := ret[0].(bool)
@@ -124,7 +128,7 @@ func (mr *MockAuthConfigSetMockRecorder) Has(authConfig interface{}) *gomock.Cal
 }
 
 // Delete mocks base method
-func (m *MockAuthConfigSet) Delete(authConfig *v1.AuthConfig) {
+func (m *MockAuthConfigSet) Delete(authConfig ezkube.ResourceId) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Delete", authConfig)
 }

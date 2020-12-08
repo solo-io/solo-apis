@@ -20,13 +20,17 @@ func Command() codegen.Command {
 	skv2Imports := skv2_anyvendor.CreateDefaultMatchOptions([]string{
 		"**/*.proto",
 	})
+
 	skv2Imports.External["github.com/solo-io/skv2"] = []string{
 		"api/**/*.proto",
 	}
 
 	return codegen.Command{
-		AnyVendorConfig: skv2Imports,
-		RenderProtos:    true,
-		Groups:          groups,
+		AnyVendorConfig: &skv2_anyvendor.Imports{
+			Local:    skv2Imports.Local,
+			External: skv2Imports.External,
+		},
+		RenderProtos: true,
+		Groups:       groups,
 	}
 }
