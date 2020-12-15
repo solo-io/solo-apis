@@ -664,6 +664,112 @@ func (m *HeaderConfiguration) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetAccessTokenHeader(), target.GetAccessTokenHeader()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *DiscoveryOverride) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*DiscoveryOverride)
+	if !ok {
+		that2, ok := that.(DiscoveryOverride)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetAuthEndpoint(), target.GetAuthEndpoint()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetTokenEndpoint(), target.GetTokenEndpoint()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetJwksUri(), target.GetJwksUri()) != 0 {
+		return false
+	}
+
+	if len(m.GetScopes()) != len(target.GetScopes()) {
+		return false
+	}
+	for idx, v := range m.GetScopes() {
+
+		if strings.Compare(v, target.GetScopes()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetResponseTypes()) != len(target.GetResponseTypes()) {
+		return false
+	}
+	for idx, v := range m.GetResponseTypes() {
+
+		if strings.Compare(v, target.GetResponseTypes()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetSubjects()) != len(target.GetSubjects()) {
+		return false
+	}
+	for idx, v := range m.GetSubjects() {
+
+		if strings.Compare(v, target.GetSubjects()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetIdTokenAlgs()) != len(target.GetIdTokenAlgs()) {
+		return false
+	}
+	for idx, v := range m.GetIdTokenAlgs() {
+
+		if strings.Compare(v, target.GetIdTokenAlgs()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetAuthMethods()) != len(target.GetAuthMethods()) {
+		return false
+	}
+	for idx, v := range m.GetAuthMethods() {
+
+		if strings.Compare(v, target.GetAuthMethods()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetClaims()) != len(target.GetClaims()) {
+		return false
+	}
+	for idx, v := range m.GetClaims() {
+
+		if strings.Compare(v, target.GetClaims()[idx]) != 0 {
+			return false
+		}
+
+	}
+
 	return true
 }
 
@@ -760,12 +866,12 @@ func (m *OidcAuthorizationCode) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetConfigurationOverride()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetConfigurationOverride()) {
+	if h, ok := interface{}(m.GetDiscoveryOverride()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDiscoveryOverride()) {
 			return false
 		}
 	} else {
-		if !proto.Equal(m.GetConfigurationOverride(), target.GetConfigurationOverride()) {
+		if !proto.Equal(m.GetDiscoveryOverride(), target.GetDiscoveryOverride()) {
 			return false
 		}
 	}
@@ -1546,6 +1652,16 @@ func (m *UserSession_RedisSession) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetAllowRefreshing()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetAllowRefreshing()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetAllowRefreshing(), target.GetAllowRefreshing()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -1830,12 +1946,12 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Equal(that interface{}) bool
 		}
 	}
 
-	if h, ok := interface{}(m.GetConfigurationOverride()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetConfigurationOverride()) {
+	if h, ok := interface{}(m.GetDiscoveryOverride()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDiscoveryOverride()) {
 			return false
 		}
 	} else {
-		if !proto.Equal(m.GetConfigurationOverride(), target.GetConfigurationOverride()) {
+		if !proto.Equal(m.GetDiscoveryOverride(), target.GetDiscoveryOverride()) {
 			return false
 		}
 	}
