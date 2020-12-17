@@ -7,8 +7,8 @@ without having to depend on the project that owns it.
 Syncing the Gloo APIs is currently a manual process and can be completed with 2 extra steps 
 before running `make generate`
 1. In the gloo repo, checkout the desired gloo tag with `git checkout tags/[GLOO_TAG]`
-1. Ensure that the gloo repo is available at `../`
-2. Run `./hack/sync-gloo-apis.sh; make generate -B`. You may need to run `make mod-download update-deps` if this is your first time syncing the api.
+2. Ensure that the gloo repo is available at `../`
+3. Run `./hack/sync-gloo-apis.sh; make generate -B`. You may need to run `make mod-download update-deps` if this is your first time syncing the api.
 
 After running make generate a PR should be created against solo-apis with the tag of Gloo being
 used. Once the PR has merged a tag should be created off of master correspnding to the Gloo tag 
