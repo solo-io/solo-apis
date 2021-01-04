@@ -89,6 +89,7 @@ message UpstreamSpec {
     // Currently, this has the same minimum/maximum/default as initial_stream_window_size.
     // Requires UseHttp2 to be true to be acknowledged.
     google.protobuf.UInt32Value initial_connection_window_size = 20;
+
 }
 
 // created by discovery services
