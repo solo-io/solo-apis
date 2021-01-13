@@ -7,14 +7,13 @@
 package v1
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	proto "github.com/golang/protobuf/proto"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -111,6 +110,7 @@ type LocalityLbEndpoints struct {
 	// balancing weight for a locality is divided by the sum of the weights of all
 	// localities at the same priority level to produce the effective percentage
 	// of traffic for the locality.
+	// To enable locality weighted load balancing, load_balancer_config.locality_weighted_lb_config must be set as well
 	LoadBalancingWeight *wrappers.UInt32Value `protobuf:"bytes,3,opt,name=load_balancing_weight,json=loadBalancingWeight,proto3" json:"load_balancing_weight,omitempty"`
 }
 
