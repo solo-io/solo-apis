@@ -10,4 +10,4 @@ Syncing the Gloo APIs is currently a semi-automated process and is done with 2 g
 2. In the solo-apis repo, each push to `update-gloo-apis` will automatically create a PR.
 3. A member of the solo-io org must approve the pull request.
 
-After the PR has merged, a tag should be created off of master correspnding to the Gloo tag which was used.
+After the PR has merged, a tag should be created off of master corresponding to the Gloo tag which was used.
