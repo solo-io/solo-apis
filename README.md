@@ -4,12 +4,10 @@ APIs are the projects that own them. The goal of this repository is to allow for
 without having to depend on the project that owns it.
 
 ## Gloo Apis
-Syncing the Gloo APIs is currently a manual process and can be completed with 2 extra steps 
-before running `make generate`
-1. In the gloo repo, checkout the desired gloo tag with `git checkout tags/[GLOO_TAG]`
-2. Ensure that the gloo repo is available at `../`
-3. Run `./hack/sync-gloo-apis.sh; make generate -B`. You may need to run `make mod-download update-deps` if this is your first time syncing the api.
+Syncing the Gloo APIs is currently a semi-automated process and is done with 2 github actions, requiring manual approval in order to merge into master.
 
-After running make generate a PR should be created against solo-apis with the tag of Gloo being
-used. Once the PR has merged a tag should be created off of master correspnding to the Gloo tag 
-which was used.
+1. In the gloo repo, a github action will run on each Gloo OS release. It will run `./hack/sync-gloo-apis.sh; make generate -B` in solo-apis and push to the `update-gloo-apis` branch in solo-apis.
+2. In the solo-apis repo, each push to `update-gloo-apis` will automatically create a PR.
+3. A member of the solo-io org must approve the pull request.
+
+After the PR has merged, a tag should be created off of master corresponding to the Gloo tag which was used.
