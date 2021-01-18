@@ -13,6 +13,13 @@ import (
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for Settings
+var SettingsGVK = schema.GroupVersionKind{
+	Group:   "gloo.solo.io",
+	Version: "v1",
+	Kind:    "Settings",
+}
+
 // Settings is the Schema for the settings API
 type Settings struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -24,11 +31,7 @@ type Settings struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (Settings) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "gloo.solo.io",
-		Version: "v1",
-		Kind:    "Settings",
-	}
+	return SettingsGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -45,6 +48,13 @@ type SettingsList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for Upstream
+var UpstreamGVK = schema.GroupVersionKind{
+	Group:   "gloo.solo.io",
+	Version: "v1",
+	Kind:    "Upstream",
+}
+
 // Upstream is the Schema for the upstream API
 type Upstream struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -56,11 +66,7 @@ type Upstream struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (Upstream) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "gloo.solo.io",
-		Version: "v1",
-		Kind:    "Upstream",
-	}
+	return UpstreamGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -77,6 +83,13 @@ type UpstreamList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for UpstreamGroup
+var UpstreamGroupGVK = schema.GroupVersionKind{
+	Group:   "gloo.solo.io",
+	Version: "v1",
+	Kind:    "UpstreamGroup",
+}
+
 // UpstreamGroup is the Schema for the upstreamGroup API
 type UpstreamGroup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -88,11 +101,7 @@ type UpstreamGroup struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (UpstreamGroup) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "gloo.solo.io",
-		Version: "v1",
-		Kind:    "UpstreamGroup",
-	}
+	return UpstreamGroupGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -109,6 +118,13 @@ type UpstreamGroupList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for Proxy
+var ProxyGVK = schema.GroupVersionKind{
+	Group:   "gloo.solo.io",
+	Version: "v1",
+	Kind:    "Proxy",
+}
+
 // Proxy is the Schema for the proxy API
 type Proxy struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -120,11 +136,7 @@ type Proxy struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (Proxy) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "gloo.solo.io",
-		Version: "v1",
-		Kind:    "Proxy",
-	}
+	return ProxyGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

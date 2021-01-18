@@ -14,6 +14,13 @@ import (
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for GlooInstance
+var GlooInstanceGVK = schema.GroupVersionKind{
+	Group:   "fed.solo.io",
+	Version: "v1",
+	Kind:    "GlooInstance",
+}
+
 // GlooInstance is the Schema for the glooInstance API
 type GlooInstance struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -25,11 +32,7 @@ type GlooInstance struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (GlooInstance) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "fed.solo.io",
-		Version: "v1",
-		Kind:    "GlooInstance",
-	}
+	return GlooInstanceGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

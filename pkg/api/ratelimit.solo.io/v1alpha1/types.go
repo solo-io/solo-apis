@@ -13,6 +13,13 @@ import (
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for RateLimitConfig
+var RateLimitConfigGVK = schema.GroupVersionKind{
+	Group:   "ratelimit.solo.io",
+	Version: "v1alpha1",
+	Kind:    "RateLimitConfig",
+}
+
 // RateLimitConfig is the Schema for the rateLimitConfig API
 type RateLimitConfig struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -24,11 +31,7 @@ type RateLimitConfig struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (RateLimitConfig) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "ratelimit.solo.io",
-		Version: "v1alpha1",
-		Kind:    "RateLimitConfig",
-	}
+	return RateLimitConfigGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

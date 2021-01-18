@@ -38,6 +38,10 @@ type GatewaySet interface {
 	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.Gateway, error)
 	// Get the length of the set
 	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another GatewaySet
+	Delta(newSet GatewaySet) sksets.ResourceDelta
 }
 
 func makeGenericGatewaySet(gatewayList []*gateway_solo_io_v1.Gateway) sksets.ResourceSet {
@@ -68,7 +72,7 @@ func (s *gatewaySet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
 	}
-	return s.set.Keys()
+	return s.Generic().Keys()
 }
 
 func (s *gatewaySet) List(filterResource ...func(*gateway_solo_io_v1.Gateway) bool) []*gateway_solo_io_v1.Gateway {
@@ -83,7 +87,7 @@ func (s *gatewaySet) List(filterResource ...func(*gateway_solo_io_v1.Gateway) bo
 	}
 
 	var gatewayList []*gateway_solo_io_v1.Gateway
-	for _, obj := range s.set.List(genericFilters...) {
+	for _, obj := range s.Generic().List(genericFilters...) {
 		gatewayList = append(gatewayList, obj.(*gateway_solo_io_v1.Gateway))
 	}
 	return gatewayList
@@ -95,7 +99,7 @@ func (s *gatewaySet) Map() map[string]*gateway_solo_io_v1.Gateway {
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.Gateway{}
-	for k, v := range s.set.Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.Gateway)
 	}
 	return newMap
@@ -109,7 +113,7 @@ func (s *gatewaySet) Insert(
 	}
 
 	for _, obj := range gatewayList {
-		s.set.Insert(obj)
+		s.Generic().Insert(obj)
 	}
 }
 
@@ -117,7 +121,7 @@ func (s *gatewaySet) Has(gateway ezkube.ResourceId) bool {
 	if s == nil {
 		return false
 	}
-	return s.set.Has(gateway)
+	return s.Generic().Has(gateway)
 }
 
 func (s *gatewaySet) Equal(
@@ -126,14 +130,14 @@ func (s *gatewaySet) Equal(
 	if s == nil {
 		return gatewaySet == nil
 	}
-	return s.set.Equal(makeGenericGatewaySet(gatewaySet.List()))
+	return s.Generic().Equal(gatewaySet.Generic())
 }
 
 func (s *gatewaySet) Delete(Gateway ezkube.ResourceId) {
 	if s == nil {
 		return
 	}
-	s.set.Delete(Gateway)
+	s.Generic().Delete(Gateway)
 }
 
 func (s *gatewaySet) Union(set GatewaySet) GatewaySet {
@@ -147,7 +151,7 @@ func (s *gatewaySet) Difference(set GatewaySet) GatewaySet {
 	if s == nil {
 		return set
 	}
-	newSet := s.set.Difference(makeGenericGatewaySet(set.List()))
+	newSet := s.Generic().Difference(set.Generic())
 	return &gatewaySet{set: newSet}
 }
 
@@ -155,7 +159,7 @@ func (s *gatewaySet) Intersection(set GatewaySet) GatewaySet {
 	if s == nil {
 		return nil
 	}
-	newSet := s.set.Intersection(makeGenericGatewaySet(set.List()))
+	newSet := s.Generic().Intersection(set.Generic())
 	var gatewayList []*gateway_solo_io_v1.Gateway
 	for _, obj := range newSet.List() {
 		gatewayList = append(gatewayList, obj.(*gateway_solo_io_v1.Gateway))
@@ -167,7 +171,7 @@ func (s *gatewaySet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.Gateway, er
 	if s == nil {
 		return nil, eris.Errorf("empty set, cannot find Gateway %v", sksets.Key(id))
 	}
-	obj, err := s.set.Find(&gateway_solo_io_v1.Gateway{}, id)
+	obj, err := s.Generic().Find(&gateway_solo_io_v1.Gateway{}, id)
 	if err != nil {
 		return nil, err
 	}
@@ -179,7 +183,23 @@ func (s *gatewaySet) Length() int {
 	if s == nil {
 		return 0
 	}
-	return s.set.Length()
+	return s.Generic().Length()
+}
+
+func (s *gatewaySet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *gatewaySet) Delta(newSet GatewaySet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }
 
 type RouteTableSet interface {
@@ -207,6 +227,10 @@ type RouteTableSet interface {
 	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.RouteTable, error)
 	// Get the length of the set
 	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another RouteTableSet
+	Delta(newSet RouteTableSet) sksets.ResourceDelta
 }
 
 func makeGenericRouteTableSet(routeTableList []*gateway_solo_io_v1.RouteTable) sksets.ResourceSet {
@@ -237,7 +261,7 @@ func (s *routeTableSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
 	}
-	return s.set.Keys()
+	return s.Generic().Keys()
 }
 
 func (s *routeTableSet) List(filterResource ...func(*gateway_solo_io_v1.RouteTable) bool) []*gateway_solo_io_v1.RouteTable {
@@ -252,7 +276,7 @@ func (s *routeTableSet) List(filterResource ...func(*gateway_solo_io_v1.RouteTab
 	}
 
 	var routeTableList []*gateway_solo_io_v1.RouteTable
-	for _, obj := range s.set.List(genericFilters...) {
+	for _, obj := range s.Generic().List(genericFilters...) {
 		routeTableList = append(routeTableList, obj.(*gateway_solo_io_v1.RouteTable))
 	}
 	return routeTableList
@@ -264,7 +288,7 @@ func (s *routeTableSet) Map() map[string]*gateway_solo_io_v1.RouteTable {
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.RouteTable{}
-	for k, v := range s.set.Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.RouteTable)
 	}
 	return newMap
@@ -278,7 +302,7 @@ func (s *routeTableSet) Insert(
 	}
 
 	for _, obj := range routeTableList {
-		s.set.Insert(obj)
+		s.Generic().Insert(obj)
 	}
 }
 
@@ -286,7 +310,7 @@ func (s *routeTableSet) Has(routeTable ezkube.ResourceId) bool {
 	if s == nil {
 		return false
 	}
-	return s.set.Has(routeTable)
+	return s.Generic().Has(routeTable)
 }
 
 func (s *routeTableSet) Equal(
@@ -295,14 +319,14 @@ func (s *routeTableSet) Equal(
 	if s == nil {
 		return routeTableSet == nil
 	}
-	return s.set.Equal(makeGenericRouteTableSet(routeTableSet.List()))
+	return s.Generic().Equal(routeTableSet.Generic())
 }
 
 func (s *routeTableSet) Delete(RouteTable ezkube.ResourceId) {
 	if s == nil {
 		return
 	}
-	s.set.Delete(RouteTable)
+	s.Generic().Delete(RouteTable)
 }
 
 func (s *routeTableSet) Union(set RouteTableSet) RouteTableSet {
@@ -316,7 +340,7 @@ func (s *routeTableSet) Difference(set RouteTableSet) RouteTableSet {
 	if s == nil {
 		return set
 	}
-	newSet := s.set.Difference(makeGenericRouteTableSet(set.List()))
+	newSet := s.Generic().Difference(set.Generic())
 	return &routeTableSet{set: newSet}
 }
 
@@ -324,7 +348,7 @@ func (s *routeTableSet) Intersection(set RouteTableSet) RouteTableSet {
 	if s == nil {
 		return nil
 	}
-	newSet := s.set.Intersection(makeGenericRouteTableSet(set.List()))
+	newSet := s.Generic().Intersection(set.Generic())
 	var routeTableList []*gateway_solo_io_v1.RouteTable
 	for _, obj := range newSet.List() {
 		routeTableList = append(routeTableList, obj.(*gateway_solo_io_v1.RouteTable))
@@ -336,7 +360,7 @@ func (s *routeTableSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.RouteTab
 	if s == nil {
 		return nil, eris.Errorf("empty set, cannot find RouteTable %v", sksets.Key(id))
 	}
-	obj, err := s.set.Find(&gateway_solo_io_v1.RouteTable{}, id)
+	obj, err := s.Generic().Find(&gateway_solo_io_v1.RouteTable{}, id)
 	if err != nil {
 		return nil, err
 	}
@@ -348,7 +372,23 @@ func (s *routeTableSet) Length() int {
 	if s == nil {
 		return 0
 	}
-	return s.set.Length()
+	return s.Generic().Length()
+}
+
+func (s *routeTableSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *routeTableSet) Delta(newSet RouteTableSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }
 
 type VirtualServiceSet interface {
@@ -376,6 +416,10 @@ type VirtualServiceSet interface {
 	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.VirtualService, error)
 	// Get the length of the set
 	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another VirtualServiceSet
+	Delta(newSet VirtualServiceSet) sksets.ResourceDelta
 }
 
 func makeGenericVirtualServiceSet(virtualServiceList []*gateway_solo_io_v1.VirtualService) sksets.ResourceSet {
@@ -406,7 +450,7 @@ func (s *virtualServiceSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
 	}
-	return s.set.Keys()
+	return s.Generic().Keys()
 }
 
 func (s *virtualServiceSet) List(filterResource ...func(*gateway_solo_io_v1.VirtualService) bool) []*gateway_solo_io_v1.VirtualService {
@@ -421,7 +465,7 @@ func (s *virtualServiceSet) List(filterResource ...func(*gateway_solo_io_v1.Virt
 	}
 
 	var virtualServiceList []*gateway_solo_io_v1.VirtualService
-	for _, obj := range s.set.List(genericFilters...) {
+	for _, obj := range s.Generic().List(genericFilters...) {
 		virtualServiceList = append(virtualServiceList, obj.(*gateway_solo_io_v1.VirtualService))
 	}
 	return virtualServiceList
@@ -433,7 +477,7 @@ func (s *virtualServiceSet) Map() map[string]*gateway_solo_io_v1.VirtualService 
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.VirtualService{}
-	for k, v := range s.set.Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.VirtualService)
 	}
 	return newMap
@@ -447,7 +491,7 @@ func (s *virtualServiceSet) Insert(
 	}
 
 	for _, obj := range virtualServiceList {
-		s.set.Insert(obj)
+		s.Generic().Insert(obj)
 	}
 }
 
@@ -455,7 +499,7 @@ func (s *virtualServiceSet) Has(virtualService ezkube.ResourceId) bool {
 	if s == nil {
 		return false
 	}
-	return s.set.Has(virtualService)
+	return s.Generic().Has(virtualService)
 }
 
 func (s *virtualServiceSet) Equal(
@@ -464,14 +508,14 @@ func (s *virtualServiceSet) Equal(
 	if s == nil {
 		return virtualServiceSet == nil
 	}
-	return s.set.Equal(makeGenericVirtualServiceSet(virtualServiceSet.List()))
+	return s.Generic().Equal(virtualServiceSet.Generic())
 }
 
 func (s *virtualServiceSet) Delete(VirtualService ezkube.ResourceId) {
 	if s == nil {
 		return
 	}
-	s.set.Delete(VirtualService)
+	s.Generic().Delete(VirtualService)
 }
 
 func (s *virtualServiceSet) Union(set VirtualServiceSet) VirtualServiceSet {
@@ -485,7 +529,7 @@ func (s *virtualServiceSet) Difference(set VirtualServiceSet) VirtualServiceSet 
 	if s == nil {
 		return set
 	}
-	newSet := s.set.Difference(makeGenericVirtualServiceSet(set.List()))
+	newSet := s.Generic().Difference(set.Generic())
 	return &virtualServiceSet{set: newSet}
 }
 
@@ -493,7 +537,7 @@ func (s *virtualServiceSet) Intersection(set VirtualServiceSet) VirtualServiceSe
 	if s == nil {
 		return nil
 	}
-	newSet := s.set.Intersection(makeGenericVirtualServiceSet(set.List()))
+	newSet := s.Generic().Intersection(set.Generic())
 	var virtualServiceList []*gateway_solo_io_v1.VirtualService
 	for _, obj := range newSet.List() {
 		virtualServiceList = append(virtualServiceList, obj.(*gateway_solo_io_v1.VirtualService))
@@ -505,7 +549,7 @@ func (s *virtualServiceSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.Virt
 	if s == nil {
 		return nil, eris.Errorf("empty set, cannot find VirtualService %v", sksets.Key(id))
 	}
-	obj, err := s.set.Find(&gateway_solo_io_v1.VirtualService{}, id)
+	obj, err := s.Generic().Find(&gateway_solo_io_v1.VirtualService{}, id)
 	if err != nil {
 		return nil, err
 	}
@@ -517,5 +561,21 @@ func (s *virtualServiceSet) Length() int {
 	if s == nil {
 		return 0
 	}
-	return s.set.Length()
+	return s.Generic().Length()
+}
+
+func (s *virtualServiceSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *virtualServiceSet) Delta(newSet VirtualServiceSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }

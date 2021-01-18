@@ -38,6 +38,10 @@ type MultiClusterRoleSet interface {
 	Find(id ezkube.ResourceId) (*multicluster_solo_io_v1alpha1.MultiClusterRole, error)
 	// Get the length of the set
 	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another MultiClusterRoleSet
+	Delta(newSet MultiClusterRoleSet) sksets.ResourceDelta
 }
 
 func makeGenericMultiClusterRoleSet(multiClusterRoleList []*multicluster_solo_io_v1alpha1.MultiClusterRole) sksets.ResourceSet {
@@ -68,7 +72,7 @@ func (s *multiClusterRoleSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
 	}
-	return s.set.Keys()
+	return s.Generic().Keys()
 }
 
 func (s *multiClusterRoleSet) List(filterResource ...func(*multicluster_solo_io_v1alpha1.MultiClusterRole) bool) []*multicluster_solo_io_v1alpha1.MultiClusterRole {
@@ -83,7 +87,7 @@ func (s *multiClusterRoleSet) List(filterResource ...func(*multicluster_solo_io_
 	}
 
 	var multiClusterRoleList []*multicluster_solo_io_v1alpha1.MultiClusterRole
-	for _, obj := range s.set.List(genericFilters...) {
+	for _, obj := range s.Generic().List(genericFilters...) {
 		multiClusterRoleList = append(multiClusterRoleList, obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
 	}
 	return multiClusterRoleList
@@ -95,7 +99,7 @@ func (s *multiClusterRoleSet) Map() map[string]*multicluster_solo_io_v1alpha1.Mu
 	}
 
 	newMap := map[string]*multicluster_solo_io_v1alpha1.MultiClusterRole{}
-	for k, v := range s.set.Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*multicluster_solo_io_v1alpha1.MultiClusterRole)
 	}
 	return newMap
@@ -109,7 +113,7 @@ func (s *multiClusterRoleSet) Insert(
 	}
 
 	for _, obj := range multiClusterRoleList {
-		s.set.Insert(obj)
+		s.Generic().Insert(obj)
 	}
 }
 
@@ -117,7 +121,7 @@ func (s *multiClusterRoleSet) Has(multiClusterRole ezkube.ResourceId) bool {
 	if s == nil {
 		return false
 	}
-	return s.set.Has(multiClusterRole)
+	return s.Generic().Has(multiClusterRole)
 }
 
 func (s *multiClusterRoleSet) Equal(
@@ -126,14 +130,14 @@ func (s *multiClusterRoleSet) Equal(
 	if s == nil {
 		return multiClusterRoleSet == nil
 	}
-	return s.set.Equal(makeGenericMultiClusterRoleSet(multiClusterRoleSet.List()))
+	return s.Generic().Equal(multiClusterRoleSet.Generic())
 }
 
 func (s *multiClusterRoleSet) Delete(MultiClusterRole ezkube.ResourceId) {
 	if s == nil {
 		return
 	}
-	s.set.Delete(MultiClusterRole)
+	s.Generic().Delete(MultiClusterRole)
 }
 
 func (s *multiClusterRoleSet) Union(set MultiClusterRoleSet) MultiClusterRoleSet {
@@ -147,7 +151,7 @@ func (s *multiClusterRoleSet) Difference(set MultiClusterRoleSet) MultiClusterRo
 	if s == nil {
 		return set
 	}
-	newSet := s.set.Difference(makeGenericMultiClusterRoleSet(set.List()))
+	newSet := s.Generic().Difference(set.Generic())
 	return &multiClusterRoleSet{set: newSet}
 }
 
@@ -155,7 +159,7 @@ func (s *multiClusterRoleSet) Intersection(set MultiClusterRoleSet) MultiCluster
 	if s == nil {
 		return nil
 	}
-	newSet := s.set.Intersection(makeGenericMultiClusterRoleSet(set.List()))
+	newSet := s.Generic().Intersection(set.Generic())
 	var multiClusterRoleList []*multicluster_solo_io_v1alpha1.MultiClusterRole
 	for _, obj := range newSet.List() {
 		multiClusterRoleList = append(multiClusterRoleList, obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
@@ -167,7 +171,7 @@ func (s *multiClusterRoleSet) Find(id ezkube.ResourceId) (*multicluster_solo_io_
 	if s == nil {
 		return nil, eris.Errorf("empty set, cannot find MultiClusterRole %v", sksets.Key(id))
 	}
-	obj, err := s.set.Find(&multicluster_solo_io_v1alpha1.MultiClusterRole{}, id)
+	obj, err := s.Generic().Find(&multicluster_solo_io_v1alpha1.MultiClusterRole{}, id)
 	if err != nil {
 		return nil, err
 	}
@@ -179,5 +183,21 @@ func (s *multiClusterRoleSet) Length() int {
 	if s == nil {
 		return 0
 	}
-	return s.set.Length()
+	return s.Generic().Length()
+}
+
+func (s *multiClusterRoleSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *multiClusterRoleSet) Delta(newSet MultiClusterRoleSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }

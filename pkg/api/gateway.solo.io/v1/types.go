@@ -13,6 +13,13 @@ import (
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for Gateway
+var GatewayGVK = schema.GroupVersionKind{
+	Group:   "gateway.solo.io",
+	Version: "v1",
+	Kind:    "Gateway",
+}
+
 // Gateway is the Schema for the gateway API
 type Gateway struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -24,11 +31,7 @@ type Gateway struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (Gateway) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "gateway.solo.io",
-		Version: "v1",
-		Kind:    "Gateway",
-	}
+	return GatewayGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -45,6 +48,13 @@ type GatewayList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for RouteTable
+var RouteTableGVK = schema.GroupVersionKind{
+	Group:   "gateway.solo.io",
+	Version: "v1",
+	Kind:    "RouteTable",
+}
+
 // RouteTable is the Schema for the routeTable API
 type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -56,11 +66,7 @@ type RouteTable struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (RouteTable) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "gateway.solo.io",
-		Version: "v1",
-		Kind:    "RouteTable",
-	}
+	return RouteTableGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -77,6 +83,13 @@ type RouteTableList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for VirtualService
+var VirtualServiceGVK = schema.GroupVersionKind{
+	Group:   "gateway.solo.io",
+	Version: "v1",
+	Kind:    "VirtualService",
+}
+
 // VirtualService is the Schema for the virtualService API
 type VirtualService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -88,11 +101,7 @@ type VirtualService struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (VirtualService) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "gateway.solo.io",
-		Version: "v1",
-		Kind:    "VirtualService",
-	}
+	return VirtualServiceGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

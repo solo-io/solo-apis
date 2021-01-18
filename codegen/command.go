@@ -33,5 +33,6 @@ func Command() codegen.Command {
 		},
 		RenderProtos: true,
 		Groups:       groups,
+		CustomGoArgs: []string{"Mgithub.com/solo-io/solo-kit/api/external/envoy/api/v2/discovery.proto=github.com/envoyproxy/go-control-plane/envoy/api/v2"},
 	}
 }

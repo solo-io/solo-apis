@@ -14,6 +14,7 @@ require (
 	// Note the correct version when updating.
 	github.com/Azure/go-autorest/autorest v0.10.2 // indirect
 	github.com/Azure/go-autorest/autorest/adal v0.9.5 // indirect
+	github.com/envoyproxy/go-control-plane v0.9.5
 	github.com/envoyproxy/protoc-gen-validate v0.4.0
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/mock v1.4.4
@@ -25,7 +26,7 @@ require (
 	github.com/rotisserie/eris v0.1.1
 	github.com/solo-io/go-utils v0.20.0
 	github.com/solo-io/protoc-gen-ext v0.0.13
-	github.com/solo-io/skv2 v0.14.1
+	github.com/solo-io/skv2 v0.16.2-0.20210118221455-744d31e91d46
 	github.com/solo-io/solo-kit v0.16.0
 	golang.org/x/tools v0.0.0-20201027213030-631220838841
 	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013

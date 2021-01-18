@@ -8,10 +8,11 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	sets "github.com/solo-io/skv2/contrib/pkg/sets"
 	ezkube "github.com/solo-io/skv2/pkg/ezkube"
 	v1 "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1"
 	v1sets "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1/sets"
-	sets "k8s.io/apimachinery/pkg/util/sets"
+	sets0 "k8s.io/apimachinery/pkg/util/sets"
 )
 
 // MockGatewaySet is a mock of GatewaySet interface
@@ -38,10 +39,10 @@ func (m *MockGatewaySet) EXPECT() *MockGatewaySetMockRecorder {
 }
 
 // Keys mocks base method
-func (m *MockGatewaySet) Keys() sets.String {
+func (m *MockGatewaySet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets.String)
+	ret0, _ := ret[0].(sets0.String)
 	return ret0
 }
 
@@ -210,6 +211,34 @@ func (mr *MockGatewaySetMockRecorder) Length() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockGatewaySet)(nil).Length))
 }
 
+// Generic mocks base method
+func (m *MockGatewaySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic
+func (mr *MockGatewaySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockGatewaySet)(nil).Generic))
+}
+
+// Delta mocks base method
+func (m *MockGatewaySet) Delta(newSet v1sets.GatewaySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta
+func (mr *MockGatewaySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockGatewaySet)(nil).Delta), newSet)
+}
+
 // MockRouteTableSet is a mock of RouteTableSet interface
 type MockRouteTableSet struct {
 	ctrl     *gomock.Controller
@@ -234,10 +263,10 @@ func (m *MockRouteTableSet) EXPECT() *MockRouteTableSetMockRecorder {
 }
 
 // Keys mocks base method
-func (m *MockRouteTableSet) Keys() sets.String {
+func (m *MockRouteTableSet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets.String)
+	ret0, _ := ret[0].(sets0.String)
 	return ret0
 }
 
@@ -406,6 +435,34 @@ func (mr *MockRouteTableSetMockRecorder) Length() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockRouteTableSet)(nil).Length))
 }
 
+// Generic mocks base method
+func (m *MockRouteTableSet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic
+func (mr *MockRouteTableSetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockRouteTableSet)(nil).Generic))
+}
+
+// Delta mocks base method
+func (m *MockRouteTableSet) Delta(newSet v1sets.RouteTableSet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta
+func (mr *MockRouteTableSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockRouteTableSet)(nil).Delta), newSet)
+}
+
 // MockVirtualServiceSet is a mock of VirtualServiceSet interface
 type MockVirtualServiceSet struct {
 	ctrl     *gomock.Controller
@@ -430,10 +487,10 @@ func (m *MockVirtualServiceSet) EXPECT() *MockVirtualServiceSetMockRecorder {
 }
 
 // Keys mocks base method
-func (m *MockVirtualServiceSet) Keys() sets.String {
+func (m *MockVirtualServiceSet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets.String)
+	ret0, _ := ret[0].(sets0.String)
 	return ret0
 }
 
@@ -600,4 +657,32 @@ func (m *MockVirtualServiceSet) Length() int {
 func (mr *MockVirtualServiceSetMockRecorder) Length() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockVirtualServiceSet)(nil).Length))
+}
+
+// Generic mocks base method
+func (m *MockVirtualServiceSet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic
+func (mr *MockVirtualServiceSetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockVirtualServiceSet)(nil).Generic))
+}
+
+// Delta mocks base method
+func (m *MockVirtualServiceSet) Delta(newSet v1sets.VirtualServiceSet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta
+func (mr *MockVirtualServiceSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockVirtualServiceSet)(nil).Delta), newSet)
 }

@@ -13,6 +13,13 @@ import (
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for AuthConfig
+var AuthConfigGVK = schema.GroupVersionKind{
+	Group:   "enterprise.gloo.solo.io",
+	Version: "v1",
+	Kind:    "AuthConfig",
+}
+
 // AuthConfig is the Schema for the authConfig API
 type AuthConfig struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -24,11 +31,7 @@ type AuthConfig struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (AuthConfig) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "enterprise.gloo.solo.io",
-		Version: "v1",
-		Kind:    "AuthConfig",
-	}
+	return AuthConfigGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

@@ -38,6 +38,10 @@ type RateLimitConfigSet interface {
 	Find(id ezkube.ResourceId) (*ratelimit_solo_io_v1alpha1.RateLimitConfig, error)
 	// Get the length of the set
 	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another RateLimitConfigSet
+	Delta(newSet RateLimitConfigSet) sksets.ResourceDelta
 }
 
 func makeGenericRateLimitConfigSet(rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig) sksets.ResourceSet {
@@ -68,7 +72,7 @@ func (s *rateLimitConfigSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
 	}
-	return s.set.Keys()
+	return s.Generic().Keys()
 }
 
 func (s *rateLimitConfigSet) List(filterResource ...func(*ratelimit_solo_io_v1alpha1.RateLimitConfig) bool) []*ratelimit_solo_io_v1alpha1.RateLimitConfig {
@@ -83,7 +87,7 @@ func (s *rateLimitConfigSet) List(filterResource ...func(*ratelimit_solo_io_v1al
 	}
 
 	var rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig
-	for _, obj := range s.set.List(genericFilters...) {
+	for _, obj := range s.Generic().List(genericFilters...) {
 		rateLimitConfigList = append(rateLimitConfigList, obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
 	}
 	return rateLimitConfigList
@@ -95,7 +99,7 @@ func (s *rateLimitConfigSet) Map() map[string]*ratelimit_solo_io_v1alpha1.RateLi
 	}
 
 	newMap := map[string]*ratelimit_solo_io_v1alpha1.RateLimitConfig{}
-	for k, v := range s.set.Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*ratelimit_solo_io_v1alpha1.RateLimitConfig)
 	}
 	return newMap
@@ -109,7 +113,7 @@ func (s *rateLimitConfigSet) Insert(
 	}
 
 	for _, obj := range rateLimitConfigList {
-		s.set.Insert(obj)
+		s.Generic().Insert(obj)
 	}
 }
 
@@ -117,7 +121,7 @@ func (s *rateLimitConfigSet) Has(rateLimitConfig ezkube.ResourceId) bool {
 	if s == nil {
 		return false
 	}
-	return s.set.Has(rateLimitConfig)
+	return s.Generic().Has(rateLimitConfig)
 }
 
 func (s *rateLimitConfigSet) Equal(
@@ -126,14 +130,14 @@ func (s *rateLimitConfigSet) Equal(
 	if s == nil {
 		return rateLimitConfigSet == nil
 	}
-	return s.set.Equal(makeGenericRateLimitConfigSet(rateLimitConfigSet.List()))
+	return s.Generic().Equal(rateLimitConfigSet.Generic())
 }
 
 func (s *rateLimitConfigSet) Delete(RateLimitConfig ezkube.ResourceId) {
 	if s == nil {
 		return
 	}
-	s.set.Delete(RateLimitConfig)
+	s.Generic().Delete(RateLimitConfig)
 }
 
 func (s *rateLimitConfigSet) Union(set RateLimitConfigSet) RateLimitConfigSet {
@@ -147,7 +151,7 @@ func (s *rateLimitConfigSet) Difference(set RateLimitConfigSet) RateLimitConfigS
 	if s == nil {
 		return set
 	}
-	newSet := s.set.Difference(makeGenericRateLimitConfigSet(set.List()))
+	newSet := s.Generic().Difference(set.Generic())
 	return &rateLimitConfigSet{set: newSet}
 }
 
@@ -155,7 +159,7 @@ func (s *rateLimitConfigSet) Intersection(set RateLimitConfigSet) RateLimitConfi
 	if s == nil {
 		return nil
 	}
-	newSet := s.set.Intersection(makeGenericRateLimitConfigSet(set.List()))
+	newSet := s.Generic().Intersection(set.Generic())
 	var rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig
 	for _, obj := range newSet.List() {
 		rateLimitConfigList = append(rateLimitConfigList, obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
@@ -167,7 +171,7 @@ func (s *rateLimitConfigSet) Find(id ezkube.ResourceId) (*ratelimit_solo_io_v1al
 	if s == nil {
 		return nil, eris.Errorf("empty set, cannot find RateLimitConfig %v", sksets.Key(id))
 	}
-	obj, err := s.set.Find(&ratelimit_solo_io_v1alpha1.RateLimitConfig{}, id)
+	obj, err := s.Generic().Find(&ratelimit_solo_io_v1alpha1.RateLimitConfig{}, id)
 	if err != nil {
 		return nil, err
 	}
@@ -179,5 +183,21 @@ func (s *rateLimitConfigSet) Length() int {
 	if s == nil {
 		return 0
 	}
-	return s.set.Length()
+	return s.Generic().Length()
+}
+
+func (s *rateLimitConfigSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *rateLimitConfigSet) Delta(newSet RateLimitConfigSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }
