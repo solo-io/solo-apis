@@ -13,6 +13,13 @@ import (
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for MultiClusterRole
+var MultiClusterRoleGVK = schema.GroupVersionKind{
+	Group:   "multicluster.solo.io",
+	Version: "v1alpha1",
+	Kind:    "MultiClusterRole",
+}
+
 // MultiClusterRole is the Schema for the multiClusterRole API
 type MultiClusterRole struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -24,11 +31,7 @@ type MultiClusterRole struct {
 
 // GVK returns the GroupVersionKind associated with the resource type.
 func (MultiClusterRole) GVK() schema.GroupVersionKind {
-	return schema.GroupVersionKind{
-		Group:   "multicluster.solo.io",
-		Version: "v1alpha1",
-		Kind:    "MultiClusterRole",
-	}
+	return MultiClusterRoleGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
