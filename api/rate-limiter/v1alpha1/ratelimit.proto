@@ -3,7 +3,6 @@ package ratelimit.api.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1";
 
-
 import "google/protobuf/wrappers.proto";
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
@@ -447,6 +446,81 @@ message Action {
     repeated HeaderMatcher headers = 3; // [(validate.rules).repeated .min_items = 1];
   }
 
+  // The following descriptor entry is appended when the metadata contains a key value:
+  //   ("<descriptor_key>", "<value_queried_from_metadata>")
+  message MetaData {
+    enum Source {
+      // Query :ref:`dynamic metadata <well_known_dynamic_metadata>`
+      DYNAMIC = 0;
+
+      // Query :ref:`route entry metadata <envoy_api_field_config.route.v3.Route.metadata>`
+      ROUTE_ENTRY = 1;
+    }
+
+    // MetadataKey provides a general interface using `key` and `path` to retrieve value from
+    // :ref:`Metadata <envoy_api_msg_config.core.v3.Metadata>`.
+    //
+    // For example, for the following Metadata:
+    //
+    // .. code-block:: yaml
+    //
+    //    filter_metadata:
+    //      envoy.xxx:
+    //        prop:
+    //          foo: bar
+    //          xyz:
+    //            hello: envoy
+    //
+    // The following MetadataKey will retrieve a string value "bar" from the Metadata.
+    //
+    // .. code-block:: yaml
+    //
+    //    key: envoy.xxx
+    //    path:
+    //    - key: prop
+    //    - key: foo
+    //
+    message MetadataKey {
+
+      // Specifies the segment in a path to retrieve value from Metadata.
+      // Currently it is only supported to specify the key, i.e. field name, as one segment of a path.
+      message PathSegment {
+        oneof segment {
+          // option (validate.required) = true;
+
+          // If specified, use the key to retrieve the value in a Struct.
+          string key = 1; // [(validate.rules).string = {min_len: 1}];
+        }
+      }
+
+      // The key name of Metadata to retrieve the Struct from the metadata.
+      // Typically, it represents a builtin subsystem or custom extension.
+      string key = 1; // [(validate.rules).string = {min_len: 1}];
+
+      // The path to retrieve the Value from the Struct. It can be a prefix or a full path,
+      // e.g. ``[prop, xyz]`` for a struct or ``[prop, foo]`` for a string in the example,
+      // which depends on the particular scenario.
+      //
+      // Note: Due to that only the key type segment is supported, the path can not specify a list
+      // unless the list is the last segment.
+      repeated PathSegment path = 2; // [(validate.rules).repeated = {min_items: 1}];
+    }
+
+    // The key to use in the descriptor entry.
+    string descriptor_key = 1; // [(validate.rules).string = {min_len: 1}];
+
+    // Metadata struct that defines the key and path to retrieve the string value. A match will
+    // only happen if the value in the metadata is of type string.
+    MetadataKey metadata_key = 2; // [(validate.rules).message = {required: true}];
+
+    // An optional value to use if *metadata_key* is empty. If not set and
+    // no value is present under the metadata_key then no descriptor is generated.
+    string default_value = 3;
+
+    // Source of metadata
+    Source source = 4; // [(validate.rules).enum = {defined_only: true}];
+  }
+
   oneof action_specifier {
 
     // Rate limit on source cluster.
@@ -466,5 +540,8 @@ message Action {
 
     // Rate limit on the existence of request headers.
     HeaderValueMatch header_value_match = 6;
+
+    // Rate limit on metadata.
+    MetaData metadata = 8;
   }
 }
