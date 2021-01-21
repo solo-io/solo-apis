@@ -488,16 +488,16 @@ message Action {
         oneof segment {
           // option (validate.required) = true;
 
-          // If specified, use the key to retrieve the value in a Struct.
+          // Required. If specified, use the key to retrieve the value in a Struct.
           string key = 1; // [(validate.rules).string = {min_len: 1}];
         }
       }
 
-      // The key name of Metadata to retrieve the Struct from the metadata.
+      // Required. The key name of Metadata to retrieve the Struct from the metadata.
       // Typically, it represents a builtin subsystem or custom extension.
       string key = 1; // [(validate.rules).string = {min_len: 1}];
 
-      // The path to retrieve the Value from the Struct. It can be a prefix or a full path,
+      // Must have at least one element. The path to retrieve the Value from the Struct. It can be a prefix or a full path,
       // e.g. ``[prop, xyz]`` for a struct or ``[prop, foo]`` for a string in the example,
       // which depends on the particular scenario.
       //
@@ -506,10 +506,10 @@ message Action {
       repeated PathSegment path = 2; // [(validate.rules).repeated = {min_items: 1}];
     }
 
-    // The key to use in the descriptor entry.
+    // Required. The key to use in the descriptor entry.
     string descriptor_key = 1; // [(validate.rules).string = {min_len: 1}];
 
-    // Metadata struct that defines the key and path to retrieve the string value. A match will
+    // Required. Metadata struct that defines the key and path to retrieve the string value. A match will
     // only happen if the value in the metadata is of type string.
     MetadataKey metadata_key = 2; // [(validate.rules).message = {required: true}];
 

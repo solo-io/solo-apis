@@ -1377,9 +1377,9 @@ type Action_MetaData struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The key to use in the descriptor entry.
+	// Required. The key to use in the descriptor entry.
 	DescriptorKey string `protobuf:"bytes,1,opt,name=descriptor_key,json=descriptorKey,proto3" json:"descriptor_key,omitempty"` // [(validate.rules).string = {min_len: 1}];
-	// Metadata struct that defines the key and path to retrieve the string value. A match will
+	// Required. Metadata struct that defines the key and path to retrieve the string value. A match will
 	// only happen if the value in the metadata is of type string.
 	MetadataKey *Action_MetaData_MetadataKey `protobuf:"bytes,2,opt,name=metadata_key,json=metadataKey,proto3" json:"metadata_key,omitempty"` // [(validate.rules).message = {required: true}];
 	// An optional value to use if *metadata_key* is empty. If not set and
@@ -1739,10 +1739,10 @@ type Action_MetaData_MetadataKey struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The key name of Metadata to retrieve the Struct from the metadata.
+	// Required. The key name of Metadata to retrieve the Struct from the metadata.
 	// Typically, it represents a builtin subsystem or custom extension.
 	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"` // [(validate.rules).string = {min_len: 1}];
-	// The path to retrieve the Value from the Struct. It can be a prefix or a full path,
+	// Must have at least one element. The path to retrieve the Value from the Struct. It can be a prefix or a full path,
 	// e.g. ``[prop, xyz]`` for a struct or ``[prop, foo]`` for a string in the example,
 	// which depends on the particular scenario.
 	//
@@ -1860,7 +1860,7 @@ type isAction_MetaData_MetadataKey_PathSegment_Segment interface {
 }
 
 type Action_MetaData_MetadataKey_PathSegment_Key struct {
-	// If specified, use the key to retrieve the value in a Struct.
+	// Required. If specified, use the key to retrieve the value in a Struct.
 	Key string `protobuf:"bytes,1,opt,name=key,proto3,oneof"` // [(validate.rules).string = {min_len: 1}];
 }
 
