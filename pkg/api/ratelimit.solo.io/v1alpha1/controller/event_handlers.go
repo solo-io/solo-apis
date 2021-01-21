@@ -12,7 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/events"
-	"k8s.io/apimachinery/pkg/runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
@@ -88,7 +88,7 @@ type genericRateLimitConfigHandler struct {
 	handler RateLimitConfigEventHandler
 }
 
-func (h genericRateLimitConfigHandler) Create(object runtime.Object) error {
+func (h genericRateLimitConfigHandler) Create(object client.Object) error {
 	obj, ok := object.(*ratelimit_solo_io_v1alpha1.RateLimitConfig)
 	if !ok {
 		return errors.Errorf("internal error: RateLimitConfig handler received event for %T", object)
@@ -96,7 +96,7 @@ func (h genericRateLimitConfigHandler) Create(object runtime.Object) error {
 	return h.handler.CreateRateLimitConfig(obj)
 }
 
-func (h genericRateLimitConfigHandler) Delete(object runtime.Object) error {
+func (h genericRateLimitConfigHandler) Delete(object client.Object) error {
 	obj, ok := object.(*ratelimit_solo_io_v1alpha1.RateLimitConfig)
 	if !ok {
 		return errors.Errorf("internal error: RateLimitConfig handler received event for %T", object)
@@ -104,7 +104,7 @@ func (h genericRateLimitConfigHandler) Delete(object runtime.Object) error {
 	return h.handler.DeleteRateLimitConfig(obj)
 }
 
-func (h genericRateLimitConfigHandler) Update(old, new runtime.Object) error {
+func (h genericRateLimitConfigHandler) Update(old, new client.Object) error {
 	objOld, ok := old.(*ratelimit_solo_io_v1alpha1.RateLimitConfig)
 	if !ok {
 		return errors.Errorf("internal error: RateLimitConfig handler received event for %T", old)
@@ -116,7 +116,7 @@ func (h genericRateLimitConfigHandler) Update(old, new runtime.Object) error {
 	return h.handler.UpdateRateLimitConfig(objOld, objNew)
 }
 
-func (h genericRateLimitConfigHandler) Generic(object runtime.Object) error {
+func (h genericRateLimitConfigHandler) Generic(object client.Object) error {
 	obj, ok := object.(*ratelimit_solo_io_v1alpha1.RateLimitConfig)
 	if !ok {
 		return errors.Errorf("internal error: RateLimitConfig handler received event for %T", object)

@@ -12,7 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/events"
-	"k8s.io/apimachinery/pkg/runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
@@ -88,7 +88,7 @@ type genericSettingsHandler struct {
 	handler SettingsEventHandler
 }
 
-func (h genericSettingsHandler) Create(object runtime.Object) error {
+func (h genericSettingsHandler) Create(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.Settings)
 	if !ok {
 		return errors.Errorf("internal error: Settings handler received event for %T", object)
@@ -96,7 +96,7 @@ func (h genericSettingsHandler) Create(object runtime.Object) error {
 	return h.handler.CreateSettings(obj)
 }
 
-func (h genericSettingsHandler) Delete(object runtime.Object) error {
+func (h genericSettingsHandler) Delete(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.Settings)
 	if !ok {
 		return errors.Errorf("internal error: Settings handler received event for %T", object)
@@ -104,7 +104,7 @@ func (h genericSettingsHandler) Delete(object runtime.Object) error {
 	return h.handler.DeleteSettings(obj)
 }
 
-func (h genericSettingsHandler) Update(old, new runtime.Object) error {
+func (h genericSettingsHandler) Update(old, new client.Object) error {
 	objOld, ok := old.(*gloo_solo_io_v1.Settings)
 	if !ok {
 		return errors.Errorf("internal error: Settings handler received event for %T", old)
@@ -116,7 +116,7 @@ func (h genericSettingsHandler) Update(old, new runtime.Object) error {
 	return h.handler.UpdateSettings(objOld, objNew)
 }
 
-func (h genericSettingsHandler) Generic(object runtime.Object) error {
+func (h genericSettingsHandler) Generic(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.Settings)
 	if !ok {
 		return errors.Errorf("internal error: Settings handler received event for %T", object)
@@ -195,7 +195,7 @@ type genericUpstreamHandler struct {
 	handler UpstreamEventHandler
 }
 
-func (h genericUpstreamHandler) Create(object runtime.Object) error {
+func (h genericUpstreamHandler) Create(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.Upstream)
 	if !ok {
 		return errors.Errorf("internal error: Upstream handler received event for %T", object)
@@ -203,7 +203,7 @@ func (h genericUpstreamHandler) Create(object runtime.Object) error {
 	return h.handler.CreateUpstream(obj)
 }
 
-func (h genericUpstreamHandler) Delete(object runtime.Object) error {
+func (h genericUpstreamHandler) Delete(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.Upstream)
 	if !ok {
 		return errors.Errorf("internal error: Upstream handler received event for %T", object)
@@ -211,7 +211,7 @@ func (h genericUpstreamHandler) Delete(object runtime.Object) error {
 	return h.handler.DeleteUpstream(obj)
 }
 
-func (h genericUpstreamHandler) Update(old, new runtime.Object) error {
+func (h genericUpstreamHandler) Update(old, new client.Object) error {
 	objOld, ok := old.(*gloo_solo_io_v1.Upstream)
 	if !ok {
 		return errors.Errorf("internal error: Upstream handler received event for %T", old)
@@ -223,7 +223,7 @@ func (h genericUpstreamHandler) Update(old, new runtime.Object) error {
 	return h.handler.UpdateUpstream(objOld, objNew)
 }
 
-func (h genericUpstreamHandler) Generic(object runtime.Object) error {
+func (h genericUpstreamHandler) Generic(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.Upstream)
 	if !ok {
 		return errors.Errorf("internal error: Upstream handler received event for %T", object)
@@ -302,7 +302,7 @@ type genericUpstreamGroupHandler struct {
 	handler UpstreamGroupEventHandler
 }
 
-func (h genericUpstreamGroupHandler) Create(object runtime.Object) error {
+func (h genericUpstreamGroupHandler) Create(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.UpstreamGroup)
 	if !ok {
 		return errors.Errorf("internal error: UpstreamGroup handler received event for %T", object)
@@ -310,7 +310,7 @@ func (h genericUpstreamGroupHandler) Create(object runtime.Object) error {
 	return h.handler.CreateUpstreamGroup(obj)
 }
 
-func (h genericUpstreamGroupHandler) Delete(object runtime.Object) error {
+func (h genericUpstreamGroupHandler) Delete(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.UpstreamGroup)
 	if !ok {
 		return errors.Errorf("internal error: UpstreamGroup handler received event for %T", object)
@@ -318,7 +318,7 @@ func (h genericUpstreamGroupHandler) Delete(object runtime.Object) error {
 	return h.handler.DeleteUpstreamGroup(obj)
 }
 
-func (h genericUpstreamGroupHandler) Update(old, new runtime.Object) error {
+func (h genericUpstreamGroupHandler) Update(old, new client.Object) error {
 	objOld, ok := old.(*gloo_solo_io_v1.UpstreamGroup)
 	if !ok {
 		return errors.Errorf("internal error: UpstreamGroup handler received event for %T", old)
@@ -330,7 +330,7 @@ func (h genericUpstreamGroupHandler) Update(old, new runtime.Object) error {
 	return h.handler.UpdateUpstreamGroup(objOld, objNew)
 }
 
-func (h genericUpstreamGroupHandler) Generic(object runtime.Object) error {
+func (h genericUpstreamGroupHandler) Generic(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.UpstreamGroup)
 	if !ok {
 		return errors.Errorf("internal error: UpstreamGroup handler received event for %T", object)
@@ -409,7 +409,7 @@ type genericProxyHandler struct {
 	handler ProxyEventHandler
 }
 
-func (h genericProxyHandler) Create(object runtime.Object) error {
+func (h genericProxyHandler) Create(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.Proxy)
 	if !ok {
 		return errors.Errorf("internal error: Proxy handler received event for %T", object)
@@ -417,7 +417,7 @@ func (h genericProxyHandler) Create(object runtime.Object) error {
 	return h.handler.CreateProxy(obj)
 }
 
-func (h genericProxyHandler) Delete(object runtime.Object) error {
+func (h genericProxyHandler) Delete(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.Proxy)
 	if !ok {
 		return errors.Errorf("internal error: Proxy handler received event for %T", object)
@@ -425,7 +425,7 @@ func (h genericProxyHandler) Delete(object runtime.Object) error {
 	return h.handler.DeleteProxy(obj)
 }
 
-func (h genericProxyHandler) Update(old, new runtime.Object) error {
+func (h genericProxyHandler) Update(old, new client.Object) error {
 	objOld, ok := old.(*gloo_solo_io_v1.Proxy)
 	if !ok {
 		return errors.Errorf("internal error: Proxy handler received event for %T", old)
@@ -437,7 +437,7 @@ func (h genericProxyHandler) Update(old, new runtime.Object) error {
 	return h.handler.UpdateProxy(objOld, objNew)
 }
 
-func (h genericProxyHandler) Generic(object runtime.Object) error {
+func (h genericProxyHandler) Generic(object client.Object) error {
 	obj, ok := object.(*gloo_solo_io_v1.Proxy)
 	if !ok {
 		return errors.Errorf("internal error: Proxy handler received event for %T", object)

@@ -12,7 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/events"
-	"k8s.io/apimachinery/pkg/runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
@@ -88,7 +88,7 @@ type genericGatewayHandler struct {
 	handler GatewayEventHandler
 }
 
-func (h genericGatewayHandler) Create(object runtime.Object) error {
+func (h genericGatewayHandler) Create(object client.Object) error {
 	obj, ok := object.(*gateway_solo_io_v1.Gateway)
 	if !ok {
 		return errors.Errorf("internal error: Gateway handler received event for %T", object)
@@ -96,7 +96,7 @@ func (h genericGatewayHandler) Create(object runtime.Object) error {
 	return h.handler.CreateGateway(obj)
 }
 
-func (h genericGatewayHandler) Delete(object runtime.Object) error {
+func (h genericGatewayHandler) Delete(object client.Object) error {
 	obj, ok := object.(*gateway_solo_io_v1.Gateway)
 	if !ok {
 		return errors.Errorf("internal error: Gateway handler received event for %T", object)
@@ -104,7 +104,7 @@ func (h genericGatewayHandler) Delete(object runtime.Object) error {
 	return h.handler.DeleteGateway(obj)
 }
 
-func (h genericGatewayHandler) Update(old, new runtime.Object) error {
+func (h genericGatewayHandler) Update(old, new client.Object) error {
 	objOld, ok := old.(*gateway_solo_io_v1.Gateway)
 	if !ok {
 		return errors.Errorf("internal error: Gateway handler received event for %T", old)
@@ -116,7 +116,7 @@ func (h genericGatewayHandler) Update(old, new runtime.Object) error {
 	return h.handler.UpdateGateway(objOld, objNew)
 }
 
-func (h genericGatewayHandler) Generic(object runtime.Object) error {
+func (h genericGatewayHandler) Generic(object client.Object) error {
 	obj, ok := object.(*gateway_solo_io_v1.Gateway)
 	if !ok {
 		return errors.Errorf("internal error: Gateway handler received event for %T", object)
@@ -195,7 +195,7 @@ type genericRouteTableHandler struct {
 	handler RouteTableEventHandler
 }
 
-func (h genericRouteTableHandler) Create(object runtime.Object) error {
+func (h genericRouteTableHandler) Create(object client.Object) error {
 	obj, ok := object.(*gateway_solo_io_v1.RouteTable)
 	if !ok {
 		return errors.Errorf("internal error: RouteTable handler received event for %T", object)
@@ -203,7 +203,7 @@ func (h genericRouteTableHandler) Create(object runtime.Object) error {
 	return h.handler.CreateRouteTable(obj)
 }
 
-func (h genericRouteTableHandler) Delete(object runtime.Object) error {
+func (h genericRouteTableHandler) Delete(object client.Object) error {
 	obj, ok := object.(*gateway_solo_io_v1.RouteTable)
 	if !ok {
 		return errors.Errorf("internal error: RouteTable handler received event for %T", object)
@@ -211,7 +211,7 @@ func (h genericRouteTableHandler) Delete(object runtime.Object) error {
 	return h.handler.DeleteRouteTable(obj)
 }
 
-func (h genericRouteTableHandler) Update(old, new runtime.Object) error {
+func (h genericRouteTableHandler) Update(old, new client.Object) error {
 	objOld, ok := old.(*gateway_solo_io_v1.RouteTable)
 	if !ok {
 		return errors.Errorf("internal error: RouteTable handler received event for %T", old)
@@ -223,7 +223,7 @@ func (h genericRouteTableHandler) Update(old, new runtime.Object) error {
 	return h.handler.UpdateRouteTable(objOld, objNew)
 }
 
-func (h genericRouteTableHandler) Generic(object runtime.Object) error {
+func (h genericRouteTableHandler) Generic(object client.Object) error {
 	obj, ok := object.(*gateway_solo_io_v1.RouteTable)
 	if !ok {
 		return errors.Errorf("internal error: RouteTable handler received event for %T", object)
@@ -302,7 +302,7 @@ type genericVirtualServiceHandler struct {
 	handler VirtualServiceEventHandler
 }
 
-func (h genericVirtualServiceHandler) Create(object runtime.Object) error {
+func (h genericVirtualServiceHandler) Create(object client.Object) error {
 	obj, ok := object.(*gateway_solo_io_v1.VirtualService)
 	if !ok {
 		return errors.Errorf("internal error: VirtualService handler received event for %T", object)
@@ -310,7 +310,7 @@ func (h genericVirtualServiceHandler) Create(object runtime.Object) error {
 	return h.handler.CreateVirtualService(obj)
 }
 
-func (h genericVirtualServiceHandler) Delete(object runtime.Object) error {
+func (h genericVirtualServiceHandler) Delete(object client.Object) error {
 	obj, ok := object.(*gateway_solo_io_v1.VirtualService)
 	if !ok {
 		return errors.Errorf("internal error: VirtualService handler received event for %T", object)
@@ -318,7 +318,7 @@ func (h genericVirtualServiceHandler) Delete(object runtime.Object) error {
 	return h.handler.DeleteVirtualService(obj)
 }
 
-func (h genericVirtualServiceHandler) Update(old, new runtime.Object) error {
+func (h genericVirtualServiceHandler) Update(old, new client.Object) error {
 	objOld, ok := old.(*gateway_solo_io_v1.VirtualService)
 	if !ok {
 		return errors.Errorf("internal error: VirtualService handler received event for %T", old)
@@ -330,7 +330,7 @@ func (h genericVirtualServiceHandler) Update(old, new runtime.Object) error {
 	return h.handler.UpdateVirtualService(objOld, objNew)
 }
 
-func (h genericVirtualServiceHandler) Generic(object runtime.Object) error {
+func (h genericVirtualServiceHandler) Generic(object client.Object) error {
 	obj, ok := object.(*gateway_solo_io_v1.VirtualService)
 	if !ok {
 		return errors.Errorf("internal error: VirtualService handler received event for %T", object)
