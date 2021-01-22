@@ -12,7 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/events"
-	"k8s.io/apimachinery/pkg/runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
@@ -88,7 +88,7 @@ type genericAuthConfigHandler struct {
 	handler AuthConfigEventHandler
 }
 
-func (h genericAuthConfigHandler) Create(object runtime.Object) error {
+func (h genericAuthConfigHandler) Create(object client.Object) error {
 	obj, ok := object.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", object)
@@ -96,7 +96,7 @@ func (h genericAuthConfigHandler) Create(object runtime.Object) error {
 	return h.handler.CreateAuthConfig(obj)
 }
 
-func (h genericAuthConfigHandler) Delete(object runtime.Object) error {
+func (h genericAuthConfigHandler) Delete(object client.Object) error {
 	obj, ok := object.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", object)
@@ -104,7 +104,7 @@ func (h genericAuthConfigHandler) Delete(object runtime.Object) error {
 	return h.handler.DeleteAuthConfig(obj)
 }
 
-func (h genericAuthConfigHandler) Update(old, new runtime.Object) error {
+func (h genericAuthConfigHandler) Update(old, new client.Object) error {
 	objOld, ok := old.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", old)
@@ -116,7 +116,7 @@ func (h genericAuthConfigHandler) Update(old, new runtime.Object) error {
 	return h.handler.UpdateAuthConfig(objOld, objNew)
 }
 
-func (h genericAuthConfigHandler) Generic(object runtime.Object) error {
+func (h genericAuthConfigHandler) Generic(object client.Object) error {
 	obj, ok := object.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", object)
