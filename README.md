@@ -9,5 +9,4 @@ Syncing the Gloo APIs is currently a semi-automated process and is done with 2 g
 1. In the gloo repo, a github action will run on each Gloo OS release. It will run `./hack/sync-gloo-apis.sh; make generate -B` in solo-apis and push to the `update-gloo-apis` branch in solo-apis.
 2. In the solo-apis repo, each push to `update-gloo-apis` will automatically create a PR.
 3. A member of the solo-io org must approve the pull request.
-
-After the PR has merged, a tag should be created off of master corresponding to the Gloo tag which was used.
+4. Once the PR has merged into master, a tag should be created off of master corresponding to the Gloo tag which was used.
