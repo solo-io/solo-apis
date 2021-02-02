@@ -932,6 +932,22 @@ func (m *AccessTokenValidation) Equal(that interface{}) bool {
 
 	}
 
+	switch m.ScopeValidation.(type) {
+
+	case *AccessTokenValidation_RequiredScopes:
+
+		if h, ok := interface{}(m.GetRequiredScopes()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetRequiredScopes()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetRequiredScopes(), target.GetRequiredScopes()) {
+				return false
+			}
+		}
+
+	}
+
 	return true
 }
 
@@ -1822,6 +1838,41 @@ func (m *UserSession_CookieOptions) Equal(that interface{}) bool {
 
 	if strings.Compare(m.GetDomain(), target.GetDomain()) != 0 {
 		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessTokenValidation_ScopeList) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessTokenValidation_ScopeList)
+	if !ok {
+		that2, ok := that.(AccessTokenValidation_ScopeList)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetScope()) != len(target.GetScope()) {
+		return false
+	}
+	for idx, v := range m.GetScope() {
+
+		if strings.Compare(v, target.GetScope()[idx]) != 0 {
+			return false
+		}
+
 	}
 
 	return true
