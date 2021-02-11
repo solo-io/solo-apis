@@ -1,7 +1,9 @@
 on:
+  workflow_dispatch:
   push:
     branches:
     - "update-gloo-apis"
+    - "gloo-v**"
 
 jobs:
   pull-request:
