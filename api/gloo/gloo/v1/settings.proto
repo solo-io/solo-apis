@@ -15,6 +15,7 @@ import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/ratelim
 import "github.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/circuit_breaker.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/aws/filter.proto";
 
 import "google/protobuf/duration.proto";
@@ -361,6 +362,17 @@ message SettingsSpec {
     // Provides settings related to the observability deployment (enterprise only)
     ObservabilityOptions observabilityOptions = 31;
 
+    // Default configuration to use for upstreams, when not provided by specific upstream
+    // When these properties are defined on an upstream, this configuration will be ignored
+    UpstreamOptions upstreamOptions = 32;
+
+}
+
+// Default configuration to use for upstreams, when not provided by a specific upstream
+// When these properties are defined on a specific upstream, this configuration will be ignored
+message UpstreamOptions {
+    // Default ssl parameter configuration to use for upstreams
+    SslParameters ssl_parameters = 1;
 }
 
 // Settings specific to the gloo (Envoy xDS server) controller
