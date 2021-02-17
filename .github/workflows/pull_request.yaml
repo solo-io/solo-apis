@@ -1,7 +1,6 @@
 name: pull_request
 
 on:
-  workflow_dispatch:
   push:
     branches:
     - 'master'
