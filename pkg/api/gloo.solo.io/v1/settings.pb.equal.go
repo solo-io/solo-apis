@@ -199,6 +199,26 @@ func (m *SettingsSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetObservabilityOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetObservabilityOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetObservabilityOptions(), target.GetObservabilityOptions()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetUpstreamOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetUpstreamOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetUpstreamOptions(), target.GetUpstreamOptions()) {
+			return false
+		}
+	}
+
 	switch m.ConfigSource.(type) {
 
 	case *SettingsSpec_KubernetesConfigSource:
@@ -317,6 +337,40 @@ func (m *SettingsSpec) Equal(that interface{}) bool {
 			}
 		}
 
+	}
+
+	return true
+}
+
+// Equal function
+func (m *UpstreamOptions) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*UpstreamOptions)
+	if !ok {
+		that2, ok := that.(UpstreamOptions)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetSslParameters()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetSslParameters()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetSslParameters(), target.GetSslParameters()) {
+			return false
+		}
 	}
 
 	return true
@@ -1002,6 +1056,40 @@ func (m *SettingsSpec_KubernetesConfiguration) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *SettingsSpec_ObservabilityOptions) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*SettingsSpec_ObservabilityOptions)
+	if !ok {
+		that2, ok := that.(SettingsSpec_ObservabilityOptions)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetGrafanaIntegration()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetGrafanaIntegration()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetGrafanaIntegration(), target.GetGrafanaIntegration()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -1063,6 +1151,40 @@ func (m *SettingsSpec_KubernetesConfiguration_RateLimits) Equal(that interface{}
 
 	if m.GetBurst() != target.GetBurst() {
 		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *SettingsSpec_ObservabilityOptions_GrafanaIntegration) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*SettingsSpec_ObservabilityOptions_GrafanaIntegration)
+	if !ok {
+		that2, ok := that.(SettingsSpec_ObservabilityOptions_GrafanaIntegration)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetDefaultDashboardFolderId()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDefaultDashboardFolderId()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDefaultDashboardFolderId(), target.GetDefaultDashboardFolderId()) {
+			return false
+		}
 	}
 
 	return true
@@ -1203,6 +1325,16 @@ func (m *GatewayOptions_ValidationOptions) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetAllowWarnings(), target.GetAllowWarnings()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetWarnRouteShortCircuiting()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetWarnRouteShortCircuiting()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetWarnRouteShortCircuiting(), target.GetWarnRouteShortCircuiting()) {
 			return false
 		}
 	}

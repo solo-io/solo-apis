@@ -76,6 +76,23 @@ func (m *ListenerOptions) Equal(that interface{}) bool {
 		}
 	}
 
+	if len(m.GetSocketOptions()) != len(target.GetSocketOptions()) {
+		return false
+	}
+	for idx, v := range m.GetSocketOptions() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSocketOptions()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSocketOptions()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	return true
 }
 
@@ -216,6 +233,16 @@ func (m *HttpListenerOptions) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetBuffer(), target.GetBuffer()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetCsrf()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCsrf()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCsrf(), target.GetCsrf()) {
 			return false
 		}
 	}
@@ -378,16 +405,6 @@ func (m *VirtualHostOptions) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetJwt()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetJwt()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetJwt(), target.GetJwt()) {
-			return false
-		}
-	}
-
 	if h, ok := interface{}(m.GetRbac()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetRbac()) {
 			return false
@@ -424,6 +441,16 @@ func (m *VirtualHostOptions) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetBufferPerRoute(), target.GetBufferPerRoute()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetCsrf()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCsrf()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCsrf(), target.GetCsrf()) {
 			return false
 		}
 	}
@@ -480,6 +507,34 @@ func (m *VirtualHostOptions) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetRateLimitConfigs(), target.GetRateLimitConfigs()) {
+				return false
+			}
+		}
+
+	}
+
+	switch m.JwtConfig.(type) {
+
+	case *VirtualHostOptions_Jwt:
+
+		if h, ok := interface{}(m.GetJwt()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetJwt()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetJwt(), target.GetJwt()) {
+				return false
+			}
+		}
+
+	case *VirtualHostOptions_JwtStaged:
+
+		if h, ok := interface{}(m.GetJwtStaged()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetJwtStaged()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetJwtStaged(), target.GetJwtStaged()) {
 				return false
 			}
 		}
@@ -657,16 +712,6 @@ func (m *RouteOptions) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetJwt()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetJwt()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetJwt(), target.GetJwt()) {
-			return false
-		}
-	}
-
 	if h, ok := interface{}(m.GetRbac()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetRbac()) {
 			return false
@@ -703,6 +748,16 @@ func (m *RouteOptions) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetBufferPerRoute(), target.GetBufferPerRoute()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetCsrf()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCsrf()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCsrf(), target.GetCsrf()) {
 			return false
 		}
 	}
@@ -761,6 +816,34 @@ func (m *RouteOptions) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetRateLimitConfigs(), target.GetRateLimitConfigs()) {
+				return false
+			}
+		}
+
+	}
+
+	switch m.JwtConfig.(type) {
+
+	case *RouteOptions_Jwt:
+
+		if h, ok := interface{}(m.GetJwt()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetJwt()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetJwt(), target.GetJwt()) {
+				return false
+			}
+		}
+
+	case *RouteOptions_JwtStaged:
+
+		if h, ok := interface{}(m.GetJwtStaged()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetJwtStaged()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetJwtStaged(), target.GetJwtStaged()) {
 				return false
 			}
 		}
@@ -913,6 +996,16 @@ func (m *WeightedDestinationOptions) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetBufferPerRoute(), target.GetBufferPerRoute()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetCsrf()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCsrf()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCsrf(), target.GetCsrf()) {
 			return false
 		}
 	}

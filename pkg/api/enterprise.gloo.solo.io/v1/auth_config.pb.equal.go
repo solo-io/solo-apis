@@ -291,6 +291,10 @@ func (m *BufferSettings) Equal(that interface{}) bool {
 		return false
 	}
 
+	if m.GetPackAsBytes() != target.GetPackAsBytes() {
+		return false
+	}
+
 	return true
 }
 
@@ -1203,6 +1207,16 @@ func (m *PassThroughAuth) Equal(that interface{}) bool {
 		return m == nil
 	} else if m == nil {
 		return false
+	}
+
+	if h, ok := interface{}(m.GetConfig()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetConfig()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetConfig(), target.GetConfig()) {
+			return false
+		}
 	}
 
 	switch m.Protocol.(type) {

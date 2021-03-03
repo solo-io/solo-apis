@@ -41,6 +41,9 @@ message AuthConfigSpec {
       AuthPlugin plugin_auth = 5;
       OpaAuth opa_auth = 6;
       Ldap ldap = 7;
+      // This is a "dummy" extauth service which can be used to support multiple auth mechanisms with JWT authentication.
+      // If Jwt authentication is to be used in the [boolean expression](https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto.sk/#authconfig) in an AuthConfig, you can use this auth config type to include Jwt as an Auth config.
+      // In addition, `allow_missing_or_failed_jwt` must be set on the Virtual Host or Route that uses JWT auth or else the JWT filter will short circuit this behaviour.
       google.protobuf.Empty jwt = 11;
       PassThroughAuth pass_through_auth = 12;
     }
@@ -163,6 +166,9 @@ message BufferSettings {
   // The authorization request will be dispatched and no 413 HTTP error will be returned by the
   // filter.
   bool allow_partial_message = 2;
+
+  // When this field is true, Envoy will send the body sent to the external authorization service with raw bytes.
+  bool pack_as_bytes = 3;
 }
 
 
@@ -271,7 +277,7 @@ message UserSession {
     // Explicitly set to false to disable refreshing.
     google.protobuf.BoolValue allow_refreshing = 4;
   }
-  
+
   // should we fail auth flow when failing to get a session from redis, or allow it to continue,
   // potentially starting a new auth flow and setting a new session.
   bool fail_on_fetch_failure = 1;
@@ -280,10 +286,10 @@ message UserSession {
     // Max age for the cookie. Leave unset for a default of 30 days (2592000 seconds).
     // To disable cookie expiry, set explicitly to 0.
     google.protobuf.UInt32Value max_age = 1;
-    // Use a non-secure cookie. Note - this should only be used for testing and in trusted 
+    // Use a non-secure cookie. Note - this should only be used for testing and in trusted
     // environments.
     bool not_secure = 2;
-    // Path of the cookie. If unset, defaults to "/". Set it explicitly to "" to avoid setting a 
+    // Path of the cookie. If unset, defaults to "/". Set it explicitly to "" to avoid setting a
     // path.
     google.protobuf.StringValue path = 3;
     // Cookie domain
@@ -530,9 +536,13 @@ message Ldap {
 // Authorizes requests by querying a custom extauth server.
 message PassThroughAuth {
 
-  oneof protocol {
-    PassThroughGrpc grpc = 1;
-  }
+    oneof protocol {
+        PassThroughGrpc grpc = 1;
+    }
+
+    // Custom config to be passed per request to the passthrough auth service.
+    google.protobuf.Struct config = 4;
+
 }
 
 // Authorizes requests by querying a custom extauth grpc server
@@ -588,7 +598,7 @@ message ExtAuthConfig {
   }
 
   message OidcAuthorizationCodeConfig {
-    
+
     // your client id as registered with the issuer
     string client_id = 1;
 
