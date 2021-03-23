@@ -44,6 +44,8 @@ import "solo-apis/api/gloo/gloo/v1/enterprise/options/waf/waf.proto";
 import "solo-apis/api/gloo/gloo/v1/enterprise/options/dlp/dlp.proto";
 import "solo-apis/api/gloo/gloo/v1/options/transformation/transformation.proto";
 
+import "envoy/api/v2/core/base.proto";
+
 import "google/protobuf/duration.proto";
 import "google/protobuf/wrappers.proto";
 
@@ -66,6 +68,10 @@ message ListenerOptions {
     // Soft limit on size of the listener's new connection read and write buffers. If unspecified, defaults to 1MiB
     // For more info, check out the [Envoy docs](https://www.envoyproxy.io/docs/envoy/v1.14.1/api-v2/api/v2/listener.proto)
     google.protobuf.UInt32Value per_connection_buffer_limit_bytes = 3;
+
+    // Additional socket options that may not be present in Envoy source code or
+    // precompiled binaries.
+    repeated envoy.api.v2.core.SocketOption socket_options = 4;
 }
 
 // Optional, feature-specific configuration that lives on http listeners
@@ -120,6 +126,11 @@ message HttpListenerOptions {
     // envoy.filters.http.grpc_json_transcoder.
     // For more, see https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/grpc_json_transcoder/v3/transcoder.proto
     grpc_json.options.gloo.solo.io.GrpcJsonTranscoder grpc_json_transcoder = 13;
+
+    // Enterprise-only: If using the HTTP header specified by cluster_header to direct traffic to a cluster,
+    // this option will sanitize that header from downstream traffic.
+    // Defaults to false
+    google.protobuf.BoolValue sanitize_cluster_header = 14;
 }
 
 // Optional, feature-specific configuration that lives on tcp listeners
