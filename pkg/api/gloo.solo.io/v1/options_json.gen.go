@@ -44,6 +44,7 @@ import (
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/tracing"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/transformation"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/wasm"
+	_ "github.com/solo-io/solo-kit/pkg/api/external/envoy/api/v2/core"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

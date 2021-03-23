@@ -24,6 +24,15 @@ message HttpConnectionManagerSettings {
         ALWAYS_FORWARD_ONLY = 4;
     }
 
+    enum ServerHeaderTransformation {
+        // (DEFAULT) Overwrite any Server header with the contents of server_name.
+        OVERWRITE = 0;
+        // If no Server header is present, append Server server_name If a Server header is present, pass it through.
+        APPEND_IF_ABSENT = 1;
+        // Pass through the value of the server header, and do not append a header if none is present.
+        PASS_THROUGH = 2;
+    }
+
     message SetCurrentClientCertDetails {
         google.protobuf.BoolValue subject = 1;
         bool cert = 2;
@@ -62,4 +71,11 @@ message HttpConnectionManagerSettings {
     // HttpConnectionManager configuration for protocol upgrade requests. 
     // Note: WebSocket upgrades are enabled by default on the HTTP Connection Manager and must be explicitly disabled.
     repeated protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig upgrades = 21;
+
+    // For an explanation of these settings see https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#config-core-v3-httpprotocoloptions
+    google.protobuf.Duration max_connection_duration = 23 [ (gogoproto.stdduration) = true ];
+    google.protobuf.Duration max_stream_duration = 24 [ (gogoproto.stdduration) = true ];
+
+    // For an explanation of the settings see: https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#envoy-v3-api-enum-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-serverheadertransformation
+    ServerHeaderTransformation server_header_transformation = 25;
 }
