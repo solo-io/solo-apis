@@ -663,6 +663,65 @@ func (m *HeaderConfiguration) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *JwksOnDemandCacheRefreshPolicy) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.JwksOnDemandCacheRefreshPolicy")); err != nil {
+		return 0, err
+	}
+
+	switch m.Policy.(type) {
+
+	case *JwksOnDemandCacheRefreshPolicy_Never:
+
+		if h, ok := interface{}(m.GetNever()).(safe_hasher.SafeHasher); ok {
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if val, err := hashstructure.Hash(m.GetNever(), nil); err != nil {
+				return 0, err
+			} else {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *JwksOnDemandCacheRefreshPolicy_Always:
+
+		if h, ok := interface{}(m.GetAlways()).(safe_hasher.SafeHasher); ok {
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if val, err := hashstructure.Hash(m.GetAlways(), nil); err != nil {
+				return 0, err
+			} else {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *JwksOnDemandCacheRefreshPolicy_MaxIdpReqPerPollingInterval:
+
+		err = binary.Write(hasher, binary.LittleEndian, m.GetMaxIdpReqPerPollingInterval())
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *OidcAuthorizationCode) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -774,6 +833,20 @@ func (m *OidcAuthorizationCode) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	} else {
 		if val, err := hashstructure.Hash(m.GetDiscoveryPollInterval(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if h, ok := interface{}(m.GetJwksCacheRefreshPolicy()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetJwksCacheRefreshPolicy(), nil); err != nil {
 			return 0, err
 		} else {
 			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
@@ -1858,6 +1931,20 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Hash(hasher hash.Hash64) (ui
 		}
 	} else {
 		if val, err := hashstructure.Hash(m.GetDiscoveryPollInterval(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if h, ok := interface{}(m.GetJwksCacheRefreshPolicy()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetJwksCacheRefreshPolicy(), nil); err != nil {
 			return 0, err
 		} else {
 			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
