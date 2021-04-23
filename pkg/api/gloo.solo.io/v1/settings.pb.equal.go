@@ -493,6 +493,16 @@ func (m *GlooOptions) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetFailoverUpstreamDnsPollingInterval()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetFailoverUpstreamDnsPollingInterval()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetFailoverUpstreamDnsPollingInterval(), target.GetFailoverUpstreamDnsPollingInterval()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -1345,6 +1355,16 @@ func (m *GatewayOptions_ValidationOptions) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetDisableTransformationValidation(), target.GetDisableTransformationValidation()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetValidationServerGrpcMaxSize()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetValidationServerGrpcMaxSize()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetValidationServerGrpcMaxSize(), target.GetValidationServerGrpcMaxSize()) {
 			return false
 		}
 	}
