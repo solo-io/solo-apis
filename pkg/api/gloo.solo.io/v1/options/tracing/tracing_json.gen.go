@@ -53,6 +53,28 @@ func (this *TracePercentages) UnmarshalJSON(b []byte) error {
 	return TracingUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for TracingTagEnvironmentVariable
+func (this *TracingTagEnvironmentVariable) MarshalJSON() ([]byte, error) {
+	str, err := TracingMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for TracingTagEnvironmentVariable
+func (this *TracingTagEnvironmentVariable) UnmarshalJSON(b []byte) error {
+	return TracingUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for TracingTagLiteral
+func (this *TracingTagLiteral) MarshalJSON() ([]byte, error) {
+	str, err := TracingMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for TracingTagLiteral
+func (this *TracingTagLiteral) UnmarshalJSON(b []byte) error {
+	return TracingUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 var (
 	TracingMarshaler   = &github_com_gogo_protobuf_jsonpb.Marshaler{EnumsAsInts: true}
 	TracingUnmarshaler = &github_com_gogo_protobuf_jsonpb.Unmarshaler{}
