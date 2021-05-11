@@ -4,16 +4,11 @@ go 1.14
 
 replace (
 	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
-	k8s.io/apimachinery => k8s.io/apimachinery v0.19.6
-	k8s.io/client-go => k8s.io/client-go v0.19.6
+	k8s.io/apimachinery => k8s.io/apimachinery v0.20.4
+	k8s.io/client-go => k8s.io/client-go v0.20.4
 )
 
 require (
-	// github.com/Azure/go-autorest/autorest has different versions for the Go
-	// modules than it does for releases on the repository, so we need to manually
-	// Note the correct version when updating.
-	github.com/Azure/go-autorest/autorest v0.10.2 // indirect
-	github.com/Azure/go-autorest/autorest/adal v0.9.5 // indirect
 	github.com/envoyproxy/go-control-plane v0.9.5
 	github.com/envoyproxy/protoc-gen-validate v0.4.0
 	github.com/gogo/protobuf v1.3.1
@@ -33,8 +28,8 @@ require (
 	google.golang.org/grpc v1.30.0
 	google.golang.org/protobuf v1.25.0
 	istio.io/tools v0.0.0-20200918020118-6d0a0e49b5d3
-	k8s.io/apimachinery v0.19.6
+	k8s.io/apimachinery v0.20.4
 	k8s.io/client-go v8.0.0+incompatible
-	k8s.io/code-generator v0.19.6
+	k8s.io/code-generator v0.20.4
 	sigs.k8s.io/controller-runtime v0.7.0
 )
