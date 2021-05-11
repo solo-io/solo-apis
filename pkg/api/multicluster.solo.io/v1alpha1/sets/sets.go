@@ -18,6 +18,8 @@ type MultiClusterRoleSet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*multicluster_solo_io_v1alpha1.MultiClusterRole) bool) []*multicluster_solo_io_v1alpha1.MultiClusterRole
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*multicluster_solo_io_v1alpha1.MultiClusterRole) bool) []*multicluster_solo_io_v1alpha1.MultiClusterRole
 	// Return the Set as a map of key to resource.
 	Map() map[string]*multicluster_solo_io_v1alpha1.MultiClusterRole
 	// Insert a resource into the set.
@@ -86,8 +88,27 @@ func (s *multiClusterRoleSet) List(filterResource ...func(*multicluster_solo_io_
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	multiClusterRoleList := make([]*multicluster_solo_io_v1alpha1.MultiClusterRole, 0, len(objs))
+	for _, obj := range objs {
+		multiClusterRoleList = append(multiClusterRoleList, obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
+	}
+	return multiClusterRoleList
+}
+
+func (s *multiClusterRoleSet) UnsortedList(filterResource ...func(*multicluster_solo_io_v1alpha1.MultiClusterRole) bool) []*multicluster_solo_io_v1alpha1.MultiClusterRole {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
+		})
+	}
+
 	var multiClusterRoleList []*multicluster_solo_io_v1alpha1.MultiClusterRole
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		multiClusterRoleList = append(multiClusterRoleList, obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
 	}
 	return multiClusterRoleList

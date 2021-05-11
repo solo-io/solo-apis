@@ -11,7 +11,6 @@ import (
 // Generated Deepcopy methods for AuthConfig
 
 func (in *AuthConfig) DeepCopyInto(out *AuthConfig) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 

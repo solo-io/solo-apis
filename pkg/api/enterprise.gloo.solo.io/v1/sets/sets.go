@@ -18,6 +18,8 @@ type AuthConfigSet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*enterprise_gloo_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_solo_io_v1.AuthConfig
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*enterprise_gloo_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_solo_io_v1.AuthConfig
 	// Return the Set as a map of key to resource.
 	Map() map[string]*enterprise_gloo_solo_io_v1.AuthConfig
 	// Insert a resource into the set.
@@ -86,8 +88,27 @@ func (s *authConfigSet) List(filterResource ...func(*enterprise_gloo_solo_io_v1.
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	authConfigList := make([]*enterprise_gloo_solo_io_v1.AuthConfig, 0, len(objs))
+	for _, obj := range objs {
+		authConfigList = append(authConfigList, obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
+	}
+	return authConfigList
+}
+
+func (s *authConfigSet) UnsortedList(filterResource ...func(*enterprise_gloo_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_solo_io_v1.AuthConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
+		})
+	}
+
 	var authConfigList []*enterprise_gloo_solo_io_v1.AuthConfig
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		authConfigList = append(authConfigList, obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
 	}
 	return authConfigList

@@ -70,6 +70,24 @@ func (mr *MockMultiClusterRoleSetMockRecorder) List(filterResource ...interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).List), filterResource...)
 }
 
+// UnsortedList mocks base method
+func (m *MockMultiClusterRoleSet) UnsortedList(filterResource ...func(*v1alpha1.MultiClusterRole) bool) []*v1alpha1.MultiClusterRole {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v1alpha1.MultiClusterRole)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList
+func (mr *MockMultiClusterRoleSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).UnsortedList), filterResource...)
+}
+
 // Map mocks base method
 func (m *MockMultiClusterRoleSet) Map() map[string]*v1alpha1.MultiClusterRole {
 	m.ctrl.T.Helper()

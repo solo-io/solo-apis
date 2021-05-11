@@ -18,6 +18,8 @@ type GatewaySet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*gateway_solo_io_v1.Gateway) bool) []*gateway_solo_io_v1.Gateway
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*gateway_solo_io_v1.Gateway) bool) []*gateway_solo_io_v1.Gateway
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.Gateway
 	// Insert a resource into the set.
@@ -86,8 +88,27 @@ func (s *gatewaySet) List(filterResource ...func(*gateway_solo_io_v1.Gateway) bo
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	gatewayList := make([]*gateway_solo_io_v1.Gateway, 0, len(objs))
+	for _, obj := range objs {
+		gatewayList = append(gatewayList, obj.(*gateway_solo_io_v1.Gateway))
+	}
+	return gatewayList
+}
+
+func (s *gatewaySet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.Gateway) bool) []*gateway_solo_io_v1.Gateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.Gateway))
+		})
+	}
+
 	var gatewayList []*gateway_solo_io_v1.Gateway
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		gatewayList = append(gatewayList, obj.(*gateway_solo_io_v1.Gateway))
 	}
 	return gatewayList
@@ -207,6 +228,8 @@ type RouteTableSet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*gateway_solo_io_v1.RouteTable) bool) []*gateway_solo_io_v1.RouteTable
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*gateway_solo_io_v1.RouteTable) bool) []*gateway_solo_io_v1.RouteTable
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.RouteTable
 	// Insert a resource into the set.
@@ -275,8 +298,27 @@ func (s *routeTableSet) List(filterResource ...func(*gateway_solo_io_v1.RouteTab
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	routeTableList := make([]*gateway_solo_io_v1.RouteTable, 0, len(objs))
+	for _, obj := range objs {
+		routeTableList = append(routeTableList, obj.(*gateway_solo_io_v1.RouteTable))
+	}
+	return routeTableList
+}
+
+func (s *routeTableSet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.RouteTable) bool) []*gateway_solo_io_v1.RouteTable {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.RouteTable))
+		})
+	}
+
 	var routeTableList []*gateway_solo_io_v1.RouteTable
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		routeTableList = append(routeTableList, obj.(*gateway_solo_io_v1.RouteTable))
 	}
 	return routeTableList
@@ -396,6 +438,8 @@ type VirtualServiceSet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*gateway_solo_io_v1.VirtualService) bool) []*gateway_solo_io_v1.VirtualService
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*gateway_solo_io_v1.VirtualService) bool) []*gateway_solo_io_v1.VirtualService
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.VirtualService
 	// Insert a resource into the set.
@@ -464,8 +508,27 @@ func (s *virtualServiceSet) List(filterResource ...func(*gateway_solo_io_v1.Virt
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	virtualServiceList := make([]*gateway_solo_io_v1.VirtualService, 0, len(objs))
+	for _, obj := range objs {
+		virtualServiceList = append(virtualServiceList, obj.(*gateway_solo_io_v1.VirtualService))
+	}
+	return virtualServiceList
+}
+
+func (s *virtualServiceSet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.VirtualService) bool) []*gateway_solo_io_v1.VirtualService {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.VirtualService))
+		})
+	}
+
 	var virtualServiceList []*gateway_solo_io_v1.VirtualService
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		virtualServiceList = append(virtualServiceList, obj.(*gateway_solo_io_v1.VirtualService))
 	}
 	return virtualServiceList

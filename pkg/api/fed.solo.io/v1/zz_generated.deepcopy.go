@@ -11,7 +11,6 @@ import (
 // Generated Deepcopy methods for GlooInstance
 
 func (in *GlooInstance) DeepCopyInto(out *GlooInstance) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 
