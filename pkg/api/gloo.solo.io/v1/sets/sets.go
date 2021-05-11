@@ -18,6 +18,8 @@ type SettingsSet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*gloo_solo_io_v1.Settings) bool) []*gloo_solo_io_v1.Settings
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*gloo_solo_io_v1.Settings) bool) []*gloo_solo_io_v1.Settings
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.Settings
 	// Insert a resource into the set.
@@ -86,8 +88,27 @@ func (s *settingsSet) List(filterResource ...func(*gloo_solo_io_v1.Settings) boo
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	settingsList := make([]*gloo_solo_io_v1.Settings, 0, len(objs))
+	for _, obj := range objs {
+		settingsList = append(settingsList, obj.(*gloo_solo_io_v1.Settings))
+	}
+	return settingsList
+}
+
+func (s *settingsSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Settings) bool) []*gloo_solo_io_v1.Settings {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Settings))
+		})
+	}
+
 	var settingsList []*gloo_solo_io_v1.Settings
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		settingsList = append(settingsList, obj.(*gloo_solo_io_v1.Settings))
 	}
 	return settingsList
@@ -207,6 +228,8 @@ type UpstreamSet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*gloo_solo_io_v1.Upstream) bool) []*gloo_solo_io_v1.Upstream
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*gloo_solo_io_v1.Upstream) bool) []*gloo_solo_io_v1.Upstream
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.Upstream
 	// Insert a resource into the set.
@@ -275,8 +298,27 @@ func (s *upstreamSet) List(filterResource ...func(*gloo_solo_io_v1.Upstream) boo
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	upstreamList := make([]*gloo_solo_io_v1.Upstream, 0, len(objs))
+	for _, obj := range objs {
+		upstreamList = append(upstreamList, obj.(*gloo_solo_io_v1.Upstream))
+	}
+	return upstreamList
+}
+
+func (s *upstreamSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Upstream) bool) []*gloo_solo_io_v1.Upstream {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Upstream))
+		})
+	}
+
 	var upstreamList []*gloo_solo_io_v1.Upstream
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		upstreamList = append(upstreamList, obj.(*gloo_solo_io_v1.Upstream))
 	}
 	return upstreamList
@@ -396,6 +438,8 @@ type UpstreamGroupSet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*gloo_solo_io_v1.UpstreamGroup) bool) []*gloo_solo_io_v1.UpstreamGroup
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*gloo_solo_io_v1.UpstreamGroup) bool) []*gloo_solo_io_v1.UpstreamGroup
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.UpstreamGroup
 	// Insert a resource into the set.
@@ -464,8 +508,27 @@ func (s *upstreamGroupSet) List(filterResource ...func(*gloo_solo_io_v1.Upstream
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	upstreamGroupList := make([]*gloo_solo_io_v1.UpstreamGroup, 0, len(objs))
+	for _, obj := range objs {
+		upstreamGroupList = append(upstreamGroupList, obj.(*gloo_solo_io_v1.UpstreamGroup))
+	}
+	return upstreamGroupList
+}
+
+func (s *upstreamGroupSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.UpstreamGroup) bool) []*gloo_solo_io_v1.UpstreamGroup {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.UpstreamGroup))
+		})
+	}
+
 	var upstreamGroupList []*gloo_solo_io_v1.UpstreamGroup
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		upstreamGroupList = append(upstreamGroupList, obj.(*gloo_solo_io_v1.UpstreamGroup))
 	}
 	return upstreamGroupList
@@ -585,6 +648,8 @@ type ProxySet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*gloo_solo_io_v1.Proxy
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*gloo_solo_io_v1.Proxy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.Proxy
 	// Insert a resource into the set.
@@ -653,8 +718,27 @@ func (s *proxySet) List(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	proxyList := make([]*gloo_solo_io_v1.Proxy, 0, len(objs))
+	for _, obj := range objs {
+		proxyList = append(proxyList, obj.(*gloo_solo_io_v1.Proxy))
+	}
+	return proxyList
+}
+
+func (s *proxySet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*gloo_solo_io_v1.Proxy {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Proxy))
+		})
+	}
+
 	var proxyList []*gloo_solo_io_v1.Proxy
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		proxyList = append(proxyList, obj.(*gloo_solo_io_v1.Proxy))
 	}
 	return proxyList

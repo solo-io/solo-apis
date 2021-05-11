@@ -11,7 +11,6 @@ import (
 // Generated Deepcopy methods for Settings
 
 func (in *Settings) DeepCopyInto(out *Settings) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 
@@ -72,7 +71,6 @@ func (in *SettingsList) DeepCopyObject() runtime.Object {
 // Generated Deepcopy methods for Upstream
 
 func (in *Upstream) DeepCopyInto(out *Upstream) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 
@@ -133,7 +131,6 @@ func (in *UpstreamList) DeepCopyObject() runtime.Object {
 // Generated Deepcopy methods for UpstreamGroup
 
 func (in *UpstreamGroup) DeepCopyInto(out *UpstreamGroup) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 
@@ -194,7 +191,6 @@ func (in *UpstreamGroupList) DeepCopyObject() runtime.Object {
 // Generated Deepcopy methods for Proxy
 
 func (in *Proxy) DeepCopyInto(out *Proxy) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 

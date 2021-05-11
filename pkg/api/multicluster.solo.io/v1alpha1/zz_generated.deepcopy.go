@@ -11,7 +11,6 @@ import (
 // Generated Deepcopy methods for MultiClusterRole
 
 func (in *MultiClusterRole) DeepCopyInto(out *MultiClusterRole) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 

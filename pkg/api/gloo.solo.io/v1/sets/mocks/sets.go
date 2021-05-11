@@ -70,6 +70,24 @@ func (mr *MockSettingsSetMockRecorder) List(filterResource ...interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockSettingsSet)(nil).List), filterResource...)
 }
 
+// UnsortedList mocks base method
+func (m *MockSettingsSet) UnsortedList(filterResource ...func(*v1.Settings) bool) []*v1.Settings {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v1.Settings)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList
+func (mr *MockSettingsSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockSettingsSet)(nil).UnsortedList), filterResource...)
+}
+
 // Map mocks base method
 func (m *MockSettingsSet) Map() map[string]*v1.Settings {
 	m.ctrl.T.Helper()
@@ -292,6 +310,24 @@ func (m *MockUpstreamSet) List(filterResource ...func(*v1.Upstream) bool) []*v1.
 func (mr *MockUpstreamSetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockUpstreamSet)(nil).List), filterResource...)
+}
+
+// UnsortedList mocks base method
+func (m *MockUpstreamSet) UnsortedList(filterResource ...func(*v1.Upstream) bool) []*v1.Upstream {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v1.Upstream)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList
+func (mr *MockUpstreamSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockUpstreamSet)(nil).UnsortedList), filterResource...)
 }
 
 // Map mocks base method
@@ -518,6 +554,24 @@ func (mr *MockUpstreamGroupSetMockRecorder) List(filterResource ...interface{}) 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockUpstreamGroupSet)(nil).List), filterResource...)
 }
 
+// UnsortedList mocks base method
+func (m *MockUpstreamGroupSet) UnsortedList(filterResource ...func(*v1.UpstreamGroup) bool) []*v1.UpstreamGroup {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v1.UpstreamGroup)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList
+func (mr *MockUpstreamGroupSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockUpstreamGroupSet)(nil).UnsortedList), filterResource...)
+}
+
 // Map mocks base method
 func (m *MockUpstreamGroupSet) Map() map[string]*v1.UpstreamGroup {
 	m.ctrl.T.Helper()
@@ -740,6 +794,24 @@ func (m *MockProxySet) List(filterResource ...func(*v1.Proxy) bool) []*v1.Proxy 
 func (mr *MockProxySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockProxySet)(nil).List), filterResource...)
+}
+
+// UnsortedList mocks base method
+func (m *MockProxySet) UnsortedList(filterResource ...func(*v1.Proxy) bool) []*v1.Proxy {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v1.Proxy)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList
+func (mr *MockProxySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockProxySet)(nil).UnsortedList), filterResource...)
 }
 
 // Map mocks base method

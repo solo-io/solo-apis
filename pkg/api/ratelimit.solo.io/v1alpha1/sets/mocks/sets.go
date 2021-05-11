@@ -70,6 +70,24 @@ func (mr *MockRateLimitConfigSetMockRecorder) List(filterResource ...interface{}
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRateLimitConfigSet)(nil).List), filterResource...)
 }
 
+// UnsortedList mocks base method
+func (m *MockRateLimitConfigSet) UnsortedList(filterResource ...func(*v1alpha1.RateLimitConfig) bool) []*v1alpha1.RateLimitConfig {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v1alpha1.RateLimitConfig)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList
+func (mr *MockRateLimitConfigSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockRateLimitConfigSet)(nil).UnsortedList), filterResource...)
+}
+
 // Map mocks base method
 func (m *MockRateLimitConfigSet) Map() map[string]*v1alpha1.RateLimitConfig {
 	m.ctrl.T.Helper()

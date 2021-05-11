@@ -11,7 +11,6 @@ import (
 // Generated Deepcopy methods for Gateway
 
 func (in *Gateway) DeepCopyInto(out *Gateway) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 
@@ -72,7 +71,6 @@ func (in *GatewayList) DeepCopyObject() runtime.Object {
 // Generated Deepcopy methods for RouteTable
 
 func (in *RouteTable) DeepCopyInto(out *RouteTable) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 
@@ -133,7 +131,6 @@ func (in *RouteTableList) DeepCopyObject() runtime.Object {
 // Generated Deepcopy methods for VirtualService
 
 func (in *VirtualService) DeepCopyInto(out *VirtualService) {
-	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 

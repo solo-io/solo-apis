@@ -18,6 +18,8 @@ type RateLimitConfigSet interface {
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
 	List(filterResource ...func(*ratelimit_solo_io_v1alpha1.RateLimitConfig) bool) []*ratelimit_solo_io_v1alpha1.RateLimitConfig
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*ratelimit_solo_io_v1alpha1.RateLimitConfig) bool) []*ratelimit_solo_io_v1alpha1.RateLimitConfig
 	// Return the Set as a map of key to resource.
 	Map() map[string]*ratelimit_solo_io_v1alpha1.RateLimitConfig
 	// Insert a resource into the set.
@@ -86,8 +88,27 @@ func (s *rateLimitConfigSet) List(filterResource ...func(*ratelimit_solo_io_v1al
 		})
 	}
 
+	objs := s.Generic().List(genericFilters...)
+	rateLimitConfigList := make([]*ratelimit_solo_io_v1alpha1.RateLimitConfig, 0, len(objs))
+	for _, obj := range objs {
+		rateLimitConfigList = append(rateLimitConfigList, obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
+	}
+	return rateLimitConfigList
+}
+
+func (s *rateLimitConfigSet) UnsortedList(filterResource ...func(*ratelimit_solo_io_v1alpha1.RateLimitConfig) bool) []*ratelimit_solo_io_v1alpha1.RateLimitConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
+		})
+	}
+
 	var rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig
-	for _, obj := range s.Generic().List(genericFilters...) {
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
 		rateLimitConfigList = append(rateLimitConfigList, obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
 	}
 	return rateLimitConfigList
