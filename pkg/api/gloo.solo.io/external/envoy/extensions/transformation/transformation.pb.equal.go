@@ -321,6 +321,18 @@ func (m *Transformation) Equal(that interface{}) bool {
 			}
 		}
 
+	case *Transformation_TransformerConfig:
+
+		if h, ok := interface{}(m.GetTransformerConfig()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetTransformerConfig()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetTransformerConfig(), target.GetTransformerConfig()) {
+				return false
+			}
+		}
+
 	}
 
 	return true
