@@ -89,16 +89,6 @@ func (m *GatewaySpec) Equal(that interface{}) bool {
 
 	}
 
-	if h, ok := interface{}(m.GetRouteOptions()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetRouteOptions()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetRouteOptions(), target.GetRouteOptions()) {
-			return false
-		}
-	}
-
 	switch m.GatewayType.(type) {
 
 	case *GatewaySpec_HttpGateway:
