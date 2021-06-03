@@ -267,16 +267,6 @@ func (m *HttpListenerOptions) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetLeftmostXffAddress()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetLeftmostXffAddress()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetLeftmostXffAddress(), target.GetLeftmostXffAddress()) {
-			return false
-		}
-	}
-
 	return true
 }
 
@@ -778,33 +768,6 @@ func (m *RouteOptions) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetStagedTransformations(), target.GetStagedTransformations()) {
-			return false
-		}
-	}
-
-	if len(m.GetEnvoyMetadata()) != len(target.GetEnvoyMetadata()) {
-		return false
-	}
-	for k, v := range m.GetEnvoyMetadata() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetEnvoyMetadata()[k]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetEnvoyMetadata()[k]) {
-				return false
-			}
-		}
-
-	}
-
-	if h, ok := interface{}(m.GetRegexRewrite()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetRegexRewrite()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetRegexRewrite(), target.GetRegexRewrite()) {
 			return false
 		}
 	}

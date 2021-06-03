@@ -324,20 +324,6 @@ func (m *HttpListenerOptions) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
-	if h, ok := interface{}(m.GetLeftmostXffAddress()).(safe_hasher.SafeHasher); ok {
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if val, err := hashstructure.Hash(m.GetLeftmostXffAddress(), nil); err != nil {
-			return 0, err
-		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
-				return 0, err
-			}
-		}
-	}
-
 	return hasher.Sum64(), nil
 }
 
@@ -972,53 +958,6 @@ func (m *RouteOptions) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	} else {
 		if val, err := hashstructure.Hash(m.GetStagedTransformations(), nil); err != nil {
-			return 0, err
-		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	{
-		var result uint64
-		innerHash := fnv.New64()
-		for k, v := range m.GetEnvoyMetadata() {
-			innerHash.Reset()
-
-			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = h.Hash(innerHash); err != nil {
-					return 0, err
-				}
-			} else {
-				if val, err := hashstructure.Hash(v, nil); err != nil {
-					return 0, err
-				} else {
-					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
-						return 0, err
-					}
-				}
-			}
-
-			if _, err = innerHash.Write([]byte(k)); err != nil {
-				return 0, err
-			}
-
-			result = result ^ innerHash.Sum64()
-		}
-		err = binary.Write(hasher, binary.LittleEndian, result)
-		if err != nil {
-			return 0, err
-		}
-
-	}
-
-	if h, ok := interface{}(m.GetRegexRewrite()).(safe_hasher.SafeHasher); ok {
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if val, err := hashstructure.Hash(m.GetRegexRewrite(), nil); err != nil {
 			return 0, err
 		} else {
 			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {

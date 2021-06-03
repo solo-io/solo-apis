@@ -34,7 +34,6 @@ import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/pro
 import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/filters/http/buffer/v3/buffer.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/filters/http/csrf/v3/csrf.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/filter/http/gzip/v2/gzip.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/type/matcher/v3/regex.proto";
 
 import "github.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/jwt/jwt.proto";
@@ -135,12 +134,6 @@ message HttpListenerOptions {
     // this option will sanitize that header from downstream traffic.
     // Defaults to false
     google.protobuf.BoolValue sanitize_cluster_header = 14;
-
-    // Enterprise-only: Setting this value to true will grab the leftmost IP address from
-    // the x-forwarded-for header and set it as the downstream address.
-    // It is worth noting that the x-forwarded-for header can be tampered with by clients
-    // and should therefore be sanitized by any preceding proxies / load balancers if this option is to be used.
-    google.protobuf.BoolValue leftmost_xff_address = 16;
 }
 
 // Optional, feature-specific configuration that lives on tcp listeners
@@ -168,7 +161,7 @@ message VirtualHostOptions {
     // Defines a CORS policy for the virtual host
     // If a CORS policy is also defined on the route matched by the request, the policies are merged.
     cors.options.gloo.solo.io.CorsPolicy cors = 3;
-    // Transformations to apply. Note: this field is superseded by `staged_transformations`.
+    // Transformations to apply. Note: this field is superceded by `staged_transformations`.
     // If `staged_transformations.regular` is set, this field will be ignored.
     transformation.options.gloo.solo.io.Transformations transformations = 4 [deprecated = true];
     // Enterprise-only: Config for GlooE rate-limiting using simplified (gloo-specific) API
@@ -253,7 +246,7 @@ message VirtualHostOptions {
 // Note to developers: new Route plugins must be added to this struct
 // to be usable by Gloo. (plugins currently need to be compiled into Gloo)
 message RouteOptions {
-    // Transformations to apply. Note: this field is superseded by `staged_transformations`.
+    // Transformations to apply. Note: this field is superceded by `staged_transformations`.
     // If `staged_transformations.regular` is set, this field will be ignored.
     transformation.options.gloo.solo.io.Transformations transformations = 1 [deprecated = true];
     fault.options.gloo.solo.io.RouteFaults faults = 2;
@@ -361,20 +354,6 @@ message RouteOptions {
     // Early transformations stage. These transformations run before most other options are processed.
     // If the `regular` field is set in here, the `transformations` field is ignored.
     transformation.options.gloo.solo.io.TransformationStages staged_transformations = 23;
-
-    // This field can be used to provide additional information about the route. This metadata can be consumed
-    // by the Envoy filters that process requests that match the route. For more info about metadata, see
-    // [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/data_sharing_between_filters#metadata).
-    //
-    // The value of this field will be propagated to the `metadata` attribute of the corresponding Envoy route.
-    // Please refer to the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-route)
-    // for more details about the `metadata` attribute.
-    map<string, google.protobuf.Struct> envoy_metadata = 26;
-
-    // For requests matched on this route, rewrite the HTTP request path according to the provided regex pattern before forwarding upstream
-    // Please refer to the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/v1.14.1/api-v3/config/route/v3/route_components.proto#envoy-v3-api-field-config-route-v3-routeaction-regex-rewrite)
-    // for more details about the `regex_rewrite` attribute
-     .solo.io.envoy.type.matcher.v3.RegexMatchAndSubstitute regex_rewrite = 27;
 }
 
 // Configuration for Destinations that are tied to the UpstreamSpec or ServiceSpec on that destination
@@ -394,7 +373,7 @@ message DestinationSpec {
 message WeightedDestinationOptions {
     // Append/Remove headers on Requests or Responses to/from this Weighted Destination
     headers.options.gloo.solo.io.HeaderManipulation header_manipulation = 1;
-    // Transformations to apply. Note: this field is superseded by `staged_transformations`.
+    // Transformations to apply. Note: this field is superceded by `staged_transformations`.
     // If `staged_transformations.regular` is set, this field will be ignored.
     transformation.options.gloo.solo.io.Transformations transformations = 2 [deprecated = true];
     // Extensions will be passed along from Listeners, Gateways, VirtualServices, Routes, and Route tables to the
