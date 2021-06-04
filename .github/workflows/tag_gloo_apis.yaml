@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - master
+      - gloo-v1.7.x
+      - gloo-v1.6.x
+      - gloo-v1.5.x
 jobs:
   tag-version:
     runs-on: ubuntu-latest
