@@ -199,6 +199,23 @@ func (m *SettingsSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if len(m.GetNamedExtauth()) != len(target.GetNamedExtauth()) {
+		return false
+	}
+	for k, v := range m.GetNamedExtauth() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetNamedExtauth()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetNamedExtauth()[k]) {
+				return false
+			}
+		}
+
+	}
+
 	if h, ok := interface{}(m.GetObservabilityOptions()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetObservabilityOptions()) {
 			return false
