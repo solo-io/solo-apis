@@ -129,6 +129,10 @@ message Settings {
     // to communicate with the auth server. Defaults to `V2`. For more info, see the `transport_api_version` field
     // [here](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ext_authz/v3/ext_authz.proto#extensions-filters-http-ext-authz-v3-extauthz).
     ApiVersion transport_api_version = 9;
+
+    // Optional additional prefix to use when emitting statistics.
+    // This allows to distinguish emitted statistics between configured ext_authz filters in an HTTP filter chain.
+    string stat_prefix = 10;
 }
 
 message HttpService {
@@ -193,6 +197,11 @@ message CustomAuth {
     // [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/ext_authz/v2/ext_authz.proto.html?highlight=ext_authz#config-filter-http-ext-authz-v2-checksettings)
     // for more details.
     map<string, string> context_extensions = 1;
+
+    // [Enterprise-only]
+    // Only required in the case where multiple auth servers are configured in Settings
+    // This name must match a key in the named_extauth Settings.
+    string name = 2;
 }
 
 message AuthPlugin {
@@ -418,6 +427,10 @@ message OidcAuthorizationCode {
     // should not be used by the application.
     // If not provided, logout functionality will be disabled.
     string logout_path = 9;
+
+    // url to redirect to after logout.
+    // This should be a publicly available URL. If not provided, will default to the `app_url`.
+    string after_logout_url = 15;
 
     // Scopes to request in addition to openid scope.
     repeated string scopes = 7;
@@ -792,6 +805,10 @@ message ExtAuthConfig {
         // should not be used by the application.
         // If not provided, logout functionality will be disabled.
         string logout_path = 9;
+
+        // url to redirect to after logout.
+        // This should be a publicly available URL. If not provided, will default to the `app_url`.
+        string after_logout_url = 15;
 
         // scopes to request in addition to the openid scope.
         repeated string scopes = 7;

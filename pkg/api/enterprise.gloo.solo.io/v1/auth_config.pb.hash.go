@@ -225,6 +225,10 @@ func (m *Settings) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
+	if _, err = hasher.Write([]byte(m.GetStatPrefix())); err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -341,6 +345,10 @@ func (m *CustomAuth) Hash(hasher hash.Hash64) (uint64, error) {
 			return 0, err
 		}
 
+	}
+
+	if _, err = hasher.Write([]byte(m.GetName())); err != nil {
+		return 0, err
 	}
 
 	return hasher.Sum64(), nil
@@ -901,6 +909,10 @@ func (m *OidcAuthorizationCode) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if _, err = hasher.Write([]byte(m.GetLogoutPath())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetAfterLogoutUrl())); err != nil {
 		return 0, err
 	}
 
@@ -2394,6 +2406,10 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Hash(hasher hash.Hash64) (ui
 	}
 
 	if _, err = hasher.Write([]byte(m.GetLogoutPath())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetAfterLogoutUrl())); err != nil {
 		return 0, err
 	}
 

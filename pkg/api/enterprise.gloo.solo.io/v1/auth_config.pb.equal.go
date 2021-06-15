@@ -215,6 +215,10 @@ func (m *Settings) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetStatPrefix(), target.GetStatPrefix()) != 0 {
+		return false
+	}
+
 	return true
 }
 
@@ -332,6 +336,10 @@ func (m *CustomAuth) Equal(that interface{}) bool {
 			return false
 		}
 
+	}
+
+	if strings.Compare(m.GetName(), target.GetName()) != 0 {
+		return false
 	}
 
 	return true
@@ -909,6 +917,10 @@ func (m *OidcAuthorizationCode) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetLogoutPath(), target.GetLogoutPath()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetAfterLogoutUrl(), target.GetAfterLogoutUrl()) != 0 {
 		return false
 	}
 
@@ -2375,6 +2387,10 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Equal(that interface{}) bool
 	}
 
 	if strings.Compare(m.GetLogoutPath(), target.GetLogoutPath()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetAfterLogoutUrl(), target.GetAfterLogoutUrl()) != 0 {
 		return false
 	}
 
