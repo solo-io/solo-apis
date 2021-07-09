@@ -12,7 +12,7 @@ To enable this automation, we rely on 2 GitHub workflows.
 
 The repo that owns API definitions is responsible for deciding when to update API definitions (ie after a release) and pushing the new API to a branch in solo-apis.
 
-This action only needs to know 2 peices of information:
+This action only needs to know 2 pieces of information:
 1. The name of the LTS branch it should merge the code into
 2. The tag that should be applied to the merge commit
 
