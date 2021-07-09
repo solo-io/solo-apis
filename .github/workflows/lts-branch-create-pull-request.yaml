@@ -8,6 +8,10 @@ jobs:
   create-pr-for-api-sync-branches:
     runs-on: ubuntu-18.04
     steps:
+      - name: Cancel Previous Actions
+        uses: styfle/cancel-workflow-action@0.4.1
+        with:
+          access_token: ${{ github.token }}
       - name: Checkout Branch
         uses: actions/checkout@v2
       - name: Parse GitHub Ref
