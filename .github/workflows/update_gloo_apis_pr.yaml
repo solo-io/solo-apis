@@ -18,7 +18,8 @@ jobs:
           REF: ${{ github.ref }}
           IGNORE_REF_PREFIX: 'refs/heads/'
         run: |
-          GITHUB_BRANCH_NAME=${$REF#"$IGNORE_REF_PREFIX"}
+          echo $REF
+          GITHUB_BRANCH_NAME=${$REF#$IGNORE_REF_PREFIX}
           echo $GITHUB_BRANCH_NAME
 
           DESTINATION_BRANCH=$(echo $GITHUB_BRANCH_NAME | cut -f$DEST_BRANCH_FIELD_NUMBER -d$DELIMITER )
