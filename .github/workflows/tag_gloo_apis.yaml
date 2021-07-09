@@ -7,6 +7,9 @@ on:
 jobs:
   tag-version:
     runs-on: ubuntu-latest
+    env:
+      # The regex of a commit produced by the soloio-bot
+      COMMIT_REGEX: "^.*(@soloio-bot Sync Gloo APIs.)+.*$"
     steps:
       - uses: actions/checkout@v2
         with:
@@ -15,14 +18,13 @@ jobs:
         id: tag_version
         shell: bash "{0}"
         run: |
-          COMMIT_REGEX="^.*(Sync Gloo APIs to v)+.*$"
-          if [[ $(git log -1 --oneline) =~ $COMMIT_REGEX ]]; then
-            TAG=$(git log -1 --oneline | cut -d" " -f 6)
+          if [[ $(git log -1 --oneline) =~ $ {{ env.COMMIT_REGEX }} ]]; then
+            TAG_NAME=$(git log -1 --oneline | cut -d "@tag-name=" -f 2)
           fi
-          echo "::set-output name=tag_name::$(echo $TAG)"
+          echo "::set-output name=tag_name::$(echo $TAG_NAME)"
       - name: Bump version and push tag
         if: steps.tag_version.outputs.tag_name != ''
         uses: anothrNick/github-tag-action@1.26.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CUSTOM_TAG: gloo-${{ steps.tag_version.outputs.tag_name }}
+          CUSTOM_TAG: ${{ steps.tag_version.outputs.tag_name }}
