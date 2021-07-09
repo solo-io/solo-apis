@@ -44,10 +44,10 @@ jobs:
           BRANCH_EXISTS=$(git ls-remote --heads origin $BRANCH)
 
           if [[ -z ${BRANCH_EXISTS} ]]; then
-              echo "$BRANCH exists, nothing to do"
+            echo "$BRANCH does not exist, creating it"
+            git push origin $BRANCH
           else
-              echo "$BRANCH does not exist, creating it"
-              git push origin $BRANCH
+            echo "$BRANCH exists, nothing to do"
           fi
       - name: Push Commit with Tag Name
         env:
