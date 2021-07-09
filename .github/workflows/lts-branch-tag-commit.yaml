@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - 'gloo-master'
       - 'gloo-v**.**.x'
 jobs:
   tag-version:
