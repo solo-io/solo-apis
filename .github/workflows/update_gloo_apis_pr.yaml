@@ -47,3 +47,4 @@ jobs:
           pr_label: "auto-pr"
           pr_allow_empty: true
           github_token: ${{ secrets.SOLO_BOT_REPO_SECRET }}
+          pr_title: "Sync Gloo APIs to ${{ steps.parse_github_ref.outputs.tag_name }}"
