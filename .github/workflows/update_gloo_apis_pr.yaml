@@ -37,7 +37,7 @@ jobs:
           git config user.name $GIT_USER_NAME
           git config user.email $GIT_USER_EMAIL
           git add .
-          git commit -m $COMMIT_MESSAGE --allow-empty
+          git commit -m "$COMMIT_MESSAGE" --allow-empty
           git push
       - name: Create Pull Request
         uses: repo-sync/pull-request@v2
