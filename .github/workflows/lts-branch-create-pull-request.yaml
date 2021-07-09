@@ -45,7 +45,7 @@ jobs:
 
           if [[ -z ${BRANCH_EXISTS} ]]; then
             echo "$BRANCH does not exist, creating it"
-            git push origin "$BRANCH"
+            git push origin "HEAD:$BRANCH"
           else
             echo "$BRANCH exists, nothing to do"
           fi
