@@ -3,9 +3,7 @@ on:
   push:
     branches:
       - master
-      - gloo-v1.7.x
-      - gloo-v1.6.x
-      - gloo-v1.5.x
+      - gloo-v**.**.x
 jobs:
   tag-version:
     runs-on: ubuntu-latest
@@ -13,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: '0'
-      - name: Parse out tag name
+      - name: Parse out tag name from commit message
         id: tag_version
         shell: bash "{0}"
         run: |

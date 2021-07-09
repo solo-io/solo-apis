@@ -1,18 +1,33 @@
 on:
   push:
     branches:
-    - "update-gloo-apis"
-    - "gloo-v**"
+    - "sync-apis/**/**"
 
 jobs:
   update-gloo-apis-pr:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: pull-request
+      - name: Parse GitHub Ref
+        id: parse_github_ref
+        shell: bash "{0}"
+        env:
+          DELIMITER: "/"
+          DEST_BRANCH_FIELD_NUMBER: 2
+          TAG_NAME_FIELD_NUMBER: 3
+          IGNORE_REF_PREFIX: 'refs/heads/'
+        run: |
+          GITHUB_BRANCH_NAME=${string#"$IGNORE_REF_PREFIX"}
+
+          DESTINATION_BRANCH=$(echo $GITHUB_BRANCH_NAME | cut -f$DEST_BRANCH_FIELD_NUMBER -d$DELIMITER )
+          TAG_NAME=$(echo $GITHUB_BRANCH_NAME | cut -f$TAG_NAME_FIELD_NUMBER -d$DELIMITER )
+
+          echo "::set-output name=destination_branch::$(echo $DESTINATION_BRANCH )"
+          echo "::set-output name=tag_name::$(echo $TAG_NAME )"
+      - name: Create Pull Request
         uses: repo-sync/pull-request@v2
         with:
-          destination_branch: "master"
+          destination_branch: ${{ steps.parse_github_ref.outputs.destination_branch }}
           pr_reviewer: "solo-apis/solo-apis"
           pr_label: "auto-pr"
           pr_allow_empty: true
