@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - master
-      - gloo-v**.**.x
+      - 'gloo-v**.**.x'
 jobs:
   tag-version:
     runs-on: ubuntu-latest

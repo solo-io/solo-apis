@@ -2,7 +2,7 @@ name: Create PR for LTS Branch
 on:
   push:
     branches:
-    - "sync-apis/**/**"
+    - 'sync-apis/**/**'
 
 jobs:
   create-pr-for-api-sync-branches:
