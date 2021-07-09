@@ -29,14 +29,30 @@ jobs:
 
           echo "::set-output name=destination_branch::$(echo $DESTINATION_BRANCH )"
           echo "::set-output name=tag_name::$(echo $TAG_NAME )"
-      - name: Push Commit with Tag Name
+      - name: Setup Git
         env:
           GIT_USER_NAME: soloio-bot
           GIT_USER_EMAIL: soloio-bot@github.com
-          COMMIT_MESSAGE: "@soloio-bot Sync APIs. @tag-name=${{ steps.parse_github_ref.outputs.tag_name }}"
         run: |
           git config user.name $GIT_USER_NAME
           git config user.email $GIT_USER_EMAIL
+      - name: Ensure LTS Branch Exists
+        env:
+          BRANCH: ${{ steps.parse_github_ref.outputs.destination_branch }}
+        run: |
+          git fetch origin
+          BRANCH_EXISTS=$(git ls-remote --heads origin $BRANCH)
+
+          if [[ -z ${BRANCH_EXISTS} ]]; then
+              echo "$BRANCH exists, nothing to do"
+          else
+              echo "$BRANCH does not exist, creating it"
+              git push origin $BRANCH
+          fi
+      - name: Push Commit with Tag Name
+        env:
+          COMMIT_MESSAGE: "@soloio-bot Sync APIs. @tag-name=${{ steps.parse_github_ref.outputs.tag_name }}"
+        run: |
           git add .
           git commit -m "$COMMIT_MESSAGE" --allow-empty
           git push
