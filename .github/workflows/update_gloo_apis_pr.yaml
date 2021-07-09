@@ -7,17 +7,19 @@ jobs:
   update-gloo-apis-pr:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Branch
+        uses: actions/checkout@v2
       - name: Parse GitHub Ref
         id: parse_github_ref
         env:
           DELIMITER: "/"
           DEST_BRANCH_FIELD_NUMBER: 2
           TAG_NAME_FIELD_NUMBER: 3
+          REF: ${{ github.ref }}
           IGNORE_REF_PREFIX: 'refs/heads/'
         run: |
-          GITHUB_BRANCH_NAME=${string#"$IGNORE_REF_PREFIX"}
-          echo "$GITHUB_BRANCH_NAME"
+          GITHUB_BRANCH_NAME=${$REF#"$IGNORE_REF_PREFIX"}
+          echo $GITHUB_BRANCH_NAME
 
           DESTINATION_BRANCH=$(echo $GITHUB_BRANCH_NAME | cut -f$DEST_BRANCH_FIELD_NUMBER -d$DELIMITER )
           TAG_NAME=$(echo $GITHUB_BRANCH_NAME | cut -f$TAG_NAME_FIELD_NUMBER -d$DELIMITER )
