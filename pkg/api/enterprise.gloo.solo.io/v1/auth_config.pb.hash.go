@@ -994,6 +994,10 @@ func (m *OidcAuthorizationCode) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	if _, err = hasher.Write([]byte(m.GetSessionIdHeaderName())); err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -1295,6 +1299,41 @@ func (m *OpaAuth) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if _, err = hasher.Write([]byte(m.GetQuery())); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *OpaAuthOptions) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.OpaAuthOptions")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetFastInputConversion())
+	if err != nil {
 		return 0, err
 	}
 
@@ -2491,6 +2530,10 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Hash(hasher hash.Hash64) (ui
 		}
 	}
 
+	if _, err = hasher.Write([]byte(m.GetSessionIdHeaderName())); err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -2756,6 +2799,20 @@ func (m *ExtAuthConfig_OpaAuthConfig) Hash(hasher hash.Hash64) (uint64, error) {
 
 	if _, err = hasher.Write([]byte(m.GetQuery())); err != nil {
 		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
 	}
 
 	return hasher.Sum64(), nil
