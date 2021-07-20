@@ -53,13 +53,6 @@ jobs:
           else
             echo "$BRANCH exists, nothing to do"
           fi
-      - name: Push Commit with Tag Name
-        env:
-          COMMIT_MESSAGE: "@soloio-bot Sync APIs. @tag-name=${{ steps.parse_github_ref.outputs.tag_name }}"
-        run: |
-          git add .
-          git commit -m "$COMMIT_MESSAGE" --allow-empty
-          git push
       - name: Create Pull Request
         uses: repo-sync/pull-request@v2
         with:
@@ -68,4 +61,4 @@ jobs:
           pr_label: "auto-pr"
           pr_allow_empty: true
           github_token: ${{ secrets.SOLO_BOT_REPO_SECRET }}
-          pr_title: "Sync APIs to ${{ steps.parse_github_ref.outputs.tag_name }}"
+          pr_title: "Sync APIs. @tag-name=${{ steps.parse_github_ref.outputs.tag_name }}"

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # The regex of a commit produced by the soloio-bot
-      COMMIT_REGEX: "^.*(@soloio-bot Sync APIs.)+.*$"
+      COMMIT_REGEX: "^.*(Sync APIs.)+.*$"
     steps:
       - name: Cancel Previous Actions
         uses: styfle/cancel-workflow-action@0.4.1
