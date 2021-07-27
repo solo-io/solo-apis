@@ -4,9 +4,8 @@
 package v1
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-)
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/apimachinery/pkg/runtime/schema")
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -15,22 +14,22 @@ import (
 
 // GroupVersionKind for Gateway
 var GatewayGVK = schema.GroupVersionKind{
-	Group:   "gateway.solo.io",
-	Version: "v1",
-	Kind:    "Gateway",
+    Group: "gateway.solo.io",
+    Version: "v1",
+    Kind: "Gateway",
 }
 
 // Gateway is the Schema for the gateway API
 type Gateway struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   GatewaySpec   `json:"spec,omitempty"`
-	Status GatewayStatus `json:"status,omitempty"`
+    Spec GatewaySpec `json:"spec,omitempty"`
+    Status GatewayStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (Gateway) GVK() schema.GroupVersionKind {
+func (Gateway)  GVK() schema.GroupVersionKind {
 	return GatewayGVK
 }
 
@@ -38,9 +37,9 @@ func (Gateway) GVK() schema.GroupVersionKind {
 
 // GatewayList contains a list of Gateway
 type GatewayList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Gateway `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []Gateway `json:"items"`
 }
 
 // +genclient
@@ -50,22 +49,22 @@ type GatewayList struct {
 
 // GroupVersionKind for RouteTable
 var RouteTableGVK = schema.GroupVersionKind{
-	Group:   "gateway.solo.io",
-	Version: "v1",
-	Kind:    "RouteTable",
+    Group: "gateway.solo.io",
+    Version: "v1",
+    Kind: "RouteTable",
 }
 
 // RouteTable is the Schema for the routeTable API
 type RouteTable struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   RouteTableSpec   `json:"spec,omitempty"`
-	Status RouteTableStatus `json:"status,omitempty"`
+    Spec RouteTableSpec `json:"spec,omitempty"`
+    Status RouteTableStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (RouteTable) GVK() schema.GroupVersionKind {
+func (RouteTable)  GVK() schema.GroupVersionKind {
 	return RouteTableGVK
 }
 
@@ -73,9 +72,9 @@ func (RouteTable) GVK() schema.GroupVersionKind {
 
 // RouteTableList contains a list of RouteTable
 type RouteTableList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []RouteTable `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []RouteTable `json:"items"`
 }
 
 // +genclient
@@ -85,22 +84,22 @@ type RouteTableList struct {
 
 // GroupVersionKind for VirtualService
 var VirtualServiceGVK = schema.GroupVersionKind{
-	Group:   "gateway.solo.io",
-	Version: "v1",
-	Kind:    "VirtualService",
+    Group: "gateway.solo.io",
+    Version: "v1",
+    Kind: "VirtualService",
 }
 
 // VirtualService is the Schema for the virtualService API
 type VirtualService struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   VirtualServiceSpec   `json:"spec,omitempty"`
-	Status VirtualServiceStatus `json:"status,omitempty"`
+    Spec VirtualServiceSpec `json:"spec,omitempty"`
+    Status VirtualServiceStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (VirtualService) GVK() schema.GroupVersionKind {
+func (VirtualService)  GVK() schema.GroupVersionKind {
 	return VirtualServiceGVK
 }
 
@@ -108,13 +107,13 @@ func (VirtualService) GVK() schema.GroupVersionKind {
 
 // VirtualServiceList contains a list of VirtualService
 type VirtualServiceList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []VirtualService `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []VirtualService `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Gateway{}, &GatewayList{})
-	SchemeBuilder.Register(&RouteTable{}, &RouteTableList{})
-	SchemeBuilder.Register(&VirtualService{}, &VirtualServiceList{})
+    SchemeBuilder.Register(&Gateway{}, &GatewayList{})
+    SchemeBuilder.Register(&RouteTable{}, &RouteTableList{})
+    SchemeBuilder.Register(&VirtualService{}, &VirtualServiceList{})
 }
