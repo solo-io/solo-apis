@@ -44,6 +44,8 @@ type MultiClusterRoleSet interface {
 	Generic() sksets.ResourceSet
 	// returns the delta between this and and another MultiClusterRoleSet
 	Delta(newSet MultiClusterRoleSet) sksets.ResourceDelta
+	// Create a deep copy of the current MultiClusterRoleSet
+	Clone() MultiClusterRoleSet
 }
 
 func makeGenericMultiClusterRoleSet(multiClusterRoleList []*multicluster_solo_io_v1alpha1.MultiClusterRole) sksets.ResourceSet {
@@ -221,4 +223,11 @@ func (s *multiClusterRoleSet) Delta(newSet MultiClusterRoleSet) sksets.ResourceD
 		}
 	}
 	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *multiClusterRoleSet) Clone() MultiClusterRoleSet {
+	if s == nil {
+		return nil
+	}
+	return &multiClusterRoleSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }

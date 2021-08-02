@@ -257,6 +257,20 @@ func (mr *MockGatewaySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockGatewaySet)(nil).Delta), newSet)
 }
 
+// Clone mocks base method
+func (m *MockGatewaySet) Clone() v1sets.GatewaySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.GatewaySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockGatewaySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockGatewaySet)(nil).Clone))
+}
+
 // MockRouteTableSet is a mock of RouteTableSet interface
 type MockRouteTableSet struct {
 	ctrl     *gomock.Controller
@@ -499,6 +513,20 @@ func (mr *MockRouteTableSetMockRecorder) Delta(newSet interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockRouteTableSet)(nil).Delta), newSet)
 }
 
+// Clone mocks base method
+func (m *MockRouteTableSet) Clone() v1sets.RouteTableSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.RouteTableSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockRouteTableSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockRouteTableSet)(nil).Clone))
+}
+
 // MockVirtualServiceSet is a mock of VirtualServiceSet interface
 type MockVirtualServiceSet struct {
 	ctrl     *gomock.Controller
@@ -739,4 +767,18 @@ func (m *MockVirtualServiceSet) Delta(newSet v1sets.VirtualServiceSet) sets.Reso
 func (mr *MockVirtualServiceSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockVirtualServiceSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockVirtualServiceSet) Clone() v1sets.VirtualServiceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.VirtualServiceSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockVirtualServiceSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockVirtualServiceSet)(nil).Clone))
 }

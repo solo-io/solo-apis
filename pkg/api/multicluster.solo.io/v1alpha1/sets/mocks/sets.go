@@ -256,3 +256,17 @@ func (mr *MockMultiClusterRoleSetMockRecorder) Delta(newSet interface{}) *gomock
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Delta), newSet)
 }
+
+// Clone mocks base method
+func (m *MockMultiClusterRoleSet) Clone() v1alpha1sets.MultiClusterRoleSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockMultiClusterRoleSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Clone))
+}

@@ -256,3 +256,17 @@ func (mr *MockAuthConfigSetMockRecorder) Delta(newSet interface{}) *gomock.Call 
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockAuthConfigSet)(nil).Delta), newSet)
 }
+
+// Clone mocks base method
+func (m *MockAuthConfigSet) Clone() v1sets.AuthConfigSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.AuthConfigSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockAuthConfigSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockAuthConfigSet)(nil).Clone))
+}
