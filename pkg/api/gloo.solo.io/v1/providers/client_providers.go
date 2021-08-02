@@ -2,13 +2,11 @@
 
 package v1
 
-
-
 import (
-    gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
+	gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 
-    "k8s.io/client-go/rest"
-    "sigs.k8s.io/controller-runtime/pkg/client"
+	"k8s.io/client-go/rest"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 /*
@@ -21,112 +19,112 @@ import (
 
 // Provider for SettingsClient from Clientset
 func SettingsClientFromClientsetProvider(clients gloo_solo_io_v1.Clientset) gloo_solo_io_v1.SettingsClient {
-    return clients.Settings()
+	return clients.Settings()
 }
 
 // Provider for Settings Client from Client
 func SettingsClientProvider(client client.Client) gloo_solo_io_v1.SettingsClient {
-    return gloo_solo_io_v1.NewSettingsClient(client)
+	return gloo_solo_io_v1.NewSettingsClient(client)
 }
 
 type SettingsClientFactory func(client client.Client) gloo_solo_io_v1.SettingsClient
 
 func SettingsClientFactoryProvider() SettingsClientFactory {
-    return SettingsClientProvider
+	return SettingsClientProvider
 }
 
 type SettingsClientFromConfigFactory func(cfg *rest.Config) (gloo_solo_io_v1.SettingsClient, error)
 
 func SettingsClientFromConfigFactoryProvider() SettingsClientFromConfigFactory {
-    return func(cfg *rest.Config) (gloo_solo_io_v1.SettingsClient, error) {
-        clients, err := gloo_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.Settings(), nil
-    }
+	return func(cfg *rest.Config) (gloo_solo_io_v1.SettingsClient, error) {
+		clients, err := gloo_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.Settings(), nil
+	}
 }
 
 // Provider for UpstreamClient from Clientset
 func UpstreamClientFromClientsetProvider(clients gloo_solo_io_v1.Clientset) gloo_solo_io_v1.UpstreamClient {
-    return clients.Upstreams()
+	return clients.Upstreams()
 }
 
 // Provider for Upstream Client from Client
 func UpstreamClientProvider(client client.Client) gloo_solo_io_v1.UpstreamClient {
-    return gloo_solo_io_v1.NewUpstreamClient(client)
+	return gloo_solo_io_v1.NewUpstreamClient(client)
 }
 
 type UpstreamClientFactory func(client client.Client) gloo_solo_io_v1.UpstreamClient
 
 func UpstreamClientFactoryProvider() UpstreamClientFactory {
-    return UpstreamClientProvider
+	return UpstreamClientProvider
 }
 
 type UpstreamClientFromConfigFactory func(cfg *rest.Config) (gloo_solo_io_v1.UpstreamClient, error)
 
 func UpstreamClientFromConfigFactoryProvider() UpstreamClientFromConfigFactory {
-    return func(cfg *rest.Config) (gloo_solo_io_v1.UpstreamClient, error) {
-        clients, err := gloo_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.Upstreams(), nil
-    }
+	return func(cfg *rest.Config) (gloo_solo_io_v1.UpstreamClient, error) {
+		clients, err := gloo_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.Upstreams(), nil
+	}
 }
 
 // Provider for UpstreamGroupClient from Clientset
 func UpstreamGroupClientFromClientsetProvider(clients gloo_solo_io_v1.Clientset) gloo_solo_io_v1.UpstreamGroupClient {
-    return clients.UpstreamGroups()
+	return clients.UpstreamGroups()
 }
 
 // Provider for UpstreamGroup Client from Client
 func UpstreamGroupClientProvider(client client.Client) gloo_solo_io_v1.UpstreamGroupClient {
-    return gloo_solo_io_v1.NewUpstreamGroupClient(client)
+	return gloo_solo_io_v1.NewUpstreamGroupClient(client)
 }
 
 type UpstreamGroupClientFactory func(client client.Client) gloo_solo_io_v1.UpstreamGroupClient
 
 func UpstreamGroupClientFactoryProvider() UpstreamGroupClientFactory {
-    return UpstreamGroupClientProvider
+	return UpstreamGroupClientProvider
 }
 
 type UpstreamGroupClientFromConfigFactory func(cfg *rest.Config) (gloo_solo_io_v1.UpstreamGroupClient, error)
 
 func UpstreamGroupClientFromConfigFactoryProvider() UpstreamGroupClientFromConfigFactory {
-    return func(cfg *rest.Config) (gloo_solo_io_v1.UpstreamGroupClient, error) {
-        clients, err := gloo_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.UpstreamGroups(), nil
-    }
+	return func(cfg *rest.Config) (gloo_solo_io_v1.UpstreamGroupClient, error) {
+		clients, err := gloo_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.UpstreamGroups(), nil
+	}
 }
 
 // Provider for ProxyClient from Clientset
 func ProxyClientFromClientsetProvider(clients gloo_solo_io_v1.Clientset) gloo_solo_io_v1.ProxyClient {
-    return clients.Proxies()
+	return clients.Proxies()
 }
 
 // Provider for Proxy Client from Client
 func ProxyClientProvider(client client.Client) gloo_solo_io_v1.ProxyClient {
-    return gloo_solo_io_v1.NewProxyClient(client)
+	return gloo_solo_io_v1.NewProxyClient(client)
 }
 
 type ProxyClientFactory func(client client.Client) gloo_solo_io_v1.ProxyClient
 
 func ProxyClientFactoryProvider() ProxyClientFactory {
-    return ProxyClientProvider
+	return ProxyClientProvider
 }
 
 type ProxyClientFromConfigFactory func(cfg *rest.Config) (gloo_solo_io_v1.ProxyClient, error)
 
 func ProxyClientFromConfigFactoryProvider() ProxyClientFromConfigFactory {
-    return func(cfg *rest.Config) (gloo_solo_io_v1.ProxyClient, error) {
-        clients, err := gloo_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.Proxies(), nil
-    }
+	return func(cfg *rest.Config) (gloo_solo_io_v1.ProxyClient, error) {
+		clients, err := gloo_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.Proxies(), nil
+	}
 }

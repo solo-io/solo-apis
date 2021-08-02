@@ -3,8 +3,5 @@
 // Definitions for the Kubernetes types
 package v1
 
-import (
-)
-
 // AuthConfigSlice represents a slice of *AuthConfig
 type AuthConfigSlice []*AuthConfig

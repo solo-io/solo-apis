@@ -4,8 +4,9 @@
 package v1alpha1
 
 import (
-    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-    "k8s.io/apimachinery/pkg/runtime/schema")
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+)
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -14,22 +15,22 @@ import (
 
 // GroupVersionKind for RateLimitConfig
 var RateLimitConfigGVK = schema.GroupVersionKind{
-    Group: "ratelimit.solo.io",
-    Version: "v1alpha1",
-    Kind: "RateLimitConfig",
+	Group:   "ratelimit.solo.io",
+	Version: "v1alpha1",
+	Kind:    "RateLimitConfig",
 }
 
 // RateLimitConfig is the Schema for the rateLimitConfig API
 type RateLimitConfig struct {
-    metav1.TypeMeta   `json:",inline"`
-    metav1.ObjectMeta `json:"metadata,omitempty"`
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-    Spec RateLimitConfigSpec `json:"spec,omitempty"`
-    Status RateLimitConfigStatus `json:"status,omitempty"`
+	Spec   RateLimitConfigSpec   `json:"spec,omitempty"`
+	Status RateLimitConfigStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (RateLimitConfig)  GVK() schema.GroupVersionKind {
+func (RateLimitConfig) GVK() schema.GroupVersionKind {
 	return RateLimitConfigGVK
 }
 
@@ -37,11 +38,11 @@ func (RateLimitConfig)  GVK() schema.GroupVersionKind {
 
 // RateLimitConfigList contains a list of RateLimitConfig
 type RateLimitConfigList struct {
-    metav1.TypeMeta `json:",inline"`
-    metav1.ListMeta `json:"metadata,omitempty"`
-    Items           []RateLimitConfig `json:"items"`
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []RateLimitConfig `json:"items"`
 }
 
 func init() {
-    SchemeBuilder.Register(&RateLimitConfig{}, &RateLimitConfigList{})
+	SchemeBuilder.Register(&RateLimitConfig{}, &RateLimitConfigList{})
 }
