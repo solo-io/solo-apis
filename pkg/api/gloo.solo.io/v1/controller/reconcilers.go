@@ -5,22 +5,24 @@
 // Definitions for the Kubernetes Controllers
 package controller
 
+
+
 import (
 	"context"
 
-	gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
+    gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 
-	"github.com/pkg/errors"
-	"github.com/solo-io/skv2/pkg/ezkube"
-	"github.com/solo-io/skv2/pkg/reconcile"
-	"sigs.k8s.io/controller-runtime/pkg/manager"
-	"sigs.k8s.io/controller-runtime/pkg/predicate"
+    "github.com/pkg/errors"
+    "github.com/solo-io/skv2/pkg/ezkube"
+    "github.com/solo-io/skv2/pkg/reconcile"
+    "sigs.k8s.io/controller-runtime/pkg/manager"
+    "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
 // Reconcile Upsert events for the Settings Resource.
 // implemented by the user
 type SettingsReconciler interface {
-	ReconcileSettings(obj *gloo_solo_io_v1.Settings) (reconcile.Result, error)
+    ReconcileSettings(obj *gloo_solo_io_v1.Settings) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the Settings Resource.
@@ -28,116 +30,117 @@ type SettingsReconciler interface {
 // before being deleted.
 // implemented by the user
 type SettingsDeletionReconciler interface {
-	ReconcileSettingsDeletion(req reconcile.Request) error
+    ReconcileSettingsDeletion(req reconcile.Request) error
 }
 
 type SettingsReconcilerFuncs struct {
-	OnReconcileSettings         func(obj *gloo_solo_io_v1.Settings) (reconcile.Result, error)
-	OnReconcileSettingsDeletion func(req reconcile.Request) error
+    OnReconcileSettings func(obj *gloo_solo_io_v1.Settings) (reconcile.Result, error)
+    OnReconcileSettingsDeletion func(req reconcile.Request) error
 }
 
 func (f *SettingsReconcilerFuncs) ReconcileSettings(obj *gloo_solo_io_v1.Settings) (reconcile.Result, error) {
-	if f.OnReconcileSettings == nil {
-		return reconcile.Result{}, nil
-	}
-	return f.OnReconcileSettings(obj)
+    if f.OnReconcileSettings == nil {
+        return reconcile.Result{}, nil
+    }
+    return f.OnReconcileSettings(obj)
 }
 
 func (f *SettingsReconcilerFuncs) ReconcileSettingsDeletion(req reconcile.Request) error {
-	if f.OnReconcileSettingsDeletion == nil {
-		return nil
-	}
-	return f.OnReconcileSettingsDeletion(req)
+    if f.OnReconcileSettingsDeletion == nil {
+        return nil
+    }
+    return f.OnReconcileSettingsDeletion(req)
 }
 
 // Reconcile and finalize the Settings Resource
 // implemented by the user
 type SettingsFinalizer interface {
-	SettingsReconciler
+    SettingsReconciler
 
-	// name of the finalizer used by this handler.
-	// finalizer names should be unique for a single task
-	SettingsFinalizerName() string
+    // name of the finalizer used by this handler.
+    // finalizer names should be unique for a single task
+    SettingsFinalizerName() string
 
-	// finalize the object before it is deleted.
-	// Watchers created with a finalizing handler will a
-	FinalizeSettings(obj *gloo_solo_io_v1.Settings) error
+    // finalize the object before it is deleted.
+    // Watchers created with a finalizing handler will a
+    FinalizeSettings(obj *gloo_solo_io_v1.Settings) error
 }
 
 type SettingsReconcileLoop interface {
-	RunSettingsReconciler(ctx context.Context, rec SettingsReconciler, predicates ...predicate.Predicate) error
+    RunSettingsReconciler(ctx context.Context, rec SettingsReconciler, predicates ...predicate.Predicate) error
 }
 
 type settingsReconcileLoop struct {
-	loop reconcile.Loop
+    loop reconcile.Loop
 }
 
 func NewSettingsReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) SettingsReconcileLoop {
-	return &settingsReconcileLoop{
-		// empty cluster indicates this reconciler is built for the local cluster
-		loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.Settings{}, options),
-	}
+    return &settingsReconcileLoop{
+    	// empty cluster indicates this reconciler is built for the local cluster
+        loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.Settings{}, options),
+    }
 }
 
 func (c *settingsReconcileLoop) RunSettingsReconciler(ctx context.Context, reconciler SettingsReconciler, predicates ...predicate.Predicate) error {
-	genericReconciler := genericSettingsReconciler{
-		reconciler: reconciler,
-	}
+    genericReconciler := genericSettingsReconciler{
+        reconciler: reconciler,
+    }
 
 	var reconcilerWrapper reconcile.Reconciler
 	if finalizingReconciler, ok := reconciler.(SettingsFinalizer); ok {
-		reconcilerWrapper = genericSettingsFinalizer{
-			genericSettingsReconciler: genericReconciler,
-			finalizingReconciler:      finalizingReconciler,
-		}
-	} else {
-		reconcilerWrapper = genericReconciler
-	}
+        reconcilerWrapper = genericSettingsFinalizer{
+            genericSettingsReconciler: genericReconciler,
+            finalizingReconciler: finalizingReconciler,
+        }
+    } else {
+        reconcilerWrapper = genericReconciler
+    }
 	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
 }
 
 // genericSettingsHandler implements a generic reconcile.Reconciler
 type genericSettingsReconciler struct {
-	reconciler SettingsReconciler
+    reconciler SettingsReconciler
 }
 
 func (r genericSettingsReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*gloo_solo_io_v1.Settings)
-	if !ok {
-		return reconcile.Result{}, errors.Errorf("internal error: Settings handler received event for %T", object)
-	}
-	return r.reconciler.ReconcileSettings(obj)
+    obj, ok := object.(*gloo_solo_io_v1.Settings)
+    if !ok {
+        return reconcile.Result{}, errors.Errorf("internal error: Settings handler received event for %T", object)
+    }
+    return r.reconciler.ReconcileSettings(obj)
 }
 
 func (r genericSettingsReconciler) ReconcileDeletion(request reconcile.Request) error {
-	if deletionReconciler, ok := r.reconciler.(SettingsDeletionReconciler); ok {
-		return deletionReconciler.ReconcileSettingsDeletion(request)
-	}
-	return nil
+    if deletionReconciler, ok := r.reconciler.(SettingsDeletionReconciler); ok {
+        return deletionReconciler.ReconcileSettingsDeletion(request)
+    }
+    return nil
 }
 
 // genericSettingsFinalizer implements a generic reconcile.FinalizingReconciler
 type genericSettingsFinalizer struct {
-	genericSettingsReconciler
-	finalizingReconciler SettingsFinalizer
+    genericSettingsReconciler
+    finalizingReconciler SettingsFinalizer
 }
 
+
 func (r genericSettingsFinalizer) FinalizerName() string {
-	return r.finalizingReconciler.SettingsFinalizerName()
+    return r.finalizingReconciler.SettingsFinalizerName()
 }
 
 func (r genericSettingsFinalizer) Finalize(object ezkube.Object) error {
-	obj, ok := object.(*gloo_solo_io_v1.Settings)
-	if !ok {
-		return errors.Errorf("internal error: Settings handler received event for %T", object)
-	}
-	return r.finalizingReconciler.FinalizeSettings(obj)
+    obj, ok := object.(*gloo_solo_io_v1.Settings)
+    if !ok {
+        return errors.Errorf("internal error: Settings handler received event for %T", object)
+    }
+    return r.finalizingReconciler.FinalizeSettings(obj)
 }
 
 // Reconcile Upsert events for the Upstream Resource.
 // implemented by the user
 type UpstreamReconciler interface {
-	ReconcileUpstream(obj *gloo_solo_io_v1.Upstream) (reconcile.Result, error)
+    ReconcileUpstream(obj *gloo_solo_io_v1.Upstream) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the Upstream Resource.
@@ -145,116 +148,117 @@ type UpstreamReconciler interface {
 // before being deleted.
 // implemented by the user
 type UpstreamDeletionReconciler interface {
-	ReconcileUpstreamDeletion(req reconcile.Request) error
+    ReconcileUpstreamDeletion(req reconcile.Request) error
 }
 
 type UpstreamReconcilerFuncs struct {
-	OnReconcileUpstream         func(obj *gloo_solo_io_v1.Upstream) (reconcile.Result, error)
-	OnReconcileUpstreamDeletion func(req reconcile.Request) error
+    OnReconcileUpstream func(obj *gloo_solo_io_v1.Upstream) (reconcile.Result, error)
+    OnReconcileUpstreamDeletion func(req reconcile.Request) error
 }
 
 func (f *UpstreamReconcilerFuncs) ReconcileUpstream(obj *gloo_solo_io_v1.Upstream) (reconcile.Result, error) {
-	if f.OnReconcileUpstream == nil {
-		return reconcile.Result{}, nil
-	}
-	return f.OnReconcileUpstream(obj)
+    if f.OnReconcileUpstream == nil {
+        return reconcile.Result{}, nil
+    }
+    return f.OnReconcileUpstream(obj)
 }
 
 func (f *UpstreamReconcilerFuncs) ReconcileUpstreamDeletion(req reconcile.Request) error {
-	if f.OnReconcileUpstreamDeletion == nil {
-		return nil
-	}
-	return f.OnReconcileUpstreamDeletion(req)
+    if f.OnReconcileUpstreamDeletion == nil {
+        return nil
+    }
+    return f.OnReconcileUpstreamDeletion(req)
 }
 
 // Reconcile and finalize the Upstream Resource
 // implemented by the user
 type UpstreamFinalizer interface {
-	UpstreamReconciler
+    UpstreamReconciler
 
-	// name of the finalizer used by this handler.
-	// finalizer names should be unique for a single task
-	UpstreamFinalizerName() string
+    // name of the finalizer used by this handler.
+    // finalizer names should be unique for a single task
+    UpstreamFinalizerName() string
 
-	// finalize the object before it is deleted.
-	// Watchers created with a finalizing handler will a
-	FinalizeUpstream(obj *gloo_solo_io_v1.Upstream) error
+    // finalize the object before it is deleted.
+    // Watchers created with a finalizing handler will a
+    FinalizeUpstream(obj *gloo_solo_io_v1.Upstream) error
 }
 
 type UpstreamReconcileLoop interface {
-	RunUpstreamReconciler(ctx context.Context, rec UpstreamReconciler, predicates ...predicate.Predicate) error
+    RunUpstreamReconciler(ctx context.Context, rec UpstreamReconciler, predicates ...predicate.Predicate) error
 }
 
 type upstreamReconcileLoop struct {
-	loop reconcile.Loop
+    loop reconcile.Loop
 }
 
 func NewUpstreamReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) UpstreamReconcileLoop {
-	return &upstreamReconcileLoop{
-		// empty cluster indicates this reconciler is built for the local cluster
-		loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.Upstream{}, options),
-	}
+    return &upstreamReconcileLoop{
+    	// empty cluster indicates this reconciler is built for the local cluster
+        loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.Upstream{}, options),
+    }
 }
 
 func (c *upstreamReconcileLoop) RunUpstreamReconciler(ctx context.Context, reconciler UpstreamReconciler, predicates ...predicate.Predicate) error {
-	genericReconciler := genericUpstreamReconciler{
-		reconciler: reconciler,
-	}
+    genericReconciler := genericUpstreamReconciler{
+        reconciler: reconciler,
+    }
 
 	var reconcilerWrapper reconcile.Reconciler
 	if finalizingReconciler, ok := reconciler.(UpstreamFinalizer); ok {
-		reconcilerWrapper = genericUpstreamFinalizer{
-			genericUpstreamReconciler: genericReconciler,
-			finalizingReconciler:      finalizingReconciler,
-		}
-	} else {
-		reconcilerWrapper = genericReconciler
-	}
+        reconcilerWrapper = genericUpstreamFinalizer{
+            genericUpstreamReconciler: genericReconciler,
+            finalizingReconciler: finalizingReconciler,
+        }
+    } else {
+        reconcilerWrapper = genericReconciler
+    }
 	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
 }
 
 // genericUpstreamHandler implements a generic reconcile.Reconciler
 type genericUpstreamReconciler struct {
-	reconciler UpstreamReconciler
+    reconciler UpstreamReconciler
 }
 
 func (r genericUpstreamReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*gloo_solo_io_v1.Upstream)
-	if !ok {
-		return reconcile.Result{}, errors.Errorf("internal error: Upstream handler received event for %T", object)
-	}
-	return r.reconciler.ReconcileUpstream(obj)
+    obj, ok := object.(*gloo_solo_io_v1.Upstream)
+    if !ok {
+        return reconcile.Result{}, errors.Errorf("internal error: Upstream handler received event for %T", object)
+    }
+    return r.reconciler.ReconcileUpstream(obj)
 }
 
 func (r genericUpstreamReconciler) ReconcileDeletion(request reconcile.Request) error {
-	if deletionReconciler, ok := r.reconciler.(UpstreamDeletionReconciler); ok {
-		return deletionReconciler.ReconcileUpstreamDeletion(request)
-	}
-	return nil
+    if deletionReconciler, ok := r.reconciler.(UpstreamDeletionReconciler); ok {
+        return deletionReconciler.ReconcileUpstreamDeletion(request)
+    }
+    return nil
 }
 
 // genericUpstreamFinalizer implements a generic reconcile.FinalizingReconciler
 type genericUpstreamFinalizer struct {
-	genericUpstreamReconciler
-	finalizingReconciler UpstreamFinalizer
+    genericUpstreamReconciler
+    finalizingReconciler UpstreamFinalizer
 }
 
+
 func (r genericUpstreamFinalizer) FinalizerName() string {
-	return r.finalizingReconciler.UpstreamFinalizerName()
+    return r.finalizingReconciler.UpstreamFinalizerName()
 }
 
 func (r genericUpstreamFinalizer) Finalize(object ezkube.Object) error {
-	obj, ok := object.(*gloo_solo_io_v1.Upstream)
-	if !ok {
-		return errors.Errorf("internal error: Upstream handler received event for %T", object)
-	}
-	return r.finalizingReconciler.FinalizeUpstream(obj)
+    obj, ok := object.(*gloo_solo_io_v1.Upstream)
+    if !ok {
+        return errors.Errorf("internal error: Upstream handler received event for %T", object)
+    }
+    return r.finalizingReconciler.FinalizeUpstream(obj)
 }
 
 // Reconcile Upsert events for the UpstreamGroup Resource.
 // implemented by the user
 type UpstreamGroupReconciler interface {
-	ReconcileUpstreamGroup(obj *gloo_solo_io_v1.UpstreamGroup) (reconcile.Result, error)
+    ReconcileUpstreamGroup(obj *gloo_solo_io_v1.UpstreamGroup) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the UpstreamGroup Resource.
@@ -262,116 +266,117 @@ type UpstreamGroupReconciler interface {
 // before being deleted.
 // implemented by the user
 type UpstreamGroupDeletionReconciler interface {
-	ReconcileUpstreamGroupDeletion(req reconcile.Request) error
+    ReconcileUpstreamGroupDeletion(req reconcile.Request) error
 }
 
 type UpstreamGroupReconcilerFuncs struct {
-	OnReconcileUpstreamGroup         func(obj *gloo_solo_io_v1.UpstreamGroup) (reconcile.Result, error)
-	OnReconcileUpstreamGroupDeletion func(req reconcile.Request) error
+    OnReconcileUpstreamGroup func(obj *gloo_solo_io_v1.UpstreamGroup) (reconcile.Result, error)
+    OnReconcileUpstreamGroupDeletion func(req reconcile.Request) error
 }
 
 func (f *UpstreamGroupReconcilerFuncs) ReconcileUpstreamGroup(obj *gloo_solo_io_v1.UpstreamGroup) (reconcile.Result, error) {
-	if f.OnReconcileUpstreamGroup == nil {
-		return reconcile.Result{}, nil
-	}
-	return f.OnReconcileUpstreamGroup(obj)
+    if f.OnReconcileUpstreamGroup == nil {
+        return reconcile.Result{}, nil
+    }
+    return f.OnReconcileUpstreamGroup(obj)
 }
 
 func (f *UpstreamGroupReconcilerFuncs) ReconcileUpstreamGroupDeletion(req reconcile.Request) error {
-	if f.OnReconcileUpstreamGroupDeletion == nil {
-		return nil
-	}
-	return f.OnReconcileUpstreamGroupDeletion(req)
+    if f.OnReconcileUpstreamGroupDeletion == nil {
+        return nil
+    }
+    return f.OnReconcileUpstreamGroupDeletion(req)
 }
 
 // Reconcile and finalize the UpstreamGroup Resource
 // implemented by the user
 type UpstreamGroupFinalizer interface {
-	UpstreamGroupReconciler
+    UpstreamGroupReconciler
 
-	// name of the finalizer used by this handler.
-	// finalizer names should be unique for a single task
-	UpstreamGroupFinalizerName() string
+    // name of the finalizer used by this handler.
+    // finalizer names should be unique for a single task
+    UpstreamGroupFinalizerName() string
 
-	// finalize the object before it is deleted.
-	// Watchers created with a finalizing handler will a
-	FinalizeUpstreamGroup(obj *gloo_solo_io_v1.UpstreamGroup) error
+    // finalize the object before it is deleted.
+    // Watchers created with a finalizing handler will a
+    FinalizeUpstreamGroup(obj *gloo_solo_io_v1.UpstreamGroup) error
 }
 
 type UpstreamGroupReconcileLoop interface {
-	RunUpstreamGroupReconciler(ctx context.Context, rec UpstreamGroupReconciler, predicates ...predicate.Predicate) error
+    RunUpstreamGroupReconciler(ctx context.Context, rec UpstreamGroupReconciler, predicates ...predicate.Predicate) error
 }
 
 type upstreamGroupReconcileLoop struct {
-	loop reconcile.Loop
+    loop reconcile.Loop
 }
 
 func NewUpstreamGroupReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) UpstreamGroupReconcileLoop {
-	return &upstreamGroupReconcileLoop{
-		// empty cluster indicates this reconciler is built for the local cluster
-		loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.UpstreamGroup{}, options),
-	}
+    return &upstreamGroupReconcileLoop{
+    	// empty cluster indicates this reconciler is built for the local cluster
+        loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.UpstreamGroup{}, options),
+    }
 }
 
 func (c *upstreamGroupReconcileLoop) RunUpstreamGroupReconciler(ctx context.Context, reconciler UpstreamGroupReconciler, predicates ...predicate.Predicate) error {
-	genericReconciler := genericUpstreamGroupReconciler{
-		reconciler: reconciler,
-	}
+    genericReconciler := genericUpstreamGroupReconciler{
+        reconciler: reconciler,
+    }
 
 	var reconcilerWrapper reconcile.Reconciler
 	if finalizingReconciler, ok := reconciler.(UpstreamGroupFinalizer); ok {
-		reconcilerWrapper = genericUpstreamGroupFinalizer{
-			genericUpstreamGroupReconciler: genericReconciler,
-			finalizingReconciler:           finalizingReconciler,
-		}
-	} else {
-		reconcilerWrapper = genericReconciler
-	}
+        reconcilerWrapper = genericUpstreamGroupFinalizer{
+            genericUpstreamGroupReconciler: genericReconciler,
+            finalizingReconciler: finalizingReconciler,
+        }
+    } else {
+        reconcilerWrapper = genericReconciler
+    }
 	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
 }
 
 // genericUpstreamGroupHandler implements a generic reconcile.Reconciler
 type genericUpstreamGroupReconciler struct {
-	reconciler UpstreamGroupReconciler
+    reconciler UpstreamGroupReconciler
 }
 
 func (r genericUpstreamGroupReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*gloo_solo_io_v1.UpstreamGroup)
-	if !ok {
-		return reconcile.Result{}, errors.Errorf("internal error: UpstreamGroup handler received event for %T", object)
-	}
-	return r.reconciler.ReconcileUpstreamGroup(obj)
+    obj, ok := object.(*gloo_solo_io_v1.UpstreamGroup)
+    if !ok {
+        return reconcile.Result{}, errors.Errorf("internal error: UpstreamGroup handler received event for %T", object)
+    }
+    return r.reconciler.ReconcileUpstreamGroup(obj)
 }
 
 func (r genericUpstreamGroupReconciler) ReconcileDeletion(request reconcile.Request) error {
-	if deletionReconciler, ok := r.reconciler.(UpstreamGroupDeletionReconciler); ok {
-		return deletionReconciler.ReconcileUpstreamGroupDeletion(request)
-	}
-	return nil
+    if deletionReconciler, ok := r.reconciler.(UpstreamGroupDeletionReconciler); ok {
+        return deletionReconciler.ReconcileUpstreamGroupDeletion(request)
+    }
+    return nil
 }
 
 // genericUpstreamGroupFinalizer implements a generic reconcile.FinalizingReconciler
 type genericUpstreamGroupFinalizer struct {
-	genericUpstreamGroupReconciler
-	finalizingReconciler UpstreamGroupFinalizer
+    genericUpstreamGroupReconciler
+    finalizingReconciler UpstreamGroupFinalizer
 }
 
+
 func (r genericUpstreamGroupFinalizer) FinalizerName() string {
-	return r.finalizingReconciler.UpstreamGroupFinalizerName()
+    return r.finalizingReconciler.UpstreamGroupFinalizerName()
 }
 
 func (r genericUpstreamGroupFinalizer) Finalize(object ezkube.Object) error {
-	obj, ok := object.(*gloo_solo_io_v1.UpstreamGroup)
-	if !ok {
-		return errors.Errorf("internal error: UpstreamGroup handler received event for %T", object)
-	}
-	return r.finalizingReconciler.FinalizeUpstreamGroup(obj)
+    obj, ok := object.(*gloo_solo_io_v1.UpstreamGroup)
+    if !ok {
+        return errors.Errorf("internal error: UpstreamGroup handler received event for %T", object)
+    }
+    return r.finalizingReconciler.FinalizeUpstreamGroup(obj)
 }
 
 // Reconcile Upsert events for the Proxy Resource.
 // implemented by the user
 type ProxyReconciler interface {
-	ReconcileProxy(obj *gloo_solo_io_v1.Proxy) (reconcile.Result, error)
+    ReconcileProxy(obj *gloo_solo_io_v1.Proxy) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the Proxy Resource.
@@ -379,108 +384,109 @@ type ProxyReconciler interface {
 // before being deleted.
 // implemented by the user
 type ProxyDeletionReconciler interface {
-	ReconcileProxyDeletion(req reconcile.Request) error
+    ReconcileProxyDeletion(req reconcile.Request) error
 }
 
 type ProxyReconcilerFuncs struct {
-	OnReconcileProxy         func(obj *gloo_solo_io_v1.Proxy) (reconcile.Result, error)
-	OnReconcileProxyDeletion func(req reconcile.Request) error
+    OnReconcileProxy func(obj *gloo_solo_io_v1.Proxy) (reconcile.Result, error)
+    OnReconcileProxyDeletion func(req reconcile.Request) error
 }
 
 func (f *ProxyReconcilerFuncs) ReconcileProxy(obj *gloo_solo_io_v1.Proxy) (reconcile.Result, error) {
-	if f.OnReconcileProxy == nil {
-		return reconcile.Result{}, nil
-	}
-	return f.OnReconcileProxy(obj)
+    if f.OnReconcileProxy == nil {
+        return reconcile.Result{}, nil
+    }
+    return f.OnReconcileProxy(obj)
 }
 
 func (f *ProxyReconcilerFuncs) ReconcileProxyDeletion(req reconcile.Request) error {
-	if f.OnReconcileProxyDeletion == nil {
-		return nil
-	}
-	return f.OnReconcileProxyDeletion(req)
+    if f.OnReconcileProxyDeletion == nil {
+        return nil
+    }
+    return f.OnReconcileProxyDeletion(req)
 }
 
 // Reconcile and finalize the Proxy Resource
 // implemented by the user
 type ProxyFinalizer interface {
-	ProxyReconciler
+    ProxyReconciler
 
-	// name of the finalizer used by this handler.
-	// finalizer names should be unique for a single task
-	ProxyFinalizerName() string
+    // name of the finalizer used by this handler.
+    // finalizer names should be unique for a single task
+    ProxyFinalizerName() string
 
-	// finalize the object before it is deleted.
-	// Watchers created with a finalizing handler will a
-	FinalizeProxy(obj *gloo_solo_io_v1.Proxy) error
+    // finalize the object before it is deleted.
+    // Watchers created with a finalizing handler will a
+    FinalizeProxy(obj *gloo_solo_io_v1.Proxy) error
 }
 
 type ProxyReconcileLoop interface {
-	RunProxyReconciler(ctx context.Context, rec ProxyReconciler, predicates ...predicate.Predicate) error
+    RunProxyReconciler(ctx context.Context, rec ProxyReconciler, predicates ...predicate.Predicate) error
 }
 
 type proxyReconcileLoop struct {
-	loop reconcile.Loop
+    loop reconcile.Loop
 }
 
 func NewProxyReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) ProxyReconcileLoop {
-	return &proxyReconcileLoop{
-		// empty cluster indicates this reconciler is built for the local cluster
-		loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.Proxy{}, options),
-	}
+    return &proxyReconcileLoop{
+    	// empty cluster indicates this reconciler is built for the local cluster
+        loop: reconcile.NewLoop(name, "", mgr, &gloo_solo_io_v1.Proxy{}, options),
+    }
 }
 
 func (c *proxyReconcileLoop) RunProxyReconciler(ctx context.Context, reconciler ProxyReconciler, predicates ...predicate.Predicate) error {
-	genericReconciler := genericProxyReconciler{
-		reconciler: reconciler,
-	}
+    genericReconciler := genericProxyReconciler{
+        reconciler: reconciler,
+    }
 
 	var reconcilerWrapper reconcile.Reconciler
 	if finalizingReconciler, ok := reconciler.(ProxyFinalizer); ok {
-		reconcilerWrapper = genericProxyFinalizer{
-			genericProxyReconciler: genericReconciler,
-			finalizingReconciler:   finalizingReconciler,
-		}
-	} else {
-		reconcilerWrapper = genericReconciler
-	}
+        reconcilerWrapper = genericProxyFinalizer{
+            genericProxyReconciler: genericReconciler,
+            finalizingReconciler: finalizingReconciler,
+        }
+    } else {
+        reconcilerWrapper = genericReconciler
+    }
 	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
 }
 
 // genericProxyHandler implements a generic reconcile.Reconciler
 type genericProxyReconciler struct {
-	reconciler ProxyReconciler
+    reconciler ProxyReconciler
 }
 
 func (r genericProxyReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*gloo_solo_io_v1.Proxy)
-	if !ok {
-		return reconcile.Result{}, errors.Errorf("internal error: Proxy handler received event for %T", object)
-	}
-	return r.reconciler.ReconcileProxy(obj)
+    obj, ok := object.(*gloo_solo_io_v1.Proxy)
+    if !ok {
+        return reconcile.Result{}, errors.Errorf("internal error: Proxy handler received event for %T", object)
+    }
+    return r.reconciler.ReconcileProxy(obj)
 }
 
 func (r genericProxyReconciler) ReconcileDeletion(request reconcile.Request) error {
-	if deletionReconciler, ok := r.reconciler.(ProxyDeletionReconciler); ok {
-		return deletionReconciler.ReconcileProxyDeletion(request)
-	}
-	return nil
+    if deletionReconciler, ok := r.reconciler.(ProxyDeletionReconciler); ok {
+        return deletionReconciler.ReconcileProxyDeletion(request)
+    }
+    return nil
 }
 
 // genericProxyFinalizer implements a generic reconcile.FinalizingReconciler
 type genericProxyFinalizer struct {
-	genericProxyReconciler
-	finalizingReconciler ProxyFinalizer
+    genericProxyReconciler
+    finalizingReconciler ProxyFinalizer
 }
 
+
 func (r genericProxyFinalizer) FinalizerName() string {
-	return r.finalizingReconciler.ProxyFinalizerName()
+    return r.finalizingReconciler.ProxyFinalizerName()
 }
 
 func (r genericProxyFinalizer) Finalize(object ezkube.Object) error {
-	obj, ok := object.(*gloo_solo_io_v1.Proxy)
-	if !ok {
-		return errors.Errorf("internal error: Proxy handler received event for %T", object)
-	}
-	return r.finalizingReconciler.FinalizeProxy(obj)
+    obj, ok := object.(*gloo_solo_io_v1.Proxy)
+    if !ok {
+        return errors.Errorf("internal error: Proxy handler received event for %T", object)
+    }
+    return r.finalizingReconciler.FinalizeProxy(obj)
 }

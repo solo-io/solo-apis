@@ -4,9 +4,8 @@
 package v1
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-)
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/apimachinery/pkg/runtime/schema")
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -15,22 +14,22 @@ import (
 
 // GroupVersionKind for Settings
 var SettingsGVK = schema.GroupVersionKind{
-	Group:   "gloo.solo.io",
-	Version: "v1",
-	Kind:    "Settings",
+    Group: "gloo.solo.io",
+    Version: "v1",
+    Kind: "Settings",
 }
 
 // Settings is the Schema for the settings API
 type Settings struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SettingsSpec   `json:"spec,omitempty"`
-	Status SettingsStatus `json:"status,omitempty"`
+    Spec SettingsSpec `json:"spec,omitempty"`
+    Status SettingsStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (Settings) GVK() schema.GroupVersionKind {
+func (Settings)  GVK() schema.GroupVersionKind {
 	return SettingsGVK
 }
 
@@ -38,9 +37,9 @@ func (Settings) GVK() schema.GroupVersionKind {
 
 // SettingsList contains a list of Settings
 type SettingsList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Settings `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []Settings `json:"items"`
 }
 
 // +genclient
@@ -50,22 +49,22 @@ type SettingsList struct {
 
 // GroupVersionKind for Upstream
 var UpstreamGVK = schema.GroupVersionKind{
-	Group:   "gloo.solo.io",
-	Version: "v1",
-	Kind:    "Upstream",
+    Group: "gloo.solo.io",
+    Version: "v1",
+    Kind: "Upstream",
 }
 
 // Upstream is the Schema for the upstream API
 type Upstream struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   UpstreamSpec   `json:"spec,omitempty"`
-	Status UpstreamStatus `json:"status,omitempty"`
+    Spec UpstreamSpec `json:"spec,omitempty"`
+    Status UpstreamStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (Upstream) GVK() schema.GroupVersionKind {
+func (Upstream)  GVK() schema.GroupVersionKind {
 	return UpstreamGVK
 }
 
@@ -73,9 +72,9 @@ func (Upstream) GVK() schema.GroupVersionKind {
 
 // UpstreamList contains a list of Upstream
 type UpstreamList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Upstream `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []Upstream `json:"items"`
 }
 
 // +genclient
@@ -85,22 +84,22 @@ type UpstreamList struct {
 
 // GroupVersionKind for UpstreamGroup
 var UpstreamGroupGVK = schema.GroupVersionKind{
-	Group:   "gloo.solo.io",
-	Version: "v1",
-	Kind:    "UpstreamGroup",
+    Group: "gloo.solo.io",
+    Version: "v1",
+    Kind: "UpstreamGroup",
 }
 
 // UpstreamGroup is the Schema for the upstreamGroup API
 type UpstreamGroup struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   UpstreamGroupSpec   `json:"spec,omitempty"`
-	Status UpstreamGroupStatus `json:"status,omitempty"`
+    Spec UpstreamGroupSpec `json:"spec,omitempty"`
+    Status UpstreamGroupStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (UpstreamGroup) GVK() schema.GroupVersionKind {
+func (UpstreamGroup)  GVK() schema.GroupVersionKind {
 	return UpstreamGroupGVK
 }
 
@@ -108,9 +107,9 @@ func (UpstreamGroup) GVK() schema.GroupVersionKind {
 
 // UpstreamGroupList contains a list of UpstreamGroup
 type UpstreamGroupList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []UpstreamGroup `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []UpstreamGroup `json:"items"`
 }
 
 // +genclient
@@ -120,22 +119,22 @@ type UpstreamGroupList struct {
 
 // GroupVersionKind for Proxy
 var ProxyGVK = schema.GroupVersionKind{
-	Group:   "gloo.solo.io",
-	Version: "v1",
-	Kind:    "Proxy",
+    Group: "gloo.solo.io",
+    Version: "v1",
+    Kind: "Proxy",
 }
 
 // Proxy is the Schema for the proxy API
 type Proxy struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ProxySpec   `json:"spec,omitempty"`
-	Status ProxyStatus `json:"status,omitempty"`
+    Spec ProxySpec `json:"spec,omitempty"`
+    Status ProxyStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (Proxy) GVK() schema.GroupVersionKind {
+func (Proxy)  GVK() schema.GroupVersionKind {
 	return ProxyGVK
 }
 
@@ -143,14 +142,14 @@ func (Proxy) GVK() schema.GroupVersionKind {
 
 // ProxyList contains a list of Proxy
 type ProxyList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Proxy `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []Proxy `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Settings{}, &SettingsList{})
-	SchemeBuilder.Register(&Upstream{}, &UpstreamList{})
-	SchemeBuilder.Register(&UpstreamGroup{}, &UpstreamGroupList{})
-	SchemeBuilder.Register(&Proxy{}, &ProxyList{})
+    SchemeBuilder.Register(&Settings{}, &SettingsList{})
+    SchemeBuilder.Register(&Upstream{}, &UpstreamList{})
+    SchemeBuilder.Register(&UpstreamGroup{}, &UpstreamGroupList{})
+    SchemeBuilder.Register(&Proxy{}, &ProxyList{})
 }

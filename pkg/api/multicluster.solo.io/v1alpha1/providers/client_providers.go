@@ -2,11 +2,13 @@
 
 package v1alpha1
 
-import (
-	multicluster_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1"
 
-	"k8s.io/client-go/rest"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+
+import (
+    multicluster_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1"
+
+    "k8s.io/client-go/rest"
+    "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 /*
@@ -19,28 +21,28 @@ import (
 
 // Provider for MultiClusterRoleClient from Clientset
 func MultiClusterRoleClientFromClientsetProvider(clients multicluster_solo_io_v1alpha1.Clientset) multicluster_solo_io_v1alpha1.MultiClusterRoleClient {
-	return clients.MultiClusterRoles()
+    return clients.MultiClusterRoles()
 }
 
 // Provider for MultiClusterRole Client from Client
 func MultiClusterRoleClientProvider(client client.Client) multicluster_solo_io_v1alpha1.MultiClusterRoleClient {
-	return multicluster_solo_io_v1alpha1.NewMultiClusterRoleClient(client)
+    return multicluster_solo_io_v1alpha1.NewMultiClusterRoleClient(client)
 }
 
 type MultiClusterRoleClientFactory func(client client.Client) multicluster_solo_io_v1alpha1.MultiClusterRoleClient
 
 func MultiClusterRoleClientFactoryProvider() MultiClusterRoleClientFactory {
-	return MultiClusterRoleClientProvider
+    return MultiClusterRoleClientProvider
 }
 
 type MultiClusterRoleClientFromConfigFactory func(cfg *rest.Config) (multicluster_solo_io_v1alpha1.MultiClusterRoleClient, error)
 
 func MultiClusterRoleClientFromConfigFactoryProvider() MultiClusterRoleClientFromConfigFactory {
-	return func(cfg *rest.Config) (multicluster_solo_io_v1alpha1.MultiClusterRoleClient, error) {
-		clients, err := multicluster_solo_io_v1alpha1.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.MultiClusterRoles(), nil
-	}
+    return func(cfg *rest.Config) (multicluster_solo_io_v1alpha1.MultiClusterRoleClient, error) {
+        clients, err := multicluster_solo_io_v1alpha1.NewClientsetFromConfig(cfg)
+        if err != nil {
+            return nil, err
+        }
+        return clients.MultiClusterRoles(), nil
+    }
 }
