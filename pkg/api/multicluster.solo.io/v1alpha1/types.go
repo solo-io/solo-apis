@@ -4,8 +4,9 @@
 package v1alpha1
 
 import (
-    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-    "k8s.io/apimachinery/pkg/runtime/schema")
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+)
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -14,31 +15,31 @@ import (
 
 // MultiClusterRole is the Schema for the multiClusterRole API
 type MultiClusterRole struct {
-    metav1.TypeMeta   `json:",inline"`
-    metav1.ObjectMeta `json:"metadata,omitempty"`
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-    Spec MultiClusterRoleSpec `json:"spec,omitempty"`
-    Status MultiClusterRoleStatus `json:"status,omitempty"`
+	Spec   MultiClusterRoleSpec   `json:"spec,omitempty"`
+	Status MultiClusterRoleStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (MultiClusterRole)  GVK() schema.GroupVersionKind {
+func (MultiClusterRole) GVK() schema.GroupVersionKind {
 	return schema.GroupVersionKind{
-		Group: "multicluster.solo.io",
+		Group:   "multicluster.solo.io",
 		Version: "v1alpha1",
-		Kind: "MultiClusterRole",
-    }
+		Kind:    "MultiClusterRole",
+	}
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // MultiClusterRoleList contains a list of MultiClusterRole
 type MultiClusterRoleList struct {
-    metav1.TypeMeta `json:",inline"`
-    metav1.ListMeta `json:"metadata,omitempty"`
-    Items           []MultiClusterRole `json:"items"`
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []MultiClusterRole `json:"items"`
 }
 
 func init() {
-    SchemeBuilder.Register(&MultiClusterRole{}, &MultiClusterRoleList{})
+	SchemeBuilder.Register(&MultiClusterRole{}, &MultiClusterRoleList{})
 }
