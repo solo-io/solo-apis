@@ -3,8 +3,5 @@
 // Definitions for the Kubernetes types
 package v1
 
-import (
-)
-
 // GlooInstanceSlice represents a slice of *GlooInstance
 type GlooInstanceSlice []*GlooInstance
