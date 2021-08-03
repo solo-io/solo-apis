@@ -150,7 +150,7 @@ func (x SettingsStatus_State) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use SettingsStatus_State.Descriptor instead.
 func (SettingsStatus_State) EnumDescriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{4, 0}
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{5, 0}
 }
 
 // Represents global settings for all the Gloo components.
@@ -772,6 +772,58 @@ func (x *GlooOptions) GetEnableRestEds() *wrappers.BoolValue {
 	return nil
 }
 
+// Default configuration to use for VirtualServices, when not provided by a specific virtual service
+// When these properties are defined on a specific VirtualService, this configuration will be ignored
+type VirtualServiceOptions struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Default one_way_tls value to use for all virtual services where one_way_tls config has not been specified.
+	// If the SSL config has the ca.crt (root CA) provided, Gloo uses it to perform mTLS by default.
+	// Set oneWayTls to true to disable mTLS in favor of server-only TLS (one-way TLS), even if Gloo has the root CA.
+	OneWayTls *wrappers.BoolValue `protobuf:"bytes,1,opt,name=one_way_tls,json=oneWayTls,proto3" json:"one_way_tls,omitempty"`
+}
+
+func (x *VirtualServiceOptions) Reset() {
+	*x = VirtualServiceOptions{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *VirtualServiceOptions) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VirtualServiceOptions) ProtoMessage() {}
+
+func (x *VirtualServiceOptions) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VirtualServiceOptions.ProtoReflect.Descriptor instead.
+func (*VirtualServiceOptions) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *VirtualServiceOptions) GetOneWayTls() *wrappers.BoolValue {
+	if x != nil {
+		return x.OneWayTls
+	}
+	return nil
+}
+
 // Settings specific to the Gateway controller
 type GatewayOptions struct {
 	state         protoimpl.MessageState
@@ -794,12 +846,15 @@ type GatewayOptions struct {
 	// If set, compresses proxy space. This can help make the Proxy CRD smaller to fit in etcd.
 	// This is an advanced option. Use with care.
 	CompressedProxySpec bool `protobuf:"varint,6,opt,name=compressed_proxy_spec,json=compressedProxySpec,proto3" json:"compressed_proxy_spec,omitempty"`
+	// Default configuration to use for VirtualServices, when not provided by a specific virtual service
+	// When these properties are defined on a specific VirtualService, this configuration will be ignored
+	VirtualServiceOptions *VirtualServiceOptions `protobuf:"bytes,7,opt,name=virtual_service_options,json=virtualServiceOptions,proto3" json:"virtual_service_options,omitempty"`
 }
 
 func (x *GatewayOptions) Reset() {
 	*x = GatewayOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[3]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -812,7 +867,7 @@ func (x *GatewayOptions) String() string {
 func (*GatewayOptions) ProtoMessage() {}
 
 func (x *GatewayOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[3]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -825,7 +880,7 @@ func (x *GatewayOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GatewayOptions.ProtoReflect.Descriptor instead.
 func (*GatewayOptions) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{3}
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GatewayOptions) GetValidationServerAddr() string {
@@ -864,6 +919,13 @@ func (x *GatewayOptions) GetCompressedProxySpec() bool {
 	return false
 }
 
+func (x *GatewayOptions) GetVirtualServiceOptions() *VirtualServiceOptions {
+	if x != nil {
+		return x.VirtualServiceOptions
+	}
+	return nil
+}
+
 type SettingsStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -884,7 +946,7 @@ type SettingsStatus struct {
 func (x *SettingsStatus) Reset() {
 	*x = SettingsStatus{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[4]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -897,7 +959,7 @@ func (x *SettingsStatus) String() string {
 func (*SettingsStatus) ProtoMessage() {}
 
 func (x *SettingsStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[4]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -910,7 +972,7 @@ func (x *SettingsStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SettingsStatus.ProtoReflect.Descriptor instead.
 func (*SettingsStatus) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{4}
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *SettingsStatus) GetState() SettingsStatus_State {
@@ -958,7 +1020,7 @@ type SettingsSpec_KubernetesCrds struct {
 func (x *SettingsSpec_KubernetesCrds) Reset() {
 	*x = SettingsSpec_KubernetesCrds{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[5]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -971,7 +1033,7 @@ func (x *SettingsSpec_KubernetesCrds) String() string {
 func (*SettingsSpec_KubernetesCrds) ProtoMessage() {}
 
 func (x *SettingsSpec_KubernetesCrds) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[5]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -997,7 +1059,7 @@ type SettingsSpec_KubernetesSecrets struct {
 func (x *SettingsSpec_KubernetesSecrets) Reset() {
 	*x = SettingsSpec_KubernetesSecrets{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[6]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1010,7 +1072,7 @@ func (x *SettingsSpec_KubernetesSecrets) String() string {
 func (*SettingsSpec_KubernetesSecrets) ProtoMessage() {}
 
 func (x *SettingsSpec_KubernetesSecrets) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[6]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1061,7 +1123,7 @@ type SettingsSpec_VaultSecrets struct {
 func (x *SettingsSpec_VaultSecrets) Reset() {
 	*x = SettingsSpec_VaultSecrets{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[7]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1074,7 +1136,7 @@ func (x *SettingsSpec_VaultSecrets) String() string {
 func (*SettingsSpec_VaultSecrets) ProtoMessage() {}
 
 func (x *SettingsSpec_VaultSecrets) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[7]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1170,7 +1232,7 @@ type SettingsSpec_ConsulKv struct {
 func (x *SettingsSpec_ConsulKv) Reset() {
 	*x = SettingsSpec_ConsulKv{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[8]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1183,7 +1245,7 @@ func (x *SettingsSpec_ConsulKv) String() string {
 func (*SettingsSpec_ConsulKv) ProtoMessage() {}
 
 func (x *SettingsSpec_ConsulKv) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[8]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1216,7 +1278,7 @@ type SettingsSpec_KubernetesConfigmaps struct {
 func (x *SettingsSpec_KubernetesConfigmaps) Reset() {
 	*x = SettingsSpec_KubernetesConfigmaps{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[9]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1229,7 +1291,7 @@ func (x *SettingsSpec_KubernetesConfigmaps) String() string {
 func (*SettingsSpec_KubernetesConfigmaps) ProtoMessage() {}
 
 func (x *SettingsSpec_KubernetesConfigmaps) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[9]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1258,7 +1320,7 @@ type SettingsSpec_Directory struct {
 func (x *SettingsSpec_Directory) Reset() {
 	*x = SettingsSpec_Directory{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[10]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1271,7 +1333,7 @@ func (x *SettingsSpec_Directory) String() string {
 func (*SettingsSpec_Directory) ProtoMessage() {}
 
 func (x *SettingsSpec_Directory) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[10]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1316,7 +1378,7 @@ type SettingsSpec_KnativeOptions struct {
 func (x *SettingsSpec_KnativeOptions) Reset() {
 	*x = SettingsSpec_KnativeOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[11]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1329,7 +1391,7 @@ func (x *SettingsSpec_KnativeOptions) String() string {
 func (*SettingsSpec_KnativeOptions) ProtoMessage() {}
 
 func (x *SettingsSpec_KnativeOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[11]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1377,7 +1439,7 @@ type SettingsSpec_DiscoveryOptions struct {
 func (x *SettingsSpec_DiscoveryOptions) Reset() {
 	*x = SettingsSpec_DiscoveryOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[12]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1390,7 +1452,7 @@ func (x *SettingsSpec_DiscoveryOptions) String() string {
 func (*SettingsSpec_DiscoveryOptions) ProtoMessage() {}
 
 func (x *SettingsSpec_DiscoveryOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[12]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1477,7 +1539,7 @@ type SettingsSpec_ConsulConfiguration struct {
 func (x *SettingsSpec_ConsulConfiguration) Reset() {
 	*x = SettingsSpec_ConsulConfiguration{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[13]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1490,7 +1552,7 @@ func (x *SettingsSpec_ConsulConfiguration) String() string {
 func (*SettingsSpec_ConsulConfiguration) ProtoMessage() {}
 
 func (x *SettingsSpec_ConsulConfiguration) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[13]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1638,7 +1700,7 @@ type SettingsSpec_ConsulUpstreamDiscoveryConfiguration struct {
 func (x *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) Reset() {
 	*x = SettingsSpec_ConsulUpstreamDiscoveryConfiguration{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[14]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1651,7 +1713,7 @@ func (x *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) String() string {
 func (*SettingsSpec_ConsulUpstreamDiscoveryConfiguration) ProtoMessage() {}
 
 func (x *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[14]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1708,7 +1770,7 @@ type SettingsSpec_KubernetesConfiguration struct {
 func (x *SettingsSpec_KubernetesConfiguration) Reset() {
 	*x = SettingsSpec_KubernetesConfiguration{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[15]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1721,7 +1783,7 @@ func (x *SettingsSpec_KubernetesConfiguration) String() string {
 func (*SettingsSpec_KubernetesConfiguration) ProtoMessage() {}
 
 func (x *SettingsSpec_KubernetesConfiguration) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[15]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1756,7 +1818,7 @@ type SettingsSpec_ObservabilityOptions struct {
 func (x *SettingsSpec_ObservabilityOptions) Reset() {
 	*x = SettingsSpec_ObservabilityOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[16]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1769,7 +1831,7 @@ func (x *SettingsSpec_ObservabilityOptions) String() string {
 func (*SettingsSpec_ObservabilityOptions) ProtoMessage() {}
 
 func (x *SettingsSpec_ObservabilityOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[16]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1806,7 +1868,7 @@ type SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions struct {
 func (x *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) Reset() {
 	*x = SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[17]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1819,7 +1881,7 @@ func (x *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) String() stri
 func (*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) ProtoMessage() {}
 
 func (x *SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[17]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1857,7 +1919,7 @@ type SettingsSpec_KubernetesConfiguration_RateLimits struct {
 func (x *SettingsSpec_KubernetesConfiguration_RateLimits) Reset() {
 	*x = SettingsSpec_KubernetesConfiguration_RateLimits{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[18]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1870,7 +1932,7 @@ func (x *SettingsSpec_KubernetesConfiguration_RateLimits) String() string {
 func (*SettingsSpec_KubernetesConfiguration_RateLimits) ProtoMessage() {}
 
 func (x *SettingsSpec_KubernetesConfiguration_RateLimits) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[18]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1926,7 +1988,7 @@ type SettingsSpec_ObservabilityOptions_GrafanaIntegration struct {
 func (x *SettingsSpec_ObservabilityOptions_GrafanaIntegration) Reset() {
 	*x = SettingsSpec_ObservabilityOptions_GrafanaIntegration{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[19]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1939,7 +2001,7 @@ func (x *SettingsSpec_ObservabilityOptions_GrafanaIntegration) String() string {
 func (*SettingsSpec_ObservabilityOptions_GrafanaIntegration) ProtoMessage() {}
 
 func (x *SettingsSpec_ObservabilityOptions_GrafanaIntegration) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[19]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1976,7 +2038,7 @@ type GlooOptions_AWSOptions struct {
 func (x *GlooOptions_AWSOptions) Reset() {
 	*x = GlooOptions_AWSOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[20]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1989,7 +2051,7 @@ func (x *GlooOptions_AWSOptions) String() string {
 func (*GlooOptions_AWSOptions) ProtoMessage() {}
 
 func (x *GlooOptions_AWSOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[20]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2092,7 +2154,7 @@ type GlooOptions_InvalidConfigPolicy struct {
 func (x *GlooOptions_InvalidConfigPolicy) Reset() {
 	*x = GlooOptions_InvalidConfigPolicy{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[21]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2105,7 +2167,7 @@ func (x *GlooOptions_InvalidConfigPolicy) String() string {
 func (*GlooOptions_InvalidConfigPolicy) ProtoMessage() {}
 
 func (x *GlooOptions_InvalidConfigPolicy) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[21]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2191,7 +2253,7 @@ type GatewayOptions_ValidationOptions struct {
 func (x *GatewayOptions_ValidationOptions) Reset() {
 	*x = GatewayOptions_ValidationOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[22]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2204,7 +2266,7 @@ func (x *GatewayOptions_ValidationOptions) String() string {
 func (*GatewayOptions_ValidationOptions) ProtoMessage() {}
 
 func (x *GatewayOptions_ValidationOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[22]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2217,7 +2279,7 @@ func (x *GatewayOptions_ValidationOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GatewayOptions_ValidationOptions.ProtoReflect.Descriptor instead.
 func (*GatewayOptions_ValidationOptions) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{3, 0}
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{4, 0}
 }
 
 func (x *GatewayOptions_ValidationOptions) GetProxyValidationServerAddr() string {
@@ -2699,106 +2761,117 @@ var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc = 
 	0x61, 0x6c, 0x69, 0x64, 0x5f, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x18,
 	0x69, 0x6e, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x22, 0x9e, 0x08, 0x0a, 0x0e, 0x47, 0x61, 0x74,
-	0x65, 0x77, 0x61, 0x79, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x34, 0x0a, 0x16, 0x76,
-	0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72,
-	0x5f, 0x61, 0x64, 0x64, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x14, 0x76, 0x61, 0x6c,
-	0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x41, 0x64, 0x64,
-	0x72, 0x12, 0x4e, 0x0a, 0x0a, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c,
-	0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x47, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x4f, 0x70, 0x74, 0x69,
-	0x6f, 0x6e, 0x73, 0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70,
-	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x0a, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x12, 0x48, 0x0a, 0x21, 0x72, 0x65, 0x61, 0x64, 0x5f, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61,
-	0x79, 0x73, 0x5f, 0x66, 0x72, 0x6f, 0x6d, 0x5f, 0x61, 0x6c, 0x6c, 0x5f, 0x6e, 0x61, 0x6d, 0x65,
-	0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x1d, 0x72, 0x65,
-	0x61, 0x64, 0x47, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x73, 0x46, 0x72, 0x6f, 0x6d, 0x41, 0x6c,
-	0x6c, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x12, 0x46, 0x0a, 0x1e, 0x61,
-	0x6c, 0x77, 0x61, 0x79, 0x73, 0x5f, 0x73, 0x6f, 0x72, 0x74, 0x5f, 0x72, 0x6f, 0x75, 0x74, 0x65,
-	0x5f, 0x74, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x73, 0x18, 0x05, 0x20,
-	0x01, 0x28, 0x08, 0x42, 0x02, 0x18, 0x01, 0x52, 0x1a, 0x61, 0x6c, 0x77, 0x61, 0x79, 0x73, 0x53,
-	0x6f, 0x72, 0x74, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x54, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x6f, 0x75,
-	0x74, 0x65, 0x73, 0x12, 0x32, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x70, 0x72, 0x65, 0x73, 0x73, 0x65,
-	0x64, 0x5f, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x73, 0x70, 0x65, 0x63, 0x18, 0x06, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x13, 0x63, 0x6f, 0x6d, 0x70, 0x72, 0x65, 0x73, 0x73, 0x65, 0x64, 0x50, 0x72,
-	0x6f, 0x78, 0x79, 0x53, 0x70, 0x65, 0x63, 0x1a, 0xbf, 0x05, 0x0a, 0x11, 0x56, 0x61, 0x6c, 0x69,
-	0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x3f, 0x0a,
-	0x1c, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x19, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x41, 0x64, 0x64, 0x72, 0x12, 0x3d,
-	0x0a, 0x1b, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x77, 0x65, 0x62,
-	0x68, 0x6f, 0x6f, 0x6b, 0x5f, 0x74, 0x6c, 0x73, 0x5f, 0x63, 0x65, 0x72, 0x74, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x18, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x57,
-	0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x54, 0x6c, 0x73, 0x43, 0x65, 0x72, 0x74, 0x12, 0x3b, 0x0a,
-	0x1a, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x77, 0x65, 0x62, 0x68,
-	0x6f, 0x6f, 0x6b, 0x5f, 0x74, 0x6c, 0x73, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x17, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x57, 0x65, 0x62,
-	0x68, 0x6f, 0x6f, 0x6b, 0x54, 0x6c, 0x73, 0x4b, 0x65, 0x79, 0x12, 0x43, 0x0a, 0x1e, 0x69, 0x67,
-	0x6e, 0x6f, 0x72, 0x65, 0x5f, 0x67, 0x6c, 0x6f, 0x6f, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x18, 0x05, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x1b, 0x69, 0x67, 0x6e, 0x6f, 0x72, 0x65, 0x47, 0x6c, 0x6f, 0x6f, 0x56, 0x61,
-	0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x12,
-	0x3f, 0x0a, 0x0d, 0x61, 0x6c, 0x77, 0x61, 0x79, 0x73, 0x5f, 0x61, 0x63, 0x63, 0x65, 0x70, 0x74,
-	0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x22, 0x53, 0x0a, 0x15, 0x56, 0x69, 0x72, 0x74,
+	0x75, 0x61, 0x6c, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x12, 0x3a, 0x0a, 0x0b, 0x6f, 0x6e, 0x65, 0x5f, 0x77, 0x61, 0x79, 0x5f, 0x74, 0x6c, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f, 0x6c, 0x56, 0x61, 0x6c,
-	0x75, 0x65, 0x52, 0x0c, 0x61, 0x6c, 0x77, 0x61, 0x79, 0x73, 0x41, 0x63, 0x63, 0x65, 0x70, 0x74,
-	0x12, 0x41, 0x0a, 0x0e, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x77, 0x61, 0x72, 0x6e, 0x69, 0x6e,
-	0x67, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x75, 0x65, 0x52, 0x09, 0x6f, 0x6e, 0x65, 0x57, 0x61, 0x79, 0x54, 0x6c, 0x73, 0x22, 0xfb, 0x08,
+	0x0a, 0x0e, 0x47, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x12, 0x34, 0x0a, 0x16, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73,
+	0x65, 0x72, 0x76, 0x65, 0x72, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x14, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76,
+	0x65, 0x72, 0x41, 0x64, 0x64, 0x72, 0x12, 0x4e, 0x0a, 0x0a, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x67, 0x6c, 0x6f,
+	0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x47, 0x61, 0x74, 0x65, 0x77, 0x61,
+	0x79, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x0a, 0x76, 0x61, 0x6c, 0x69,
+	0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x48, 0x0a, 0x21, 0x72, 0x65, 0x61, 0x64, 0x5f, 0x67,
+	0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x73, 0x5f, 0x66, 0x72, 0x6f, 0x6d, 0x5f, 0x61, 0x6c, 0x6c,
+	0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x08, 0x52, 0x1d, 0x72, 0x65, 0x61, 0x64, 0x47, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x73, 0x46,
+	0x72, 0x6f, 0x6d, 0x41, 0x6c, 0x6c, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73,
+	0x12, 0x46, 0x0a, 0x1e, 0x61, 0x6c, 0x77, 0x61, 0x79, 0x73, 0x5f, 0x73, 0x6f, 0x72, 0x74, 0x5f,
+	0x72, 0x6f, 0x75, 0x74, 0x65, 0x5f, 0x74, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x72, 0x6f, 0x75, 0x74,
+	0x65, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x42, 0x02, 0x18, 0x01, 0x52, 0x1a, 0x61, 0x6c,
+	0x77, 0x61, 0x79, 0x73, 0x53, 0x6f, 0x72, 0x74, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x54, 0x61, 0x62,
+	0x6c, 0x65, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x73, 0x12, 0x32, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x70,
+	0x72, 0x65, 0x73, 0x73, 0x65, 0x64, 0x5f, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x73, 0x70, 0x65,
+	0x63, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08, 0x52, 0x13, 0x63, 0x6f, 0x6d, 0x70, 0x72, 0x65, 0x73,
+	0x73, 0x65, 0x64, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x53, 0x70, 0x65, 0x63, 0x12, 0x5b, 0x0a, 0x17,
+	0x76, 0x69, 0x72, 0x74, 0x75, 0x61, 0x6c, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f,
+	0x6f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e,
+	0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x56, 0x69, 0x72,
+	0x74, 0x75, 0x61, 0x6c, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x70, 0x74, 0x69, 0x6f,
+	0x6e, 0x73, 0x52, 0x15, 0x76, 0x69, 0x72, 0x74, 0x75, 0x61, 0x6c, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x1a, 0xbf, 0x05, 0x0a, 0x11, 0x56, 0x61,
+	0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12,
+	0x3f, 0x0a, 0x1c, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x19, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x56, 0x61, 0x6c, 0x69,
+	0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x41, 0x64, 0x64, 0x72,
+	0x12, 0x3d, 0x0a, 0x1b, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x77,
+	0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x5f, 0x74, 0x6c, 0x73, 0x5f, 0x63, 0x65, 0x72, 0x74, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x18, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x57, 0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x54, 0x6c, 0x73, 0x43, 0x65, 0x72, 0x74, 0x12,
+	0x3b, 0x0a, 0x1a, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x77, 0x65,
+	0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x5f, 0x74, 0x6c, 0x73, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x04, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x17, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x57,
+	0x65, 0x62, 0x68, 0x6f, 0x6f, 0x6b, 0x54, 0x6c, 0x73, 0x4b, 0x65, 0x79, 0x12, 0x43, 0x0a, 0x1e,
+	0x69, 0x67, 0x6e, 0x6f, 0x72, 0x65, 0x5f, 0x67, 0x6c, 0x6f, 0x6f, 0x5f, 0x76, 0x61, 0x6c, 0x69,
+	0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x18, 0x05,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x1b, 0x69, 0x67, 0x6e, 0x6f, 0x72, 0x65, 0x47, 0x6c, 0x6f, 0x6f,
+	0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72,
+	0x65, 0x12, 0x3f, 0x0a, 0x0d, 0x61, 0x6c, 0x77, 0x61, 0x79, 0x73, 0x5f, 0x61, 0x63, 0x63, 0x65,
+	0x70, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
 	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f, 0x6c, 0x56,
-	0x61, 0x6c, 0x75, 0x65, 0x52, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x57, 0x61, 0x72, 0x6e, 0x69,
-	0x6e, 0x67, 0x73, 0x12, 0x59, 0x0a, 0x1b, 0x77, 0x61, 0x72, 0x6e, 0x5f, 0x72, 0x6f, 0x75, 0x74,
-	0x65, 0x5f, 0x73, 0x68, 0x6f, 0x72, 0x74, 0x5f, 0x63, 0x69, 0x72, 0x63, 0x75, 0x69, 0x74, 0x69,
-	0x6e, 0x67, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
-	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f, 0x6c, 0x56,
-	0x61, 0x6c, 0x75, 0x65, 0x52, 0x18, 0x77, 0x61, 0x72, 0x6e, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x53,
-	0x68, 0x6f, 0x72, 0x74, 0x43, 0x69, 0x72, 0x63, 0x75, 0x69, 0x74, 0x69, 0x6e, 0x67, 0x12, 0x66,
-	0x0a, 0x21, 0x64, 0x69, 0x73, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x66,
-	0x6f, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
-	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f, 0x6c,
-	0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x1f, 0x64, 0x69, 0x73, 0x61, 0x62, 0x6c, 0x65, 0x54, 0x72,
-	0x61, 0x6e, 0x73, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x56, 0x61, 0x6c, 0x69,
-	0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x61, 0x0a, 0x1f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x5f, 0x67, 0x72, 0x70, 0x63,
-	0x5f, 0x6d, 0x61, 0x78, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x1b, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2e, 0x49, 0x6e, 0x74, 0x36, 0x34, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x1b, 0x76, 0x61,
-	0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x47, 0x72,
-	0x70, 0x63, 0x4d, 0x61, 0x78, 0x53, 0x69, 0x7a, 0x65, 0x22, 0xc5, 0x03, 0x0a, 0x0e, 0x53, 0x65,
-	0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x38, 0x0a, 0x05,
-	0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x22, 0x2e, 0x67, 0x6c,
-	0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x53, 0x65, 0x74, 0x74, 0x69,
-	0x6e, 0x67, 0x73, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52,
-	0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x1f,
-	0x0a, 0x0b, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x5f, 0x62, 0x79, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x0a, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x42, 0x79, 0x12,
-	0x68, 0x0a, 0x14, 0x73, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x73,
-	0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x35, 0x2e,
+	0x61, 0x6c, 0x75, 0x65, 0x52, 0x0c, 0x61, 0x6c, 0x77, 0x61, 0x79, 0x73, 0x41, 0x63, 0x63, 0x65,
+	0x70, 0x74, 0x12, 0x41, 0x0a, 0x0e, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x77, 0x61, 0x72, 0x6e,
+	0x69, 0x6e, 0x67, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f,
+	0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x57, 0x61, 0x72,
+	0x6e, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x59, 0x0a, 0x1b, 0x77, 0x61, 0x72, 0x6e, 0x5f, 0x72, 0x6f,
+	0x75, 0x74, 0x65, 0x5f, 0x73, 0x68, 0x6f, 0x72, 0x74, 0x5f, 0x63, 0x69, 0x72, 0x63, 0x75, 0x69,
+	0x74, 0x69, 0x6e, 0x67, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f,
+	0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x18, 0x77, 0x61, 0x72, 0x6e, 0x52, 0x6f, 0x75, 0x74,
+	0x65, 0x53, 0x68, 0x6f, 0x72, 0x74, 0x43, 0x69, 0x72, 0x63, 0x75, 0x69, 0x74, 0x69, 0x6e, 0x67,
+	0x12, 0x66, 0x0a, 0x21, 0x64, 0x69, 0x73, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x74, 0x72, 0x61, 0x6e,
+	0x73, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f,
+	0x6f, 0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x1f, 0x64, 0x69, 0x73, 0x61, 0x62, 0x6c, 0x65,
+	0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x56, 0x61,
+	0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x61, 0x0a, 0x1f, 0x76, 0x61, 0x6c, 0x69,
+	0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x5f, 0x67, 0x72,
+	0x70, 0x63, 0x5f, 0x6d, 0x61, 0x78, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x0a, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x1b, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2e, 0x49, 0x6e, 0x74, 0x36, 0x34, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x1b,
+	0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72,
+	0x47, 0x72, 0x70, 0x63, 0x4d, 0x61, 0x78, 0x53, 0x69, 0x7a, 0x65, 0x22, 0xc5, 0x03, 0x0a, 0x0e,
+	0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x38,
+	0x0a, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x22, 0x2e,
 	0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x53, 0x65, 0x74,
-	0x74, 0x69, 0x6e, 0x67, 0x73, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x2e, 0x53, 0x75, 0x62, 0x72,
-	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x45,
-	0x6e, 0x74, 0x72, 0x79, 0x52, 0x13, 0x73, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
-	0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x12, 0x31, 0x0a, 0x07, 0x64, 0x65, 0x74,
-	0x61, 0x69, 0x6c, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f,
-	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72,
-	0x75, 0x63, 0x74, 0x52, 0x07, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x1a, 0x64, 0x0a, 0x18,
-	0x53, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75,
-	0x73, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x32, 0x0a, 0x05, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x67, 0x6c, 0x6f, 0x6f,
-	0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67,
-	0x73, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02,
-	0x38, 0x01, 0x22, 0x3d, 0x0a, 0x05, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x0b, 0x0a, 0x07, 0x50,
-	0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x41, 0x63, 0x63, 0x65,
-	0x70, 0x74, 0x65, 0x64, 0x10, 0x01, 0x12, 0x0c, 0x0a, 0x08, 0x52, 0x65, 0x6a, 0x65, 0x63, 0x74,
-	0x65, 0x64, 0x10, 0x02, 0x12, 0x0b, 0x0a, 0x07, 0x57, 0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x10,
-	0x03, 0x42, 0x3e, 0x5a, 0x34, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x61, 0x70, 0x69,
-	0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73,
-	0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x31, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04,
-	0x01, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x69, 0x6e, 0x67, 0x73, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x2e, 0x53, 0x74, 0x61, 0x74,
+	0x65, 0x52, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73,
+	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e,
+	0x12, 0x1f, 0x0a, 0x0b, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x5f, 0x62, 0x79, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x42,
+	0x79, 0x12, 0x68, 0x0a, 0x14, 0x73, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x5f, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x35, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x53,
+	0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x2e, 0x53, 0x75,
+	0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65,
+	0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x13, 0x73, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x12, 0x31, 0x0a, 0x07, 0x64,
+	0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53,
+	0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x07, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x1a, 0x64,
+	0x0a, 0x18, 0x53, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x53, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65,
+	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x32, 0x0a, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x67, 0x6c,
+	0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x53, 0x65, 0x74, 0x74, 0x69,
+	0x6e, 0x67, 0x73, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x3a, 0x02, 0x38, 0x01, 0x22, 0x3d, 0x0a, 0x05, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x0b, 0x0a,
+	0x07, 0x50, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x41, 0x63,
+	0x63, 0x65, 0x70, 0x74, 0x65, 0x64, 0x10, 0x01, 0x12, 0x0c, 0x0a, 0x08, 0x52, 0x65, 0x6a, 0x65,
+	0x63, 0x74, 0x65, 0x64, 0x10, 0x02, 0x12, 0x0b, 0x0a, 0x07, 0x57, 0x61, 0x72, 0x6e, 0x69, 0x6e,
+	0x67, 0x10, 0x03, 0x42, 0x3e, 0x5a, 0x34, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x61,
+	0x70, 0x69, 0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6c, 0x6f, 0x6f,
+	0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x31, 0xc0, 0xf5, 0x04, 0x01, 0xb8,
+	0xf5, 0x04, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2814,109 +2887,112 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZ
 }
 
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_goTypes = []interface{}{
 	(SettingsSpec_DiscoveryOptions_FdsMode)(0),                       // 0: gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsMode
 	(SettingsStatus_State)(0),                                        // 1: gloo.solo.io.SettingsStatus.State
 	(*SettingsSpec)(nil),                                             // 2: gloo.solo.io.SettingsSpec
 	(*UpstreamOptions)(nil),                                          // 3: gloo.solo.io.UpstreamOptions
 	(*GlooOptions)(nil),                                              // 4: gloo.solo.io.GlooOptions
-	(*GatewayOptions)(nil),                                           // 5: gloo.solo.io.GatewayOptions
-	(*SettingsStatus)(nil),                                           // 6: gloo.solo.io.SettingsStatus
-	(*SettingsSpec_KubernetesCrds)(nil),                              // 7: gloo.solo.io.SettingsSpec.KubernetesCrds
-	(*SettingsSpec_KubernetesSecrets)(nil),                           // 8: gloo.solo.io.SettingsSpec.KubernetesSecrets
-	(*SettingsSpec_VaultSecrets)(nil),                                // 9: gloo.solo.io.SettingsSpec.VaultSecrets
-	(*SettingsSpec_ConsulKv)(nil),                                    // 10: gloo.solo.io.SettingsSpec.ConsulKv
-	(*SettingsSpec_KubernetesConfigmaps)(nil),                        // 11: gloo.solo.io.SettingsSpec.KubernetesConfigmaps
-	(*SettingsSpec_Directory)(nil),                                   // 12: gloo.solo.io.SettingsSpec.Directory
-	(*SettingsSpec_KnativeOptions)(nil),                              // 13: gloo.solo.io.SettingsSpec.KnativeOptions
-	(*SettingsSpec_DiscoveryOptions)(nil),                            // 14: gloo.solo.io.SettingsSpec.DiscoveryOptions
-	(*SettingsSpec_ConsulConfiguration)(nil),                         // 15: gloo.solo.io.SettingsSpec.ConsulConfiguration
-	(*SettingsSpec_ConsulUpstreamDiscoveryConfiguration)(nil),        // 16: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration
-	(*SettingsSpec_KubernetesConfiguration)(nil),                     // 17: gloo.solo.io.SettingsSpec.KubernetesConfiguration
-	(*SettingsSpec_ObservabilityOptions)(nil),                        // 18: gloo.solo.io.SettingsSpec.ObservabilityOptions
-	(*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions)(nil), // 19: gloo.solo.io.SettingsSpec.ConsulConfiguration.ServiceDiscoveryOptions
-	(*SettingsSpec_KubernetesConfiguration_RateLimits)(nil),          // 20: gloo.solo.io.SettingsSpec.KubernetesConfiguration.RateLimits
-	(*SettingsSpec_ObservabilityOptions_GrafanaIntegration)(nil),     // 21: gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration
-	(*GlooOptions_AWSOptions)(nil),                                   // 22: gloo.solo.io.GlooOptions.AWSOptions
-	(*GlooOptions_InvalidConfigPolicy)(nil),                          // 23: gloo.solo.io.GlooOptions.InvalidConfigPolicy
-	(*GatewayOptions_ValidationOptions)(nil),                         // 24: gloo.solo.io.GatewayOptions.ValidationOptions
-	nil,                                                              // 25: gloo.solo.io.SettingsStatus.SubresourceStatusesEntry
-	(*duration.Duration)(nil),                                        // 26: google.protobuf.Duration
-	(*Extensions)(nil),                                               // 27: gloo.solo.io.Extensions
-	(*ratelimit.ServiceSettings)(nil),                                // 28: ratelimit.options.gloo.solo.io.ServiceSettings
-	(*ratelimit.Settings)(nil),                                       // 29: ratelimit.options.gloo.solo.io.Settings
-	(*rbac.Settings)(nil),                                            // 30: rbac.options.gloo.solo.io.Settings
-	(*v1.Settings)(nil),                                              // 31: enterprise.gloo.solo.io.Settings
-	(*SslParameters)(nil),                                            // 32: gloo.solo.io.SslParameters
-	(*CircuitBreakerConfig)(nil),                                     // 33: gloo.solo.io.CircuitBreakerConfig
-	(*wrappers.BoolValue)(nil),                                       // 34: google.protobuf.BoolValue
-	(*wrappers.UInt32Value)(nil),                                     // 35: google.protobuf.UInt32Value
-	(*_struct.Struct)(nil),                                           // 36: google.protobuf.Struct
-	(*core.ResourceRef)(nil),                                         // 37: core.solo.io.ResourceRef
-	(*aws.AWSLambdaConfig_ServiceAccountCredentials)(nil),            // 38: envoy.config.filter.http.aws_lambda.v2.AWSLambdaConfig.ServiceAccountCredentials
-	(*wrappers.Int64Value)(nil),                                      // 39: google.protobuf.Int64Value
+	(*VirtualServiceOptions)(nil),                                    // 5: gloo.solo.io.VirtualServiceOptions
+	(*GatewayOptions)(nil),                                           // 6: gloo.solo.io.GatewayOptions
+	(*SettingsStatus)(nil),                                           // 7: gloo.solo.io.SettingsStatus
+	(*SettingsSpec_KubernetesCrds)(nil),                              // 8: gloo.solo.io.SettingsSpec.KubernetesCrds
+	(*SettingsSpec_KubernetesSecrets)(nil),                           // 9: gloo.solo.io.SettingsSpec.KubernetesSecrets
+	(*SettingsSpec_VaultSecrets)(nil),                                // 10: gloo.solo.io.SettingsSpec.VaultSecrets
+	(*SettingsSpec_ConsulKv)(nil),                                    // 11: gloo.solo.io.SettingsSpec.ConsulKv
+	(*SettingsSpec_KubernetesConfigmaps)(nil),                        // 12: gloo.solo.io.SettingsSpec.KubernetesConfigmaps
+	(*SettingsSpec_Directory)(nil),                                   // 13: gloo.solo.io.SettingsSpec.Directory
+	(*SettingsSpec_KnativeOptions)(nil),                              // 14: gloo.solo.io.SettingsSpec.KnativeOptions
+	(*SettingsSpec_DiscoveryOptions)(nil),                            // 15: gloo.solo.io.SettingsSpec.DiscoveryOptions
+	(*SettingsSpec_ConsulConfiguration)(nil),                         // 16: gloo.solo.io.SettingsSpec.ConsulConfiguration
+	(*SettingsSpec_ConsulUpstreamDiscoveryConfiguration)(nil),        // 17: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration
+	(*SettingsSpec_KubernetesConfiguration)(nil),                     // 18: gloo.solo.io.SettingsSpec.KubernetesConfiguration
+	(*SettingsSpec_ObservabilityOptions)(nil),                        // 19: gloo.solo.io.SettingsSpec.ObservabilityOptions
+	(*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions)(nil), // 20: gloo.solo.io.SettingsSpec.ConsulConfiguration.ServiceDiscoveryOptions
+	(*SettingsSpec_KubernetesConfiguration_RateLimits)(nil),          // 21: gloo.solo.io.SettingsSpec.KubernetesConfiguration.RateLimits
+	(*SettingsSpec_ObservabilityOptions_GrafanaIntegration)(nil),     // 22: gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration
+	(*GlooOptions_AWSOptions)(nil),                                   // 23: gloo.solo.io.GlooOptions.AWSOptions
+	(*GlooOptions_InvalidConfigPolicy)(nil),                          // 24: gloo.solo.io.GlooOptions.InvalidConfigPolicy
+	(*GatewayOptions_ValidationOptions)(nil),                         // 25: gloo.solo.io.GatewayOptions.ValidationOptions
+	nil,                                                              // 26: gloo.solo.io.SettingsStatus.SubresourceStatusesEntry
+	(*duration.Duration)(nil),                                        // 27: google.protobuf.Duration
+	(*Extensions)(nil),                                               // 28: gloo.solo.io.Extensions
+	(*ratelimit.ServiceSettings)(nil),                                // 29: ratelimit.options.gloo.solo.io.ServiceSettings
+	(*ratelimit.Settings)(nil),                                       // 30: ratelimit.options.gloo.solo.io.Settings
+	(*rbac.Settings)(nil),                                            // 31: rbac.options.gloo.solo.io.Settings
+	(*v1.Settings)(nil),                                              // 32: enterprise.gloo.solo.io.Settings
+	(*SslParameters)(nil),                                            // 33: gloo.solo.io.SslParameters
+	(*CircuitBreakerConfig)(nil),                                     // 34: gloo.solo.io.CircuitBreakerConfig
+	(*wrappers.BoolValue)(nil),                                       // 35: google.protobuf.BoolValue
+	(*wrappers.UInt32Value)(nil),                                     // 36: google.protobuf.UInt32Value
+	(*_struct.Struct)(nil),                                           // 37: google.protobuf.Struct
+	(*core.ResourceRef)(nil),                                         // 38: core.solo.io.ResourceRef
+	(*aws.AWSLambdaConfig_ServiceAccountCredentials)(nil),            // 39: envoy.config.filter.http.aws_lambda.v2.AWSLambdaConfig.ServiceAccountCredentials
+	(*wrappers.Int64Value)(nil),                                      // 40: google.protobuf.Int64Value
 }
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_depIdxs = []int32{
-	7,  // 0: gloo.solo.io.SettingsSpec.kubernetes_config_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesCrds
-	12, // 1: gloo.solo.io.SettingsSpec.directory_config_source:type_name -> gloo.solo.io.SettingsSpec.Directory
-	10, // 2: gloo.solo.io.SettingsSpec.consul_kv_source:type_name -> gloo.solo.io.SettingsSpec.ConsulKv
-	8,  // 3: gloo.solo.io.SettingsSpec.kubernetes_secret_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesSecrets
-	9,  // 4: gloo.solo.io.SettingsSpec.vault_secret_source:type_name -> gloo.solo.io.SettingsSpec.VaultSecrets
-	12, // 5: gloo.solo.io.SettingsSpec.directory_secret_source:type_name -> gloo.solo.io.SettingsSpec.Directory
-	11, // 6: gloo.solo.io.SettingsSpec.kubernetes_artifact_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfigmaps
-	12, // 7: gloo.solo.io.SettingsSpec.directory_artifact_source:type_name -> gloo.solo.io.SettingsSpec.Directory
-	10, // 8: gloo.solo.io.SettingsSpec.consul_kv_artifact_source:type_name -> gloo.solo.io.SettingsSpec.ConsulKv
-	26, // 9: gloo.solo.io.SettingsSpec.refresh_rate:type_name -> google.protobuf.Duration
-	13, // 10: gloo.solo.io.SettingsSpec.knative:type_name -> gloo.solo.io.SettingsSpec.KnativeOptions
-	14, // 11: gloo.solo.io.SettingsSpec.discovery:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions
+	8,  // 0: gloo.solo.io.SettingsSpec.kubernetes_config_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesCrds
+	13, // 1: gloo.solo.io.SettingsSpec.directory_config_source:type_name -> gloo.solo.io.SettingsSpec.Directory
+	11, // 2: gloo.solo.io.SettingsSpec.consul_kv_source:type_name -> gloo.solo.io.SettingsSpec.ConsulKv
+	9,  // 3: gloo.solo.io.SettingsSpec.kubernetes_secret_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesSecrets
+	10, // 4: gloo.solo.io.SettingsSpec.vault_secret_source:type_name -> gloo.solo.io.SettingsSpec.VaultSecrets
+	13, // 5: gloo.solo.io.SettingsSpec.directory_secret_source:type_name -> gloo.solo.io.SettingsSpec.Directory
+	12, // 6: gloo.solo.io.SettingsSpec.kubernetes_artifact_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfigmaps
+	13, // 7: gloo.solo.io.SettingsSpec.directory_artifact_source:type_name -> gloo.solo.io.SettingsSpec.Directory
+	11, // 8: gloo.solo.io.SettingsSpec.consul_kv_artifact_source:type_name -> gloo.solo.io.SettingsSpec.ConsulKv
+	27, // 9: gloo.solo.io.SettingsSpec.refresh_rate:type_name -> google.protobuf.Duration
+	14, // 10: gloo.solo.io.SettingsSpec.knative:type_name -> gloo.solo.io.SettingsSpec.KnativeOptions
+	15, // 11: gloo.solo.io.SettingsSpec.discovery:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions
 	4,  // 12: gloo.solo.io.SettingsSpec.gloo:type_name -> gloo.solo.io.GlooOptions
-	5,  // 13: gloo.solo.io.SettingsSpec.gateway:type_name -> gloo.solo.io.GatewayOptions
-	15, // 14: gloo.solo.io.SettingsSpec.consul:type_name -> gloo.solo.io.SettingsSpec.ConsulConfiguration
-	16, // 15: gloo.solo.io.SettingsSpec.consulDiscovery:type_name -> gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration
-	17, // 16: gloo.solo.io.SettingsSpec.kubernetes:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfiguration
-	27, // 17: gloo.solo.io.SettingsSpec.extensions:type_name -> gloo.solo.io.Extensions
-	28, // 18: gloo.solo.io.SettingsSpec.ratelimit:type_name -> ratelimit.options.gloo.solo.io.ServiceSettings
-	29, // 19: gloo.solo.io.SettingsSpec.ratelimit_server:type_name -> ratelimit.options.gloo.solo.io.Settings
-	30, // 20: gloo.solo.io.SettingsSpec.rbac:type_name -> rbac.options.gloo.solo.io.Settings
-	31, // 21: gloo.solo.io.SettingsSpec.extauth:type_name -> enterprise.gloo.solo.io.Settings
-	18, // 22: gloo.solo.io.SettingsSpec.observabilityOptions:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions
+	6,  // 13: gloo.solo.io.SettingsSpec.gateway:type_name -> gloo.solo.io.GatewayOptions
+	16, // 14: gloo.solo.io.SettingsSpec.consul:type_name -> gloo.solo.io.SettingsSpec.ConsulConfiguration
+	17, // 15: gloo.solo.io.SettingsSpec.consulDiscovery:type_name -> gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration
+	18, // 16: gloo.solo.io.SettingsSpec.kubernetes:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfiguration
+	28, // 17: gloo.solo.io.SettingsSpec.extensions:type_name -> gloo.solo.io.Extensions
+	29, // 18: gloo.solo.io.SettingsSpec.ratelimit:type_name -> ratelimit.options.gloo.solo.io.ServiceSettings
+	30, // 19: gloo.solo.io.SettingsSpec.ratelimit_server:type_name -> ratelimit.options.gloo.solo.io.Settings
+	31, // 20: gloo.solo.io.SettingsSpec.rbac:type_name -> rbac.options.gloo.solo.io.Settings
+	32, // 21: gloo.solo.io.SettingsSpec.extauth:type_name -> enterprise.gloo.solo.io.Settings
+	19, // 22: gloo.solo.io.SettingsSpec.observabilityOptions:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions
 	3,  // 23: gloo.solo.io.SettingsSpec.upstreamOptions:type_name -> gloo.solo.io.UpstreamOptions
-	32, // 24: gloo.solo.io.UpstreamOptions.ssl_parameters:type_name -> gloo.solo.io.SslParameters
-	33, // 25: gloo.solo.io.GlooOptions.circuit_breakers:type_name -> gloo.solo.io.CircuitBreakerConfig
-	26, // 26: gloo.solo.io.GlooOptions.endpoints_warming_timeout:type_name -> google.protobuf.Duration
-	22, // 27: gloo.solo.io.GlooOptions.aws_options:type_name -> gloo.solo.io.GlooOptions.AWSOptions
-	23, // 28: gloo.solo.io.GlooOptions.invalid_config_policy:type_name -> gloo.solo.io.GlooOptions.InvalidConfigPolicy
-	34, // 29: gloo.solo.io.GlooOptions.disable_grpc_web:type_name -> google.protobuf.BoolValue
-	34, // 30: gloo.solo.io.GlooOptions.disable_proxy_garbage_collection:type_name -> google.protobuf.BoolValue
-	35, // 31: gloo.solo.io.GlooOptions.regex_max_program_size:type_name -> google.protobuf.UInt32Value
-	34, // 32: gloo.solo.io.GlooOptions.enable_rest_eds:type_name -> google.protobuf.BoolValue
-	24, // 33: gloo.solo.io.GatewayOptions.validation:type_name -> gloo.solo.io.GatewayOptions.ValidationOptions
-	1,  // 34: gloo.solo.io.SettingsStatus.state:type_name -> gloo.solo.io.SettingsStatus.State
-	25, // 35: gloo.solo.io.SettingsStatus.subresource_statuses:type_name -> gloo.solo.io.SettingsStatus.SubresourceStatusesEntry
-	36, // 36: gloo.solo.io.SettingsStatus.details:type_name -> google.protobuf.Struct
-	34, // 37: gloo.solo.io.SettingsSpec.VaultSecrets.insecure:type_name -> google.protobuf.BoolValue
-	0,  // 38: gloo.solo.io.SettingsSpec.DiscoveryOptions.fds_mode:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsMode
-	34, // 39: gloo.solo.io.SettingsSpec.ConsulConfiguration.insecure_skip_verify:type_name -> google.protobuf.BoolValue
-	26, // 40: gloo.solo.io.SettingsSpec.ConsulConfiguration.wait_time:type_name -> google.protobuf.Duration
-	19, // 41: gloo.solo.io.SettingsSpec.ConsulConfiguration.service_discovery:type_name -> gloo.solo.io.SettingsSpec.ConsulConfiguration.ServiceDiscoveryOptions
-	26, // 42: gloo.solo.io.SettingsSpec.ConsulConfiguration.dns_polling_interval:type_name -> google.protobuf.Duration
-	37, // 43: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.rootCa:type_name -> core.solo.io.ResourceRef
-	20, // 44: gloo.solo.io.SettingsSpec.KubernetesConfiguration.rate_limits:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfiguration.RateLimits
-	21, // 45: gloo.solo.io.SettingsSpec.ObservabilityOptions.grafanaIntegration:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration
-	35, // 46: gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration.default_dashboard_folder_id:type_name -> google.protobuf.UInt32Value
-	38, // 47: gloo.solo.io.GlooOptions.AWSOptions.service_account_credentials:type_name -> envoy.config.filter.http.aws_lambda.v2.AWSLambdaConfig.ServiceAccountCredentials
-	34, // 48: gloo.solo.io.GatewayOptions.ValidationOptions.always_accept:type_name -> google.protobuf.BoolValue
-	34, // 49: gloo.solo.io.GatewayOptions.ValidationOptions.allow_warnings:type_name -> google.protobuf.BoolValue
-	34, // 50: gloo.solo.io.GatewayOptions.ValidationOptions.warn_route_short_circuiting:type_name -> google.protobuf.BoolValue
-	34, // 51: gloo.solo.io.GatewayOptions.ValidationOptions.disable_transformation_validation:type_name -> google.protobuf.BoolValue
-	39, // 52: gloo.solo.io.GatewayOptions.ValidationOptions.validation_server_grpc_max_size:type_name -> google.protobuf.Int64Value
-	6,  // 53: gloo.solo.io.SettingsStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.SettingsStatus
-	54, // [54:54] is the sub-list for method output_type
-	54, // [54:54] is the sub-list for method input_type
-	54, // [54:54] is the sub-list for extension type_name
-	54, // [54:54] is the sub-list for extension extendee
-	0,  // [0:54] is the sub-list for field type_name
+	33, // 24: gloo.solo.io.UpstreamOptions.ssl_parameters:type_name -> gloo.solo.io.SslParameters
+	34, // 25: gloo.solo.io.GlooOptions.circuit_breakers:type_name -> gloo.solo.io.CircuitBreakerConfig
+	27, // 26: gloo.solo.io.GlooOptions.endpoints_warming_timeout:type_name -> google.protobuf.Duration
+	23, // 27: gloo.solo.io.GlooOptions.aws_options:type_name -> gloo.solo.io.GlooOptions.AWSOptions
+	24, // 28: gloo.solo.io.GlooOptions.invalid_config_policy:type_name -> gloo.solo.io.GlooOptions.InvalidConfigPolicy
+	35, // 29: gloo.solo.io.GlooOptions.disable_grpc_web:type_name -> google.protobuf.BoolValue
+	35, // 30: gloo.solo.io.GlooOptions.disable_proxy_garbage_collection:type_name -> google.protobuf.BoolValue
+	36, // 31: gloo.solo.io.GlooOptions.regex_max_program_size:type_name -> google.protobuf.UInt32Value
+	35, // 32: gloo.solo.io.GlooOptions.enable_rest_eds:type_name -> google.protobuf.BoolValue
+	35, // 33: gloo.solo.io.VirtualServiceOptions.one_way_tls:type_name -> google.protobuf.BoolValue
+	25, // 34: gloo.solo.io.GatewayOptions.validation:type_name -> gloo.solo.io.GatewayOptions.ValidationOptions
+	5,  // 35: gloo.solo.io.GatewayOptions.virtual_service_options:type_name -> gloo.solo.io.VirtualServiceOptions
+	1,  // 36: gloo.solo.io.SettingsStatus.state:type_name -> gloo.solo.io.SettingsStatus.State
+	26, // 37: gloo.solo.io.SettingsStatus.subresource_statuses:type_name -> gloo.solo.io.SettingsStatus.SubresourceStatusesEntry
+	37, // 38: gloo.solo.io.SettingsStatus.details:type_name -> google.protobuf.Struct
+	35, // 39: gloo.solo.io.SettingsSpec.VaultSecrets.insecure:type_name -> google.protobuf.BoolValue
+	0,  // 40: gloo.solo.io.SettingsSpec.DiscoveryOptions.fds_mode:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsMode
+	35, // 41: gloo.solo.io.SettingsSpec.ConsulConfiguration.insecure_skip_verify:type_name -> google.protobuf.BoolValue
+	27, // 42: gloo.solo.io.SettingsSpec.ConsulConfiguration.wait_time:type_name -> google.protobuf.Duration
+	20, // 43: gloo.solo.io.SettingsSpec.ConsulConfiguration.service_discovery:type_name -> gloo.solo.io.SettingsSpec.ConsulConfiguration.ServiceDiscoveryOptions
+	27, // 44: gloo.solo.io.SettingsSpec.ConsulConfiguration.dns_polling_interval:type_name -> google.protobuf.Duration
+	38, // 45: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.rootCa:type_name -> core.solo.io.ResourceRef
+	21, // 46: gloo.solo.io.SettingsSpec.KubernetesConfiguration.rate_limits:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfiguration.RateLimits
+	22, // 47: gloo.solo.io.SettingsSpec.ObservabilityOptions.grafanaIntegration:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration
+	36, // 48: gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration.default_dashboard_folder_id:type_name -> google.protobuf.UInt32Value
+	39, // 49: gloo.solo.io.GlooOptions.AWSOptions.service_account_credentials:type_name -> envoy.config.filter.http.aws_lambda.v2.AWSLambdaConfig.ServiceAccountCredentials
+	35, // 50: gloo.solo.io.GatewayOptions.ValidationOptions.always_accept:type_name -> google.protobuf.BoolValue
+	35, // 51: gloo.solo.io.GatewayOptions.ValidationOptions.allow_warnings:type_name -> google.protobuf.BoolValue
+	35, // 52: gloo.solo.io.GatewayOptions.ValidationOptions.warn_route_short_circuiting:type_name -> google.protobuf.BoolValue
+	35, // 53: gloo.solo.io.GatewayOptions.ValidationOptions.disable_transformation_validation:type_name -> google.protobuf.BoolValue
+	40, // 54: gloo.solo.io.GatewayOptions.ValidationOptions.validation_server_grpc_max_size:type_name -> google.protobuf.Int64Value
+	7,  // 55: gloo.solo.io.SettingsStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.SettingsStatus
+	56, // [56:56] is the sub-list for method output_type
+	56, // [56:56] is the sub-list for method input_type
+	56, // [56:56] is the sub-list for extension type_name
+	56, // [56:56] is the sub-list for extension extendee
+	0,  // [0:56] is the sub-list for field type_name
 }
 
 func init() { file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() }
@@ -2965,7 +3041,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GatewayOptions); i {
+			switch v := v.(*VirtualServiceOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2977,7 +3053,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsStatus); i {
+			switch v := v.(*GatewayOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2989,7 +3065,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_KubernetesCrds); i {
+			switch v := v.(*SettingsStatus); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3001,7 +3077,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_KubernetesSecrets); i {
+			switch v := v.(*SettingsSpec_KubernetesCrds); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3013,7 +3089,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_VaultSecrets); i {
+			switch v := v.(*SettingsSpec_KubernetesSecrets); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3025,7 +3101,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_ConsulKv); i {
+			switch v := v.(*SettingsSpec_VaultSecrets); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3037,7 +3113,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_KubernetesConfigmaps); i {
+			switch v := v.(*SettingsSpec_ConsulKv); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3049,7 +3125,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_Directory); i {
+			switch v := v.(*SettingsSpec_KubernetesConfigmaps); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3061,7 +3137,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_KnativeOptions); i {
+			switch v := v.(*SettingsSpec_Directory); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3073,7 +3149,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_DiscoveryOptions); i {
+			switch v := v.(*SettingsSpec_KnativeOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3085,7 +3161,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_ConsulConfiguration); i {
+			switch v := v.(*SettingsSpec_DiscoveryOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3097,7 +3173,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_ConsulUpstreamDiscoveryConfiguration); i {
+			switch v := v.(*SettingsSpec_ConsulConfiguration); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3109,7 +3185,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_KubernetesConfiguration); i {
+			switch v := v.(*SettingsSpec_ConsulUpstreamDiscoveryConfiguration); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3121,7 +3197,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_ObservabilityOptions); i {
+			switch v := v.(*SettingsSpec_KubernetesConfiguration); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3133,7 +3209,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions); i {
+			switch v := v.(*SettingsSpec_ObservabilityOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3145,7 +3221,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_KubernetesConfiguration_RateLimits); i {
+			switch v := v.(*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3157,7 +3233,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SettingsSpec_ObservabilityOptions_GrafanaIntegration); i {
+			switch v := v.(*SettingsSpec_KubernetesConfiguration_RateLimits); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3169,7 +3245,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GlooOptions_AWSOptions); i {
+			switch v := v.(*SettingsSpec_ObservabilityOptions_GrafanaIntegration); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3181,7 +3257,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GlooOptions_InvalidConfigPolicy); i {
+			switch v := v.(*GlooOptions_AWSOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3193,6 +3269,18 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GlooOptions_InvalidConfigPolicy); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GatewayOptions_ValidationOptions); i {
 			case 0:
 				return &v.state
@@ -3216,7 +3304,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 		(*SettingsSpec_DirectoryArtifactSource)(nil),
 		(*SettingsSpec_ConsulKvArtifactSource)(nil),
 	}
-	file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[20].OneofWrappers = []interface{}{
+	file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes[21].OneofWrappers = []interface{}{
 		(*GlooOptions_AWSOptions_EnableCredentialsDiscovey)(nil),
 		(*GlooOptions_AWSOptions_ServiceAccountCredentials)(nil),
 	}
@@ -3226,7 +3314,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   24,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
