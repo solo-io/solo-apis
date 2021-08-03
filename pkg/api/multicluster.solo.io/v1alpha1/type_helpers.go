@@ -3,5 +3,8 @@
 // Definitions for the Kubernetes types
 package v1alpha1
 
+import (
+)
+
 // MultiClusterRoleSlice represents a slice of *MultiClusterRole
 type MultiClusterRoleSlice []*MultiClusterRole

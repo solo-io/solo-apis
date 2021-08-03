@@ -5,22 +5,24 @@
 // Definitions for the Kubernetes Controllers
 package controller
 
+
+
 import (
 	"context"
 
-	multicluster_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1"
+    multicluster_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1"
 
-	"github.com/pkg/errors"
-	"github.com/solo-io/skv2/pkg/ezkube"
-	"github.com/solo-io/skv2/pkg/reconcile"
-	"sigs.k8s.io/controller-runtime/pkg/manager"
-	"sigs.k8s.io/controller-runtime/pkg/predicate"
+    "github.com/pkg/errors"
+    "github.com/solo-io/skv2/pkg/ezkube"
+    "github.com/solo-io/skv2/pkg/reconcile"
+    "sigs.k8s.io/controller-runtime/pkg/manager"
+    "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
 // Reconcile Upsert events for the MultiClusterRole Resource.
 // implemented by the user
 type MultiClusterRoleReconciler interface {
-	ReconcileMultiClusterRole(obj *multicluster_solo_io_v1alpha1.MultiClusterRole) (reconcile.Result, error)
+    ReconcileMultiClusterRole(obj *multicluster_solo_io_v1alpha1.MultiClusterRole) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the MultiClusterRole Resource.
@@ -28,108 +30,109 @@ type MultiClusterRoleReconciler interface {
 // before being deleted.
 // implemented by the user
 type MultiClusterRoleDeletionReconciler interface {
-	ReconcileMultiClusterRoleDeletion(req reconcile.Request) error
+    ReconcileMultiClusterRoleDeletion(req reconcile.Request) error
 }
 
 type MultiClusterRoleReconcilerFuncs struct {
-	OnReconcileMultiClusterRole         func(obj *multicluster_solo_io_v1alpha1.MultiClusterRole) (reconcile.Result, error)
-	OnReconcileMultiClusterRoleDeletion func(req reconcile.Request) error
+    OnReconcileMultiClusterRole func(obj *multicluster_solo_io_v1alpha1.MultiClusterRole) (reconcile.Result, error)
+    OnReconcileMultiClusterRoleDeletion func(req reconcile.Request) error
 }
 
 func (f *MultiClusterRoleReconcilerFuncs) ReconcileMultiClusterRole(obj *multicluster_solo_io_v1alpha1.MultiClusterRole) (reconcile.Result, error) {
-	if f.OnReconcileMultiClusterRole == nil {
-		return reconcile.Result{}, nil
-	}
-	return f.OnReconcileMultiClusterRole(obj)
+    if f.OnReconcileMultiClusterRole == nil {
+        return reconcile.Result{}, nil
+    }
+    return f.OnReconcileMultiClusterRole(obj)
 }
 
 func (f *MultiClusterRoleReconcilerFuncs) ReconcileMultiClusterRoleDeletion(req reconcile.Request) error {
-	if f.OnReconcileMultiClusterRoleDeletion == nil {
-		return nil
-	}
-	return f.OnReconcileMultiClusterRoleDeletion(req)
+    if f.OnReconcileMultiClusterRoleDeletion == nil {
+        return nil
+    }
+    return f.OnReconcileMultiClusterRoleDeletion(req)
 }
 
 // Reconcile and finalize the MultiClusterRole Resource
 // implemented by the user
 type MultiClusterRoleFinalizer interface {
-	MultiClusterRoleReconciler
+    MultiClusterRoleReconciler
 
-	// name of the finalizer used by this handler.
-	// finalizer names should be unique for a single task
-	MultiClusterRoleFinalizerName() string
+    // name of the finalizer used by this handler.
+    // finalizer names should be unique for a single task
+    MultiClusterRoleFinalizerName() string
 
-	// finalize the object before it is deleted.
-	// Watchers created with a finalizing handler will a
-	FinalizeMultiClusterRole(obj *multicluster_solo_io_v1alpha1.MultiClusterRole) error
+    // finalize the object before it is deleted.
+    // Watchers created with a finalizing handler will a
+    FinalizeMultiClusterRole(obj *multicluster_solo_io_v1alpha1.MultiClusterRole) error
 }
 
 type MultiClusterRoleReconcileLoop interface {
-	RunMultiClusterRoleReconciler(ctx context.Context, rec MultiClusterRoleReconciler, predicates ...predicate.Predicate) error
+    RunMultiClusterRoleReconciler(ctx context.Context, rec MultiClusterRoleReconciler, predicates ...predicate.Predicate) error
 }
 
 type multiClusterRoleReconcileLoop struct {
-	loop reconcile.Loop
+    loop reconcile.Loop
 }
 
 func NewMultiClusterRoleReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) MultiClusterRoleReconcileLoop {
-	return &multiClusterRoleReconcileLoop{
-		// empty cluster indicates this reconciler is built for the local cluster
-		loop: reconcile.NewLoop(name, "", mgr, &multicluster_solo_io_v1alpha1.MultiClusterRole{}, options),
-	}
+    return &multiClusterRoleReconcileLoop{
+    	// empty cluster indicates this reconciler is built for the local cluster
+        loop: reconcile.NewLoop(name, "", mgr, &multicluster_solo_io_v1alpha1.MultiClusterRole{}, options),
+    }
 }
 
 func (c *multiClusterRoleReconcileLoop) RunMultiClusterRoleReconciler(ctx context.Context, reconciler MultiClusterRoleReconciler, predicates ...predicate.Predicate) error {
-	genericReconciler := genericMultiClusterRoleReconciler{
-		reconciler: reconciler,
-	}
+    genericReconciler := genericMultiClusterRoleReconciler{
+        reconciler: reconciler,
+    }
 
 	var reconcilerWrapper reconcile.Reconciler
 	if finalizingReconciler, ok := reconciler.(MultiClusterRoleFinalizer); ok {
-		reconcilerWrapper = genericMultiClusterRoleFinalizer{
-			genericMultiClusterRoleReconciler: genericReconciler,
-			finalizingReconciler:              finalizingReconciler,
-		}
-	} else {
-		reconcilerWrapper = genericReconciler
-	}
+        reconcilerWrapper = genericMultiClusterRoleFinalizer{
+            genericMultiClusterRoleReconciler: genericReconciler,
+            finalizingReconciler: finalizingReconciler,
+        }
+    } else {
+        reconcilerWrapper = genericReconciler
+    }
 	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
 }
 
 // genericMultiClusterRoleHandler implements a generic reconcile.Reconciler
 type genericMultiClusterRoleReconciler struct {
-	reconciler MultiClusterRoleReconciler
+    reconciler MultiClusterRoleReconciler
 }
 
 func (r genericMultiClusterRoleReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*multicluster_solo_io_v1alpha1.MultiClusterRole)
-	if !ok {
-		return reconcile.Result{}, errors.Errorf("internal error: MultiClusterRole handler received event for %T", object)
-	}
-	return r.reconciler.ReconcileMultiClusterRole(obj)
+    obj, ok := object.(*multicluster_solo_io_v1alpha1.MultiClusterRole)
+    if !ok {
+        return reconcile.Result{}, errors.Errorf("internal error: MultiClusterRole handler received event for %T", object)
+    }
+    return r.reconciler.ReconcileMultiClusterRole(obj)
 }
 
 func (r genericMultiClusterRoleReconciler) ReconcileDeletion(request reconcile.Request) error {
-	if deletionReconciler, ok := r.reconciler.(MultiClusterRoleDeletionReconciler); ok {
-		return deletionReconciler.ReconcileMultiClusterRoleDeletion(request)
-	}
-	return nil
+    if deletionReconciler, ok := r.reconciler.(MultiClusterRoleDeletionReconciler); ok {
+        return deletionReconciler.ReconcileMultiClusterRoleDeletion(request)
+    }
+    return nil
 }
 
 // genericMultiClusterRoleFinalizer implements a generic reconcile.FinalizingReconciler
 type genericMultiClusterRoleFinalizer struct {
-	genericMultiClusterRoleReconciler
-	finalizingReconciler MultiClusterRoleFinalizer
+    genericMultiClusterRoleReconciler
+    finalizingReconciler MultiClusterRoleFinalizer
 }
 
+
 func (r genericMultiClusterRoleFinalizer) FinalizerName() string {
-	return r.finalizingReconciler.MultiClusterRoleFinalizerName()
+    return r.finalizingReconciler.MultiClusterRoleFinalizerName()
 }
 
 func (r genericMultiClusterRoleFinalizer) Finalize(object ezkube.Object) error {
-	obj, ok := object.(*multicluster_solo_io_v1alpha1.MultiClusterRole)
-	if !ok {
-		return errors.Errorf("internal error: MultiClusterRole handler received event for %T", object)
-	}
-	return r.finalizingReconciler.FinalizeMultiClusterRole(obj)
+    obj, ok := object.(*multicluster_solo_io_v1alpha1.MultiClusterRole)
+    if !ok {
+        return errors.Errorf("internal error: MultiClusterRole handler received event for %T", object)
+    }
+    return r.finalizingReconciler.FinalizeMultiClusterRole(obj)
 }

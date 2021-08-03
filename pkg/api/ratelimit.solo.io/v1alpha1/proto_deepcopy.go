@@ -5,17 +5,16 @@
 package v1alpha1
 
 import (
-	proto "github.com/golang/protobuf/proto"
+    proto "github.com/golang/protobuf/proto"
 )
 
 // DeepCopyInto for the RateLimitConfig.Spec
 func (in *RateLimitConfigSpec) DeepCopyInto(out *RateLimitConfigSpec) {
-	p := proto.Clone(in).(*RateLimitConfigSpec)
-	*out = *p
+    p := proto.Clone(in).(*RateLimitConfigSpec)
+    *out = *p
 }
-
 // DeepCopyInto for the RateLimitConfig.Status
 func (in *RateLimitConfigStatus) DeepCopyInto(out *RateLimitConfigStatus) {
-	p := proto.Clone(in).(*RateLimitConfigStatus)
-	*out = *p
+    p := proto.Clone(in).(*RateLimitConfigStatus)
+    *out = *p
 }
