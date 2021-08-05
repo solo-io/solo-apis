@@ -256,3 +256,17 @@ func (mr *MockRateLimitConfigSetMockRecorder) Delta(newSet interface{}) *gomock.
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Delta), newSet)
 }
+
+// Clone mocks base method
+func (m *MockRateLimitConfigSet) Clone() v1alpha1sets.RateLimitConfigSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1alpha1sets.RateLimitConfigSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockRateLimitConfigSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Clone))
+}

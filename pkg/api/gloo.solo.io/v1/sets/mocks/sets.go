@@ -257,6 +257,20 @@ func (mr *MockSettingsSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockSettingsSet)(nil).Delta), newSet)
 }
 
+// Clone mocks base method
+func (m *MockSettingsSet) Clone() v1sets.SettingsSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.SettingsSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockSettingsSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockSettingsSet)(nil).Clone))
+}
+
 // MockUpstreamSet is a mock of UpstreamSet interface
 type MockUpstreamSet struct {
 	ctrl     *gomock.Controller
@@ -497,6 +511,20 @@ func (m *MockUpstreamSet) Delta(newSet v1sets.UpstreamSet) sets.ResourceDelta {
 func (mr *MockUpstreamSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockUpstreamSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockUpstreamSet) Clone() v1sets.UpstreamSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.UpstreamSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockUpstreamSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockUpstreamSet)(nil).Clone))
 }
 
 // MockUpstreamGroupSet is a mock of UpstreamGroupSet interface
@@ -741,6 +769,20 @@ func (mr *MockUpstreamGroupSetMockRecorder) Delta(newSet interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockUpstreamGroupSet)(nil).Delta), newSet)
 }
 
+// Clone mocks base method
+func (m *MockUpstreamGroupSet) Clone() v1sets.UpstreamGroupSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.UpstreamGroupSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockUpstreamGroupSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockUpstreamGroupSet)(nil).Clone))
+}
+
 // MockProxySet is a mock of ProxySet interface
 type MockProxySet struct {
 	ctrl     *gomock.Controller
@@ -981,4 +1023,18 @@ func (m *MockProxySet) Delta(newSet v1sets.ProxySet) sets.ResourceDelta {
 func (mr *MockProxySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockProxySet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockProxySet) Clone() v1sets.ProxySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.ProxySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockProxySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockProxySet)(nil).Clone))
 }
