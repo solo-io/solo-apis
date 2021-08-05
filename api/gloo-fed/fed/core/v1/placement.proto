@@ -1,15 +1,15 @@
 syntax = "proto3";
 package core.fed.solo.io;
 
+option (extproto.equal_all) = true;
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
-option (extproto.equal_all) = true;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/core/v1";
 
 import "google/protobuf/wrappers.proto";
 
-
+// Object Metadata to be written with the resource into the remote cluster
 message TemplateMetadata {
 
     map<string, string> annotations = 1;
@@ -48,6 +48,7 @@ message PlacementStatus {
         map<string, Namespace> namespaces = 1;
     }
 
+    // map containing the name of the cluster, with the associated Cluster namespaces.
     map<string, Cluster> clusters = 1;
 
     State state = 2;
