@@ -156,11 +156,11 @@ message HttpService {
     Request request = 2;
 
     message Response {
-        // When this is set, authorization response headers that have a will be added to the original client request and sent to the upstream.
+        // When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream.
         // Note that coexistent headers will be overridden.
         repeated string allowed_upstream_headers = 1;
 
-        // When this. is set, authorization response headers that will be added to the client's response when auth request is denied.
+        // When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied.
         // Note that when this list is *not* set, all the authorization response headers, except *Authority
         // (Host)* will be in the response to the client. When a header is included in this list, *Path*,
         // *Status*, *Content-Length*, *WWW-Authenticate* and *Location* are automatically added.
@@ -727,6 +727,7 @@ message PassThroughAuth {
 
     oneof protocol {
         PassThroughGrpc grpc = 1;
+        PassThroughHttp http = 2;
     }
 
     // Custom config to be passed per request to the passthrough auth service.
@@ -744,6 +745,59 @@ message PassThroughGrpc {
 
     // Timeout for the auth server to respond. Defaults to 5s
     google.protobuf.Duration connection_timeout = 2;
+}
+
+// Authorizes requests by making a POST request to a custom HTTP auth server
+// Assumes the request is authorized if the server returns a OK (200) status code,
+// else the request is unauthorized.
+message PassThroughHttp {
+    // Required: URL of the passthrough http service, is a fully qualified domain name.
+    // Example: http://ext-auth-service.svc.local:9001.
+    // Path provided in the URL will be respected.
+    string url = 1;
+
+    message Request {
+        // These headers will be copied from the incoming request to the request going
+        // to the auth server. By default, no headers are copied from the incoming request.
+        // Pseudo-headers such as `:Path`, and `:Method` can not be specified here.
+        repeated string allowed_headers = 1;
+
+        // These headers that will be included to the request to authorization service. Note that
+        // client request of the same key will be overridden.
+        // Pseudo-headers such as `:Path`, and `:Method` can not be specified here.
+        map<string, string> headers_to_add = 2;
+
+        // Whether or not to include the ext-auth state object in the passthrough request body.
+        // If pass_through_body, pass_through_filter_metadata and pass_through_state are false,
+        // the authorization request body will be empty.
+        bool pass_through_state = 3;
+
+        // Whether or not to include the filter metadata in the passthrough request body.
+        // If pass_through_body, pass_through_filter_metadata and pass_through_state are false,
+        // the authorization request body will be empty.
+        bool pass_through_filter_metadata = 4;
+
+        // Whether or not to include the body in the passthrough request body.
+        // If pass_through_body, pass_through_filter_metadata and pass_through_state are false,
+        // the authorization request body will be empty.
+        bool pass_through_body = 5;
+    }
+    Request request = 3;
+
+    message Response {
+        // When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream
+        // when the auth request is successful.
+        // If this is empty, by default, no authorization response headers will be added to the upstream request.
+        repeated string allowed_upstream_headers = 1;
+
+        // When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied.
+        // If this is empty, by default, no authorization response headers will be added to the client response.
+        repeated string allowed_client_headers_on_denied = 2;
+    }
+    Response response = 4;
+
+    // Timeout for the auth server to respond. Defaults to 5s
+    google.protobuf.Duration connection_timeout = 8;
 }
 
 /*

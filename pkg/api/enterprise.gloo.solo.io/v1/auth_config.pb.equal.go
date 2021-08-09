@@ -1420,6 +1420,18 @@ func (m *PassThroughAuth) Equal(that interface{}) bool {
 			}
 		}
 
+	case *PassThroughAuth_Http:
+
+		if h, ok := interface{}(m.GetHttp()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetHttp()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetHttp(), target.GetHttp()) {
+				return false
+			}
+		}
+
 	}
 
 	return true
@@ -1448,6 +1460,64 @@ func (m *PassThroughGrpc) Equal(that interface{}) bool {
 
 	if strings.Compare(m.GetAddress(), target.GetAddress()) != 0 {
 		return false
+	}
+
+	if h, ok := interface{}(m.GetConnectionTimeout()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetConnectionTimeout()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetConnectionTimeout(), target.GetConnectionTimeout()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *PassThroughHttp) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PassThroughHttp)
+	if !ok {
+		that2, ok := that.(PassThroughHttp)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetUrl(), target.GetUrl()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetRequest()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetRequest()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetRequest(), target.GetRequest()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetResponse()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetResponse()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetResponse(), target.GetResponse()) {
+			return false
+		}
 	}
 
 	if h, ok := interface{}(m.GetConnectionTimeout()).(equality.Equalizer); ok {
@@ -2294,6 +2364,110 @@ func (m *Ldap_ConnectionPool) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetInitialSize(), target.GetInitialSize()) {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *PassThroughHttp_Request) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PassThroughHttp_Request)
+	if !ok {
+		that2, ok := that.(PassThroughHttp_Request)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetAllowedHeaders()) != len(target.GetAllowedHeaders()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedHeaders() {
+
+		if strings.Compare(v, target.GetAllowedHeaders()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetHeadersToAdd()) != len(target.GetHeadersToAdd()) {
+		return false
+	}
+	for k, v := range m.GetHeadersToAdd() {
+
+		if strings.Compare(v, target.GetHeadersToAdd()[k]) != 0 {
+			return false
+		}
+
+	}
+
+	if m.GetPassThroughState() != target.GetPassThroughState() {
+		return false
+	}
+
+	if m.GetPassThroughFilterMetadata() != target.GetPassThroughFilterMetadata() {
+		return false
+	}
+
+	if m.GetPassThroughBody() != target.GetPassThroughBody() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *PassThroughHttp_Response) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PassThroughHttp_Response)
+	if !ok {
+		that2, ok := that.(PassThroughHttp_Response)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetAllowedUpstreamHeaders()) != len(target.GetAllowedUpstreamHeaders()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedUpstreamHeaders() {
+
+		if strings.Compare(v, target.GetAllowedUpstreamHeaders()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetAllowedClientHeadersOnDenied()) != len(target.GetAllowedClientHeadersOnDenied()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedClientHeadersOnDenied() {
+
+		if strings.Compare(v, target.GetAllowedClientHeadersOnDenied()[idx]) != 0 {
+			return false
+		}
+
 	}
 
 	return true
