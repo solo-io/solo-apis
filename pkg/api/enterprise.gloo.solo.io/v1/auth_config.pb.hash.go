@@ -1549,6 +1549,10 @@ func (m *PassThroughHttp) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	if _, err = hasher.Write([]byte(m.GetRootCAPathEnvVar())); err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
