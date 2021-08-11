@@ -17,7 +17,7 @@ In order to keep API definitions in sync, we automate the process of syncing lon
 1. A [Solo-Apis GHA](.github/workflows/README.md/#tag-commit-on-lts-branch) notices that a commit is pushed to a LTS branch (ie `gloo-v1.8.x`) and tags the commit. This tag is referenced by other repositories.
 
 ### A Gloo Edge release occurred, but the Gloo GHA didn't run, how do I manually sync the APIs?
-As noted above, the automated process is kicked of by a Gloo Edge release. In the case where the appropriate GitHub action doesn't run or fails, we need to manually complete what that GitHub action does.
+As noted above, the automated process is kicked off by a Gloo Edge release. In the case where the appropriate GitHub action doesn't run or fails, we need to manually complete what that GitHub action does.
 
 1. In gloo, checkout the release tag to sync (`git checkout v1.8.4`)
 1. In solo-apis, checkout corresponding LTS branch (`git checkout gloo-v1.8.x`) and pull down the latest changes
