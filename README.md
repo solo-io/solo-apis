@@ -17,7 +17,7 @@ In order to keep API definitions in sync, we automate the process of syncing lon
 1. A [Solo-Apis GHA](.github/workflows/README.md/#tag-commit-on-lts-branch) notices that a commit is pushed to a LTS branch (ie `gloo-v1.8.x`) and tags the commit. This tag is referenced by other repositories.
 
 ### A Gloo Edge release occurred, but the Gloo GHA didn't run, how do I trigger the GHA manually?
-As noted above, the automated process is kicked off by a Gloo Edge release. In the case where the appropriate GitHub action doesn't run or fails, we need to manually trigger the Github action.
+As noted above, the automated process is typically triggered by a Gloo Edge release. In the case where the appropriate GitHub action doesn't run or fails, we need to manually trigger the Github action.
 
 In the [Gloo workflow to push API changes to solo-apis](https://github.com/solo-io/gloo/actions/workflows/push-solo-apis-branch.yaml) there is an option to `Run Workflow`.
 
