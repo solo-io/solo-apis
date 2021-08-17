@@ -10,7 +10,7 @@ In order to keep API definitions in sync, we automate the process of syncing lon
 
 ### How do Gloo Edge APIs get synced?
 
-1. A Gloo release occurs (ie v1.8.1 is released from LTS branch v1.8.x)
+1. A Gloo release occurs (ie `v1.8.1` is released from LTS branch `v1.8.x`)
 1. A Gloo GHA generates the new APIs and pushes those to a branch (ie `sync-apis/gloo-v1.8.x/gloo-v1.8.1`)
 1. A [Solo-Apis GHA](.github/workflows/README.md#create-pr-for-lts-branch) notices that a commit was pushed to a `sync-apis` prefixed branch, and creates a PR.
 1. **That PR is manually reviewed by a developer, and eventually approved**
@@ -28,3 +28,15 @@ As noted above, the automated process is kicked off by a Gloo Edge release. In t
 1. Commit those changes with a useful commit message, and push to a remote branch with the same name as the local branch.
 1. Wait a minute or two, and notice that a Pull Request is automatically opened in the solo-apis repo.
 1. At this point, we have reached parity with the automated process. All that remains is to have the PR reviewed, and once it is merged, it will be tagged automatically.
+
+### How do I release the Gloo Edge API sync results?
+This repo does not require an ordinary "release" and instead publishes tags that represent the API at a point in time.
+
+If you followed the previous steps and either the automated or manual sync completed, once that PR is merged, it should automatically be tagged. [A GitHub Action](.github/workflows/README.md/#tag-commit-on-lts-branch) is responsible for executing this.
+
+If this GitHub Action did not complete for some reason, you'll need to manually publish a tag. Below we outline the steps taken to release a tag for a Gloo `v1.8.4` release:
+
+1. Checkout the branch that contains the updated API. (`git checkout gloo-v1.8.x`)
+1. Pull down the latest changes (`git pull`)
+1. Create an annotated tag (`git tag -a gloo-v1.8.4 -m "Sync Gloo APIs v1.8.4"`)
+1. Push the tag (`git push origin gloo-v1.8.4`)
