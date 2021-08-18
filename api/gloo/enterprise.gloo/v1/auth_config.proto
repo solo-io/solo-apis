@@ -156,11 +156,11 @@ message HttpService {
     Request request = 2;
 
     message Response {
-        // When this is set, authorization response headers that have a will be added to the original client request and sent to the upstream.
+        // When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream.
         // Note that coexistent headers will be overridden.
         repeated string allowed_upstream_headers = 1;
 
-        // When this. is set, authorization response headers that will be added to the client's response when auth request is denied.
+        // When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied.
         // Note that when this list is *not* set, all the authorization response headers, except *Authority
         // (Host)* will be in the response to the client. When a header is included in this list, *Path*,
         // *Status*, *Content-Length*, *WWW-Authenticate* and *Location* are automatically added.
@@ -481,6 +481,10 @@ message OidcAuthorizationCode {
     // in the future we may implement this:
     // add optional configuration for validation of the access token received during the OIDC flow
     // AccessTokenValidation access_token_validation = 8;
+
+    // If set, the randomly generated session id will be sent to the token endpoint as part of the code exchange
+    // The session id is used as the key for sessions in Redis
+    string session_id_header_name = 16;
 }
 
 message AccessTokenValidation {
@@ -667,6 +671,17 @@ message OpaAuth {
     // or an array with boolean as the first element. A boolean `true` value means that the request
     // will be authorized. Any other value, or error, means that the request will be denied.
     string query = 2;
+
+    // Additional Options for Opa Auth configuration.
+    OpaAuthOptions options = 3;
+}
+
+message OpaAuthOptions {
+    // Decreases OPA latency by speeding up conversion of input to the OPA engine. 
+    // If this is set to true, only http_request and state fields which are a scalar, map, or string array 
+    // are included in the request input. All other fields are dropped. Dropped fields will not be evaluated by the OPA engine. 
+    // By default, this is set to false and all fields are evaluated by OPA.
+    bool fast_input_conversion = 1;
 }
 
 // Authenticates and authorizes requests by querying an LDAP server. Gloo makes the following assumptions:
@@ -712,6 +727,7 @@ message PassThroughAuth {
 
     oneof protocol {
         PassThroughGrpc grpc = 1;
+        PassThroughHttp http = 2;
     }
 
     // Custom config to be passed per request to the passthrough auth service.
@@ -729,6 +745,98 @@ message PassThroughGrpc {
 
     // Timeout for the auth server to respond. Defaults to 5s
     google.protobuf.Duration connection_timeout = 2;
+}
+
+// Authorizes requests by making a POST HTTP/1 request to a custom HTTP auth server
+// Assumes the request is authorized if the server returns a OK (200) status code,
+// else the request is unauthorized.
+message PassThroughHttp {
+    // Required: URL of the passthrough http service, is a fully qualified domain name.
+    // Example: http://ext-auth-service.svc.local:9001. Path provided in the URL will be respected.
+    // To use https, provide the cert in the HTTPS_PASSTHROUGH_CA_CERT environment variable to the ext-auth-service
+    // pod as a base64-encoded string
+    string url = 1;
+
+    /* The passthrough http request can be configured to pass through the incoming request body,
+     the ext-auth state (which is shared between different auth methods within one ext-auth instance), and
+     the [filterMetadata](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/data_sharing_between_filters#metadata)
+     The body of the passthrough auth request will be a JSON as follows:
+     {
+       "body" : string,
+       "state": object (map[string]interface{}),
+       "filterMetadata": object (map[string]protobuf.Struct),
+       "config": object (protobuf.Struct),
+     }
+     `config` is the struct block specified under the passthrough auth configuration.
+     If `passthrough_body`, `passthrough_state`, `passthrough_filter_metadata`, and `config` are all false/nil,
+     the body of the auth request will remain empty. Setting any of these will increase latency slightly due to
+     JSON marshalling.
+
+    */
+    message Request {
+        // These headers will be copied from the incoming request to the request going
+        // to the auth server. By default, no headers are copied from the incoming request.
+        // Pseudo-headers such as `:Path`, and `:Method` can not be specified here.
+        repeated string allowed_headers = 1;
+
+        // These headers that will be included to the request to authorization service. Note that
+        // client request of the same key will be overridden.
+        // Pseudo-headers such as `:Path`, and `:Method` can not be specified here.
+        map<string, string> headers_to_add = 2;
+
+        // Whether or not to include the ext-auth state object in the passthrough request body.
+        // If this is set to true, it is expected that the state is returned in the HTTP response from the
+        // passthrough service. The state received from the response will be the state that is shared with
+        // other ext-auth service methods.
+        // If pass_through_body, pass_through_filter_metadata and pass_through_state are false,
+        // the authorization request body will be empty. A non-empty body will increase latency times
+        // slightly, so this is set to false by default, and should only be set to to true if the
+        // extauth state is needed in the auth request.
+        bool pass_through_state = 3;
+
+        // Whether or not to include the filter metadata in the passthrough request body.
+        // If pass_through_body, pass_through_filter_metadata and pass_through_state are false,
+        // the authorization request body will be empty. A non-empty body will increase latency times
+        // slightly, so this is set to false by default, and should only be set to to true if the
+        // filter metadata is needed in the auth request.
+        bool pass_through_filter_metadata = 4;
+
+        // Whether or not to include the body in the passthrough request body.
+        // In order for this to work, the settings.extauth.requestBody must be set in the Gloo Edge Settings CRD so that
+        // the request body is buffered and sent to the ext-auth service.
+        // If pass_through_body, pass_through_filter_metadata and pass_through_state are false,
+        // the authorization request body will be empty. A non-empty body will increase latency times
+        // slightly, so this is set to false by default, and should only be set to to true if the
+        // request body is needed in the auth request.
+        bool pass_through_body = 5;
+    }
+    Request request = 3;
+
+    message Response {
+        // When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream
+        // when the auth request is successful. These will be appended to any request headers that already exist.
+        // If this is empty, by default, no authorization response headers will be added to the upstream request.
+        repeated string allowed_upstream_headers = 1;
+
+        // When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied.
+        // If the response header already exists, it will replace the response header.
+        // If this is empty, by default, no authorization response headers will be added to the client response.
+        repeated string allowed_client_headers_on_denied = 2;
+
+        // If this is set to true, the body of the response from the http passthrough auth server is expected to have shape
+        // {
+        //   "state": object (map[string]interface{})
+        // }
+        // The state will be marshalled from the response body and this is the state that will be passed on to other auth configs.
+        // Because of the marshalling from JSON to Go map, this will add some latency to the request.
+        // If the marshalling fails, the authorization check will fail and the request will be unauthorized after the ext-auth-service pod
+        // logs the marshal error.
+        bool read_state_from_response = 3;
+    }
+    Response response = 4;
+
+    // Timeout for the auth server to respond. Defaults to 5s
+    google.protobuf.Duration connection_timeout = 8;
 }
 
 /*
@@ -858,6 +966,10 @@ message ExtAuthConfig {
         // in the future we may implement this:
         // add optional configuration for validation of the access token received during the OIDC flow
         // AccessTokenValidation access_token_validation = 8;
+
+        // If set, the randomly generated session id will be sent to the token endpoint as part of the code exchange
+        // The session id is used as the key for sessions in Redis
+        string session_id_header_name = 16;
     }
 
     message AccessTokenValidationConfig {
@@ -1038,6 +1150,9 @@ message ExtAuthConfig {
         // or an array with boolean as the first element. A boolean `true` value means that the request
         // will be authorized. Any other value, or error, means that the request will be denied.
         string query = 2;
+
+        // Additional Options for Opa Auth configuration.
+        OpaAuthOptions options = 3;
     }
 
     message Config {
