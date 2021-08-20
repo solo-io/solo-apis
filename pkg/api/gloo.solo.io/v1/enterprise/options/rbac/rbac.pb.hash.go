@@ -145,6 +145,10 @@ func (m *Policy) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	if _, err = hasher.Write([]byte(m.GetNestedClaimDelimiter())); err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -215,6 +219,11 @@ func (m *JWTPrincipal) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if _, err = hasher.Write([]byte(m.GetProvider())); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetMatcher())
+	if err != nil {
 		return 0, err
 	}
 
