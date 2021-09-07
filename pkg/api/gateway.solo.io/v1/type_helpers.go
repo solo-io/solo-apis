@@ -11,3 +11,9 @@ type RouteTableSlice []*RouteTable
 
 // VirtualServiceSlice represents a slice of *VirtualService
 type VirtualServiceSlice []*VirtualService
+
+// VirtualHostOptionSlice represents a slice of *VirtualHostOption
+type VirtualHostOptionSlice []*VirtualHostOption
+
+// RouteOptionSlice represents a slice of *RouteOption
+type RouteOptionSlice []*RouteOption

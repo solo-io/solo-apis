@@ -234,23 +234,5 @@ func (m *CustomAction) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
-	for _, v := range m.GetRegexActions() {
-
-		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if val, err := hashstructure.Hash(v, nil); err != nil {
-				return 0, err
-			} else {
-				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	}
-
 	return hasher.Sum64(), nil
 }

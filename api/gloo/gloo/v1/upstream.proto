@@ -35,7 +35,7 @@ import "google/protobuf/wrappers.proto";
 message UpstreamSpec {
 
 
-    // Status indicates the validation status of the resource. Status is read-only by clients, and set by gloo during validation
+    reserved 1;
 
 
     // Upstreams and their configuration can be automatically by Gloo Discovery
@@ -137,4 +137,10 @@ message UpstreamStatus {
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
+}
+
+
+
+message UpstreamNamespacedStatuses {
+    map<string, UpstreamStatus> statuses = 1;
 }

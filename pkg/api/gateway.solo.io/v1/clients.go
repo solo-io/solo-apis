@@ -45,6 +45,10 @@ type Clientset interface {
 	RouteTables() RouteTableClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	VirtualServices() VirtualServiceClient
+	// clienset for the gateway.solo.io/v1/v1 APIs
+	VirtualHostOptions() VirtualHostOptionClient
+	// clienset for the gateway.solo.io/v1/v1 APIs
+	RouteOptions() RouteOptionClient
 }
 
 type clientSet struct {
@@ -82,6 +86,16 @@ func (c *clientSet) RouteTables() RouteTableClient {
 // clienset for the gateway.solo.io/v1/v1 APIs
 func (c *clientSet) VirtualServices() VirtualServiceClient {
 	return NewVirtualServiceClient(c.client)
+}
+
+// clienset for the gateway.solo.io/v1/v1 APIs
+func (c *clientSet) VirtualHostOptions() VirtualHostOptionClient {
+	return NewVirtualHostOptionClient(c.client)
+}
+
+// clienset for the gateway.solo.io/v1/v1 APIs
+func (c *clientSet) RouteOptions() RouteOptionClient {
+	return NewRouteOptionClient(c.client)
 }
 
 // Reader knows how to read and list Gateways.
@@ -508,4 +522,288 @@ func (m *multiclusterVirtualServiceClient) Cluster(cluster string) (VirtualServi
 		return nil, err
 	}
 	return NewVirtualServiceClient(client), nil
+}
+
+// Reader knows how to read and list VirtualHostOptions.
+type VirtualHostOptionReader interface {
+	// Get retrieves a VirtualHostOption for the given object key
+	GetVirtualHostOption(ctx context.Context, key client.ObjectKey) (*VirtualHostOption, error)
+
+	// List retrieves list of VirtualHostOptions for a given namespace and list options.
+	ListVirtualHostOption(ctx context.Context, opts ...client.ListOption) (*VirtualHostOptionList, error)
+}
+
+// VirtualHostOptionTransitionFunction instructs the VirtualHostOptionWriter how to transition between an existing
+// VirtualHostOption object and a desired on an Upsert
+type VirtualHostOptionTransitionFunction func(existing, desired *VirtualHostOption) error
+
+// Writer knows how to create, delete, and update VirtualHostOptions.
+type VirtualHostOptionWriter interface {
+	// Create saves the VirtualHostOption object.
+	CreateVirtualHostOption(ctx context.Context, obj *VirtualHostOption, opts ...client.CreateOption) error
+
+	// Delete deletes the VirtualHostOption object.
+	DeleteVirtualHostOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given VirtualHostOption object.
+	UpdateVirtualHostOption(ctx context.Context, obj *VirtualHostOption, opts ...client.UpdateOption) error
+
+	// Patch patches the given VirtualHostOption object.
+	PatchVirtualHostOption(ctx context.Context, obj *VirtualHostOption, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all VirtualHostOption objects matching the given options.
+	DeleteAllOfVirtualHostOption(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the VirtualHostOption object.
+	UpsertVirtualHostOption(ctx context.Context, obj *VirtualHostOption, transitionFuncs ...VirtualHostOptionTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a VirtualHostOption object.
+type VirtualHostOptionStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given VirtualHostOption object.
+	UpdateVirtualHostOptionStatus(ctx context.Context, obj *VirtualHostOption, opts ...client.UpdateOption) error
+
+	// Patch patches the given VirtualHostOption object's subresource.
+	PatchVirtualHostOptionStatus(ctx context.Context, obj *VirtualHostOption, patch client.Patch, opts ...client.PatchOption) error
+}
+
+// Client knows how to perform CRUD operations on VirtualHostOptions.
+type VirtualHostOptionClient interface {
+	VirtualHostOptionReader
+	VirtualHostOptionWriter
+	VirtualHostOptionStatusWriter
+}
+
+type virtualHostOptionClient struct {
+	client client.Client
+}
+
+func NewVirtualHostOptionClient(client client.Client) *virtualHostOptionClient {
+	return &virtualHostOptionClient{client: client}
+}
+
+func (c *virtualHostOptionClient) GetVirtualHostOption(ctx context.Context, key client.ObjectKey) (*VirtualHostOption, error) {
+	obj := &VirtualHostOption{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *virtualHostOptionClient) ListVirtualHostOption(ctx context.Context, opts ...client.ListOption) (*VirtualHostOptionList, error) {
+	list := &VirtualHostOptionList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *virtualHostOptionClient) CreateVirtualHostOption(ctx context.Context, obj *VirtualHostOption, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *virtualHostOptionClient) DeleteVirtualHostOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &VirtualHostOption{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *virtualHostOptionClient) UpdateVirtualHostOption(ctx context.Context, obj *VirtualHostOption, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *virtualHostOptionClient) PatchVirtualHostOption(ctx context.Context, obj *VirtualHostOption, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *virtualHostOptionClient) DeleteAllOfVirtualHostOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &VirtualHostOption{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *virtualHostOptionClient) UpsertVirtualHostOption(ctx context.Context, obj *VirtualHostOption, transitionFuncs ...VirtualHostOptionTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*VirtualHostOption), desired.(*VirtualHostOption)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *virtualHostOptionClient) UpdateVirtualHostOptionStatus(ctx context.Context, obj *VirtualHostOption, opts ...client.UpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *virtualHostOptionClient) PatchVirtualHostOptionStatus(ctx context.Context, obj *VirtualHostOption, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides VirtualHostOptionClients for multiple clusters.
+type MulticlusterVirtualHostOptionClient interface {
+	// Cluster returns a VirtualHostOptionClient for the given cluster
+	Cluster(cluster string) (VirtualHostOptionClient, error)
+}
+
+type multiclusterVirtualHostOptionClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterVirtualHostOptionClient(client multicluster.Client) MulticlusterVirtualHostOptionClient {
+	return &multiclusterVirtualHostOptionClient{client: client}
+}
+
+func (m *multiclusterVirtualHostOptionClient) Cluster(cluster string) (VirtualHostOptionClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewVirtualHostOptionClient(client), nil
+}
+
+// Reader knows how to read and list RouteOptions.
+type RouteOptionReader interface {
+	// Get retrieves a RouteOption for the given object key
+	GetRouteOption(ctx context.Context, key client.ObjectKey) (*RouteOption, error)
+
+	// List retrieves list of RouteOptions for a given namespace and list options.
+	ListRouteOption(ctx context.Context, opts ...client.ListOption) (*RouteOptionList, error)
+}
+
+// RouteOptionTransitionFunction instructs the RouteOptionWriter how to transition between an existing
+// RouteOption object and a desired on an Upsert
+type RouteOptionTransitionFunction func(existing, desired *RouteOption) error
+
+// Writer knows how to create, delete, and update RouteOptions.
+type RouteOptionWriter interface {
+	// Create saves the RouteOption object.
+	CreateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.CreateOption) error
+
+	// Delete deletes the RouteOption object.
+	DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given RouteOption object.
+	UpdateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.UpdateOption) error
+
+	// Patch patches the given RouteOption object.
+	PatchRouteOption(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all RouteOption objects matching the given options.
+	DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the RouteOption object.
+	UpsertRouteOption(ctx context.Context, obj *RouteOption, transitionFuncs ...RouteOptionTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a RouteOption object.
+type RouteOptionStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given RouteOption object.
+	UpdateRouteOptionStatus(ctx context.Context, obj *RouteOption, opts ...client.UpdateOption) error
+
+	// Patch patches the given RouteOption object's subresource.
+	PatchRouteOptionStatus(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.PatchOption) error
+}
+
+// Client knows how to perform CRUD operations on RouteOptions.
+type RouteOptionClient interface {
+	RouteOptionReader
+	RouteOptionWriter
+	RouteOptionStatusWriter
+}
+
+type routeOptionClient struct {
+	client client.Client
+}
+
+func NewRouteOptionClient(client client.Client) *routeOptionClient {
+	return &routeOptionClient{client: client}
+}
+
+func (c *routeOptionClient) GetRouteOption(ctx context.Context, key client.ObjectKey) (*RouteOption, error) {
+	obj := &RouteOption{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *routeOptionClient) ListRouteOption(ctx context.Context, opts ...client.ListOption) (*RouteOptionList, error) {
+	list := &RouteOptionList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *routeOptionClient) CreateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &RouteOption{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) UpdateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) PatchRouteOption(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *routeOptionClient) DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &RouteOption{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) UpsertRouteOption(ctx context.Context, obj *RouteOption, transitionFuncs ...RouteOptionTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*RouteOption), desired.(*RouteOption)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *routeOptionClient) UpdateRouteOptionStatus(ctx context.Context, obj *RouteOption, opts ...client.UpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) PatchRouteOptionStatus(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides RouteOptionClients for multiple clusters.
+type MulticlusterRouteOptionClient interface {
+	// Cluster returns a RouteOptionClient for the given cluster
+	Cluster(cluster string) (RouteOptionClient, error)
+}
+
+type multiclusterRouteOptionClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterRouteOptionClient(client multicluster.Client) MulticlusterRouteOptionClient {
+	return &multiclusterRouteOptionClient{client: client}
+}
+
+func (m *multiclusterRouteOptionClient) Cluster(cluster string) (RouteOptionClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewRouteOptionClient(client), nil
 }

@@ -39,6 +39,8 @@ message ProxySpec {
     // If no listeners are specified, the instances configured with the proxy resource will not accept connections.
     repeated Listener listeners = 2;
 
+    reserved 6;
+
 
 }
 
@@ -304,6 +306,7 @@ message UpstreamGroupSpec {
     // The destinations that are part of this upstream group.
     repeated WeightedDestination destinations = 1;
 
+    reserved 6;
 
 }
 
@@ -387,6 +390,7 @@ message DirectResponseAction {
     string body = 2;
 }
 
+
 message UpstreamGroupStatus {
 	enum State {
 			// Pending status indicates the resource has not yet been validated
@@ -415,6 +419,12 @@ message UpstreamGroupStatus {
 
 
 
+message UpstreamGroupNamespacedStatuses {
+    map<string, UpstreamGroupStatus> statuses = 1;
+}
+
+
+
 message ProxyStatus {
 	enum State {
 			// Pending status indicates the resource has not yet been validated
@@ -439,4 +449,10 @@ message ProxyStatus {
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
+}
+
+
+
+message ProxyNamespacedStatuses {
+    map<string, ProxyStatus> statuses = 1;
 }

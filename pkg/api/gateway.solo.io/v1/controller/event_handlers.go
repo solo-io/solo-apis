@@ -337,3 +337,217 @@ func (h genericVirtualServiceHandler) Generic(object client.Object) error {
 	}
 	return h.handler.GenericVirtualService(obj)
 }
+
+// Handle events for the VirtualHostOption Resource
+// DEPRECATED: Prefer reconciler pattern.
+type VirtualHostOptionEventHandler interface {
+	CreateVirtualHostOption(obj *gateway_solo_io_v1.VirtualHostOption) error
+	UpdateVirtualHostOption(old, new *gateway_solo_io_v1.VirtualHostOption) error
+	DeleteVirtualHostOption(obj *gateway_solo_io_v1.VirtualHostOption) error
+	GenericVirtualHostOption(obj *gateway_solo_io_v1.VirtualHostOption) error
+}
+
+type VirtualHostOptionEventHandlerFuncs struct {
+	OnCreate  func(obj *gateway_solo_io_v1.VirtualHostOption) error
+	OnUpdate  func(old, new *gateway_solo_io_v1.VirtualHostOption) error
+	OnDelete  func(obj *gateway_solo_io_v1.VirtualHostOption) error
+	OnGeneric func(obj *gateway_solo_io_v1.VirtualHostOption) error
+}
+
+func (f *VirtualHostOptionEventHandlerFuncs) CreateVirtualHostOption(obj *gateway_solo_io_v1.VirtualHostOption) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *VirtualHostOptionEventHandlerFuncs) DeleteVirtualHostOption(obj *gateway_solo_io_v1.VirtualHostOption) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *VirtualHostOptionEventHandlerFuncs) UpdateVirtualHostOption(objOld, objNew *gateway_solo_io_v1.VirtualHostOption) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *VirtualHostOptionEventHandlerFuncs) GenericVirtualHostOption(obj *gateway_solo_io_v1.VirtualHostOption) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type VirtualHostOptionEventWatcher interface {
+	AddEventHandler(ctx context.Context, h VirtualHostOptionEventHandler, predicates ...predicate.Predicate) error
+}
+
+type virtualHostOptionEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewVirtualHostOptionEventWatcher(name string, mgr manager.Manager) VirtualHostOptionEventWatcher {
+	return &virtualHostOptionEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &gateway_solo_io_v1.VirtualHostOption{}),
+	}
+}
+
+func (c *virtualHostOptionEventWatcher) AddEventHandler(ctx context.Context, h VirtualHostOptionEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericVirtualHostOptionHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericVirtualHostOptionHandler implements a generic events.EventHandler
+type genericVirtualHostOptionHandler struct {
+	handler VirtualHostOptionEventHandler
+}
+
+func (h genericVirtualHostOptionHandler) Create(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.VirtualHostOption)
+	if !ok {
+		return errors.Errorf("internal error: VirtualHostOption handler received event for %T", object)
+	}
+	return h.handler.CreateVirtualHostOption(obj)
+}
+
+func (h genericVirtualHostOptionHandler) Delete(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.VirtualHostOption)
+	if !ok {
+		return errors.Errorf("internal error: VirtualHostOption handler received event for %T", object)
+	}
+	return h.handler.DeleteVirtualHostOption(obj)
+}
+
+func (h genericVirtualHostOptionHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*gateway_solo_io_v1.VirtualHostOption)
+	if !ok {
+		return errors.Errorf("internal error: VirtualHostOption handler received event for %T", old)
+	}
+	objNew, ok := new.(*gateway_solo_io_v1.VirtualHostOption)
+	if !ok {
+		return errors.Errorf("internal error: VirtualHostOption handler received event for %T", new)
+	}
+	return h.handler.UpdateVirtualHostOption(objOld, objNew)
+}
+
+func (h genericVirtualHostOptionHandler) Generic(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.VirtualHostOption)
+	if !ok {
+		return errors.Errorf("internal error: VirtualHostOption handler received event for %T", object)
+	}
+	return h.handler.GenericVirtualHostOption(obj)
+}
+
+// Handle events for the RouteOption Resource
+// DEPRECATED: Prefer reconciler pattern.
+type RouteOptionEventHandler interface {
+	CreateRouteOption(obj *gateway_solo_io_v1.RouteOption) error
+	UpdateRouteOption(old, new *gateway_solo_io_v1.RouteOption) error
+	DeleteRouteOption(obj *gateway_solo_io_v1.RouteOption) error
+	GenericRouteOption(obj *gateway_solo_io_v1.RouteOption) error
+}
+
+type RouteOptionEventHandlerFuncs struct {
+	OnCreate  func(obj *gateway_solo_io_v1.RouteOption) error
+	OnUpdate  func(old, new *gateway_solo_io_v1.RouteOption) error
+	OnDelete  func(obj *gateway_solo_io_v1.RouteOption) error
+	OnGeneric func(obj *gateway_solo_io_v1.RouteOption) error
+}
+
+func (f *RouteOptionEventHandlerFuncs) CreateRouteOption(obj *gateway_solo_io_v1.RouteOption) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *RouteOptionEventHandlerFuncs) DeleteRouteOption(obj *gateway_solo_io_v1.RouteOption) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *RouteOptionEventHandlerFuncs) UpdateRouteOption(objOld, objNew *gateway_solo_io_v1.RouteOption) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *RouteOptionEventHandlerFuncs) GenericRouteOption(obj *gateway_solo_io_v1.RouteOption) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type RouteOptionEventWatcher interface {
+	AddEventHandler(ctx context.Context, h RouteOptionEventHandler, predicates ...predicate.Predicate) error
+}
+
+type routeOptionEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewRouteOptionEventWatcher(name string, mgr manager.Manager) RouteOptionEventWatcher {
+	return &routeOptionEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &gateway_solo_io_v1.RouteOption{}),
+	}
+}
+
+func (c *routeOptionEventWatcher) AddEventHandler(ctx context.Context, h RouteOptionEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericRouteOptionHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericRouteOptionHandler implements a generic events.EventHandler
+type genericRouteOptionHandler struct {
+	handler RouteOptionEventHandler
+}
+
+func (h genericRouteOptionHandler) Create(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
+	}
+	return h.handler.CreateRouteOption(obj)
+}
+
+func (h genericRouteOptionHandler) Delete(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
+	}
+	return h.handler.DeleteRouteOption(obj)
+}
+
+func (h genericRouteOptionHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", old)
+	}
+	objNew, ok := new.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", new)
+	}
+	return h.handler.UpdateRouteOption(objOld, objNew)
+}
+
+func (h genericRouteOptionHandler) Generic(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
+	}
+	return h.handler.GenericRouteOption(obj)
+}

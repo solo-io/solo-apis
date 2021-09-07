@@ -367,3 +367,237 @@ func (r genericVirtualServiceFinalizer) Finalize(object ezkube.Object) error {
 	}
 	return r.finalizingReconciler.FinalizeVirtualService(obj)
 }
+
+// Reconcile Upsert events for the VirtualHostOption Resource.
+// implemented by the user
+type VirtualHostOptionReconciler interface {
+	ReconcileVirtualHostOption(obj *gateway_solo_io_v1.VirtualHostOption) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the VirtualHostOption Resource.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type VirtualHostOptionDeletionReconciler interface {
+	ReconcileVirtualHostOptionDeletion(req reconcile.Request) error
+}
+
+type VirtualHostOptionReconcilerFuncs struct {
+	OnReconcileVirtualHostOption         func(obj *gateway_solo_io_v1.VirtualHostOption) (reconcile.Result, error)
+	OnReconcileVirtualHostOptionDeletion func(req reconcile.Request) error
+}
+
+func (f *VirtualHostOptionReconcilerFuncs) ReconcileVirtualHostOption(obj *gateway_solo_io_v1.VirtualHostOption) (reconcile.Result, error) {
+	if f.OnReconcileVirtualHostOption == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileVirtualHostOption(obj)
+}
+
+func (f *VirtualHostOptionReconcilerFuncs) ReconcileVirtualHostOptionDeletion(req reconcile.Request) error {
+	if f.OnReconcileVirtualHostOptionDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileVirtualHostOptionDeletion(req)
+}
+
+// Reconcile and finalize the VirtualHostOption Resource
+// implemented by the user
+type VirtualHostOptionFinalizer interface {
+	VirtualHostOptionReconciler
+
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	VirtualHostOptionFinalizerName() string
+
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeVirtualHostOption(obj *gateway_solo_io_v1.VirtualHostOption) error
+}
+
+type VirtualHostOptionReconcileLoop interface {
+	RunVirtualHostOptionReconciler(ctx context.Context, rec VirtualHostOptionReconciler, predicates ...predicate.Predicate) error
+}
+
+type virtualHostOptionReconcileLoop struct {
+	loop reconcile.Loop
+}
+
+func NewVirtualHostOptionReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) VirtualHostOptionReconcileLoop {
+	return &virtualHostOptionReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gateway_solo_io_v1.VirtualHostOption{}, options),
+	}
+}
+
+func (c *virtualHostOptionReconcileLoop) RunVirtualHostOptionReconciler(ctx context.Context, reconciler VirtualHostOptionReconciler, predicates ...predicate.Predicate) error {
+	genericReconciler := genericVirtualHostOptionReconciler{
+		reconciler: reconciler,
+	}
+
+	var reconcilerWrapper reconcile.Reconciler
+	if finalizingReconciler, ok := reconciler.(VirtualHostOptionFinalizer); ok {
+		reconcilerWrapper = genericVirtualHostOptionFinalizer{
+			genericVirtualHostOptionReconciler: genericReconciler,
+			finalizingReconciler:               finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
+	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
+}
+
+// genericVirtualHostOptionHandler implements a generic reconcile.Reconciler
+type genericVirtualHostOptionReconciler struct {
+	reconciler VirtualHostOptionReconciler
+}
+
+func (r genericVirtualHostOptionReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*gateway_solo_io_v1.VirtualHostOption)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: VirtualHostOption handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileVirtualHostOption(obj)
+}
+
+func (r genericVirtualHostOptionReconciler) ReconcileDeletion(request reconcile.Request) error {
+	if deletionReconciler, ok := r.reconciler.(VirtualHostOptionDeletionReconciler); ok {
+		return deletionReconciler.ReconcileVirtualHostOptionDeletion(request)
+	}
+	return nil
+}
+
+// genericVirtualHostOptionFinalizer implements a generic reconcile.FinalizingReconciler
+type genericVirtualHostOptionFinalizer struct {
+	genericVirtualHostOptionReconciler
+	finalizingReconciler VirtualHostOptionFinalizer
+}
+
+func (r genericVirtualHostOptionFinalizer) FinalizerName() string {
+	return r.finalizingReconciler.VirtualHostOptionFinalizerName()
+}
+
+func (r genericVirtualHostOptionFinalizer) Finalize(object ezkube.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.VirtualHostOption)
+	if !ok {
+		return errors.Errorf("internal error: VirtualHostOption handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeVirtualHostOption(obj)
+}
+
+// Reconcile Upsert events for the RouteOption Resource.
+// implemented by the user
+type RouteOptionReconciler interface {
+	ReconcileRouteOption(obj *gateway_solo_io_v1.RouteOption) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the RouteOption Resource.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type RouteOptionDeletionReconciler interface {
+	ReconcileRouteOptionDeletion(req reconcile.Request) error
+}
+
+type RouteOptionReconcilerFuncs struct {
+	OnReconcileRouteOption         func(obj *gateway_solo_io_v1.RouteOption) (reconcile.Result, error)
+	OnReconcileRouteOptionDeletion func(req reconcile.Request) error
+}
+
+func (f *RouteOptionReconcilerFuncs) ReconcileRouteOption(obj *gateway_solo_io_v1.RouteOption) (reconcile.Result, error) {
+	if f.OnReconcileRouteOption == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileRouteOption(obj)
+}
+
+func (f *RouteOptionReconcilerFuncs) ReconcileRouteOptionDeletion(req reconcile.Request) error {
+	if f.OnReconcileRouteOptionDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileRouteOptionDeletion(req)
+}
+
+// Reconcile and finalize the RouteOption Resource
+// implemented by the user
+type RouteOptionFinalizer interface {
+	RouteOptionReconciler
+
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	RouteOptionFinalizerName() string
+
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeRouteOption(obj *gateway_solo_io_v1.RouteOption) error
+}
+
+type RouteOptionReconcileLoop interface {
+	RunRouteOptionReconciler(ctx context.Context, rec RouteOptionReconciler, predicates ...predicate.Predicate) error
+}
+
+type routeOptionReconcileLoop struct {
+	loop reconcile.Loop
+}
+
+func NewRouteOptionReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) RouteOptionReconcileLoop {
+	return &routeOptionReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gateway_solo_io_v1.RouteOption{}, options),
+	}
+}
+
+func (c *routeOptionReconcileLoop) RunRouteOptionReconciler(ctx context.Context, reconciler RouteOptionReconciler, predicates ...predicate.Predicate) error {
+	genericReconciler := genericRouteOptionReconciler{
+		reconciler: reconciler,
+	}
+
+	var reconcilerWrapper reconcile.Reconciler
+	if finalizingReconciler, ok := reconciler.(RouteOptionFinalizer); ok {
+		reconcilerWrapper = genericRouteOptionFinalizer{
+			genericRouteOptionReconciler: genericReconciler,
+			finalizingReconciler:         finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
+	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
+}
+
+// genericRouteOptionHandler implements a generic reconcile.Reconciler
+type genericRouteOptionReconciler struct {
+	reconciler RouteOptionReconciler
+}
+
+func (r genericRouteOptionReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: RouteOption handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileRouteOption(obj)
+}
+
+func (r genericRouteOptionReconciler) ReconcileDeletion(request reconcile.Request) error {
+	if deletionReconciler, ok := r.reconciler.(RouteOptionDeletionReconciler); ok {
+		return deletionReconciler.ReconcileRouteOptionDeletion(request)
+	}
+	return nil
+}
+
+// genericRouteOptionFinalizer implements a generic reconcile.FinalizingReconciler
+type genericRouteOptionFinalizer struct {
+	genericRouteOptionReconciler
+	finalizingReconciler RouteOptionFinalizer
+}
+
+func (r genericRouteOptionFinalizer) FinalizerName() string {
+	return r.finalizingReconciler.RouteOptionFinalizerName()
+}
+
+func (r genericRouteOptionFinalizer) Finalize(object ezkube.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeRouteOption(obj)
+}

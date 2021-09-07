@@ -127,6 +127,7 @@ message VirtualServiceSpec {
     // and can be changed after creating the resource.
     string display_name = 3 [(extproto.skip_hashing) = true];
 
+    reserved 6;
 
 }
 
@@ -341,4 +342,10 @@ message VirtualServiceStatus {
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
+}
+
+
+
+message VirtualServiceNamespacedStatuses {
+    map<string, VirtualServiceStatus> statuses = 1;
 }

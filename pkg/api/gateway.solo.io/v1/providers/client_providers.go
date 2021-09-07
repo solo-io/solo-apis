@@ -100,3 +100,59 @@ func VirtualServiceClientFromConfigFactoryProvider() VirtualServiceClientFromCon
 		return clients.VirtualServices(), nil
 	}
 }
+
+// Provider for VirtualHostOptionClient from Clientset
+func VirtualHostOptionClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.VirtualHostOptionClient {
+	return clients.VirtualHostOptions()
+}
+
+// Provider for VirtualHostOption Client from Client
+func VirtualHostOptionClientProvider(client client.Client) gateway_solo_io_v1.VirtualHostOptionClient {
+	return gateway_solo_io_v1.NewVirtualHostOptionClient(client)
+}
+
+type VirtualHostOptionClientFactory func(client client.Client) gateway_solo_io_v1.VirtualHostOptionClient
+
+func VirtualHostOptionClientFactoryProvider() VirtualHostOptionClientFactory {
+	return VirtualHostOptionClientProvider
+}
+
+type VirtualHostOptionClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.VirtualHostOptionClient, error)
+
+func VirtualHostOptionClientFromConfigFactoryProvider() VirtualHostOptionClientFromConfigFactory {
+	return func(cfg *rest.Config) (gateway_solo_io_v1.VirtualHostOptionClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.VirtualHostOptions(), nil
+	}
+}
+
+// Provider for RouteOptionClient from Clientset
+func RouteOptionClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.RouteOptionClient {
+	return clients.RouteOptions()
+}
+
+// Provider for RouteOption Client from Client
+func RouteOptionClientProvider(client client.Client) gateway_solo_io_v1.RouteOptionClient {
+	return gateway_solo_io_v1.NewRouteOptionClient(client)
+}
+
+type RouteOptionClientFactory func(client client.Client) gateway_solo_io_v1.RouteOptionClient
+
+func RouteOptionClientFactoryProvider() RouteOptionClientFactory {
+	return RouteOptionClientProvider
+}
+
+type RouteOptionClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.RouteOptionClient, error)
+
+func RouteOptionClientFromConfigFactoryProvider() RouteOptionClientFromConfigFactory {
+	return func(cfg *rest.Config) (gateway_solo_io_v1.RouteOptionClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.RouteOptions(), nil
+	}
+}
