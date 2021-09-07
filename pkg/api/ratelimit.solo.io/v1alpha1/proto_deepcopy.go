@@ -15,7 +15,7 @@ func (in *RateLimitConfigSpec) DeepCopyInto(out *RateLimitConfigSpec) {
 }
 
 // DeepCopyInto for the RateLimitConfig.Status
-func (in *RateLimitConfigStatus) DeepCopyInto(out *RateLimitConfigStatus) {
-	p := proto.Clone(in).(*RateLimitConfigStatus)
+func (in *RateLimitConfigNamespacedStatuses) DeepCopyInto(out *RateLimitConfigNamespacedStatuses) {
+	p := proto.Clone(in).(*RateLimitConfigNamespacedStatuses)
 	*out = *p
 }

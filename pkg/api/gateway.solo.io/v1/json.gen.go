@@ -35,14 +35,14 @@ func (this *GatewaySpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for GatewayStatus
-func (this *GatewayStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for GatewayNamespacedStatuses
+func (this *GatewayNamespacedStatuses) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for GatewayStatus
-func (this *GatewayStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for GatewayNamespacedStatuses
+func (this *GatewayNamespacedStatuses) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -57,14 +57,14 @@ func (this *RouteTableSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for RouteTableStatus
-func (this *RouteTableStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for RouteTableNamespacedStatuses
+func (this *RouteTableNamespacedStatuses) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for RouteTableStatus
-func (this *RouteTableStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for RouteTableNamespacedStatuses
+func (this *RouteTableNamespacedStatuses) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -79,14 +79,14 @@ func (this *VirtualServiceSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for VirtualServiceStatus
-func (this *VirtualServiceStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for VirtualServiceNamespacedStatuses
+func (this *VirtualServiceNamespacedStatuses) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for VirtualServiceStatus
-func (this *VirtualServiceStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for VirtualServiceNamespacedStatuses
+func (this *VirtualServiceNamespacedStatuses) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -101,14 +101,14 @@ func (this *VirtualHostOptionSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for VirtualHostOptionStatus
-func (this *VirtualHostOptionStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for VirtualHostOptionNamespacedStatuses
+func (this *VirtualHostOptionNamespacedStatuses) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for VirtualHostOptionStatus
-func (this *VirtualHostOptionStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for VirtualHostOptionNamespacedStatuses
+func (this *VirtualHostOptionNamespacedStatuses) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -123,13 +123,13 @@ func (this *RouteOptionSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for RouteOptionStatus
-func (this *RouteOptionStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for RouteOptionNamespacedStatuses
+func (this *RouteOptionNamespacedStatuses) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for RouteOptionStatus
-func (this *RouteOptionStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for RouteOptionNamespacedStatuses
+func (this *RouteOptionNamespacedStatuses) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }

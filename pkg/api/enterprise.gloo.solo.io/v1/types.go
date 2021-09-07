@@ -25,8 +25,8 @@ type AuthConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AuthConfigSpec   `json:"spec,omitempty"`
-	Status AuthConfigStatus `json:"status,omitempty"`
+	Spec   AuthConfigSpec               `json:"spec,omitempty"`
+	Status AuthConfigNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.

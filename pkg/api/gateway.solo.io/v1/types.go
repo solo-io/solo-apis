@@ -25,8 +25,8 @@ type Gateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   GatewaySpec   `json:"spec,omitempty"`
-	Status GatewayStatus `json:"status,omitempty"`
+	Spec   GatewaySpec               `json:"spec,omitempty"`
+	Status GatewayNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
@@ -60,8 +60,8 @@ type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   RouteTableSpec   `json:"spec,omitempty"`
-	Status RouteTableStatus `json:"status,omitempty"`
+	Spec   RouteTableSpec               `json:"spec,omitempty"`
+	Status RouteTableNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
@@ -95,8 +95,8 @@ type VirtualService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   VirtualServiceSpec   `json:"spec,omitempty"`
-	Status VirtualServiceStatus `json:"status,omitempty"`
+	Spec   VirtualServiceSpec               `json:"spec,omitempty"`
+	Status VirtualServiceNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
@@ -130,8 +130,8 @@ type VirtualHostOption struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   VirtualHostOptionSpec   `json:"spec,omitempty"`
-	Status VirtualHostOptionStatus `json:"status,omitempty"`
+	Spec   VirtualHostOptionSpec               `json:"spec,omitempty"`
+	Status VirtualHostOptionNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
@@ -165,8 +165,8 @@ type RouteOption struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   RouteOptionSpec   `json:"spec,omitempty"`
-	Status RouteOptionStatus `json:"status,omitempty"`
+	Spec   RouteOptionSpec               `json:"spec,omitempty"`
+	Status RouteOptionNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.

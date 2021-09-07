@@ -25,8 +25,8 @@ type MultiClusterRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   MultiClusterRoleSpec   `json:"spec,omitempty"`
-	Status MultiClusterRoleStatus `json:"status,omitempty"`
+	Spec   MultiClusterRoleSpec               `json:"spec,omitempty"`
+	Status MultiClusterRoleNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.

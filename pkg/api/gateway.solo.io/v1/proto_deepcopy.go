@@ -15,8 +15,8 @@ func (in *GatewaySpec) DeepCopyInto(out *GatewaySpec) {
 }
 
 // DeepCopyInto for the Gateway.Status
-func (in *GatewayStatus) DeepCopyInto(out *GatewayStatus) {
-	p := proto.Clone(in).(*GatewayStatus)
+func (in *GatewayNamespacedStatuses) DeepCopyInto(out *GatewayNamespacedStatuses) {
+	p := proto.Clone(in).(*GatewayNamespacedStatuses)
 	*out = *p
 }
 
@@ -27,8 +27,8 @@ func (in *RouteTableSpec) DeepCopyInto(out *RouteTableSpec) {
 }
 
 // DeepCopyInto for the RouteTable.Status
-func (in *RouteTableStatus) DeepCopyInto(out *RouteTableStatus) {
-	p := proto.Clone(in).(*RouteTableStatus)
+func (in *RouteTableNamespacedStatuses) DeepCopyInto(out *RouteTableNamespacedStatuses) {
+	p := proto.Clone(in).(*RouteTableNamespacedStatuses)
 	*out = *p
 }
 
@@ -39,8 +39,8 @@ func (in *VirtualServiceSpec) DeepCopyInto(out *VirtualServiceSpec) {
 }
 
 // DeepCopyInto for the VirtualService.Status
-func (in *VirtualServiceStatus) DeepCopyInto(out *VirtualServiceStatus) {
-	p := proto.Clone(in).(*VirtualServiceStatus)
+func (in *VirtualServiceNamespacedStatuses) DeepCopyInto(out *VirtualServiceNamespacedStatuses) {
+	p := proto.Clone(in).(*VirtualServiceNamespacedStatuses)
 	*out = *p
 }
 
@@ -51,8 +51,8 @@ func (in *VirtualHostOptionSpec) DeepCopyInto(out *VirtualHostOptionSpec) {
 }
 
 // DeepCopyInto for the VirtualHostOption.Status
-func (in *VirtualHostOptionStatus) DeepCopyInto(out *VirtualHostOptionStatus) {
-	p := proto.Clone(in).(*VirtualHostOptionStatus)
+func (in *VirtualHostOptionNamespacedStatuses) DeepCopyInto(out *VirtualHostOptionNamespacedStatuses) {
+	p := proto.Clone(in).(*VirtualHostOptionNamespacedStatuses)
 	*out = *p
 }
 
@@ -63,7 +63,7 @@ func (in *RouteOptionSpec) DeepCopyInto(out *RouteOptionSpec) {
 }
 
 // DeepCopyInto for the RouteOption.Status
-func (in *RouteOptionStatus) DeepCopyInto(out *RouteOptionStatus) {
-	p := proto.Clone(in).(*RouteOptionStatus)
+func (in *RouteOptionNamespacedStatuses) DeepCopyInto(out *RouteOptionNamespacedStatuses) {
+	p := proto.Clone(in).(*RouteOptionNamespacedStatuses)
 	*out = *p
 }

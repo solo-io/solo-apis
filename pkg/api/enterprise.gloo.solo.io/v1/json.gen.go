@@ -35,13 +35,13 @@ func (this *AuthConfigSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for AuthConfigStatus
-func (this *AuthConfigStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for AuthConfigNamespacedStatuses
+func (this *AuthConfigNamespacedStatuses) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for AuthConfigStatus
-func (this *AuthConfigStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for AuthConfigNamespacedStatuses
+func (this *AuthConfigNamespacedStatuses) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }

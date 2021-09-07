@@ -35,13 +35,13 @@ func (this *RateLimitConfigSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for RateLimitConfigStatus
-func (this *RateLimitConfigStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for RateLimitConfigNamespacedStatuses
+func (this *RateLimitConfigNamespacedStatuses) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for RateLimitConfigStatus
-func (this *RateLimitConfigStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for RateLimitConfigNamespacedStatuses
+func (this *RateLimitConfigNamespacedStatuses) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }

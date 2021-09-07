@@ -15,7 +15,7 @@ func (in *MultiClusterRoleSpec) DeepCopyInto(out *MultiClusterRoleSpec) {
 }
 
 // DeepCopyInto for the MultiClusterRole.Status
-func (in *MultiClusterRoleStatus) DeepCopyInto(out *MultiClusterRoleStatus) {
-	p := proto.Clone(in).(*MultiClusterRoleStatus)
+func (in *MultiClusterRoleNamespacedStatuses) DeepCopyInto(out *MultiClusterRoleNamespacedStatuses) {
+	p := proto.Clone(in).(*MultiClusterRoleNamespacedStatuses)
 	*out = *p
 }

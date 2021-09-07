@@ -35,13 +35,13 @@ func (this *MultiClusterRoleSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for MultiClusterRoleStatus
-func (this *MultiClusterRoleStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for MultiClusterRoleNamespacedStatuses
+func (this *MultiClusterRoleNamespacedStatuses) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for MultiClusterRoleStatus
-func (this *MultiClusterRoleStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for MultiClusterRoleNamespacedStatuses
+func (this *MultiClusterRoleNamespacedStatuses) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }

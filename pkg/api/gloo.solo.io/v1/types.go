@@ -25,8 +25,8 @@ type Settings struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SettingsSpec   `json:"spec,omitempty"`
-	Status SettingsStatus `json:"status,omitempty"`
+	Spec   SettingsSpec               `json:"spec,omitempty"`
+	Status SettingsNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
@@ -60,8 +60,8 @@ type Upstream struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   UpstreamSpec   `json:"spec,omitempty"`
-	Status UpstreamStatus `json:"status,omitempty"`
+	Spec   UpstreamSpec               `json:"spec,omitempty"`
+	Status UpstreamNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
@@ -95,8 +95,8 @@ type UpstreamGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   UpstreamGroupSpec   `json:"spec,omitempty"`
-	Status UpstreamGroupStatus `json:"status,omitempty"`
+	Spec   UpstreamGroupSpec               `json:"spec,omitempty"`
+	Status UpstreamGroupNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
@@ -130,8 +130,8 @@ type Proxy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ProxySpec   `json:"spec,omitempty"`
-	Status ProxyStatus `json:"status,omitempty"`
+	Spec   ProxySpec               `json:"spec,omitempty"`
+	Status ProxyNamespacedStatuses `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
