@@ -34,6 +34,10 @@ a proxy-specific identifier.
 */
 message ProxySpec {
 
+
+    // This field is populated when the proxy compression is turned on.
+    string compressedSpec = 3;
+
     // Define here each listener the proxy should create.
     // Listeners define the a set of behaviors for a single bind address/port where the proxy will listen
     // If no listeners are specified, the instances configured with the proxy resource will not accept connections.
