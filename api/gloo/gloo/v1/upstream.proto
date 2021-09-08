@@ -138,9 +138,3 @@ message UpstreamStatus {
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
 }
-
-
-
-message UpstreamNamespacedStatuses {
-    map<string, UpstreamStatus> statuses = 1;
-}

@@ -15,7 +15,7 @@ func (in *AuthConfigSpec) DeepCopyInto(out *AuthConfigSpec) {
 }
 
 // DeepCopyInto for the AuthConfig.Status
-func (in *AuthConfigNamespacedStatuses) DeepCopyInto(out *AuthConfigNamespacedStatuses) {
-	p := proto.Clone(in).(*AuthConfigNamespacedStatuses)
+func (in *AuthConfigStatus) DeepCopyInto(out *AuthConfigStatus) {
+	p := proto.Clone(in).(*AuthConfigStatus)
 	*out = *p
 }

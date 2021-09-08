@@ -35,14 +35,14 @@ func (this *SettingsSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for SettingsNamespacedStatuses
-func (this *SettingsNamespacedStatuses) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for SettingsStatus
+func (this *SettingsStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for SettingsNamespacedStatuses
-func (this *SettingsNamespacedStatuses) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for SettingsStatus
+func (this *SettingsStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -57,14 +57,14 @@ func (this *UpstreamSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for UpstreamNamespacedStatuses
-func (this *UpstreamNamespacedStatuses) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for UpstreamStatus
+func (this *UpstreamStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for UpstreamNamespacedStatuses
-func (this *UpstreamNamespacedStatuses) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for UpstreamStatus
+func (this *UpstreamStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -79,14 +79,14 @@ func (this *UpstreamGroupSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for UpstreamGroupNamespacedStatuses
-func (this *UpstreamGroupNamespacedStatuses) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for UpstreamGroupStatus
+func (this *UpstreamGroupStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for UpstreamGroupNamespacedStatuses
-func (this *UpstreamGroupNamespacedStatuses) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for UpstreamGroupStatus
+func (this *UpstreamGroupStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
@@ -101,13 +101,13 @@ func (this *ProxySpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for ProxyNamespacedStatuses
-func (this *ProxyNamespacedStatuses) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for ProxyStatus
+func (this *ProxyStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for ProxyNamespacedStatuses
-func (this *ProxyNamespacedStatuses) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for ProxyStatus
+func (this *ProxyStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }

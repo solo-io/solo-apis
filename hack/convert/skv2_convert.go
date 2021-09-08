@@ -143,12 +143,6 @@ func appendStatusMessage(fileContents []byte, relevantType string) []byte {
 	}
 	fileContents = append(fileContents, statusBytes.Bytes()...)
 
-	// Append NamespacedStatus message
-	namespacedStatusBytes := &bytes.Buffer{}
-	if err := namespacedStatusTemplate.Execute(namespacedStatusBytes, relevantType); err != nil {
-		panic(err)
-	}
-	fileContents = append(fileContents, namespacedStatusBytes.Bytes()...)
 	return fileContents
 }
 
@@ -191,14 +185,6 @@ message {{ . }}Status {
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
-}
-
-`))
-
-var namespacedStatusTemplate = template.Must(template.New("namespaced_statuses").Parse(`
-
-message {{ . }}NamespacedStatuses {
-    map<string, {{ . }}Status> statuses = 1;
 }
 
 `))

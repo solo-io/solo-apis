@@ -35,7 +35,7 @@ func makeGroup(
 		}
 		if !resource.noStatus {
 			res.Status = &model.Field{Type: model.Type{
-				Name:         resource.kind + "NamespacedStatuses",
+				Name:         resource.kind + "Status",
 				ProtoPackage: resource.protoPackage,
 				GoPackage:    resource.goPackage,
 			}}

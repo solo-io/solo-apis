@@ -1240,9 +1240,3 @@ message AuthConfigStatus {
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
 }
-
-
-
-message AuthConfigNamespacedStatuses {
-    map<string, AuthConfigStatus> statuses = 1;
-}

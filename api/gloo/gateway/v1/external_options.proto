@@ -248,12 +248,6 @@ message VirtualHostOptionStatus {
 
 
 
-message VirtualHostOptionNamespacedStatuses {
-    map<string, VirtualHostOptionStatus> statuses = 1;
-}
-
-
-
 message RouteOptionStatus {
 	enum State {
 			// Pending status indicates the resource has not yet been validated
@@ -278,10 +272,4 @@ message RouteOptionStatus {
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
-}
-
-
-
-message RouteOptionNamespacedStatuses {
-    map<string, RouteOptionStatus> statuses = 1;
 }

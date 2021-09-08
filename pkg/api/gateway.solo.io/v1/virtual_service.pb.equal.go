@@ -522,47 +522,6 @@ func (m *VirtualServiceStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *VirtualServiceNamespacedStatuses) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*VirtualServiceNamespacedStatuses)
-	if !ok {
-		that2, ok := that.(VirtualServiceNamespacedStatuses)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if len(m.GetStatuses()) != len(target.GetStatuses()) {
-		return false
-	}
-	for k, v := range m.GetStatuses() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetStatuses()[k]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetStatuses()[k]) {
-				return false
-			}
-		}
-
-	}
-
-	return true
-}
-
-// Equal function
 func (m *RouteTableSelector_Expression) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil

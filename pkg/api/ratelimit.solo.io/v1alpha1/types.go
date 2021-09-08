@@ -25,8 +25,8 @@ type RateLimitConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   RateLimitConfigSpec               `json:"spec,omitempty"`
-	Status RateLimitConfigNamespacedStatuses `json:"status,omitempty"`
+	Spec   RateLimitConfigSpec   `json:"spec,omitempty"`
+	Status RateLimitConfigStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.

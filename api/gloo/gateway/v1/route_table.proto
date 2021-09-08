@@ -211,9 +211,3 @@ message RouteTableStatus {
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
 }
-
-
-
-message RouteTableNamespacedStatuses {
-    map<string, RouteTableStatus> statuses = 1;
-}

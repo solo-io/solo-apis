@@ -15,8 +15,8 @@ func (in *SettingsSpec) DeepCopyInto(out *SettingsSpec) {
 }
 
 // DeepCopyInto for the Settings.Status
-func (in *SettingsNamespacedStatuses) DeepCopyInto(out *SettingsNamespacedStatuses) {
-	p := proto.Clone(in).(*SettingsNamespacedStatuses)
+func (in *SettingsStatus) DeepCopyInto(out *SettingsStatus) {
+	p := proto.Clone(in).(*SettingsStatus)
 	*out = *p
 }
 
@@ -27,8 +27,8 @@ func (in *UpstreamSpec) DeepCopyInto(out *UpstreamSpec) {
 }
 
 // DeepCopyInto for the Upstream.Status
-func (in *UpstreamNamespacedStatuses) DeepCopyInto(out *UpstreamNamespacedStatuses) {
-	p := proto.Clone(in).(*UpstreamNamespacedStatuses)
+func (in *UpstreamStatus) DeepCopyInto(out *UpstreamStatus) {
+	p := proto.Clone(in).(*UpstreamStatus)
 	*out = *p
 }
 
@@ -39,8 +39,8 @@ func (in *UpstreamGroupSpec) DeepCopyInto(out *UpstreamGroupSpec) {
 }
 
 // DeepCopyInto for the UpstreamGroup.Status
-func (in *UpstreamGroupNamespacedStatuses) DeepCopyInto(out *UpstreamGroupNamespacedStatuses) {
-	p := proto.Clone(in).(*UpstreamGroupNamespacedStatuses)
+func (in *UpstreamGroupStatus) DeepCopyInto(out *UpstreamGroupStatus) {
+	p := proto.Clone(in).(*UpstreamGroupStatus)
 	*out = *p
 }
 
@@ -51,7 +51,7 @@ func (in *ProxySpec) DeepCopyInto(out *ProxySpec) {
 }
 
 // DeepCopyInto for the Proxy.Status
-func (in *ProxyNamespacedStatuses) DeepCopyInto(out *ProxyNamespacedStatuses) {
-	p := proto.Clone(in).(*ProxyNamespacedStatuses)
+func (in *ProxyStatus) DeepCopyInto(out *ProxyStatus) {
+	p := proto.Clone(in).(*ProxyStatus)
 	*out = *p
 }

@@ -15,8 +15,8 @@ func (in *GatewaySpec) DeepCopyInto(out *GatewaySpec) {
 }
 
 // DeepCopyInto for the Gateway.Status
-func (in *GatewayNamespacedStatuses) DeepCopyInto(out *GatewayNamespacedStatuses) {
-	p := proto.Clone(in).(*GatewayNamespacedStatuses)
+func (in *GatewayStatus) DeepCopyInto(out *GatewayStatus) {
+	p := proto.Clone(in).(*GatewayStatus)
 	*out = *p
 }
 
@@ -27,8 +27,8 @@ func (in *RouteTableSpec) DeepCopyInto(out *RouteTableSpec) {
 }
 
 // DeepCopyInto for the RouteTable.Status
-func (in *RouteTableNamespacedStatuses) DeepCopyInto(out *RouteTableNamespacedStatuses) {
-	p := proto.Clone(in).(*RouteTableNamespacedStatuses)
+func (in *RouteTableStatus) DeepCopyInto(out *RouteTableStatus) {
+	p := proto.Clone(in).(*RouteTableStatus)
 	*out = *p
 }
 
@@ -39,8 +39,8 @@ func (in *VirtualServiceSpec) DeepCopyInto(out *VirtualServiceSpec) {
 }
 
 // DeepCopyInto for the VirtualService.Status
-func (in *VirtualServiceNamespacedStatuses) DeepCopyInto(out *VirtualServiceNamespacedStatuses) {
-	p := proto.Clone(in).(*VirtualServiceNamespacedStatuses)
+func (in *VirtualServiceStatus) DeepCopyInto(out *VirtualServiceStatus) {
+	p := proto.Clone(in).(*VirtualServiceStatus)
 	*out = *p
 }
 
@@ -51,8 +51,8 @@ func (in *VirtualHostOptionSpec) DeepCopyInto(out *VirtualHostOptionSpec) {
 }
 
 // DeepCopyInto for the VirtualHostOption.Status
-func (in *VirtualHostOptionNamespacedStatuses) DeepCopyInto(out *VirtualHostOptionNamespacedStatuses) {
-	p := proto.Clone(in).(*VirtualHostOptionNamespacedStatuses)
+func (in *VirtualHostOptionStatus) DeepCopyInto(out *VirtualHostOptionStatus) {
+	p := proto.Clone(in).(*VirtualHostOptionStatus)
 	*out = *p
 }
 
@@ -63,7 +63,7 @@ func (in *RouteOptionSpec) DeepCopyInto(out *RouteOptionSpec) {
 }
 
 // DeepCopyInto for the RouteOption.Status
-func (in *RouteOptionNamespacedStatuses) DeepCopyInto(out *RouteOptionNamespacedStatuses) {
-	p := proto.Clone(in).(*RouteOptionNamespacedStatuses)
+func (in *RouteOptionStatus) DeepCopyInto(out *RouteOptionStatus) {
+	p := proto.Clone(in).(*RouteOptionStatus)
 	*out = *p
 }

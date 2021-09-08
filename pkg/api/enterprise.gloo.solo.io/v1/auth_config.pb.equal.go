@@ -1652,47 +1652,6 @@ func (m *AuthConfigStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *AuthConfigNamespacedStatuses) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*AuthConfigNamespacedStatuses)
-	if !ok {
-		that2, ok := that.(AuthConfigNamespacedStatuses)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if len(m.GetStatuses()) != len(target.GetStatuses()) {
-		return false
-	}
-	for k, v := range m.GetStatuses() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetStatuses()[k]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetStatuses()[k]) {
-				return false
-			}
-		}
-
-	}
-
-	return true
-}
-
-// Equal function
 func (m *AuthConfigSpec_Config) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
