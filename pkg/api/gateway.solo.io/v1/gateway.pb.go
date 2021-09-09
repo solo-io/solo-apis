@@ -194,7 +194,7 @@ type GatewaySpec struct {
 	//	*GatewaySpec_TcpGateway
 	GatewayType isGatewaySpec_GatewayType `protobuf_oneof:"GatewayType"`
 	//
-	// Names of the [`Proxy`](https://gloo.solo.io/api/github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto.sk/)
+	// Names of the [`Proxy`](https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto.sk/)
 	// resources to generate from this gateway. If other gateways exist which point to the same proxy,
 	// Gloo will join them together.
 	//
