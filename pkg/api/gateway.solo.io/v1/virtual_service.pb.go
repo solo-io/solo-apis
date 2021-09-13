@@ -976,6 +976,53 @@ func (x *VirtualServiceStatus) GetDetails() *_struct.Struct {
 	return nil
 }
 
+type VirtualServiceNamespacedStatuses struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Statuses map[string]*VirtualServiceStatus `protobuf:"bytes,1,rep,name=statuses,proto3" json:"statuses,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (x *VirtualServiceNamespacedStatuses) Reset() {
+	*x = VirtualServiceNamespacedStatuses{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *VirtualServiceNamespacedStatuses) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VirtualServiceNamespacedStatuses) ProtoMessage() {}
+
+func (x *VirtualServiceNamespacedStatuses) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VirtualServiceNamespacedStatuses.ProtoReflect.Descriptor instead.
+func (*VirtualServiceNamespacedStatuses) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *VirtualServiceNamespacedStatuses) GetStatuses() map[string]*VirtualServiceStatus {
+	if x != nil {
+		return x.Statuses
+	}
+	return nil
+}
+
 type RouteTableSelector_Expression struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -992,7 +1039,7 @@ type RouteTableSelector_Expression struct {
 func (x *RouteTableSelector_Expression) Reset() {
 	*x = RouteTableSelector_Expression{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes[8]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1005,7 +1052,7 @@ func (x *RouteTableSelector_Expression) String() string {
 func (*RouteTableSelector_Expression) ProtoMessage() {}
 
 func (x *RouteTableSelector_Expression) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes[8]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1236,12 +1283,26 @@ var file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_
 	0x74, 0x65, 0x12, 0x0b, 0x0a, 0x07, 0x50, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x10, 0x00, 0x12,
 	0x0c, 0x0a, 0x08, 0x41, 0x63, 0x63, 0x65, 0x70, 0x74, 0x65, 0x64, 0x10, 0x01, 0x12, 0x0c, 0x0a,
 	0x08, 0x52, 0x65, 0x6a, 0x65, 0x63, 0x74, 0x65, 0x64, 0x10, 0x02, 0x12, 0x0b, 0x0a, 0x07, 0x57,
-	0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x10, 0x03, 0x42, 0x41, 0x5a, 0x37, 0x67, 0x69, 0x74, 0x68,
-	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x73,
-	0x6f, 0x6c, 0x6f, 0x2d, 0x61, 0x70, 0x69, 0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69,
-	0x2f, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f,
-	0x2f, 0x76, 0x31, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x10, 0x03, 0x22, 0xe3, 0x01, 0x0a, 0x20, 0x56, 0x69, 0x72,
+	0x74, 0x75, 0x61, 0x6c, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x73,
+	0x70, 0x61, 0x63, 0x65, 0x64, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x12, 0x5b, 0x0a,
+	0x08, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x3f, 0x2e, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69,
+	0x6f, 0x2e, 0x56, 0x69, 0x72, 0x74, 0x75, 0x61, 0x6c, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x64, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x65, 0x73, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79,
+	0x52, 0x08, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x1a, 0x62, 0x0a, 0x0d, 0x53, 0x74,
+	0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b,
+	0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x3b, 0x0a,
+	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x67,
+	0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x56,
+	0x69, 0x72, 0x74, 0x75, 0x61, 0x6c, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x53, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x42, 0x41,
+	0x5a, 0x37, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c,
+	0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x61, 0x70, 0x69, 0x73, 0x2f, 0x70,
+	0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x2e, 0x73,
+	0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x31, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04,
+	0x01, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1257,7 +1318,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto
 }
 
 var file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_goTypes = []interface{}{
 	(RouteTableSelector_Expression_Operator)(0), // 0: gateway.solo.io.RouteTableSelector.Expression.Operator
 	(VirtualServiceStatus_State)(0),             // 1: gateway.solo.io.VirtualServiceStatus.State
@@ -1268,50 +1329,54 @@ var file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_
 	(*DelegateAction)(nil),                      // 6: gateway.solo.io.DelegateAction
 	(*RouteTableSelector)(nil),                  // 7: gateway.solo.io.RouteTableSelector
 	(*VirtualServiceStatus)(nil),                // 8: gateway.solo.io.VirtualServiceStatus
-	nil,                                         // 9: gateway.solo.io.RouteTableSelector.LabelsEntry
-	(*RouteTableSelector_Expression)(nil),       // 10: gateway.solo.io.RouteTableSelector.Expression
-	nil,                                         // 11: gateway.solo.io.VirtualServiceStatus.SubresourceStatusesEntry
-	(*v1.SslConfig)(nil),                        // 12: gloo.solo.io.SslConfig
-	(*v1.VirtualHostOptions)(nil),               // 13: gloo.solo.io.VirtualHostOptions
-	(*matchers.Matcher)(nil),                    // 14: matchers.core.gloo.solo.io.Matcher
-	(*wrappers.BoolValue)(nil),                  // 15: google.protobuf.BoolValue
-	(*v1.RouteAction)(nil),                      // 16: gloo.solo.io.RouteAction
-	(*v1.RedirectAction)(nil),                   // 17: gloo.solo.io.RedirectAction
-	(*v1.DirectResponseAction)(nil),             // 18: gloo.solo.io.DirectResponseAction
-	(*v1.RouteOptions)(nil),                     // 19: gloo.solo.io.RouteOptions
-	(*core.ResourceRef)(nil),                    // 20: core.solo.io.ResourceRef
-	(*_struct.Struct)(nil),                      // 21: google.protobuf.Struct
+	(*VirtualServiceNamespacedStatuses)(nil),    // 9: gateway.solo.io.VirtualServiceNamespacedStatuses
+	nil,                                         // 10: gateway.solo.io.RouteTableSelector.LabelsEntry
+	(*RouteTableSelector_Expression)(nil),       // 11: gateway.solo.io.RouteTableSelector.Expression
+	nil,                                         // 12: gateway.solo.io.VirtualServiceStatus.SubresourceStatusesEntry
+	nil,                                         // 13: gateway.solo.io.VirtualServiceNamespacedStatuses.StatusesEntry
+	(*v1.SslConfig)(nil),                        // 14: gloo.solo.io.SslConfig
+	(*v1.VirtualHostOptions)(nil),               // 15: gloo.solo.io.VirtualHostOptions
+	(*matchers.Matcher)(nil),                    // 16: matchers.core.gloo.solo.io.Matcher
+	(*wrappers.BoolValue)(nil),                  // 17: google.protobuf.BoolValue
+	(*v1.RouteAction)(nil),                      // 18: gloo.solo.io.RouteAction
+	(*v1.RedirectAction)(nil),                   // 19: gloo.solo.io.RedirectAction
+	(*v1.DirectResponseAction)(nil),             // 20: gloo.solo.io.DirectResponseAction
+	(*v1.RouteOptions)(nil),                     // 21: gloo.solo.io.RouteOptions
+	(*core.ResourceRef)(nil),                    // 22: core.solo.io.ResourceRef
+	(*_struct.Struct)(nil),                      // 23: google.protobuf.Struct
 }
 var file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_depIdxs = []int32{
 	3,  // 0: gateway.solo.io.VirtualServiceSpec.virtual_host:type_name -> gateway.solo.io.VirtualHost
-	12, // 1: gateway.solo.io.VirtualServiceSpec.ssl_config:type_name -> gloo.solo.io.SslConfig
+	14, // 1: gateway.solo.io.VirtualServiceSpec.ssl_config:type_name -> gloo.solo.io.SslConfig
 	4,  // 2: gateway.solo.io.VirtualHost.routes:type_name -> gateway.solo.io.Route
-	13, // 3: gateway.solo.io.VirtualHost.options:type_name -> gloo.solo.io.VirtualHostOptions
+	15, // 3: gateway.solo.io.VirtualHost.options:type_name -> gloo.solo.io.VirtualHostOptions
 	5,  // 4: gateway.solo.io.VirtualHost.options_config_refs:type_name -> gateway.solo.io.DelegateOptionsRefs
-	14, // 5: gateway.solo.io.Route.matchers:type_name -> matchers.core.gloo.solo.io.Matcher
-	15, // 6: gateway.solo.io.Route.inheritable_matchers:type_name -> google.protobuf.BoolValue
-	15, // 7: gateway.solo.io.Route.inheritable_path_matchers:type_name -> google.protobuf.BoolValue
-	16, // 8: gateway.solo.io.Route.route_action:type_name -> gloo.solo.io.RouteAction
-	17, // 9: gateway.solo.io.Route.redirect_action:type_name -> gloo.solo.io.RedirectAction
-	18, // 10: gateway.solo.io.Route.direct_response_action:type_name -> gloo.solo.io.DirectResponseAction
+	16, // 5: gateway.solo.io.Route.matchers:type_name -> matchers.core.gloo.solo.io.Matcher
+	17, // 6: gateway.solo.io.Route.inheritable_matchers:type_name -> google.protobuf.BoolValue
+	17, // 7: gateway.solo.io.Route.inheritable_path_matchers:type_name -> google.protobuf.BoolValue
+	18, // 8: gateway.solo.io.Route.route_action:type_name -> gloo.solo.io.RouteAction
+	19, // 9: gateway.solo.io.Route.redirect_action:type_name -> gloo.solo.io.RedirectAction
+	20, // 10: gateway.solo.io.Route.direct_response_action:type_name -> gloo.solo.io.DirectResponseAction
 	6,  // 11: gateway.solo.io.Route.delegate_action:type_name -> gateway.solo.io.DelegateAction
-	19, // 12: gateway.solo.io.Route.options:type_name -> gloo.solo.io.RouteOptions
+	21, // 12: gateway.solo.io.Route.options:type_name -> gloo.solo.io.RouteOptions
 	5,  // 13: gateway.solo.io.Route.options_config_refs:type_name -> gateway.solo.io.DelegateOptionsRefs
-	20, // 14: gateway.solo.io.DelegateOptionsRefs.delegate_options:type_name -> core.solo.io.ResourceRef
-	20, // 15: gateway.solo.io.DelegateAction.ref:type_name -> core.solo.io.ResourceRef
+	22, // 14: gateway.solo.io.DelegateOptionsRefs.delegate_options:type_name -> core.solo.io.ResourceRef
+	22, // 15: gateway.solo.io.DelegateAction.ref:type_name -> core.solo.io.ResourceRef
 	7,  // 16: gateway.solo.io.DelegateAction.selector:type_name -> gateway.solo.io.RouteTableSelector
-	9,  // 17: gateway.solo.io.RouteTableSelector.labels:type_name -> gateway.solo.io.RouteTableSelector.LabelsEntry
-	10, // 18: gateway.solo.io.RouteTableSelector.expressions:type_name -> gateway.solo.io.RouteTableSelector.Expression
+	10, // 17: gateway.solo.io.RouteTableSelector.labels:type_name -> gateway.solo.io.RouteTableSelector.LabelsEntry
+	11, // 18: gateway.solo.io.RouteTableSelector.expressions:type_name -> gateway.solo.io.RouteTableSelector.Expression
 	1,  // 19: gateway.solo.io.VirtualServiceStatus.state:type_name -> gateway.solo.io.VirtualServiceStatus.State
-	11, // 20: gateway.solo.io.VirtualServiceStatus.subresource_statuses:type_name -> gateway.solo.io.VirtualServiceStatus.SubresourceStatusesEntry
-	21, // 21: gateway.solo.io.VirtualServiceStatus.details:type_name -> google.protobuf.Struct
-	0,  // 22: gateway.solo.io.RouteTableSelector.Expression.operator:type_name -> gateway.solo.io.RouteTableSelector.Expression.Operator
-	8,  // 23: gateway.solo.io.VirtualServiceStatus.SubresourceStatusesEntry.value:type_name -> gateway.solo.io.VirtualServiceStatus
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	12, // 20: gateway.solo.io.VirtualServiceStatus.subresource_statuses:type_name -> gateway.solo.io.VirtualServiceStatus.SubresourceStatusesEntry
+	23, // 21: gateway.solo.io.VirtualServiceStatus.details:type_name -> google.protobuf.Struct
+	13, // 22: gateway.solo.io.VirtualServiceNamespacedStatuses.statuses:type_name -> gateway.solo.io.VirtualServiceNamespacedStatuses.StatusesEntry
+	0,  // 23: gateway.solo.io.RouteTableSelector.Expression.operator:type_name -> gateway.solo.io.RouteTableSelector.Expression.Operator
+	8,  // 24: gateway.solo.io.VirtualServiceStatus.SubresourceStatusesEntry.value:type_name -> gateway.solo.io.VirtualServiceStatus
+	8,  // 25: gateway.solo.io.VirtualServiceNamespacedStatuses.StatusesEntry.value:type_name -> gateway.solo.io.VirtualServiceStatus
+	26, // [26:26] is the sub-list for method output_type
+	26, // [26:26] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_init() }
@@ -1404,7 +1469,19 @@ func file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*VirtualServiceNamespacedStatuses); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RouteTableSelector_Expression); i {
 			case 0:
 				return &v.state
@@ -1437,7 +1514,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -611,3 +611,9 @@ message SettingsStatus {
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
 }
+
+
+
+message SettingsNamespacedStatuses {
+	map<string, SettingsStatus> statuses = 1;
+}

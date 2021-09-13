@@ -343,3 +343,9 @@ message VirtualServiceStatus {
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
 }
+
+
+
+message VirtualServiceNamespacedStatuses {
+	map<string, VirtualServiceStatus> statuses = 1;
+}

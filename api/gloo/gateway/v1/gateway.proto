@@ -186,3 +186,9 @@ message GatewayStatus {
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
 }
+
+
+
+message GatewayNamespacedStatuses {
+	map<string, GatewayStatus> statuses = 1;
+}

@@ -43,7 +43,19 @@ func (this *SettingsStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for SettingsStatus
 func (this *SettingsStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := SettingsNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }
 
 // MarshalJSON is a custom marshaler for UpstreamSpec
@@ -65,7 +77,19 @@ func (this *UpstreamStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for UpstreamStatus
 func (this *UpstreamStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := UpstreamNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }
 
 // MarshalJSON is a custom marshaler for UpstreamGroupSpec
@@ -87,7 +111,19 @@ func (this *UpstreamGroupStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for UpstreamGroupStatus
 func (this *UpstreamGroupStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := UpstreamGroupNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }
 
 // MarshalJSON is a custom marshaler for ProxySpec
@@ -109,5 +145,17 @@ func (this *ProxyStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for ProxyStatus
 func (this *ProxyStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := ProxyNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }

@@ -205,7 +205,7 @@ func (x ProxyStatus_State) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ProxyStatus_State.Descriptor instead.
 func (ProxyStatus_State) EnumDescriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDescGZIP(), []int{17, 0}
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDescGZIP(), []int{18, 0}
 }
 
 //
@@ -1705,6 +1705,53 @@ func (x *UpstreamGroupStatus) GetDetails() *_struct.Struct {
 	return nil
 }
 
+type UpstreamGroupNamespacedStatuses struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Statuses map[string]*UpstreamGroupStatus `protobuf:"bytes,1,rep,name=statuses,proto3" json:"statuses,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (x *UpstreamGroupNamespacedStatuses) Reset() {
+	*x = UpstreamGroupNamespacedStatuses{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpstreamGroupNamespacedStatuses) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpstreamGroupNamespacedStatuses) ProtoMessage() {}
+
+func (x *UpstreamGroupNamespacedStatuses) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpstreamGroupNamespacedStatuses.ProtoReflect.Descriptor instead.
+func (*UpstreamGroupNamespacedStatuses) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *UpstreamGroupNamespacedStatuses) GetStatuses() map[string]*UpstreamGroupStatus {
+	if x != nil {
+		return x.Statuses
+	}
+	return nil
+}
+
 type ProxyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1725,7 +1772,7 @@ type ProxyStatus struct {
 func (x *ProxyStatus) Reset() {
 	*x = ProxyStatus{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[17]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1738,7 +1785,7 @@ func (x *ProxyStatus) String() string {
 func (*ProxyStatus) ProtoMessage() {}
 
 func (x *ProxyStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[17]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1751,7 +1798,7 @@ func (x *ProxyStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProxyStatus.ProtoReflect.Descriptor instead.
 func (*ProxyStatus) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDescGZIP(), []int{17}
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ProxyStatus) GetState() ProxyStatus_State {
@@ -1789,6 +1836,53 @@ func (x *ProxyStatus) GetDetails() *_struct.Struct {
 	return nil
 }
 
+type ProxyNamespacedStatuses struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Statuses map[string]*ProxyStatus `protobuf:"bytes,1,rep,name=statuses,proto3" json:"statuses,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (x *ProxyNamespacedStatuses) Reset() {
+	*x = ProxyNamespacedStatuses{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ProxyNamespacedStatuses) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProxyNamespacedStatuses) ProtoMessage() {}
+
+func (x *ProxyNamespacedStatuses) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProxyNamespacedStatuses.ProtoReflect.Descriptor instead.
+func (*ProxyNamespacedStatuses) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ProxyNamespacedStatuses) GetStatuses() map[string]*ProxyStatus {
+	if x != nil {
+		return x.Statuses
+	}
+	return nil
+}
+
 // Name of the destinations the gateway can route to.
 // Note: the destination spec and subsets are not supported in this context and will be ignored.
 type TcpHost_TcpAction struct {
@@ -1807,7 +1901,7 @@ type TcpHost_TcpAction struct {
 func (x *TcpHost_TcpAction) Reset() {
 	*x = TcpHost_TcpAction{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[18]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1820,7 +1914,7 @@ func (x *TcpHost_TcpAction) String() string {
 func (*TcpHost_TcpAction) ProtoMessage() {}
 
 func (x *TcpHost_TcpAction) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[18]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2211,39 +2305,65 @@ var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDesc = []b
 	0x64, 0x69, 0x6e, 0x67, 0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x41, 0x63, 0x63, 0x65, 0x70, 0x74,
 	0x65, 0x64, 0x10, 0x01, 0x12, 0x0c, 0x0a, 0x08, 0x52, 0x65, 0x6a, 0x65, 0x63, 0x74, 0x65, 0x64,
 	0x10, 0x02, 0x12, 0x0b, 0x0a, 0x07, 0x57, 0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x10, 0x03, 0x22,
-	0xb9, 0x03, 0x0a, 0x0b, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12,
-	0x35, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1f,
-	0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x50, 0x72,
-	0x6f, 0x78, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52,
-	0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x1f,
-	0x0a, 0x0b, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x5f, 0x62, 0x79, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x0a, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x42, 0x79, 0x12,
-	0x65, 0x0a, 0x14, 0x73, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x73,
-	0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x32, 0x2e,
-	0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x50, 0x72, 0x6f,
-	0x78, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x2e, 0x53, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72,
-	0x79, 0x52, 0x13, 0x73, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x53, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x12, 0x31, 0x0a, 0x07, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c,
-	0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74,
-	0x52, 0x07, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x1a, 0x61, 0x0a, 0x18, 0x53, 0x75, 0x62,
-	0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73,
-	0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x2f, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f,
-	0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75,
-	0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x3d, 0x0a, 0x05,
-	0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x0b, 0x0a, 0x07, 0x50, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67,
-	0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x41, 0x63, 0x63, 0x65, 0x70, 0x74, 0x65, 0x64, 0x10, 0x01,
-	0x12, 0x0c, 0x0a, 0x08, 0x52, 0x65, 0x6a, 0x65, 0x63, 0x74, 0x65, 0x64, 0x10, 0x02, 0x12, 0x0b,
-	0x0a, 0x07, 0x57, 0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x10, 0x03, 0x42, 0x3e, 0x5a, 0x34, 0x67,
-	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69,
-	0x6f, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x61, 0x70, 0x69, 0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f,
-	0x61, 0x70, 0x69, 0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f,
-	0x2f, 0x76, 0x31, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0xda, 0x01, 0x0a, 0x1f, 0x55, 0x70, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x47, 0x72, 0x6f, 0x75,
+	0x70, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x64, 0x53, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x65, 0x73, 0x12, 0x57, 0x0a, 0x08, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x3b, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c,
+	0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x55, 0x70, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x47, 0x72, 0x6f,
+	0x75, 0x70, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x64, 0x53, 0x74, 0x61, 0x74,
+	0x75, 0x73, 0x65, 0x73, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x45, 0x6e, 0x74,
+	0x72, 0x79, 0x52, 0x08, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x1a, 0x5e, 0x0a, 0x0d,
+	0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a,
+	0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12,
+	0x37, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21,
+	0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x55, 0x70,
+	0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x53, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xb9, 0x03, 0x0a,
+	0x0b, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x35, 0x0a, 0x05,
+	0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1f, 0x2e, 0x67, 0x6c,
+	0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x50, 0x72, 0x6f, 0x78, 0x79,
+	0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52, 0x05, 0x73, 0x74,
+	0x61, 0x74, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x1f, 0x0a, 0x0b, 0x72,
+	0x65, 0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x5f, 0x62, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0a, 0x72, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x42, 0x79, 0x12, 0x65, 0x0a, 0x14,
+	0x73, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x73, 0x74, 0x61, 0x74,
+	0x75, 0x73, 0x65, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x32, 0x2e, 0x67, 0x6c, 0x6f,
+	0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x53,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x2e, 0x53, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x13,
+	0x73, 0x75, 0x62, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x65, 0x73, 0x12, 0x31, 0x0a, 0x07, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x18, 0x05,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x07, 0x64,
+	0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x1a, 0x61, 0x0a, 0x18, 0x53, 0x75, 0x62, 0x72, 0x65, 0x73,
+	0x6f, 0x75, 0x72, 0x63, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x45, 0x6e, 0x74,
+	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x03, 0x6b, 0x65, 0x79, 0x12, 0x2f, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e,
+	0x69, 0x6f, 0x2e, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x3d, 0x0a, 0x05, 0x53, 0x74, 0x61,
+	0x74, 0x65, 0x12, 0x0b, 0x0a, 0x07, 0x50, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x10, 0x00, 0x12,
+	0x0c, 0x0a, 0x08, 0x41, 0x63, 0x63, 0x65, 0x70, 0x74, 0x65, 0x64, 0x10, 0x01, 0x12, 0x0c, 0x0a,
+	0x08, 0x52, 0x65, 0x6a, 0x65, 0x63, 0x74, 0x65, 0x64, 0x10, 0x02, 0x12, 0x0b, 0x0a, 0x07, 0x57,
+	0x61, 0x72, 0x6e, 0x69, 0x6e, 0x67, 0x10, 0x03, 0x22, 0xc2, 0x01, 0x0a, 0x17, 0x50, 0x72, 0x6f,
+	0x78, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x64, 0x53, 0x74, 0x61, 0x74,
+	0x75, 0x73, 0x65, 0x73, 0x12, 0x4f, 0x0a, 0x08, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x33, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f,
+	0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x73,
+	0x70, 0x61, 0x63, 0x65, 0x64, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x2e, 0x53, 0x74,
+	0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x08, 0x73, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x65, 0x73, 0x1a, 0x56, 0x0a, 0x0d, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65,
+	0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x2f, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73,
+	0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x50, 0x72, 0x6f, 0x78, 0x79, 0x53, 0x74, 0x61, 0x74,
+	0x75, 0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x42, 0x3e, 0x5a,
+	0x34, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f,
+	0x2d, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x61, 0x70, 0x69, 0x73, 0x2f, 0x70, 0x6b,
+	0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e,
+	0x69, 0x6f, 0x2f, 0x76, 0x31, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2259,7 +2379,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDescGZIP(
 }
 
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_goTypes = []interface{}{
 	(RedirectAction_RedirectResponseCode)(0), // 0: gloo.solo.io.RedirectAction.RedirectResponseCode
 	(UpstreamGroupStatus_State)(0),           // 1: gloo.solo.io.UpstreamGroupStatus.State
@@ -2281,81 +2401,89 @@ var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_goTypes = []i
 	(*RedirectAction)(nil),                   // 17: gloo.solo.io.RedirectAction
 	(*DirectResponseAction)(nil),             // 18: gloo.solo.io.DirectResponseAction
 	(*UpstreamGroupStatus)(nil),              // 19: gloo.solo.io.UpstreamGroupStatus
-	(*ProxyStatus)(nil),                      // 20: gloo.solo.io.ProxyStatus
-	(*TcpHost_TcpAction)(nil),                // 21: gloo.solo.io.TcpHost.TcpAction
-	nil,                                      // 22: gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry
-	nil,                                      // 23: gloo.solo.io.ProxyStatus.SubresourceStatusesEntry
-	(*SslConfig)(nil),                        // 24: gloo.solo.io.SslConfig
-	(*wrappers.BoolValue)(nil),               // 25: google.protobuf.BoolValue
-	(*ListenerOptions)(nil),                  // 26: gloo.solo.io.ListenerOptions
-	(*_struct.Struct)(nil),                   // 27: google.protobuf.Struct
-	(*RouteConfigurationOptions)(nil),        // 28: gloo.solo.io.RouteConfigurationOptions
-	(*TcpListenerOptions)(nil),               // 29: gloo.solo.io.TcpListenerOptions
-	(*HttpListenerOptions)(nil),              // 30: gloo.solo.io.HttpListenerOptions
-	(*VirtualHostOptions)(nil),               // 31: gloo.solo.io.VirtualHostOptions
-	(*matchers.Matcher)(nil),                 // 32: matchers.core.gloo.solo.io.Matcher
-	(*RouteOptions)(nil),                     // 33: gloo.solo.io.RouteOptions
-	(*core.ResourceRef)(nil),                 // 34: core.solo.io.ResourceRef
-	(*DestinationSpec)(nil),                  // 35: gloo.solo.io.DestinationSpec
-	(*Subset)(nil),                           // 36: gloo.solo.io.Subset
-	(*WeightedDestinationOptions)(nil),       // 37: gloo.solo.io.WeightedDestinationOptions
-	(*empty.Empty)(nil),                      // 38: google.protobuf.Empty
+	(*UpstreamGroupNamespacedStatuses)(nil),  // 20: gloo.solo.io.UpstreamGroupNamespacedStatuses
+	(*ProxyStatus)(nil),                      // 21: gloo.solo.io.ProxyStatus
+	(*ProxyNamespacedStatuses)(nil),          // 22: gloo.solo.io.ProxyNamespacedStatuses
+	(*TcpHost_TcpAction)(nil),                // 23: gloo.solo.io.TcpHost.TcpAction
+	nil,                                      // 24: gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry
+	nil,                                      // 25: gloo.solo.io.UpstreamGroupNamespacedStatuses.StatusesEntry
+	nil,                                      // 26: gloo.solo.io.ProxyStatus.SubresourceStatusesEntry
+	nil,                                      // 27: gloo.solo.io.ProxyNamespacedStatuses.StatusesEntry
+	(*SslConfig)(nil),                        // 28: gloo.solo.io.SslConfig
+	(*wrappers.BoolValue)(nil),               // 29: google.protobuf.BoolValue
+	(*ListenerOptions)(nil),                  // 30: gloo.solo.io.ListenerOptions
+	(*_struct.Struct)(nil),                   // 31: google.protobuf.Struct
+	(*RouteConfigurationOptions)(nil),        // 32: gloo.solo.io.RouteConfigurationOptions
+	(*TcpListenerOptions)(nil),               // 33: gloo.solo.io.TcpListenerOptions
+	(*HttpListenerOptions)(nil),              // 34: gloo.solo.io.HttpListenerOptions
+	(*VirtualHostOptions)(nil),               // 35: gloo.solo.io.VirtualHostOptions
+	(*matchers.Matcher)(nil),                 // 36: matchers.core.gloo.solo.io.Matcher
+	(*RouteOptions)(nil),                     // 37: gloo.solo.io.RouteOptions
+	(*core.ResourceRef)(nil),                 // 38: core.solo.io.ResourceRef
+	(*DestinationSpec)(nil),                  // 39: gloo.solo.io.DestinationSpec
+	(*Subset)(nil),                           // 40: gloo.solo.io.Subset
+	(*WeightedDestinationOptions)(nil),       // 41: gloo.solo.io.WeightedDestinationOptions
+	(*empty.Empty)(nil),                      // 42: google.protobuf.Empty
 }
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_depIdxs = []int32{
 	4,  // 0: gloo.solo.io.ProxySpec.listeners:type_name -> gloo.solo.io.Listener
 	7,  // 1: gloo.solo.io.Listener.http_listener:type_name -> gloo.solo.io.HttpListener
 	5,  // 2: gloo.solo.io.Listener.tcp_listener:type_name -> gloo.solo.io.TcpListener
-	24, // 3: gloo.solo.io.Listener.ssl_configurations:type_name -> gloo.solo.io.SslConfig
-	25, // 4: gloo.solo.io.Listener.use_proxy_proto:type_name -> google.protobuf.BoolValue
-	26, // 5: gloo.solo.io.Listener.options:type_name -> gloo.solo.io.ListenerOptions
-	27, // 6: gloo.solo.io.Listener.metadata:type_name -> google.protobuf.Struct
-	28, // 7: gloo.solo.io.Listener.route_options:type_name -> gloo.solo.io.RouteConfigurationOptions
+	28, // 3: gloo.solo.io.Listener.ssl_configurations:type_name -> gloo.solo.io.SslConfig
+	29, // 4: gloo.solo.io.Listener.use_proxy_proto:type_name -> google.protobuf.BoolValue
+	30, // 5: gloo.solo.io.Listener.options:type_name -> gloo.solo.io.ListenerOptions
+	31, // 6: gloo.solo.io.Listener.metadata:type_name -> google.protobuf.Struct
+	32, // 7: gloo.solo.io.Listener.route_options:type_name -> gloo.solo.io.RouteConfigurationOptions
 	6,  // 8: gloo.solo.io.TcpListener.tcp_hosts:type_name -> gloo.solo.io.TcpHost
-	29, // 9: gloo.solo.io.TcpListener.options:type_name -> gloo.solo.io.TcpListenerOptions
-	24, // 10: gloo.solo.io.TcpHost.ssl_config:type_name -> gloo.solo.io.SslConfig
-	21, // 11: gloo.solo.io.TcpHost.destination:type_name -> gloo.solo.io.TcpHost.TcpAction
+	33, // 9: gloo.solo.io.TcpListener.options:type_name -> gloo.solo.io.TcpListenerOptions
+	28, // 10: gloo.solo.io.TcpHost.ssl_config:type_name -> gloo.solo.io.SslConfig
+	23, // 11: gloo.solo.io.TcpHost.destination:type_name -> gloo.solo.io.TcpHost.TcpAction
 	8,  // 12: gloo.solo.io.HttpListener.virtual_hosts:type_name -> gloo.solo.io.VirtualHost
-	30, // 13: gloo.solo.io.HttpListener.options:type_name -> gloo.solo.io.HttpListenerOptions
+	34, // 13: gloo.solo.io.HttpListener.options:type_name -> gloo.solo.io.HttpListenerOptions
 	9,  // 14: gloo.solo.io.VirtualHost.routes:type_name -> gloo.solo.io.Route
-	31, // 15: gloo.solo.io.VirtualHost.options:type_name -> gloo.solo.io.VirtualHostOptions
-	27, // 16: gloo.solo.io.VirtualHost.metadata:type_name -> google.protobuf.Struct
-	32, // 17: gloo.solo.io.Route.matchers:type_name -> matchers.core.gloo.solo.io.Matcher
+	35, // 15: gloo.solo.io.VirtualHost.options:type_name -> gloo.solo.io.VirtualHostOptions
+	31, // 16: gloo.solo.io.VirtualHost.metadata:type_name -> google.protobuf.Struct
+	36, // 17: gloo.solo.io.Route.matchers:type_name -> matchers.core.gloo.solo.io.Matcher
 	10, // 18: gloo.solo.io.Route.route_action:type_name -> gloo.solo.io.RouteAction
 	17, // 19: gloo.solo.io.Route.redirect_action:type_name -> gloo.solo.io.RedirectAction
 	18, // 20: gloo.solo.io.Route.direct_response_action:type_name -> gloo.solo.io.DirectResponseAction
-	33, // 21: gloo.solo.io.Route.options:type_name -> gloo.solo.io.RouteOptions
-	27, // 22: gloo.solo.io.Route.metadata:type_name -> google.protobuf.Struct
+	37, // 21: gloo.solo.io.Route.options:type_name -> gloo.solo.io.RouteOptions
+	31, // 22: gloo.solo.io.Route.metadata:type_name -> google.protobuf.Struct
 	11, // 23: gloo.solo.io.RouteAction.single:type_name -> gloo.solo.io.Destination
 	15, // 24: gloo.solo.io.RouteAction.multi:type_name -> gloo.solo.io.MultiDestination
-	34, // 25: gloo.solo.io.RouteAction.upstream_group:type_name -> core.solo.io.ResourceRef
-	34, // 26: gloo.solo.io.Destination.upstream:type_name -> core.solo.io.ResourceRef
+	38, // 25: gloo.solo.io.RouteAction.upstream_group:type_name -> core.solo.io.ResourceRef
+	38, // 26: gloo.solo.io.Destination.upstream:type_name -> core.solo.io.ResourceRef
 	12, // 27: gloo.solo.io.Destination.kube:type_name -> gloo.solo.io.KubernetesServiceDestination
 	13, // 28: gloo.solo.io.Destination.consul:type_name -> gloo.solo.io.ConsulServiceDestination
-	35, // 29: gloo.solo.io.Destination.destination_spec:type_name -> gloo.solo.io.DestinationSpec
-	36, // 30: gloo.solo.io.Destination.subset:type_name -> gloo.solo.io.Subset
-	34, // 31: gloo.solo.io.KubernetesServiceDestination.ref:type_name -> core.solo.io.ResourceRef
+	39, // 29: gloo.solo.io.Destination.destination_spec:type_name -> gloo.solo.io.DestinationSpec
+	40, // 30: gloo.solo.io.Destination.subset:type_name -> gloo.solo.io.Subset
+	38, // 31: gloo.solo.io.KubernetesServiceDestination.ref:type_name -> core.solo.io.ResourceRef
 	16, // 32: gloo.solo.io.UpstreamGroupSpec.destinations:type_name -> gloo.solo.io.WeightedDestination
 	16, // 33: gloo.solo.io.MultiDestination.destinations:type_name -> gloo.solo.io.WeightedDestination
 	11, // 34: gloo.solo.io.WeightedDestination.destination:type_name -> gloo.solo.io.Destination
-	37, // 35: gloo.solo.io.WeightedDestination.options:type_name -> gloo.solo.io.WeightedDestinationOptions
+	41, // 35: gloo.solo.io.WeightedDestination.options:type_name -> gloo.solo.io.WeightedDestinationOptions
 	0,  // 36: gloo.solo.io.RedirectAction.response_code:type_name -> gloo.solo.io.RedirectAction.RedirectResponseCode
 	1,  // 37: gloo.solo.io.UpstreamGroupStatus.state:type_name -> gloo.solo.io.UpstreamGroupStatus.State
-	22, // 38: gloo.solo.io.UpstreamGroupStatus.subresource_statuses:type_name -> gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry
-	27, // 39: gloo.solo.io.UpstreamGroupStatus.details:type_name -> google.protobuf.Struct
-	2,  // 40: gloo.solo.io.ProxyStatus.state:type_name -> gloo.solo.io.ProxyStatus.State
-	23, // 41: gloo.solo.io.ProxyStatus.subresource_statuses:type_name -> gloo.solo.io.ProxyStatus.SubresourceStatusesEntry
-	27, // 42: gloo.solo.io.ProxyStatus.details:type_name -> google.protobuf.Struct
-	11, // 43: gloo.solo.io.TcpHost.TcpAction.single:type_name -> gloo.solo.io.Destination
-	15, // 44: gloo.solo.io.TcpHost.TcpAction.multi:type_name -> gloo.solo.io.MultiDestination
-	34, // 45: gloo.solo.io.TcpHost.TcpAction.upstream_group:type_name -> core.solo.io.ResourceRef
-	38, // 46: gloo.solo.io.TcpHost.TcpAction.forward_sni_cluster_name:type_name -> google.protobuf.Empty
-	19, // 47: gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.UpstreamGroupStatus
-	20, // 48: gloo.solo.io.ProxyStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.ProxyStatus
-	49, // [49:49] is the sub-list for method output_type
-	49, // [49:49] is the sub-list for method input_type
-	49, // [49:49] is the sub-list for extension type_name
-	49, // [49:49] is the sub-list for extension extendee
-	0,  // [0:49] is the sub-list for field type_name
+	24, // 38: gloo.solo.io.UpstreamGroupStatus.subresource_statuses:type_name -> gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry
+	31, // 39: gloo.solo.io.UpstreamGroupStatus.details:type_name -> google.protobuf.Struct
+	25, // 40: gloo.solo.io.UpstreamGroupNamespacedStatuses.statuses:type_name -> gloo.solo.io.UpstreamGroupNamespacedStatuses.StatusesEntry
+	2,  // 41: gloo.solo.io.ProxyStatus.state:type_name -> gloo.solo.io.ProxyStatus.State
+	26, // 42: gloo.solo.io.ProxyStatus.subresource_statuses:type_name -> gloo.solo.io.ProxyStatus.SubresourceStatusesEntry
+	31, // 43: gloo.solo.io.ProxyStatus.details:type_name -> google.protobuf.Struct
+	27, // 44: gloo.solo.io.ProxyNamespacedStatuses.statuses:type_name -> gloo.solo.io.ProxyNamespacedStatuses.StatusesEntry
+	11, // 45: gloo.solo.io.TcpHost.TcpAction.single:type_name -> gloo.solo.io.Destination
+	15, // 46: gloo.solo.io.TcpHost.TcpAction.multi:type_name -> gloo.solo.io.MultiDestination
+	38, // 47: gloo.solo.io.TcpHost.TcpAction.upstream_group:type_name -> core.solo.io.ResourceRef
+	42, // 48: gloo.solo.io.TcpHost.TcpAction.forward_sni_cluster_name:type_name -> google.protobuf.Empty
+	19, // 49: gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.UpstreamGroupStatus
+	19, // 50: gloo.solo.io.UpstreamGroupNamespacedStatuses.StatusesEntry.value:type_name -> gloo.solo.io.UpstreamGroupStatus
+	21, // 51: gloo.solo.io.ProxyStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.ProxyStatus
+	21, // 52: gloo.solo.io.ProxyNamespacedStatuses.StatusesEntry.value:type_name -> gloo.solo.io.ProxyStatus
+	53, // [53:53] is the sub-list for method output_type
+	53, // [53:53] is the sub-list for method input_type
+	53, // [53:53] is the sub-list for extension type_name
+	53, // [53:53] is the sub-list for extension extendee
+	0,  // [0:53] is the sub-list for field type_name
 }
 
 func init() { file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_init() }
@@ -2572,7 +2700,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ProxyStatus); i {
+			switch v := v.(*UpstreamGroupNamespacedStatuses); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2584,6 +2712,30 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_init() {
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ProxyStatus); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ProxyNamespacedStatuses); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*TcpHost_TcpAction); i {
 			case 0:
 				return &v.state
@@ -2620,7 +2772,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_init() {
 		(*RedirectAction_PathRedirect)(nil),
 		(*RedirectAction_PrefixRewrite)(nil),
 	}
-	file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[18].OneofWrappers = []interface{}{
+	file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_msgTypes[20].OneofWrappers = []interface{}{
 		(*TcpHost_TcpAction_Single)(nil),
 		(*TcpHost_TcpAction_Multi)(nil),
 		(*TcpHost_TcpAction_UpstreamGroup)(nil),
@@ -2632,7 +2784,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDesc,
 			NumEnums:      3,
-			NumMessages:   21,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

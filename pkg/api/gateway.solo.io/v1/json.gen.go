@@ -43,7 +43,19 @@ func (this *GatewayStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for GatewayStatus
 func (this *GatewayStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := GatewayNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }
 
 // MarshalJSON is a custom marshaler for RouteTableSpec
@@ -65,7 +77,19 @@ func (this *RouteTableStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for RouteTableStatus
 func (this *RouteTableStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := RouteTableNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }
 
 // MarshalJSON is a custom marshaler for VirtualServiceSpec
@@ -87,7 +111,19 @@ func (this *VirtualServiceStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for VirtualServiceStatus
 func (this *VirtualServiceStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := VirtualServiceNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }
 
 // MarshalJSON is a custom marshaler for VirtualHostOptionSpec
@@ -109,7 +145,19 @@ func (this *VirtualHostOptionStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for VirtualHostOptionStatus
 func (this *VirtualHostOptionStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := VirtualHostOptionNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }
 
 // MarshalJSON is a custom marshaler for RouteOptionSpec
@@ -131,5 +179,17 @@ func (this *RouteOptionStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for RouteOptionStatus
 func (this *RouteOptionStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := RouteOptionNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }
