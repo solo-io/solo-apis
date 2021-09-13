@@ -15,6 +15,6 @@ func RateLimiterGroups() []model.Group {
 				kind:         "RateLimitConfig",
 				protoPackage: "ratelimit.api.solo.io",
 			},
-		}),
+		}, []model.CustomTemplates{}),
 	}
 }

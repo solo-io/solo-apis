@@ -1,0 +1,63 @@
+// Generated json marshal and unmarshal functions
+
+package v1
+
+import (
+    bytes "bytes"
+    fmt "fmt"
+    math "math"
+
+    skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
+    jsonpb "github.com/golang/protobuf/jsonpb"
+    proto "github.com/golang/protobuf/proto"
+)
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ = proto.Marshal
+var _ = fmt.Errorf
+var _ = math.Inf
+
+var (
+	marshaller   = &skv2jsonpb.Marshaler{EnumsAsInts: true}
+	unmarshaller = &jsonpb.Unmarshaler{}
+)
+
+{{- range $resource := $.Resources }}
+
+// MarshalJSON is a custom marshaler for {{ $resource.Spec.Type.Name }}
+func (this *{{ $resource.Spec.Type.Name }}) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for {{ $resource.Spec.Type.Name }}
+func (this *{{ $resource.Spec.Type.Name }}) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}
+
+{{- if $resource.Status }}
+// MarshalJSON is a custom marshaler for {{ $resource.Status.Type.Name }}
+func (this *{{ $resource.Status.Type.Name }}) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for {{ $resource.Status.Type.Name }}
+func (this *{{ $resource.Status.Type.Name }}) UnmarshalJSON(b []byte) error {
+    namespacedStatuses := {{ $resource.Kind }}NamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
+}
+{{- end }}
+
+{{- end }}
