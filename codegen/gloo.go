@@ -36,6 +36,11 @@ func GlooGroups() []model.Group {
 	}
 }
 
+// Gloo resources, backed by solo-kit, support reporting statuses for multiple controllers (1 per namespace)
+// Gloo-Fed resources, backed by skv2, do not yet. To reduce the complexity of the change, we
+// chose to not introduce namespaced statuses support for gloo-fed resources as part of this PR.
+// In order to handle these two cases simultaneously, we define custom status unmarhsallers for Gloo-Fed resources.
+
 var GlooCustomTemplates []model.CustomTemplates
 
 var templatesDir = util.MustGetThisDir() + "/templates/"
@@ -57,7 +62,7 @@ var JsonStatuses = func() model.CustomTemplates {
 	jsonStatusTemplates := model.CustomTemplates{
 		Templates: map[string]string{GlooJsonOutputFilename: templateContents},
 	}
-	// register sets
+	// register json statuses
 	GlooCustomTemplates = append(GlooCustomTemplates, jsonStatusTemplates)
 
 	return jsonStatusTemplates
