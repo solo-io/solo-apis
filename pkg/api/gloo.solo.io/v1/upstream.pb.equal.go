@@ -173,6 +173,10 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetIgnoreHealthOnHostRemoval() != target.GetIgnoreHealthOnHostRemoval() {
+		return false
+	}
+
 	switch m.UpstreamType.(type) {
 
 	case *UpstreamSpec_Kube:
