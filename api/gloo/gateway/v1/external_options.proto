@@ -107,8 +107,6 @@ import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
 message VirtualHostOptionSpec {
 
 
-  reserved 1;
-
 
 
   // VirtualHost options. See VirtualHost for delegation behavior.
@@ -212,13 +210,12 @@ message VirtualHostOptionSpec {
 message RouteOptionSpec {
 
 
-  reserved 1;
+
 
 
   // Route options. See Route for delegation behavior.
   gloo.solo.io.RouteOptions options = 3;
 }
-
 
 message VirtualHostOptionStatus {
 	enum State {
