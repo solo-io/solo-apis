@@ -43,8 +43,6 @@ message ProxySpec {
     // If no listeners are specified, the instances configured with the proxy resource will not accept connections.
     repeated Listener listeners = 2;
 
-    reserved 6;
-
 
 }
 
@@ -310,7 +308,6 @@ message UpstreamGroupSpec {
     // The destinations that are part of this upstream group.
     repeated WeightedDestination destinations = 1;
 
-    reserved 6;
 
 }
 
@@ -393,7 +390,6 @@ message DirectResponseAction {
     //   Route, Virtual Host, or Listener options.
     string body = 2;
 }
-
 
 message UpstreamGroupStatus {
 	enum State {

@@ -180,7 +180,6 @@ message RouteTableSpec {
     // (the one that specifies the `RouteTableSelector`).
     google.protobuf.Int32Value weight = 2;
 
-    reserved 6;
 
 }
 
