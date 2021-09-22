@@ -230,3 +230,145 @@ func (g genericVirtualServiceMulticlusterReconciler) Reconcile(cluster string, o
 	}
 	return g.reconciler.ReconcileVirtualService(cluster, obj)
 }
+
+// Reconcile Upsert events for the VirtualHostOption Resource across clusters.
+// implemented by the user
+type MulticlusterVirtualHostOptionReconciler interface {
+	ReconcileVirtualHostOption(clusterName string, obj *gateway_solo_io_v1.VirtualHostOption) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the VirtualHostOption Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterVirtualHostOptionDeletionReconciler interface {
+	ReconcileVirtualHostOptionDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterVirtualHostOptionReconcilerFuncs struct {
+	OnReconcileVirtualHostOption         func(clusterName string, obj *gateway_solo_io_v1.VirtualHostOption) (reconcile.Result, error)
+	OnReconcileVirtualHostOptionDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterVirtualHostOptionReconcilerFuncs) ReconcileVirtualHostOption(clusterName string, obj *gateway_solo_io_v1.VirtualHostOption) (reconcile.Result, error) {
+	if f.OnReconcileVirtualHostOption == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileVirtualHostOption(clusterName, obj)
+}
+
+func (f *MulticlusterVirtualHostOptionReconcilerFuncs) ReconcileVirtualHostOptionDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileVirtualHostOptionDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileVirtualHostOptionDeletion(clusterName, req)
+}
+
+type MulticlusterVirtualHostOptionReconcileLoop interface {
+	// AddMulticlusterVirtualHostOptionReconciler adds a MulticlusterVirtualHostOptionReconciler to the MulticlusterVirtualHostOptionReconcileLoop.
+	AddMulticlusterVirtualHostOptionReconciler(ctx context.Context, rec MulticlusterVirtualHostOptionReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterVirtualHostOptionReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterVirtualHostOptionReconcileLoop) AddMulticlusterVirtualHostOptionReconciler(ctx context.Context, rec MulticlusterVirtualHostOptionReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericVirtualHostOptionMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterVirtualHostOptionReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterVirtualHostOptionReconcileLoop {
+	return &multiclusterVirtualHostOptionReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.VirtualHostOption{}, options)}
+}
+
+type genericVirtualHostOptionMulticlusterReconciler struct {
+	reconciler MulticlusterVirtualHostOptionReconciler
+}
+
+func (g genericVirtualHostOptionMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterVirtualHostOptionDeletionReconciler); ok {
+		return deletionReconciler.ReconcileVirtualHostOptionDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericVirtualHostOptionMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*gateway_solo_io_v1.VirtualHostOption)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: VirtualHostOption handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileVirtualHostOption(cluster, obj)
+}
+
+// Reconcile Upsert events for the RouteOption Resource across clusters.
+// implemented by the user
+type MulticlusterRouteOptionReconciler interface {
+	ReconcileRouteOption(clusterName string, obj *gateway_solo_io_v1.RouteOption) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the RouteOption Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterRouteOptionDeletionReconciler interface {
+	ReconcileRouteOptionDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterRouteOptionReconcilerFuncs struct {
+	OnReconcileRouteOption         func(clusterName string, obj *gateway_solo_io_v1.RouteOption) (reconcile.Result, error)
+	OnReconcileRouteOptionDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterRouteOptionReconcilerFuncs) ReconcileRouteOption(clusterName string, obj *gateway_solo_io_v1.RouteOption) (reconcile.Result, error) {
+	if f.OnReconcileRouteOption == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileRouteOption(clusterName, obj)
+}
+
+func (f *MulticlusterRouteOptionReconcilerFuncs) ReconcileRouteOptionDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileRouteOptionDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileRouteOptionDeletion(clusterName, req)
+}
+
+type MulticlusterRouteOptionReconcileLoop interface {
+	// AddMulticlusterRouteOptionReconciler adds a MulticlusterRouteOptionReconciler to the MulticlusterRouteOptionReconcileLoop.
+	AddMulticlusterRouteOptionReconciler(ctx context.Context, rec MulticlusterRouteOptionReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterRouteOptionReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterRouteOptionReconcileLoop) AddMulticlusterRouteOptionReconciler(ctx context.Context, rec MulticlusterRouteOptionReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericRouteOptionMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterRouteOptionReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterRouteOptionReconcileLoop {
+	return &multiclusterRouteOptionReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.RouteOption{}, options)}
+}
+
+type genericRouteOptionMulticlusterReconciler struct {
+	reconciler MulticlusterRouteOptionReconciler
+}
+
+func (g genericRouteOptionMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterRouteOptionDeletionReconciler); ok {
+		return deletionReconciler.ReconcileRouteOptionDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericRouteOptionMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: RouteOption handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileRouteOption(cluster, obj)
+}

@@ -59,6 +59,10 @@ message RateLimitConfigStatus {
   int64 observed_generation = 3;
 }
 
+message RateLimitConfigNamespacedStatuses {
+  map<string, RateLimitConfigStatus> statuses = 1;
+}
+
 // A descriptor is a list of key/value pairs that the rate limit server uses to select
 // the correct rate limit to use when limiting. Descriptors are case-sensitive.
 //

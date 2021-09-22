@@ -340,6 +340,7 @@ message SettingsSpec {
     map<string, enterprise.gloo.solo.io.Settings> named_extauth = 33;
 
 
+    reserved 15;
 
     message ObservabilityOptions {
 
@@ -609,4 +610,10 @@ message SettingsStatus {
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
+}
+
+
+
+message SettingsNamespacedStatuses {
+	map<string, SettingsStatus> statuses = 1;
 }

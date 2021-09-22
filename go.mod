@@ -1,9 +1,12 @@
 module github.com/solo-io/solo-apis
 
-go 1.14
+go 1.16
 
 replace (
 	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
+
+	// skv2 uses a newer version than the imported solo-kit version which causes issues. Replaces the version with the solo-kit version
+	github.com/pseudomuto/protoc-gen-doc => github.com/pseudomuto/protoc-gen-doc v1.0.0
 	k8s.io/apimachinery => k8s.io/apimachinery v0.19.6
 	k8s.io/client-go => k8s.io/client-go v0.19.6
 )
@@ -27,7 +30,7 @@ require (
 	github.com/solo-io/go-utils v0.21.6
 	github.com/solo-io/protoc-gen-ext v0.0.13
 	github.com/solo-io/skv2 v0.17.17
-	github.com/solo-io/solo-kit v0.21.0
+	github.com/solo-io/solo-kit v0.23.0
 	golang.org/x/tools v0.1.0
 	google.golang.org/genproto v0.0.0-20210218151259-fe80b386bf06
 	google.golang.org/grpc v1.36.0

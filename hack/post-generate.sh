@@ -2,12 +2,14 @@
 
 set -e
 
-for file in $(find pkg/api/gloo.solo.io/v1 -type f | grep "json.gen.go")
-do
-  sed "s|skv2jsonpb.Marshaler{}|skv2jsonpb.Marshaler{EnumsAsInts: true}|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
-done
+jsonGenFile="json.gen.go"
 
-for file in $(find pkg/api/gateway.solo.io/v1 -type f | grep "json.gen.go")
-do
-  sed "s|skv2jsonpb.Marshaler{}|skv2jsonpb.Marshaler{EnumsAsInts: true}|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
-done
+glooJsonGenFile="pkg/api/gloo.solo.io/v1/$jsonGenFile"
+if [ -f "$glooJsonGenFile" ] ; then
+    rm "$glooJsonGenFile"
+fi
+
+gatewayJsonGenFile="pkg/api/gateway.solo.io/v1/$jsonGenFile"
+if [ -f "$gatewayJsonGenFile" ] ; then
+    rm "$gatewayJsonGenFile"
+fi

@@ -23,6 +23,7 @@ import "google/protobuf/empty.proto";
 message AuthConfigSpec {
 
 
+    reserved 1;
 
 
     message Config {
@@ -1238,4 +1239,10 @@ message AuthConfigStatus {
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
+}
+
+
+
+message AuthConfigNamespacedStatuses {
+	map<string, AuthConfigStatus> statuses = 1;
 }

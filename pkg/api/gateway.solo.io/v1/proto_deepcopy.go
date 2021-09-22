@@ -43,3 +43,27 @@ func (in *VirtualServiceStatus) DeepCopyInto(out *VirtualServiceStatus) {
 	p := proto.Clone(in).(*VirtualServiceStatus)
 	*out = *p
 }
+
+// DeepCopyInto for the VirtualHostOption.Spec
+func (in *VirtualHostOptionSpec) DeepCopyInto(out *VirtualHostOptionSpec) {
+	p := proto.Clone(in).(*VirtualHostOptionSpec)
+	*out = *p
+}
+
+// DeepCopyInto for the VirtualHostOption.Status
+func (in *VirtualHostOptionStatus) DeepCopyInto(out *VirtualHostOptionStatus) {
+	p := proto.Clone(in).(*VirtualHostOptionStatus)
+	*out = *p
+}
+
+// DeepCopyInto for the RouteOption.Spec
+func (in *RouteOptionSpec) DeepCopyInto(out *RouteOptionSpec) {
+	p := proto.Clone(in).(*RouteOptionSpec)
+	*out = *p
+}
+
+// DeepCopyInto for the RouteOption.Status
+func (in *RouteOptionStatus) DeepCopyInto(out *RouteOptionStatus) {
+	p := proto.Clone(in).(*RouteOptionStatus)
+	*out = *p
+}

@@ -20,6 +20,7 @@ type resourceToGenerate struct {
 func makeGroup(
 	groupPrefix, version string,
 	resourcesToGenerate []resourceToGenerate,
+	customTemplates []model.CustomTemplates,
 ) model.Group {
 	var resources []model.Resource
 	for _, resource := range resourcesToGenerate {
@@ -43,6 +44,8 @@ func makeGroup(
 		resources = append(resources, res)
 	}
 
+	customGroupTemplates := append(contrib.AllGroupCustomTemplates, customTemplates...)
+
 	return model.Group{
 		GroupVersion: schema.GroupVersion{
 			Group:   groupPrefix + "." + "solo.io",
@@ -55,7 +58,7 @@ func makeGroup(
 		RenderClients:    true,
 		RenderController: true,
 		MockgenDirective: true,
-		CustomTemplates:  contrib.AllGroupCustomTemplates,
+		CustomTemplates:  customGroupTemplates,
 		ApiRoot:          apiRoot,
 	}
 }

@@ -35,6 +35,7 @@ message GatewaySpec {
     // top level optional configuration for all routes on the gateway
     gloo.solo.io.ListenerOptions options = 5;
 
+    reserved 6;
 
 
     // Enable ProxyProtocol support for this listener
@@ -184,4 +185,10 @@ message GatewayStatus {
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
+}
+
+
+
+message GatewayNamespacedStatuses {
+	map<string, GatewayStatus> statuses = 1;
 }

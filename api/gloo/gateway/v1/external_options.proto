@@ -2,13 +2,12 @@ syntax = "proto3";
 package gateway.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1";
 
+import "google/protobuf/struct.proto";
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 
 import "google/protobuf/wrappers.proto";
-import "github.com/solo-io/solo-kit/api/v1/metadata.proto";
-import "github.com/solo-io/solo-kit/api/v1/status.proto";
 import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
@@ -105,17 +104,12 @@ import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
 *
 * Notice how the order of VirtualHostOption delegations matters, and that the VirtualHost-level config overrides all delegated configs.
 */
-message VirtualHostOption {
+message VirtualHostOptionSpec {
 
-  option (core.solo.io.resource).short_name = "vhopts";
-  option (core.solo.io.resource).plural_name = "virtual_host_options";
 
-  // Status indicates the validation status of this resource.
-  // Status is read-only by clients, and set by gateway during validation
-  core.solo.io.Status status = 1 [(extproto.skip_hashing) = true];
+  reserved 1;
 
-  // Metadata contains the object metadata for this resource
-  core.solo.io.Metadata metadata = 2;
+
 
   // VirtualHost options. See VirtualHost for delegation behavior.
   gloo.solo.io.VirtualHostOptions options = 3;
@@ -215,19 +209,79 @@ message VirtualHostOption {
 *
 * Notice how the order of RouteOption delegations matters, and that the Route-level option config overrides all delegated option configs.
 */
-message RouteOption {
-
-  option (core.solo.io.resource).short_name = "rtopts";
-  option (core.solo.io.resource).plural_name = "route_options";
+message RouteOptionSpec {
 
 
-  // Status indicates the validation status of this resource.
-  // Status is read-only by clients, and set by gloo during validation
-  core.solo.io.Status status = 1 [(extproto.skip_hashing) = true];
+  reserved 1;
 
-  // Metadata contains the object metadata for this resource
-  core.solo.io.Metadata metadata = 2;
 
   // Route options. See Route for delegation behavior.
   gloo.solo.io.RouteOptions options = 3;
+}
+
+
+message VirtualHostOptionStatus {
+	enum State {
+			// Pending status indicates the resource has not yet been validated
+			Pending = 0;
+			// Accepted indicates the resource has been validated
+			Accepted = 1;
+			// Rejected indicates an invalid configuration by the user
+			// Rejected resources may be propagated to the xDS server depending on their severity
+			Rejected = 2;
+			// Warning indicates a partially invalid configuration by the user
+			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+			Warning = 3;
+	}
+	// State is the enum indicating the state of the resource
+	State state = 1;
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	string reason = 2;
+	// Reference to the reporter who wrote this status
+	string reported_by = 3;
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	map<string, VirtualHostOptionStatus> subresource_statuses = 4;
+
+	// Opaque details about status results
+	google.protobuf.Struct details = 5;
+}
+
+
+
+message VirtualHostOptionNamespacedStatuses {
+	map<string, VirtualHostOptionStatus> statuses = 1;
+}
+
+
+
+message RouteOptionStatus {
+	enum State {
+			// Pending status indicates the resource has not yet been validated
+			Pending = 0;
+			// Accepted indicates the resource has been validated
+			Accepted = 1;
+			// Rejected indicates an invalid configuration by the user
+			// Rejected resources may be propagated to the xDS server depending on their severity
+			Rejected = 2;
+			// Warning indicates a partially invalid configuration by the user
+			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+			Warning = 3;
+	}
+	// State is the enum indicating the state of the resource
+	State state = 1;
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	string reason = 2;
+	// Reference to the reporter who wrote this status
+	string reported_by = 3;
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	map<string, RouteOptionStatus> subresource_statuses = 4;
+
+	// Opaque details about status results
+	google.protobuf.Struct details = 5;
+}
+
+
+
+message RouteOptionNamespacedStatuses {
+	map<string, RouteOptionStatus> statuses = 1;
 }

@@ -59,16 +59,25 @@ func ConvertToSkv2ProtoFile(path string, info os.FileInfo, err error) error {
 func filterRelevantLines(fileBytes []byte) []string {
 	var fileByLine []string
 	scan := bufio.NewScanner(bytes.NewBuffer(fileBytes))
+
 	for scan.Scan() {
 		line := scan.Text()
-		if strings.Contains(line, "// Metadata contains the object metadata for this resource") ||
-			strings.Contains(line, "// Status is read-only by clients, and set by gloo during validation") ||
-			strings.Contains(line, "// Status indicates the validation status of this resource.") ||
-			strings.Contains(line, "option (core.solo.io.resource)") ||
-			strings.Contains(line, "solo-kit/api/v1/status.proto") ||
-			strings.Contains(line, "solo-kit/api/v1/metadata.proto") ||
+		if strings.Contains(line, "option (core.solo.io.resource)") ||
+
 			strings.Contains(line, "core.solo.io.Metadata") ||
-			strings.Contains(line, "core.solo.io.Status") {
+			strings.Contains(line, "// Metadata contains the object metadata for this resource") ||
+			strings.Contains(line, "solo-kit/api/v1/metadata.proto") ||
+
+			strings.Contains(line, "solo-kit/api/v1/status.proto") ||
+			strings.Contains(line, "// Status is read-only by clients, and set by gloo during validation") ||
+			strings.Contains(line, "// Status is read-only by clients, and set by gateway during validation") ||
+			strings.Contains(line, "// Status indicates the validation status of this resource.") ||
+			strings.Contains(line, "core.solo.io.Status") ||
+
+			strings.Contains(line, "// NamespacedStatuses is read-only by clients, and set by gloo during validation") ||
+			strings.Contains(line, "// NamespacedStatuses is read-only by clients, and set by gateway during validation") ||
+			strings.Contains(line, "// NamespacedStatuses indicates the validation status of this resource.") ||
+			strings.Contains(line, "core.solo.io.NamespacedStatuses") {
 			continue
 		}
 
@@ -127,11 +136,20 @@ func patchSpecMessage(file []byte, oldMessageBytes []byte) []byte {
 }
 
 func appendStatusMessage(fileContents []byte, relevantType string) []byte {
+	// Append Status message
 	statusBytes := &bytes.Buffer{}
 	if err := statusTemplate.Execute(statusBytes, relevantType); err != nil {
 		panic(err)
 	}
 	fileContents = append(fileContents, statusBytes.Bytes()...)
+
+	// Append NamespacedStatuses message
+	namespacedStatusesBytes := &bytes.Buffer{}
+	if err := namespacedStatusesTemplate.Execute(namespacedStatusesBytes, relevantType); err != nil {
+		panic(err)
+	}
+	fileContents = append(fileContents, namespacedStatusesBytes.Bytes()...)
+
 	return fileContents
 }
 
@@ -174,6 +192,14 @@ message {{ . }}Status {
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
+}
+
+`))
+
+var namespacedStatusesTemplate = template.Must(template.New("namespaced_statuses").Parse(`
+
+message {{ . }}NamespacedStatuses {
+	map<string, {{ . }}Status> statuses = 1;
 }
 
 `))

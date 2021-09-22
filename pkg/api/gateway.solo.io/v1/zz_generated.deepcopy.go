@@ -187,3 +187,123 @@ func (in *VirtualServiceList) DeepCopyObject() runtime.Object {
 	}
 	return nil
 }
+
+// Generated Deepcopy methods for VirtualHostOption
+
+func (in *VirtualHostOption) DeepCopyInto(out *VirtualHostOption) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *VirtualHostOption) DeepCopy() *VirtualHostOption {
+	if in == nil {
+		return nil
+	}
+	out := new(VirtualHostOption)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *VirtualHostOption) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *VirtualHostOptionList) DeepCopyInto(out *VirtualHostOptionList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]VirtualHostOption, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *VirtualHostOptionList) DeepCopy() *VirtualHostOptionList {
+	if in == nil {
+		return nil
+	}
+	out := new(VirtualHostOptionList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *VirtualHostOptionList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+// Generated Deepcopy methods for RouteOption
+
+func (in *RouteOption) DeepCopyInto(out *RouteOption) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *RouteOption) DeepCopy() *RouteOption {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteOption)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *RouteOption) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *RouteOptionList) DeepCopyInto(out *RouteOptionList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]RouteOption, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *RouteOptionList) DeepCopy() *RouteOptionList {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteOptionList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *RouteOptionList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}

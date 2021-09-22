@@ -15,6 +15,6 @@ func Skv2EnterpriseGroups() []model.Group {
 				kind:         "MultiClusterRole",
 				protoPackage: "multicluster.solo.io",
 			},
-		}),
+		}, []model.CustomTemplates{}),
 	}
 }

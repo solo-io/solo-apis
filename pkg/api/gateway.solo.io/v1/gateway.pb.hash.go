@@ -393,6 +393,55 @@ func (m *GatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *GatewayNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.GatewayNamespacedStatuses")); err != nil {
+		return 0, err
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetStatuses() {
+			innerHash.Reset()
+
+			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+				if _, err = h.Hash(innerHash); err != nil {
+					return 0, err
+				}
+			} else {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
+					return 0, err
+				} else {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
+						return 0, err
+					}
+				}
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *VirtualServiceSelectorExpressions_Expression) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
