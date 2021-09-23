@@ -23,6 +23,7 @@ import "google/protobuf/empty.proto";
 message AuthConfigSpec {
 
 
+    reserved 1;
 
 
     message Config {

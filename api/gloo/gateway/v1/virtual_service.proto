@@ -127,6 +127,7 @@ message VirtualServiceSpec {
     // and can be changed after creating the resource.
     string display_name = 3 [(extproto.skip_hashing) = true];
 
+    reserved 6;
 
 }
 

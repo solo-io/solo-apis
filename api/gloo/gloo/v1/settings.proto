@@ -340,6 +340,7 @@ message SettingsSpec {
     map<string, enterprise.gloo.solo.io.Settings> named_extauth = 33;
 
 
+    reserved 15;
 
     message ObservabilityOptions {
 
