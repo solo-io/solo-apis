@@ -11,8 +11,8 @@ import (
 	sets "github.com/solo-io/skv2/contrib/pkg/sets"
 	ezkube "github.com/solo-io/skv2/pkg/ezkube"
 	v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
-	v1sets "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1/sets"
-	sets0 "k8s.io/apimachinery/pkg/util/sets"
+	sets0 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1/sets"
+	sets1 "k8s.io/apimachinery/pkg/util/sets"
 )
 
 // MockAuthConfigSet is a mock of AuthConfigSet interface
@@ -39,10 +39,10 @@ func (m *MockAuthConfigSet) EXPECT() *MockAuthConfigSetMockRecorder {
 }
 
 // Keys mocks base method
-func (m *MockAuthConfigSet) Keys() sets0.String {
+func (m *MockAuthConfigSet) Keys() sets1.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets0.String)
+	ret0, _ := ret[0].(sets1.String)
 	return ret0
 }
 
@@ -119,7 +119,7 @@ func (mr *MockAuthConfigSetMockRecorder) Insert(authConfig ...interface{}) *gomo
 }
 
 // Equal mocks base method
-func (m *MockAuthConfigSet) Equal(authConfigSet v1sets.AuthConfigSet) bool {
+func (m *MockAuthConfigSet) Equal(authConfigSet sets0.AuthConfigSet) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Equal", authConfigSet)
 	ret0, _ := ret[0].(bool)
@@ -159,10 +159,10 @@ func (mr *MockAuthConfigSetMockRecorder) Delete(authConfig interface{}) *gomock.
 }
 
 // Union mocks base method
-func (m *MockAuthConfigSet) Union(set v1sets.AuthConfigSet) v1sets.AuthConfigSet {
+func (m *MockAuthConfigSet) Union(set sets0.AuthConfigSet) sets0.AuthConfigSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1sets.AuthConfigSet)
+	ret0, _ := ret[0].(sets0.AuthConfigSet)
 	return ret0
 }
 
@@ -173,10 +173,10 @@ func (mr *MockAuthConfigSetMockRecorder) Union(set interface{}) *gomock.Call {
 }
 
 // Difference mocks base method
-func (m *MockAuthConfigSet) Difference(set v1sets.AuthConfigSet) v1sets.AuthConfigSet {
+func (m *MockAuthConfigSet) Difference(set sets0.AuthConfigSet) sets0.AuthConfigSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1sets.AuthConfigSet)
+	ret0, _ := ret[0].(sets0.AuthConfigSet)
 	return ret0
 }
 
@@ -187,10 +187,10 @@ func (mr *MockAuthConfigSetMockRecorder) Difference(set interface{}) *gomock.Cal
 }
 
 // Intersection mocks base method
-func (m *MockAuthConfigSet) Intersection(set v1sets.AuthConfigSet) v1sets.AuthConfigSet {
+func (m *MockAuthConfigSet) Intersection(set sets0.AuthConfigSet) sets0.AuthConfigSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1sets.AuthConfigSet)
+	ret0, _ := ret[0].(sets0.AuthConfigSet)
 	return ret0
 }
 
@@ -244,7 +244,7 @@ func (mr *MockAuthConfigSetMockRecorder) Generic() *gomock.Call {
 }
 
 // Delta mocks base method
-func (m *MockAuthConfigSet) Delta(newSet v1sets.AuthConfigSet) sets.ResourceDelta {
+func (m *MockAuthConfigSet) Delta(newSet sets0.AuthConfigSet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -255,4 +255,18 @@ func (m *MockAuthConfigSet) Delta(newSet v1sets.AuthConfigSet) sets.ResourceDelt
 func (mr *MockAuthConfigSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockAuthConfigSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockAuthConfigSet) Clone() sets0.AuthConfigSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(sets0.AuthConfigSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockAuthConfigSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockAuthConfigSet)(nil).Clone))
 }

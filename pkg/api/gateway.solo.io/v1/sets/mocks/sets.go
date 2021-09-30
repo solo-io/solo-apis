@@ -11,8 +11,8 @@ import (
 	sets "github.com/solo-io/skv2/contrib/pkg/sets"
 	ezkube "github.com/solo-io/skv2/pkg/ezkube"
 	v1 "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1"
-	v1sets "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1/sets"
-	sets0 "k8s.io/apimachinery/pkg/util/sets"
+	sets0 "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1/sets"
+	sets1 "k8s.io/apimachinery/pkg/util/sets"
 )
 
 // MockGatewaySet is a mock of GatewaySet interface
@@ -39,10 +39,10 @@ func (m *MockGatewaySet) EXPECT() *MockGatewaySetMockRecorder {
 }
 
 // Keys mocks base method
-func (m *MockGatewaySet) Keys() sets0.String {
+func (m *MockGatewaySet) Keys() sets1.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets0.String)
+	ret0, _ := ret[0].(sets1.String)
 	return ret0
 }
 
@@ -119,7 +119,7 @@ func (mr *MockGatewaySetMockRecorder) Insert(gateway ...interface{}) *gomock.Cal
 }
 
 // Equal mocks base method
-func (m *MockGatewaySet) Equal(gatewaySet v1sets.GatewaySet) bool {
+func (m *MockGatewaySet) Equal(gatewaySet sets0.GatewaySet) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Equal", gatewaySet)
 	ret0, _ := ret[0].(bool)
@@ -159,10 +159,10 @@ func (mr *MockGatewaySetMockRecorder) Delete(gateway interface{}) *gomock.Call {
 }
 
 // Union mocks base method
-func (m *MockGatewaySet) Union(set v1sets.GatewaySet) v1sets.GatewaySet {
+func (m *MockGatewaySet) Union(set sets0.GatewaySet) sets0.GatewaySet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1sets.GatewaySet)
+	ret0, _ := ret[0].(sets0.GatewaySet)
 	return ret0
 }
 
@@ -173,10 +173,10 @@ func (mr *MockGatewaySetMockRecorder) Union(set interface{}) *gomock.Call {
 }
 
 // Difference mocks base method
-func (m *MockGatewaySet) Difference(set v1sets.GatewaySet) v1sets.GatewaySet {
+func (m *MockGatewaySet) Difference(set sets0.GatewaySet) sets0.GatewaySet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1sets.GatewaySet)
+	ret0, _ := ret[0].(sets0.GatewaySet)
 	return ret0
 }
 
@@ -187,10 +187,10 @@ func (mr *MockGatewaySetMockRecorder) Difference(set interface{}) *gomock.Call {
 }
 
 // Intersection mocks base method
-func (m *MockGatewaySet) Intersection(set v1sets.GatewaySet) v1sets.GatewaySet {
+func (m *MockGatewaySet) Intersection(set sets0.GatewaySet) sets0.GatewaySet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1sets.GatewaySet)
+	ret0, _ := ret[0].(sets0.GatewaySet)
 	return ret0
 }
 
@@ -244,7 +244,7 @@ func (mr *MockGatewaySetMockRecorder) Generic() *gomock.Call {
 }
 
 // Delta mocks base method
-func (m *MockGatewaySet) Delta(newSet v1sets.GatewaySet) sets.ResourceDelta {
+func (m *MockGatewaySet) Delta(newSet sets0.GatewaySet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -255,6 +255,20 @@ func (m *MockGatewaySet) Delta(newSet v1sets.GatewaySet) sets.ResourceDelta {
 func (mr *MockGatewaySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockGatewaySet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockGatewaySet) Clone() sets0.GatewaySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(sets0.GatewaySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockGatewaySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockGatewaySet)(nil).Clone))
 }
 
 // MockRouteTableSet is a mock of RouteTableSet interface
@@ -281,10 +295,10 @@ func (m *MockRouteTableSet) EXPECT() *MockRouteTableSetMockRecorder {
 }
 
 // Keys mocks base method
-func (m *MockRouteTableSet) Keys() sets0.String {
+func (m *MockRouteTableSet) Keys() sets1.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets0.String)
+	ret0, _ := ret[0].(sets1.String)
 	return ret0
 }
 
@@ -361,7 +375,7 @@ func (mr *MockRouteTableSetMockRecorder) Insert(routeTable ...interface{}) *gomo
 }
 
 // Equal mocks base method
-func (m *MockRouteTableSet) Equal(routeTableSet v1sets.RouteTableSet) bool {
+func (m *MockRouteTableSet) Equal(routeTableSet sets0.RouteTableSet) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Equal", routeTableSet)
 	ret0, _ := ret[0].(bool)
@@ -401,10 +415,10 @@ func (mr *MockRouteTableSetMockRecorder) Delete(routeTable interface{}) *gomock.
 }
 
 // Union mocks base method
-func (m *MockRouteTableSet) Union(set v1sets.RouteTableSet) v1sets.RouteTableSet {
+func (m *MockRouteTableSet) Union(set sets0.RouteTableSet) sets0.RouteTableSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1sets.RouteTableSet)
+	ret0, _ := ret[0].(sets0.RouteTableSet)
 	return ret0
 }
 
@@ -415,10 +429,10 @@ func (mr *MockRouteTableSetMockRecorder) Union(set interface{}) *gomock.Call {
 }
 
 // Difference mocks base method
-func (m *MockRouteTableSet) Difference(set v1sets.RouteTableSet) v1sets.RouteTableSet {
+func (m *MockRouteTableSet) Difference(set sets0.RouteTableSet) sets0.RouteTableSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1sets.RouteTableSet)
+	ret0, _ := ret[0].(sets0.RouteTableSet)
 	return ret0
 }
 
@@ -429,10 +443,10 @@ func (mr *MockRouteTableSetMockRecorder) Difference(set interface{}) *gomock.Cal
 }
 
 // Intersection mocks base method
-func (m *MockRouteTableSet) Intersection(set v1sets.RouteTableSet) v1sets.RouteTableSet {
+func (m *MockRouteTableSet) Intersection(set sets0.RouteTableSet) sets0.RouteTableSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1sets.RouteTableSet)
+	ret0, _ := ret[0].(sets0.RouteTableSet)
 	return ret0
 }
 
@@ -486,7 +500,7 @@ func (mr *MockRouteTableSetMockRecorder) Generic() *gomock.Call {
 }
 
 // Delta mocks base method
-func (m *MockRouteTableSet) Delta(newSet v1sets.RouteTableSet) sets.ResourceDelta {
+func (m *MockRouteTableSet) Delta(newSet sets0.RouteTableSet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -497,6 +511,20 @@ func (m *MockRouteTableSet) Delta(newSet v1sets.RouteTableSet) sets.ResourceDelt
 func (mr *MockRouteTableSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockRouteTableSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockRouteTableSet) Clone() sets0.RouteTableSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(sets0.RouteTableSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockRouteTableSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockRouteTableSet)(nil).Clone))
 }
 
 // MockVirtualServiceSet is a mock of VirtualServiceSet interface
@@ -523,10 +551,10 @@ func (m *MockVirtualServiceSet) EXPECT() *MockVirtualServiceSetMockRecorder {
 }
 
 // Keys mocks base method
-func (m *MockVirtualServiceSet) Keys() sets0.String {
+func (m *MockVirtualServiceSet) Keys() sets1.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets0.String)
+	ret0, _ := ret[0].(sets1.String)
 	return ret0
 }
 
@@ -603,7 +631,7 @@ func (mr *MockVirtualServiceSetMockRecorder) Insert(virtualService ...interface{
 }
 
 // Equal mocks base method
-func (m *MockVirtualServiceSet) Equal(virtualServiceSet v1sets.VirtualServiceSet) bool {
+func (m *MockVirtualServiceSet) Equal(virtualServiceSet sets0.VirtualServiceSet) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Equal", virtualServiceSet)
 	ret0, _ := ret[0].(bool)
@@ -643,10 +671,10 @@ func (mr *MockVirtualServiceSetMockRecorder) Delete(virtualService interface{}) 
 }
 
 // Union mocks base method
-func (m *MockVirtualServiceSet) Union(set v1sets.VirtualServiceSet) v1sets.VirtualServiceSet {
+func (m *MockVirtualServiceSet) Union(set sets0.VirtualServiceSet) sets0.VirtualServiceSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1sets.VirtualServiceSet)
+	ret0, _ := ret[0].(sets0.VirtualServiceSet)
 	return ret0
 }
 
@@ -657,10 +685,10 @@ func (mr *MockVirtualServiceSetMockRecorder) Union(set interface{}) *gomock.Call
 }
 
 // Difference mocks base method
-func (m *MockVirtualServiceSet) Difference(set v1sets.VirtualServiceSet) v1sets.VirtualServiceSet {
+func (m *MockVirtualServiceSet) Difference(set sets0.VirtualServiceSet) sets0.VirtualServiceSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1sets.VirtualServiceSet)
+	ret0, _ := ret[0].(sets0.VirtualServiceSet)
 	return ret0
 }
 
@@ -671,10 +699,10 @@ func (mr *MockVirtualServiceSetMockRecorder) Difference(set interface{}) *gomock
 }
 
 // Intersection mocks base method
-func (m *MockVirtualServiceSet) Intersection(set v1sets.VirtualServiceSet) v1sets.VirtualServiceSet {
+func (m *MockVirtualServiceSet) Intersection(set sets0.VirtualServiceSet) sets0.VirtualServiceSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1sets.VirtualServiceSet)
+	ret0, _ := ret[0].(sets0.VirtualServiceSet)
 	return ret0
 }
 
@@ -728,7 +756,7 @@ func (mr *MockVirtualServiceSetMockRecorder) Generic() *gomock.Call {
 }
 
 // Delta mocks base method
-func (m *MockVirtualServiceSet) Delta(newSet v1sets.VirtualServiceSet) sets.ResourceDelta {
+func (m *MockVirtualServiceSet) Delta(newSet sets0.VirtualServiceSet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -739,6 +767,20 @@ func (m *MockVirtualServiceSet) Delta(newSet v1sets.VirtualServiceSet) sets.Reso
 func (mr *MockVirtualServiceSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockVirtualServiceSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockVirtualServiceSet) Clone() sets0.VirtualServiceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(sets0.VirtualServiceSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockVirtualServiceSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockVirtualServiceSet)(nil).Clone))
 }
 
 // MockVirtualHostOptionSet is a mock of VirtualHostOptionSet interface
@@ -765,10 +807,10 @@ func (m *MockVirtualHostOptionSet) EXPECT() *MockVirtualHostOptionSetMockRecorde
 }
 
 // Keys mocks base method
-func (m *MockVirtualHostOptionSet) Keys() sets0.String {
+func (m *MockVirtualHostOptionSet) Keys() sets1.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets0.String)
+	ret0, _ := ret[0].(sets1.String)
 	return ret0
 }
 
@@ -845,7 +887,7 @@ func (mr *MockVirtualHostOptionSetMockRecorder) Insert(virtualHostOption ...inte
 }
 
 // Equal mocks base method
-func (m *MockVirtualHostOptionSet) Equal(virtualHostOptionSet v1sets.VirtualHostOptionSet) bool {
+func (m *MockVirtualHostOptionSet) Equal(virtualHostOptionSet sets0.VirtualHostOptionSet) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Equal", virtualHostOptionSet)
 	ret0, _ := ret[0].(bool)
@@ -885,10 +927,10 @@ func (mr *MockVirtualHostOptionSetMockRecorder) Delete(virtualHostOption interfa
 }
 
 // Union mocks base method
-func (m *MockVirtualHostOptionSet) Union(set v1sets.VirtualHostOptionSet) v1sets.VirtualHostOptionSet {
+func (m *MockVirtualHostOptionSet) Union(set sets0.VirtualHostOptionSet) sets0.VirtualHostOptionSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1sets.VirtualHostOptionSet)
+	ret0, _ := ret[0].(sets0.VirtualHostOptionSet)
 	return ret0
 }
 
@@ -899,10 +941,10 @@ func (mr *MockVirtualHostOptionSetMockRecorder) Union(set interface{}) *gomock.C
 }
 
 // Difference mocks base method
-func (m *MockVirtualHostOptionSet) Difference(set v1sets.VirtualHostOptionSet) v1sets.VirtualHostOptionSet {
+func (m *MockVirtualHostOptionSet) Difference(set sets0.VirtualHostOptionSet) sets0.VirtualHostOptionSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1sets.VirtualHostOptionSet)
+	ret0, _ := ret[0].(sets0.VirtualHostOptionSet)
 	return ret0
 }
 
@@ -913,10 +955,10 @@ func (mr *MockVirtualHostOptionSetMockRecorder) Difference(set interface{}) *gom
 }
 
 // Intersection mocks base method
-func (m *MockVirtualHostOptionSet) Intersection(set v1sets.VirtualHostOptionSet) v1sets.VirtualHostOptionSet {
+func (m *MockVirtualHostOptionSet) Intersection(set sets0.VirtualHostOptionSet) sets0.VirtualHostOptionSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1sets.VirtualHostOptionSet)
+	ret0, _ := ret[0].(sets0.VirtualHostOptionSet)
 	return ret0
 }
 
@@ -970,7 +1012,7 @@ func (mr *MockVirtualHostOptionSetMockRecorder) Generic() *gomock.Call {
 }
 
 // Delta mocks base method
-func (m *MockVirtualHostOptionSet) Delta(newSet v1sets.VirtualHostOptionSet) sets.ResourceDelta {
+func (m *MockVirtualHostOptionSet) Delta(newSet sets0.VirtualHostOptionSet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -981,6 +1023,20 @@ func (m *MockVirtualHostOptionSet) Delta(newSet v1sets.VirtualHostOptionSet) set
 func (mr *MockVirtualHostOptionSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockVirtualHostOptionSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockVirtualHostOptionSet) Clone() sets0.VirtualHostOptionSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(sets0.VirtualHostOptionSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockVirtualHostOptionSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockVirtualHostOptionSet)(nil).Clone))
 }
 
 // MockRouteOptionSet is a mock of RouteOptionSet interface
@@ -1007,10 +1063,10 @@ func (m *MockRouteOptionSet) EXPECT() *MockRouteOptionSetMockRecorder {
 }
 
 // Keys mocks base method
-func (m *MockRouteOptionSet) Keys() sets0.String {
+func (m *MockRouteOptionSet) Keys() sets1.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets0.String)
+	ret0, _ := ret[0].(sets1.String)
 	return ret0
 }
 
@@ -1087,7 +1143,7 @@ func (mr *MockRouteOptionSetMockRecorder) Insert(routeOption ...interface{}) *go
 }
 
 // Equal mocks base method
-func (m *MockRouteOptionSet) Equal(routeOptionSet v1sets.RouteOptionSet) bool {
+func (m *MockRouteOptionSet) Equal(routeOptionSet sets0.RouteOptionSet) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Equal", routeOptionSet)
 	ret0, _ := ret[0].(bool)
@@ -1127,10 +1183,10 @@ func (mr *MockRouteOptionSetMockRecorder) Delete(routeOption interface{}) *gomoc
 }
 
 // Union mocks base method
-func (m *MockRouteOptionSet) Union(set v1sets.RouteOptionSet) v1sets.RouteOptionSet {
+func (m *MockRouteOptionSet) Union(set sets0.RouteOptionSet) sets0.RouteOptionSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1sets.RouteOptionSet)
+	ret0, _ := ret[0].(sets0.RouteOptionSet)
 	return ret0
 }
 
@@ -1141,10 +1197,10 @@ func (mr *MockRouteOptionSetMockRecorder) Union(set interface{}) *gomock.Call {
 }
 
 // Difference mocks base method
-func (m *MockRouteOptionSet) Difference(set v1sets.RouteOptionSet) v1sets.RouteOptionSet {
+func (m *MockRouteOptionSet) Difference(set sets0.RouteOptionSet) sets0.RouteOptionSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1sets.RouteOptionSet)
+	ret0, _ := ret[0].(sets0.RouteOptionSet)
 	return ret0
 }
 
@@ -1155,10 +1211,10 @@ func (mr *MockRouteOptionSetMockRecorder) Difference(set interface{}) *gomock.Ca
 }
 
 // Intersection mocks base method
-func (m *MockRouteOptionSet) Intersection(set v1sets.RouteOptionSet) v1sets.RouteOptionSet {
+func (m *MockRouteOptionSet) Intersection(set sets0.RouteOptionSet) sets0.RouteOptionSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1sets.RouteOptionSet)
+	ret0, _ := ret[0].(sets0.RouteOptionSet)
 	return ret0
 }
 
@@ -1212,7 +1268,7 @@ func (mr *MockRouteOptionSetMockRecorder) Generic() *gomock.Call {
 }
 
 // Delta mocks base method
-func (m *MockRouteOptionSet) Delta(newSet v1sets.RouteOptionSet) sets.ResourceDelta {
+func (m *MockRouteOptionSet) Delta(newSet sets0.RouteOptionSet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -1223,4 +1279,18 @@ func (m *MockRouteOptionSet) Delta(newSet v1sets.RouteOptionSet) sets.ResourceDe
 func (mr *MockRouteOptionSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockRouteOptionSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockRouteOptionSet) Clone() sets0.RouteOptionSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(sets0.RouteOptionSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockRouteOptionSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockRouteOptionSet)(nil).Clone))
 }

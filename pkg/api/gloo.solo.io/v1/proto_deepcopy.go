@@ -6,52 +6,93 @@ package v1
 
 import (
 	proto "github.com/golang/protobuf/proto"
+	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 )
 
 // DeepCopyInto for the Settings.Spec
 func (in *SettingsSpec) DeepCopyInto(out *SettingsSpec) {
-	p := proto.Clone(in).(*SettingsSpec)
+	var p *SettingsSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*SettingsSpec)
+	} else {
+		p = proto.Clone(in).(*SettingsSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the Settings.Status
 func (in *SettingsStatus) DeepCopyInto(out *SettingsStatus) {
-	p := proto.Clone(in).(*SettingsStatus)
+	var p *SettingsStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*SettingsStatus)
+	} else {
+		p = proto.Clone(in).(*SettingsStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the Upstream.Spec
 func (in *UpstreamSpec) DeepCopyInto(out *UpstreamSpec) {
-	p := proto.Clone(in).(*UpstreamSpec)
+	var p *UpstreamSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*UpstreamSpec)
+	} else {
+		p = proto.Clone(in).(*UpstreamSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the Upstream.Status
 func (in *UpstreamStatus) DeepCopyInto(out *UpstreamStatus) {
-	p := proto.Clone(in).(*UpstreamStatus)
+	var p *UpstreamStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*UpstreamStatus)
+	} else {
+		p = proto.Clone(in).(*UpstreamStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the UpstreamGroup.Spec
 func (in *UpstreamGroupSpec) DeepCopyInto(out *UpstreamGroupSpec) {
-	p := proto.Clone(in).(*UpstreamGroupSpec)
+	var p *UpstreamGroupSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*UpstreamGroupSpec)
+	} else {
+		p = proto.Clone(in).(*UpstreamGroupSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the UpstreamGroup.Status
 func (in *UpstreamGroupStatus) DeepCopyInto(out *UpstreamGroupStatus) {
-	p := proto.Clone(in).(*UpstreamGroupStatus)
+	var p *UpstreamGroupStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*UpstreamGroupStatus)
+	} else {
+		p = proto.Clone(in).(*UpstreamGroupStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the Proxy.Spec
 func (in *ProxySpec) DeepCopyInto(out *ProxySpec) {
-	p := proto.Clone(in).(*ProxySpec)
+	var p *ProxySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ProxySpec)
+	} else {
+		p = proto.Clone(in).(*ProxySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the Proxy.Status
 func (in *ProxyStatus) DeepCopyInto(out *ProxyStatus) {
-	p := proto.Clone(in).(*ProxyStatus)
+	var p *ProxyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ProxyStatus)
+	} else {
+		p = proto.Clone(in).(*ProxyStatus)
+	}
 	*out = *p
 }

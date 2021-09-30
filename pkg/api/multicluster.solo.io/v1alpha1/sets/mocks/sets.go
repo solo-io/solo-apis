@@ -11,8 +11,8 @@ import (
 	sets "github.com/solo-io/skv2/contrib/pkg/sets"
 	ezkube "github.com/solo-io/skv2/pkg/ezkube"
 	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1"
-	v1alpha1sets "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1/sets"
-	sets0 "k8s.io/apimachinery/pkg/util/sets"
+	sets0 "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1/sets"
+	sets1 "k8s.io/apimachinery/pkg/util/sets"
 )
 
 // MockMultiClusterRoleSet is a mock of MultiClusterRoleSet interface
@@ -39,10 +39,10 @@ func (m *MockMultiClusterRoleSet) EXPECT() *MockMultiClusterRoleSetMockRecorder 
 }
 
 // Keys mocks base method
-func (m *MockMultiClusterRoleSet) Keys() sets0.String {
+func (m *MockMultiClusterRoleSet) Keys() sets1.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets0.String)
+	ret0, _ := ret[0].(sets1.String)
 	return ret0
 }
 
@@ -119,7 +119,7 @@ func (mr *MockMultiClusterRoleSetMockRecorder) Insert(multiClusterRole ...interf
 }
 
 // Equal mocks base method
-func (m *MockMultiClusterRoleSet) Equal(multiClusterRoleSet v1alpha1sets.MultiClusterRoleSet) bool {
+func (m *MockMultiClusterRoleSet) Equal(multiClusterRoleSet sets0.MultiClusterRoleSet) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Equal", multiClusterRoleSet)
 	ret0, _ := ret[0].(bool)
@@ -159,10 +159,10 @@ func (mr *MockMultiClusterRoleSetMockRecorder) Delete(multiClusterRole interface
 }
 
 // Union mocks base method
-func (m *MockMultiClusterRoleSet) Union(set v1alpha1sets.MultiClusterRoleSet) v1alpha1sets.MultiClusterRoleSet {
+func (m *MockMultiClusterRoleSet) Union(set sets0.MultiClusterRoleSet) sets0.MultiClusterRoleSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
+	ret0, _ := ret[0].(sets0.MultiClusterRoleSet)
 	return ret0
 }
 
@@ -173,10 +173,10 @@ func (mr *MockMultiClusterRoleSetMockRecorder) Union(set interface{}) *gomock.Ca
 }
 
 // Difference mocks base method
-func (m *MockMultiClusterRoleSet) Difference(set v1alpha1sets.MultiClusterRoleSet) v1alpha1sets.MultiClusterRoleSet {
+func (m *MockMultiClusterRoleSet) Difference(set sets0.MultiClusterRoleSet) sets0.MultiClusterRoleSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
+	ret0, _ := ret[0].(sets0.MultiClusterRoleSet)
 	return ret0
 }
 
@@ -187,10 +187,10 @@ func (mr *MockMultiClusterRoleSetMockRecorder) Difference(set interface{}) *gomo
 }
 
 // Intersection mocks base method
-func (m *MockMultiClusterRoleSet) Intersection(set v1alpha1sets.MultiClusterRoleSet) v1alpha1sets.MultiClusterRoleSet {
+func (m *MockMultiClusterRoleSet) Intersection(set sets0.MultiClusterRoleSet) sets0.MultiClusterRoleSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
+	ret0, _ := ret[0].(sets0.MultiClusterRoleSet)
 	return ret0
 }
 
@@ -244,7 +244,7 @@ func (mr *MockMultiClusterRoleSetMockRecorder) Generic() *gomock.Call {
 }
 
 // Delta mocks base method
-func (m *MockMultiClusterRoleSet) Delta(newSet v1alpha1sets.MultiClusterRoleSet) sets.ResourceDelta {
+func (m *MockMultiClusterRoleSet) Delta(newSet sets0.MultiClusterRoleSet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -255,4 +255,18 @@ func (m *MockMultiClusterRoleSet) Delta(newSet v1alpha1sets.MultiClusterRoleSet)
 func (mr *MockMultiClusterRoleSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockMultiClusterRoleSet) Clone() sets0.MultiClusterRoleSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(sets0.MultiClusterRoleSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockMultiClusterRoleSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Clone))
 }

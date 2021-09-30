@@ -11,8 +11,8 @@ import (
 	sets "github.com/solo-io/skv2/contrib/pkg/sets"
 	ezkube "github.com/solo-io/skv2/pkg/ezkube"
 	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
-	v1alpha1sets "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/sets"
-	sets0 "k8s.io/apimachinery/pkg/util/sets"
+	sets0 "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1/sets"
+	sets1 "k8s.io/apimachinery/pkg/util/sets"
 )
 
 // MockRateLimitConfigSet is a mock of RateLimitConfigSet interface
@@ -39,10 +39,10 @@ func (m *MockRateLimitConfigSet) EXPECT() *MockRateLimitConfigSetMockRecorder {
 }
 
 // Keys mocks base method
-func (m *MockRateLimitConfigSet) Keys() sets0.String {
+func (m *MockRateLimitConfigSet) Keys() sets1.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
-	ret0, _ := ret[0].(sets0.String)
+	ret0, _ := ret[0].(sets1.String)
 	return ret0
 }
 
@@ -119,7 +119,7 @@ func (mr *MockRateLimitConfigSetMockRecorder) Insert(rateLimitConfig ...interfac
 }
 
 // Equal mocks base method
-func (m *MockRateLimitConfigSet) Equal(rateLimitConfigSet v1alpha1sets.RateLimitConfigSet) bool {
+func (m *MockRateLimitConfigSet) Equal(rateLimitConfigSet sets0.RateLimitConfigSet) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Equal", rateLimitConfigSet)
 	ret0, _ := ret[0].(bool)
@@ -159,10 +159,10 @@ func (mr *MockRateLimitConfigSetMockRecorder) Delete(rateLimitConfig interface{}
 }
 
 // Union mocks base method
-func (m *MockRateLimitConfigSet) Union(set v1alpha1sets.RateLimitConfigSet) v1alpha1sets.RateLimitConfigSet {
+func (m *MockRateLimitConfigSet) Union(set sets0.RateLimitConfigSet) sets0.RateLimitConfigSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1alpha1sets.RateLimitConfigSet)
+	ret0, _ := ret[0].(sets0.RateLimitConfigSet)
 	return ret0
 }
 
@@ -173,10 +173,10 @@ func (mr *MockRateLimitConfigSetMockRecorder) Union(set interface{}) *gomock.Cal
 }
 
 // Difference mocks base method
-func (m *MockRateLimitConfigSet) Difference(set v1alpha1sets.RateLimitConfigSet) v1alpha1sets.RateLimitConfigSet {
+func (m *MockRateLimitConfigSet) Difference(set sets0.RateLimitConfigSet) sets0.RateLimitConfigSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1alpha1sets.RateLimitConfigSet)
+	ret0, _ := ret[0].(sets0.RateLimitConfigSet)
 	return ret0
 }
 
@@ -187,10 +187,10 @@ func (mr *MockRateLimitConfigSetMockRecorder) Difference(set interface{}) *gomoc
 }
 
 // Intersection mocks base method
-func (m *MockRateLimitConfigSet) Intersection(set v1alpha1sets.RateLimitConfigSet) v1alpha1sets.RateLimitConfigSet {
+func (m *MockRateLimitConfigSet) Intersection(set sets0.RateLimitConfigSet) sets0.RateLimitConfigSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1alpha1sets.RateLimitConfigSet)
+	ret0, _ := ret[0].(sets0.RateLimitConfigSet)
 	return ret0
 }
 
@@ -244,7 +244,7 @@ func (mr *MockRateLimitConfigSetMockRecorder) Generic() *gomock.Call {
 }
 
 // Delta mocks base method
-func (m *MockRateLimitConfigSet) Delta(newSet v1alpha1sets.RateLimitConfigSet) sets.ResourceDelta {
+func (m *MockRateLimitConfigSet) Delta(newSet sets0.RateLimitConfigSet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -255,4 +255,18 @@ func (m *MockRateLimitConfigSet) Delta(newSet v1alpha1sets.RateLimitConfigSet) s
 func (mr *MockRateLimitConfigSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockRateLimitConfigSet) Clone() sets0.RateLimitConfigSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(sets0.RateLimitConfigSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockRateLimitConfigSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockRateLimitConfigSet)(nil).Clone))
 }
