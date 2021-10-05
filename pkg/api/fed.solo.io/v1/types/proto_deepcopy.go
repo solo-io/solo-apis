@@ -19,3 +19,15 @@ func (in *GlooInstanceStatus) DeepCopyInto(out *GlooInstanceStatus) {
 	p := proto.Clone(in).(*GlooInstanceStatus)
 	*out = *p
 }
+
+// DeepCopyInto for the FailoverScheme.Spec
+func (in *FailoverSchemeSpec) DeepCopyInto(out *FailoverSchemeSpec) {
+	p := proto.Clone(in).(*FailoverSchemeSpec)
+	*out = *p
+}
+
+// DeepCopyInto for the FailoverScheme.Status
+func (in *FailoverSchemeStatus) DeepCopyInto(out *FailoverSchemeStatus) {
+	p := proto.Clone(in).(*FailoverSchemeStatus)
+	*out = *p
+}

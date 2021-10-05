@@ -5,3 +5,6 @@ package v1
 
 // GlooInstanceSlice represents a slice of *GlooInstance
 type GlooInstanceSlice []*GlooInstance
+
+// FailoverSchemeSlice represents a slice of *FailoverScheme
+type FailoverSchemeSlice []*FailoverScheme

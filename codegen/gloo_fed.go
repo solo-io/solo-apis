@@ -17,7 +17,6 @@ func GlooFedGroups() []model.Group {
 	}
 }
 
-
 func makeFedGroup() model.Group {
 	return makeGroup("fed", "v1", []resourceToGenerate{
 		{kind: "GlooInstance"},
