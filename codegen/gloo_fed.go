@@ -2,7 +2,6 @@ package codegen
 
 import (
 	"github.com/solo-io/skv2/codegen/model"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 func init() {
@@ -11,31 +10,39 @@ func init() {
 
 func GlooFedGroups() []model.Group {
 	return []model.Group{
-		{
-			GroupVersion: schema.GroupVersion{
-				Group:   "fed.solo.io",
-				Version: "v1",
-			},
-			Module: "github.com/solo-io/solo-apis",
-			Resources: []model.Resource{
-				{
-					Kind: "GlooInstance",
-					Spec: model.Field{
-						Type: model.Type{
-							Name:      "GlooInstanceSpec",
-							GoPackage: "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types",
-						},
-					},
-					Status: &model.Field{
-						Type: model.Type{
-							Name:      "GlooInstanceStatus",
-							GoPackage: "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types",
-						}},
-				},
-			},
-			RenderTypes:   true,
-			RenderClients: true,
-			ApiRoot:       "pkg/api",
-		},
+		makeFedGroup(),
+		makeFedGatewayGroup(),
+		makeFedGlooGroup(),
+		makeFedEnterpriseGlooGroup(),
 	}
+}
+
+
+func makeFedGroup() model.Group {
+	return makeGroup("fed", "v1", []resourceToGenerate{
+		{kind: "GlooInstance"},
+		{kind: "FailoverScheme"},
+	}, []model.CustomTemplates{})
+}
+
+func makeFedGatewayGroup() model.Group {
+	return makeGroup("fed.gateway", "v1", []resourceToGenerate{
+		{kind: "FederatedGateway"},
+		{kind: "FederatedRouteTable"},
+		{kind: "FederatedVirtualService"},
+	}, []model.CustomTemplates{})
+}
+
+func makeFedGlooGroup() model.Group {
+	return makeGroup("fed.gloo", "v1", []resourceToGenerate{
+		{kind: "FederatedSettings"},
+		{kind: "FederatedUpstream"},
+		{kind: "FederatedUpstreamGroup"},
+	}, []model.CustomTemplates{})
+}
+
+func makeFedEnterpriseGlooGroup() model.Group {
+	return makeGroup("fed.enterprise.gloo", "v1", []resourceToGenerate{
+		{kind: "FederatedAuthConfig"},
+	}, []model.CustomTemplates{})
 }
