@@ -20,7 +20,7 @@ var _ = fmt.Errorf
 var _ = math.Inf
 
 var (
-	marshaller   = &skv2jsonpb.Marshaler{}
+	marshaller   = &skv2jsonpb.Marshaler{EnumsAsInts: true}
 	unmarshaller = &jsonpb.Unmarshaler{}
 )
 
@@ -43,5 +43,17 @@ func (this *AuthConfigStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for AuthConfigStatus
 func (this *AuthConfigStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	namespacedStatuses := AuthConfigNamespacedStatuses{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
+		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+	}
+
+	for _, status := range namespacedStatuses.GetStatuses() {
+		// take the first status
+		if status != nil {
+			status.DeepCopyInto(this)
+			return nil
+		}
+	}
+	return nil
 }
