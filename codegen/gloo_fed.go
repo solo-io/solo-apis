@@ -14,6 +14,7 @@ func GlooFedGroups() []model.Group {
 		makeFedGatewayGroup(),
 		makeFedGlooGroup(),
 		makeFedEnterpriseGlooGroup(),
+		makeFedRateLimitGroup(),
 	}
 }
 
@@ -43,5 +44,11 @@ func makeFedGlooGroup() model.Group {
 func makeFedEnterpriseGlooGroup() model.Group {
 	return makeGroup("fed.enterprise.gloo", "v1", []resourceToGenerate{
 		{kind: "FederatedAuthConfig"},
+	}, []model.CustomTemplates{})
+}
+
+func makeFedRateLimitGroup() model.Group {
+	return makeGroup("fed.ratelimit", "v1alpha1", []resourceToGenerate{
+		{kind: "FederatedRateLimitConfig"},
 	}, []model.CustomTemplates{})
 }
