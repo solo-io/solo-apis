@@ -32,14 +32,14 @@ func GlooGroups() []model.Group {
 				protoPackage: "enterprise.gloo.solo.io",
 				goPackage:    "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1",
 			},
-		}, []model.CustomTemplates{}),
+		}, GlooCustomTemplates),
 	}
 }
 
 // Gloo resources, backed by solo-kit, support reporting statuses for multiple controllers (1 per namespace)
 // Gloo-Fed resources, backed by skv2, do not yet. To reduce the complexity of the change, we
 // chose to not introduce namespaced statuses support for gloo-fed resources as part of this PR.
-// In order to handle these two cases simultaneously, we define custom status unmarhsallers for Gloo-Fed resources.
+// In order to handle these two cases simultaneously, we define custom status unmarshallers for Gloo-Fed resources.
 
 var GlooCustomTemplates []model.CustomTemplates
 
