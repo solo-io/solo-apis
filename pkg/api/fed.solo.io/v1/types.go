@@ -44,6 +44,42 @@ type GlooInstanceList struct {
 	Items           []GlooInstance `json:"items"`
 }
 
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
+// GroupVersionKind for FailoverScheme
+var FailoverSchemeGVK = schema.GroupVersionKind{
+	Group:   "fed.solo.io",
+	Version: "v1",
+	Kind:    "FailoverScheme",
+}
+
+// FailoverScheme is the Schema for the failoverScheme API
+type FailoverScheme struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   FailoverSchemeSpec   `json:"spec,omitempty"`
+	Status FailoverSchemeStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (FailoverScheme) GVK() schema.GroupVersionKind {
+	return FailoverSchemeGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// FailoverSchemeList contains a list of FailoverScheme
+type FailoverSchemeList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []FailoverScheme `json:"items"`
+}
+
 func init() {
 	SchemeBuilder.Register(&GlooInstance{}, &GlooInstanceList{})
+	SchemeBuilder.Register(&FailoverScheme{}, &FailoverSchemeList{})
 }
