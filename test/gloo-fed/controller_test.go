@@ -2,11 +2,12 @@ package gloo_fed_test
 
 import (
 	"context"
+
 	"github.com/golang/mock/gomock"
 	"github.com/solo-io/skv2/pkg/controllerutils"
 	"github.com/solo-io/skv2/pkg/resource"
 	mock_resource "github.com/solo-io/skv2/pkg/resource/mocks"
-	"github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
+	v1 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
 	"github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1/types"
 	"github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -22,9 +23,9 @@ import (
 var _ = Describe("Controller", func() {
 
 	var (
-		ctl     *gomock.Controller
-		client  *mock_resource.MockClient
-		ctx     = context.Background()
+		ctl    *gomock.Controller
+		client *mock_resource.MockClient
+		ctx    = context.Background()
 	)
 
 	JustBeforeEach(func() {
