@@ -28,12 +28,12 @@ var _ = Describe("Controller", func() {
 		ctx    = context.Background()
 	)
 
-	JustBeforeEach(func() {
+	BeforeEach(func() {
 		ctl = gomock.NewController(GinkgoT())
 		client = mock_resource.NewMockClient(ctl)
 	})
 
-	JustAfterEach(func() {
+	AfterEach(func() {
 		ctl.Finish()
 	})
 
