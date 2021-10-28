@@ -273,6 +273,18 @@ func (m *Route) Equal(that interface{}) bool {
 			}
 		}
 
+	case *Route_GraphqlSchemaRef:
+
+		if h, ok := interface{}(m.GetGraphqlSchemaRef()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetGraphqlSchemaRef()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetGraphqlSchemaRef(), target.GetGraphqlSchemaRef()) {
+				return false
+			}
+		}
+
 	}
 
 	switch m.ExternalOptionsConfig.(type) {
