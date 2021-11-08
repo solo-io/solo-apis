@@ -3,6 +3,10 @@ module github.com/solo-io/solo-apis
 go 1.16
 
 replace (
+
+	// pinned to solo-io's fork of cue version 308aee4ff0928a8e0ec25b9cbbdc445264038463
+	// note(ilackarms): this replace must be shared in any skv2-based go module due to incompatibility with upstream versions of cue
+	cuelang.org/go => github.com/solo-io/cue v0.4.1-0.20210623143425-308aee4ff092
 	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
 
 	// skv2 uses a newer version than the imported solo-kit version which causes issues. Replaces the version with the solo-kit version
