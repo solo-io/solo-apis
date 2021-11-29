@@ -28,7 +28,7 @@ require (
 	github.com/rotisserie/eris v0.1.1
 	github.com/solo-io/go-utils v0.21.6
 	github.com/solo-io/protoc-gen-ext v0.0.16
-	github.com/solo-io/skv2 v0.21.6-0.20211129195516-a3e00c341316
+	github.com/solo-io/skv2 v0.21.6
 	github.com/solo-io/solo-kit v0.23.0
 	golang.org/x/tools v0.1.4
 	google.golang.org/genproto v0.0.0-20210218151259-fe80b386bf06

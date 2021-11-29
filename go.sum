@@ -950,8 +950,8 @@ github.com/soheilhy/cmux v0.1.4/go.mod h1:IM3LyeVVIOuxMH7sFAkER9+bJ4dT7Ms6E4xg4k
 github.com/solo-io/anyvendor v0.0.1/go.mod h1:SLucIeU8qBOYI82BveNVn2LzZFcMWJSCf8Kd1S4Jcr4=
 github.com/solo-io/anyvendor v0.0.4 h1:9nI7o7Srml2uaOpT5HJSru06IHUZpzSCU/dEkseiGa4=
 github.com/solo-io/anyvendor v0.0.4/go.mod h1:+TTkDGd11u8ugXccqtukBEWvkZkODaBbeWgdH/F/IWY=
-github.com/solo-io/cue v0.4.1-0.20211129194743-fcfaa00e6d56 h1:j1ffcufSHlEKQU3mnv51GnFA9nx5wDwvMb/JQSbaZ00=
-github.com/solo-io/cue v0.4.1-0.20211129194743-fcfaa00e6d56/go.mod h1:05A69OirvmCiFowCu8HQcrLSfe2Qpdnj9Q8HWO/5BlM=
+github.com/solo-io/cue v0.4.1 h1:P+A+/4o1NIJ0BDLmIF7vMDEsKQFlIn6M01Q9CHV77AY=
+github.com/solo-io/cue v0.4.1/go.mod h1:NaNBm1PrzINbNcE/ZU9wEAJ6JXvi//F/HU5cIpngeZE=
 github.com/solo-io/go-list-licenses v0.0.4/go.mod h1:x6LSp/NrYgVXwNum7ZOiaAYTpg6B3F6TrWYfcdHVroA=
 github.com/solo-io/go-utils v0.19.0/go.mod h1:If8NiehXROCFU65PGeDTrrZCNA5gJXvbcVoXI8Fqjko=
 github.com/solo-io/go-utils v0.20.2/go.mod h1:6e8K1spnMWwlnJRSNp/J84GEyJbrcK4Gm7i+ehzCi8c=
@@ -964,8 +964,8 @@ github.com/solo-io/k8s-utils v0.0.8/go.mod h1:Cg2ymG0xhLdyS3NJ0D98yxiSWjAKYPNopz
 github.com/solo-io/protoc-gen-ext v0.0.13/go.mod h1:/U/jMDtVI7R6N323sfaUXK9Mmo54D7SY3pP7JtI/kMo=
 github.com/solo-io/protoc-gen-ext v0.0.16 h1:PHPzkmK6FVtMlDe95WSOcSXKSdnfUxuwJMfet/PaLhU=
 github.com/solo-io/protoc-gen-ext v0.0.16/go.mod h1:j5wvKW5B7oes0hf46IxPDEkDK0pNNQ1Nbfrr1P+xBQo=
-github.com/solo-io/skv2 v0.21.6-0.20211129195516-a3e00c341316 h1:adiHQNs0uIDNqLmsZDCGLzDTArOE+T18BLpPsYLQVjg=
-github.com/solo-io/skv2 v0.21.6-0.20211129195516-a3e00c341316/go.mod h1:S6aQ68aoeI87bC7ivwEhhVW4NrIdfFchsAIjyO1O9rg=
+github.com/solo-io/skv2 v0.21.6 h1:LyJMbttLkzEIkyxg7ZQs81adNpwYCflniWOJRZ1MRns=
+github.com/solo-io/skv2 v0.21.6/go.mod h1:8jNcMWuAkBxdGhlRFMSgsK94q/jZGPEas8VHTr/al/Y=
 github.com/solo-io/solo-kit v0.23.0 h1:pakb6BimJxVb/lTN7a4kLGcpyvNtcQseh+VDkOpFc+M=
 github.com/solo-io/solo-kit v0.23.0/go.mod h1:uCOi8RQ3MetHXsRFvVKPzafYySUvFuPxB+gvo7ScRR8=
 github.com/sony/gobreaker v0.4.1/go.mod h1:ZKptC7FHNvhBz7dN2LGjPVBz2sZJmc0/PkyDJOjmxWY=
