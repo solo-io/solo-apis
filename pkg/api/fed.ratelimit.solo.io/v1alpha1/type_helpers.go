@@ -3,5 +3,8 @@
 // Definitions for the Kubernetes types
 package v1alpha1
 
+import (
+)
+
 // FederatedRateLimitConfigSlice represents a slice of *FederatedRateLimitConfig
 type FederatedRateLimitConfigSlice []*FederatedRateLimitConfig

@@ -60,5 +60,6 @@ func makeGroup(
 		MockgenDirective: true,
 		CustomTemplates:  customGroupTemplates,
 		ApiRoot:          apiRoot,
+		SkipSpecHash:     true,
 	}
 }

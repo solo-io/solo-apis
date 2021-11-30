@@ -4,9 +4,8 @@
 package v1alpha1
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-)
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/apimachinery/pkg/runtime/schema")
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -15,22 +14,22 @@ import (
 
 // GroupVersionKind for FederatedRateLimitConfig
 var FederatedRateLimitConfigGVK = schema.GroupVersionKind{
-	Group:   "fed.ratelimit.solo.io",
-	Version: "v1alpha1",
-	Kind:    "FederatedRateLimitConfig",
+    Group: "fed.ratelimit.solo.io",
+    Version: "v1alpha1",
+    Kind: "FederatedRateLimitConfig",
 }
 
 // FederatedRateLimitConfig is the Schema for the federatedRateLimitConfig API
 type FederatedRateLimitConfig struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedRateLimitConfigSpec   `json:"spec,omitempty"`
-	Status FederatedRateLimitConfigStatus `json:"status,omitempty"`
+    Spec FederatedRateLimitConfigSpec `json:"spec,omitempty"`
+    Status FederatedRateLimitConfigStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedRateLimitConfig) GVK() schema.GroupVersionKind {
+func (FederatedRateLimitConfig)  GVK() schema.GroupVersionKind {
 	return FederatedRateLimitConfigGVK
 }
 
@@ -38,11 +37,11 @@ func (FederatedRateLimitConfig) GVK() schema.GroupVersionKind {
 
 // FederatedRateLimitConfigList contains a list of FederatedRateLimitConfig
 type FederatedRateLimitConfigList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FederatedRateLimitConfig `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []FederatedRateLimitConfig `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&FederatedRateLimitConfig{}, &FederatedRateLimitConfigList{})
+    SchemeBuilder.Register(&FederatedRateLimitConfig{}, &FederatedRateLimitConfigList{})
 }
