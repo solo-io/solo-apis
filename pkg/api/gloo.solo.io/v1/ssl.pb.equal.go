@@ -122,6 +122,9 @@ func (m *SslConfig) Equal(that interface{}) bool {
 	switch m.SslSecrets.(type) {
 
 	case *SslConfig_SecretRef:
+		if _, ok := target.SslSecrets.(*SslConfig_SecretRef); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetSecretRef()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSecretRef()) {
@@ -134,6 +137,9 @@ func (m *SslConfig) Equal(that interface{}) bool {
 		}
 
 	case *SslConfig_SslFiles:
+		if _, ok := target.SslSecrets.(*SslConfig_SslFiles); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetSslFiles()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSslFiles()) {
@@ -146,6 +152,9 @@ func (m *SslConfig) Equal(that interface{}) bool {
 		}
 
 	case *SslConfig_Sds:
+		if _, ok := target.SslSecrets.(*SslConfig_Sds); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetSds()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSds()) {
@@ -157,6 +166,11 @@ func (m *SslConfig) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.SslSecrets != target.SslSecrets {
+			return false
+		}
 	}
 
 	return true
@@ -258,6 +272,9 @@ func (m *UpstreamSslConfig) Equal(that interface{}) bool {
 	switch m.SslSecrets.(type) {
 
 	case *UpstreamSslConfig_SecretRef:
+		if _, ok := target.SslSecrets.(*UpstreamSslConfig_SecretRef); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetSecretRef()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSecretRef()) {
@@ -270,6 +287,9 @@ func (m *UpstreamSslConfig) Equal(that interface{}) bool {
 		}
 
 	case *UpstreamSslConfig_SslFiles:
+		if _, ok := target.SslSecrets.(*UpstreamSslConfig_SslFiles); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetSslFiles()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSslFiles()) {
@@ -282,6 +302,9 @@ func (m *UpstreamSslConfig) Equal(that interface{}) bool {
 		}
 
 	case *UpstreamSslConfig_Sds:
+		if _, ok := target.SslSecrets.(*UpstreamSslConfig_Sds); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetSds()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSds()) {
@@ -293,6 +316,11 @@ func (m *UpstreamSslConfig) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.SslSecrets != target.SslSecrets {
+			return false
+		}
 	}
 
 	return true
@@ -334,6 +362,9 @@ func (m *SDSConfig) Equal(that interface{}) bool {
 	switch m.SdsBuilder.(type) {
 
 	case *SDSConfig_CallCredentials:
+		if _, ok := target.SdsBuilder.(*SDSConfig_CallCredentials); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetCallCredentials()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetCallCredentials()) {
@@ -346,11 +377,19 @@ func (m *SDSConfig) Equal(that interface{}) bool {
 		}
 
 	case *SDSConfig_ClusterName:
+		if _, ok := target.SdsBuilder.(*SDSConfig_ClusterName); !ok {
+			return false
+		}
 
 		if strings.Compare(m.GetClusterName(), target.GetClusterName()) != 0 {
 			return false
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.SdsBuilder != target.SdsBuilder {
+			return false
+		}
 	}
 
 	return true

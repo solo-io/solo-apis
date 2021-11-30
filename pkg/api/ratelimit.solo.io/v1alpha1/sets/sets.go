@@ -44,6 +44,8 @@ type RateLimitConfigSet interface {
 	Generic() sksets.ResourceSet
 	// returns the delta between this and and another RateLimitConfigSet
 	Delta(newSet RateLimitConfigSet) sksets.ResourceDelta
+	// Create a deep copy of the current RateLimitConfigSet
+	Clone() RateLimitConfigSet
 }
 
 func makeGenericRateLimitConfigSet(rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig) sksets.ResourceSet {
@@ -221,4 +223,11 @@ func (s *rateLimitConfigSet) Delta(newSet RateLimitConfigSet) sksets.ResourceDel
 		}
 	}
 	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *rateLimitConfigSet) Clone() RateLimitConfigSet {
+	if s == nil {
+		return nil
+	}
+	return &rateLimitConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
