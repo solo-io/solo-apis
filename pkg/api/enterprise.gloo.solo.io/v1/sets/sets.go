@@ -44,6 +44,8 @@ type AuthConfigSet interface {
 	Generic() sksets.ResourceSet
 	// returns the delta between this and and another AuthConfigSet
 	Delta(newSet AuthConfigSet) sksets.ResourceDelta
+	// Create a deep copy of the current AuthConfigSet
+	Clone() AuthConfigSet
 }
 
 func makeGenericAuthConfigSet(authConfigList []*enterprise_gloo_solo_io_v1.AuthConfig) sksets.ResourceSet {
@@ -221,4 +223,11 @@ func (s *authConfigSet) Delta(newSet AuthConfigSet) sksets.ResourceDelta {
 		}
 	}
 	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *authConfigSet) Clone() AuthConfigSet {
+	if s == nil {
+		return nil
+	}
+	return &authConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }

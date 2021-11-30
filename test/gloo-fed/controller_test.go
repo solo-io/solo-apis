@@ -13,6 +13,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/client-go/kubernetes/scheme"
 	client2 "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
@@ -39,7 +40,10 @@ var _ = Describe("Controller", func() {
 
 	Context("FederatedUpstream", func() {
 
-		var desired *v1.FederatedUpstream
+		var (
+			desired       *v1.FederatedUpstream
+			runtimeScheme *runtime.Scheme
+		)
 
 		BeforeEach(func() {
 			desired = &v1.FederatedUpstream{
@@ -53,9 +57,14 @@ var _ = Describe("Controller", func() {
 					},
 				},
 			}
+
+			runtimeScheme = scheme.Scheme
+			err := v1.AddToScheme(runtimeScheme)
+			Expect(err).NotTo(HaveOccurred())
 		})
 
 		It("Can create resource", func() {
+			client.EXPECT().Scheme().Return(runtimeScheme).Times(2)
 			client.EXPECT().Get(ctx, client2.ObjectKeyFromObject(desired), gomock.Any()).Return(
 				&errors.StatusError{
 					ErrStatus: metav1.Status{Reason: metav1.StatusReasonNotFound},
@@ -70,6 +79,7 @@ var _ = Describe("Controller", func() {
 		It("Can transition resource", func() {
 			var called bool
 
+			client.EXPECT().Scheme().Return(runtimeScheme).Times(2)
 			client.EXPECT().Get(ctx, resource.ToClientKey(desired), gomock.Any()).Return(nil)
 			client.EXPECT().Update(ctx, desired).Return(nil)
 
