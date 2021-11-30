@@ -2,13 +2,11 @@
 
 package v1
 
-
-
 import (
-    fed_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
+	fed_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
 
-    "k8s.io/client-go/rest"
-    "sigs.k8s.io/controller-runtime/pkg/client"
+	"k8s.io/client-go/rest"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 /*
@@ -21,84 +19,84 @@ import (
 
 // Provider for FederatedSettingsClient from Clientset
 func FederatedSettingsClientFromClientsetProvider(clients fed_gloo_solo_io_v1.Clientset) fed_gloo_solo_io_v1.FederatedSettingsClient {
-    return clients.FederatedSettings()
+	return clients.FederatedSettings()
 }
 
 // Provider for FederatedSettings Client from Client
 func FederatedSettingsClientProvider(client client.Client) fed_gloo_solo_io_v1.FederatedSettingsClient {
-    return fed_gloo_solo_io_v1.NewFederatedSettingsClient(client)
+	return fed_gloo_solo_io_v1.NewFederatedSettingsClient(client)
 }
 
 type FederatedSettingsClientFactory func(client client.Client) fed_gloo_solo_io_v1.FederatedSettingsClient
 
 func FederatedSettingsClientFactoryProvider() FederatedSettingsClientFactory {
-    return FederatedSettingsClientProvider
+	return FederatedSettingsClientProvider
 }
 
 type FederatedSettingsClientFromConfigFactory func(cfg *rest.Config) (fed_gloo_solo_io_v1.FederatedSettingsClient, error)
 
 func FederatedSettingsClientFromConfigFactoryProvider() FederatedSettingsClientFromConfigFactory {
-    return func(cfg *rest.Config) (fed_gloo_solo_io_v1.FederatedSettingsClient, error) {
-        clients, err := fed_gloo_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.FederatedSettings(), nil
-    }
+	return func(cfg *rest.Config) (fed_gloo_solo_io_v1.FederatedSettingsClient, error) {
+		clients, err := fed_gloo_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.FederatedSettings(), nil
+	}
 }
 
 // Provider for FederatedUpstreamClient from Clientset
 func FederatedUpstreamClientFromClientsetProvider(clients fed_gloo_solo_io_v1.Clientset) fed_gloo_solo_io_v1.FederatedUpstreamClient {
-    return clients.FederatedUpstreams()
+	return clients.FederatedUpstreams()
 }
 
 // Provider for FederatedUpstream Client from Client
 func FederatedUpstreamClientProvider(client client.Client) fed_gloo_solo_io_v1.FederatedUpstreamClient {
-    return fed_gloo_solo_io_v1.NewFederatedUpstreamClient(client)
+	return fed_gloo_solo_io_v1.NewFederatedUpstreamClient(client)
 }
 
 type FederatedUpstreamClientFactory func(client client.Client) fed_gloo_solo_io_v1.FederatedUpstreamClient
 
 func FederatedUpstreamClientFactoryProvider() FederatedUpstreamClientFactory {
-    return FederatedUpstreamClientProvider
+	return FederatedUpstreamClientProvider
 }
 
 type FederatedUpstreamClientFromConfigFactory func(cfg *rest.Config) (fed_gloo_solo_io_v1.FederatedUpstreamClient, error)
 
 func FederatedUpstreamClientFromConfigFactoryProvider() FederatedUpstreamClientFromConfigFactory {
-    return func(cfg *rest.Config) (fed_gloo_solo_io_v1.FederatedUpstreamClient, error) {
-        clients, err := fed_gloo_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.FederatedUpstreams(), nil
-    }
+	return func(cfg *rest.Config) (fed_gloo_solo_io_v1.FederatedUpstreamClient, error) {
+		clients, err := fed_gloo_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.FederatedUpstreams(), nil
+	}
 }
 
 // Provider for FederatedUpstreamGroupClient from Clientset
 func FederatedUpstreamGroupClientFromClientsetProvider(clients fed_gloo_solo_io_v1.Clientset) fed_gloo_solo_io_v1.FederatedUpstreamGroupClient {
-    return clients.FederatedUpstreamGroups()
+	return clients.FederatedUpstreamGroups()
 }
 
 // Provider for FederatedUpstreamGroup Client from Client
 func FederatedUpstreamGroupClientProvider(client client.Client) fed_gloo_solo_io_v1.FederatedUpstreamGroupClient {
-    return fed_gloo_solo_io_v1.NewFederatedUpstreamGroupClient(client)
+	return fed_gloo_solo_io_v1.NewFederatedUpstreamGroupClient(client)
 }
 
 type FederatedUpstreamGroupClientFactory func(client client.Client) fed_gloo_solo_io_v1.FederatedUpstreamGroupClient
 
 func FederatedUpstreamGroupClientFactoryProvider() FederatedUpstreamGroupClientFactory {
-    return FederatedUpstreamGroupClientProvider
+	return FederatedUpstreamGroupClientProvider
 }
 
 type FederatedUpstreamGroupClientFromConfigFactory func(cfg *rest.Config) (fed_gloo_solo_io_v1.FederatedUpstreamGroupClient, error)
 
 func FederatedUpstreamGroupClientFromConfigFactoryProvider() FederatedUpstreamGroupClientFromConfigFactory {
-    return func(cfg *rest.Config) (fed_gloo_solo_io_v1.FederatedUpstreamGroupClient, error) {
-        clients, err := fed_gloo_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.FederatedUpstreamGroups(), nil
-    }
+	return func(cfg *rest.Config) (fed_gloo_solo_io_v1.FederatedUpstreamGroupClient, error) {
+		clients, err := fed_gloo_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.FederatedUpstreamGroups(), nil
+	}
 }
