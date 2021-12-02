@@ -1065,6 +1065,20 @@ func (m *SettingsSpec_DiscoveryOptions) Hash(hasher hash.Hash64) (uint64, error)
 		return 0, err
 	}
 
+	if h, ok := interface{}(m.GetUdsOptions()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetUdsOptions(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -1277,6 +1291,36 @@ func (m *SettingsSpec_ObservabilityOptions) Hash(hasher hash.Hash64) (uint64, er
 		}
 	} else {
 		if val, err := hashstructure.Hash(m.GetGrafanaIntegration(), nil); err != nil {
+			return 0, err
+		} else {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *SettingsSpec_DiscoveryOptions_UdsOptions) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_DiscoveryOptions_UdsOptions")); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetEnabled()).(safe_hasher.SafeHasher); ok {
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if val, err := hashstructure.Hash(m.GetEnabled(), nil); err != nil {
 			return 0, err
 		} else {
 			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
