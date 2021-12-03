@@ -329,7 +329,7 @@ message SettingsSpec {
     rbac.options.gloo.solo.io.Settings rbac = 28;
 
     // Enterprise-only: External auth related settings
-    enterprise.gloo.solo.io.Settings extauth = 29;
+    enterprise.gloo.apis.solo.io.Settings extauth = 29;
 
     // Enterprise-only: External auth related settings for additional auth servers
     // This should only be used in the case where separate servers are needed to authorize separate routes.
@@ -337,7 +337,7 @@ message SettingsSpec {
     // on the filter chain, but only 1 will be executed on a route.
     // The name of the auth server (ie the key in the map) will be used to apply the configuration on the route.
     // If an auth server name is not supplied on a route, the default auth server will be applied.
-    map<string, enterprise.gloo.solo.io.Settings> named_extauth = 33;
+    map<string, enterprise.gloo.apis.solo.io.Settings> named_extauth = 33;
 
 
     reserved 15;

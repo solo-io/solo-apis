@@ -1,5 +1,5 @@
 syntax = "proto3";
-package enterprise.gloo.solo.io;
+package enterprise.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1";
 
@@ -450,7 +450,7 @@ message OidcAuthorizationCode {
     // The discovery override defines any properties that should override this discovery configuration
     // For example, the following AuthConfig CRD could be defined as:
     //    ```yaml
-    //    apiVersion: enterprise.gloo.solo.io/v1
+    //    apiVersion: enterprise.gloo.apis.solo.io/v1
     //    kind: AuthConfig
     //    metadata:
     //      name: google-oidc
@@ -935,7 +935,7 @@ message ExtAuthConfig {
         // The configuration override defines any properties that should override this discovery configuration
         // For example, the following AuthConfig CRD could be defined as:
         //    ```yaml
-        //    apiVersion: enterprise.gloo.solo.io/v1
+        //    apiVersion: enterprise.gloo.apis.solo.io/v1
         //    kind: AuthConfig
         //    metadata:
         //      name: google-oidc

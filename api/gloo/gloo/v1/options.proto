@@ -108,7 +108,7 @@ message HttpListenerOptions {
     // Enterprise-only: WASM related configuration [experimental!]
     wasm.options.gloo.solo.io.PluginSource wasm = 7;
     // Enterprise-only: External auth related settings
-    enterprise.gloo.solo.io.Settings extauth = 10;
+    enterprise.gloo.apis.solo.io.Settings extauth = 10;
     // Enterprise-only: Settings for the rate limiting server itself
     ratelimit.options.gloo.solo.io.Settings ratelimit_server = 11;
 
@@ -225,7 +225,7 @@ message VirtualHostOptions {
     // Enterprise-only: Config for RBAC (currently only supports RBAC based on JWT claims)
     rbac.options.gloo.solo.io.ExtensionSettings rbac = 11;
     // Enterprise-only: Authentication configuration
-    enterprise.gloo.solo.io.ExtAuthExtension extauth = 12;
+    enterprise.gloo.apis.solo.io.ExtAuthExtension extauth = 12;
     // Enterprise-only: Config for data loss prevention
     dlp.options.gloo.solo.io.Config dlp = 13;
     // BufferPerRoute can be used to set the maximum request size
@@ -353,7 +353,7 @@ message RouteOptions {
     // Enterprise-only: Config for RBAC (currently only supports RBAC based on JWT claims)
     rbac.options.gloo.solo.io.ExtensionSettings rbac = 17;
     // Enterprise-only: Authentication configuration
-    enterprise.gloo.solo.io.ExtAuthExtension extauth = 18;
+    enterprise.gloo.apis.solo.io.ExtAuthExtension extauth = 18;
     // Enterprise-only: Config for data loss prevention
     dlp.options.gloo.solo.io.Config dlp = 20;
 
@@ -417,7 +417,7 @@ message WeightedDestinationOptions {
     // Opaque Extensions enables development of out-of-process plugins without requiring recompiling & redeploying Gloo's API.
     Extensions extensions = 3;
     // Enterprise-only: Authentication configuration
-    enterprise.gloo.solo.io.ExtAuthExtension extauth = 4;
+    enterprise.gloo.apis.solo.io.ExtAuthExtension extauth = 4;
     // BufferPerRoute can be used to set the maximum request size
     // that the filter will buffer before the connection
     // manager will stop buffering and return a 413 response.

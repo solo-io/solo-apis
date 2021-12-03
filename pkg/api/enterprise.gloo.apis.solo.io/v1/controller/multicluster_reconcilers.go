@@ -8,7 +8,7 @@ package controller
 import (
 	"context"
 
-	enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
+	enterprise_gloo_apis_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/ezkube"
@@ -21,7 +21,7 @@ import (
 // Reconcile Upsert events for the AuthConfig Resource across clusters.
 // implemented by the user
 type MulticlusterAuthConfigReconciler interface {
-	ReconcileAuthConfig(clusterName string, obj *enterprise_gloo_solo_io_v1.AuthConfig) (reconcile.Result, error)
+	ReconcileAuthConfig(clusterName string, obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the AuthConfig Resource across clusters.
@@ -33,11 +33,11 @@ type MulticlusterAuthConfigDeletionReconciler interface {
 }
 
 type MulticlusterAuthConfigReconcilerFuncs struct {
-	OnReconcileAuthConfig         func(clusterName string, obj *enterprise_gloo_solo_io_v1.AuthConfig) (reconcile.Result, error)
+	OnReconcileAuthConfig         func(clusterName string, obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) (reconcile.Result, error)
 	OnReconcileAuthConfigDeletion func(clusterName string, req reconcile.Request) error
 }
 
-func (f *MulticlusterAuthConfigReconcilerFuncs) ReconcileAuthConfig(clusterName string, obj *enterprise_gloo_solo_io_v1.AuthConfig) (reconcile.Result, error) {
+func (f *MulticlusterAuthConfigReconcilerFuncs) ReconcileAuthConfig(clusterName string, obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) (reconcile.Result, error) {
 	if f.OnReconcileAuthConfig == nil {
 		return reconcile.Result{}, nil
 	}
@@ -67,7 +67,7 @@ func (m *multiclusterAuthConfigReconcileLoop) AddMulticlusterAuthConfigReconcile
 }
 
 func NewMulticlusterAuthConfigReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterAuthConfigReconcileLoop {
-	return &multiclusterAuthConfigReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &enterprise_gloo_solo_io_v1.AuthConfig{}, options)}
+	return &multiclusterAuthConfigReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &enterprise_gloo_apis_solo_io_v1.AuthConfig{}, options)}
 }
 
 type genericAuthConfigMulticlusterReconciler struct {
@@ -82,7 +82,7 @@ func (g genericAuthConfigMulticlusterReconciler) ReconcileDeletion(cluster strin
 }
 
 func (g genericAuthConfigMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*enterprise_gloo_solo_io_v1.AuthConfig)
+	obj, ok := object.(*enterprise_gloo_apis_solo_io_v1.AuthConfig)
 	if !ok {
 		return reconcile.Result{}, errors.Errorf("internal error: AuthConfig handler received event for %T", object)
 	}

@@ -17,7 +17,7 @@ import (
 
 var (
 	// SchemeGroupVersion is group version used to register these objects
-	SchemeGroupVersion = schema.GroupVersion{Group: "enterprise.gloo.solo.io", Version: "v1"}
+	SchemeGroupVersion = schema.GroupVersion{Group: "enterprise.gloo.apis.solo.io", Version: "v1"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
 	SchemeBuilder = &scheme.Builder{GroupVersion: SchemeGroupVersion}

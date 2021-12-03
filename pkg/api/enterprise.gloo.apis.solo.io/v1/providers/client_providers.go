@@ -3,7 +3,7 @@
 package v1
 
 import (
-	enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
+	enterprise_gloo_apis_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
 
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -18,26 +18,26 @@ import (
 */
 
 // Provider for AuthConfigClient from Clientset
-func AuthConfigClientFromClientsetProvider(clients enterprise_gloo_solo_io_v1.Clientset) enterprise_gloo_solo_io_v1.AuthConfigClient {
+func AuthConfigClientFromClientsetProvider(clients enterprise_gloo_apis_solo_io_v1.Clientset) enterprise_gloo_apis_solo_io_v1.AuthConfigClient {
 	return clients.AuthConfigs()
 }
 
 // Provider for AuthConfig Client from Client
-func AuthConfigClientProvider(client client.Client) enterprise_gloo_solo_io_v1.AuthConfigClient {
-	return enterprise_gloo_solo_io_v1.NewAuthConfigClient(client)
+func AuthConfigClientProvider(client client.Client) enterprise_gloo_apis_solo_io_v1.AuthConfigClient {
+	return enterprise_gloo_apis_solo_io_v1.NewAuthConfigClient(client)
 }
 
-type AuthConfigClientFactory func(client client.Client) enterprise_gloo_solo_io_v1.AuthConfigClient
+type AuthConfigClientFactory func(client client.Client) enterprise_gloo_apis_solo_io_v1.AuthConfigClient
 
 func AuthConfigClientFactoryProvider() AuthConfigClientFactory {
 	return AuthConfigClientProvider
 }
 
-type AuthConfigClientFromConfigFactory func(cfg *rest.Config) (enterprise_gloo_solo_io_v1.AuthConfigClient, error)
+type AuthConfigClientFromConfigFactory func(cfg *rest.Config) (enterprise_gloo_apis_solo_io_v1.AuthConfigClient, error)
 
 func AuthConfigClientFromConfigFactoryProvider() AuthConfigClientFromConfigFactory {
-	return func(cfg *rest.Config) (enterprise_gloo_solo_io_v1.AuthConfigClient, error) {
-		clients, err := enterprise_gloo_solo_io_v1.NewClientsetFromConfig(cfg)
+	return func(cfg *rest.Config) (enterprise_gloo_apis_solo_io_v1.AuthConfigClient, error) {
+		clients, err := enterprise_gloo_apis_solo_io_v1.NewClientsetFromConfig(cfg)
 		if err != nil {
 			return nil, err
 		}

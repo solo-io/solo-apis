@@ -26,10 +26,10 @@ func GlooGroups() []model.Group {
 			{kind: "VirtualHostOption"},
 			{kind: "RouteOption"},
 		}, GlooCustomTemplates),
-		makeGroup("enterprise.gloo", "v1", []resourceToGenerate{
+		makeGroup("enterprise.gloo.apis", "v1", []resourceToGenerate{
 			{
 				kind:         "AuthConfig",
-				protoPackage: "enterprise.gloo.solo.io",
+				protoPackage: "enterprise.gloo.apis.solo.io",
 				goPackage:    "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1",
 			},
 		}, GlooCustomTemplates),

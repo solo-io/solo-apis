@@ -49,17 +49,28 @@ func (m *PathSegment) Equal(that interface{}) bool {
 	switch m.Segment.(type) {
 
 	case *PathSegment_Key:
+		if _, ok := target.Segment.(*PathSegment_Key); !ok {
+			return false
+		}
 
 		if strings.Compare(m.GetKey(), target.GetKey()) != 0 {
 			return false
 		}
 
 	case *PathSegment_Index:
+		if _, ok := target.Segment.(*PathSegment_Index); !ok {
+			return false
+		}
 
 		if m.GetIndex() != target.GetIndex() {
 			return false
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.Segment != target.Segment {
+			return false
+		}
 	}
 
 	return true
@@ -93,6 +104,9 @@ func (m *ValueProvider) Equal(that interface{}) bool {
 	switch m.Provider.(type) {
 
 	case *ValueProvider_GraphqlArg:
+		if _, ok := target.Provider.(*ValueProvider_GraphqlArg); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetGraphqlArg()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetGraphqlArg()) {
@@ -105,6 +119,9 @@ func (m *ValueProvider) Equal(that interface{}) bool {
 		}
 
 	case *ValueProvider_TypedProvider:
+		if _, ok := target.Provider.(*ValueProvider_TypedProvider); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetTypedProvider()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetTypedProvider()) {
@@ -117,6 +134,9 @@ func (m *ValueProvider) Equal(that interface{}) bool {
 		}
 
 	case *ValueProvider_GraphqlParent:
+		if _, ok := target.Provider.(*ValueProvider_GraphqlParent); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetGraphqlParent()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetGraphqlParent()) {
@@ -128,6 +148,11 @@ func (m *ValueProvider) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.Provider != target.Provider {
+			return false
+		}
 	}
 
 	return true
@@ -270,6 +295,9 @@ func (m *RequestTemplate) Equal(that interface{}) bool {
 	switch m.OutgoingBody.(type) {
 
 	case *RequestTemplate_Json:
+		if _, ok := target.OutgoingBody.(*RequestTemplate_Json); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetJson()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetJson()) {
@@ -281,6 +309,11 @@ func (m *RequestTemplate) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.OutgoingBody != target.OutgoingBody {
+			return false
+		}
 	}
 
 	return true
@@ -358,6 +391,9 @@ func (m *QueryMatcher) Equal(that interface{}) bool {
 	switch m.Match.(type) {
 
 	case *QueryMatcher_FieldMatcher_:
+		if _, ok := target.Match.(*QueryMatcher_FieldMatcher_); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetFieldMatcher()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetFieldMatcher()) {
@@ -369,6 +405,11 @@ func (m *QueryMatcher) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.Match != target.Match {
+			return false
+		}
 	}
 
 	return true
@@ -408,6 +449,9 @@ func (m *Resolution) Equal(that interface{}) bool {
 	switch m.Resolver.(type) {
 
 	case *Resolution_RestResolver:
+		if _, ok := target.Resolver.(*Resolution_RestResolver); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetRestResolver()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRestResolver()) {
@@ -419,6 +463,11 @@ func (m *Resolution) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.Resolver != target.Resolver {
+			return false
+		}
 	}
 
 	return true
@@ -607,17 +656,28 @@ func (m *ValueProvider_TypedValueProvider) Equal(that interface{}) bool {
 	switch m.ValProvider.(type) {
 
 	case *ValueProvider_TypedValueProvider_Header:
+		if _, ok := target.ValProvider.(*ValueProvider_TypedValueProvider_Header); !ok {
+			return false
+		}
 
 		if strings.Compare(m.GetHeader(), target.GetHeader()) != 0 {
 			return false
 		}
 
 	case *ValueProvider_TypedValueProvider_Value:
+		if _, ok := target.ValProvider.(*ValueProvider_TypedValueProvider_Value); !ok {
+			return false
+		}
 
 		if strings.Compare(m.GetValue(), target.GetValue()) != 0 {
 			return false
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.ValProvider != target.ValProvider {
+			return false
+		}
 	}
 
 	return true
@@ -688,6 +748,9 @@ func (m *JsonKeyValue_JsonValue) Equal(that interface{}) bool {
 	switch m.JsonVal.(type) {
 
 	case *JsonKeyValue_JsonValue_Node:
+		if _, ok := target.JsonVal.(*JsonKeyValue_JsonValue_Node); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetNode()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetNode()) {
@@ -700,6 +763,9 @@ func (m *JsonKeyValue_JsonValue) Equal(that interface{}) bool {
 		}
 
 	case *JsonKeyValue_JsonValue_ValueProvider:
+		if _, ok := target.JsonVal.(*JsonKeyValue_JsonValue_ValueProvider); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetValueProvider()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetValueProvider()) {
@@ -712,6 +778,9 @@ func (m *JsonKeyValue_JsonValue) Equal(that interface{}) bool {
 		}
 
 	case *JsonKeyValue_JsonValue_List:
+		if _, ok := target.JsonVal.(*JsonKeyValue_JsonValue_List); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetList()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetList()) {
@@ -723,6 +792,11 @@ func (m *JsonKeyValue_JsonValue) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.JsonVal != target.JsonVal {
+			return false
+		}
 	}
 
 	return true
