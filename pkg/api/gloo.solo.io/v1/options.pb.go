@@ -14,7 +14,7 @@ import (
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
-	v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
+	v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
 	v2 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/filter/http/gzip/v2"
 	v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/extensions/filters/http/buffer/v3"
 	v31 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/extensions/filters/http/csrf/v3"

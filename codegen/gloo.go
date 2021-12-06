@@ -30,7 +30,7 @@ func GlooGroups() []model.Group {
 			{
 				kind:         "AuthConfig",
 				protoPackage: "enterprise.gloo.apis.solo.io",
-				goPackage:    "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1",
+				goPackage:    "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/enterprise/options/extauth/v1",
 			},
 		}, GlooCustomTemplates),
 	}

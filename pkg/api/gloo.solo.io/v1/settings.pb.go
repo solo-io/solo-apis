@@ -14,7 +14,7 @@ import (
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
-	v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
+	v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
 	aws "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/extensions/aws"
 	ratelimit "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/ratelimit"
 	rbac "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/rbac"
