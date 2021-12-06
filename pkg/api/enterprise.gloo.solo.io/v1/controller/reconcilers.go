@@ -8,7 +8,7 @@ package controller
 import (
 	"context"
 
-	enterprise_gloo_apis_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
+	enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/ezkube"
@@ -20,7 +20,7 @@ import (
 // Reconcile Upsert events for the AuthConfig Resource.
 // implemented by the user
 type AuthConfigReconciler interface {
-	ReconcileAuthConfig(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) (reconcile.Result, error)
+	ReconcileAuthConfig(obj *enterprise_gloo_solo_io_v1.AuthConfig) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the AuthConfig Resource.
@@ -32,11 +32,11 @@ type AuthConfigDeletionReconciler interface {
 }
 
 type AuthConfigReconcilerFuncs struct {
-	OnReconcileAuthConfig         func(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) (reconcile.Result, error)
+	OnReconcileAuthConfig         func(obj *enterprise_gloo_solo_io_v1.AuthConfig) (reconcile.Result, error)
 	OnReconcileAuthConfigDeletion func(req reconcile.Request) error
 }
 
-func (f *AuthConfigReconcilerFuncs) ReconcileAuthConfig(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) (reconcile.Result, error) {
+func (f *AuthConfigReconcilerFuncs) ReconcileAuthConfig(obj *enterprise_gloo_solo_io_v1.AuthConfig) (reconcile.Result, error) {
 	if f.OnReconcileAuthConfig == nil {
 		return reconcile.Result{}, nil
 	}
@@ -61,7 +61,7 @@ type AuthConfigFinalizer interface {
 
 	// finalize the object before it is deleted.
 	// Watchers created with a finalizing handler will a
-	FinalizeAuthConfig(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error
+	FinalizeAuthConfig(obj *enterprise_gloo_solo_io_v1.AuthConfig) error
 }
 
 type AuthConfigReconcileLoop interface {
@@ -75,7 +75,7 @@ type authConfigReconcileLoop struct {
 func NewAuthConfigReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) AuthConfigReconcileLoop {
 	return &authConfigReconcileLoop{
 		// empty cluster indicates this reconciler is built for the local cluster
-		loop: reconcile.NewLoop(name, "", mgr, &enterprise_gloo_apis_solo_io_v1.AuthConfig{}, options),
+		loop: reconcile.NewLoop(name, "", mgr, &enterprise_gloo_solo_io_v1.AuthConfig{}, options),
 	}
 }
 
@@ -102,7 +102,7 @@ type genericAuthConfigReconciler struct {
 }
 
 func (r genericAuthConfigReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*enterprise_gloo_apis_solo_io_v1.AuthConfig)
+	obj, ok := object.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return reconcile.Result{}, errors.Errorf("internal error: AuthConfig handler received event for %T", object)
 	}
@@ -127,7 +127,7 @@ func (r genericAuthConfigFinalizer) FinalizerName() string {
 }
 
 func (r genericAuthConfigFinalizer) Finalize(object ezkube.Object) error {
-	obj, ok := object.(*enterprise_gloo_apis_solo_io_v1.AuthConfig)
+	obj, ok := object.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", object)
 	}

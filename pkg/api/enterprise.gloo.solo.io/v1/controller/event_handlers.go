@@ -8,7 +8,7 @@ package controller
 import (
 	"context"
 
-	enterprise_gloo_apis_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
+	enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/events"
@@ -20,41 +20,41 @@ import (
 // Handle events for the AuthConfig Resource
 // DEPRECATED: Prefer reconciler pattern.
 type AuthConfigEventHandler interface {
-	CreateAuthConfig(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error
-	UpdateAuthConfig(old, new *enterprise_gloo_apis_solo_io_v1.AuthConfig) error
-	DeleteAuthConfig(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error
-	GenericAuthConfig(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error
+	CreateAuthConfig(obj *enterprise_gloo_solo_io_v1.AuthConfig) error
+	UpdateAuthConfig(old, new *enterprise_gloo_solo_io_v1.AuthConfig) error
+	DeleteAuthConfig(obj *enterprise_gloo_solo_io_v1.AuthConfig) error
+	GenericAuthConfig(obj *enterprise_gloo_solo_io_v1.AuthConfig) error
 }
 
 type AuthConfigEventHandlerFuncs struct {
-	OnCreate  func(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error
-	OnUpdate  func(old, new *enterprise_gloo_apis_solo_io_v1.AuthConfig) error
-	OnDelete  func(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error
-	OnGeneric func(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error
+	OnCreate  func(obj *enterprise_gloo_solo_io_v1.AuthConfig) error
+	OnUpdate  func(old, new *enterprise_gloo_solo_io_v1.AuthConfig) error
+	OnDelete  func(obj *enterprise_gloo_solo_io_v1.AuthConfig) error
+	OnGeneric func(obj *enterprise_gloo_solo_io_v1.AuthConfig) error
 }
 
-func (f *AuthConfigEventHandlerFuncs) CreateAuthConfig(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error {
+func (f *AuthConfigEventHandlerFuncs) CreateAuthConfig(obj *enterprise_gloo_solo_io_v1.AuthConfig) error {
 	if f.OnCreate == nil {
 		return nil
 	}
 	return f.OnCreate(obj)
 }
 
-func (f *AuthConfigEventHandlerFuncs) DeleteAuthConfig(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error {
+func (f *AuthConfigEventHandlerFuncs) DeleteAuthConfig(obj *enterprise_gloo_solo_io_v1.AuthConfig) error {
 	if f.OnDelete == nil {
 		return nil
 	}
 	return f.OnDelete(obj)
 }
 
-func (f *AuthConfigEventHandlerFuncs) UpdateAuthConfig(objOld, objNew *enterprise_gloo_apis_solo_io_v1.AuthConfig) error {
+func (f *AuthConfigEventHandlerFuncs) UpdateAuthConfig(objOld, objNew *enterprise_gloo_solo_io_v1.AuthConfig) error {
 	if f.OnUpdate == nil {
 		return nil
 	}
 	return f.OnUpdate(objOld, objNew)
 }
 
-func (f *AuthConfigEventHandlerFuncs) GenericAuthConfig(obj *enterprise_gloo_apis_solo_io_v1.AuthConfig) error {
+func (f *AuthConfigEventHandlerFuncs) GenericAuthConfig(obj *enterprise_gloo_solo_io_v1.AuthConfig) error {
 	if f.OnGeneric == nil {
 		return nil
 	}
@@ -71,7 +71,7 @@ type authConfigEventWatcher struct {
 
 func NewAuthConfigEventWatcher(name string, mgr manager.Manager) AuthConfigEventWatcher {
 	return &authConfigEventWatcher{
-		watcher: events.NewWatcher(name, mgr, &enterprise_gloo_apis_solo_io_v1.AuthConfig{}),
+		watcher: events.NewWatcher(name, mgr, &enterprise_gloo_solo_io_v1.AuthConfig{}),
 	}
 }
 
@@ -89,7 +89,7 @@ type genericAuthConfigHandler struct {
 }
 
 func (h genericAuthConfigHandler) Create(object client.Object) error {
-	obj, ok := object.(*enterprise_gloo_apis_solo_io_v1.AuthConfig)
+	obj, ok := object.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", object)
 	}
@@ -97,7 +97,7 @@ func (h genericAuthConfigHandler) Create(object client.Object) error {
 }
 
 func (h genericAuthConfigHandler) Delete(object client.Object) error {
-	obj, ok := object.(*enterprise_gloo_apis_solo_io_v1.AuthConfig)
+	obj, ok := object.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", object)
 	}
@@ -105,11 +105,11 @@ func (h genericAuthConfigHandler) Delete(object client.Object) error {
 }
 
 func (h genericAuthConfigHandler) Update(old, new client.Object) error {
-	objOld, ok := old.(*enterprise_gloo_apis_solo_io_v1.AuthConfig)
+	objOld, ok := old.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", old)
 	}
-	objNew, ok := new.(*enterprise_gloo_apis_solo_io_v1.AuthConfig)
+	objNew, ok := new.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", new)
 	}
@@ -117,7 +117,7 @@ func (h genericAuthConfigHandler) Update(old, new client.Object) error {
 }
 
 func (h genericAuthConfigHandler) Generic(object client.Object) error {
-	obj, ok := object.(*enterprise_gloo_apis_solo_io_v1.AuthConfig)
+	obj, ok := object.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	if !ok {
 		return errors.Errorf("internal error: AuthConfig handler received event for %T", object)
 	}

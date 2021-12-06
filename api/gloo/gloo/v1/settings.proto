@@ -12,7 +12,7 @@ import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/extensions.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/ratelimit/ratelimit.proto";
-import "github.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto";
+import "github.com/solo-io/solo-apis/api/gloo/enterprise.gloo.apis/v1/auth_config.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/circuit_breaker.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl.proto";

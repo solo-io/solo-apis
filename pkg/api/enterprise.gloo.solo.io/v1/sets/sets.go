@@ -5,7 +5,7 @@
 package v1sets
 
 import (
-	enterprise_gloo_apis_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
+	enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
 
 	"github.com/rotisserie/eris"
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
@@ -17,13 +17,13 @@ type AuthConfigSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
-	List(filterResource ...func(*enterprise_gloo_apis_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_apis_solo_io_v1.AuthConfig
+	List(filterResource ...func(*enterprise_gloo_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_solo_io_v1.AuthConfig
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-	UnsortedList(filterResource ...func(*enterprise_gloo_apis_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_apis_solo_io_v1.AuthConfig
+	UnsortedList(filterResource ...func(*enterprise_gloo_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_solo_io_v1.AuthConfig
 	// Return the Set as a map of key to resource.
-	Map() map[string]*enterprise_gloo_apis_solo_io_v1.AuthConfig
+	Map() map[string]*enterprise_gloo_solo_io_v1.AuthConfig
 	// Insert a resource into the set.
-	Insert(authConfig ...*enterprise_gloo_apis_solo_io_v1.AuthConfig)
+	Insert(authConfig ...*enterprise_gloo_solo_io_v1.AuthConfig)
 	// Compare the equality of the keys in two sets (not the resources themselves)
 	Equal(authConfigSet AuthConfigSet) bool
 	// Check if the set contains a key matching the resource (not the resource itself)
@@ -37,7 +37,7 @@ type AuthConfigSet interface {
 	// Return the intersection with the provided set
 	Intersection(set AuthConfigSet) AuthConfigSet
 	// Find the resource with the given ID
-	Find(id ezkube.ResourceId) (*enterprise_gloo_apis_solo_io_v1.AuthConfig, error)
+	Find(id ezkube.ResourceId) (*enterprise_gloo_solo_io_v1.AuthConfig, error)
 	// Get the length of the set
 	Length() int
 	// returns the generic implementation of the set
@@ -46,7 +46,7 @@ type AuthConfigSet interface {
 	Delta(newSet AuthConfigSet) sksets.ResourceDelta
 }
 
-func makeGenericAuthConfigSet(authConfigList []*enterprise_gloo_apis_solo_io_v1.AuthConfig) sksets.ResourceSet {
+func makeGenericAuthConfigSet(authConfigList []*enterprise_gloo_solo_io_v1.AuthConfig) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range authConfigList {
 		genericResources = append(genericResources, obj)
@@ -58,12 +58,12 @@ type authConfigSet struct {
 	set sksets.ResourceSet
 }
 
-func NewAuthConfigSet(authConfigList ...*enterprise_gloo_apis_solo_io_v1.AuthConfig) AuthConfigSet {
+func NewAuthConfigSet(authConfigList ...*enterprise_gloo_solo_io_v1.AuthConfig) AuthConfigSet {
 	return &authConfigSet{set: makeGenericAuthConfigSet(authConfigList)}
 }
 
-func NewAuthConfigSetFromList(authConfigList *enterprise_gloo_apis_solo_io_v1.AuthConfigList) AuthConfigSet {
-	list := make([]*enterprise_gloo_apis_solo_io_v1.AuthConfig, 0, len(authConfigList.Items))
+func NewAuthConfigSetFromList(authConfigList *enterprise_gloo_solo_io_v1.AuthConfigList) AuthConfigSet {
+	list := make([]*enterprise_gloo_solo_io_v1.AuthConfig, 0, len(authConfigList.Items))
 	for idx := range authConfigList.Items {
 		list = append(list, &authConfigList.Items[idx])
 	}
@@ -77,57 +77,57 @@ func (s *authConfigSet) Keys() sets.String {
 	return s.Generic().Keys()
 }
 
-func (s *authConfigSet) List(filterResource ...func(*enterprise_gloo_apis_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_apis_solo_io_v1.AuthConfig {
+func (s *authConfigSet) List(filterResource ...func(*enterprise_gloo_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_solo_io_v1.AuthConfig {
 	if s == nil {
 		return nil
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*enterprise_gloo_apis_solo_io_v1.AuthConfig))
+			return filter(obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
 		})
 	}
 
 	objs := s.Generic().List(genericFilters...)
-	authConfigList := make([]*enterprise_gloo_apis_solo_io_v1.AuthConfig, 0, len(objs))
+	authConfigList := make([]*enterprise_gloo_solo_io_v1.AuthConfig, 0, len(objs))
 	for _, obj := range objs {
-		authConfigList = append(authConfigList, obj.(*enterprise_gloo_apis_solo_io_v1.AuthConfig))
+		authConfigList = append(authConfigList, obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
 	}
 	return authConfigList
 }
 
-func (s *authConfigSet) UnsortedList(filterResource ...func(*enterprise_gloo_apis_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_apis_solo_io_v1.AuthConfig {
+func (s *authConfigSet) UnsortedList(filterResource ...func(*enterprise_gloo_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_solo_io_v1.AuthConfig {
 	if s == nil {
 		return nil
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*enterprise_gloo_apis_solo_io_v1.AuthConfig))
+			return filter(obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
 		})
 	}
 
-	var authConfigList []*enterprise_gloo_apis_solo_io_v1.AuthConfig
+	var authConfigList []*enterprise_gloo_solo_io_v1.AuthConfig
 	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-		authConfigList = append(authConfigList, obj.(*enterprise_gloo_apis_solo_io_v1.AuthConfig))
+		authConfigList = append(authConfigList, obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
 	}
 	return authConfigList
 }
 
-func (s *authConfigSet) Map() map[string]*enterprise_gloo_apis_solo_io_v1.AuthConfig {
+func (s *authConfigSet) Map() map[string]*enterprise_gloo_solo_io_v1.AuthConfig {
 	if s == nil {
 		return nil
 	}
 
-	newMap := map[string]*enterprise_gloo_apis_solo_io_v1.AuthConfig{}
+	newMap := map[string]*enterprise_gloo_solo_io_v1.AuthConfig{}
 	for k, v := range s.Generic().Map() {
-		newMap[k] = v.(*enterprise_gloo_apis_solo_io_v1.AuthConfig)
+		newMap[k] = v.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	}
 	return newMap
 }
 
 func (s *authConfigSet) Insert(
-	authConfigList ...*enterprise_gloo_apis_solo_io_v1.AuthConfig,
+	authConfigList ...*enterprise_gloo_solo_io_v1.AuthConfig,
 ) {
 	if s == nil {
 		panic("cannot insert into nil set")
@@ -181,23 +181,23 @@ func (s *authConfigSet) Intersection(set AuthConfigSet) AuthConfigSet {
 		return nil
 	}
 	newSet := s.Generic().Intersection(set.Generic())
-	var authConfigList []*enterprise_gloo_apis_solo_io_v1.AuthConfig
+	var authConfigList []*enterprise_gloo_solo_io_v1.AuthConfig
 	for _, obj := range newSet.List() {
-		authConfigList = append(authConfigList, obj.(*enterprise_gloo_apis_solo_io_v1.AuthConfig))
+		authConfigList = append(authConfigList, obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
 	}
 	return NewAuthConfigSet(authConfigList...)
 }
 
-func (s *authConfigSet) Find(id ezkube.ResourceId) (*enterprise_gloo_apis_solo_io_v1.AuthConfig, error) {
+func (s *authConfigSet) Find(id ezkube.ResourceId) (*enterprise_gloo_solo_io_v1.AuthConfig, error) {
 	if s == nil {
 		return nil, eris.Errorf("empty set, cannot find AuthConfig %v", sksets.Key(id))
 	}
-	obj, err := s.Generic().Find(&enterprise_gloo_apis_solo_io_v1.AuthConfig{}, id)
+	obj, err := s.Generic().Find(&enterprise_gloo_solo_io_v1.AuthConfig{}, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return obj.(*enterprise_gloo_apis_solo_io_v1.AuthConfig), nil
+	return obj.(*enterprise_gloo_solo_io_v1.AuthConfig), nil
 }
 
 func (s *authConfigSet) Length() int {

@@ -9,8 +9,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
-	controller "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1/controller"
+	v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
+	controller "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1/controller"
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 

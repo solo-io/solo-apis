@@ -4,7 +4,7 @@
 package v1
 
 import (
-	. "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
+	. "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -16,7 +16,7 @@ import (
 
 // GroupVersionKind for AuthConfig
 var AuthConfigGVK = schema.GroupVersionKind{
-	Group:   "enterprise.gloo.apis.solo.io",
+	Group:   "enterprise.gloo.solo.io",
 	Version: "v1",
 	Kind:    "AuthConfig",
 }

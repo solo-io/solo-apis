@@ -10,8 +10,8 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	sets "github.com/solo-io/skv2/contrib/pkg/sets"
 	ezkube "github.com/solo-io/skv2/pkg/ezkube"
-	v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
-	v1sets "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1/sets"
+	v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
+	v1sets "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1/sets"
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
 )
 
