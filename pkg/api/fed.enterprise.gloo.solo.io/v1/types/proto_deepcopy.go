@@ -5,17 +5,16 @@
 package types
 
 import (
-	proto "github.com/golang/protobuf/proto"
+    proto "github.com/golang/protobuf/proto"
 )
 
 // DeepCopyInto for the FederatedAuthConfig.Spec
 func (in *FederatedAuthConfigSpec) DeepCopyInto(out *FederatedAuthConfigSpec) {
-	p := proto.Clone(in).(*FederatedAuthConfigSpec)
-	*out = *p
+    p := proto.Clone(in).(*FederatedAuthConfigSpec)
+    *out = *p
 }
-
 // DeepCopyInto for the FederatedAuthConfig.Status
 func (in *FederatedAuthConfigStatus) DeepCopyInto(out *FederatedAuthConfigStatus) {
-	p := proto.Clone(in).(*FederatedAuthConfigStatus)
-	*out = *p
+    p := proto.Clone(in).(*FederatedAuthConfigStatus)
+    *out = *p
 }

@@ -4,9 +4,9 @@
 package v1
 
 import (
-	. "github.com/solo-io/solo-apis/pkg/api/fed.gateway.solo.io/v1/types"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/apimachinery/pkg/runtime/schema"
+    . "github.com/solo-io/solo-apis/pkg/api/fed.gateway.solo.io/v1/types"
 )
 
 // +genclient
@@ -16,22 +16,22 @@ import (
 
 // GroupVersionKind for FederatedGateway
 var FederatedGatewayGVK = schema.GroupVersionKind{
-	Group:   "fed.gateway.solo.io",
-	Version: "v1",
-	Kind:    "FederatedGateway",
+    Group: "fed.gateway.solo.io",
+    Version: "v1",
+    Kind: "FederatedGateway",
 }
 
 // FederatedGateway is the Schema for the federatedGateway API
 type FederatedGateway struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedGatewaySpec   `json:"spec,omitempty"`
-	Status FederatedGatewayStatus `json:"status,omitempty"`
+    Spec FederatedGatewaySpec `json:"spec,omitempty"`
+    Status FederatedGatewayStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedGateway) GVK() schema.GroupVersionKind {
+func (FederatedGateway)  GVK() schema.GroupVersionKind {
 	return FederatedGatewayGVK
 }
 
@@ -39,9 +39,9 @@ func (FederatedGateway) GVK() schema.GroupVersionKind {
 
 // FederatedGatewayList contains a list of FederatedGateway
 type FederatedGatewayList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FederatedGateway `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []FederatedGateway `json:"items"`
 }
 
 // +genclient
@@ -51,22 +51,22 @@ type FederatedGatewayList struct {
 
 // GroupVersionKind for FederatedRouteTable
 var FederatedRouteTableGVK = schema.GroupVersionKind{
-	Group:   "fed.gateway.solo.io",
-	Version: "v1",
-	Kind:    "FederatedRouteTable",
+    Group: "fed.gateway.solo.io",
+    Version: "v1",
+    Kind: "FederatedRouteTable",
 }
 
 // FederatedRouteTable is the Schema for the federatedRouteTable API
 type FederatedRouteTable struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedRouteTableSpec   `json:"spec,omitempty"`
-	Status FederatedRouteTableStatus `json:"status,omitempty"`
+    Spec FederatedRouteTableSpec `json:"spec,omitempty"`
+    Status FederatedRouteTableStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedRouteTable) GVK() schema.GroupVersionKind {
+func (FederatedRouteTable)  GVK() schema.GroupVersionKind {
 	return FederatedRouteTableGVK
 }
 
@@ -74,9 +74,9 @@ func (FederatedRouteTable) GVK() schema.GroupVersionKind {
 
 // FederatedRouteTableList contains a list of FederatedRouteTable
 type FederatedRouteTableList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FederatedRouteTable `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []FederatedRouteTable `json:"items"`
 }
 
 // +genclient
@@ -86,22 +86,22 @@ type FederatedRouteTableList struct {
 
 // GroupVersionKind for FederatedVirtualService
 var FederatedVirtualServiceGVK = schema.GroupVersionKind{
-	Group:   "fed.gateway.solo.io",
-	Version: "v1",
-	Kind:    "FederatedVirtualService",
+    Group: "fed.gateway.solo.io",
+    Version: "v1",
+    Kind: "FederatedVirtualService",
 }
 
 // FederatedVirtualService is the Schema for the federatedVirtualService API
 type FederatedVirtualService struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedVirtualServiceSpec   `json:"spec,omitempty"`
-	Status FederatedVirtualServiceStatus `json:"status,omitempty"`
+    Spec FederatedVirtualServiceSpec `json:"spec,omitempty"`
+    Status FederatedVirtualServiceStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedVirtualService) GVK() schema.GroupVersionKind {
+func (FederatedVirtualService)  GVK() schema.GroupVersionKind {
 	return FederatedVirtualServiceGVK
 }
 
@@ -109,13 +109,13 @@ func (FederatedVirtualService) GVK() schema.GroupVersionKind {
 
 // FederatedVirtualServiceList contains a list of FederatedVirtualService
 type FederatedVirtualServiceList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FederatedVirtualService `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []FederatedVirtualService `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&FederatedGateway{}, &FederatedGatewayList{})
-	SchemeBuilder.Register(&FederatedRouteTable{}, &FederatedRouteTableList{})
-	SchemeBuilder.Register(&FederatedVirtualService{}, &FederatedVirtualServiceList{})
+    SchemeBuilder.Register(&FederatedGateway{}, &FederatedGatewayList{})
+    SchemeBuilder.Register(&FederatedRouteTable{}, &FederatedRouteTableList{})
+    SchemeBuilder.Register(&FederatedVirtualService{}, &FederatedVirtualServiceList{})
 }

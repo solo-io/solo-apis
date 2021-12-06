@@ -4,9 +4,9 @@
 package v1
 
 import (
-	. "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/apimachinery/pkg/runtime/schema"
+    . "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types"
 )
 
 // +genclient
@@ -16,22 +16,22 @@ import (
 
 // GroupVersionKind for GlooInstance
 var GlooInstanceGVK = schema.GroupVersionKind{
-	Group:   "fed.solo.io",
-	Version: "v1",
-	Kind:    "GlooInstance",
+    Group: "fed.solo.io",
+    Version: "v1",
+    Kind: "GlooInstance",
 }
 
 // GlooInstance is the Schema for the glooInstance API
 type GlooInstance struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   GlooInstanceSpec   `json:"spec,omitempty"`
-	Status GlooInstanceStatus `json:"status,omitempty"`
+    Spec GlooInstanceSpec `json:"spec,omitempty"`
+    Status GlooInstanceStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (GlooInstance) GVK() schema.GroupVersionKind {
+func (GlooInstance)  GVK() schema.GroupVersionKind {
 	return GlooInstanceGVK
 }
 
@@ -39,9 +39,9 @@ func (GlooInstance) GVK() schema.GroupVersionKind {
 
 // GlooInstanceList contains a list of GlooInstance
 type GlooInstanceList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []GlooInstance `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []GlooInstance `json:"items"`
 }
 
 // +genclient
@@ -51,22 +51,22 @@ type GlooInstanceList struct {
 
 // GroupVersionKind for FailoverScheme
 var FailoverSchemeGVK = schema.GroupVersionKind{
-	Group:   "fed.solo.io",
-	Version: "v1",
-	Kind:    "FailoverScheme",
+    Group: "fed.solo.io",
+    Version: "v1",
+    Kind: "FailoverScheme",
 }
 
 // FailoverScheme is the Schema for the failoverScheme API
 type FailoverScheme struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FailoverSchemeSpec   `json:"spec,omitempty"`
-	Status FailoverSchemeStatus `json:"status,omitempty"`
+    Spec FailoverSchemeSpec `json:"spec,omitempty"`
+    Status FailoverSchemeStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FailoverScheme) GVK() schema.GroupVersionKind {
+func (FailoverScheme)  GVK() schema.GroupVersionKind {
 	return FailoverSchemeGVK
 }
 
@@ -74,12 +74,12 @@ func (FailoverScheme) GVK() schema.GroupVersionKind {
 
 // FailoverSchemeList contains a list of FailoverScheme
 type FailoverSchemeList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FailoverScheme `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []FailoverScheme `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&GlooInstance{}, &GlooInstanceList{})
-	SchemeBuilder.Register(&FailoverScheme{}, &FailoverSchemeList{})
+    SchemeBuilder.Register(&GlooInstance{}, &GlooInstanceList{})
+    SchemeBuilder.Register(&FailoverScheme{}, &FailoverSchemeList{})
 }

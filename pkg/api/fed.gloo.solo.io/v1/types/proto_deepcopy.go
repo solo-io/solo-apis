@@ -5,41 +5,38 @@
 package types
 
 import (
-	proto "github.com/golang/protobuf/proto"
+    proto "github.com/golang/protobuf/proto"
 )
 
 // DeepCopyInto for the FederatedSettings.Spec
 func (in *FederatedSettingsSpec) DeepCopyInto(out *FederatedSettingsSpec) {
-	p := proto.Clone(in).(*FederatedSettingsSpec)
-	*out = *p
+    p := proto.Clone(in).(*FederatedSettingsSpec)
+    *out = *p
 }
-
 // DeepCopyInto for the FederatedSettings.Status
 func (in *FederatedSettingsStatus) DeepCopyInto(out *FederatedSettingsStatus) {
-	p := proto.Clone(in).(*FederatedSettingsStatus)
-	*out = *p
+    p := proto.Clone(in).(*FederatedSettingsStatus)
+    *out = *p
 }
 
 // DeepCopyInto for the FederatedUpstream.Spec
 func (in *FederatedUpstreamSpec) DeepCopyInto(out *FederatedUpstreamSpec) {
-	p := proto.Clone(in).(*FederatedUpstreamSpec)
-	*out = *p
+    p := proto.Clone(in).(*FederatedUpstreamSpec)
+    *out = *p
 }
-
 // DeepCopyInto for the FederatedUpstream.Status
 func (in *FederatedUpstreamStatus) DeepCopyInto(out *FederatedUpstreamStatus) {
-	p := proto.Clone(in).(*FederatedUpstreamStatus)
-	*out = *p
+    p := proto.Clone(in).(*FederatedUpstreamStatus)
+    *out = *p
 }
 
 // DeepCopyInto for the FederatedUpstreamGroup.Spec
 func (in *FederatedUpstreamGroupSpec) DeepCopyInto(out *FederatedUpstreamGroupSpec) {
-	p := proto.Clone(in).(*FederatedUpstreamGroupSpec)
-	*out = *p
+    p := proto.Clone(in).(*FederatedUpstreamGroupSpec)
+    *out = *p
 }
-
 // DeepCopyInto for the FederatedUpstreamGroup.Status
 func (in *FederatedUpstreamGroupStatus) DeepCopyInto(out *FederatedUpstreamGroupStatus) {
-	p := proto.Clone(in).(*FederatedUpstreamGroupStatus)
-	*out = *p
+    p := proto.Clone(in).(*FederatedUpstreamGroupStatus)
+    *out = *p
 }
