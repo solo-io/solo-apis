@@ -27,7 +27,7 @@ do
   sed "s|gloo/v1/enterprise/options/extauth/v1/extauth.proto|enterprise.gloo/v1/auth_config.proto|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed "s|gloo.solo.io/v1/enterprise/options/extauth|enterprise.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed -e "s| enterprise\.gloo\.solo\.io| enterprise.gloo.apis.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
-  sed -e "s|/enterprise\.gloo\.solo\.io|/enterprise.gloo.apis.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+#  sed -e "s|/enterprise\.gloo\.solo\.io|/enterprise.gloo.apis.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed -e "s| \.enterprise.gloo\.solo\.io| .enterprise.gloo.apis.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 done
 

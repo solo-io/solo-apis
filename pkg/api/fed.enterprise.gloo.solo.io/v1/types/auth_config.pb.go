@@ -11,7 +11,7 @@ import (
 	sync "sync"
 
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
-	v11 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1"
+	v11 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
 	v1 "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/core/v1"
 	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"

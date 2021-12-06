@@ -1,7 +1,7 @@
 syntax = "proto3";
 package enterprise.gloo.apis.solo.io;
 
-option go_package = "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.apis.solo.io/v1";
+option go_package = "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1";
 
 import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 
