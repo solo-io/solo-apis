@@ -5,16 +5,17 @@
 package v1alpha1
 
 import (
-    proto "github.com/golang/protobuf/proto"
+	proto "github.com/golang/protobuf/proto"
 )
 
 // DeepCopyInto for the MultiClusterRole.Spec
 func (in *MultiClusterRoleSpec) DeepCopyInto(out *MultiClusterRoleSpec) {
-    p := proto.Clone(in).(*MultiClusterRoleSpec)
-    *out = *p
+	p := proto.Clone(in).(*MultiClusterRoleSpec)
+	*out = *p
 }
+
 // DeepCopyInto for the MultiClusterRole.Status
 func (in *MultiClusterRoleStatus) DeepCopyInto(out *MultiClusterRoleStatus) {
-    p := proto.Clone(in).(*MultiClusterRoleStatus)
-    *out = *p
+	p := proto.Clone(in).(*MultiClusterRoleStatus)
+	*out = *p
 }

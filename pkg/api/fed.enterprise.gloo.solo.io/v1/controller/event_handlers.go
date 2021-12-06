@@ -8,118 +8,118 @@ package controller
 import (
 	"context"
 
-    fed_enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1"
+	fed_enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1"
 
-    "github.com/pkg/errors"
-    "github.com/solo-io/skv2/pkg/events"
-    "sigs.k8s.io/controller-runtime/pkg/manager"
-    "sigs.k8s.io/controller-runtime/pkg/predicate"
-    "sigs.k8s.io/controller-runtime/pkg/client"
+	"github.com/pkg/errors"
+	"github.com/solo-io/skv2/pkg/events"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
 // Handle events for the FederatedAuthConfig Resource
 // DEPRECATED: Prefer reconciler pattern.
 type FederatedAuthConfigEventHandler interface {
-    CreateFederatedAuthConfig(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
-    UpdateFederatedAuthConfig(old, new *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
-    DeleteFederatedAuthConfig(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
-    GenericFederatedAuthConfig(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
+	CreateFederatedAuthConfig(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
+	UpdateFederatedAuthConfig(old, new *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
+	DeleteFederatedAuthConfig(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
+	GenericFederatedAuthConfig(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
 }
 
 type FederatedAuthConfigEventHandlerFuncs struct {
-    OnCreate  func(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
-    OnUpdate  func(old, new *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
-    OnDelete  func(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
-    OnGeneric func(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
+	OnCreate  func(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
+	OnUpdate  func(old, new *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
+	OnDelete  func(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
+	OnGeneric func(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error
 }
 
 func (f *FederatedAuthConfigEventHandlerFuncs) CreateFederatedAuthConfig(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error {
-    if f.OnCreate == nil {
-        return nil
-    }
-    return f.OnCreate(obj)
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
 }
 
 func (f *FederatedAuthConfigEventHandlerFuncs) DeleteFederatedAuthConfig(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error {
-    if f.OnDelete == nil {
-        return nil
-    }
-    return f.OnDelete(obj)
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
 }
 
 func (f *FederatedAuthConfigEventHandlerFuncs) UpdateFederatedAuthConfig(objOld, objNew *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error {
-    if f.OnUpdate == nil {
-        return nil
-    }
-    return f.OnUpdate(objOld, objNew)
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
 }
 
 func (f *FederatedAuthConfigEventHandlerFuncs) GenericFederatedAuthConfig(obj *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) error {
-    if f.OnGeneric == nil {
-        return nil
-    }
-    return f.OnGeneric(obj)
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
 }
 
 type FederatedAuthConfigEventWatcher interface {
-    AddEventHandler(ctx context.Context, h FederatedAuthConfigEventHandler, predicates ...predicate.Predicate) error
+	AddEventHandler(ctx context.Context, h FederatedAuthConfigEventHandler, predicates ...predicate.Predicate) error
 }
 
 type federatedAuthConfigEventWatcher struct {
-    watcher events.EventWatcher
+	watcher events.EventWatcher
 }
 
 func NewFederatedAuthConfigEventWatcher(name string, mgr manager.Manager) FederatedAuthConfigEventWatcher {
-    return &federatedAuthConfigEventWatcher{
-        watcher: events.NewWatcher(name, mgr, &fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig{}),
-    }
+	return &federatedAuthConfigEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig{}),
+	}
 }
 
 func (c *federatedAuthConfigEventWatcher) AddEventHandler(ctx context.Context, h FederatedAuthConfigEventHandler, predicates ...predicate.Predicate) error {
 	handler := genericFederatedAuthConfigHandler{handler: h}
-    if err := c.watcher.Watch(ctx, handler, predicates...); err != nil{
-        return err
-    }
-    return nil
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
 }
 
 // genericFederatedAuthConfigHandler implements a generic events.EventHandler
 type genericFederatedAuthConfigHandler struct {
-    handler FederatedAuthConfigEventHandler
+	handler FederatedAuthConfigEventHandler
 }
 
 func (h genericFederatedAuthConfigHandler) Create(object client.Object) error {
-    obj, ok := object.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
-    if !ok {
-        return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", object)
-    }
-    return h.handler.CreateFederatedAuthConfig(obj)
+	obj, ok := object.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
+	if !ok {
+		return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", object)
+	}
+	return h.handler.CreateFederatedAuthConfig(obj)
 }
 
 func (h genericFederatedAuthConfigHandler) Delete(object client.Object) error {
-    obj, ok := object.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
-    if !ok {
-        return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", object)
-    }
-    return h.handler.DeleteFederatedAuthConfig(obj)
+	obj, ok := object.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
+	if !ok {
+		return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", object)
+	}
+	return h.handler.DeleteFederatedAuthConfig(obj)
 }
 
 func (h genericFederatedAuthConfigHandler) Update(old, new client.Object) error {
-    objOld, ok := old.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
-    if !ok {
-        return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", old)
-    }
-    objNew, ok := new.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
-    if !ok {
-        return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", new)
-    }
-    return h.handler.UpdateFederatedAuthConfig(objOld, objNew)
+	objOld, ok := old.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
+	if !ok {
+		return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", old)
+	}
+	objNew, ok := new.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
+	if !ok {
+		return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", new)
+	}
+	return h.handler.UpdateFederatedAuthConfig(objOld, objNew)
 }
 
 func (h genericFederatedAuthConfigHandler) Generic(object client.Object) error {
-    obj, ok := object.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
-    if !ok {
-        return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", object)
-    }
-    return h.handler.GenericFederatedAuthConfig(obj)
+	obj, ok := object.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
+	if !ok {
+		return errors.Errorf("internal error: FederatedAuthConfig handler received event for %T", object)
+	}
+	return h.handler.GenericFederatedAuthConfig(obj)
 }

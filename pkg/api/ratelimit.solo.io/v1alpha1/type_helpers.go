@@ -3,8 +3,5 @@
 // Definitions for the Kubernetes types
 package v1alpha1
 
-import (
-)
-
 // RateLimitConfigSlice represents a slice of *RateLimitConfig
 type RateLimitConfigSlice []*RateLimitConfig
