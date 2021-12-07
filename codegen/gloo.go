@@ -26,7 +26,7 @@ func GlooGroups() []model.Group {
 			{kind: "VirtualHostOption"},
 			{kind: "RouteOption"},
 		}, GlooCustomTemplates),
-		makeGroup("enterprise.gloo", "v1", []resourceToGenerate{
+		makeGroup("enterprise.gloo.apis", "v1", []resourceToGenerate{
 			{
 				kind:         "AuthConfig",
 				protoPackage: "enterprise.gloo.apis.solo.io",
