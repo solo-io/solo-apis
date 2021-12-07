@@ -3,7 +3,7 @@
 set -e
 
 jsonGenFile="json.gen.go"
-
+echo "Cleaning up extra json.gen.go files"
 glooJsonGenFile="pkg/api/gloo.solo.io/v1/$jsonGenFile"
 if [ -f "$glooJsonGenFile" ] ; then
     rm "$glooJsonGenFile"
@@ -14,7 +14,7 @@ if [ -f "$gatewayJsonGenFile" ] ; then
     rm "$gatewayJsonGenFile"
 fi
 
-glooEnterpriseJsonGenFile="pkg/api/enterprise.gloo.solo.io/v1/$jsonGenFile"
+glooEnterpriseJsonGenFile="pkg/api/enterprise.gloo.apis.solo.io/v1/$jsonGenFile"
 if [ -f "$glooEnterpriseJsonGenFile" ] ; then
     rm "$glooEnterpriseJsonGenFile"
 fi
