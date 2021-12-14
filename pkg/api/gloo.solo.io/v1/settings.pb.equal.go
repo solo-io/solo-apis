@@ -1284,6 +1284,17 @@ func (m *SettingsSpec_DiscoveryOptions_UdsOptions) Equal(that interface{}) bool 
 		}
 	}
 
+	if len(m.GetWatchLabels()) != len(target.GetWatchLabels()) {
+		return false
+	}
+	for k, v := range m.GetWatchLabels() {
+
+		if strings.Compare(v, target.GetWatchLabels()[k]) != 0 {
+			return false
+		}
+
+	}
+
 	return true
 }
 
