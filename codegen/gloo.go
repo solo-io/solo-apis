@@ -67,3 +67,10 @@ var JsonStatuses = func() model.CustomTemplates {
 
 	return jsonStatusTemplates
 }()
+
+var RegisterOriginalGroup = func() model.CustomTemplates {
+	originalStatusTemplates := model.CustomTemplates{
+		Templates: nil,
+	}
+	return originalStatusTemplates
+}()
