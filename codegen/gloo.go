@@ -2,6 +2,10 @@ package codegen
 
 import (
 	"io/ioutil"
+	"strings"
+	"text/template"
+
+	"github.com/solo-io/skv2/codegen/render"
 
 	"github.com/solo-io/skv2/codegen/model"
 	"github.com/solo-io/skv2/codegen/util"
@@ -48,6 +52,8 @@ var templatesDir = util.MustGetThisDir() + "/templates/"
 const (
 	GlooJsonOutputFilename     = "gloo_json.gen.go"
 	GlooJsonCustomTemplatePath = "gloo_json.gen.gotmpl"
+	RegisterTemplatePath       = "register.gotmpl"
+	RegisterOutputFilename     = "solo_apis_register.go"
 )
 
 /*
@@ -69,8 +75,23 @@ var JsonStatuses = func() model.CustomTemplates {
 }()
 
 var RegisterOriginalGroup = func() model.CustomTemplates {
-	originalStatusTemplates := model.CustomTemplates{
-		Templates: nil,
+	templateContentsBytes, err := ioutil.ReadFile(templatesDir + RegisterTemplatePath)
+	if err != nil {
+		panic(err)
 	}
-	return originalStatusTemplates
+	templateContents := string(templateContentsBytes)
+	originalGroupTemplates := model.CustomTemplates{
+		Templates: map[string]string{RegisterOutputFilename: templateContents},
+		Funcs:     GetTemplateFuncs(),
+	}
+	GlooCustomTemplates = append(GlooCustomTemplates, originalGroupTemplates)
+	return originalGroupTemplates
 }()
+
+func GetTemplateFuncs() template.FuncMap {
+	return template.FuncMap{
+		"original_group": func(grp render.Group) string {
+			return strings.ReplaceAll(grp.Group, ".apis", "")
+		},
+	}
+}
