@@ -4,6 +4,7 @@
 package v1
 
 import (
+	. "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/enterprise/options/extauth/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )

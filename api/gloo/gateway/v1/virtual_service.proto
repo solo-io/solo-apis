@@ -10,10 +10,10 @@ option (extproto.hash_all) = true;
 import "google/protobuf/wrappers.proto";
 import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/core/matchers/matchers.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo.apis/v1/ssl.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo.apis/v1/proxy.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo.apis/v1/options.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo.apis/v1/core/matchers/matchers.proto";
 
 /*
 *
@@ -120,7 +120,7 @@ message VirtualServiceSpec {
     VirtualHost virtual_host = 1;
 
     // If provided, the Gateway will serve TLS/SSL traffic for this set of routes
-    gloo.solo.io.SslConfig ssl_config = 2;
+    gloo.apis.solo.io.SslConfig ssl_config = 2;
 
     // Display only, optional descriptive name.
     // Unlike metadata.name, DisplayName can be any string
@@ -139,7 +139,7 @@ An HTTP request is first matched to a virtual host based on its host header, the
 
 If a request is not matched to any virtual host or a route therein, the target proxy will reply with a 404.
 
-Unlike the [Gloo Virtual Host]({{< ref "/reference/api/github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto.sk.md" >}}/#virtualhost),
+Unlike the [Gloo Virtual Host]({{< ref "/reference/api/github.com/solo-io/solo-apis/api/gloo/gloo.apis/v1/proxy.proto.sk.md" >}}/#virtualhost),
 *Gateway* Virtual Hosts can **delegate** their routes to `RouteTables`.
 
  */
@@ -159,7 +159,7 @@ message VirtualHost {
 
     // Virtual host options contain additional configuration to be applied to all traffic served by the Virtual Host.
     // Some configuration here can be overridden by Route Options.
-    gloo.solo.io.VirtualHostOptions options = 4;
+    gloo.apis.solo.io.VirtualHostOptions options = 4;
 
     oneof external_options_config {
     /* Delegate the VirtualHost options to an external VirtualHostOption Resource.
@@ -205,13 +205,13 @@ message Route {
     oneof action {
         // This action is the primary action to be selected for most routes. The RouteAction tells the proxy to
         // route requests to an upstream.
-        gloo.solo.io.RouteAction route_action = 2;
+        gloo.apis.solo.io.RouteAction route_action = 2;
 
         // Redirect actions tell the proxy to return a redirect response to the downstream client.
-        gloo.solo.io.RedirectAction redirect_action = 3;
+        gloo.apis.solo.io.RedirectAction redirect_action = 3;
 
         // Return an arbitrary HTTP response directly, without proxying.
-        gloo.solo.io.DirectResponseAction direct_response_action = 4;
+        gloo.apis.solo.io.DirectResponseAction direct_response_action = 4;
 
         // Delegate routing actions for the given matcher to one or more RouteTables.
         DelegateAction delegate_action = 5;
@@ -227,7 +227,7 @@ message Route {
     // Route Options extend the behavior of routes.
     // Route options include configuration such as retries, rate limiting, and request/response transformation.
     // RouteOption behavior will be inherited by delegated routes which do not specify their own `options`
-    gloo.solo.io.RouteOptions options = 6;
+    gloo.apis.solo.io.RouteOptions options = 6;
 
     // The name provides a convenience for users to be able to refer to a route by name.
     string name = 7;

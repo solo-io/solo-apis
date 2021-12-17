@@ -9,11 +9,11 @@ option (extproto.equal_all) = true;
 
 import "github.com/solo-io/solo-apis/api/skv2-enterprise/v1alpha1/multicluster.proto";
 import "github.com/solo-io/solo-apis/api/gloo-fed/fed/core/v1/placement.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo.apis/v1/proxy.proto";
 
 message FederatedUpstreamGroupSpec {
     message Template {
-        .gloo.solo.io.UpstreamGroupSpec spec = 1;
+        .gloo.apis.solo.io.UpstreamGroupSpec spec = 1;
 
         core.fed.solo.io.TemplateMetadata metadata = 2;
     }
