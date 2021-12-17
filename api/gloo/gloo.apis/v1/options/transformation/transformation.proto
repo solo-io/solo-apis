@@ -1,5 +1,5 @@
 syntax = "proto3";
-package transformation.options.gloo.solo.io;
+package transformation.options.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/options/transformation";
 
@@ -14,7 +14,7 @@ option (extproto.equal_all) = true;
 
 message ResponseMatch { 
     // Response headers to match on.
-    repeated matchers.core.gloo.solo.io.HeaderMatcher matchers = 1;
+    repeated matchers.core.gloo.apis.solo.io.HeaderMatcher matchers = 1;
     // Response code detail to match on. To see the response code details for your usecase,
     // you can use the envoy access log %RESPONSE_CODE_DETAILS% formatter to log it.
     string response_code_details = 2;
@@ -24,7 +24,7 @@ message ResponseMatch {
 
 message RequestMatch {
     // Matches on the request properties.
-    matchers.core.gloo.solo.io.Matcher matcher = 1;
+    matchers.core.gloo.apis.solo.io.Matcher matcher = 1;
     // Should we clear the route cache if a transformation was matched.
     bool clear_route_cache = 2;
     // Transformation to apply on the request.

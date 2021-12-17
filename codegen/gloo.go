@@ -17,27 +17,28 @@ func init() {
 
 func GlooGroups() []model.Group {
 	return []model.Group{
-		makeGroup("gloo", "v1", []resourceToGenerate{
+		makeGroup("gloo.apis", "v1", []resourceToGenerate{
 			{kind: "Settings",
-				protoPackage: "enterprise.gloo.apis.solo.io",
+				protoPackage: "gloo.apis.solo.io",
 			},
 			{kind: "Upstream",
-				protoPackage: "enterprise.gloo.apis.solo.io",
+				protoPackage: "gloo.apis.solo.io",
 			},
 			{kind: "UpstreamGroup",
-				protoPackage: "enterprise.gloo.apis.solo.io",
+				protoPackage: "gloo.apis.solo.io",
 			},
 			{kind: "Proxy",
-				protoPackage: "enterprise.gloo.apis.solo.io",
+				protoPackage: "gloo.apis.solo.io",
 			},
 		}, GlooCustomTemplates),
-		makeGroup("gateway", "v1", []resourceToGenerate{
+		makeGroup("gateway.apis", "v1", []resourceToGenerate{
 			{kind: "Gateway"},
 			{kind: "RouteTable"},
 			{kind: "VirtualService"},
 			{kind: "VirtualHostOption"},
 			{kind: "RouteOption"},
 		}, GlooCustomTemplates),
+		//TODO: I think it's possible to keep this group name as enterprise.gloo which will make many other changes less messy
 		makeGroup("enterprise.gloo.apis", "v1", []resourceToGenerate{
 			{
 				kind:         "AuthConfig",

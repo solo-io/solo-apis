@@ -1,7 +1,7 @@
 // mostly copied from https://github.com/envoyproxy/envoy/blob/374dca7905fc048be74169a7655d0462606555ad/api/envoy/extensions/filters/http/grpc_json_transcoder/v3/transcoder.proto
 syntax = "proto3";
 
-package grpc_json.options.gloo.solo.io;
+package grpc_json.options.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/options/grpc_json";
 

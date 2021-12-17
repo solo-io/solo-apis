@@ -1,5 +1,5 @@
 syntax = "proto3";
-package pipe.options.gloo.solo.io;
+package pipe.options.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/options/pipe";
 
@@ -19,5 +19,5 @@ message UpstreamSpec {
     string path = 1;
 
     // An optional Service Spec describing the service listening at this address
-    .options.gloo.solo.io.ServiceSpec service_spec = 2;
+    .options.gloo.apis.solo.io.ServiceSpec service_spec = 2;
 }

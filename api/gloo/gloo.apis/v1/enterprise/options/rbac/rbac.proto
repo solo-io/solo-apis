@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package rbac.options.gloo.solo.io;
+package rbac.options.gloo.apis.solo.io;
 
 import "extproto/ext.proto";
 

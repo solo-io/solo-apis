@@ -10,12 +10,12 @@ option (extproto.equal_all) = true;
 
 import "github.com/solo-io/solo-apis/api/skv2-enterprise/v1alpha1/multicluster.proto";
 import "github.com/solo-io/solo-apis/api/gloo-fed/fed/core/v1/placement.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gateway/v1/virtual_service.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gateway.apis/v1/virtual_service.proto";
 
 message FederatedVirtualServiceSpec {
 
     message Template {
-        .gateway.solo.io.VirtualServiceSpec spec = 1;
+        .gateway.apis.solo.io.VirtualServiceSpec spec = 1;
 
         core.fed.solo.io.TemplateMetadata metadata = 2;
     }

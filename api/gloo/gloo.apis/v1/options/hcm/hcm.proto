@@ -1,5 +1,5 @@
 syntax = "proto3";
-package hcm.options.gloo.solo.io;
+package hcm.options.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/options/hcm";
 
@@ -60,7 +60,7 @@ message HttpConnectionManagerSettings {
     string default_host_for_http_10 = 16;
     bool proper_case_header_key_format = 22;
 
-    tracing.options.gloo.solo.io.ListenerTracingSettings tracing = 17;
+    tracing.options.gloo.apis.solo.io.ListenerTracingSettings tracing = 17;
 
     ForwardClientCertDetails forward_client_cert_details = 18;
 
@@ -70,7 +70,7 @@ message HttpConnectionManagerSettings {
 
     // HttpConnectionManager configuration for protocol upgrade requests. 
     // Note: WebSocket upgrades are enabled by default on the HTTP Connection Manager and must be explicitly disabled.
-    repeated protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig upgrades = 21;
+    repeated protocol_upgrade.options.gloo.apis.solo.io.ProtocolUpgradeConfig upgrades = 21;
 
     // For an explanation of these settings see https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#config-core-v3-httpprotocoloptions
     google.protobuf.Duration max_connection_duration = 23;

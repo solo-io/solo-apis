@@ -56,7 +56,7 @@ import "google/protobuf/wrappers.proto";
 // Note to developers: new Listener plugins must be added to this struct
 // to be usable by Gloo. (plugins currently need to be compiled into Gloo)
 message ListenerOptions {
-    als.options.gloo.solo.io.AccessLoggingService access_logging_service = 1;
+    als.options.gloo.apis.solo.io.AccessLoggingService access_logging_service = 1;
 
     // Extensions will be passed along from Listeners, Gateways, VirtualServices, Routes, and Route tables to the
     // underlying Proxy, making them useful for controllers, validation tools, etc. which interact with kubernetes yaml.
@@ -76,7 +76,7 @@ message ListenerOptions {
     repeated .solo.io.envoy.api.v2.core.SocketOption socket_options = 4;
 
     // Enable ProxyProtocol support for this listener.
-    proxy_protocol.options.gloo.solo.io.ProxyProtocol proxy_protocol = 5;
+    proxy_protocol.options.gloo.apis.solo.io.ProxyProtocol proxy_protocol = 5;
 }
 
 message RouteConfigurationOptions {
@@ -88,10 +88,10 @@ message RouteConfigurationOptions {
 
 // Optional, feature-specific configuration that lives on http listeners
 message HttpListenerOptions {
-    grpc_web.options.gloo.solo.io.GrpcWeb grpc_web = 1;
-    hcm.options.gloo.solo.io.HttpConnectionManagerSettings http_connection_manager_settings = 2;
+    grpc_web.options.gloo.apis.solo.io.GrpcWeb grpc_web = 1;
+    hcm.options.gloo.apis.solo.io.HttpConnectionManagerSettings http_connection_manager_settings = 2;
     // enable [Envoy health checks](https://www.envoyproxy.io/docs/envoy/v1.7.0/api-v2/config/filter/http/health_check/v2/health_check.proto) on this listener
-    healthcheck.options.gloo.solo.io.HealthCheck health_check = 4;
+    healthcheck.options.gloo.apis.solo.io.HealthCheck health_check = 4;
     // Extensions will be passed along from Listeners, Gateways, VirtualServices, Routes, and Route tables to the
     // underlying Proxy, making them useful for controllers, validation tools, etc. which interact with kubernetes yaml.
     //
@@ -102,15 +102,15 @@ message HttpListenerOptions {
     Extensions extensions = 3;
     // Enterprise-only: Config for Web Application Firewall (WAF), supporting
     // the popular ModSecurity 3.0 ruleset
-    waf.options.gloo.solo.io.Settings waf = 5;
+    waf.options.gloo.apis.solo.io.Settings waf = 5;
     // Enterprise-only: Config for data loss prevention
-    dlp.options.gloo.solo.io.FilterConfig dlp = 6;
+    dlp.options.gloo.apis.solo.io.FilterConfig dlp = 6;
     // Enterprise-only: WASM related configuration [experimental!]
-    wasm.options.gloo.solo.io.PluginSource wasm = 7;
+    wasm.options.gloo.apis.solo.io.PluginSource wasm = 7;
     // Enterprise-only: External auth related settings
     enterprise.gloo.apis.solo.io.Settings extauth = 10;
     // Enterprise-only: Settings for the rate limiting server itself
-    ratelimit.options.gloo.solo.io.Settings ratelimit_server = 11;
+    ratelimit.options.gloo.apis.solo.io.Settings ratelimit_server = 11;
 
     // Gzip is an HTTP option which enables Gloo to compress
     // data returned from an upstream service upon client request.
@@ -141,7 +141,7 @@ message HttpListenerOptions {
     // Exposed envoy config for the gRPC to JSON transcoding filter,
     // envoy.filters.http.grpc_json_transcoder.
     // For more, see https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/grpc_json_transcoder/v3/transcoder.proto
-    grpc_json.options.gloo.solo.io.GrpcJsonTranscoder grpc_json_transcoder = 13;
+    grpc_json.options.gloo.apis.solo.io.GrpcJsonTranscoder grpc_json_transcoder = 13;
 
     // Enterprise-only: If using the HTTP header specified by cluster_header to direct traffic to a cluster,
     // this option will sanitize that header from downstream traffic.
@@ -157,7 +157,7 @@ message HttpListenerOptions {
 
 // Optional, feature-specific configuration that lives on tcp listeners
 message TcpListenerOptions {
-    tcp.options.gloo.solo.io.TcpProxySettings tcp_proxy_settings = 3;
+    tcp.options.gloo.apis.solo.io.TcpProxySettings tcp_proxy_settings = 3;
 }
 
 // Optional, feature-specific configuration that lives on virtual hosts.
@@ -173,18 +173,18 @@ message VirtualHostOptions {
     // * In the future, Gloo may support gRPC-based plugins which communicate with the Gloo translator out-of-process.
     // Opaque Extensions enables development of out-of-process plugins without requiring recompiling & redeploying Gloo's API.
     Extensions extensions = 1;
-    retries.options.gloo.solo.io.RetryPolicy retries = 5;
-    stats.options.gloo.solo.io.Stats stats = 10;
+    retries.options.gloo.apis.solo.io.RetryPolicy retries = 5;
+    stats.options.gloo.apis.solo.io.Stats stats = 10;
     // Append/Remove headers on Requests or Responses on all routes contained in this Virtual Host
-    headers.options.gloo.solo.io.HeaderManipulation header_manipulation = 2;
+    headers.options.gloo.apis.solo.io.HeaderManipulation header_manipulation = 2;
     // Defines a CORS policy for the virtual host
     // If a CORS policy is also defined on the route matched by the request, the policies are merged.
-    cors.options.gloo.solo.io.CorsPolicy cors = 3;
+    cors.options.gloo.apis.solo.io.CorsPolicy cors = 3;
     // Transformations to apply. Note: this field is superseded by `staged_transformations`.
     // If `staged_transformations.regular` is set, this field will be ignored.
-    transformation.options.gloo.solo.io.Transformations transformations = 4 [deprecated = true];
+    transformation.options.gloo.apis.solo.io.Transformations transformations = 4 [deprecated = true];
     // Enterprise-only: Config for GlooE rate-limiting using simplified (gloo-specific) API
-    ratelimit.options.gloo.solo.io.IngressRateLimit ratelimit_basic = 6;
+    ratelimit.options.gloo.apis.solo.io.IngressRateLimit ratelimit_basic = 6;
 
     oneof rate_limit_config_type {
 
@@ -194,23 +194,23 @@ message VirtualHostOptions {
         // descriptors used by the rate-limit service for rate-limiting. Configure rate-limit *descriptors* and
         // their associated limits on the Gloo settings.
         // Only one of `ratelimit` or `rate_limit_configs` can be set.
-        ratelimit.options.gloo.solo.io.RateLimitVhostExtension ratelimit = 70;
+        ratelimit.options.gloo.apis.solo.io.RateLimitVhostExtension ratelimit = 70;
 
         // References to RateLimitConfig resources. This is used to configure the GlooE rate limit server.
         // Only one of `ratelimit` or `rate_limit_configs` can be set.
-        ratelimit.options.gloo.solo.io.RateLimitConfigRefs rate_limit_configs = 71;
+        ratelimit.options.gloo.apis.solo.io.RateLimitConfigRefs rate_limit_configs = 71;
     }
 
     // Enterprise-only: Config for Web Application Firewall (WAF), supporting
     // the popular ModSecurity 3.0 ruleset
-    waf.options.gloo.solo.io.Settings waf = 8;
+    waf.options.gloo.apis.solo.io.Settings waf = 8;
 
     oneof jwt_config {
         // Enterprise-only: Config for reading and verifying JWTs. Copy verifiable information from JWTs into other
         // headers to make routing decisions or combine with RBAC for fine-grained access control.
         // This has been deprecated in favor of staged jwt. The same configuration can be achieved through staged jwt
         // using AfterExtAuth.
-        jwt.options.gloo.solo.io.VhostExtension jwt = 9 [deprecated=true];
+        jwt.options.gloo.apis.solo.io.VhostExtension jwt = 9 [deprecated=true];
 
         // Enterprise-only: Config for reading and verifying JWTs. Copy verifiable information from JWTs into other
         // headers to make routing decisions or combine with RBAC for fine-grained access control.
@@ -219,15 +219,15 @@ message VirtualHostOptions {
         // is used in conjunction with other auth mechanisms specified in the [boolean expression Extauth API](https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/solo-apis/api/gloo/enterprise.gloo.apis/v1/auth_config.proto.sk/#authconfig).
         // AfterExtAuth validation runs after external authentication service, which is useful for verifying
         // JWTs obtained during extauth (e.g. oauth/oidc)
-        jwt.options.gloo.solo.io.JwtStagedVhostExtension jwt_staged = 19;
+        jwt.options.gloo.apis.solo.io.JwtStagedVhostExtension jwt_staged = 19;
     }
 
     // Enterprise-only: Config for RBAC (currently only supports RBAC based on JWT claims)
-    rbac.options.gloo.solo.io.ExtensionSettings rbac = 11;
+    rbac.options.gloo.apis.solo.io.ExtensionSettings rbac = 11;
     // Enterprise-only: Authentication configuration
     enterprise.gloo.apis.solo.io.ExtAuthExtension extauth = 12;
     // Enterprise-only: Config for data loss prevention
-    dlp.options.gloo.solo.io.Config dlp = 13;
+    dlp.options.gloo.apis.solo.io.Config dlp = 13;
     // BufferPerRoute can be used to set the maximum request size
     // that the filter will buffer before the connection
     // manager will stop buffering and return a 413 response.
@@ -256,7 +256,7 @@ message VirtualHostOptions {
 
     // Early transformations stage. These transformations run before most other options are processed.
     // If the `regular` field is set in here, the `transformations` field is ignored.
-    transformation.options.gloo.solo.io.TransformationStages staged_transformations = 17;
+    transformation.options.gloo.apis.solo.io.TransformationStages staged_transformations = 17;
 
 }
 
@@ -267,15 +267,15 @@ message VirtualHostOptions {
 message RouteOptions {
     // Transformations to apply. Note: this field is superseded by `staged_transformations`.
     // If `staged_transformations.regular` is set, this field will be ignored.
-    transformation.options.gloo.solo.io.Transformations transformations = 1 [deprecated = true];
-    fault.options.gloo.solo.io.RouteFaults faults = 2;
+    transformation.options.gloo.apis.solo.io.Transformations transformations = 1 [deprecated = true];
+    fault.options.gloo.apis.solo.io.RouteFaults faults = 2;
     // For requests matched on this route, rewrite the HTTP request path to the provided value before forwarding upstream
     google.protobuf.StringValue prefix_rewrite = 3;
     // Specifies the upstream timeout for the route. If not specified, the default is 15s. This spans between the point
     // at which the entire downstream request (i.e. end-of-stream) has been processed and when the upstream response has
     // been completely processed. A value of 0 will disable the route’s timeout.
     google.protobuf.Duration timeout = 4 ;
-    retries.options.gloo.solo.io.RetryPolicy retries = 5;
+    retries.options.gloo.apis.solo.io.RetryPolicy retries = 5;
     // Extensions will be passed along from Listeners, Gateways, VirtualServices, Routes, and Route tables to the
     // underlying Proxy, making them useful for controllers, validation tools, etc. which interact with kubernetes yaml.
     //
@@ -287,12 +287,12 @@ message RouteOptions {
     // Defines route-specific tracing configuration.
     // See here for additional information on Envoy's tracing capabilities: https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/tracing.html
     // See [here](https://docs.solo.io/gloo-edge/latest/guides/observability/tracing/) for additional information about configuring tracing with Gloo Edge.
-    tracing.options.gloo.solo.io.RouteTracingSettings tracing = 7;
+    tracing.options.gloo.apis.solo.io.RouteTracingSettings tracing = 7;
     // Specifies traffic shadowing configuration for the route.
     // See here for additional information on Envoy's shadowing capabilities: https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto#envoy-api-msg-route-routeaction-requestmirrorpolicy
-    shadowing.options.gloo.solo.io.RouteShadowing shadowing = 8;
+    shadowing.options.gloo.apis.solo.io.RouteShadowing shadowing = 8;
     // Append/Remove headers on Requests or Responses on this Route
-    headers.options.gloo.solo.io.HeaderManipulation header_manipulation = 9;
+    headers.options.gloo.apis.solo.io.HeaderManipulation header_manipulation = 9;
     // For requests matched on this route, rewrite the Host header before forwarding upstream
     oneof host_rewrite_type {
         // Indicates that during forwarding, the host header will be swapped with this value.
@@ -305,15 +305,15 @@ message RouteOptions {
     };
     // Defines a CORS policy for the route
     // If a CORS policy is also defined on the route's virtual host, the policies are merged.
-    cors.options.gloo.solo.io.CorsPolicy cors = 11;
+    cors.options.gloo.apis.solo.io.CorsPolicy cors = 11;
     // For routes served by a hashing load balancer, this defines the input to the hash key
     // Gloo configures Envoy with the first available RouteActionHashConfig among the following ordered list of providers:
     // - route, upstream, virtual service
-    lbhash.options.gloo.solo.io.RouteActionHashConfig lb_hash = 12;
+    lbhash.options.gloo.apis.solo.io.RouteActionHashConfig lb_hash = 12;
     // Route configuration for protocol upgrade requests.
-    repeated protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig upgrades = 21;
+    repeated protocol_upgrade.options.gloo.apis.solo.io.ProtocolUpgradeConfig upgrades = 21;
     // Enterprise-only: Config for GlooE rate-limiting using simplified (gloo-specific) API
-    ratelimit.options.gloo.solo.io.IngressRateLimit ratelimit_basic = 13;
+    ratelimit.options.gloo.apis.solo.io.IngressRateLimit ratelimit_basic = 13;
 
     oneof rate_limit_config_type {
 
@@ -323,22 +323,22 @@ message RouteOptions {
         // descriptors used by the rate-limit service for rate-limiting. Configure rate-limit *descriptors* and
         // their associated limits on the Gloo settings.
         // Only one of `ratelimit` or `rate_limit_configs` can be set.
-        ratelimit.options.gloo.solo.io.RateLimitRouteExtension ratelimit = 140;
+        ratelimit.options.gloo.apis.solo.io.RateLimitRouteExtension ratelimit = 140;
 
         // References to RateLimitConfig resources. This is used to configure the GlooE rate limit server.
         // Only one of `ratelimit` or `rate_limit_configs` can be set.
-        ratelimit.options.gloo.solo.io.RateLimitConfigRefs rate_limit_configs = 141;
+        ratelimit.options.gloo.apis.solo.io.RateLimitConfigRefs rate_limit_configs = 141;
     }
 
     // Enterprise-only: Config for Web Application Firewall (WAF), supporting
     // the popular ModSecurity 3.0 ruleset
-    waf.options.gloo.solo.io.Settings waf = 15;
+    waf.options.gloo.apis.solo.io.Settings waf = 15;
     oneof jwt_config{
         // Enterprise-only: Config for reading and verifying JWTs. Copy verifiable information from JWTs into other
         // headers to make routing decisions or combine with RBAC for fine-grained access control.
         // This has been deprecated in favor of staged jwt. The same configuration can be achieved through staged jwt
         // using AfterExtAuth.
-        jwt.options.gloo.solo.io.RouteExtension jwt = 16 [deprecated = true];
+        jwt.options.gloo.apis.solo.io.RouteExtension jwt = 16 [deprecated = true];
 
         // Enterprise-only: Config for reading and verifying JWTs. Copy verifiable information from JWTs into other
         // headers to make routing decisions or combine with RBAC for fine-grained access control.
@@ -347,15 +347,15 @@ message RouteOptions {
         // is used in conjunction with other auth mechanisms specified in the [boolean expression Extauth API](https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/solo-apis/api/gloo/enterprise.gloo.apis/v1/auth_config.proto.sk/#authconfig).
         // AfterExtAuth validation runs after external authentication service, which is useful for verifying
         // JWTs obtained during extauth (e.g. oauth/oidc)
-        jwt.options.gloo.solo.io.JwtStagedRouteExtension jwt_staged = 25;
+        jwt.options.gloo.apis.solo.io.JwtStagedRouteExtension jwt_staged = 25;
     }
 
     // Enterprise-only: Config for RBAC (currently only supports RBAC based on JWT claims)
-    rbac.options.gloo.solo.io.ExtensionSettings rbac = 17;
+    rbac.options.gloo.apis.solo.io.ExtensionSettings rbac = 17;
     // Enterprise-only: Authentication configuration
     enterprise.gloo.apis.solo.io.ExtAuthExtension extauth = 18;
     // Enterprise-only: Config for data loss prevention
-    dlp.options.gloo.solo.io.Config dlp = 20;
+    dlp.options.gloo.apis.solo.io.Config dlp = 20;
 
     // BufferPerRoute can be used to set the maximum request size
     // that the filter will buffer before the connection
@@ -372,7 +372,7 @@ message RouteOptions {
 
     // Early transformations stage. These transformations run before most other options are processed.
     // If the `regular` field is set in here, the `transformations` field is ignored.
-    transformation.options.gloo.solo.io.TransformationStages staged_transformations = 23;
+    transformation.options.gloo.apis.solo.io.TransformationStages staged_transformations = 23;
 
     // This field can be used to provide additional information about the route. This metadata can be consumed
     // by the Envoy filters that process requests that match the route. For more info about metadata, see
@@ -393,10 +393,10 @@ message DestinationSpec {
     // Note to developers: new DestinationSpecs must be added to this oneof field
     // to be usable by Gloo.
     oneof destination_type {
-        aws.options.gloo.solo.io.DestinationSpec aws = 1;
-        azure.options.gloo.solo.io.DestinationSpec azure = 2;
-        rest.options.gloo.solo.io.DestinationSpec rest = 3;
-        grpc.options.gloo.solo.io.DestinationSpec grpc = 4;
+        aws.options.gloo.apis.solo.io.DestinationSpec aws = 1;
+        azure.options.gloo.apis.solo.io.DestinationSpec azure = 2;
+        rest.options.gloo.apis.solo.io.DestinationSpec rest = 3;
+        grpc.options.gloo.apis.solo.io.DestinationSpec grpc = 4;
     }
 }
 
@@ -404,10 +404,10 @@ message DestinationSpec {
 // is selected for routing.
 message WeightedDestinationOptions {
     // Append/Remove headers on Requests or Responses to/from this Weighted Destination
-    headers.options.gloo.solo.io.HeaderManipulation header_manipulation = 1;
+    headers.options.gloo.apis.solo.io.HeaderManipulation header_manipulation = 1;
     // Transformations to apply. Note: this field is superseded by `staged_transformations`.
     // If `staged_transformations.regular` is set, this field will be ignored.
-    transformation.options.gloo.solo.io.Transformations transformations = 2 [deprecated = true];
+    transformation.options.gloo.apis.solo.io.Transformations transformations = 2 [deprecated = true];
     // Extensions will be passed along from Listeners, Gateways, VirtualServices, Routes, and Route tables to the
     // underlying Proxy, making them useful for controllers, validation tools, etc. which interact with kubernetes yaml.
     //
@@ -433,5 +433,5 @@ message WeightedDestinationOptions {
 
     // Early transformations stage. These transformations run before most other options are processed.
     // If the `regular` field is set in here, the `transformations` field is ignored.
-    transformation.options.gloo.solo.io.TransformationStages staged_transformations = 6;
+    transformation.options.gloo.apis.solo.io.TransformationStages staged_transformations = 6;
 }

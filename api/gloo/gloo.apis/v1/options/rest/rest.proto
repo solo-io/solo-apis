@@ -1,5 +1,5 @@
 syntax = "proto3";
-package rest.options.gloo.solo.io;
+package rest.options.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/options/rest";
 
@@ -25,7 +25,7 @@ message ServiceSpec {
 message DestinationSpec {
     string function_name = 1;
 
-    transformation.options.gloo.solo.io.Parameters parameters = 2;
+    transformation.options.gloo.apis.solo.io.Parameters parameters = 2;
 
     envoy.api.v2.filter.http.TransformationTemplate response_transformation = 3;
 }

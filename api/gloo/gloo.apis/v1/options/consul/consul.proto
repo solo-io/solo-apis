@@ -1,5 +1,5 @@
 syntax = "proto3";
-package consul.options.gloo.solo.io;
+package consul.options.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/options/consul";
 
@@ -38,7 +38,7 @@ message UpstreamSpec {
     repeated string instance_blacklist_tags = 8;
 
     // An optional Service Spec describing the service listening at this address
-    .options.gloo.solo.io.ServiceSpec service_spec = 3;
+    .options.gloo.apis.solo.io.ServiceSpec service_spec = 3;
 
     // Is this consul service connect enabled.
     bool connect_enabled = 4;

@@ -33,6 +33,7 @@ func ConvertToSkv2ProtoFile(path string, info os.FileInfo, err error) error {
 	if err != nil {
 		return err
 	}
+	fmt.Printf("converting file %s\n", path)
 	// If the proto file is not from a relevant package skip it.
 	wholeFileBytes, ok := modifyRelevantFile(fileContents)
 	if !ok {
@@ -95,6 +96,7 @@ func modifyRelevantFile(file []byte) ([]byte, bool) {
 		return nil, false
 	}
 	for _, relevantType := range relevantTypes {
+		fmt.Printf("type %s", relevantType)
 		// Make sure to add extra space after to check specifically for only Message
 		oldMessageBytes := []byte(fmt.Sprintf("message %s ", relevantType))
 		if bytes.Contains(file, oldMessageBytes) {

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package graphql.gloo.solo.io;
+package graphql.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/enterprise/options/graphql/v1alpha1";
 

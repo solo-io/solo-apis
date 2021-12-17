@@ -131,7 +131,7 @@ message HealthCheck {
 
     // (Enterprise Only): If defined, the response health check rules take precedence over the http
     // `expected_statuses`.
-    .advancedhttp.options.gloo.solo.io.ResponseAssertions response_assertions = 12;
+    .advancedhttp.options.gloo.apis.solo.io.ResponseAssertions response_assertions = 12;
   }
 
   message TcpHealthCheck {

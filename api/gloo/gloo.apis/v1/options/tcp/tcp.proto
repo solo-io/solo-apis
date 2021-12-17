@@ -1,5 +1,5 @@
 syntax = "proto3";
-package tcp.options.gloo.solo.io;
+package tcp.options.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/options/tcp";
 

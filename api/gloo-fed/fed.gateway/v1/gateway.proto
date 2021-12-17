@@ -10,14 +10,14 @@ option (extproto.equal_all) = true;
 
 import "github.com/solo-io/solo-apis/api/skv2-enterprise/v1alpha1/multicluster.proto";
 import "github.com/solo-io/solo-apis/api/gloo-fed/fed/core/v1/placement.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gateway/v1/gateway.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gateway.apis/v1/gateway.proto";
 
 import "google/protobuf/wrappers.proto";
 
 message FederatedGatewaySpec {
 
     message Template {
-        .gateway.solo.io.GatewaySpec spec = 1;
+        .gateway.apis.solo.io.GatewaySpec spec = 1;
 
         core.fed.solo.io.TemplateMetadata metadata = 2;
     }

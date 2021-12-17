@@ -1,5 +1,5 @@
 syntax = "proto3";
-package grpc.options.gloo.solo.io;
+package grpc.options.gloo.apis.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/options/grpc";
 
@@ -46,5 +46,5 @@ message DestinationSpec {
 
   // Parameters describe how to extract the function parameters from the
   // request.
-  transformation.options.gloo.solo.io.Parameters parameters = 4;
+  transformation.options.gloo.apis.solo.io.Parameters parameters = 4;
 }

@@ -18,3 +18,8 @@ glooEnterpriseJsonGenFile="pkg/api/enterprise.gloo.apis.solo.io/v1/$jsonGenFile"
 if [ -f "$glooEnterpriseJsonGenFile" ] ; then
     rm "$glooEnterpriseJsonGenFile"
 fi
+#TODO: finish cleaning up extra files instead of deleting manually
+glooRegisterFile=""
+if [ -f "$glooRegisterFile" ] ; then
+    rm "$glooRegisterFile"
+fi

@@ -1,0 +1,286 @@
+syntax = "proto3";
+package gateway.apis.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/gateway.apis.solo.io/v1";
+
+import "google/protobuf/struct.proto";
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+
+import "google/protobuf/wrappers.proto";
+import "github.com/solo-io/solo-kit/api/v1/ref.proto";
+import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo.apis/v1/options.proto";
+
+/*
+* The **VirtualHostOption** holds `options` configuration for a VirtualHost.
+* VirtualHosts can inherit `options` config from `VirtualHostOption` objects by delegating to them.
+*
+* When a VirtualHost delegates to an external VirtualHostOptions object, any options config
+* defined on the VirtualHost will override the external options config.
+* Similarly, `VirtualHostOption`s which are delegated to first will get priority over following `VirtualHostOption`s.
+*
+* An example configuration with a VirtualService with its own options config and delegating to two VirtualHostOption objects:
+*
+* ```yaml
+* apiVersion: gateway.apis.solo.io/v1
+* kind: VirtualService
+* metadata:
+*   name: http
+*   namespace: gloo-system
+* spec:
+*   virtualHost:
+*     domains:
+*     - '*'
+*     options:
+*       headerManipulation:
+*         requestHeadersToRemove: "header-from-vhost"
+*     delegateOptions:
+*       - name: virtualhost-external-options-1
+*         namespace: opt-namespace
+*       - name: virtualhost-external-options-2
+*         namespace: opt-namespace
+* ```
+*
+* ```yaml
+* apiVersion: gateway.apis.solo.io/v1
+* kind: VirtualHostOption
+* metadata:
+*   name: virtualhost-external-options-1
+*   namespace: opt-namespace
+* spec:
+*   options:
+*     headerManipulation:
+*       requestHeadersToRemove: "header-from-external-options1"
+*     corsPolicy:
+*       exposeHeaders:
+*         - header-from-extopt1
+* ```
+*
+* ```yaml
+* apiVersion: gateway.apis.solo.io/v1
+* kind: VirtualHostOption
+* metadata:
+*   name: virtualhost-external-options-2
+*   namespace: opt-namespace
+* spec:
+*   options:
+*     headerManipulation:
+*       requestHeadersToRemove: "header-from-external-options2"
+*     corsPolicy:
+*       exposeHeaders:
+*         - header-from-extopt2
+*       maxAge: 2s
+*     transformations:
+*       requestTransformation:
+*         transformationTemplate:
+*           headers:
+*             x-header-added-in-opt2:
+*               value: this header was added in the VirtualHostOption object - #2
+* ```
+*
+* The final virtual host options (visible in the Proxy CR) would be:
+* ```yaml
+* spec:
+*   virtualHost:
+*     domains:
+*     - '*'
+*     options:
+*       # from Virtual host options
+*       headerManipulation:
+*         requestHeadersToRemove: "header-from-vhost"
+*       # from delegated virtualhost-external-options-1
+*       corsPolicy:
+*         exposeHeaders:
+*           - header-from-extopt1
+*       # from delegated virtualhost-external-options-2
+*       transformations:
+*         requestTransformation:
+*           transformationTemplate:
+*             headers:
+*               x-header-added-in-opt2:
+*                 value: this header was added in the VirtualHostOption object - #2
+* ```
+*
+* Notice how the order of VirtualHostOption delegations matters, and that the VirtualHost-level config overrides all delegated configs.
+*/
+message VirtualHostOptionSpec {
+
+
+  reserved 1;
+
+
+
+  // VirtualHost options. See VirtualHost for delegation behavior.
+  gloo.apis.solo.io.VirtualHostOptions options = 3;
+}
+
+/*
+* The **RouteOption** holds `options` configuration for a Route.
+* Routes can inherit `options` config from `RouteOption` objects by delegating to them.
+*
+* When a Route delegates to an external RouteOptions object, any options config
+* defined on the Route will override the external options config.
+* Similarly, `RouteOption`s which are delegated to first will get priority over following `RouteOption`s.
+*
+* An example configuration with a Route with its own options config and delegating to two RouteOption objects:
+*
+* ```yaml
+* apiVersion: gateway.apis.solo.io/v1
+* kind: VirtualService
+* metadata:
+*   name: http
+*   namespace: gloo-system
+* spec:
+*   virtualHost:
+*     domains:
+*     - '*'
+*     routes:
+*     - matchers:
+*       - prefix: /
+*       options:
+*         headerManipulation:
+*           requestHeadersToRemove: "header-from-route"
+*       delegateOptions:
+*         - name: route-external-options-1
+*           namespace: opt-namespace
+*         - name: route-external-options-2
+*           namespace: opt-namespace
+* ```
+*
+* ```yaml
+* apiVersion: gateway.apis.solo.io/v1
+* kind: RouteOption
+* metadata:
+*   name: route-external-options-1
+*   namespace: opt-namespace
+* spec:
+*   options:
+*     headerManipulation:
+*       requestHeadersToRemove: "header-from-external-options1"
+*     corsPolicy:
+*       exposeHeaders:
+*         - header-from-extopt1
+* ```
+*
+* ```yaml
+* apiVersion: gateway.apis.solo.io/v1
+* kind: RouteOption
+* metadata:
+*   name: route-external-options-2
+*   namespace: opt-namespace
+* spec:
+*   options:
+*     headerManipulation:
+*       requestHeadersToRemove: "header-from-external-options2"
+*     corsPolicy:
+*       exposeHeaders:
+*         - header-from-extopt2
+*       maxAge: 2s
+*     transformations:
+*       requestTransformation:
+*         transformationTemplate:
+*           headers:
+*             x-header-added-in-opt2:
+*               value: this header was added in the RouteOption object - #2
+* ```
+*
+* The final route options would bewould be:
+* ```yaml
+* routes:
+*   - matchers:
+*     - prefix: /
+*     options:
+*       # from Route options
+*       headerManipulation:
+*         requestHeadersToRemove: "header-from-route"
+*       # from delegated route-external-options-1
+*       corsPolicy:
+*         exposeHeaders:
+*           - header-from-extopt1
+*       # from delegated route-external-options-2
+*       transformations:
+*         requestTransformation:
+*           transformationTemplate:
+*             headers:
+*               x-header-added-in-opt2:
+*                 value: this header was added in the Route object - #2
+* ```
+*
+* Notice how the order of RouteOption delegations matters, and that the Route-level option config overrides all delegated option configs.
+*/
+message RouteOptionSpec {
+
+
+  reserved 1;
+
+
+  // Route options. See Route for delegation behavior.
+  gloo.apis.solo.io.RouteOptions options = 3;
+}
+
+message VirtualHostOptionStatus {
+	enum State {
+			// Pending status indicates the resource has not yet been validated
+			Pending = 0;
+			// Accepted indicates the resource has been validated
+			Accepted = 1;
+			// Rejected indicates an invalid configuration by the user
+			// Rejected resources may be propagated to the xDS server depending on their severity
+			Rejected = 2;
+			// Warning indicates a partially invalid configuration by the user
+			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+			Warning = 3;
+	}
+	// State is the enum indicating the state of the resource
+	State state = 1;
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	string reason = 2;
+	// Reference to the reporter who wrote this status
+	string reported_by = 3;
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	map<string, VirtualHostOptionStatus> subresource_statuses = 4;
+
+	// Opaque details about status results
+	google.protobuf.Struct details = 5;
+}
+
+
+
+message VirtualHostOptionNamespacedStatuses {
+	map<string, VirtualHostOptionStatus> statuses = 1;
+}
+
+
+
+message RouteOptionStatus {
+	enum State {
+			// Pending status indicates the resource has not yet been validated
+			Pending = 0;
+			// Accepted indicates the resource has been validated
+			Accepted = 1;
+			// Rejected indicates an invalid configuration by the user
+			// Rejected resources may be propagated to the xDS server depending on their severity
+			Rejected = 2;
+			// Warning indicates a partially invalid configuration by the user
+			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+			Warning = 3;
+	}
+	// State is the enum indicating the state of the resource
+	State state = 1;
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	string reason = 2;
+	// Reference to the reporter who wrote this status
+	string reported_by = 3;
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	map<string, RouteOptionStatus> subresource_statuses = 4;
+
+	// Opaque details about status results
+	google.protobuf.Struct details = 5;
+}
+
+
+
+message RouteOptionNamespacedStatuses {
+	map<string, RouteOptionStatus> statuses = 1;
+}

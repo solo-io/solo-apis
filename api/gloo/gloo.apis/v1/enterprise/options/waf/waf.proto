@@ -1,5 +1,5 @@
 syntax = "proto3";
-package waf.options.gloo.solo.io;
+package waf.options.gloo.apis.solo.io;
 
 import "github.com/solo-io/solo-apis/api/gloo/gloo.apis/external/envoy/extensions/waf/waf.proto";
 

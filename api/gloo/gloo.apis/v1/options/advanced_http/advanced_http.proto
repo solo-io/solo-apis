@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package advancedhttp.options.gloo.solo.io;
+package advancedhttp.options.gloo.apis.solo.io;
 
 import "udpa/annotations/status.proto";
 

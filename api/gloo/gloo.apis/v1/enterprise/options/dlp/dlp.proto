@@ -1,5 +1,5 @@
 syntax = "proto3";
-package dlp.options.gloo.solo.io;
+package dlp.options.gloo.apis.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.apis.solo.io/v1/enterprise/options/dlp";
 
 import "validate/validate.proto";
@@ -42,7 +42,7 @@ message FilterConfig {
 message DlpRule {
     // Matcher by which to determine if the given transformation should be applied
     // if omitted, will it match all (i.e., default to / prefix matcher)
-    matchers.core.gloo.solo.io.Matcher matcher = 1;
+    matchers.core.gloo.apis.solo.io.Matcher matcher = 1;
     // List of data loss prevention actions to be applied.
     // These actions will be applied in order, one at a time.
     repeated Action actions = 2;
