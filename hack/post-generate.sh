@@ -9,7 +9,7 @@ if [ -f "$glooJsonGenFile" ] ; then
     rm "$glooJsonGenFile"
 fi
 
-gatewayJsonGenFile="pkg/api/gateway.solo.io/v1/$jsonGenFile"
+gatewayJsonGenFile="pkg/api/gateway.apis.solo.io/v1/$jsonGenFile"
 if [ -f "$gatewayJsonGenFile" ] ; then
     rm "$gatewayJsonGenFile"
 fi
