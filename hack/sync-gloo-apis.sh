@@ -27,7 +27,7 @@ do
   sed -e "s|gateway.solo\.io|gateway.apis.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 # Gloo Enterprise API changes
   sed "s|gloo.apis/v1/enterprise/options/extauth/v1/extauth.proto|enterprise.gloo.apis/v1/auth_config.proto|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
-  sed "s|gloo.solo.io/v1/enterprise/options/extauth|enterprise.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+  sed "s|gloo.apis.solo.io/v1/enterprise/options/extauth|enterprise.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed -e "s| enterprise\.gloo\.solo\.io| enterprise.gloo.apis.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed -e "s|/enterprise\.gloo.solo.io|/enterprise.gloo.apis.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed -e "s|/enterprise\.gloo/|/enterprise.gloo.apis/|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
