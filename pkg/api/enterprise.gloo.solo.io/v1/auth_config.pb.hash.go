@@ -3254,6 +3254,11 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Hash(hasher hash.Hash64) (ui
 		return 0, err
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetParseCallbackPathAsRegex())
+	if err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
