@@ -10,12 +10,6 @@ import (
 )
 
 func main() {
-	/*var resources []string
-	for _, group := range codegen.GlooGroups() {
-		for _, resource := range group.Resources {
-			resources = append(resources, resource.Kind)
-		}
-	} */
 	moduleRoot := util.GetModuleRoot()
 	err := filepath.Walk(
 		filepath.Join(moduleRoot, "api/gloo"),

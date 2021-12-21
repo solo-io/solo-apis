@@ -11,6 +11,8 @@ rsync -ax --exclude 'solo-kit.json'  ../gloo/projects/gateway/api/  ./api/gloo/g
 mkdir -p ./api/gloo/enterprise.gloo.apis/v1
 mv ./api/gloo/gloo.apis/v1/enterprise/options/extauth/v1/extauth.proto ./api/gloo/enterprise.gloo.apis/v1/auth_config.proto
 
+#mv ./api/gloo/gloo.apis/external/envoy ./api/gloo/gloo.apis/external/envoy.apis
+
 # Fix paths
 for file in $(find api/gloo -type f | grep ".proto")
 do
@@ -33,8 +35,13 @@ do
   sed -e "s|/enterprise\.gloo/|/enterprise.gloo.apis/|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed -e "s|\.enterprise.gloo\.solo\.io| .enterprise.gloo.apis.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 
-
   sed -e "s|\.gloo\.solo\.io|.gloo.apis.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+  #external changes: commented because it didn't work but this is what I started with
+#  sed -e "s| solo\.io\.envoy| apis.solo.io.envoy|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+#  sed -e "s| \.solo\.io\.envoy| .apis.solo.io.envoy|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+#  sed -e "s| solo\.io\.udpa| apis.solo.io.udpa|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+#  sed -e "s| \.solo\.io\.udpa| .apis.solo.io.udpa|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+#  sed -e "s| (solo\.io\.udpa| (apis.solo.io.udpa|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 done
 
 # convert protos used by skv1 into protos that can be used by skv2.

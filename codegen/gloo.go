@@ -38,7 +38,6 @@ func GlooGroups() []model.Group {
 			{kind: "VirtualHostOption"},
 			{kind: "RouteOption"},
 		}, GlooCustomTemplates),
-		//TODO: I think it's possible to keep this group name as enterprise.gloo which will make many other changes less messy
 		makeGroup("enterprise.gloo.apis", "v1", []resourceToGenerate{
 			{
 				kind:         "AuthConfig",
