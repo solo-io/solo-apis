@@ -625,6 +625,8 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 
 	target.SessionIdHeaderName = m.GetSessionIdHeaderName()
 
+	target.ParseCallbackPathAsRegex = m.GetParseCallbackPathAsRegex()
+
 	return target
 }
 

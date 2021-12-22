@@ -331,6 +331,54 @@ func (m *GrpcResolver) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *QueryMatcher) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*QueryMatcher)
+	if !ok {
+		that2, ok := that.(QueryMatcher)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.Match.(type) {
+
+	case *QueryMatcher_FieldMatcher_:
+		if _, ok := target.Match.(*QueryMatcher_FieldMatcher_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetFieldMatcher()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetFieldMatcher()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetFieldMatcher(), target.GetFieldMatcher()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Match != target.Match {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *Resolution) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -349,6 +397,16 @@ func (m *Resolution) Equal(that interface{}) bool {
 		return m == nil
 	} else if m == nil {
 		return false
+	}
+
+	if h, ok := interface{}(m.GetMatcher()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMatcher()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMatcher(), target.GetMatcher()) {
+			return false
+		}
 	}
 
 	switch m.Resolver.(type) {
@@ -544,6 +602,38 @@ func (m *Executor) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *QueryMatcher_FieldMatcher) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*QueryMatcher_FieldMatcher)
+	if !ok {
+		that2, ok := that.(QueryMatcher_FieldMatcher)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetType(), target.GetType()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetField(), target.GetField()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
 func (m *Executor_Local) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -567,14 +657,14 @@ func (m *Executor_Local) Equal(that interface{}) bool {
 	if len(m.GetResolutions()) != len(target.GetResolutions()) {
 		return false
 	}
-	for k, v := range m.GetResolutions() {
+	for idx, v := range m.GetResolutions() {
 
 		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetResolutions()[k]) {
+			if !h.Equal(target.GetResolutions()[idx]) {
 				return false
 			}
 		} else {
-			if !proto.Equal(v, target.GetResolutions()[k]) {
+			if !proto.Equal(v, target.GetResolutions()[idx]) {
 				return false
 			}
 		}
