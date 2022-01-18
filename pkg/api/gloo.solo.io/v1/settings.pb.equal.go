@@ -1250,6 +1250,23 @@ func (m *SettingsSpec_ObservabilityOptions) Equal(that interface{}) bool {
 		}
 	}
 
+	if len(m.GetConfigStatusMetricLabels()) != len(target.GetConfigStatusMetricLabels()) {
+		return false
+	}
+	for k, v := range m.GetConfigStatusMetricLabels() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetConfigStatusMetricLabels()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetConfigStatusMetricLabels()[k]) {
+				return false
+			}
+		}
+
+	}
+
 	return true
 }
 
@@ -1394,6 +1411,41 @@ func (m *SettingsSpec_ObservabilityOptions_GrafanaIntegration) Equal(that interf
 		if !proto.Equal(m.GetDefaultDashboardFolderId(), target.GetDefaultDashboardFolderId()) {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *SettingsSpec_ObservabilityOptions_MetricLabels) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*SettingsSpec_ObservabilityOptions_MetricLabels)
+	if !ok {
+		that2, ok := that.(SettingsSpec_ObservabilityOptions_MetricLabels)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetLabelToPath()) != len(target.GetLabelToPath()) {
+		return false
+	}
+	for k, v := range m.GetLabelToPath() {
+
+		if strings.Compare(v, target.GetLabelToPath()[k]) != 0 {
+			return false
+		}
+
 	}
 
 	return true
