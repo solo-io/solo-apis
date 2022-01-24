@@ -727,6 +727,19 @@ func (m *SettingsSpec_ObservabilityOptions) Clone() proto.Message {
 		target.GrafanaIntegration = proto.Clone(m.GetGrafanaIntegration()).(*SettingsSpec_ObservabilityOptions_GrafanaIntegration)
 	}
 
+	if m.GetConfigStatusMetricLabels() != nil {
+		target.ConfigStatusMetricLabels = make(map[string]*SettingsSpec_ObservabilityOptions_MetricLabels, len(m.GetConfigStatusMetricLabels()))
+		for k, v := range m.GetConfigStatusMetricLabels() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ConfigStatusMetricLabels[k] = h.Clone().(*SettingsSpec_ObservabilityOptions_MetricLabels)
+			} else {
+				target.ConfigStatusMetricLabels[k] = proto.Clone(v).(*SettingsSpec_ObservabilityOptions_MetricLabels)
+			}
+
+		}
+	}
+
 	return target
 }
 
@@ -803,6 +816,26 @@ func (m *SettingsSpec_ObservabilityOptions_GrafanaIntegration) Clone() proto.Mes
 		target.DefaultDashboardFolderId = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	} else {
 		target.DefaultDashboardFolderId = proto.Clone(m.GetDefaultDashboardFolderId()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *SettingsSpec_ObservabilityOptions_MetricLabels) Clone() proto.Message {
+	var target *SettingsSpec_ObservabilityOptions_MetricLabels
+	if m == nil {
+		return target
+	}
+	target = &SettingsSpec_ObservabilityOptions_MetricLabels{}
+
+	if m.GetLabelToPath() != nil {
+		target.LabelToPath = make(map[string]string, len(m.GetLabelToPath()))
+		for k, v := range m.GetLabelToPath() {
+
+			target.LabelToPath[k] = v
+
+		}
 	}
 
 	return target
