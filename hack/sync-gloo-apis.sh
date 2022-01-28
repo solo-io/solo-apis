@@ -9,7 +9,9 @@ rsync -ax --exclude 'solo-kit.json'  ../gloo/projects/gateway/api/  ./api/gloo/g
 
 # Create Enterprise Gloo directory
 mkdir -p ./api/gloo/enterprise.gloo/v1
+mkdir -p ./api/gloo/enterprise.gloo/v1alpha1
 mv ./api/gloo/gloo/v1/enterprise/options/extauth/v1/extauth.proto ./api/gloo/enterprise.gloo/v1/auth_config.proto
+mv ./api/gloo/gloo/v1/enterprise/options/graphql/v1alpha1/graphql.proto ./api/gloo/enterprise.gloo/v1alpha1/graphql.proto
 
 # Fix paths
 for file in $(find api/gloo -type f | grep ".proto")
@@ -25,7 +27,10 @@ do
 
 # Gloo Enterprise API changes
   sed "s|gloo/v1/enterprise/options/extauth/v1/extauth.proto|enterprise.gloo/v1/auth_config.proto|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+  sed "s|gloo/v1/enterprise/options/graphql/v1alpha1/graphql.proto|enterprise.gloo/v1alpha1/graphql.proto|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed "s|gloo.solo.io/v1/enterprise/options/extauth|enterprise.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+  sed "s|gloo.solo.io/v1/enterprise/options/graphql|enterprise.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+
 done
 
 # convert protos used by skv1 into protos that can be used by skv2.
