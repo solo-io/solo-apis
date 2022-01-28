@@ -29,7 +29,7 @@ do
   sed "s|gloo/v1/enterprise/options/extauth/v1/extauth.proto|enterprise.gloo/v1/auth_config.proto|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed "s|gloo/v1/enterprise/options/graphql/v1alpha1/graphql.proto|enterprise.gloo/v1alpha1/graphql.proto|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
   sed "s|gloo.solo.io/v1/enterprise/options/extauth|enterprise.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
-  sed "s|gloo.solo.io/v1/enterprise/options/graphql|enterprise.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
+  sed "s|gloo.solo.io/v1/enterprise/options/graphql|graphql.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 
 done
 
