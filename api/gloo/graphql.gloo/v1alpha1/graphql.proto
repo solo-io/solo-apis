@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package graphql.gloo.solo.io;
 
-option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/graphql/v1alpha1";
+option go_package = "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1";
 
 option java_package = "io.envoyproxy.envoy.config.filter.http.graphql.v2";
 option java_outer_classname = "GraphQLFilterProto";
@@ -13,8 +13,6 @@ option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-import "github.com/solo-io/solo-kit/api/v1/metadata.proto";
-import "github.com/solo-io/solo-kit/api/v1/status.proto";
 import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
 import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 
@@ -191,17 +189,10 @@ message Resolution {
 // Note: while users can provide this configuration manually, the eventual UX will
 // be to generate the Executable Schema CRs from other sources and just have users
 // configure the routes to point to these schema CRs.
-message GraphQLSchema {
+message GraphQLSchemaSpec {
 
-  option (core.solo.io.resource).short_name = "gqls";
-  option (core.solo.io.resource).plural_name = "graphql_schemas";
 
-  // NamespacedStatuses indicates the validation status of this resource.
-  // NamespacedStatuses is read-only by clients, and set by gloo during validation
-  core.solo.io.NamespacedStatuses namespaced_statuses = 1 [(extproto.skip_hashing) = true];
 
-  // Metadata contains the object metadata for this resource
-  core.solo.io.Metadata metadata = 2;
 
   ExecutableSchema executable_schema = 6;
 }
@@ -250,4 +241,36 @@ message Executor {
     // coming soon, schema stitching:
     //Remote remote = 2;
   }
+}
+
+message GraphQLSchemaStatus {
+	enum State {
+			// Pending status indicates the resource has not yet been validated
+			Pending = 0;
+			// Accepted indicates the resource has been validated
+			Accepted = 1;
+			// Rejected indicates an invalid configuration by the user
+			// Rejected resources may be propagated to the xDS server depending on their severity
+			Rejected = 2;
+			// Warning indicates a partially invalid configuration by the user
+			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+			Warning = 3;
+	}
+	// State is the enum indicating the state of the resource
+	State state = 1;
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	string reason = 2;
+	// Reference to the reporter who wrote this status
+	string reported_by = 3;
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	map<string, GraphQLSchemaStatus> subresource_statuses = 4;
+
+	// Opaque details about status results
+	google.protobuf.Struct details = 5;
+}
+
+
+
+message GraphQLSchemaNamespacedStatuses {
+	map<string, GraphQLSchemaStatus> statuses = 1;
 }

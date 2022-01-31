@@ -18,3 +18,8 @@ glooEnterpriseJsonGenFile="pkg/api/enterprise.gloo.solo.io/v1/$jsonGenFile"
 if [ -f "$glooEnterpriseJsonGenFile" ] ; then
     rm "$glooEnterpriseJsonGenFile"
 fi
+
+glooGraphqlJsonGenFile="pkg/api/graphql.gloo.solo.io/v1alpha1/$jsonGenFile"
+if [ -f "$glooGraphqlJsonGenFile" ] ; then
+    rm "$glooGraphqlJsonGenFile"
+fi

@@ -33,6 +33,13 @@ func GlooGroups() []model.Group {
 				goPackage:    "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extauth/v1",
 			},
 		}, GlooCustomTemplates),
+		makeGroup("graphql.gloo", "v1alpha1", []resourceToGenerate{
+			{
+				kind:         "GraphQLSchema",
+				protoPackage: "graphql.gloo.solo.io",
+				goPackage:    "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/graphql/v1alpha1",
+			},
+		}, GlooCustomTemplates),
 	}
 }
 
