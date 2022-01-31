@@ -1,0 +1,382 @@
+syntax = "proto3";
+package networking.mesh.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/networking.mesh.gloo.solo.io/v1";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/request_matchers.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/keepalive.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/string_match.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/weighed_destination.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/ratelimit/rate_limit.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/extauth/extauth.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/csrf/csrf.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/transformation/transformation.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+
+// Applies L7 routing and post-routing configuration on selected network edges.
+message TrafficPolicySpec {
+
+    // Specify the Workloads (sources for east-west traffic) this TrafficPolicy applies to.
+    // Omit to apply to all Workloads.
+    repeated .common.mesh.gloo.solo.io.WorkloadSelector source_selector = 1;
+
+    // Specify the Destinations (destinations) this TrafficPolicy applies to.
+    // Omit to apply to all Destinations.
+    repeated .common.mesh.gloo.solo.io.DestinationSelector destination_selector = 2;
+
+    // Specify which ingress gateway traffic this trafficPolicy should
+    // apply to. Multiple policies from different sources defining
+    // different policies (eg retries, timeouts) will be merged.
+    // If a conflicting policy value is defined in both a TrafficPolicy
+    // resource (or multiple TrafficPolicy resources) and in-line on a VirtualHost,
+    // or Route - then the in-line values will take precedence. If multiple
+    // TrafficPolicies select the same VirtualHost, RouteTable, or Route, then the older
+    // TrafficPolicy (by CreationTime) takes precedence over any newer Traffic policy.
+    // Omit to apply to all VirtualHosts and all of their routes.
+    repeated RouteSelector route_selector = 5;
+
+    // Specify criteria that HTTP requests must satisfy for the TrafficPolicy to apply.
+    // Conditions defined within a single matcher are conjunctive, i.e. all conditions must be satisfied for a match to occur.
+    // Conditions defined between different matchers are disjunctive, i.e. at least one matcher must be satisfied for the TrafficPolicy to apply.
+    // Omit to apply to any HTTP request.
+    repeated .common.mesh.gloo.solo.io.DeprecatedHttpMatcher http_request_matchers = 3;
+
+    // Specify L7 routing and post-routing configuration.
+    Policy policy = 4;
+
+    // Specify L7 routing and post-routing configuration.
+    message Policy {
+
+        // Shift traffic to a different destination.
+        // Note that the shifted traffic will only have policies applied that select the original source, rather than the shifted source.
+        MultiDestination traffic_shift = 4;
+
+        // Inject faulty responses.
+        FaultInjection fault_injection = 5;
+
+        // Set a timeout on requests.
+        google.protobuf.Duration request_timeout = 6;
+
+        // Set a retry policy on requests.
+        RetryPolicy retries = 7;
+
+        // Set a Cross-Origin Resource Sharing policy (CORS) for requests. Refer to [this link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS)
+        // for further details about cross origin resource sharing.
+        CorsPolicy cors_policy = 8;
+
+        // Mirror traffic to a another destination (traffic will be sent to its original destination in addition to the mirrored destinations).
+        Mirror mirror = 9;
+
+        // Manipulate request and response headers.
+        HeaderManipulation header_manipulation = 10;
+
+        // Configure [outlier detection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier) on the selected destinations.
+        // Specifying this field requires an empty `source_selector` because it must apply to all traffic.
+        OutlierDetection outlier_detection = 11;
+
+        // Configure mTLS settings. If specified will override global default defined in Settings.
+        MTLS mtls = 12;
+
+        // Configure the Envoy based CSRF filter
+        .csrf.networking.mesh.gloo.solo.io.CsrfPolicy csrf = 13;
+
+        // Configure the Envoy based Ratelimit filter
+        .ratelimit.networking.mesh.gloo.solo.io.RouteRateLimit rate_limit = 14;
+
+        // Configure the Envoy based Extauth filter
+        .extauth.networking.mesh.gloo.solo.io.RouteExtauth extauth = 15;
+
+        // Configure the Ratelimit server settings
+        .ratelimit.networking.mesh.gloo.solo.io.RateLimitServerSettings rate_limit_settings = 16;
+
+        // Configure the ExtAuth server settings
+        .extauth.networking.mesh.gloo.solo.io.ExtauthSettings extauth_settings = 17;
+
+        // Configure the ConnectionPool settings
+        ConnectionPoolSettings connection_pool_settings = 18;
+
+        // Configure transformations of HTTP header / body content on request or response data.
+        .transformation.networking.mesh.gloo.solo.io.RouteTransformations transformations = 19;
+
+        // Specify retries for failed requests.
+        message RetryPolicy {
+
+            // Number of retries for a given request
+            int32 attempts = 1;
+
+            // Timeout per retry attempt for a given request. Format: `1h`/`1m`/`1s`/`1ms`. *Must be >= 1ms*.
+            google.protobuf.Duration per_try_timeout = 2;
+        }
+
+        // Specify a traffic shift destination.
+        message MultiDestination {
+
+            // Specify weighted traffic shift destinations.
+            repeated WeightedDestination destinations = 1;
+
+        }
+
+        // Specify one or more faults to inject for the selected network edge.
+        message FaultInjection {
+
+            // Indicate the amount of delay in seconds.
+            // The optional _percentage_ field can be used to only delay a certain
+            // percentage of requests. If left unspecified, all request will be delayed.
+
+            // Specify the type of fault to inject.
+            oneof fault_injection_type {
+
+                // Add a delay of a fixed duration before sending the request. Format: `1h`/`1m`/`1s`/`1ms`. MUST be >=1ms.
+                google.protobuf.Duration fixed_delay = 1;
+
+                // Abort the request and return the specified error code back to traffic source.
+                Abort abort = 2;
+            }
+
+            // Abort the request and return the specified error code back to traffic source.
+            message Abort {
+
+                // Required. HTTP status code to use to abort the request.
+                int32 http_status = 1;
+            }
+
+            // Percentage of requests to be faulted. Values range between 0 and 100. If omitted all requests will be faulted.
+            google.protobuf.DoubleValue percentage = 4;
+        }
+
+        // Specify Cross-Origin Resource Sharing policy (CORS) for requests. Refer to [this link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS)
+        // for further details about cross origin resource sharing.
+        message CorsPolicy {
+
+            // String patterns that match allowed origins. An origin is allowed if any of the string matchers match.
+            repeated .common.mesh.gloo.solo.io.StringMatch allow_origins = 7;
+
+            // List of HTTP methods allowed to access the resource. The content will
+            // be serialized to the `Access-Control-Allow-Methods` header.
+            repeated string allow_methods = 2;
+
+            // List of HTTP headers that can be used when requesting the
+            // resource. Serialized to the `Access-Control-Allow-Headers` header.
+            repeated string allow_headers = 3;
+
+            // A list of HTTP headers that browsers are allowed to
+            // access. Serialized to the `Access-Control-Expose-Headers` header.
+            repeated string expose_headers = 4;
+
+            // Specify how long the results of a preflight request can be
+            // cached. Serialized to the `Access-Control-Max-Age` header.
+            google.protobuf.Duration max_age = 5;
+
+            // Indicates whether the caller is allowed to send the actual request
+            // (not the preflight) using credentials. Translates to the
+            // `Access-Control-Allow-Credentials` header.
+            google.protobuf.BoolValue allow_credentials = 6;
+        }
+
+        // Mirror traffic to a another destination (traffic will be sent to its original destination in addition to the mirrored destinations).
+        message Mirror {
+
+            // Platform specific mirror destinations.
+            oneof destination_type {
+
+                // Reference (name, namespace, Gloo Mesh cluster) to a Kubernetes service.
+                .core.skv2.solo.io.ClusterObjectRef kube_service = 1;
+            }
+
+            // Percentage of traffic to mirror. If omitted all traffic will be mirrored. Values must be between 0 and 100.
+            google.protobuf.DoubleValue percentage = 2;
+
+            // Port on the destination to receive traffic. Required if the destination exposes multiple ports.
+            uint32 port = 3;
+        }
+
+        // Configure [outlier detection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier) on the selected destinations.
+        // Specifying this field requires an empty `source_selector` because it must apply to all traffic.
+        message OutlierDetection {
+
+            // The number of errors before a host is ejected from the connection pool. A default will be used if not set.
+            uint32 consecutive_errors = 1;
+
+            // The time interval between ejection sweep analysis. Format: `1h`/`1m`/`1s`/`1ms`. Must be >= `1ms`. A default will be used if not set.
+            google.protobuf.Duration interval = 2;
+
+            // The minimum ejection duration. Format: `1h`/`1m`/`1s`/`1ms`. Must be >= `1ms`. A default will be used if not set.
+            google.protobuf.Duration base_ejection_time = 3;
+
+            // The maximum percentage of hosts that can be ejected from the load balancing pool.
+            // At least one host will be ejected regardless of the value. Must be between 0 and 100. A default will be used if not set.
+            uint32 max_ejection_percent = 4;
+        }
+        // Configure [connection pool settings](https://istio.io/latest/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings) on the selected destinations.
+        message ConnectionPoolSettings {
+            // Settings common to both HTTP and TCP upstream connections
+            TCPSettings tcp = 1;
+
+            // HTTP connection pool settings.
+            HTTPSettings http = 2;
+        }
+        // Settings common to both HTTP and TCP upstream connections.
+        message TCPSettings {
+            //  Maximum number of HTTP1 /TCP connections to a destination host. Default 2^32-1.
+            int32 maxConnections = 1;
+
+            // TCP connection timeout. format: 1h/1m/1s/1ms. MUST BE >=1ms. Default is 10s.
+            google.protobuf.Duration connectTimeout = 2;
+
+            // If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.
+            .common.mesh.gloo.solo.io.TCPKeepalive tcpKeepalive = 3;
+        }
+        // Settings applicable to HTTP1.1/HTTP2/GRPC connections.
+        message HTTPSettings {
+            // Maximum number of pending HTTP requests to a destination. Default 2^32-1.
+            int32 http1MaxPendingRequests = 1;
+
+            // Maximum number of requests to a backend. Default 2^32-1.
+            int32 http2MaxRequests = 2;
+
+            // Maximum number of requests per connection to a backend. Setting this parameter to 1 disables keep alive. Default 0, meaning “unlimited”, up to 2^29.
+            int32 maxRequestsPerConnection = 3;
+
+            // Maximum number of retries that can be outstanding to all hosts in a cluster at a given time. Defaults to 2^32-1.
+            int32 maxRetries = 4;
+
+            // The idle timeout for upstream connection pool connections. The idle timeout is defined as the period in which there are no active requests. If not set, the default is 1 hour. When the idle timeout is reached, the connection will be closed. If the connection is an HTTP/2 connection a drain sequence will occur prior to closing the connection. Note that request based timeouts mean that HTTP/2 PINGs will not keep the connection alive. Applies to both HTTP1.1 and HTTP2 connections.
+            google.protobuf.Duration idleTimeout = 5;
+
+            // Specify if http1.1 connection should be upgraded to http2 for the associated destination.
+            enum H2UpgradePolicy {
+                // Use the global default.
+                DEFAULT = 0;
+                // Do not upgrade the connection to http2. This opt-out option overrides the default.
+                DO_NOT_UPGRADE = 1;
+                // Upgrade the connection to http2. This opt-in option overrides the default.
+                UPGRADE = 2;
+            }
+            H2UpgradePolicy h2UpgradePolicy	= 6;
+
+            // If set to true, client protocol will be preserved while initiating connection to backend. Note that when this is set to true, h2upgradepolicy will be ineffective i.e. the client connections will not be upgraded to http2.
+            bool useClientProtocol = 7;
+        }
+        // Configure mTLS settings on destinations. If specified this overrides the global default defined in Settings.
+        message MTLS {
+
+            // Istio TLS settings.
+            Istio istio = 1;
+
+            // Istio TLS settings.
+            message Istio {
+
+                // TLS connection mode
+                // Note: If this setting is set to STRICT, but settings.spec.peerAuth.peerAuthTlsMode is UNSET (or vice versa), the connection fails because
+                // mutual TLS cannot be enforced in one place but unenforced in another place. Make sure these settings match.
+                TLSmode tls_mode = 1;
+
+                // TLS connection mode. Enums correspond to those
+                // [defined here](https://github.com/istio/api/blob/00636152b9d9254b614828a65723840282a177d3/networking/v1beta1/destination_rule.proto#L886)
+                enum TLSmode {
+
+                    // Do not originate a TLS connection to the upstream endpoint.
+                    DISABLE = 0;
+
+                    // Originate a TLS connection to the upstream endpoint.
+                    SIMPLE = 1;
+
+                    // Secure connections to the upstream using mutual TLS by presenting
+                    // client certificates for authentication.
+                    // This mode uses certificates generated
+                    // automatically by Istio for mTLS authentication. When this mode is
+                    // used, all other fields in `ClientTLSSettings` should be empty.
+                    ISTIO_MUTUAL = 2;
+                };
+            }
+        }
+
+        // DLP filter config.
+        message DLPPolicy {
+            // TODO: implement
+            string todo = 1;
+        }
+
+        // ExtAuth filter config.
+        message ExtAuth {
+            // TODO: implement
+            string todo = 1;
+        }
+
+    }
+
+    // Specify selected gateway traffic by specifying which gateway
+    // resources (virtualHosts or routeTables) to select. You can optionally further
+    // filter by using route labels to only select a subset of routes within those resources.
+    // If no virtualHost or routeTable selectors (or references) are explicitly
+    // set, all virtualHosts and routeTables will be selected by default.
+    // If no route label matcher is specified, all routes on the
+    // selected resources are matched.
+    message RouteSelector {
+        // Select VirtualHosts by reference.
+        repeated .core.skv2.solo.io.ObjectRef virtual_host_refs = 1;
+
+        // Select VirtualHosts by label and/or namespace.
+        .core.skv2.solo.io.ObjectSelector virtual_host_selector = 2;
+
+        // Select RouteTables by reference.
+        repeated .core.skv2.solo.io.ObjectRef route_table_refs = 3;
+
+        // Select RouteTables by label and/or namespace.
+        .core.skv2.solo.io.ObjectSelector route_table_selector = 4;
+
+        // Specify a set of labels for selecting Routes. All labels listed here must be
+        // present on a route for that route to be considered matched.
+        // If omitted, all routes on the selected VirtualHosts are selected.
+        map<string, string> route_label_matcher = 5;
+    }
+}
+
+message TrafficPolicyStatus {
+
+    // The most recent generation observed in the the TrafficPolicy metadata.
+    // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh has not processed the most
+    // recent version of this resource.
+    int64 observed_generation = 1;
+
+    // The state of the overall resource.
+    // It will only show accepted if it has been successfully applied to all selected Destinations.
+    .common.mesh.gloo.solo.io.ApprovalState state = 2;
+
+    // The status of the TrafficPolicy for each selected Destination.
+    // A TrafficPolicy may be Accepted for some Destinations and rejected for others.
+    map<string, ApprovalStatus> destinations = 3;
+
+    // The status of the TrafficPolicy for each selected Virtual Destination.
+    // A TrafficPolicy may be Accepted for some Virtual Destinations and rejected for others.
+    map<string, ApprovalStatus> virtual_destinations = 7;
+
+    // The list of selected Workloads for which this policy has been applied.
+    repeated string workloads = 4;
+
+    // Any errors found while processing this generation of the resource.
+    repeated string errors = 5;
+
+    // The Gateway resoures to which this traffic policy has been applied.
+    // The resource names are in the format `name.namespace (resourceType)`,
+    // which act as the keys in this map.
+    map<string, GatewayRoutes> gateway_routes = 6;
+}
+
+// Represents a specific gateway resource and which routes on that resource have been selected
+message GatewayRoutes {
+    // The list of routes selected. If no routeLabelMatcher was provided,
+    // the value "*" will be used to indicate all routes were selected.
+    repeated string routes = 4;
+}
+

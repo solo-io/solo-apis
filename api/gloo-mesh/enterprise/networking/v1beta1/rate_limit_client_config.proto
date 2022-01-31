@@ -1,0 +1,61 @@
+syntax = "proto3";
+package networking.enterprise.mesh.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/networking.enterprise.mesh.gloo.solo.io/v1beta1";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/ratelimit/rate_limit.proto";
+import "google/protobuf/wrappers.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+
+
+// RateLimitClientConfig contains the client configuration for the rate limit Actions that determine how Envoy
+// composes the descriptors that are sent to the rate limit server to check whether a request should be rate-limited
+message RateLimitClientConfigSpec {
+
+  // The RateLimitClient specifies the ratelimit Actions which the client (Envoy) will use to
+  // compose the descriptors that will be sent to the server to make a rate limiting decision.
+  .ratelimit.networking.mesh.gloo.solo.io.RateLimitClient rate_limits = 1;
+
+}
+
+// The current status of the `RateLimitClientConfig`.
+message RateLimitClientConfigStatus {
+
+  // The most recent generation observed in the the RateLimitClientConfig metadata.
+  // If the `observedGeneration` does not match `metadata.generation`,
+  // Gloo Mesh has not processed the most recent version of this resource.
+  int64 observed_generation = 1;
+
+  // Any errors found while processing this generation of the resource.
+  repeated string errors = 2;
+
+  // Any warnings found while processing this generation of the resource.
+  repeated string warnings = 3;
+
+  // The current state of the RateLimitClientConfig.
+  State state = 4;
+
+  // Possible states of a RateLimitClientConfig resource reflected in the status by Gloo Mesh while processing a resource.
+  enum State {
+    // Resources are in a Pending state before they have been processed by Gloo Mesh.
+    PENDING = 0;
+
+    // Resources are in a Accepted state when they are valid and have been applied successfully to
+    // the Gloo Mesh configuration.
+    ACCEPTED = 1;
+
+    // Resources are in an Invalid state when they contain incorrect configuration parameters,
+    // such as missing required values or invalid resource references.
+    // An invalid state can also result when a resource's configuration is valid
+    // but conflicts with another resource which was accepted in an earlier point in time.
+    INVALID = 2;
+
+    // Resources are in a Failed state when they contain correct configuration parameters,
+    // but the server encountered an error trying to synchronize the system to
+    // the desired state.
+    FAILED = 3;
+  }
+
+}

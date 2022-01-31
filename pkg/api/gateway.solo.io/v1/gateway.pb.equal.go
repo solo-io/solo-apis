@@ -102,6 +102,9 @@ func (m *GatewaySpec) Equal(that interface{}) bool {
 	switch m.GatewayType.(type) {
 
 	case *GatewaySpec_HttpGateway:
+		if _, ok := target.GatewayType.(*GatewaySpec_HttpGateway); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetHttpGateway()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetHttpGateway()) {
@@ -114,6 +117,9 @@ func (m *GatewaySpec) Equal(that interface{}) bool {
 		}
 
 	case *GatewaySpec_TcpGateway:
+		if _, ok := target.GatewayType.(*GatewaySpec_TcpGateway); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetTcpGateway()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetTcpGateway()) {
@@ -125,6 +131,11 @@ func (m *GatewaySpec) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.GatewayType != target.GatewayType {
+			return false
+		}
 	}
 
 	return true

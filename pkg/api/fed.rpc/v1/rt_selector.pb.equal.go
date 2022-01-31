@@ -119,6 +119,9 @@ func (m *SubRouteTableRow) Equal(that interface{}) bool {
 	switch m.Action.(type) {
 
 	case *SubRouteTableRow_RouteAction:
+		if _, ok := target.Action.(*SubRouteTableRow_RouteAction); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetRouteAction()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRouteAction()) {
@@ -131,6 +134,9 @@ func (m *SubRouteTableRow) Equal(that interface{}) bool {
 		}
 
 	case *SubRouteTableRow_RedirectAction:
+		if _, ok := target.Action.(*SubRouteTableRow_RedirectAction); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetRedirectAction()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRedirectAction()) {
@@ -143,6 +149,9 @@ func (m *SubRouteTableRow) Equal(that interface{}) bool {
 		}
 
 	case *SubRouteTableRow_DirectResponseAction:
+		if _, ok := target.Action.(*SubRouteTableRow_DirectResponseAction); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetDirectResponseAction()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetDirectResponseAction()) {
@@ -155,6 +164,9 @@ func (m *SubRouteTableRow) Equal(that interface{}) bool {
 		}
 
 	case *SubRouteTableRow_DelegateAction:
+		if _, ok := target.Action.(*SubRouteTableRow_DelegateAction); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetDelegateAction()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetDelegateAction()) {
@@ -166,6 +178,11 @@ func (m *SubRouteTableRow) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.Action != target.Action {
+			return false
+		}
 	}
 
 	return true

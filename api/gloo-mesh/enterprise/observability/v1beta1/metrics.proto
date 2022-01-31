@@ -1,0 +1,187 @@
+syntax = "proto3";
+package observability.enterprise.mesh.gloo.solo.io;
+
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/enterprise-networking/pkg/api/observability.enterprise.mesh.gloo.solo.io/v1beta1";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/selectors.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+service MetricsSource {
+    rpc GetNodeMetrics (NodeMetricsRequest) returns (NodeMetricsResponse) {
+        option (google.api.http) = {
+            post: "/v0/observability/metrics/node"
+            body: "*"
+        };
+    }
+
+    rpc GetEdgeMetrics (EdgeMetricsRequest) returns (EdgeMetricsResponse) {
+        option (google.api.http) = {
+            post: "/v0/observability/metrics/edge"
+            body: "*"
+        };
+    }
+}
+
+// Request for metrics aggregated for a network node over time.
+message NodeMetricsRequest {
+    // Select the workloads whose metrics should be retrieved.
+    // Leave empty to retrieve metrics for all workloads.
+    repeated NodeSelector node_selectors = 1;
+
+    // The time which the metrics represent. Defaults to the present time if not specified.
+    .google.protobuf.Timestamp time = 2;
+
+    // The duration over which the metrics are computed, floored to the minute.
+    // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+    // Defaults to 5 minutes.
+    .google.protobuf.Duration window = 3;
+
+    // The duration for each sample in the range, floored to the minute.
+    // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+    // If omitted, defaults to the value of `window`, which represents a request for a single sample.
+    .google.protobuf.Duration step = 4;
+}
+
+// Metrics aggregated for one or more network nodes over time.
+message NodeMetricsResponse {
+
+    // Metrics for each selected node.
+    repeated NodeMetrics node_metrics = 1;
+
+    // Metrics for single node.
+    message NodeMetrics {
+        // Reference to the workload associated with the metrics.
+        .core.skv2.solo.io.ClusterObjectRef workload_ref = 1;
+
+        // Metrics over time for all requests originating from a single workload.
+        Metrics outgoing_metrics = 2;
+
+        // Metrics over time for all requests targeting from a single workload.
+        Metrics incoming_metrics = 3;
+
+        // Counts of active ejections for outgoing requests originating from this service.
+        // Sidecars must be annotated to record outlier detection in order to populate this data.
+        // The key of each k/v pair is a combination of the service/namespace/owner that the ejections are tied to.
+        // Due to system limitations, we cannot differentiate between workloads of the ejected service.
+        // For example, we could say that the reviews service has ejections, but we wouldn't know if it's
+        // Caused by reviews-v1, reviews-v2, or both.
+        // This is not included in the metrics struct because it is not temporal - active ejections either exist,
+        // or they aren't active anymore. Also this data is node-only.
+        map<string, int32>  active_ejection_counts = 7;
+    }
+}
+
+// Request for metrics aggregated for one or more network edges over time.
+message EdgeMetricsRequest {
+
+    // Select the edges (i.e. (source, target) workload pairs) whose metrics should be retrieved.
+    // Leave empty to retrieve metrics for all edges.
+    repeated EdgeSelector edge_selectors = 1;
+
+    // The time which the metrics represent. Defaults to the present time if not specified.
+    .google.protobuf.Timestamp time = 2;
+
+    // The duration over which the metrics are computed, floored to the minute.
+    // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+    // Defaults to 5 minutes.
+    .google.protobuf.Duration window = 3;
+
+    // The duration for each sample in the range, floored to the minute.
+    // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+    // Defaults to 2 minutes.
+    .google.protobuf.Duration step = 4;
+}
+
+// Metrics aggregated for a network edge over time.
+message EdgeMetricsResponse {
+
+    // Metrics over time for a set of network edges.
+    repeated EdgeMetrics edge_metrics = 1;
+
+    // Metrics over time for a single network edge.
+    message EdgeMetrics {
+
+        // Reference to the source workload.
+        .core.skv2.solo.io.ClusterObjectRef source_workload_ref = 1;
+
+        // Reference to the target workload.
+        .core.skv2.solo.io.ClusterObjectRef target_workload_ref = 2;
+
+        // Metrics over time for a network edge with a single source and target.
+        Metrics metrics = 3;
+    }
+}
+
+// Select the workloads whose metrics should be retrieved.
+// Leave empty to retrieve metrics for all workloads.
+message NodeSelector {
+
+    oneof type {
+        // Select workloads by matchers.
+        .common.mesh.gloo.solo.io.WorkloadSelector workload_selector = 1;
+
+        // Select workloads by direct reference.
+        .core.skv2.solo.io.ClusterObjectRef workload_ref = 2;
+    }
+}
+
+// Select the workloads whose metrics should be retrieved.
+// Leave empty to retrieve metrics for all workloads.
+message EdgeSelector {
+
+    // Specify the source workload. If omitted, retrieve edges targeting this workload and originating from any workload.
+    NodeSelector source = 1;
+
+    // Specify the target workload. If omitted, retrieve edges originating from this workload and targeting any workload.
+    NodeSelector target = 2;
+}
+
+// Metrics sampled over time.
+message Metrics {
+
+    repeated .google.protobuf.Timestamp timestamps = 1;
+
+    // The number of requests.
+    repeated uint64 request_count = 2;
+
+    // The number of successful requests.
+    repeated uint64 success_count = 3;
+
+    // The number of failed requests.
+    repeated uint64 failure_count = 4;
+
+    // Percentiles for request latencies, measured in milliseconds.
+    RequestLatencies request_latencies = 5;
+
+    // Describes the security policy, if any, applied to this network edge.
+    Security security = 6;
+
+    // Percentiles for request latencies, measured in milliseconds.
+    message RequestLatencies {
+
+        // 99th percentile request latency.
+        repeated uint64 p99 = 1;
+
+        // 90th percentile request latency.
+        repeated uint64 p90 = 2;
+
+        // 50th percentile request latency.
+        repeated uint64 p50 = 3;
+    }
+
+    // Describes the security policy, if any, applied to this network edge.
+    message Security {
+
+        // Describes the security policy of the connection.
+        string security_policy = 1;
+
+        // The identity of the source workload, only populated if mTLS is enabled."
+        string source_principal = 2;
+
+        // The identity of the destination, only populated if mTLS is enabled.
+        string destination_principal = 3;
+    }
+}

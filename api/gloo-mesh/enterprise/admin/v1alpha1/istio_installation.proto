@@ -1,0 +1,72 @@
+syntax = "proto3";
+package admin.enterprise.mesh.gloo.solo.io;
+
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/admin.enterprise.mesh.gloo.solo.io/v1alpha1";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/enterprise/admin/v1alpha1/istio_installation_instance.proto";
+import "google/protobuf/struct.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+
+
+/*
+    The IstioInstallation API and its associated features are undergoing development so
+    this API is not currently supported.
+*/
+message IstioInstallationSpec {
+    // The clusters where the Istio should be installed.
+    repeated Cluster clusters = 1;
+
+    // Spec for the IstioOperator that should be applied
+    // See https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
+    google.protobuf.Struct istio_operator_spec = 2 [(cue.opt).disable_openapi_validation = true];
+
+    // Number of times to retry if this IstioInstallation fails. Leave unset
+    // to disable retries.
+    int32 istio_installation_retries = 3;
+
+    message Cluster {
+        // The name of the cluster that Istio should be installed in. This should
+        // matched the registered cluster name.
+        string name = 1;
+
+        // [Optional] The trust domain value that should be set for this cluster's
+        // Istio installations. This value will be set in the installation's mesh
+        // config. (See https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
+        // Defaults to the cluster's name.
+        string trust_domain = 2;
+    }
+}
+
+message IstioInstallationStatus {
+    // The most recent generation observed in the the IstioInstallation metadata.
+    // If the `observedGeneration` does not match `metadata.generation`,
+    // Gloo Mesh has not processed the most recent version of this resource.
+    int64 observed_generation = 1;
+
+    // The current state of the IstioOperator.
+    State state = 2;
+
+    // A human readable message about the current state of the IstioInstallation.
+    string message = 3;
+
+    // The status of each IstioOperator that should be installed by Gloo Mesh, where the
+    // key is the concatenation of the cluster, name, and namespace for the created
+    // IstioInstallationInstance and the value is the installation's status.
+    map<string, .admin.agent.enterprise.mesh.gloo.solo.io.IstioInstallationInstanceStatus>  istio_operator_statuses = 4;
+
+    // The state of the IstioInstallation.
+    enum State {
+        // Waiting for the Istio installation to be processed.
+        PENDING = 0;
+
+        // Finished processing the Istio installation successfully.
+        ACCEPTED = 1;
+
+        // Failed while processing the Istio installation parameters.
+        FAILED = 2;
+    }
+}

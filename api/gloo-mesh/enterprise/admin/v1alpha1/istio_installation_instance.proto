@@ -1,0 +1,87 @@
+syntax = "proto3";
+package admin.agent.enterprise.mesh.gloo.solo.io;
+
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/admin.agent.enterprise.mesh.gloo.solo.io/v1alpha1";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "google/protobuf/struct.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+
+/*
+    The IstioInstallationInstance API and its associated features are undergoing
+    development so this API is not currently supported.
+
+    The IstioInstallationInstance is a resource that should only be created by
+    the Gloo Mesh relay server for managed relay agents.
+*/
+message IstioInstallationInstanceSpec {
+    // Spec for the IstioOperator that should be applied
+    // See https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
+    google.protobuf.Struct istio_operator_spec = 1 [(cue.opt).disable_openapi_validation = true];
+
+    // Number of times to retry if this IstioInstallation fails. Leave unset
+    // to disable retries.
+    int32 istio_installation_retries = 2;
+
+    // [Optional] The trust domain value that should be set for this cluster's
+    // Istio installations.
+    string trust_domain = 3;
+}
+
+message IstioInstallationInstanceStatus {
+  // The most recent generation observed in the the IstioOperator metadata.
+  // If the `observedGeneration` does not match `metadata.generation`,
+  // Gloo Mesh has not processed the most recent version of this resource.
+  int64 observed_generation = 1;
+
+  // Reference for the IstioOperator CR that is a associated with this
+  // IstioInstallationInstance.
+  .core.skv2.solo.io.ObjectRef istio_operator = 2;
+
+  // Reference for the Istio Operator controller's deployment that is a
+  // associated with this IstioInstallationInstance
+  .core.skv2.solo.io.ObjectRef istio_operator_controller = 3;
+
+  // The Istio revision generated for the installed Istio resources
+  string generated_revision = 4;
+
+  // The current state of the IstioInstallationInstance.
+  State state = 5;
+
+  // A human readable message about the current state of the IstioInstallationInstance.
+  string message = 6;
+
+  // Number of times a failed IstioInstallation was retried.
+  int32 installation_attempts = 7;
+
+  // The state of an IstioInstallationInstance installation.
+  enum State {
+      // Waiting for resources to be installed.
+      PENDING = 0;
+
+      // In the process of installing the IstioOperator controller.
+      INSTALLING_CONTROLLER = 1;
+
+      // IstioOperator controller installed successfully.
+      CONTROLLER_INSTALLED = 2;
+
+      // IstioOperator controller failed to install.
+      CONTROLLER_INSTALL_FAILED = 3;
+
+      // In the process of installing Istio with the IstioOperator CR.
+      INSTALLING_ISTIO = 4;
+
+      // Istio failed to install with IstioOperator CR.
+      ISTIO_INSTALL_FAILED = 5;
+
+      // All Istio components are successfully installed and healthy.
+      HEALTHY = 6;
+
+      // The Istio installation is no longer healthy.
+      UNHEALTHY = 7;
+  }
+}
