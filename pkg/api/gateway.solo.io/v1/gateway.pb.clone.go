@@ -21,6 +21,8 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_core_selectors "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/core/selectors"
+
 	github_com_solo_io_solo_kit_pkg_api_v1_resources_core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
@@ -120,60 +122,6 @@ func (m *GatewaySpec) Clone() proto.Message {
 }
 
 // Clone function
-func (m *HttpGateway) Clone() proto.Message {
-	var target *HttpGateway
-	if m == nil {
-		return target
-	}
-	target = &HttpGateway{}
-
-	if m.GetVirtualServices() != nil {
-		target.VirtualServices = make([]*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef, len(m.GetVirtualServices()))
-		for idx, v := range m.GetVirtualServices() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.VirtualServices[idx] = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
-			} else {
-				target.VirtualServices[idx] = proto.Clone(v).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
-			}
-
-		}
-	}
-
-	if m.GetVirtualServiceSelector() != nil {
-		target.VirtualServiceSelector = make(map[string]string, len(m.GetVirtualServiceSelector()))
-		for k, v := range m.GetVirtualServiceSelector() {
-
-			target.VirtualServiceSelector[k] = v
-
-		}
-	}
-
-	if h, ok := interface{}(m.GetVirtualServiceExpressions()).(clone.Cloner); ok {
-		target.VirtualServiceExpressions = h.Clone().(*VirtualServiceSelectorExpressions)
-	} else {
-		target.VirtualServiceExpressions = proto.Clone(m.GetVirtualServiceExpressions()).(*VirtualServiceSelectorExpressions)
-	}
-
-	if m.GetVirtualServiceNamespaces() != nil {
-		target.VirtualServiceNamespaces = make([]string, len(m.GetVirtualServiceNamespaces()))
-		for idx, v := range m.GetVirtualServiceNamespaces() {
-
-			target.VirtualServiceNamespaces[idx] = v
-
-		}
-	}
-
-	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
-		target.Options = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1.HttpListenerOptions)
-	} else {
-		target.Options = proto.Clone(m.GetOptions()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1.HttpListenerOptions)
-	}
-
-	return target
-}
-
-// Clone function
 func (m *TcpGateway) Clone() proto.Message {
 	var target *TcpGateway
 	if m == nil {
@@ -222,6 +170,58 @@ func (m *HybridGateway) Clone() proto.Message {
 			}
 
 		}
+	}
+
+	if m.GetDelegatedHttpGateways() != nil {
+		target.DelegatedHttpGateways = make([]*DelegatedHttpGateway, len(m.GetDelegatedHttpGateways()))
+		for idx, v := range m.GetDelegatedHttpGateways() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.DelegatedHttpGateways[idx] = h.Clone().(*DelegatedHttpGateway)
+			} else {
+				target.DelegatedHttpGateways[idx] = proto.Clone(v).(*DelegatedHttpGateway)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *DelegatedHttpGateway) Clone() proto.Message {
+	var target *DelegatedHttpGateway
+	if m == nil {
+		return target
+	}
+	target = &DelegatedHttpGateway{}
+
+	switch m.SelectionType.(type) {
+
+	case *DelegatedHttpGateway_Ref:
+
+		if h, ok := interface{}(m.GetRef()).(clone.Cloner); ok {
+			target.SelectionType = &DelegatedHttpGateway_Ref{
+				Ref: h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef),
+			}
+		} else {
+			target.SelectionType = &DelegatedHttpGateway_Ref{
+				Ref: proto.Clone(m.GetRef()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef),
+			}
+		}
+
+	case *DelegatedHttpGateway_Selector:
+
+		if h, ok := interface{}(m.GetSelector()).(clone.Cloner); ok {
+			target.SelectionType = &DelegatedHttpGateway_Selector{
+				Selector: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_core_selectors.Selector),
+			}
+		} else {
+			target.SelectionType = &DelegatedHttpGateway_Selector{
+				Selector: proto.Clone(m.GetSelector()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_core_selectors.Selector),
+			}
+		}
+
 	}
 
 	return target
@@ -303,30 +303,6 @@ func (m *Matcher) Clone() proto.Message {
 }
 
 // Clone function
-func (m *VirtualServiceSelectorExpressions) Clone() proto.Message {
-	var target *VirtualServiceSelectorExpressions
-	if m == nil {
-		return target
-	}
-	target = &VirtualServiceSelectorExpressions{}
-
-	if m.GetExpressions() != nil {
-		target.Expressions = make([]*VirtualServiceSelectorExpressions_Expression, len(m.GetExpressions()))
-		for idx, v := range m.GetExpressions() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Expressions[idx] = h.Clone().(*VirtualServiceSelectorExpressions_Expression)
-			} else {
-				target.Expressions[idx] = proto.Clone(v).(*VirtualServiceSelectorExpressions_Expression)
-			}
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
 func (m *GatewayStatus) Clone() proto.Message {
 	var target *GatewayStatus
 	if m == nil {
@@ -379,30 +355,6 @@ func (m *GatewayNamespacedStatuses) Clone() proto.Message {
 			} else {
 				target.Statuses[k] = proto.Clone(v).(*GatewayStatus)
 			}
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *VirtualServiceSelectorExpressions_Expression) Clone() proto.Message {
-	var target *VirtualServiceSelectorExpressions_Expression
-	if m == nil {
-		return target
-	}
-	target = &VirtualServiceSelectorExpressions_Expression{}
-
-	target.Key = m.GetKey()
-
-	target.Operator = m.GetOperator()
-
-	if m.GetValues() != nil {
-		target.Values = make([]string, len(m.GetValues()))
-		for idx, v := range m.GetValues() {
-
-			target.Values[idx] = v
 
 		}
 	}
