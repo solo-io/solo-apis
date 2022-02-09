@@ -163,6 +163,16 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetMaxConcurrentStreams()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMaxConcurrentStreams()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMaxConcurrentStreams(), target.GetMaxConcurrentStreams()) {
+			return false
+		}
+	}
+
 	if h, ok := interface{}(m.GetHttpProxyHostname()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetHttpProxyHostname()) {
 			return false
