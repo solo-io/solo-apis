@@ -1,0 +1,229 @@
+syntax = "proto3";
+package common.mesh.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/common.mesh.gloo.solo.io/v1";
+
+import "google/protobuf/wrappers.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+
+// Select Destinations using one or more platform-specific selectors.
+message DestinationSelector {
+
+    // Match Kubernetes Services by their labels, namespaces, and/or clusters.
+    KubeServiceMatcher kube_service_matcher = 1;
+
+    // Match Kubernetes Services by direct reference.
+    KubeServiceRefs kube_service_refs = 2;
+
+    // Match ExternalService Destinations by their labels and/or namespaces.
+    // Note: selection of ExternalServices currently only implemented for the ServiceDependency API.
+    DestinationMatcher external_service_matcher = 3;
+
+    // Match ExternalService Destinations by direct reference.
+    // Note: selection of ExternalServices currently only implemented for the ServiceDependency API.
+    DestinationRefs external_service_refs = 4;
+
+    // Match Virtual Destinations by their labels and/or namespaces.
+    // Note: selection of VirtualDestinations currently only implemented for TrafficPolicy APIs.
+    // Leaving this empty will select nothing. We will only apply policies to virtual destinations that are specifically selected.
+    VirtualDestinationMatcher virtual_destination_matcher = 5;
+
+    // Match Virtual Destinations by direct reference.
+    // Note: selection of VirtualDestinations currently only implemented for TrafficPolicy APIs.
+    // Leaving this empty will select nothing. We will only apply policies to virtual destinations that are specifically selected.
+    VirtualDestinationRefs virtual_destination_refs = 6;
+
+    // Match Kubernetes Services by their labels, namespaces, and/or clusters.
+    message KubeServiceMatcher {
+
+        /*
+            If specified, a match requires all labels to exist on a Kubernetes Service.
+            When used in a networking policy, omission matches any labels.
+            When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any label key and/or value.
+        */
+        map<string, string> labels = 1;
+
+        /*
+            If specified, match Kubernetes Services if they exist in one of the specified namespaces.
+            When used in a networking policy, omission matches any namespace.
+            When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any namespace.
+        */
+        repeated string namespaces = 2;
+
+        /*
+            If specified, match Kubernetes Services if they exist in one of the specified clusters.
+            When used in a networking policy, omission matches any cluster.
+            When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any cluster.
+        */
+        repeated string clusters = 3;
+    }
+
+    // Match Kubernetes Services by direct reference.
+    message KubeServiceRefs {
+        /*
+            Match Kubernetes Services by direct reference. All fields are required.
+            When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any value for the given field.
+        */
+        repeated .core.skv2.solo.io.ClusterObjectRef services = 1;
+    }
+
+    // Match Destinations by labels and/or namespaces.
+    message DestinationMatcher {
+
+        // If specified, a match requires all labels to exist on a Destinations.
+        map<string, string> labels = 1;
+
+        // If specified, match Destinations if they exist in one of the specified namespaces.
+        repeated string namespaces = 2;
+    }
+
+    // Match Destinations by direct reference.
+    message DestinationRefs {
+
+        // Match Destinations by direct reference. All fields are required.
+        repeated .core.skv2.solo.io.ObjectRef external_services = 1;
+    }
+
+    // Match Virtual Destinations by labels and/or namespaces.
+    message VirtualDestinationMatcher {
+
+        // If specified, a match requires all labels to exist on a Destinations.
+        map<string, string> labels = 1;
+
+        // If specified, match Virtual Destinations if they exist in one of the specified namespaces.
+        repeated string namespaces = 2;
+    }
+
+    // Match Destinations by direct reference.
+    message VirtualDestinationRefs {
+
+        // Match Virtual Destinations by direct reference. All fields are required.
+        repeated .core.skv2.solo.io.ObjectRef virtual_destinations = 1;
+    }
+}
+
+// Select Workloads using one or more platform-specific selectors.
+message WorkloadSelector {
+
+    // Match Kubernetes workloads by their labels, namespaces, and/or clusters.
+    KubeWorkloadMatcher kube_workload_matcher = 1;
+
+    // Match Kubernetes workloads by their labels, namespaces, and/or clusters.
+    message KubeWorkloadMatcher {
+        /*
+        If specified, all labels must exist on Kubernetes workload.
+        When used in a networking policy, omission matches any labels.
+        When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any label key and/or value.
+        */
+        map<string, string> labels = 1;
+
+        /*
+            If specified, match Kubernetes workloads if they exist in one of the specified namespaces.
+            When used in a networking policy, omission matches any namespace.
+            When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any namespace.
+        */
+        repeated string namespaces = 2;
+
+        /*
+            If specified, match Kubernetes workloads if they exist in one of the specified clusters.
+            When used in a networking policy, omission matches any cluster.
+            When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any cluster.
+        */
+        repeated string clusters = 3;
+    }
+}
+
+// Select Destination identities using one or more platform-specific selectors.
+message IdentitySelector {
+
+    // Match request identities based on the Kubernetes namespace and cluster.
+    KubeIdentityMatcher kube_identity_matcher = 1;
+
+    // Match request identities based on the Kubernetes service account of the request.
+    KubeServiceAccountRefs kube_service_account_refs = 2;
+
+    // Match requests based on the identity of the request. If multiple fields are set, they are ANDed together.
+    // More information about the individual values can be found here: https://istio.io/latest/docs/reference/config/security/authorization-policy/#Source
+    RequestIdentityMatcher request_identity_matcher = 3;
+
+    // Match requests based on the IP address of the request.
+    // The typical use case for this involves matching based on the IP address conveyed in the X-Forwarded-For header,
+    // Therefore, please take care to configure upstream proxies to properly set and convey this value.
+    // For example, Istio requires cconfiguration for 
+    // [forwarding external client attributes](https://istio.io/latest/docs/ops/configuration/traffic-management/network-topologies/)
+    // in order to correctly expose the X-Forwarded-For header.
+    RequestIPMatcher request_ip_matcher = 4;
+
+    message KubeIdentityMatcher {
+
+        /*
+            If specified, match a Kubernetes identity if it exists in one of the specified namespaces.
+            When used in a networking policy, omission matches any namespace.
+            When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any namespace.
+        */
+        repeated string namespaces = 1;
+
+        /*
+            If specified, match a Kubernetes identity if it exists in one of the specified clusters.
+            When used in a networking policy, omission matches any cluster.
+            When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any cluster.
+        */
+        repeated string clusters = 2;
+
+    }
+
+    message KubeServiceAccountRefs {
+        /*
+            Match Kubernetes service accounts by direct reference.
+            When used in a networking policy, omission of any field (name, namespace, or clusterName) allows matching any value for that field.
+            When used in a Gloo Mesh Role, a wildcard (`"*"`) must be specified to match any value for the given field.
+        */
+        repeated .core.skv2.solo.io.ClusterObjectRef service_accounts = 1;
+    }
+
+    message RequestIdentityMatcher {
+
+        /*
+            Optional. A list of identities to match the request identity ("iss/sub" from the JWT).
+            If omitted all request identity values will be accepted.
+         */
+        repeated string requestPrincipals = 3;
+
+        /*
+            Optional. A list of identities to negative match the request identity.
+         */
+        repeated string notRequestPrincipals = 4;
+    }
+
+    message RequestIPMatcher {
+
+        /*
+            Optional.  A list of IP addresses or CIDR blocks to positively match aganst the X-Forwarded-For header of the request.
+            X-Forwarded-For values that exactly equal one of the given IP address or are contained within one of the given 
+            CIDR blocks will be considered a match
+        */
+        repeated string forwardedIPs = 5;
+
+        /*
+            Optional.  A list of IP addresses or CIDR blocks to negatively match aganst the X-Forwarded-For header of the request.
+            X-Forwarded-For values that _do not_ match any of the given IPs and _are not contained_ within any of the given CIDR
+            blocks will be considered a match.
+        */
+        repeated string notForwardedIPs = 6;
+    }
+}
+
+// Select a set of Destinations with tls ports to use as ingress gateway services for the referenced Meshes.
+message IngressGatewaySelector {
+
+    // The set of Destinations that will be used as ingress gateways for external traffic entering the Mesh.
+    // If omitted, a mesh-specific default ingress gateway destination will be used.
+    // For Istio, any Kubernetes Service(s) with the label pair `{"istio": "ingressgateway"}` will be selected.
+    repeated DestinationSelector destination_selectors = 1;
+
+    // Specify the name of the port on the ingress gateway service. If not specified, will default to "tls".
+    string port_name = 2;
+}

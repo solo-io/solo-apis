@@ -1,0 +1,191 @@
+syntax = "proto3";
+package rbac.enterprise.mesh.gloo.solo.io;
+
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/rbac.enterprise.mesh.gloo.solo.io/v1";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/enterprise/networking/v1beta1/virtual_destination.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+
+
+/*
+    A role represents a set of permissions for creating, updating, and deleting Gloo Mesh configuration objects.
+    A role consists of a set of scopes for each policy type. Depending on the policy type,
+    the permission granularity is defined at the field level or at the object level.
+*/
+message RoleSpec {
+
+    // A set of TrafficPolicy configuration permissions. Permission granularity is defined at the field level.
+    repeated TrafficPolicyScope traffic_policy_scopes = 1;
+
+    // A set of VirtualMesh configuration permissions. Permission granularity is defined at the field level.
+    repeated VirtualMeshScope virtual_mesh_scopes = 2;
+
+    // A set of AccessPolicy configuration permissions. Permission granularity is defined at the object level.
+    repeated AccessPolicyScope access_policy_scopes = 3;
+
+    // A set of VirtualDestination configuration permissions. Permission granularity is defined at the object level.
+    repeated VirtualDestinationScope virtual_destination_scopes = 4;
+
+    // A set of WasmDeployment configuration permissions. Permission granularity is defined at the object level.
+    repeated WasmDeploymentScope wasm_deployment_scopes = 5;
+
+    // A set of AccessLogRecord configuration permissions. Permission granularity is defined at the object level.
+    repeated AccessLogRecordScope access_log_record_scopes = 6;
+
+    // A set of VirtualGateway configuration permissions.
+    repeated VirtualGatewayScope virtual_gateway_scopes = 7;
+
+    // A set of VirtualHost configuration permissions applied to both Virtual Hosts and inlined Virtual
+    // Hosts on a Virtual Gateway.
+    repeated VirtualHostScope virtual_host_scopes = 8;
+
+    // A set of route destination configuration permissions applied to all Gateway CRs with routes:
+    // VirtualGateways, VirtualHosts, and RouteTables.
+    repeated RouteScope route_scopes = 9;
+
+    // Represents permissions for configuring TrafficPolicies.
+    message TrafficPolicyScope {
+
+        // A list of permitted TrafficPolicy configuration actions.
+        repeated TrafficPolicyActions traffic_policy_actions = 1;
+
+        // A list of permitted Destination selectors.
+        repeated .common.mesh.gloo.solo.io.DestinationSelector destination_selectors = 2;
+
+        // A list of permitted Workload selectors.
+        repeated .common.mesh.gloo.solo.io.WorkloadSelector workload_selectors = 3;
+
+        // Enums representing fields on the TrafficPolicy CRD.
+        enum TrafficPolicyActions {
+            UNKNOWN_TRAFFIC_POLICY_ACTION = 0;
+            ALL = 1;
+            TRAFFIC_SHIFT = 2;
+            FAULT_INJECTION = 3;
+            REQUEST_TIMEOUT = 4;
+            RETRIES = 5;
+            CORS_POLICY = 6;
+            MIRROR = 7;
+            HEADER_MANIPULATION = 8;
+            OUTLIER_DETECTION = 9;
+            MTLS_CONFIG = 10;
+        }
+    }
+
+    // Represents permissions for configuring VirtualMeshes.
+    message VirtualMeshScope {
+
+        // A list of permitted VirtualMesh configuration actions.
+        repeated VirtualMeshActions virtual_mesh_actions = 1;
+
+        // A list of permitted mesh references.
+        repeated .core.skv2.solo.io.ObjectRef mesh_refs = 2;
+
+        // Enums representing fields on the VirtualMesh CRD.
+        enum VirtualMeshActions {
+            UNKNOWN_VIRTUAL_MESH_ACTION = 0;
+            ALL = 1;
+            MTLS_CONFIG = 2;
+            FEDERATION = 3;
+            GLOBAL_ACCESS_POLICY = 4;
+        }
+    }
+
+    // Represents permissions for configuring AccessPolicies.
+    message AccessPolicyScope {
+
+        // A list of permitted identity selectors.
+        repeated .common.mesh.gloo.solo.io.IdentitySelector identity_selectors = 1;
+
+        // A list of permitted Destination selectors.
+        repeated .common.mesh.gloo.solo.io.DestinationSelector destination_selectors = 2;
+    }
+
+    // Represents permissions for configuring VirtualDestinations.
+    message VirtualDestinationScope {
+
+        // A list of permitted virtual mesh references.
+        repeated .core.skv2.solo.io.ObjectRef virtual_mesh_refs = 1;
+
+        // A list of permitted mesh references.
+        repeated .core.skv2.solo.io.ObjectRef mesh_refs = 2;
+
+        // A list of permitted backing service selectors.
+        repeated .common.mesh.gloo.solo.io.DestinationSelector destination_selectors = 3;
+
+        // A list of permitted backing Destinations.
+        repeated .networking.enterprise.mesh.gloo.solo.io.VirtualDestinationBackingDestination destinations = 4;
+    }
+
+    // Represents permissions for configuring WasmDeployments.
+    message WasmDeploymentScope {
+
+        // A list of permitted Workload selectors.
+        repeated .common.mesh.gloo.solo.io.WorkloadSelector workload_selectors = 1;
+    }
+
+    // Represents permissions for configuring AccessLogRecords.
+    message AccessLogRecordScope {
+
+        // A list of permitted Workload selectors.
+        repeated .common.mesh.gloo.solo.io.WorkloadSelector workload_selectors = 1;
+    }
+
+    // Represents permissions for configuring VirtualGateways.
+    message VirtualGatewayScope {
+
+        // A list of ingress gateways selectors which this user is allowed to use
+        repeated .common.mesh.gloo.solo.io.IngressGatewaySelector ingress_gateway_selectors = 1;
+
+        // Selectors for which virtual hosts this role can reference
+        repeated .core.skv2.solo.io.ObjectSelector virtual_host_selectors = 2;
+    }
+
+    // Represents permissions for configuring VirtualHosts.
+    message VirtualHostScope {
+
+        // A list of allowed domains for created virtual hosts
+        // (Regex matching is available - see https://github.com/google/re2/wiki/Syntax)
+        repeated string domains = 1;
+    }
+
+    // Represents permissions for configuring Routes.
+    message RouteScope {
+
+        // A list of Kube services the user can reference in a new route
+        repeated .core.skv2.solo.io.ClusterObjectRef kube_service_refs = 1;
+
+        // Selectors for which Virtual Destinations the user can reference in a new route
+        repeated .core.skv2.solo.io.ObjectSelector virtual_destination_selectors = 2;
+
+        // Selectors for which Static Destinations the user can reference in a new route
+        repeated .core.skv2.solo.io.ObjectSelector static_destination_selectors = 3;
+
+        // Selectors for which route tables a route can reference
+        repeated .core.skv2.solo.io.ObjectSelector route_table_selectors = 4;
+    }
+}
+
+message RoleStatus {
+
+    // The observed generation of the Role.
+    // When this matches the Role's `metadata.generation` it indicates that Gloo Mesh
+    // has processed the latest version of the Role.
+    int64 observed_generation = 1;
+}
+
+message RoleBindingSpec {
+
+    // Specify by reference the Kubernetes Users or Groups the Role should apply to.
+    repeated core.skv2.solo.io.TypedObjectRef subjects = 1;
+
+    // Specify by reference the Gloo Mesh Role to bind.
+    core.skv2.solo.io.ObjectRef role_ref = 2;
+}
+
+message RoleBindingStatus {
+}

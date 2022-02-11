@@ -1,0 +1,347 @@
+syntax = "proto3";
+package discovery.mesh.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/discovery.mesh.gloo.solo.io/v1";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/keepalive.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/traffic_policy.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/weighed_destination.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/applied_policies.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/access_policy.proto";
+import "google/protobuf/wrappers.proto";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+// Generate hash functions for sublocality for easier grouping.
+option (extproto.hash_all) = true;
+
+// The Destination is an abstraction for any entity capable of receiving networking requests.
+message DestinationSpec {
+
+    // Describes the platform-specific Destination.
+    oneof type {
+
+        // KubeService is a kube-native Destination representing a kubernetes
+        // service running inside of a kubernetes cluster.
+        KubeService kube_service = 1;
+
+        // ExternalService is a Destination representing a service
+        // external to the Mesh. It can be used to expose a given hostname
+        // or IP address to all clusters in the Virtual Mesh.
+        ExternalService external_service = 3;
+    }
+
+    // The mesh that controls this Destination. Can be omitted if the
+    // Destination isn't associated with any particular mesh, eg for External Services.
+    .core.skv2.solo.io.ObjectRef mesh = 2;
+
+    // Describes a Kubernetes service.
+    message KubeService {
+
+        // Reference to the Kubernetes service object.
+        .core.skv2.solo.io.ClusterObjectRef ref = 1;
+
+        // Selectors for the set of pods targeted by the Kubernetes service.
+        map<string, string> workload_selector_labels = 2;
+
+        // Labels on the Kubernetes service.
+        map<string, string> labels = 3;
+
+        // The ports exposed by the underlying service.
+        repeated KubeServicePort ports = 4;
+
+        // Subsets for routing, based on labels.
+        map<string, Subset> subsets = 5;
+
+        // The region the service resides in, typically representing a large geographic area.
+        string region = 6;
+
+        // Each endpoints subset is a group of endpoints arranged in terms of IP/port pairs.
+        // This API mirrors the [Kubernetes Endpoints API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#endpoints-v1-core).
+        repeated EndpointsSubset endpoint_subsets = 7;
+
+        // Describes the address data for Kubernetes Services exposed to external traffic (i.e. for non ClusterIP type Services).
+        repeated ExternalAddress external_addresses = 8;
+
+        // Describes the Kubernetes Service type.
+        ServiceType service_type = 9;
+
+        // Describes the address data for Kubernetes Services exposed to external traffic (i.e. for non ClusterIP type Services).
+        message ExternalAddress {
+
+            // The externally-reachable address for this Kubernetes Service, either an IP address or DNS name.
+            oneof external_address_type {
+
+                // An externally accessible DNS name.
+                string dns_name = 5;
+
+                // An externally accessible IP address.
+                string ip = 6;
+            }
+        }
+
+        // Describes the Kubernetes Service type.
+        enum ServiceType {
+
+            // A ClusterIP Service.
+            CLUSTER_IP = 0;
+
+            // A NodePort Service.
+            NODE_PORT = 1;
+
+            // A LoadBalancer Service.
+            LOAD_BALANCER = 2;
+
+            // An ExternalName Service.
+            EXTERNAL_NAME = 3;
+        }
+
+        // Describes the service's ports. See [here](https://kubernetes.io/docs/concepts/services-networking/service/#multi-port-services) for more information.
+        message KubeServicePort {
+
+            // External-facing port for this Kubernetes service (*not* the service's target port on the targeted pods).
+            uint32 port = 1;
+
+            // Name of the port
+            string name = 2;
+
+            // Protocol on which this port serves traffic (HTTP, TCP, UDP, etc...)
+            string protocol = 3;
+
+            // Available in Kubernetes 1.18+, describes the application protocol.
+            string app_protocol = 4;
+
+            // A Kubernetes Service's spec.targetPort can either be a string referring to the port name, or a number referring to the number. See [this reference](https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec).
+            oneof target_port {
+                // Name of the target port
+                string target_port_name = 5;
+                // Number of the target port
+                uint32 target_port_number = 6;
+            }
+
+            // Populated for NodePort or LoadBalancer Services.
+            uint32 node_port = 7;
+        }
+
+        // Subsets for routing, based on labels.
+        message Subset {
+            repeated string values = 1;
+        }
+
+        // A series of IP addresses and their associated ports.
+        // The list of IP and port pairs is the cartesian product of the endpoint and port lists.
+        message EndpointsSubset {
+
+            repeated Endpoint endpoints = 1;
+
+            repeated EndpointPort ports = 2;
+
+            // An endpoint exposed by this service.
+            message Endpoint {
+
+                string ip_address = 1;
+
+                // Labels which belong to this IP. These are taken from the backing workload instance.
+                map<string, string> labels = 2;
+
+                // A subdivision of a region representing a set of physically colocated compute resources.
+                message SubLocality {
+
+                    // A subdivision of a geographical region, see [here](https://kubernetes.io/docs/reference/labels-annotations-taints/#topologykubernetesiozone) for more information.
+                    string zone = 1;
+
+                    // A subdivision of zone. Only applies to Istio-controlled Destinations, see [here](https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/) for more information.
+                    string sub_zone = 2;
+                }
+
+                // The zone and sub-zone (if controlled by Istio) of the endpoint.
+                SubLocality sub_locality = 3;
+            }
+        }
+
+        // Describes the endpoints's ports. See [here](https://kubernetes.io/docs/reference/kubernetes-api/service-resources/endpoints-v1/) for more information.
+        message EndpointPort {
+
+            // Port on which the endpoints can be reached
+            uint32 port = 1;
+
+            // Name of the port
+            string name = 2;
+
+            // Protocol on which this port serves traffic (HTTP, TCP, UDP, etc...)
+            string protocol = 3;
+
+            // Available in Kubernetes 1.18+, describes the application protocol.
+            string app_protocol = 4;
+        }
+    }
+
+    // Describes a service external to the mesh
+    message ExternalService {
+
+        // The name of the service
+        string name = 1;
+
+        // The list of hosts which will resolve to this Destination for
+        // services within the Virtual Mesh.
+        repeated string hosts = 2;
+
+        // The List of addresses which will resolve to this service for
+        // services within the Virtual Mesh.
+        repeated string addresses = 3;
+
+        // The associated ports of the external service
+        repeated ServicePort ports = 4;
+
+        // List of endpoints, to which any requests to this Destination
+        // will be load balanced across.
+        repeated ExternalEndpoint endpoints = 5;
+
+        // List of clusters and namespaces this external destination will be
+        // available to. If omitted, the external destination will be exported
+        // to all clusters and all namespaces.
+        repeated ExportTo export_to = 6;
+
+        // ExternalEndpoint represents the address/port(s) of the external service
+        // which will receive requests sent to this Destination.
+        message ExternalEndpoint {
+
+            // The address of the external service. Can be a domain or an IP.
+            string address = 1;
+
+            // The port(s) of the external endpoint. Eg: `https: 443`
+            map<string, uint32> ports = 2;
+
+        }
+
+        // ServicePort describes a port accessible on this Destination
+        message ServicePort {
+
+            // The port number. Must be a valid, non-negative integer port number.
+            uint32 number = 1;
+
+            // A label for the port, eg "http"
+            string name = 2;
+
+            // The protocol used in communications with this Destination
+            // MUST BE one of HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS.
+            string protocol = 3;
+        }
+
+        // A list of clusters and namespaces. Resource will be exported to
+        // all given namespaces in all given clusters.
+        message ExportTo {
+
+            // List of clusters to export to. If ommitted or empty, 
+            // resource is exported to the given namespaces in _all_ clusters.
+            repeated string clusters = 1;
+
+            // List of namespaces to export to in the given clusters. If namespaces is omitted or empty, 
+            // resource is exported to _all_ namespaces in the given clusters.
+            repeated string namespaces = 2;
+        }
+    }
+
+}
+
+message DestinationStatus {
+
+    // The most recent generation observed in the the TrafficPolicy metadata.
+    // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh has not processed the most
+    // recent version of this resource.
+    int64 observed_generation = 1;
+
+    // The set of TrafficPolicies that have been applied to this Destination.
+    // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
+    repeated .networking.mesh.gloo.solo.io.AppliedTrafficPolicy applied_traffic_policies = 3 [(cue.opt).disable_openapi_validation = true];
+
+    // The set of AccessPolicies that have been applied to this Destination.
+    repeated AppliedAccessPolicy applied_access_policies = 4;
+
+    // The fully qualified domain name for requests originating from a source *coloated* with this Destination.
+    // For Kubernetes services, "colocated" means within the same Kubernetes cluster.
+    string local_fqdn = 5;
+
+    // Federation metadata. Only populated if this Destination is federated through a VirtualMesh.
+    AppliedFederation applied_federation = 6;
+
+    // The set of TrafficPolicy traffic shifts that reference subsets on this Destination.
+    repeated RequiredSubsets required_subsets = 7;
+
+    // Describes an [AccessPolicy]({{< versioned_link_path fromRoot="/reference/api/github.com.solo-io.gloo-mesh-enterprise.oss-imported.api.networking.v1.access_policy" >}})
+    // that applies to this Destination.
+    // If an existing AccessPolicy becomes invalid, the last valid applied policy will be used.
+    message AppliedAccessPolicy {
+
+        // Reference to the AccessPolicy object.
+        .core.skv2.solo.io.ObjectRef ref = 1;
+
+        // The observed generation of the accepted AccessPolicy.
+        int64 observedGeneration = 2;
+
+        // The spec of the last known valid AccessPolicy.
+        .networking.mesh.gloo.solo.io.AccessPolicySpec spec = 3;
+    }
+
+    // Describes the federation configuration applied to this Destination through a [VirtualMesh]({{< versioned_link_path fromRoot="/reference/api/github.com.solo-io.gloo-mesh-enterprise.oss-imported.api.networking.v1.virtual_mesh" >}}).
+    // Federation allows access to the Destination from other meshes/clusters.
+    message AppliedFederation {
+
+        /*
+            For any Workload that this Destination has been federated to (i.e., any Workload controlled by a Mesh whose reference appears in `federated_to_meshes`),
+            that Workload will be able to reach this Destination using this DNS name.
+            For Kubernetes Destinations this includes Workloads on clusters other than the one hosting this Destination.
+        */
+        string federated_hostname = 1;
+
+        // The list of Meshes which are able to resolve this Destination's `federated_hostname`.
+        repeated .core.skv2.solo.io.ObjectRef federated_to_meshes = 2;
+
+        // Whether the Destination has been federated to the given meshes using a VirtualMesh where
+        // [Federation.FlatNetwork]({{< versioned_link_path fromRoot="/reference/api/github.com.solo-io.gloo-mesh-enterprise.oss-imported.api.networking.v1.virtual_mesh/#virtualmeshspecfederation" >}})
+        // is true.
+        bool flat_network = 3;
+
+        // Reference to the VirtualMesh object.
+        .core.skv2.solo.io.ObjectRef virtual_mesh_ref = 4;
+
+        // Specify a keepalive rule for all requests made within the VirtualMesh which cross clusters within that VirtualMesh,
+        // as well as any requests to externalService type destinations.
+        .common.mesh.gloo.solo.io.TCPKeepalive tcp_keepalive = 5;
+    }
+
+}
+
+// Describes a [TrafficPolicy]({{< versioned_link_path fromRoot="/reference/api/github.com.solo-io.gloo-mesh-enterprise.oss-imported.api.networking.v1.traffic_policy" >}})
+// that references subsets on this Destination in a traffic shift.
+// Note: this is an Istio-specific feature.
+message RequiredSubsets {
+
+    oneof resource_ref {
+        // Reference to the TrafficPolicy object.
+        .core.skv2.solo.io.ObjectRef traffic_policy_ref = 1;
+
+        // Reference to the VirtualGateway object.
+        .core.skv2.solo.io.ObjectRef virtual_gateway_ref = 4;
+
+        // Reference to the VirtualHost object.
+        .core.skv2.solo.io.ObjectRef virtual_host_ref = 5;
+
+        // Reference to the RouteTable object.
+        .core.skv2.solo.io.ObjectRef route_table_ref = 6;
+    }
+
+
+
+    // The observed generation of the resource ref.
+    int64 observedGeneration = 2;
+
+    // DEPRECATED: Use weighted_destination instead
+    // The applied traffic shift.
+    .networking.mesh.gloo.solo.io.TrafficPolicySpec.Policy.MultiDestination traffic_shift = 3;
+    // The applied weighted destination.
+    .networking.mesh.gloo.solo.io.WeightedDestination weighted_destination = 7;
+}

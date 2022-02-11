@@ -1,0 +1,78 @@
+syntax = "proto3";
+package ratelimit.networking.mesh.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/networking.mesh.gloo.solo.io/v1/ratelimit";
+
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/duration.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+
+import "google/protobuf/struct.proto";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/rate-limiter/v1alpha1/ratelimit.proto";
+
+// Configure the RateLimit Server Settings
+message RateLimitServerSettings {
+    // The ratelimit service to ask about ratelimit decisions.
+    // The provided ref will be used to search for a service of the given name/namespace on the cluster
+    // the traffic policy is applied on
+    //
+    // If omitted, Gloo Mesh will search for a service with the name rate-limiter in each namespace in
+    // the cluster of the VirtualGateway or TrafficPolicy is applied on
+    .core.skv2.solo.io.ObjectRef ratelimit_server_ref = 1;
+
+    // Timeout for the ratelimit service to respond. Defaults to 100ms
+    google.protobuf.Duration request_timeout = 2;
+
+    // Defaults to false
+    bool deny_on_fail = 3;
+}
+
+// The RateLimitClient specifies either a simplified, abstracted rate limiting model that allows configuring
+// the ratelimit Actions directly (raw).
+// The corresponding server config should be set in the RateLimitConfig.
+message RateLimitClient {
+    oneof config_type {
+        // Configure the actions and/or set actions that determine how Envoy composes the descriptors
+        RawRateLimit raw = 1;
+    }
+}
+
+// Use this field if you want to inline the Envoy rate limits.
+// Note that this does not configure the rate limit server. If you are running Gloo Mesh, you need to
+// specify the server configuration via the appropriate field in the Gloo Mesh `RateLimitConfig` resource.
+// If you are running a custom rate limit server you need to configure it yourself.
+message RawRateLimit {
+
+    // Actions specify how the client (Envoy) will compose the descriptors that
+    // will be sent to the server to make a rate limiting decision.
+    repeated .ratelimit.api.solo.io.RateLimitActions rate_limits = 1;
+
+}
+
+// TODO: support basic ratelimiting API from gloo: https://docs.solo.io/gloo-edge/master/guides/security/rate_limiting/simple/
+//message BasicRateLimit {}
+
+// Rate limit configuration for a Route or TrafficPolicy. Configures rate limits for individual HTTP routes
+message RouteRateLimit {
+
+    // Labels to the RateLimitServerConfig ref sent to the ratelimit server
+    .core.skv2.solo.io.ObjectSelector ratelimit_server_config_selector = 1;
+
+    oneof rate_limit_config_type {
+        // Configure the actions and/or set actions that determine how Envoy composes the descriptors
+        RawRateLimit raw = 2;
+
+        // Simplified rate limiting model to specify the number of requests per configurable unit of time
+        // for both authorized and anonymous users.
+        //  BasicRateLimit basic = 3;
+
+        // Reference to the RateLimitClientConfig that configures the rate limiting model
+        .core.skv2.solo.io.ObjectRef ratelimit_client_config_ref = 4;
+    }
+}

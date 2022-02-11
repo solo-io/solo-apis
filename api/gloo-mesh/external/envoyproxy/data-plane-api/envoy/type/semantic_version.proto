@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package envoy.type;
+option go_package = "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/type";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/udpa/annotations/status.proto";
+
+option java_package = "io.envoyproxy.envoy.type";
+option java_outer_classname = "SemanticVersionProto";
+option java_multiple_files = true;
+option (udpa.annotations.file_status).package_version_status = FROZEN;
+
+// [#protodoc-title: Semantic Version]
+
+// Envoy uses SemVer (https://semver.org/). Major/minor versions indicate
+// expected behaviors and APIs, the patch version field is used only
+// for security fixes and can be generally ignored.
+message SemanticVersion {
+  uint32 major_number = 1;
+
+  uint32 minor_number = 2;
+
+  uint32 patch = 3;
+}

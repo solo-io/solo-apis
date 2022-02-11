@@ -1,0 +1,110 @@
+syntax = "proto3";
+package networking.enterprise.mesh.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/networking.enterprise.mesh.gloo.solo.io/v1beta1";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/certificates/v1/ca_options.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+
+/*
+    CertificateVerification is the resource by which a user can verify the traffic
+    during a VirtualMesh certificate rotation.
+
+    To do this, a user would create a CertificateVerification containing:
+    1. The step being verified
+    2. The action which the user would like to kick off
+    3. The VirtualMesh being rotated
+
+
+    An example of a Verification for a Virtual Mesh which has just added a new root successfully would be:
+```yaml
+    apiVersion: networking.enterprise.mesh.gloo.solo.io/v1beta1
+    kind: CertificateVerification
+    metadata:
+      name: successful-verification
+      namespace: gloo-mesh
+    spec:
+      action: CONTINUE
+      virtualMesh:
+        name: my-virtual-mesh
+        namespace: gloo-mesh
+      step: ADDING_NEW_ROOT
+```
+
+  An example of a Verification  for a Virtual Mesh which has failed to propagate the new intermediate would be
+  the following: In addition this example does not specify a namespace for the virtualMesh because it is
+  in the same namesapce as the CertificateVerification.
+```yaml
+    apiVersion: networking.enterprise.mesh.gloo.solo.io/v1beta1
+    kind: CertificateVerification
+    metadata:
+      name: successful-verification
+      namespace: gloo-mesh
+    spec:
+      action: ROLLBACK
+      virtualMesh:
+        name: my-virtual-mesh
+      step: PROPAGATING_NEW_INTERMEDIATE
+```
+*/
+message CertificateVerificationSpec {
+  // The rotation state to verify using this CertificateVerification.
+  // This must be an active state
+  // 1. ADDING_NEW_ROOT
+  // 2. PROPAGATING_NEW_INTERMEDIATE
+  // 3. DELETING_OLD_ROOT
+  // 4. PREVIOUS_CA
+  .certificates.mesh.gloo.solo.io.CertificateRotationState step = 1;
+
+  // The actions available when verifying
+  enum VerificationAction {
+    // Default action.
+    // This will continue the rotation.
+    // This option should only be used if the traffic has been verified to be healthy across the VirtualMesh
+    CONTINUE = 0;
+
+    // This action will move the rotation back to the previous active state.
+    // This should be used when the traffic is unhealthy as a result of a rotation step,
+    // and you need to return to the previous good state.
+    ROLLBACK = 1;
+  }
+
+  // The action which this verification will kick off
+  VerificationAction action = 2;
+
+  // The VirtualMesh being rotated which this resource should apply to.
+  .core.skv2.solo.io.ObjectRef virtual_mesh = 3;
+}
+
+message CertificateVerificationStatus {
+
+  // The most recent generation observed in the the CertificateVerification metadata.
+  // If the `observedGeneration` does not match `metadata.generation`, the issuer has not processed the most
+  // recent version of this request.
+  int64 observed_generation = 1;
+
+  // Any error observed which prevented the CertificateVerification from being processed.
+  // If the error is empty, the request has been processed successfully
+  repeated string errors = 2;
+
+  // The current state of the CertificateVerification resource as reported by the rotation verifier.
+  State state = 3;
+
+  // Possible states in which a CertificateVerification can exist.
+  enum State {
+    // The CertificateVerification has yet to be picked up by the translator.
+    PENDING = 0;
+
+    // The CertificateVerification has been used to verify a rotation step.
+    VERIFIED = 1;
+
+    // The CertificateVerification is invalid.
+    INVALID = 2;
+  }
+
+}

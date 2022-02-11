@@ -1,0 +1,45 @@
+syntax = "proto3";
+package observability.enterprise.mesh.gloo.solo.io;
+
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/enterprise-networking/pkg/api/observability.enterprise.mesh.gloo.solo.io/v1beta1";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/data/accesslog/v3/accesslog.proto";
+import "google/api/annotations.proto";
+
+// The logging service provides structured retrieval of event logs captured by Gloo Mesh.
+service Logging {
+    // Stream Envoy access logs as they are captured.
+    rpc WatchAccessLogs (WatchAccessLogsRequest) returns (stream AccessLog) {
+        option (google.api.http) = {
+            post: "/v0/observability/logs"
+            body: "workload_selectors"
+        };
+    }
+}
+
+message WatchAccessLogsRequest {
+
+    // If true, stream access logs as they are received.
+    // Otherwise return a fixed number of access logs.
+    bool watch = 1;
+
+    // Select the workloads whose access logs should be streamed.
+    // Leave empty to stream access logs for all workloads.
+    WorkloadSelectors workload_selectors = 2;
+
+    // NB: need to wrap repeated fields due to grpc-gateway limitation
+    // Reference: https://github.com/grpc-ecosystem/grpc-gateway/issues/765
+    message WorkloadSelectors {
+        repeated .common.mesh.gloo.solo.io.WorkloadSelector workload_selectors = 1;
+    }
+}
+
+message AccessLog {
+    // Reference to the workload that emitted this access log.
+    .core.skv2.solo.io.ClusterObjectRef workload_ref = 1;
+
+    // An Envoy access log.
+    .envoy.data.accesslog.v3.HTTPAccessLogEntry http_access_log = 2;
+}

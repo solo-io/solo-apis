@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package envoy.api.v2.route;
+option go_package = "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/api/v2/route";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/udpa/annotations/status.proto";
+
+import public "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/api/v2/route/route_components.proto";
+
+option java_package = "io.envoyproxy.envoy.api.v2.route";
+option java_outer_classname = "RouteProto";
+option java_multiple_files = true;

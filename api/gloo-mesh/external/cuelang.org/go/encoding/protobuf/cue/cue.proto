@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package cue;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "cuelang.org/go/encoding/protobuf/cue";
+option java_package = "org.cuelang.cueproto";
+
+message FieldOptions {
+    bool required = 1;
+
+    // Enable this option to treat this field as an unstructured object in the OpenAPI schema.
+    // This is currently required to disable infinite recursion when expanding references with CUE on recursive types.
+    bool disable_openapi_validation = 2;
+}
+
+extend google.protobuf.FieldOptions {
+    string val = 123456;
+    FieldOptions opt = 1069;
+}
