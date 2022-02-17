@@ -8,7 +8,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/common/v1/status.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/enterprise/networking/v1beta1/route.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/applied_policies.proto";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
 
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
@@ -55,7 +55,7 @@ message RouteTableStatus {
 
     // The set of TrafficPolicies that have been applied to this Destination.
     // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
-    repeated .networking.mesh.gloo.solo.io.AppliedTrafficPolicy applied_traffic_policies = 6 [(cue.opt).disable_openapi_validation = true];
+    repeated .networking.mesh.gloo.solo.io.AppliedTrafficPolicy applied_traffic_policies = 6 [(.solo.io.cue.opt).disable_openapi_validation = true];
 }
 
 message SelectedBy {

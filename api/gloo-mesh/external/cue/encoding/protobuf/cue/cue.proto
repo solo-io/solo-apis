@@ -1,12 +1,17 @@
 syntax = "proto3";
 
-package cue;
+package solo.io.cue;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "cuelang.org/go/encoding/protobuf/cue";
+option go_package = "github.com/solo-io/cue/encoding/protobuf/cue";
 option java_package = "org.cuelang.cueproto";
 
+/*
+FieldOptions expose custom configuration at the field level.
+The parser (https://github.com/solo-io/cue/blob/02116a5aef4f463250d4088a38b1d08bbefdd7a8/encoding/protobuf/parse.go#L782)
+processes these field options.
+*/
 message FieldOptions {
     bool required = 1;
 

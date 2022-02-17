@@ -11,7 +11,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/applied_policie
 import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/status.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/traffic_policy.proto";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
 
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
@@ -163,7 +163,7 @@ message VirtualDestinationStatus {
 
     // The set of TrafficPolicies that have been applied to this Virtual Destination.
     // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
-    repeated .networking.mesh.gloo.solo.io.AppliedTrafficPolicy applied_traffic_policies = 7 [(cue.opt).disable_openapi_validation = true];
+    repeated .networking.mesh.gloo.solo.io.AppliedTrafficPolicy applied_traffic_policies = 7 [(.solo.io.cue.opt).disable_openapi_validation = true];
 
     // The set of AccessPolicies that have been applied to this Virtual Destination.
     repeated discovery.mesh.gloo.solo.io.DestinationStatus.AppliedAccessPolicy applied_access_policies = 8;
