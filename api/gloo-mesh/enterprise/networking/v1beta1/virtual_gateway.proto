@@ -16,7 +16,7 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/duration.proto";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
 
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
@@ -123,7 +123,7 @@ message VirtualGatewaySpec {
 
                     // VirtualHost allows in-lining a route table directly in the Gateway Resource, for simple configs using fewer CRDs.
                     // Note that Kubernetes admission validation of inline virtual hosts is disabled. For production, the use of `virtualHostSelector` is recommended.
-                    VirtualHostSpec virtual_host = 2 [(cue.opt).disable_openapi_validation = true];
+                    VirtualHostSpec virtual_host = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
                 }
 
             }

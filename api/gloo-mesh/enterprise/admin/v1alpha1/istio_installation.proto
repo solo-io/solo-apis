@@ -5,7 +5,7 @@ option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/ap
 
 import "github.com/solo-io/solo-apis/api/gloo-mesh/enterprise/admin/v1alpha1/istio_installation_instance.proto";
 import "google/protobuf/struct.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
 
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
@@ -22,7 +22,7 @@ message IstioInstallationSpec {
 
     // Spec for the IstioOperator that should be applied
     // See https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
-    google.protobuf.Struct istio_operator_spec = 2 [(cue.opt).disable_openapi_validation = true];
+    google.protobuf.Struct istio_operator_spec = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
 
     // Number of times to retry if this IstioInstallation fails. Leave unset
     // to disable retries.

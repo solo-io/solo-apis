@@ -10,7 +10,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/applied_policie
 import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/access_policy.proto";
 import "google/protobuf/wrappers.proto";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
 
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
@@ -256,7 +256,7 @@ message DestinationStatus {
 
     // The set of TrafficPolicies that have been applied to this Destination.
     // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
-    repeated .networking.mesh.gloo.solo.io.AppliedTrafficPolicy applied_traffic_policies = 3 [(cue.opt).disable_openapi_validation = true];
+    repeated .networking.mesh.gloo.solo.io.AppliedTrafficPolicy applied_traffic_policies = 3 [(.solo.io.cue.opt).disable_openapi_validation = true];
 
     // The set of AccessPolicies that have been applied to this Destination.
     repeated AppliedAccessPolicy applied_access_policies = 4;

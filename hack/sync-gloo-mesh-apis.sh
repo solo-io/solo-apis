@@ -22,7 +22,7 @@ do
   sed 's|"udpa/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/udpa/|g' | \
   sed 's|"envoy/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/|g' | \
   sed 's|"validate/|"github.com/envoyproxy/protoc-gen-validate/validate/|g' | \
-  sed 's|"encoding/protobuf/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/|g' | \
+  sed 's|"encoding/protobuf/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/|g' | \
   sed 's|"xds/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/xds/|g' | \
   sed 's|"gogoproto/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/gogo/protobuf/gogoproto/|g' | \
   sed 's|github.com/solo-io/envoy-gloo|github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo|g' | \

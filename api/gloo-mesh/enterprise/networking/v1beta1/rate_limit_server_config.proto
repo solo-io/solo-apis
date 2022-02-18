@@ -2,7 +2,7 @@ syntax = "proto3";
 package networking.enterprise.mesh.gloo.solo.io;
 option go_package = "github.com/solo-io/gloo-mesh-enterprise/oss-imported/pkg/api/networking.enterprise.mesh.gloo.solo.io/v1beta1";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cuelang.org/go/encoding/protobuf/cue/cue.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/networking/v1/ratelimit/rate_limit.proto";
 import "github.com/solo-io/solo-apis/api/rate-limiter/v1alpha1/ratelimit.proto";
 import "google/protobuf/wrappers.proto";
@@ -24,11 +24,11 @@ message RateLimitServerConfigSpec {
 
     // The descriptors that will be applied to the server.
     // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
-    repeated .ratelimit.api.solo.io.Descriptor descriptors = 1 [(cue.opt).disable_openapi_validation = true];
+    repeated .ratelimit.api.solo.io.Descriptor descriptors = 1 [(.solo.io.cue.opt).disable_openapi_validation = true];
 
     // The set descriptors that will be applied to the server.
     // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
-    repeated .ratelimit.api.solo.io.SetDescriptor set_descriptors = 2 [(cue.opt).disable_openapi_validation = true];
+    repeated .ratelimit.api.solo.io.SetDescriptor set_descriptors = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
   }
 
   // Each `RateLimitConfig` is an instance of one specific configuration type.
