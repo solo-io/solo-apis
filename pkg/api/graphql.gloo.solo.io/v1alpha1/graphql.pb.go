@@ -82,7 +82,7 @@ func (x GraphQLSchemaStatus_State) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GraphQLSchemaStatus_State.Descriptor instead.
 func (GraphQLSchemaStatus_State) EnumDescriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{10, 0}
+	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{11, 0}
 }
 
 // Defines a configuration for generating outgoing requests for a resolver.
@@ -190,23 +190,27 @@ type ResponseTemplate struct {
 	ResultRoot string `protobuf:"bytes,1,opt,name=result_root,json=resultRoot,proto3" json:"result_root,omitempty"`
 	//
 	//Field-specific mapping for a graphql field to a JSON path in the upstream response.
-	//For example, if the graphql type is
+	//For example, if the graphql type is:
 	//
-	//type Simple {
-	//name String
-	//number String
+	//type Person {
+	//firstname String
+	//lastname String
+	//fullname String
 	//}
 	//
-	//and the upstream response is `{"name": "simple name", "details": {"num": "1234567890"}}`,
-	//the graphql server will not be able to marshal the upstream response into the Simple graphql type because of the
-	//nested `number` field. We can use a simple setter here:
+	//and the upstream response is `{"firstname": "Joe", "details": {"lastname": "Smith"}}`,
+	//the graphql server will not be able to marshal the upstream response into the Person graphql type because of the
+	//nested `lastname` field. We can use a simple setter here:
 	//
 	//setters:
-	//number: "details.num"
+	//lastname: '{$body.details.lastname}'
+	//fullname: '{$body.details.firstname} {$body.details.lastname}'
 	//
 	//and the graphql server will be able to extract data for a field given the path to the relevant data
-	//in the upstream JSON response. We don't need to have a setter for the `name` field because the JSON
-	//response has that field in a position the graphql server can understand automatically.
+	//in the upstream JSON response. We don't need to have a setter for the `firstname` field because the
+	//JSON response has that field in a position the graphql server can understand automatically.
+	//
+	//So far only the $body keyword is supported, but in the future we may add support for others such as $headers.
 	Setters map[string]string `protobuf:"bytes,2,rep,name=setters,proto3" json:"setters,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
@@ -677,6 +681,11 @@ type GraphQLSchemaSpec struct {
 	// The stats prefix which will be used for this route config.
 	// If empty, will generate a stats prefix ${GRAPHQLSCHEMA_REF}
 	StatPrefix *wrappers.StringValue `protobuf:"bytes,3,opt,name=stat_prefix,json=statPrefix,proto3" json:"stat_prefix,omitempty"`
+	// Configuration settings for persisted query cache
+	PersistedQueryCacheConfig *PersistedQueryCacheConfig `protobuf:"bytes,4,opt,name=persisted_query_cache_config,json=persistedQueryCacheConfig,proto3" json:"persisted_query_cache_config,omitempty"`
+	// Safelist: only allow queries to be executed that match these sha256 hashes.
+	// The hash can be computed from the query string or provided (i.e. persisted queries).
+	AllowedQueryHashes []string `protobuf:"bytes,5,rep,name=allowed_query_hashes,json=allowedQueryHashes,proto3" json:"allowed_query_hashes,omitempty"`
 }
 
 func (x *GraphQLSchemaSpec) Reset() {
@@ -725,12 +734,94 @@ func (x *GraphQLSchemaSpec) GetStatPrefix() *wrappers.StringValue {
 	return nil
 }
 
+func (x *GraphQLSchemaSpec) GetPersistedQueryCacheConfig() *PersistedQueryCacheConfig {
+	if x != nil {
+		return x.PersistedQueryCacheConfig
+	}
+	return nil
+}
+
+func (x *GraphQLSchemaSpec) GetAllowedQueryHashes() []string {
+	if x != nil {
+		return x.AllowedQueryHashes
+	}
+	return nil
+}
+
+// This message specifies Persisted Query Cache configuration.
+type PersistedQueryCacheConfig struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The unit is number of queries to store, default to 1000.
+	CacheSize uint32 `protobuf:"varint,1,opt,name=cache_size,json=cacheSize,proto3" json:"cache_size,omitempty"`
+}
+
+func (x *PersistedQueryCacheConfig) Reset() {
+	*x = PersistedQueryCacheConfig{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PersistedQueryCacheConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PersistedQueryCacheConfig) ProtoMessage() {}
+
+func (x *PersistedQueryCacheConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PersistedQueryCacheConfig.ProtoReflect.Descriptor instead.
+func (*PersistedQueryCacheConfig) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *PersistedQueryCacheConfig) GetCacheSize() uint32 {
+	if x != nil {
+		return x.CacheSize
+	}
+	return 0
+}
+
 type ExecutableSchema struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Schema to use in string format.
+	// The following directives are supported:
+	//- @resolve(name: string)
+	//- @cacheControl(maxAge: uint32, inheritMaxAge: bool, scope: unset/public/private)
+	//
+	//Define named resolvers on the `Executor.Local.resolutions` message, and reference them here using @resolve:
+	//```gql
+	//type Query {
+	//author: String @resolve(name: "authorResolver")
+	//}
+	//
+	//Further, fields/types can be annotated with the @cacheControl directive, e.g.
+	//```gql
+	//type Query @cacheControl(maxAge: 60) {
+	//author: String @resolve(name: "authorResolver") @cacheControl(maxAge: 90, scope: private)
+	//}
+	//```
+	//Any type-level cache control defaults are overridden by field settings, if provided.
+	//The most restrictive cache control setting (smallest maxAge and scope) across all fields in
+	//an entire query will be returned to the client in the `Cache-Control` header with appropriate
+	//`max-age` and  scope (unset, `public`, or `private`) directives.
 	SchemaDefinition string `protobuf:"bytes,1,opt,name=schema_definition,json=schemaDefinition,proto3" json:"schema_definition,omitempty"`
 	// how to execute the schema
 	Executor *Executor `protobuf:"bytes,2,opt,name=executor,proto3" json:"executor,omitempty"`
@@ -741,7 +832,7 @@ type ExecutableSchema struct {
 func (x *ExecutableSchema) Reset() {
 	*x = ExecutableSchema{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[8]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -754,7 +845,7 @@ func (x *ExecutableSchema) String() string {
 func (*ExecutableSchema) ProtoMessage() {}
 
 func (x *ExecutableSchema) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[8]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -767,7 +858,7 @@ func (x *ExecutableSchema) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExecutableSchema.ProtoReflect.Descriptor instead.
 func (*ExecutableSchema) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{8}
+	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ExecutableSchema) GetSchemaDefinition() string {
@@ -804,7 +895,7 @@ type Executor struct {
 func (x *Executor) Reset() {
 	*x = Executor{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[9]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -817,7 +908,7 @@ func (x *Executor) String() string {
 func (*Executor) ProtoMessage() {}
 
 func (x *Executor) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[9]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -830,7 +921,7 @@ func (x *Executor) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Executor.ProtoReflect.Descriptor instead.
 func (*Executor) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{9}
+	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{10}
 }
 
 func (m *Executor) GetExecutor() isExecutor_Executor {
@@ -877,7 +968,7 @@ type GraphQLSchemaStatus struct {
 func (x *GraphQLSchemaStatus) Reset() {
 	*x = GraphQLSchemaStatus{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[10]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -890,7 +981,7 @@ func (x *GraphQLSchemaStatus) String() string {
 func (*GraphQLSchemaStatus) ProtoMessage() {}
 
 func (x *GraphQLSchemaStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[10]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -903,7 +994,7 @@ func (x *GraphQLSchemaStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GraphQLSchemaStatus.ProtoReflect.Descriptor instead.
 func (*GraphQLSchemaStatus) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{10}
+	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GraphQLSchemaStatus) GetState() GraphQLSchemaStatus_State {
@@ -952,7 +1043,7 @@ type GraphQLSchemaNamespacedStatuses struct {
 func (x *GraphQLSchemaNamespacedStatuses) Reset() {
 	*x = GraphQLSchemaNamespacedStatuses{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[11]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -965,7 +1056,7 @@ func (x *GraphQLSchemaNamespacedStatuses) String() string {
 func (*GraphQLSchemaNamespacedStatuses) ProtoMessage() {}
 
 func (x *GraphQLSchemaNamespacedStatuses) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[11]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -978,7 +1069,7 @@ func (x *GraphQLSchemaNamespacedStatuses) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GraphQLSchemaNamespacedStatuses.ProtoReflect.Descriptor instead.
 func (*GraphQLSchemaNamespacedStatuses) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{11}
+	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GraphQLSchemaNamespacedStatuses) GetStatuses() map[string]*GraphQLSchemaStatus {
@@ -1021,7 +1112,7 @@ type Executor_Local struct {
 func (x *Executor_Local) Reset() {
 	*x = Executor_Local{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[16]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1034,7 +1125,7 @@ func (x *Executor_Local) String() string {
 func (*Executor_Local) ProtoMessage() {}
 
 func (x *Executor_Local) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[16]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1047,7 +1138,7 @@ func (x *Executor_Local) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Executor_Local.ProtoReflect.Descriptor instead.
 func (*Executor_Local) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{9, 0}
+	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDescGZIP(), []int{10, 0}
 }
 
 func (x *Executor_Local) GetResolutions() map[string]*Resolution {
@@ -1195,7 +1286,7 @@ var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pro
 	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x69,
 	0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0a, 0x73, 0x74, 0x61, 0x74, 0x50, 0x72, 0x65,
 	0x66, 0x69, 0x78, 0x42, 0x0a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x72, 0x22,
-	0xa7, 0x01, 0x0a, 0x11, 0x47, 0x72, 0x61, 0x70, 0x68, 0x51, 0x4c, 0x53, 0x63, 0x68, 0x65, 0x6d,
+	0xcb, 0x02, 0x0a, 0x11, 0x47, 0x72, 0x61, 0x70, 0x68, 0x51, 0x4c, 0x53, 0x63, 0x68, 0x65, 0x6d,
 	0x61, 0x53, 0x70, 0x65, 0x63, 0x12, 0x53, 0x0a, 0x11, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x61,
 	0x62, 0x6c, 0x65, 0x5f, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b,
 	0x32, 0x26, 0x2e, 0x67, 0x72, 0x61, 0x70, 0x68, 0x71, 0x6c, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e,
@@ -1205,7 +1296,21 @@ var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pro
 	0x61, 0x74, 0x5f, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
 	0x1c, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
 	0x66, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0a, 0x73,
-	0x74, 0x61, 0x74, 0x50, 0x72, 0x65, 0x66, 0x69, 0x78, 0x22, 0xe3, 0x01, 0x0a, 0x10, 0x45, 0x78,
+	0x74, 0x61, 0x74, 0x50, 0x72, 0x65, 0x66, 0x69, 0x78, 0x12, 0x70, 0x0a, 0x1c, 0x70, 0x65, 0x72,
+	0x73, 0x69, 0x73, 0x74, 0x65, 0x64, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x5f, 0x63, 0x61, 0x63,
+	0x68, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x2f, 0x2e, 0x67, 0x72, 0x61, 0x70, 0x68, 0x71, 0x6c, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73,
+	0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x50, 0x65, 0x72, 0x73, 0x69, 0x73, 0x74, 0x65, 0x64,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x61, 0x63, 0x68, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67,
+	0x52, 0x19, 0x70, 0x65, 0x72, 0x73, 0x69, 0x73, 0x74, 0x65, 0x64, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x43, 0x61, 0x63, 0x68, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x30, 0x0a, 0x14, 0x61,
+	0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x64, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x5f, 0x68, 0x61, 0x73,
+	0x68, 0x65, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52, 0x12, 0x61, 0x6c, 0x6c, 0x6f, 0x77,
+	0x65, 0x64, 0x51, 0x75, 0x65, 0x72, 0x79, 0x48, 0x61, 0x73, 0x68, 0x65, 0x73, 0x22, 0x3a, 0x0a,
+	0x19, 0x50, 0x65, 0x72, 0x73, 0x69, 0x73, 0x74, 0x65, 0x64, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43,
+	0x61, 0x63, 0x68, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x61,
+	0x63, 0x68, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x09,
+	0x63, 0x61, 0x63, 0x68, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x22, 0xe3, 0x01, 0x0a, 0x10, 0x45, 0x78,
 	0x65, 0x63, 0x75, 0x74, 0x61, 0x62, 0x6c, 0x65, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x12, 0x2b,
 	0x0a, 0x11, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x5f, 0x64, 0x65, 0x66, 0x69, 0x6e, 0x69, 0x74,
 	0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x10, 0x73, 0x63, 0x68, 0x65, 0x6d,
@@ -1313,7 +1418,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pr
 }
 
 var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
+var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_goTypes = []interface{}{
 	(GraphQLSchemaStatus_State)(0),          // 0: graphql.gloo.solo.io.GraphQLSchemaStatus.State
 	(*RequestTemplate)(nil),                 // 1: graphql.gloo.solo.io.RequestTemplate
@@ -1324,56 +1429,58 @@ var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pro
 	(*GrpcResolver)(nil),                    // 6: graphql.gloo.solo.io.GrpcResolver
 	(*Resolution)(nil),                      // 7: graphql.gloo.solo.io.Resolution
 	(*GraphQLSchemaSpec)(nil),               // 8: graphql.gloo.solo.io.GraphQLSchemaSpec
-	(*ExecutableSchema)(nil),                // 9: graphql.gloo.solo.io.ExecutableSchema
-	(*Executor)(nil),                        // 10: graphql.gloo.solo.io.Executor
-	(*GraphQLSchemaStatus)(nil),             // 11: graphql.gloo.solo.io.GraphQLSchemaStatus
-	(*GraphQLSchemaNamespacedStatuses)(nil), // 12: graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses
-	nil,                                     // 13: graphql.gloo.solo.io.RequestTemplate.HeadersEntry
-	nil,                                     // 14: graphql.gloo.solo.io.RequestTemplate.QueryParamsEntry
-	nil,                                     // 15: graphql.gloo.solo.io.ResponseTemplate.SettersEntry
-	nil,                                     // 16: graphql.gloo.solo.io.GrpcRequestTemplate.RequestMetadataEntry
-	(*Executor_Local)(nil),                  // 17: graphql.gloo.solo.io.Executor.Local
-	nil,                                     // 18: graphql.gloo.solo.io.Executor.Local.ResolutionsEntry
-	nil,                                     // 19: graphql.gloo.solo.io.GraphQLSchemaStatus.SubresourceStatusesEntry
-	nil,                                     // 20: graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses.StatusesEntry
-	(*_struct.Value)(nil),                   // 21: google.protobuf.Value
-	(*core.ResourceRef)(nil),                // 22: core.solo.io.ResourceRef
-	(*wrappers.StringValue)(nil),            // 23: google.protobuf.StringValue
-	(*_struct.Struct)(nil),                  // 24: google.protobuf.Struct
+	(*PersistedQueryCacheConfig)(nil),       // 9: graphql.gloo.solo.io.PersistedQueryCacheConfig
+	(*ExecutableSchema)(nil),                // 10: graphql.gloo.solo.io.ExecutableSchema
+	(*Executor)(nil),                        // 11: graphql.gloo.solo.io.Executor
+	(*GraphQLSchemaStatus)(nil),             // 12: graphql.gloo.solo.io.GraphQLSchemaStatus
+	(*GraphQLSchemaNamespacedStatuses)(nil), // 13: graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses
+	nil,                                     // 14: graphql.gloo.solo.io.RequestTemplate.HeadersEntry
+	nil,                                     // 15: graphql.gloo.solo.io.RequestTemplate.QueryParamsEntry
+	nil,                                     // 16: graphql.gloo.solo.io.ResponseTemplate.SettersEntry
+	nil,                                     // 17: graphql.gloo.solo.io.GrpcRequestTemplate.RequestMetadataEntry
+	(*Executor_Local)(nil),                  // 18: graphql.gloo.solo.io.Executor.Local
+	nil,                                     // 19: graphql.gloo.solo.io.Executor.Local.ResolutionsEntry
+	nil,                                     // 20: graphql.gloo.solo.io.GraphQLSchemaStatus.SubresourceStatusesEntry
+	nil,                                     // 21: graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses.StatusesEntry
+	(*_struct.Value)(nil),                   // 22: google.protobuf.Value
+	(*core.ResourceRef)(nil),                // 23: core.solo.io.ResourceRef
+	(*wrappers.StringValue)(nil),            // 24: google.protobuf.StringValue
+	(*_struct.Struct)(nil),                  // 25: google.protobuf.Struct
 }
 var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_depIdxs = []int32{
-	13, // 0: graphql.gloo.solo.io.RequestTemplate.headers:type_name -> graphql.gloo.solo.io.RequestTemplate.HeadersEntry
-	14, // 1: graphql.gloo.solo.io.RequestTemplate.query_params:type_name -> graphql.gloo.solo.io.RequestTemplate.QueryParamsEntry
-	21, // 2: graphql.gloo.solo.io.RequestTemplate.body:type_name -> google.protobuf.Value
-	15, // 3: graphql.gloo.solo.io.ResponseTemplate.setters:type_name -> graphql.gloo.solo.io.ResponseTemplate.SettersEntry
-	21, // 4: graphql.gloo.solo.io.GrpcRequestTemplate.outgoing_message_json:type_name -> google.protobuf.Value
-	16, // 5: graphql.gloo.solo.io.GrpcRequestTemplate.request_metadata:type_name -> graphql.gloo.solo.io.GrpcRequestTemplate.RequestMetadataEntry
-	22, // 6: graphql.gloo.solo.io.RESTResolver.upstream_ref:type_name -> core.solo.io.ResourceRef
+	14, // 0: graphql.gloo.solo.io.RequestTemplate.headers:type_name -> graphql.gloo.solo.io.RequestTemplate.HeadersEntry
+	15, // 1: graphql.gloo.solo.io.RequestTemplate.query_params:type_name -> graphql.gloo.solo.io.RequestTemplate.QueryParamsEntry
+	22, // 2: graphql.gloo.solo.io.RequestTemplate.body:type_name -> google.protobuf.Value
+	16, // 3: graphql.gloo.solo.io.ResponseTemplate.setters:type_name -> graphql.gloo.solo.io.ResponseTemplate.SettersEntry
+	22, // 4: graphql.gloo.solo.io.GrpcRequestTemplate.outgoing_message_json:type_name -> google.protobuf.Value
+	17, // 5: graphql.gloo.solo.io.GrpcRequestTemplate.request_metadata:type_name -> graphql.gloo.solo.io.GrpcRequestTemplate.RequestMetadataEntry
+	23, // 6: graphql.gloo.solo.io.RESTResolver.upstream_ref:type_name -> core.solo.io.ResourceRef
 	1,  // 7: graphql.gloo.solo.io.RESTResolver.request:type_name -> graphql.gloo.solo.io.RequestTemplate
 	2,  // 8: graphql.gloo.solo.io.RESTResolver.response:type_name -> graphql.gloo.solo.io.ResponseTemplate
-	22, // 9: graphql.gloo.solo.io.GrpcResolver.upstream_ref:type_name -> core.solo.io.ResourceRef
+	23, // 9: graphql.gloo.solo.io.GrpcResolver.upstream_ref:type_name -> core.solo.io.ResourceRef
 	3,  // 10: graphql.gloo.solo.io.GrpcResolver.request_transform:type_name -> graphql.gloo.solo.io.GrpcRequestTemplate
 	4,  // 11: graphql.gloo.solo.io.Resolution.rest_resolver:type_name -> graphql.gloo.solo.io.RESTResolver
 	6,  // 12: graphql.gloo.solo.io.Resolution.grpc_resolver:type_name -> graphql.gloo.solo.io.GrpcResolver
-	23, // 13: graphql.gloo.solo.io.Resolution.stat_prefix:type_name -> google.protobuf.StringValue
-	9,  // 14: graphql.gloo.solo.io.GraphQLSchemaSpec.executable_schema:type_name -> graphql.gloo.solo.io.ExecutableSchema
-	23, // 15: graphql.gloo.solo.io.GraphQLSchemaSpec.stat_prefix:type_name -> google.protobuf.StringValue
-	10, // 16: graphql.gloo.solo.io.ExecutableSchema.executor:type_name -> graphql.gloo.solo.io.Executor
-	5,  // 17: graphql.gloo.solo.io.ExecutableSchema.grpc_descriptor_registry:type_name -> graphql.gloo.solo.io.GrpcDescriptorRegistry
-	17, // 18: graphql.gloo.solo.io.Executor.local:type_name -> graphql.gloo.solo.io.Executor.Local
-	0,  // 19: graphql.gloo.solo.io.GraphQLSchemaStatus.state:type_name -> graphql.gloo.solo.io.GraphQLSchemaStatus.State
-	19, // 20: graphql.gloo.solo.io.GraphQLSchemaStatus.subresource_statuses:type_name -> graphql.gloo.solo.io.GraphQLSchemaStatus.SubresourceStatusesEntry
-	24, // 21: graphql.gloo.solo.io.GraphQLSchemaStatus.details:type_name -> google.protobuf.Struct
-	20, // 22: graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses.statuses:type_name -> graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses.StatusesEntry
-	18, // 23: graphql.gloo.solo.io.Executor.Local.resolutions:type_name -> graphql.gloo.solo.io.Executor.Local.ResolutionsEntry
-	7,  // 24: graphql.gloo.solo.io.Executor.Local.ResolutionsEntry.value:type_name -> graphql.gloo.solo.io.Resolution
-	11, // 25: graphql.gloo.solo.io.GraphQLSchemaStatus.SubresourceStatusesEntry.value:type_name -> graphql.gloo.solo.io.GraphQLSchemaStatus
-	11, // 26: graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses.StatusesEntry.value:type_name -> graphql.gloo.solo.io.GraphQLSchemaStatus
-	27, // [27:27] is the sub-list for method output_type
-	27, // [27:27] is the sub-list for method input_type
-	27, // [27:27] is the sub-list for extension type_name
-	27, // [27:27] is the sub-list for extension extendee
-	0,  // [0:27] is the sub-list for field type_name
+	24, // 13: graphql.gloo.solo.io.Resolution.stat_prefix:type_name -> google.protobuf.StringValue
+	10, // 14: graphql.gloo.solo.io.GraphQLSchemaSpec.executable_schema:type_name -> graphql.gloo.solo.io.ExecutableSchema
+	24, // 15: graphql.gloo.solo.io.GraphQLSchemaSpec.stat_prefix:type_name -> google.protobuf.StringValue
+	9,  // 16: graphql.gloo.solo.io.GraphQLSchemaSpec.persisted_query_cache_config:type_name -> graphql.gloo.solo.io.PersistedQueryCacheConfig
+	11, // 17: graphql.gloo.solo.io.ExecutableSchema.executor:type_name -> graphql.gloo.solo.io.Executor
+	5,  // 18: graphql.gloo.solo.io.ExecutableSchema.grpc_descriptor_registry:type_name -> graphql.gloo.solo.io.GrpcDescriptorRegistry
+	18, // 19: graphql.gloo.solo.io.Executor.local:type_name -> graphql.gloo.solo.io.Executor.Local
+	0,  // 20: graphql.gloo.solo.io.GraphQLSchemaStatus.state:type_name -> graphql.gloo.solo.io.GraphQLSchemaStatus.State
+	20, // 21: graphql.gloo.solo.io.GraphQLSchemaStatus.subresource_statuses:type_name -> graphql.gloo.solo.io.GraphQLSchemaStatus.SubresourceStatusesEntry
+	25, // 22: graphql.gloo.solo.io.GraphQLSchemaStatus.details:type_name -> google.protobuf.Struct
+	21, // 23: graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses.statuses:type_name -> graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses.StatusesEntry
+	19, // 24: graphql.gloo.solo.io.Executor.Local.resolutions:type_name -> graphql.gloo.solo.io.Executor.Local.ResolutionsEntry
+	7,  // 25: graphql.gloo.solo.io.Executor.Local.ResolutionsEntry.value:type_name -> graphql.gloo.solo.io.Resolution
+	12, // 26: graphql.gloo.solo.io.GraphQLSchemaStatus.SubresourceStatusesEntry.value:type_name -> graphql.gloo.solo.io.GraphQLSchemaStatus
+	12, // 27: graphql.gloo.solo.io.GraphQLSchemaNamespacedStatuses.StatusesEntry.value:type_name -> graphql.gloo.solo.io.GraphQLSchemaStatus
+	28, // [28:28] is the sub-list for method output_type
+	28, // [28:28] is the sub-list for method input_type
+	28, // [28:28] is the sub-list for extension type_name
+	28, // [28:28] is the sub-list for extension extendee
+	0,  // [0:28] is the sub-list for field type_name
 }
 
 func init() { file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_init() }
@@ -1479,7 +1586,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pr
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ExecutableSchema); i {
+			switch v := v.(*PersistedQueryCacheConfig); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1491,7 +1598,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pr
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Executor); i {
+			switch v := v.(*ExecutableSchema); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1503,7 +1610,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pr
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GraphQLSchemaStatus); i {
+			switch v := v.(*Executor); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1515,6 +1622,18 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pr
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GraphQLSchemaStatus); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GraphQLSchemaNamespacedStatuses); i {
 			case 0:
 				return &v.state
@@ -1526,7 +1645,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pr
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Executor_Local); i {
 			case 0:
 				return &v.state
@@ -1547,7 +1666,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pr
 		(*Resolution_RestResolver)(nil),
 		(*Resolution_GrpcResolver)(nil),
 	}
-	file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[9].OneofWrappers = []interface{}{
+	file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_msgTypes[10].OneofWrappers = []interface{}{
 		(*Executor_Local_)(nil),
 	}
 	type x struct{}
@@ -1556,7 +1675,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_pr
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1alpha1_graphql_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   20,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
