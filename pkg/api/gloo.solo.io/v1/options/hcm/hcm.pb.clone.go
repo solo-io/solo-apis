@@ -105,6 +105,8 @@ func (m *HttpConnectionManagerSettings) Clone() proto.Message {
 
 	target.AllowChunkedLength = m.GetAllowChunkedLength()
 
+	target.EnableTrailers = m.GetEnableTrailers()
+
 	if h, ok := interface{}(m.GetTracing()).(clone.Cloner); ok {
 		target.Tracing = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_tracing.ListenerTracingSettings)
 	} else {
