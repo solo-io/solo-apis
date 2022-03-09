@@ -54,6 +54,10 @@ message TrafficPolicySpec {
     // Specify L7 routing and post-routing configuration.
     Policy policy = 4;
 
+    // If set, this particular TrafficPolicy will apply _only_ to the specified ports on the destination.  Otherwise, if not specified,
+    // this trafficPolicy will apply to _every_ destination port.  Any specified ports that are not actually on the destination will be ignored.
+    repeated uint32 destination_ports = 6;
+
     // Specify L7 routing and post-routing configuration.
     message Policy {
 
