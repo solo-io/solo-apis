@@ -23,6 +23,8 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_core_matchers "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/core/matchers"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_dynamic_forward_proxy "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/dynamic_forward_proxy"
+
 	github_com_solo_io_solo_kit_pkg_api_v1_resources_core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
@@ -611,6 +613,18 @@ func (m *RouteAction) Clone() proto.Message {
 
 		target.Destination = &RouteAction_ClusterHeader{
 			ClusterHeader: m.GetClusterHeader(),
+		}
+
+	case *RouteAction_DynamicForwardProxy:
+
+		if h, ok := interface{}(m.GetDynamicForwardProxy()).(clone.Cloner); ok {
+			target.Destination = &RouteAction_DynamicForwardProxy{
+				DynamicForwardProxy: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_dynamic_forward_proxy.PerRouteConfig),
+			}
+		} else {
+			target.Destination = &RouteAction_DynamicForwardProxy{
+				DynamicForwardProxy: proto.Clone(m.GetDynamicForwardProxy()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_dynamic_forward_proxy.PerRouteConfig),
+			}
 		}
 
 	}
