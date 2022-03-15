@@ -27,5 +27,6 @@ message SemanticVersion {
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/type/v3";
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
 option (extproto.equal_all) = true;
 

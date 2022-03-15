@@ -55,14 +55,20 @@ func (m *ObjectMeta) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetCreationTimestamp()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("CreationTimestamp")); err != nil {
+			return 0, err
+		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if val, err := hashstructure.Hash(m.GetCreationTimestamp(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetCreationTimestamp(), nil); err != nil {
 			return 0, err
 		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+			if _, err = hasher.Write([]byte("CreationTimestamp")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
