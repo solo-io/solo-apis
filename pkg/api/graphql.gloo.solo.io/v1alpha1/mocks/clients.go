@@ -74,520 +74,520 @@ func (m *MockClientset) EXPECT() *MockClientsetMockRecorder {
 	return m.recorder
 }
 
-// GraphQLSchemas mocks base method.
-func (m *MockClientset) GraphQLSchemas() v1alpha1.GraphQLSchemaClient {
+// GraphQLApis mocks base method.
+func (m *MockClientset) GraphQLApis() v1alpha1.GraphQLApiClient {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GraphQLSchemas")
-	ret0, _ := ret[0].(v1alpha1.GraphQLSchemaClient)
+	ret := m.ctrl.Call(m, "GraphQLApis")
+	ret0, _ := ret[0].(v1alpha1.GraphQLApiClient)
 	return ret0
 }
 
-// GraphQLSchemas indicates an expected call of GraphQLSchemas.
-func (mr *MockClientsetMockRecorder) GraphQLSchemas() *gomock.Call {
+// GraphQLApis indicates an expected call of GraphQLApis.
+func (mr *MockClientsetMockRecorder) GraphQLApis() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GraphQLSchemas", reflect.TypeOf((*MockClientset)(nil).GraphQLSchemas))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GraphQLApis", reflect.TypeOf((*MockClientset)(nil).GraphQLApis))
 }
 
-// MockGraphQLSchemaReader is a mock of GraphQLSchemaReader interface.
-type MockGraphQLSchemaReader struct {
+// MockGraphQLApiReader is a mock of GraphQLApiReader interface.
+type MockGraphQLApiReader struct {
 	ctrl     *gomock.Controller
-	recorder *MockGraphQLSchemaReaderMockRecorder
+	recorder *MockGraphQLApiReaderMockRecorder
 }
 
-// MockGraphQLSchemaReaderMockRecorder is the mock recorder for MockGraphQLSchemaReader.
-type MockGraphQLSchemaReaderMockRecorder struct {
-	mock *MockGraphQLSchemaReader
+// MockGraphQLApiReaderMockRecorder is the mock recorder for MockGraphQLApiReader.
+type MockGraphQLApiReaderMockRecorder struct {
+	mock *MockGraphQLApiReader
 }
 
-// NewMockGraphQLSchemaReader creates a new mock instance.
-func NewMockGraphQLSchemaReader(ctrl *gomock.Controller) *MockGraphQLSchemaReader {
-	mock := &MockGraphQLSchemaReader{ctrl: ctrl}
-	mock.recorder = &MockGraphQLSchemaReaderMockRecorder{mock}
+// NewMockGraphQLApiReader creates a new mock instance.
+func NewMockGraphQLApiReader(ctrl *gomock.Controller) *MockGraphQLApiReader {
+	mock := &MockGraphQLApiReader{ctrl: ctrl}
+	mock.recorder = &MockGraphQLApiReaderMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockGraphQLSchemaReader) EXPECT() *MockGraphQLSchemaReaderMockRecorder {
+func (m *MockGraphQLApiReader) EXPECT() *MockGraphQLApiReaderMockRecorder {
 	return m.recorder
 }
 
-// GetGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaReader) GetGraphQLSchema(ctx context.Context, key client.ObjectKey) (*v1alpha1.GraphQLSchema, error) {
+// GetGraphQLApi mocks base method.
+func (m *MockGraphQLApiReader) GetGraphQLApi(ctx context.Context, key client.ObjectKey) (*v1alpha1.GraphQLApi, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetGraphQLSchema", ctx, key)
-	ret0, _ := ret[0].(*v1alpha1.GraphQLSchema)
+	ret := m.ctrl.Call(m, "GetGraphQLApi", ctx, key)
+	ret0, _ := ret[0].(*v1alpha1.GraphQLApi)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetGraphQLSchema indicates an expected call of GetGraphQLSchema.
-func (mr *MockGraphQLSchemaReaderMockRecorder) GetGraphQLSchema(ctx, key interface{}) *gomock.Call {
+// GetGraphQLApi indicates an expected call of GetGraphQLApi.
+func (mr *MockGraphQLApiReaderMockRecorder) GetGraphQLApi(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaReader)(nil).GetGraphQLSchema), ctx, key)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetGraphQLApi", reflect.TypeOf((*MockGraphQLApiReader)(nil).GetGraphQLApi), ctx, key)
 }
 
-// ListGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaReader) ListGraphQLSchema(ctx context.Context, opts ...client.ListOption) (*v1alpha1.GraphQLSchemaList, error) {
+// ListGraphQLApi mocks base method.
+func (m *MockGraphQLApiReader) ListGraphQLApi(ctx context.Context, opts ...client.ListOption) (*v1alpha1.GraphQLApiList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "ListGraphQLSchema", varargs...)
-	ret0, _ := ret[0].(*v1alpha1.GraphQLSchemaList)
+	ret := m.ctrl.Call(m, "ListGraphQLApi", varargs...)
+	ret0, _ := ret[0].(*v1alpha1.GraphQLApiList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListGraphQLSchema indicates an expected call of ListGraphQLSchema.
-func (mr *MockGraphQLSchemaReaderMockRecorder) ListGraphQLSchema(ctx interface{}, opts ...interface{}) *gomock.Call {
+// ListGraphQLApi indicates an expected call of ListGraphQLApi.
+func (mr *MockGraphQLApiReaderMockRecorder) ListGraphQLApi(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaReader)(nil).ListGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListGraphQLApi", reflect.TypeOf((*MockGraphQLApiReader)(nil).ListGraphQLApi), varargs...)
 }
 
-// MockGraphQLSchemaWriter is a mock of GraphQLSchemaWriter interface.
-type MockGraphQLSchemaWriter struct {
+// MockGraphQLApiWriter is a mock of GraphQLApiWriter interface.
+type MockGraphQLApiWriter struct {
 	ctrl     *gomock.Controller
-	recorder *MockGraphQLSchemaWriterMockRecorder
+	recorder *MockGraphQLApiWriterMockRecorder
 }
 
-// MockGraphQLSchemaWriterMockRecorder is the mock recorder for MockGraphQLSchemaWriter.
-type MockGraphQLSchemaWriterMockRecorder struct {
-	mock *MockGraphQLSchemaWriter
+// MockGraphQLApiWriterMockRecorder is the mock recorder for MockGraphQLApiWriter.
+type MockGraphQLApiWriterMockRecorder struct {
+	mock *MockGraphQLApiWriter
 }
 
-// NewMockGraphQLSchemaWriter creates a new mock instance.
-func NewMockGraphQLSchemaWriter(ctrl *gomock.Controller) *MockGraphQLSchemaWriter {
-	mock := &MockGraphQLSchemaWriter{ctrl: ctrl}
-	mock.recorder = &MockGraphQLSchemaWriterMockRecorder{mock}
+// NewMockGraphQLApiWriter creates a new mock instance.
+func NewMockGraphQLApiWriter(ctrl *gomock.Controller) *MockGraphQLApiWriter {
+	mock := &MockGraphQLApiWriter{ctrl: ctrl}
+	mock.recorder = &MockGraphQLApiWriterMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockGraphQLSchemaWriter) EXPECT() *MockGraphQLSchemaWriterMockRecorder {
+func (m *MockGraphQLApiWriter) EXPECT() *MockGraphQLApiWriterMockRecorder {
 	return m.recorder
 }
 
-// CreateGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaWriter) CreateGraphQLSchema(ctx context.Context, obj *v1alpha1.GraphQLSchema, opts ...client.CreateOption) error {
+// CreateGraphQLApi mocks base method.
+func (m *MockGraphQLApiWriter) CreateGraphQLApi(ctx context.Context, obj *v1alpha1.GraphQLApi, opts ...client.CreateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "CreateGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "CreateGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// CreateGraphQLSchema indicates an expected call of CreateGraphQLSchema.
-func (mr *MockGraphQLSchemaWriterMockRecorder) CreateGraphQLSchema(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+// CreateGraphQLApi indicates an expected call of CreateGraphQLApi.
+func (mr *MockGraphQLApiWriterMockRecorder) CreateGraphQLApi(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaWriter)(nil).CreateGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateGraphQLApi", reflect.TypeOf((*MockGraphQLApiWriter)(nil).CreateGraphQLApi), varargs...)
 }
 
-// DeleteAllOfGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaWriter) DeleteAllOfGraphQLSchema(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+// DeleteAllOfGraphQLApi mocks base method.
+func (m *MockGraphQLApiWriter) DeleteAllOfGraphQLApi(ctx context.Context, opts ...client.DeleteAllOfOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "DeleteAllOfGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "DeleteAllOfGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteAllOfGraphQLSchema indicates an expected call of DeleteAllOfGraphQLSchema.
-func (mr *MockGraphQLSchemaWriterMockRecorder) DeleteAllOfGraphQLSchema(ctx interface{}, opts ...interface{}) *gomock.Call {
+// DeleteAllOfGraphQLApi indicates an expected call of DeleteAllOfGraphQLApi.
+func (mr *MockGraphQLApiWriterMockRecorder) DeleteAllOfGraphQLApi(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaWriter)(nil).DeleteAllOfGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfGraphQLApi", reflect.TypeOf((*MockGraphQLApiWriter)(nil).DeleteAllOfGraphQLApi), varargs...)
 }
 
-// DeleteGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaWriter) DeleteGraphQLSchema(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+// DeleteGraphQLApi mocks base method.
+func (m *MockGraphQLApiWriter) DeleteGraphQLApi(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, key}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "DeleteGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "DeleteGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteGraphQLSchema indicates an expected call of DeleteGraphQLSchema.
-func (mr *MockGraphQLSchemaWriterMockRecorder) DeleteGraphQLSchema(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+// DeleteGraphQLApi indicates an expected call of DeleteGraphQLApi.
+func (mr *MockGraphQLApiWriterMockRecorder) DeleteGraphQLApi(ctx, key interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaWriter)(nil).DeleteGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteGraphQLApi", reflect.TypeOf((*MockGraphQLApiWriter)(nil).DeleteGraphQLApi), varargs...)
 }
 
-// PatchGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaWriter) PatchGraphQLSchema(ctx context.Context, obj *v1alpha1.GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error {
+// PatchGraphQLApi mocks base method.
+func (m *MockGraphQLApiWriter) PatchGraphQLApi(ctx context.Context, obj *v1alpha1.GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "PatchGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "PatchGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// PatchGraphQLSchema indicates an expected call of PatchGraphQLSchema.
-func (mr *MockGraphQLSchemaWriterMockRecorder) PatchGraphQLSchema(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+// PatchGraphQLApi indicates an expected call of PatchGraphQLApi.
+func (mr *MockGraphQLApiWriterMockRecorder) PatchGraphQLApi(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaWriter)(nil).PatchGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchGraphQLApi", reflect.TypeOf((*MockGraphQLApiWriter)(nil).PatchGraphQLApi), varargs...)
 }
 
-// UpdateGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaWriter) UpdateGraphQLSchema(ctx context.Context, obj *v1alpha1.GraphQLSchema, opts ...client.UpdateOption) error {
+// UpdateGraphQLApi mocks base method.
+func (m *MockGraphQLApiWriter) UpdateGraphQLApi(ctx context.Context, obj *v1alpha1.GraphQLApi, opts ...client.UpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "UpdateGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "UpdateGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UpdateGraphQLSchema indicates an expected call of UpdateGraphQLSchema.
-func (mr *MockGraphQLSchemaWriterMockRecorder) UpdateGraphQLSchema(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+// UpdateGraphQLApi indicates an expected call of UpdateGraphQLApi.
+func (mr *MockGraphQLApiWriterMockRecorder) UpdateGraphQLApi(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaWriter)(nil).UpdateGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLApi", reflect.TypeOf((*MockGraphQLApiWriter)(nil).UpdateGraphQLApi), varargs...)
 }
 
-// UpsertGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaWriter) UpsertGraphQLSchema(ctx context.Context, obj *v1alpha1.GraphQLSchema, transitionFuncs ...v1alpha1.GraphQLSchemaTransitionFunction) error {
+// UpsertGraphQLApi mocks base method.
+func (m *MockGraphQLApiWriter) UpsertGraphQLApi(ctx context.Context, obj *v1alpha1.GraphQLApi, transitionFuncs ...v1alpha1.GraphQLApiTransitionFunction) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range transitionFuncs {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "UpsertGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "UpsertGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UpsertGraphQLSchema indicates an expected call of UpsertGraphQLSchema.
-func (mr *MockGraphQLSchemaWriterMockRecorder) UpsertGraphQLSchema(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+// UpsertGraphQLApi indicates an expected call of UpsertGraphQLApi.
+func (mr *MockGraphQLApiWriterMockRecorder) UpsertGraphQLApi(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaWriter)(nil).UpsertGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertGraphQLApi", reflect.TypeOf((*MockGraphQLApiWriter)(nil).UpsertGraphQLApi), varargs...)
 }
 
-// MockGraphQLSchemaStatusWriter is a mock of GraphQLSchemaStatusWriter interface.
-type MockGraphQLSchemaStatusWriter struct {
+// MockGraphQLApiStatusWriter is a mock of GraphQLApiStatusWriter interface.
+type MockGraphQLApiStatusWriter struct {
 	ctrl     *gomock.Controller
-	recorder *MockGraphQLSchemaStatusWriterMockRecorder
+	recorder *MockGraphQLApiStatusWriterMockRecorder
 }
 
-// MockGraphQLSchemaStatusWriterMockRecorder is the mock recorder for MockGraphQLSchemaStatusWriter.
-type MockGraphQLSchemaStatusWriterMockRecorder struct {
-	mock *MockGraphQLSchemaStatusWriter
+// MockGraphQLApiStatusWriterMockRecorder is the mock recorder for MockGraphQLApiStatusWriter.
+type MockGraphQLApiStatusWriterMockRecorder struct {
+	mock *MockGraphQLApiStatusWriter
 }
 
-// NewMockGraphQLSchemaStatusWriter creates a new mock instance.
-func NewMockGraphQLSchemaStatusWriter(ctrl *gomock.Controller) *MockGraphQLSchemaStatusWriter {
-	mock := &MockGraphQLSchemaStatusWriter{ctrl: ctrl}
-	mock.recorder = &MockGraphQLSchemaStatusWriterMockRecorder{mock}
+// NewMockGraphQLApiStatusWriter creates a new mock instance.
+func NewMockGraphQLApiStatusWriter(ctrl *gomock.Controller) *MockGraphQLApiStatusWriter {
+	mock := &MockGraphQLApiStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockGraphQLApiStatusWriterMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockGraphQLSchemaStatusWriter) EXPECT() *MockGraphQLSchemaStatusWriterMockRecorder {
+func (m *MockGraphQLApiStatusWriter) EXPECT() *MockGraphQLApiStatusWriterMockRecorder {
 	return m.recorder
 }
 
-// PatchGraphQLSchemaStatus mocks base method.
-func (m *MockGraphQLSchemaStatusWriter) PatchGraphQLSchemaStatus(ctx context.Context, obj *v1alpha1.GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error {
+// PatchGraphQLApiStatus mocks base method.
+func (m *MockGraphQLApiStatusWriter) PatchGraphQLApiStatus(ctx context.Context, obj *v1alpha1.GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "PatchGraphQLSchemaStatus", varargs...)
+	ret := m.ctrl.Call(m, "PatchGraphQLApiStatus", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// PatchGraphQLSchemaStatus indicates an expected call of PatchGraphQLSchemaStatus.
-func (mr *MockGraphQLSchemaStatusWriterMockRecorder) PatchGraphQLSchemaStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+// PatchGraphQLApiStatus indicates an expected call of PatchGraphQLApiStatus.
+func (mr *MockGraphQLApiStatusWriterMockRecorder) PatchGraphQLApiStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchGraphQLSchemaStatus", reflect.TypeOf((*MockGraphQLSchemaStatusWriter)(nil).PatchGraphQLSchemaStatus), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchGraphQLApiStatus", reflect.TypeOf((*MockGraphQLApiStatusWriter)(nil).PatchGraphQLApiStatus), varargs...)
 }
 
-// UpdateGraphQLSchemaStatus mocks base method.
-func (m *MockGraphQLSchemaStatusWriter) UpdateGraphQLSchemaStatus(ctx context.Context, obj *v1alpha1.GraphQLSchema, opts ...client.UpdateOption) error {
+// UpdateGraphQLApiStatus mocks base method.
+func (m *MockGraphQLApiStatusWriter) UpdateGraphQLApiStatus(ctx context.Context, obj *v1alpha1.GraphQLApi, opts ...client.UpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "UpdateGraphQLSchemaStatus", varargs...)
+	ret := m.ctrl.Call(m, "UpdateGraphQLApiStatus", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UpdateGraphQLSchemaStatus indicates an expected call of UpdateGraphQLSchemaStatus.
-func (mr *MockGraphQLSchemaStatusWriterMockRecorder) UpdateGraphQLSchemaStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+// UpdateGraphQLApiStatus indicates an expected call of UpdateGraphQLApiStatus.
+func (mr *MockGraphQLApiStatusWriterMockRecorder) UpdateGraphQLApiStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLSchemaStatus", reflect.TypeOf((*MockGraphQLSchemaStatusWriter)(nil).UpdateGraphQLSchemaStatus), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLApiStatus", reflect.TypeOf((*MockGraphQLApiStatusWriter)(nil).UpdateGraphQLApiStatus), varargs...)
 }
 
-// MockGraphQLSchemaClient is a mock of GraphQLSchemaClient interface.
-type MockGraphQLSchemaClient struct {
+// MockGraphQLApiClient is a mock of GraphQLApiClient interface.
+type MockGraphQLApiClient struct {
 	ctrl     *gomock.Controller
-	recorder *MockGraphQLSchemaClientMockRecorder
+	recorder *MockGraphQLApiClientMockRecorder
 }
 
-// MockGraphQLSchemaClientMockRecorder is the mock recorder for MockGraphQLSchemaClient.
-type MockGraphQLSchemaClientMockRecorder struct {
-	mock *MockGraphQLSchemaClient
+// MockGraphQLApiClientMockRecorder is the mock recorder for MockGraphQLApiClient.
+type MockGraphQLApiClientMockRecorder struct {
+	mock *MockGraphQLApiClient
 }
 
-// NewMockGraphQLSchemaClient creates a new mock instance.
-func NewMockGraphQLSchemaClient(ctrl *gomock.Controller) *MockGraphQLSchemaClient {
-	mock := &MockGraphQLSchemaClient{ctrl: ctrl}
-	mock.recorder = &MockGraphQLSchemaClientMockRecorder{mock}
+// NewMockGraphQLApiClient creates a new mock instance.
+func NewMockGraphQLApiClient(ctrl *gomock.Controller) *MockGraphQLApiClient {
+	mock := &MockGraphQLApiClient{ctrl: ctrl}
+	mock.recorder = &MockGraphQLApiClientMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockGraphQLSchemaClient) EXPECT() *MockGraphQLSchemaClientMockRecorder {
+func (m *MockGraphQLApiClient) EXPECT() *MockGraphQLApiClientMockRecorder {
 	return m.recorder
 }
 
-// CreateGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaClient) CreateGraphQLSchema(ctx context.Context, obj *v1alpha1.GraphQLSchema, opts ...client.CreateOption) error {
+// CreateGraphQLApi mocks base method.
+func (m *MockGraphQLApiClient) CreateGraphQLApi(ctx context.Context, obj *v1alpha1.GraphQLApi, opts ...client.CreateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "CreateGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "CreateGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// CreateGraphQLSchema indicates an expected call of CreateGraphQLSchema.
-func (mr *MockGraphQLSchemaClientMockRecorder) CreateGraphQLSchema(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+// CreateGraphQLApi indicates an expected call of CreateGraphQLApi.
+func (mr *MockGraphQLApiClientMockRecorder) CreateGraphQLApi(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).CreateGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateGraphQLApi", reflect.TypeOf((*MockGraphQLApiClient)(nil).CreateGraphQLApi), varargs...)
 }
 
-// DeleteAllOfGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaClient) DeleteAllOfGraphQLSchema(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+// DeleteAllOfGraphQLApi mocks base method.
+func (m *MockGraphQLApiClient) DeleteAllOfGraphQLApi(ctx context.Context, opts ...client.DeleteAllOfOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "DeleteAllOfGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "DeleteAllOfGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteAllOfGraphQLSchema indicates an expected call of DeleteAllOfGraphQLSchema.
-func (mr *MockGraphQLSchemaClientMockRecorder) DeleteAllOfGraphQLSchema(ctx interface{}, opts ...interface{}) *gomock.Call {
+// DeleteAllOfGraphQLApi indicates an expected call of DeleteAllOfGraphQLApi.
+func (mr *MockGraphQLApiClientMockRecorder) DeleteAllOfGraphQLApi(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).DeleteAllOfGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfGraphQLApi", reflect.TypeOf((*MockGraphQLApiClient)(nil).DeleteAllOfGraphQLApi), varargs...)
 }
 
-// DeleteGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaClient) DeleteGraphQLSchema(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+// DeleteGraphQLApi mocks base method.
+func (m *MockGraphQLApiClient) DeleteGraphQLApi(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, key}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "DeleteGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "DeleteGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteGraphQLSchema indicates an expected call of DeleteGraphQLSchema.
-func (mr *MockGraphQLSchemaClientMockRecorder) DeleteGraphQLSchema(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+// DeleteGraphQLApi indicates an expected call of DeleteGraphQLApi.
+func (mr *MockGraphQLApiClientMockRecorder) DeleteGraphQLApi(ctx, key interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).DeleteGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteGraphQLApi", reflect.TypeOf((*MockGraphQLApiClient)(nil).DeleteGraphQLApi), varargs...)
 }
 
-// GetGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaClient) GetGraphQLSchema(ctx context.Context, key client.ObjectKey) (*v1alpha1.GraphQLSchema, error) {
+// GetGraphQLApi mocks base method.
+func (m *MockGraphQLApiClient) GetGraphQLApi(ctx context.Context, key client.ObjectKey) (*v1alpha1.GraphQLApi, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetGraphQLSchema", ctx, key)
-	ret0, _ := ret[0].(*v1alpha1.GraphQLSchema)
+	ret := m.ctrl.Call(m, "GetGraphQLApi", ctx, key)
+	ret0, _ := ret[0].(*v1alpha1.GraphQLApi)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetGraphQLSchema indicates an expected call of GetGraphQLSchema.
-func (mr *MockGraphQLSchemaClientMockRecorder) GetGraphQLSchema(ctx, key interface{}) *gomock.Call {
+// GetGraphQLApi indicates an expected call of GetGraphQLApi.
+func (mr *MockGraphQLApiClientMockRecorder) GetGraphQLApi(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).GetGraphQLSchema), ctx, key)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetGraphQLApi", reflect.TypeOf((*MockGraphQLApiClient)(nil).GetGraphQLApi), ctx, key)
 }
 
-// ListGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaClient) ListGraphQLSchema(ctx context.Context, opts ...client.ListOption) (*v1alpha1.GraphQLSchemaList, error) {
+// ListGraphQLApi mocks base method.
+func (m *MockGraphQLApiClient) ListGraphQLApi(ctx context.Context, opts ...client.ListOption) (*v1alpha1.GraphQLApiList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "ListGraphQLSchema", varargs...)
-	ret0, _ := ret[0].(*v1alpha1.GraphQLSchemaList)
+	ret := m.ctrl.Call(m, "ListGraphQLApi", varargs...)
+	ret0, _ := ret[0].(*v1alpha1.GraphQLApiList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListGraphQLSchema indicates an expected call of ListGraphQLSchema.
-func (mr *MockGraphQLSchemaClientMockRecorder) ListGraphQLSchema(ctx interface{}, opts ...interface{}) *gomock.Call {
+// ListGraphQLApi indicates an expected call of ListGraphQLApi.
+func (mr *MockGraphQLApiClientMockRecorder) ListGraphQLApi(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).ListGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListGraphQLApi", reflect.TypeOf((*MockGraphQLApiClient)(nil).ListGraphQLApi), varargs...)
 }
 
-// PatchGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaClient) PatchGraphQLSchema(ctx context.Context, obj *v1alpha1.GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error {
+// PatchGraphQLApi mocks base method.
+func (m *MockGraphQLApiClient) PatchGraphQLApi(ctx context.Context, obj *v1alpha1.GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "PatchGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "PatchGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// PatchGraphQLSchema indicates an expected call of PatchGraphQLSchema.
-func (mr *MockGraphQLSchemaClientMockRecorder) PatchGraphQLSchema(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+// PatchGraphQLApi indicates an expected call of PatchGraphQLApi.
+func (mr *MockGraphQLApiClientMockRecorder) PatchGraphQLApi(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).PatchGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchGraphQLApi", reflect.TypeOf((*MockGraphQLApiClient)(nil).PatchGraphQLApi), varargs...)
 }
 
-// PatchGraphQLSchemaStatus mocks base method.
-func (m *MockGraphQLSchemaClient) PatchGraphQLSchemaStatus(ctx context.Context, obj *v1alpha1.GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error {
+// PatchGraphQLApiStatus mocks base method.
+func (m *MockGraphQLApiClient) PatchGraphQLApiStatus(ctx context.Context, obj *v1alpha1.GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "PatchGraphQLSchemaStatus", varargs...)
+	ret := m.ctrl.Call(m, "PatchGraphQLApiStatus", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// PatchGraphQLSchemaStatus indicates an expected call of PatchGraphQLSchemaStatus.
-func (mr *MockGraphQLSchemaClientMockRecorder) PatchGraphQLSchemaStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+// PatchGraphQLApiStatus indicates an expected call of PatchGraphQLApiStatus.
+func (mr *MockGraphQLApiClientMockRecorder) PatchGraphQLApiStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchGraphQLSchemaStatus", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).PatchGraphQLSchemaStatus), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchGraphQLApiStatus", reflect.TypeOf((*MockGraphQLApiClient)(nil).PatchGraphQLApiStatus), varargs...)
 }
 
-// UpdateGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaClient) UpdateGraphQLSchema(ctx context.Context, obj *v1alpha1.GraphQLSchema, opts ...client.UpdateOption) error {
+// UpdateGraphQLApi mocks base method.
+func (m *MockGraphQLApiClient) UpdateGraphQLApi(ctx context.Context, obj *v1alpha1.GraphQLApi, opts ...client.UpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "UpdateGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "UpdateGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UpdateGraphQLSchema indicates an expected call of UpdateGraphQLSchema.
-func (mr *MockGraphQLSchemaClientMockRecorder) UpdateGraphQLSchema(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+// UpdateGraphQLApi indicates an expected call of UpdateGraphQLApi.
+func (mr *MockGraphQLApiClientMockRecorder) UpdateGraphQLApi(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).UpdateGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLApi", reflect.TypeOf((*MockGraphQLApiClient)(nil).UpdateGraphQLApi), varargs...)
 }
 
-// UpdateGraphQLSchemaStatus mocks base method.
-func (m *MockGraphQLSchemaClient) UpdateGraphQLSchemaStatus(ctx context.Context, obj *v1alpha1.GraphQLSchema, opts ...client.UpdateOption) error {
+// UpdateGraphQLApiStatus mocks base method.
+func (m *MockGraphQLApiClient) UpdateGraphQLApiStatus(ctx context.Context, obj *v1alpha1.GraphQLApi, opts ...client.UpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "UpdateGraphQLSchemaStatus", varargs...)
+	ret := m.ctrl.Call(m, "UpdateGraphQLApiStatus", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UpdateGraphQLSchemaStatus indicates an expected call of UpdateGraphQLSchemaStatus.
-func (mr *MockGraphQLSchemaClientMockRecorder) UpdateGraphQLSchemaStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+// UpdateGraphQLApiStatus indicates an expected call of UpdateGraphQLApiStatus.
+func (mr *MockGraphQLApiClientMockRecorder) UpdateGraphQLApiStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLSchemaStatus", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).UpdateGraphQLSchemaStatus), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLApiStatus", reflect.TypeOf((*MockGraphQLApiClient)(nil).UpdateGraphQLApiStatus), varargs...)
 }
 
-// UpsertGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaClient) UpsertGraphQLSchema(ctx context.Context, obj *v1alpha1.GraphQLSchema, transitionFuncs ...v1alpha1.GraphQLSchemaTransitionFunction) error {
+// UpsertGraphQLApi mocks base method.
+func (m *MockGraphQLApiClient) UpsertGraphQLApi(ctx context.Context, obj *v1alpha1.GraphQLApi, transitionFuncs ...v1alpha1.GraphQLApiTransitionFunction) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range transitionFuncs {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "UpsertGraphQLSchema", varargs...)
+	ret := m.ctrl.Call(m, "UpsertGraphQLApi", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UpsertGraphQLSchema indicates an expected call of UpsertGraphQLSchema.
-func (mr *MockGraphQLSchemaClientMockRecorder) UpsertGraphQLSchema(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+// UpsertGraphQLApi indicates an expected call of UpsertGraphQLApi.
+func (mr *MockGraphQLApiClientMockRecorder) UpsertGraphQLApi(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaClient)(nil).UpsertGraphQLSchema), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertGraphQLApi", reflect.TypeOf((*MockGraphQLApiClient)(nil).UpsertGraphQLApi), varargs...)
 }
 
-// MockMulticlusterGraphQLSchemaClient is a mock of MulticlusterGraphQLSchemaClient interface.
-type MockMulticlusterGraphQLSchemaClient struct {
+// MockMulticlusterGraphQLApiClient is a mock of MulticlusterGraphQLApiClient interface.
+type MockMulticlusterGraphQLApiClient struct {
 	ctrl     *gomock.Controller
-	recorder *MockMulticlusterGraphQLSchemaClientMockRecorder
+	recorder *MockMulticlusterGraphQLApiClientMockRecorder
 }
 
-// MockMulticlusterGraphQLSchemaClientMockRecorder is the mock recorder for MockMulticlusterGraphQLSchemaClient.
-type MockMulticlusterGraphQLSchemaClientMockRecorder struct {
-	mock *MockMulticlusterGraphQLSchemaClient
+// MockMulticlusterGraphQLApiClientMockRecorder is the mock recorder for MockMulticlusterGraphQLApiClient.
+type MockMulticlusterGraphQLApiClientMockRecorder struct {
+	mock *MockMulticlusterGraphQLApiClient
 }
 
-// NewMockMulticlusterGraphQLSchemaClient creates a new mock instance.
-func NewMockMulticlusterGraphQLSchemaClient(ctrl *gomock.Controller) *MockMulticlusterGraphQLSchemaClient {
-	mock := &MockMulticlusterGraphQLSchemaClient{ctrl: ctrl}
-	mock.recorder = &MockMulticlusterGraphQLSchemaClientMockRecorder{mock}
+// NewMockMulticlusterGraphQLApiClient creates a new mock instance.
+func NewMockMulticlusterGraphQLApiClient(ctrl *gomock.Controller) *MockMulticlusterGraphQLApiClient {
+	mock := &MockMulticlusterGraphQLApiClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterGraphQLApiClientMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockMulticlusterGraphQLSchemaClient) EXPECT() *MockMulticlusterGraphQLSchemaClientMockRecorder {
+func (m *MockMulticlusterGraphQLApiClient) EXPECT() *MockMulticlusterGraphQLApiClientMockRecorder {
 	return m.recorder
 }
 
 // Cluster mocks base method.
-func (m *MockMulticlusterGraphQLSchemaClient) Cluster(cluster string) (v1alpha1.GraphQLSchemaClient, error) {
+func (m *MockMulticlusterGraphQLApiClient) Cluster(cluster string) (v1alpha1.GraphQLApiClient, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Cluster", cluster)
-	ret0, _ := ret[0].(v1alpha1.GraphQLSchemaClient)
+	ret0, _ := ret[0].(v1alpha1.GraphQLApiClient)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Cluster indicates an expected call of Cluster.
-func (mr *MockMulticlusterGraphQLSchemaClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
+func (mr *MockMulticlusterGraphQLApiClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterGraphQLSchemaClient)(nil).Cluster), cluster)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterGraphQLApiClient)(nil).Cluster), cluster)
 }

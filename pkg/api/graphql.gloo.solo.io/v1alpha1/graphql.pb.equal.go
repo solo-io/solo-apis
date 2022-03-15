@@ -404,14 +404,14 @@ func (m *Resolution) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *GraphQLSchemaSpec) Equal(that interface{}) bool {
+func (m *GraphQLApiSpec) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*GraphQLSchemaSpec)
+	target, ok := that.(*GraphQLApiSpec)
 	if !ok {
-		that2, ok := that.(GraphQLSchemaSpec)
+		that2, ok := that.(GraphQLApiSpec)
 		if ok {
 			target = &that2
 		} else {
@@ -593,14 +593,14 @@ func (m *Executor) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *GraphQLSchemaStatus) Equal(that interface{}) bool {
+func (m *GraphQLApiStatus) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*GraphQLSchemaStatus)
+	target, ok := that.(*GraphQLApiStatus)
 	if !ok {
-		that2, ok := that.(GraphQLSchemaStatus)
+		that2, ok := that.(GraphQLApiStatus)
 		if ok {
 			target = &that2
 		} else {
@@ -656,14 +656,14 @@ func (m *GraphQLSchemaStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *GraphQLSchemaNamespacedStatuses) Equal(that interface{}) bool {
+func (m *GraphQLApiNamespacedStatuses) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*GraphQLSchemaNamespacedStatuses)
+	target, ok := that.(*GraphQLApiNamespacedStatuses)
 	if !ok {
-		that2, ok := that.(GraphQLSchemaNamespacedStatuses)
+		that2, ok := that.(GraphQLApiNamespacedStatuses)
 		if ok {
 			target = &that2
 		} else {

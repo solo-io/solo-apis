@@ -13,36 +13,36 @@ import (
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
-// GroupVersionKind for GraphQLSchema
-var GraphQLSchemaGVK = schema.GroupVersionKind{
+// GroupVersionKind for GraphQLApi
+var GraphQLApiGVK = schema.GroupVersionKind{
 	Group:   "graphql.gloo.solo.io",
 	Version: "v1alpha1",
-	Kind:    "GraphQLSchema",
+	Kind:    "GraphQLApi",
 }
 
-// GraphQLSchema is the Schema for the graphQLSchema API
-type GraphQLSchema struct {
+// GraphQLApi is the Schema for the graphQLApi API
+type GraphQLApi struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   GraphQLSchemaSpec   `json:"spec,omitempty"`
-	Status GraphQLSchemaStatus `json:"status,omitempty"`
+	Spec   GraphQLApiSpec   `json:"spec,omitempty"`
+	Status GraphQLApiStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (GraphQLSchema) GVK() schema.GroupVersionKind {
-	return GraphQLSchemaGVK
+func (GraphQLApi) GVK() schema.GroupVersionKind {
+	return GraphQLApiGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// GraphQLSchemaList contains a list of GraphQLSchema
-type GraphQLSchemaList struct {
+// GraphQLApiList contains a list of GraphQLApi
+type GraphQLApiList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []GraphQLSchema `json:"items"`
+	Items           []GraphQLApi `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&GraphQLSchema{}, &GraphQLSchemaList{})
+	SchemeBuilder.Register(&GraphQLApi{}, &GraphQLApiList{})
 }

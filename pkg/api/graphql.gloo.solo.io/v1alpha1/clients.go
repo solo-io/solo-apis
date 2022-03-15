@@ -40,7 +40,7 @@ func (m *multiclusterClientset) Cluster(cluster string) (Clientset, error) {
 // clienset for the graphql.gloo.solo.io/v1alpha1 APIs
 type Clientset interface {
 	// clienset for the graphql.gloo.solo.io/v1alpha1/v1alpha1 APIs
-	GraphQLSchemas() GraphQLSchemaClient
+	GraphQLApis() GraphQLApiClient
 }
 
 type clientSet struct {
@@ -66,113 +66,113 @@ func NewClientset(client client.Client) Clientset {
 }
 
 // clienset for the graphql.gloo.solo.io/v1alpha1/v1alpha1 APIs
-func (c *clientSet) GraphQLSchemas() GraphQLSchemaClient {
-	return NewGraphQLSchemaClient(c.client)
+func (c *clientSet) GraphQLApis() GraphQLApiClient {
+	return NewGraphQLApiClient(c.client)
 }
 
-// Reader knows how to read and list GraphQLSchemas.
-type GraphQLSchemaReader interface {
-	// Get retrieves a GraphQLSchema for the given object key
-	GetGraphQLSchema(ctx context.Context, key client.ObjectKey) (*GraphQLSchema, error)
+// Reader knows how to read and list GraphQLApis.
+type GraphQLApiReader interface {
+	// Get retrieves a GraphQLApi for the given object key
+	GetGraphQLApi(ctx context.Context, key client.ObjectKey) (*GraphQLApi, error)
 
-	// List retrieves list of GraphQLSchemas for a given namespace and list options.
-	ListGraphQLSchema(ctx context.Context, opts ...client.ListOption) (*GraphQLSchemaList, error)
+	// List retrieves list of GraphQLApis for a given namespace and list options.
+	ListGraphQLApi(ctx context.Context, opts ...client.ListOption) (*GraphQLApiList, error)
 }
 
-// GraphQLSchemaTransitionFunction instructs the GraphQLSchemaWriter how to transition between an existing
-// GraphQLSchema object and a desired on an Upsert
-type GraphQLSchemaTransitionFunction func(existing, desired *GraphQLSchema) error
+// GraphQLApiTransitionFunction instructs the GraphQLApiWriter how to transition between an existing
+// GraphQLApi object and a desired on an Upsert
+type GraphQLApiTransitionFunction func(existing, desired *GraphQLApi) error
 
-// Writer knows how to create, delete, and update GraphQLSchemas.
-type GraphQLSchemaWriter interface {
-	// Create saves the GraphQLSchema object.
-	CreateGraphQLSchema(ctx context.Context, obj *GraphQLSchema, opts ...client.CreateOption) error
+// Writer knows how to create, delete, and update GraphQLApis.
+type GraphQLApiWriter interface {
+	// Create saves the GraphQLApi object.
+	CreateGraphQLApi(ctx context.Context, obj *GraphQLApi, opts ...client.CreateOption) error
 
-	// Delete deletes the GraphQLSchema object.
-	DeleteGraphQLSchema(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+	// Delete deletes the GraphQLApi object.
+	DeleteGraphQLApi(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
 
-	// Update updates the given GraphQLSchema object.
-	UpdateGraphQLSchema(ctx context.Context, obj *GraphQLSchema, opts ...client.UpdateOption) error
+	// Update updates the given GraphQLApi object.
+	UpdateGraphQLApi(ctx context.Context, obj *GraphQLApi, opts ...client.UpdateOption) error
 
-	// Patch patches the given GraphQLSchema object.
-	PatchGraphQLSchema(ctx context.Context, obj *GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error
+	// Patch patches the given GraphQLApi object.
+	PatchGraphQLApi(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.PatchOption) error
 
-	// DeleteAllOf deletes all GraphQLSchema objects matching the given options.
-	DeleteAllOfGraphQLSchema(ctx context.Context, opts ...client.DeleteAllOfOption) error
+	// DeleteAllOf deletes all GraphQLApi objects matching the given options.
+	DeleteAllOfGraphQLApi(ctx context.Context, opts ...client.DeleteAllOfOption) error
 
-	// Create or Update the GraphQLSchema object.
-	UpsertGraphQLSchema(ctx context.Context, obj *GraphQLSchema, transitionFuncs ...GraphQLSchemaTransitionFunction) error
+	// Create or Update the GraphQLApi object.
+	UpsertGraphQLApi(ctx context.Context, obj *GraphQLApi, transitionFuncs ...GraphQLApiTransitionFunction) error
 }
 
-// StatusWriter knows how to update status subresource of a GraphQLSchema object.
-type GraphQLSchemaStatusWriter interface {
+// StatusWriter knows how to update status subresource of a GraphQLApi object.
+type GraphQLApiStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
-	// given GraphQLSchema object.
-	UpdateGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, opts ...client.UpdateOption) error
+	// given GraphQLApi object.
+	UpdateGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, opts ...client.UpdateOption) error
 
-	// Patch patches the given GraphQLSchema object's subresource.
-	PatchGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error
+	// Patch patches the given GraphQLApi object's subresource.
+	PatchGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.PatchOption) error
 }
 
-// Client knows how to perform CRUD operations on GraphQLSchemas.
-type GraphQLSchemaClient interface {
-	GraphQLSchemaReader
-	GraphQLSchemaWriter
-	GraphQLSchemaStatusWriter
+// Client knows how to perform CRUD operations on GraphQLApis.
+type GraphQLApiClient interface {
+	GraphQLApiReader
+	GraphQLApiWriter
+	GraphQLApiStatusWriter
 }
 
-type graphQLSchemaClient struct {
+type graphQLApiClient struct {
 	client client.Client
 }
 
-func NewGraphQLSchemaClient(client client.Client) *graphQLSchemaClient {
-	return &graphQLSchemaClient{client: client}
+func NewGraphQLApiClient(client client.Client) *graphQLApiClient {
+	return &graphQLApiClient{client: client}
 }
 
-func (c *graphQLSchemaClient) GetGraphQLSchema(ctx context.Context, key client.ObjectKey) (*GraphQLSchema, error) {
-	obj := &GraphQLSchema{}
+func (c *graphQLApiClient) GetGraphQLApi(ctx context.Context, key client.ObjectKey) (*GraphQLApi, error) {
+	obj := &GraphQLApi{}
 	if err := c.client.Get(ctx, key, obj); err != nil {
 		return nil, err
 	}
 	return obj, nil
 }
 
-func (c *graphQLSchemaClient) ListGraphQLSchema(ctx context.Context, opts ...client.ListOption) (*GraphQLSchemaList, error) {
-	list := &GraphQLSchemaList{}
+func (c *graphQLApiClient) ListGraphQLApi(ctx context.Context, opts ...client.ListOption) (*GraphQLApiList, error) {
+	list := &GraphQLApiList{}
 	if err := c.client.List(ctx, list, opts...); err != nil {
 		return nil, err
 	}
 	return list, nil
 }
 
-func (c *graphQLSchemaClient) CreateGraphQLSchema(ctx context.Context, obj *GraphQLSchema, opts ...client.CreateOption) error {
+func (c *graphQLApiClient) CreateGraphQLApi(ctx context.Context, obj *GraphQLApi, opts ...client.CreateOption) error {
 	return c.client.Create(ctx, obj, opts...)
 }
 
-func (c *graphQLSchemaClient) DeleteGraphQLSchema(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	obj := &GraphQLSchema{}
+func (c *graphQLApiClient) DeleteGraphQLApi(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &GraphQLApi{}
 	obj.SetName(key.Name)
 	obj.SetNamespace(key.Namespace)
 	return c.client.Delete(ctx, obj, opts...)
 }
 
-func (c *graphQLSchemaClient) UpdateGraphQLSchema(ctx context.Context, obj *GraphQLSchema, opts ...client.UpdateOption) error {
+func (c *graphQLApiClient) UpdateGraphQLApi(ctx context.Context, obj *GraphQLApi, opts ...client.UpdateOption) error {
 	return c.client.Update(ctx, obj, opts...)
 }
 
-func (c *graphQLSchemaClient) PatchGraphQLSchema(ctx context.Context, obj *GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error {
+func (c *graphQLApiClient) PatchGraphQLApi(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
 	return c.client.Patch(ctx, obj, patch, opts...)
 }
 
-func (c *graphQLSchemaClient) DeleteAllOfGraphQLSchema(ctx context.Context, opts ...client.DeleteAllOfOption) error {
-	obj := &GraphQLSchema{}
+func (c *graphQLApiClient) DeleteAllOfGraphQLApi(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &GraphQLApi{}
 	return c.client.DeleteAllOf(ctx, obj, opts...)
 }
 
-func (c *graphQLSchemaClient) UpsertGraphQLSchema(ctx context.Context, obj *GraphQLSchema, transitionFuncs ...GraphQLSchemaTransitionFunction) error {
+func (c *graphQLApiClient) UpsertGraphQLApi(ctx context.Context, obj *GraphQLApi, transitionFuncs ...GraphQLApiTransitionFunction) error {
 	genericTxFunc := func(existing, desired runtime.Object) error {
 		for _, txFunc := range transitionFuncs {
-			if err := txFunc(existing.(*GraphQLSchema), desired.(*GraphQLSchema)); err != nil {
+			if err := txFunc(existing.(*GraphQLApi), desired.(*GraphQLApi)); err != nil {
 				return err
 			}
 		}
@@ -182,32 +182,32 @@ func (c *graphQLSchemaClient) UpsertGraphQLSchema(ctx context.Context, obj *Grap
 	return err
 }
 
-func (c *graphQLSchemaClient) UpdateGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, opts ...client.UpdateOption) error {
+func (c *graphQLApiClient) UpdateGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, opts ...client.UpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *graphQLSchemaClient) PatchGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error {
+func (c *graphQLApiClient) PatchGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
-// Provides GraphQLSchemaClients for multiple clusters.
-type MulticlusterGraphQLSchemaClient interface {
-	// Cluster returns a GraphQLSchemaClient for the given cluster
-	Cluster(cluster string) (GraphQLSchemaClient, error)
+// Provides GraphQLApiClients for multiple clusters.
+type MulticlusterGraphQLApiClient interface {
+	// Cluster returns a GraphQLApiClient for the given cluster
+	Cluster(cluster string) (GraphQLApiClient, error)
 }
 
-type multiclusterGraphQLSchemaClient struct {
+type multiclusterGraphQLApiClient struct {
 	client multicluster.Client
 }
 
-func NewMulticlusterGraphQLSchemaClient(client multicluster.Client) MulticlusterGraphQLSchemaClient {
-	return &multiclusterGraphQLSchemaClient{client: client}
+func NewMulticlusterGraphQLApiClient(client multicluster.Client) MulticlusterGraphQLApiClient {
+	return &multiclusterGraphQLApiClient{client: client}
 }
 
-func (m *multiclusterGraphQLSchemaClient) Cluster(cluster string) (GraphQLSchemaClient, error) {
+func (m *multiclusterGraphQLApiClient) Cluster(cluster string) (GraphQLApiClient, error) {
 	client, err := m.client.Cluster(cluster)
 	if err != nil {
 		return nil, err
 	}
-	return NewGraphQLSchemaClient(client), nil
+	return NewGraphQLApiClient(client), nil
 }

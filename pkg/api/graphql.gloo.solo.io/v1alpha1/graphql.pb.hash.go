@@ -474,7 +474,7 @@ func (m *Resolution) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *GraphQLSchemaSpec) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *GraphQLApiSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -482,7 +482,7 @@ func (m *GraphQLSchemaSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("graphql.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1.GraphQLSchemaSpec")); err != nil {
+	if _, err = hasher.Write([]byte("graphql.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1.GraphQLApiSpec")); err != nil {
 		return 0, err
 	}
 
@@ -681,7 +681,7 @@ func (m *Executor) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *GraphQLSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *GraphQLApiStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -689,7 +689,7 @@ func (m *GraphQLSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("graphql.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1.GraphQLSchemaStatus")); err != nil {
+	if _, err = hasher.Write([]byte("graphql.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1.GraphQLApiStatus")); err != nil {
 		return 0, err
 	}
 
@@ -769,7 +769,7 @@ func (m *GraphQLSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *GraphQLSchemaNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *GraphQLApiNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -777,7 +777,7 @@ func (m *GraphQLSchemaNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, erro
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("graphql.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1.GraphQLSchemaNamespacedStatuses")); err != nil {
+	if _, err = hasher.Write([]byte("graphql.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1.GraphQLApiNamespacedStatuses")); err != nil {
 		return 0, err
 	}
 

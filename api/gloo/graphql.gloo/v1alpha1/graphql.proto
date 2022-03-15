@@ -197,7 +197,7 @@ message Resolution {
 // Note: while users can provide this configuration manually, the eventual UX will
 // be to generate the Executable Schema CRs from other sources and just have users
 // configure the routes to point to these schema CRs.
-message GraphQLSchemaSpec {
+message GraphQLApiSpec {
 
 
 
@@ -205,7 +205,7 @@ message GraphQLSchemaSpec {
   ExecutableSchema executable_schema = 6;
 
   // The stats prefix which will be used for this route config.
-  // If empty, will generate a stats prefix ${GRAPHQLSCHEMA_REF}
+  // If empty, will generate a stats prefix ${GRAPHQLAPI_REF}
   google.protobuf.StringValue stat_prefix = 3;
 
   // Configuration settings for persisted query cache
@@ -290,7 +290,7 @@ message Executor {
   }
 }
 
-message GraphQLSchemaStatus {
+message GraphQLApiStatus {
 	enum State {
 			// Pending status indicates the resource has not yet been validated
 			Pending = 0;
@@ -310,7 +310,7 @@ message GraphQLSchemaStatus {
 	// Reference to the reporter who wrote this status
 	string reported_by = 3;
 	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
-	map<string, GraphQLSchemaStatus> subresource_statuses = 4;
+	map<string, GraphQLApiStatus> subresource_statuses = 4;
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
@@ -318,6 +318,6 @@ message GraphQLSchemaStatus {
 
 
 
-message GraphQLSchemaNamespacedStatuses {
-	map<string, GraphQLSchemaStatus> statuses = 1;
+message GraphQLApiNamespacedStatuses {
+	map<string, GraphQLApiStatus> statuses = 1;
 }

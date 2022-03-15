@@ -17,30 +17,30 @@ import (
   See package `github.com/solo-io/skv2/pkg/multicluster/register` for example
 */
 
-// Provider for GraphQLSchemaClient from Clientset
-func GraphQLSchemaClientFromClientsetProvider(clients graphql_gloo_solo_io_v1alpha1.Clientset) graphql_gloo_solo_io_v1alpha1.GraphQLSchemaClient {
-	return clients.GraphQLSchemas()
+// Provider for GraphQLApiClient from Clientset
+func GraphQLApiClientFromClientsetProvider(clients graphql_gloo_solo_io_v1alpha1.Clientset) graphql_gloo_solo_io_v1alpha1.GraphQLApiClient {
+	return clients.GraphQLApis()
 }
 
-// Provider for GraphQLSchema Client from Client
-func GraphQLSchemaClientProvider(client client.Client) graphql_gloo_solo_io_v1alpha1.GraphQLSchemaClient {
-	return graphql_gloo_solo_io_v1alpha1.NewGraphQLSchemaClient(client)
+// Provider for GraphQLApi Client from Client
+func GraphQLApiClientProvider(client client.Client) graphql_gloo_solo_io_v1alpha1.GraphQLApiClient {
+	return graphql_gloo_solo_io_v1alpha1.NewGraphQLApiClient(client)
 }
 
-type GraphQLSchemaClientFactory func(client client.Client) graphql_gloo_solo_io_v1alpha1.GraphQLSchemaClient
+type GraphQLApiClientFactory func(client client.Client) graphql_gloo_solo_io_v1alpha1.GraphQLApiClient
 
-func GraphQLSchemaClientFactoryProvider() GraphQLSchemaClientFactory {
-	return GraphQLSchemaClientProvider
+func GraphQLApiClientFactoryProvider() GraphQLApiClientFactory {
+	return GraphQLApiClientProvider
 }
 
-type GraphQLSchemaClientFromConfigFactory func(cfg *rest.Config) (graphql_gloo_solo_io_v1alpha1.GraphQLSchemaClient, error)
+type GraphQLApiClientFromConfigFactory func(cfg *rest.Config) (graphql_gloo_solo_io_v1alpha1.GraphQLApiClient, error)
 
-func GraphQLSchemaClientFromConfigFactoryProvider() GraphQLSchemaClientFromConfigFactory {
-	return func(cfg *rest.Config) (graphql_gloo_solo_io_v1alpha1.GraphQLSchemaClient, error) {
+func GraphQLApiClientFromConfigFactoryProvider() GraphQLApiClientFromConfigFactory {
+	return func(cfg *rest.Config) (graphql_gloo_solo_io_v1alpha1.GraphQLApiClient, error) {
 		clients, err := graphql_gloo_solo_io_v1alpha1.NewClientsetFromConfig(cfg)
 		if err != nil {
 			return nil, err
 		}
-		return clients.GraphQLSchemas(), nil
+		return clients.GraphQLApis(), nil
 	}
 }

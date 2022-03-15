@@ -35,7 +35,7 @@ func GlooGroups() []model.Group {
 		}, GlooCustomTemplates),
 		makeGroup("graphql.gloo", "v1alpha1", []resourceToGenerate{
 			{
-				kind:         "GraphQLSchema",
+				kind:         "GraphQLApi",
 				protoPackage: "graphql.gloo.solo.io",
 				goPackage:    "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/graphql/v1alpha1",
 			},

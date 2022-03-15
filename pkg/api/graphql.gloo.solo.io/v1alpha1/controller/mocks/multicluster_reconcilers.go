@@ -15,117 +15,117 @@ import (
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
-// MockMulticlusterGraphQLSchemaReconciler is a mock of MulticlusterGraphQLSchemaReconciler interface.
-type MockMulticlusterGraphQLSchemaReconciler struct {
+// MockMulticlusterGraphQLApiReconciler is a mock of MulticlusterGraphQLApiReconciler interface.
+type MockMulticlusterGraphQLApiReconciler struct {
 	ctrl     *gomock.Controller
-	recorder *MockMulticlusterGraphQLSchemaReconcilerMockRecorder
+	recorder *MockMulticlusterGraphQLApiReconcilerMockRecorder
 }
 
-// MockMulticlusterGraphQLSchemaReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLSchemaReconciler.
-type MockMulticlusterGraphQLSchemaReconcilerMockRecorder struct {
-	mock *MockMulticlusterGraphQLSchemaReconciler
+// MockMulticlusterGraphQLApiReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLApiReconciler.
+type MockMulticlusterGraphQLApiReconcilerMockRecorder struct {
+	mock *MockMulticlusterGraphQLApiReconciler
 }
 
-// NewMockMulticlusterGraphQLSchemaReconciler creates a new mock instance.
-func NewMockMulticlusterGraphQLSchemaReconciler(ctrl *gomock.Controller) *MockMulticlusterGraphQLSchemaReconciler {
-	mock := &MockMulticlusterGraphQLSchemaReconciler{ctrl: ctrl}
-	mock.recorder = &MockMulticlusterGraphQLSchemaReconcilerMockRecorder{mock}
+// NewMockMulticlusterGraphQLApiReconciler creates a new mock instance.
+func NewMockMulticlusterGraphQLApiReconciler(ctrl *gomock.Controller) *MockMulticlusterGraphQLApiReconciler {
+	mock := &MockMulticlusterGraphQLApiReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterGraphQLApiReconcilerMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockMulticlusterGraphQLSchemaReconciler) EXPECT() *MockMulticlusterGraphQLSchemaReconcilerMockRecorder {
+func (m *MockMulticlusterGraphQLApiReconciler) EXPECT() *MockMulticlusterGraphQLApiReconcilerMockRecorder {
 	return m.recorder
 }
 
-// ReconcileGraphQLSchema mocks base method.
-func (m *MockMulticlusterGraphQLSchemaReconciler) ReconcileGraphQLSchema(clusterName string, obj *v1alpha1.GraphQLSchema) (reconcile.Result, error) {
+// ReconcileGraphQLApi mocks base method.
+func (m *MockMulticlusterGraphQLApiReconciler) ReconcileGraphQLApi(clusterName string, obj *v1alpha1.GraphQLApi) (reconcile.Result, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReconcileGraphQLSchema", clusterName, obj)
+	ret := m.ctrl.Call(m, "ReconcileGraphQLApi", clusterName, obj)
 	ret0, _ := ret[0].(reconcile.Result)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ReconcileGraphQLSchema indicates an expected call of ReconcileGraphQLSchema.
-func (mr *MockMulticlusterGraphQLSchemaReconcilerMockRecorder) ReconcileGraphQLSchema(clusterName, obj interface{}) *gomock.Call {
+// ReconcileGraphQLApi indicates an expected call of ReconcileGraphQLApi.
+func (mr *MockMulticlusterGraphQLApiReconcilerMockRecorder) ReconcileGraphQLApi(clusterName, obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileGraphQLSchema", reflect.TypeOf((*MockMulticlusterGraphQLSchemaReconciler)(nil).ReconcileGraphQLSchema), clusterName, obj)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileGraphQLApi", reflect.TypeOf((*MockMulticlusterGraphQLApiReconciler)(nil).ReconcileGraphQLApi), clusterName, obj)
 }
 
-// MockMulticlusterGraphQLSchemaDeletionReconciler is a mock of MulticlusterGraphQLSchemaDeletionReconciler interface.
-type MockMulticlusterGraphQLSchemaDeletionReconciler struct {
+// MockMulticlusterGraphQLApiDeletionReconciler is a mock of MulticlusterGraphQLApiDeletionReconciler interface.
+type MockMulticlusterGraphQLApiDeletionReconciler struct {
 	ctrl     *gomock.Controller
-	recorder *MockMulticlusterGraphQLSchemaDeletionReconcilerMockRecorder
+	recorder *MockMulticlusterGraphQLApiDeletionReconcilerMockRecorder
 }
 
-// MockMulticlusterGraphQLSchemaDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLSchemaDeletionReconciler.
-type MockMulticlusterGraphQLSchemaDeletionReconcilerMockRecorder struct {
-	mock *MockMulticlusterGraphQLSchemaDeletionReconciler
+// MockMulticlusterGraphQLApiDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLApiDeletionReconciler.
+type MockMulticlusterGraphQLApiDeletionReconcilerMockRecorder struct {
+	mock *MockMulticlusterGraphQLApiDeletionReconciler
 }
 
-// NewMockMulticlusterGraphQLSchemaDeletionReconciler creates a new mock instance.
-func NewMockMulticlusterGraphQLSchemaDeletionReconciler(ctrl *gomock.Controller) *MockMulticlusterGraphQLSchemaDeletionReconciler {
-	mock := &MockMulticlusterGraphQLSchemaDeletionReconciler{ctrl: ctrl}
-	mock.recorder = &MockMulticlusterGraphQLSchemaDeletionReconcilerMockRecorder{mock}
+// NewMockMulticlusterGraphQLApiDeletionReconciler creates a new mock instance.
+func NewMockMulticlusterGraphQLApiDeletionReconciler(ctrl *gomock.Controller) *MockMulticlusterGraphQLApiDeletionReconciler {
+	mock := &MockMulticlusterGraphQLApiDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterGraphQLApiDeletionReconcilerMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockMulticlusterGraphQLSchemaDeletionReconciler) EXPECT() *MockMulticlusterGraphQLSchemaDeletionReconcilerMockRecorder {
+func (m *MockMulticlusterGraphQLApiDeletionReconciler) EXPECT() *MockMulticlusterGraphQLApiDeletionReconcilerMockRecorder {
 	return m.recorder
 }
 
-// ReconcileGraphQLSchemaDeletion mocks base method.
-func (m *MockMulticlusterGraphQLSchemaDeletionReconciler) ReconcileGraphQLSchemaDeletion(clusterName string, req reconcile.Request) error {
+// ReconcileGraphQLApiDeletion mocks base method.
+func (m *MockMulticlusterGraphQLApiDeletionReconciler) ReconcileGraphQLApiDeletion(clusterName string, req reconcile.Request) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReconcileGraphQLSchemaDeletion", clusterName, req)
+	ret := m.ctrl.Call(m, "ReconcileGraphQLApiDeletion", clusterName, req)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// ReconcileGraphQLSchemaDeletion indicates an expected call of ReconcileGraphQLSchemaDeletion.
-func (mr *MockMulticlusterGraphQLSchemaDeletionReconcilerMockRecorder) ReconcileGraphQLSchemaDeletion(clusterName, req interface{}) *gomock.Call {
+// ReconcileGraphQLApiDeletion indicates an expected call of ReconcileGraphQLApiDeletion.
+func (mr *MockMulticlusterGraphQLApiDeletionReconcilerMockRecorder) ReconcileGraphQLApiDeletion(clusterName, req interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileGraphQLSchemaDeletion", reflect.TypeOf((*MockMulticlusterGraphQLSchemaDeletionReconciler)(nil).ReconcileGraphQLSchemaDeletion), clusterName, req)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileGraphQLApiDeletion", reflect.TypeOf((*MockMulticlusterGraphQLApiDeletionReconciler)(nil).ReconcileGraphQLApiDeletion), clusterName, req)
 }
 
-// MockMulticlusterGraphQLSchemaReconcileLoop is a mock of MulticlusterGraphQLSchemaReconcileLoop interface.
-type MockMulticlusterGraphQLSchemaReconcileLoop struct {
+// MockMulticlusterGraphQLApiReconcileLoop is a mock of MulticlusterGraphQLApiReconcileLoop interface.
+type MockMulticlusterGraphQLApiReconcileLoop struct {
 	ctrl     *gomock.Controller
-	recorder *MockMulticlusterGraphQLSchemaReconcileLoopMockRecorder
+	recorder *MockMulticlusterGraphQLApiReconcileLoopMockRecorder
 }
 
-// MockMulticlusterGraphQLSchemaReconcileLoopMockRecorder is the mock recorder for MockMulticlusterGraphQLSchemaReconcileLoop.
-type MockMulticlusterGraphQLSchemaReconcileLoopMockRecorder struct {
-	mock *MockMulticlusterGraphQLSchemaReconcileLoop
+// MockMulticlusterGraphQLApiReconcileLoopMockRecorder is the mock recorder for MockMulticlusterGraphQLApiReconcileLoop.
+type MockMulticlusterGraphQLApiReconcileLoopMockRecorder struct {
+	mock *MockMulticlusterGraphQLApiReconcileLoop
 }
 
-// NewMockMulticlusterGraphQLSchemaReconcileLoop creates a new mock instance.
-func NewMockMulticlusterGraphQLSchemaReconcileLoop(ctrl *gomock.Controller) *MockMulticlusterGraphQLSchemaReconcileLoop {
-	mock := &MockMulticlusterGraphQLSchemaReconcileLoop{ctrl: ctrl}
-	mock.recorder = &MockMulticlusterGraphQLSchemaReconcileLoopMockRecorder{mock}
+// NewMockMulticlusterGraphQLApiReconcileLoop creates a new mock instance.
+func NewMockMulticlusterGraphQLApiReconcileLoop(ctrl *gomock.Controller) *MockMulticlusterGraphQLApiReconcileLoop {
+	mock := &MockMulticlusterGraphQLApiReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterGraphQLApiReconcileLoopMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockMulticlusterGraphQLSchemaReconcileLoop) EXPECT() *MockMulticlusterGraphQLSchemaReconcileLoopMockRecorder {
+func (m *MockMulticlusterGraphQLApiReconcileLoop) EXPECT() *MockMulticlusterGraphQLApiReconcileLoopMockRecorder {
 	return m.recorder
 }
 
-// AddMulticlusterGraphQLSchemaReconciler mocks base method.
-func (m *MockMulticlusterGraphQLSchemaReconcileLoop) AddMulticlusterGraphQLSchemaReconciler(ctx context.Context, rec controller.MulticlusterGraphQLSchemaReconciler, predicates ...predicate.Predicate) {
+// AddMulticlusterGraphQLApiReconciler mocks base method.
+func (m *MockMulticlusterGraphQLApiReconcileLoop) AddMulticlusterGraphQLApiReconciler(ctx context.Context, rec controller.MulticlusterGraphQLApiReconciler, predicates ...predicate.Predicate) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, rec}
 	for _, a := range predicates {
 		varargs = append(varargs, a)
 	}
-	m.ctrl.Call(m, "AddMulticlusterGraphQLSchemaReconciler", varargs...)
+	m.ctrl.Call(m, "AddMulticlusterGraphQLApiReconciler", varargs...)
 }
 
-// AddMulticlusterGraphQLSchemaReconciler indicates an expected call of AddMulticlusterGraphQLSchemaReconciler.
-func (mr *MockMulticlusterGraphQLSchemaReconcileLoopMockRecorder) AddMulticlusterGraphQLSchemaReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+// AddMulticlusterGraphQLApiReconciler indicates an expected call of AddMulticlusterGraphQLApiReconciler.
+func (mr *MockMulticlusterGraphQLApiReconcileLoopMockRecorder) AddMulticlusterGraphQLApiReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, rec}, predicates...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterGraphQLSchemaReconciler", reflect.TypeOf((*MockMulticlusterGraphQLSchemaReconcileLoop)(nil).AddMulticlusterGraphQLSchemaReconciler), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterGraphQLApiReconciler", reflect.TypeOf((*MockMulticlusterGraphQLApiReconcileLoop)(nil).AddMulticlusterGraphQLApiReconciler), varargs...)
 }

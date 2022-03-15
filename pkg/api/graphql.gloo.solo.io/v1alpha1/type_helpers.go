@@ -3,5 +3,5 @@
 // Definitions for the Kubernetes types
 package v1alpha1
 
-// GraphQLSchemaSlice represents a slice of *GraphQLSchema
-type GraphQLSchemaSlice []*GraphQLSchema
+// GraphQLApiSlice represents a slice of *GraphQLApi
+type GraphQLApiSlice []*GraphQLApi

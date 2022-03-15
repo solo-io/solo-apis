@@ -255,12 +255,12 @@ func (m *Resolution) Clone() proto.Message {
 }
 
 // Clone function
-func (m *GraphQLSchemaSpec) Clone() proto.Message {
-	var target *GraphQLSchemaSpec
+func (m *GraphQLApiSpec) Clone() proto.Message {
+	var target *GraphQLApiSpec
 	if m == nil {
 		return target
 	}
-	target = &GraphQLSchemaSpec{}
+	target = &GraphQLApiSpec{}
 
 	if h, ok := interface{}(m.GetExecutableSchema()).(clone.Cloner); ok {
 		target.ExecutableSchema = h.Clone().(*ExecutableSchema)
@@ -358,12 +358,12 @@ func (m *Executor) Clone() proto.Message {
 }
 
 // Clone function
-func (m *GraphQLSchemaStatus) Clone() proto.Message {
-	var target *GraphQLSchemaStatus
+func (m *GraphQLApiStatus) Clone() proto.Message {
+	var target *GraphQLApiStatus
 	if m == nil {
 		return target
 	}
-	target = &GraphQLSchemaStatus{}
+	target = &GraphQLApiStatus{}
 
 	target.State = m.GetState()
 
@@ -372,13 +372,13 @@ func (m *GraphQLSchemaStatus) Clone() proto.Message {
 	target.ReportedBy = m.GetReportedBy()
 
 	if m.GetSubresourceStatuses() != nil {
-		target.SubresourceStatuses = make(map[string]*GraphQLSchemaStatus, len(m.GetSubresourceStatuses()))
+		target.SubresourceStatuses = make(map[string]*GraphQLApiStatus, len(m.GetSubresourceStatuses()))
 		for k, v := range m.GetSubresourceStatuses() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.SubresourceStatuses[k] = h.Clone().(*GraphQLSchemaStatus)
+				target.SubresourceStatuses[k] = h.Clone().(*GraphQLApiStatus)
 			} else {
-				target.SubresourceStatuses[k] = proto.Clone(v).(*GraphQLSchemaStatus)
+				target.SubresourceStatuses[k] = proto.Clone(v).(*GraphQLApiStatus)
 			}
 
 		}
@@ -394,21 +394,21 @@ func (m *GraphQLSchemaStatus) Clone() proto.Message {
 }
 
 // Clone function
-func (m *GraphQLSchemaNamespacedStatuses) Clone() proto.Message {
-	var target *GraphQLSchemaNamespacedStatuses
+func (m *GraphQLApiNamespacedStatuses) Clone() proto.Message {
+	var target *GraphQLApiNamespacedStatuses
 	if m == nil {
 		return target
 	}
-	target = &GraphQLSchemaNamespacedStatuses{}
+	target = &GraphQLApiNamespacedStatuses{}
 
 	if m.GetStatuses() != nil {
-		target.Statuses = make(map[string]*GraphQLSchemaStatus, len(m.GetStatuses()))
+		target.Statuses = make(map[string]*GraphQLApiStatus, len(m.GetStatuses()))
 		for k, v := range m.GetStatuses() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Statuses[k] = h.Clone().(*GraphQLSchemaStatus)
+				target.Statuses[k] = h.Clone().(*GraphQLApiStatus)
 			} else {
-				target.Statuses[k] = proto.Clone(v).(*GraphQLSchemaStatus)
+				target.Statuses[k] = proto.Clone(v).(*GraphQLApiStatus)
 			}
 
 		}

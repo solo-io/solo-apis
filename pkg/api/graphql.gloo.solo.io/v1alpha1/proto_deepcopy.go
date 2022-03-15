@@ -9,24 +9,24 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 )
 
-// DeepCopyInto for the GraphQLSchema.Spec
-func (in *GraphQLSchemaSpec) DeepCopyInto(out *GraphQLSchemaSpec) {
-	var p *GraphQLSchemaSpec
+// DeepCopyInto for the GraphQLApi.Spec
+func (in *GraphQLApiSpec) DeepCopyInto(out *GraphQLApiSpec) {
+	var p *GraphQLApiSpec
 	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*GraphQLSchemaSpec)
+		p = h.Clone().(*GraphQLApiSpec)
 	} else {
-		p = proto.Clone(in).(*GraphQLSchemaSpec)
+		p = proto.Clone(in).(*GraphQLApiSpec)
 	}
 	*out = *p
 }
 
-// DeepCopyInto for the GraphQLSchema.Status
-func (in *GraphQLSchemaStatus) DeepCopyInto(out *GraphQLSchemaStatus) {
-	var p *GraphQLSchemaStatus
+// DeepCopyInto for the GraphQLApi.Status
+func (in *GraphQLApiStatus) DeepCopyInto(out *GraphQLApiStatus) {
+	var p *GraphQLApiStatus
 	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*GraphQLSchemaStatus)
+		p = h.Clone().(*GraphQLApiStatus)
 	} else {
-		p = proto.Clone(in).(*GraphQLSchemaStatus)
+		p = proto.Clone(in).(*GraphQLApiStatus)
 	}
 	*out = *p
 }
