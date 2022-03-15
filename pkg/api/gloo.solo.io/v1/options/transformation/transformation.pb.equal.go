@@ -316,6 +316,9 @@ func (m *Transformation) Equal(that interface{}) bool {
 	switch m.TransformationType.(type) {
 
 	case *Transformation_TransformationTemplate:
+		if _, ok := target.TransformationType.(*Transformation_TransformationTemplate); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetTransformationTemplate()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetTransformationTemplate()) {
@@ -328,6 +331,9 @@ func (m *Transformation) Equal(that interface{}) bool {
 		}
 
 	case *Transformation_HeaderBodyTransform:
+		if _, ok := target.TransformationType.(*Transformation_HeaderBodyTransform); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetHeaderBodyTransform()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetHeaderBodyTransform()) {
@@ -340,6 +346,9 @@ func (m *Transformation) Equal(that interface{}) bool {
 		}
 
 	case *Transformation_XsltTransformation:
+		if _, ok := target.TransformationType.(*Transformation_XsltTransformation); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetXsltTransformation()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetXsltTransformation()) {
@@ -351,6 +360,11 @@ func (m *Transformation) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.TransformationType != target.TransformationType {
+			return false
+		}
 	}
 
 	return true

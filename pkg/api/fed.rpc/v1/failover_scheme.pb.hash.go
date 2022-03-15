@@ -39,42 +39,60 @@ func (m *FailoverScheme) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetMetadata()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Metadata")); err != nil {
+			return 0, err
+		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if val, err := hashstructure.Hash(m.GetMetadata(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetMetadata(), nil); err != nil {
 			return 0, err
 		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+			if _, err = hasher.Write([]byte("Metadata")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetSpec()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Spec")); err != nil {
+			return 0, err
+		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if val, err := hashstructure.Hash(m.GetSpec(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetSpec(), nil); err != nil {
 			return 0, err
 		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+			if _, err = hasher.Write([]byte("Spec")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetStatus()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Status")); err != nil {
+			return 0, err
+		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if val, err := hashstructure.Hash(m.GetStatus(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetStatus(), nil); err != nil {
 			return 0, err
 		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+			if _, err = hasher.Write([]byte("Status")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
@@ -97,14 +115,20 @@ func (m *GetFailoverSchemeRequest) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetUpstreamRef()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("UpstreamRef")); err != nil {
+			return 0, err
+		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if val, err := hashstructure.Hash(m.GetUpstreamRef(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetUpstreamRef(), nil); err != nil {
 			return 0, err
 		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+			if _, err = hasher.Write([]byte("UpstreamRef")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
@@ -127,14 +151,20 @@ func (m *GetFailoverSchemeResponse) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetFailoverScheme()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("FailoverScheme")); err != nil {
+			return 0, err
+		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if val, err := hashstructure.Hash(m.GetFailoverScheme(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetFailoverScheme(), nil); err != nil {
 			return 0, err
 		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+			if _, err = hasher.Write([]byte("FailoverScheme")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
@@ -157,14 +187,20 @@ func (m *GetFailoverSchemeYamlRequest) Hash(hasher hash.Hash64) (uint64, error) 
 	}
 
 	if h, ok := interface{}(m.GetFailoverSchemeRef()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("FailoverSchemeRef")); err != nil {
+			return 0, err
+		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if val, err := hashstructure.Hash(m.GetFailoverSchemeRef(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetFailoverSchemeRef(), nil); err != nil {
 			return 0, err
 		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+			if _, err = hasher.Write([]byte("FailoverSchemeRef")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
@@ -187,14 +223,20 @@ func (m *GetFailoverSchemeYamlResponse) Hash(hasher hash.Hash64) (uint64, error)
 	}
 
 	if h, ok := interface{}(m.GetYamlData()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("YamlData")); err != nil {
+			return 0, err
+		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if val, err := hashstructure.Hash(m.GetYamlData(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetYamlData(), nil); err != nil {
 			return 0, err
 		} else {
-			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
+			if _, err = hasher.Write([]byte("YamlData")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}

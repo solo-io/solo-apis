@@ -186,6 +186,9 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 	switch m.UpstreamType.(type) {
 
 	case *UpstreamSpec_Kube:
+		if _, ok := target.UpstreamType.(*UpstreamSpec_Kube); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetKube()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetKube()) {
@@ -198,6 +201,9 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 
 	case *UpstreamSpec_Static:
+		if _, ok := target.UpstreamType.(*UpstreamSpec_Static); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetStatic()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetStatic()) {
@@ -210,6 +216,9 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 
 	case *UpstreamSpec_Pipe:
+		if _, ok := target.UpstreamType.(*UpstreamSpec_Pipe); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetPipe()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetPipe()) {
@@ -222,6 +231,9 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 
 	case *UpstreamSpec_Aws:
+		if _, ok := target.UpstreamType.(*UpstreamSpec_Aws); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetAws()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetAws()) {
@@ -234,6 +246,9 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 
 	case *UpstreamSpec_Azure:
+		if _, ok := target.UpstreamType.(*UpstreamSpec_Azure); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetAzure()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetAzure()) {
@@ -246,6 +261,9 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 
 	case *UpstreamSpec_Consul:
+		if _, ok := target.UpstreamType.(*UpstreamSpec_Consul); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetConsul()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetConsul()) {
@@ -258,6 +276,9 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 
 	case *UpstreamSpec_AwsEc2:
+		if _, ok := target.UpstreamType.(*UpstreamSpec_AwsEc2); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetAwsEc2()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetAwsEc2()) {
@@ -269,6 +290,11 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.UpstreamType != target.UpstreamType {
+			return false
+		}
 	}
 
 	return true
