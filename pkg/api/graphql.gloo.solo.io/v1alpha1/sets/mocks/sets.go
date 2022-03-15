@@ -15,57 +15,57 @@ import (
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
 )
 
-// MockGraphQLSchemaSet is a mock of GraphQLSchemaSet interface.
-type MockGraphQLSchemaSet struct {
+// MockGraphQLApiSet is a mock of GraphQLApiSet interface.
+type MockGraphQLApiSet struct {
 	ctrl     *gomock.Controller
-	recorder *MockGraphQLSchemaSetMockRecorder
+	recorder *MockGraphQLApiSetMockRecorder
 }
 
-// MockGraphQLSchemaSetMockRecorder is the mock recorder for MockGraphQLSchemaSet.
-type MockGraphQLSchemaSetMockRecorder struct {
-	mock *MockGraphQLSchemaSet
+// MockGraphQLApiSetMockRecorder is the mock recorder for MockGraphQLApiSet.
+type MockGraphQLApiSetMockRecorder struct {
+	mock *MockGraphQLApiSet
 }
 
-// NewMockGraphQLSchemaSet creates a new mock instance.
-func NewMockGraphQLSchemaSet(ctrl *gomock.Controller) *MockGraphQLSchemaSet {
-	mock := &MockGraphQLSchemaSet{ctrl: ctrl}
-	mock.recorder = &MockGraphQLSchemaSetMockRecorder{mock}
+// NewMockGraphQLApiSet creates a new mock instance.
+func NewMockGraphQLApiSet(ctrl *gomock.Controller) *MockGraphQLApiSet {
+	mock := &MockGraphQLApiSet{ctrl: ctrl}
+	mock.recorder = &MockGraphQLApiSetMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockGraphQLSchemaSet) EXPECT() *MockGraphQLSchemaSetMockRecorder {
+func (m *MockGraphQLApiSet) EXPECT() *MockGraphQLApiSetMockRecorder {
 	return m.recorder
 }
 
 // Clone mocks base method.
-func (m *MockGraphQLSchemaSet) Clone() v1alpha1sets.GraphQLSchemaSet {
+func (m *MockGraphQLApiSet) Clone() v1alpha1sets.GraphQLApiSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v1alpha1sets.GraphQLSchemaSet)
+	ret0, _ := ret[0].(v1alpha1sets.GraphQLApiSet)
 	return ret0
 }
 
 // Clone indicates an expected call of Clone.
-func (mr *MockGraphQLSchemaSetMockRecorder) Clone() *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Clone() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Clone))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockGraphQLApiSet)(nil).Clone))
 }
 
 // Delete mocks base method.
-func (m *MockGraphQLSchemaSet) Delete(graphQLSchema ezkube.ResourceId) {
+func (m *MockGraphQLApiSet) Delete(graphQLApi ezkube.ResourceId) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", graphQLSchema)
+	m.ctrl.Call(m, "Delete", graphQLApi)
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockGraphQLSchemaSetMockRecorder) Delete(graphQLSchema interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Delete(graphQLApi interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Delete), graphQLSchema)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockGraphQLApiSet)(nil).Delete), graphQLApi)
 }
 
 // Delta mocks base method.
-func (m *MockGraphQLSchemaSet) Delta(newSet v1alpha1sets.GraphQLSchemaSet) sets.ResourceDelta {
+func (m *MockGraphQLApiSet) Delta(newSet v1alpha1sets.GraphQLApiSet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -73,56 +73,56 @@ func (m *MockGraphQLSchemaSet) Delta(newSet v1alpha1sets.GraphQLSchemaSet) sets.
 }
 
 // Delta indicates an expected call of Delta.
-func (mr *MockGraphQLSchemaSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Delta), newSet)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockGraphQLApiSet)(nil).Delta), newSet)
 }
 
 // Difference mocks base method.
-func (m *MockGraphQLSchemaSet) Difference(set v1alpha1sets.GraphQLSchemaSet) v1alpha1sets.GraphQLSchemaSet {
+func (m *MockGraphQLApiSet) Difference(set v1alpha1sets.GraphQLApiSet) v1alpha1sets.GraphQLApiSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1alpha1sets.GraphQLSchemaSet)
+	ret0, _ := ret[0].(v1alpha1sets.GraphQLApiSet)
 	return ret0
 }
 
 // Difference indicates an expected call of Difference.
-func (mr *MockGraphQLSchemaSetMockRecorder) Difference(set interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Difference(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Difference), set)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockGraphQLApiSet)(nil).Difference), set)
 }
 
 // Equal mocks base method.
-func (m *MockGraphQLSchemaSet) Equal(graphQLSchemaSet v1alpha1sets.GraphQLSchemaSet) bool {
+func (m *MockGraphQLApiSet) Equal(graphQLApiSet v1alpha1sets.GraphQLApiSet) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", graphQLSchemaSet)
+	ret := m.ctrl.Call(m, "Equal", graphQLApiSet)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // Equal indicates an expected call of Equal.
-func (mr *MockGraphQLSchemaSetMockRecorder) Equal(graphQLSchemaSet interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Equal(graphQLApiSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Equal), graphQLSchemaSet)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockGraphQLApiSet)(nil).Equal), graphQLApiSet)
 }
 
 // Find mocks base method.
-func (m *MockGraphQLSchemaSet) Find(id ezkube.ResourceId) (*v1alpha1.GraphQLSchema, error) {
+func (m *MockGraphQLApiSet) Find(id ezkube.ResourceId) (*v1alpha1.GraphQLApi, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v1alpha1.GraphQLSchema)
+	ret0, _ := ret[0].(*v1alpha1.GraphQLApi)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Find indicates an expected call of Find.
-func (mr *MockGraphQLSchemaSetMockRecorder) Find(id interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Find(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Find), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockGraphQLApiSet)(nil).Find), id)
 }
 
 // Generic mocks base method.
-func (m *MockGraphQLSchemaSet) Generic() sets.ResourceSet {
+func (m *MockGraphQLApiSet) Generic() sets.ResourceSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Generic")
 	ret0, _ := ret[0].(sets.ResourceSet)
@@ -130,57 +130,57 @@ func (m *MockGraphQLSchemaSet) Generic() sets.ResourceSet {
 }
 
 // Generic indicates an expected call of Generic.
-func (mr *MockGraphQLSchemaSetMockRecorder) Generic() *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Generic))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockGraphQLApiSet)(nil).Generic))
 }
 
 // Has mocks base method.
-func (m *MockGraphQLSchemaSet) Has(graphQLSchema ezkube.ResourceId) bool {
+func (m *MockGraphQLApiSet) Has(graphQLApi ezkube.ResourceId) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", graphQLSchema)
+	ret := m.ctrl.Call(m, "Has", graphQLApi)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // Has indicates an expected call of Has.
-func (mr *MockGraphQLSchemaSetMockRecorder) Has(graphQLSchema interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Has(graphQLApi interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Has), graphQLSchema)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockGraphQLApiSet)(nil).Has), graphQLApi)
 }
 
 // Insert mocks base method.
-func (m *MockGraphQLSchemaSet) Insert(graphQLSchema ...*v1alpha1.GraphQLSchema) {
+func (m *MockGraphQLApiSet) Insert(graphQLApi ...*v1alpha1.GraphQLApi) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
-	for _, a := range graphQLSchema {
+	for _, a := range graphQLApi {
 		varargs = append(varargs, a)
 	}
 	m.ctrl.Call(m, "Insert", varargs...)
 }
 
 // Insert indicates an expected call of Insert.
-func (mr *MockGraphQLSchemaSetMockRecorder) Insert(graphQLSchema ...interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Insert(graphQLApi ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Insert), graphQLSchema...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockGraphQLApiSet)(nil).Insert), graphQLApi...)
 }
 
 // Intersection mocks base method.
-func (m *MockGraphQLSchemaSet) Intersection(set v1alpha1sets.GraphQLSchemaSet) v1alpha1sets.GraphQLSchemaSet {
+func (m *MockGraphQLApiSet) Intersection(set v1alpha1sets.GraphQLApiSet) v1alpha1sets.GraphQLApiSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1alpha1sets.GraphQLSchemaSet)
+	ret0, _ := ret[0].(v1alpha1sets.GraphQLApiSet)
 	return ret0
 }
 
 // Intersection indicates an expected call of Intersection.
-func (mr *MockGraphQLSchemaSetMockRecorder) Intersection(set interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Intersection(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Intersection), set)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockGraphQLApiSet)(nil).Intersection), set)
 }
 
 // Keys mocks base method.
-func (m *MockGraphQLSchemaSet) Keys() sets0.String {
+func (m *MockGraphQLApiSet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
 	ret0, _ := ret[0].(sets0.String)
@@ -188,13 +188,13 @@ func (m *MockGraphQLSchemaSet) Keys() sets0.String {
 }
 
 // Keys indicates an expected call of Keys.
-func (mr *MockGraphQLSchemaSetMockRecorder) Keys() *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Keys))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockGraphQLApiSet)(nil).Keys))
 }
 
 // Length mocks base method.
-func (m *MockGraphQLSchemaSet) Length() int {
+func (m *MockGraphQLApiSet) Length() int {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Length")
 	ret0, _ := ret[0].(int)
@@ -202,71 +202,71 @@ func (m *MockGraphQLSchemaSet) Length() int {
 }
 
 // Length indicates an expected call of Length.
-func (mr *MockGraphQLSchemaSetMockRecorder) Length() *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Length() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Length))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockGraphQLApiSet)(nil).Length))
 }
 
 // List mocks base method.
-func (m *MockGraphQLSchemaSet) List(filterResource ...func(*v1alpha1.GraphQLSchema) bool) []*v1alpha1.GraphQLSchema {
+func (m *MockGraphQLApiSet) List(filterResource ...func(*v1alpha1.GraphQLApi) bool) []*v1alpha1.GraphQLApi {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
 	for _, a := range filterResource {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "List", varargs...)
-	ret0, _ := ret[0].([]*v1alpha1.GraphQLSchema)
+	ret0, _ := ret[0].([]*v1alpha1.GraphQLApi)
 	return ret0
 }
 
 // List indicates an expected call of List.
-func (mr *MockGraphQLSchemaSetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).List), filterResource...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockGraphQLApiSet)(nil).List), filterResource...)
 }
 
 // Map mocks base method.
-func (m *MockGraphQLSchemaSet) Map() map[string]*v1alpha1.GraphQLSchema {
+func (m *MockGraphQLApiSet) Map() map[string]*v1alpha1.GraphQLApi {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v1alpha1.GraphQLSchema)
+	ret0, _ := ret[0].(map[string]*v1alpha1.GraphQLApi)
 	return ret0
 }
 
 // Map indicates an expected call of Map.
-func (mr *MockGraphQLSchemaSetMockRecorder) Map() *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Map() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Map))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockGraphQLApiSet)(nil).Map))
 }
 
 // Union mocks base method.
-func (m *MockGraphQLSchemaSet) Union(set v1alpha1sets.GraphQLSchemaSet) v1alpha1sets.GraphQLSchemaSet {
+func (m *MockGraphQLApiSet) Union(set v1alpha1sets.GraphQLApiSet) v1alpha1sets.GraphQLApiSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1alpha1sets.GraphQLSchemaSet)
+	ret0, _ := ret[0].(v1alpha1sets.GraphQLApiSet)
 	return ret0
 }
 
 // Union indicates an expected call of Union.
-func (mr *MockGraphQLSchemaSetMockRecorder) Union(set interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Union(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).Union), set)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockGraphQLApiSet)(nil).Union), set)
 }
 
 // UnsortedList mocks base method.
-func (m *MockGraphQLSchemaSet) UnsortedList(filterResource ...func(*v1alpha1.GraphQLSchema) bool) []*v1alpha1.GraphQLSchema {
+func (m *MockGraphQLApiSet) UnsortedList(filterResource ...func(*v1alpha1.GraphQLApi) bool) []*v1alpha1.GraphQLApi {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
 	for _, a := range filterResource {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
-	ret0, _ := ret[0].([]*v1alpha1.GraphQLSchema)
+	ret0, _ := ret[0].([]*v1alpha1.GraphQLApi)
 	return ret0
 }
 
 // UnsortedList indicates an expected call of UnsortedList.
-func (mr *MockGraphQLSchemaSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockGraphQLSchemaSet)(nil).UnsortedList), filterResource...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockGraphQLApiSet)(nil).UnsortedList), filterResource...)
 }

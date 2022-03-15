@@ -24,26 +24,26 @@ var (
 	unmarshaller = &jsonpb.Unmarshaler{}
 )
 
-// MarshalJSON is a custom marshaler for GraphQLSchemaSpec
-func (this *GraphQLSchemaSpec) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for GraphQLApiSpec
+func (this *GraphQLApiSpec) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for GraphQLSchemaSpec
-func (this *GraphQLSchemaSpec) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for GraphQLApiSpec
+func (this *GraphQLApiSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for GraphQLSchemaStatus
-func (this *GraphQLSchemaStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for GraphQLApiStatus
+func (this *GraphQLApiStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for GraphQLSchemaStatus
-func (this *GraphQLSchemaStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := GraphQLSchemaNamespacedStatuses{}
+// UnmarshalJSON is a custom unmarshaler for GraphQLApiStatus
+func (this *GraphQLApiStatus) UnmarshalJSON(b []byte) error {
+	namespacedStatuses := GraphQLApiNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}

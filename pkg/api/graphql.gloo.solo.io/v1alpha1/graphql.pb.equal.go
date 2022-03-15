@@ -404,14 +404,14 @@ func (m *Resolution) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *GraphQLApi) Equal(that interface{}) bool {
+func (m *GraphQLApiSpec) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*GraphQLApi)
+	target, ok := that.(*GraphQLApiSpec)
 	if !ok {
-		that2, ok := that.(GraphQLApi)
+		that2, ok := that.(GraphQLApiSpec)
 		if ok {
 			target = &that2
 		} else {
@@ -422,26 +422,6 @@ func (m *GraphQLApi) Equal(that interface{}) bool {
 		return m == nil
 	} else if m == nil {
 		return false
-	}
-
-	if h, ok := interface{}(m.GetNamespacedStatuses()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetNamespacedStatuses()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetNamespacedStatuses(), target.GetNamespacedStatuses()) {
-			return false
-		}
-	}
-
-	if h, ok := interface{}(m.GetMetadata()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetMetadata()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetMetadata(), target.GetMetadata()) {
-			return false
-		}
 	}
 
 	if h, ok := interface{}(m.GetExecutableSchema()).(equality.Equalizer); ok {
@@ -607,6 +587,110 @@ func (m *Executor) Equal(that interface{}) bool {
 		if m.Executor != target.Executor {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GraphQLApiStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GraphQLApiStatus)
+	if !ok {
+		that2, ok := that.(GraphQLApiStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetState() != target.GetState() {
+		return false
+	}
+
+	if strings.Compare(m.GetReason(), target.GetReason()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetReportedBy(), target.GetReportedBy()) != 0 {
+		return false
+	}
+
+	if len(m.GetSubresourceStatuses()) != len(target.GetSubresourceStatuses()) {
+		return false
+	}
+	for k, v := range m.GetSubresourceStatuses() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSubresourceStatuses()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSubresourceStatuses()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDetails()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDetails(), target.GetDetails()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GraphQLApiNamespacedStatuses) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GraphQLApiNamespacedStatuses)
+	if !ok {
+		that2, ok := that.(GraphQLApiNamespacedStatuses)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetStatuses()) != len(target.GetStatuses()) {
+		return false
+	}
+	for k, v := range m.GetStatuses() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStatuses()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetStatuses()[k]) {
+				return false
+			}
+		}
+
 	}
 
 	return true

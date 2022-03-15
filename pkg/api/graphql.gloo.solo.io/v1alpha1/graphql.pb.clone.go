@@ -255,24 +255,12 @@ func (m *Resolution) Clone() proto.Message {
 }
 
 // Clone function
-func (m *GraphQLApi) Clone() proto.Message {
-	var target *GraphQLApi
+func (m *GraphQLApiSpec) Clone() proto.Message {
+	var target *GraphQLApiSpec
 	if m == nil {
 		return target
 	}
-	target = &GraphQLApi{}
-
-	if h, ok := interface{}(m.GetNamespacedStatuses()).(clone.Cloner); ok {
-		target.NamespacedStatuses = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.NamespacedStatuses)
-	} else {
-		target.NamespacedStatuses = proto.Clone(m.GetNamespacedStatuses()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.NamespacedStatuses)
-	}
-
-	if h, ok := interface{}(m.GetMetadata()).(clone.Cloner); ok {
-		target.Metadata = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.Metadata)
-	} else {
-		target.Metadata = proto.Clone(m.GetMetadata()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.Metadata)
-	}
+	target = &GraphQLApiSpec{}
 
 	if h, ok := interface{}(m.GetExecutableSchema()).(clone.Cloner); ok {
 		target.ExecutableSchema = h.Clone().(*ExecutableSchema)
@@ -364,6 +352,66 @@ func (m *Executor) Clone() proto.Message {
 			}
 		}
 
+	}
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLApiStatus) Clone() proto.Message {
+	var target *GraphQLApiStatus
+	if m == nil {
+		return target
+	}
+	target = &GraphQLApiStatus{}
+
+	target.State = m.GetState()
+
+	target.Reason = m.GetReason()
+
+	target.ReportedBy = m.GetReportedBy()
+
+	if m.GetSubresourceStatuses() != nil {
+		target.SubresourceStatuses = make(map[string]*GraphQLApiStatus, len(m.GetSubresourceStatuses()))
+		for k, v := range m.GetSubresourceStatuses() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SubresourceStatuses[k] = h.Clone().(*GraphQLApiStatus)
+			} else {
+				target.SubresourceStatuses[k] = proto.Clone(v).(*GraphQLApiStatus)
+			}
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(clone.Cloner); ok {
+		target.Details = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
+	} else {
+		target.Details = proto.Clone(m.GetDetails()).(*github_com_golang_protobuf_ptypes_struct.Struct)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLApiNamespacedStatuses) Clone() proto.Message {
+	var target *GraphQLApiNamespacedStatuses
+	if m == nil {
+		return target
+	}
+	target = &GraphQLApiNamespacedStatuses{}
+
+	if m.GetStatuses() != nil {
+		target.Statuses = make(map[string]*GraphQLApiStatus, len(m.GetStatuses()))
+		for k, v := range m.GetStatuses() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Statuses[k] = h.Clone().(*GraphQLApiStatus)
+			} else {
+				target.Statuses[k] = proto.Clone(v).(*GraphQLApiStatus)
+			}
+
+		}
 	}
 
 	return target

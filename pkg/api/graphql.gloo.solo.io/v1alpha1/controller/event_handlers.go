@@ -17,109 +17,109 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
-// Handle events for the GraphQLSchema Resource
+// Handle events for the GraphQLApi Resource
 // DEPRECATED: Prefer reconciler pattern.
-type GraphQLSchemaEventHandler interface {
-	CreateGraphQLSchema(obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error
-	UpdateGraphQLSchema(old, new *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error
-	DeleteGraphQLSchema(obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error
-	GenericGraphQLSchema(obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error
+type GraphQLApiEventHandler interface {
+	CreateGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
+	UpdateGraphQLApi(old, new *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
+	DeleteGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
+	GenericGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
 }
 
-type GraphQLSchemaEventHandlerFuncs struct {
-	OnCreate  func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error
-	OnUpdate  func(old, new *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error
-	OnDelete  func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error
-	OnGeneric func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error
+type GraphQLApiEventHandlerFuncs struct {
+	OnCreate  func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
+	OnUpdate  func(old, new *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
+	OnDelete  func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
+	OnGeneric func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
 }
 
-func (f *GraphQLSchemaEventHandlerFuncs) CreateGraphQLSchema(obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error {
+func (f *GraphQLApiEventHandlerFuncs) CreateGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error {
 	if f.OnCreate == nil {
 		return nil
 	}
 	return f.OnCreate(obj)
 }
 
-func (f *GraphQLSchemaEventHandlerFuncs) DeleteGraphQLSchema(obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error {
+func (f *GraphQLApiEventHandlerFuncs) DeleteGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error {
 	if f.OnDelete == nil {
 		return nil
 	}
 	return f.OnDelete(obj)
 }
 
-func (f *GraphQLSchemaEventHandlerFuncs) UpdateGraphQLSchema(objOld, objNew *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error {
+func (f *GraphQLApiEventHandlerFuncs) UpdateGraphQLApi(objOld, objNew *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error {
 	if f.OnUpdate == nil {
 		return nil
 	}
 	return f.OnUpdate(objOld, objNew)
 }
 
-func (f *GraphQLSchemaEventHandlerFuncs) GenericGraphQLSchema(obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) error {
+func (f *GraphQLApiEventHandlerFuncs) GenericGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error {
 	if f.OnGeneric == nil {
 		return nil
 	}
 	return f.OnGeneric(obj)
 }
 
-type GraphQLSchemaEventWatcher interface {
-	AddEventHandler(ctx context.Context, h GraphQLSchemaEventHandler, predicates ...predicate.Predicate) error
+type GraphQLApiEventWatcher interface {
+	AddEventHandler(ctx context.Context, h GraphQLApiEventHandler, predicates ...predicate.Predicate) error
 }
 
-type graphQLSchemaEventWatcher struct {
+type graphQLApiEventWatcher struct {
 	watcher events.EventWatcher
 }
 
-func NewGraphQLSchemaEventWatcher(name string, mgr manager.Manager) GraphQLSchemaEventWatcher {
-	return &graphQLSchemaEventWatcher{
-		watcher: events.NewWatcher(name, mgr, &graphql_gloo_solo_io_v1alpha1.GraphQLSchema{}),
+func NewGraphQLApiEventWatcher(name string, mgr manager.Manager) GraphQLApiEventWatcher {
+	return &graphQLApiEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &graphql_gloo_solo_io_v1alpha1.GraphQLApi{}),
 	}
 }
 
-func (c *graphQLSchemaEventWatcher) AddEventHandler(ctx context.Context, h GraphQLSchemaEventHandler, predicates ...predicate.Predicate) error {
-	handler := genericGraphQLSchemaHandler{handler: h}
+func (c *graphQLApiEventWatcher) AddEventHandler(ctx context.Context, h GraphQLApiEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericGraphQLApiHandler{handler: h}
 	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
 		return err
 	}
 	return nil
 }
 
-// genericGraphQLSchemaHandler implements a generic events.EventHandler
-type genericGraphQLSchemaHandler struct {
-	handler GraphQLSchemaEventHandler
+// genericGraphQLApiHandler implements a generic events.EventHandler
+type genericGraphQLApiHandler struct {
+	handler GraphQLApiEventHandler
 }
 
-func (h genericGraphQLSchemaHandler) Create(object client.Object) error {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLSchema)
+func (h genericGraphQLApiHandler) Create(object client.Object) error {
+	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
 	if !ok {
-		return errors.Errorf("internal error: GraphQLSchema handler received event for %T", object)
+		return errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}
-	return h.handler.CreateGraphQLSchema(obj)
+	return h.handler.CreateGraphQLApi(obj)
 }
 
-func (h genericGraphQLSchemaHandler) Delete(object client.Object) error {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLSchema)
+func (h genericGraphQLApiHandler) Delete(object client.Object) error {
+	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
 	if !ok {
-		return errors.Errorf("internal error: GraphQLSchema handler received event for %T", object)
+		return errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}
-	return h.handler.DeleteGraphQLSchema(obj)
+	return h.handler.DeleteGraphQLApi(obj)
 }
 
-func (h genericGraphQLSchemaHandler) Update(old, new client.Object) error {
-	objOld, ok := old.(*graphql_gloo_solo_io_v1alpha1.GraphQLSchema)
+func (h genericGraphQLApiHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
 	if !ok {
-		return errors.Errorf("internal error: GraphQLSchema handler received event for %T", old)
+		return errors.Errorf("internal error: GraphQLApi handler received event for %T", old)
 	}
-	objNew, ok := new.(*graphql_gloo_solo_io_v1alpha1.GraphQLSchema)
+	objNew, ok := new.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
 	if !ok {
-		return errors.Errorf("internal error: GraphQLSchema handler received event for %T", new)
+		return errors.Errorf("internal error: GraphQLApi handler received event for %T", new)
 	}
-	return h.handler.UpdateGraphQLSchema(objOld, objNew)
+	return h.handler.UpdateGraphQLApi(objOld, objNew)
 }
 
-func (h genericGraphQLSchemaHandler) Generic(object client.Object) error {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLSchema)
+func (h genericGraphQLApiHandler) Generic(object client.Object) error {
+	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
 	if !ok {
-		return errors.Errorf("internal error: GraphQLSchema handler received event for %T", object)
+		return errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}
-	return h.handler.GenericGraphQLSchema(obj)
+	return h.handler.GenericGraphQLApi(obj)
 }

@@ -18,73 +18,73 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
-// Reconcile Upsert events for the GraphQLSchema Resource across clusters.
+// Reconcile Upsert events for the GraphQLApi Resource across clusters.
 // implemented by the user
-type MulticlusterGraphQLSchemaReconciler interface {
-	ReconcileGraphQLSchema(clusterName string, obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) (reconcile.Result, error)
+type MulticlusterGraphQLApiReconciler interface {
+	ReconcileGraphQLApi(clusterName string, obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) (reconcile.Result, error)
 }
 
-// Reconcile deletion events for the GraphQLSchema Resource across clusters.
+// Reconcile deletion events for the GraphQLApi Resource across clusters.
 // Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
 // before being deleted.
 // implemented by the user
-type MulticlusterGraphQLSchemaDeletionReconciler interface {
-	ReconcileGraphQLSchemaDeletion(clusterName string, req reconcile.Request) error
+type MulticlusterGraphQLApiDeletionReconciler interface {
+	ReconcileGraphQLApiDeletion(clusterName string, req reconcile.Request) error
 }
 
-type MulticlusterGraphQLSchemaReconcilerFuncs struct {
-	OnReconcileGraphQLSchema         func(clusterName string, obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) (reconcile.Result, error)
-	OnReconcileGraphQLSchemaDeletion func(clusterName string, req reconcile.Request) error
+type MulticlusterGraphQLApiReconcilerFuncs struct {
+	OnReconcileGraphQLApi         func(clusterName string, obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) (reconcile.Result, error)
+	OnReconcileGraphQLApiDeletion func(clusterName string, req reconcile.Request) error
 }
 
-func (f *MulticlusterGraphQLSchemaReconcilerFuncs) ReconcileGraphQLSchema(clusterName string, obj *graphql_gloo_solo_io_v1alpha1.GraphQLSchema) (reconcile.Result, error) {
-	if f.OnReconcileGraphQLSchema == nil {
+func (f *MulticlusterGraphQLApiReconcilerFuncs) ReconcileGraphQLApi(clusterName string, obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) (reconcile.Result, error) {
+	if f.OnReconcileGraphQLApi == nil {
 		return reconcile.Result{}, nil
 	}
-	return f.OnReconcileGraphQLSchema(clusterName, obj)
+	return f.OnReconcileGraphQLApi(clusterName, obj)
 }
 
-func (f *MulticlusterGraphQLSchemaReconcilerFuncs) ReconcileGraphQLSchemaDeletion(clusterName string, req reconcile.Request) error {
-	if f.OnReconcileGraphQLSchemaDeletion == nil {
+func (f *MulticlusterGraphQLApiReconcilerFuncs) ReconcileGraphQLApiDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileGraphQLApiDeletion == nil {
 		return nil
 	}
-	return f.OnReconcileGraphQLSchemaDeletion(clusterName, req)
+	return f.OnReconcileGraphQLApiDeletion(clusterName, req)
 }
 
-type MulticlusterGraphQLSchemaReconcileLoop interface {
-	// AddMulticlusterGraphQLSchemaReconciler adds a MulticlusterGraphQLSchemaReconciler to the MulticlusterGraphQLSchemaReconcileLoop.
-	AddMulticlusterGraphQLSchemaReconciler(ctx context.Context, rec MulticlusterGraphQLSchemaReconciler, predicates ...predicate.Predicate)
+type MulticlusterGraphQLApiReconcileLoop interface {
+	// AddMulticlusterGraphQLApiReconciler adds a MulticlusterGraphQLApiReconciler to the MulticlusterGraphQLApiReconcileLoop.
+	AddMulticlusterGraphQLApiReconciler(ctx context.Context, rec MulticlusterGraphQLApiReconciler, predicates ...predicate.Predicate)
 }
 
-type multiclusterGraphQLSchemaReconcileLoop struct {
+type multiclusterGraphQLApiReconcileLoop struct {
 	loop multicluster.Loop
 }
 
-func (m *multiclusterGraphQLSchemaReconcileLoop) AddMulticlusterGraphQLSchemaReconciler(ctx context.Context, rec MulticlusterGraphQLSchemaReconciler, predicates ...predicate.Predicate) {
-	genericReconciler := genericGraphQLSchemaMulticlusterReconciler{reconciler: rec}
+func (m *multiclusterGraphQLApiReconcileLoop) AddMulticlusterGraphQLApiReconciler(ctx context.Context, rec MulticlusterGraphQLApiReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericGraphQLApiMulticlusterReconciler{reconciler: rec}
 
 	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
 }
 
-func NewMulticlusterGraphQLSchemaReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterGraphQLSchemaReconcileLoop {
-	return &multiclusterGraphQLSchemaReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &graphql_gloo_solo_io_v1alpha1.GraphQLSchema{}, options)}
+func NewMulticlusterGraphQLApiReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterGraphQLApiReconcileLoop {
+	return &multiclusterGraphQLApiReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &graphql_gloo_solo_io_v1alpha1.GraphQLApi{}, options)}
 }
 
-type genericGraphQLSchemaMulticlusterReconciler struct {
-	reconciler MulticlusterGraphQLSchemaReconciler
+type genericGraphQLApiMulticlusterReconciler struct {
+	reconciler MulticlusterGraphQLApiReconciler
 }
 
-func (g genericGraphQLSchemaMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
-	if deletionReconciler, ok := g.reconciler.(MulticlusterGraphQLSchemaDeletionReconciler); ok {
-		return deletionReconciler.ReconcileGraphQLSchemaDeletion(cluster, req)
+func (g genericGraphQLApiMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterGraphQLApiDeletionReconciler); ok {
+		return deletionReconciler.ReconcileGraphQLApiDeletion(cluster, req)
 	}
 	return nil
 }
 
-func (g genericGraphQLSchemaMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLSchema)
+func (g genericGraphQLApiMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
 	if !ok {
-		return reconcile.Result{}, errors.Errorf("internal error: GraphQLSchema handler received event for %T", object)
+		return reconcile.Result{}, errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}
-	return g.reconciler.ReconcileGraphQLSchema(cluster, obj)
+	return g.reconciler.ReconcileGraphQLApi(cluster, obj)
 }

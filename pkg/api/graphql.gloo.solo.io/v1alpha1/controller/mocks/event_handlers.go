@@ -14,110 +14,110 @@ import (
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
-// MockGraphQLSchemaEventHandler is a mock of GraphQLSchemaEventHandler interface.
-type MockGraphQLSchemaEventHandler struct {
+// MockGraphQLApiEventHandler is a mock of GraphQLApiEventHandler interface.
+type MockGraphQLApiEventHandler struct {
 	ctrl     *gomock.Controller
-	recorder *MockGraphQLSchemaEventHandlerMockRecorder
+	recorder *MockGraphQLApiEventHandlerMockRecorder
 }
 
-// MockGraphQLSchemaEventHandlerMockRecorder is the mock recorder for MockGraphQLSchemaEventHandler.
-type MockGraphQLSchemaEventHandlerMockRecorder struct {
-	mock *MockGraphQLSchemaEventHandler
+// MockGraphQLApiEventHandlerMockRecorder is the mock recorder for MockGraphQLApiEventHandler.
+type MockGraphQLApiEventHandlerMockRecorder struct {
+	mock *MockGraphQLApiEventHandler
 }
 
-// NewMockGraphQLSchemaEventHandler creates a new mock instance.
-func NewMockGraphQLSchemaEventHandler(ctrl *gomock.Controller) *MockGraphQLSchemaEventHandler {
-	mock := &MockGraphQLSchemaEventHandler{ctrl: ctrl}
-	mock.recorder = &MockGraphQLSchemaEventHandlerMockRecorder{mock}
+// NewMockGraphQLApiEventHandler creates a new mock instance.
+func NewMockGraphQLApiEventHandler(ctrl *gomock.Controller) *MockGraphQLApiEventHandler {
+	mock := &MockGraphQLApiEventHandler{ctrl: ctrl}
+	mock.recorder = &MockGraphQLApiEventHandlerMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockGraphQLSchemaEventHandler) EXPECT() *MockGraphQLSchemaEventHandlerMockRecorder {
+func (m *MockGraphQLApiEventHandler) EXPECT() *MockGraphQLApiEventHandlerMockRecorder {
 	return m.recorder
 }
 
-// CreateGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaEventHandler) CreateGraphQLSchema(obj *v1alpha1.GraphQLSchema) error {
+// CreateGraphQLApi mocks base method.
+func (m *MockGraphQLApiEventHandler) CreateGraphQLApi(obj *v1alpha1.GraphQLApi) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateGraphQLSchema", obj)
+	ret := m.ctrl.Call(m, "CreateGraphQLApi", obj)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// CreateGraphQLSchema indicates an expected call of CreateGraphQLSchema.
-func (mr *MockGraphQLSchemaEventHandlerMockRecorder) CreateGraphQLSchema(obj interface{}) *gomock.Call {
+// CreateGraphQLApi indicates an expected call of CreateGraphQLApi.
+func (mr *MockGraphQLApiEventHandlerMockRecorder) CreateGraphQLApi(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaEventHandler)(nil).CreateGraphQLSchema), obj)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateGraphQLApi", reflect.TypeOf((*MockGraphQLApiEventHandler)(nil).CreateGraphQLApi), obj)
 }
 
-// DeleteGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaEventHandler) DeleteGraphQLSchema(obj *v1alpha1.GraphQLSchema) error {
+// DeleteGraphQLApi mocks base method.
+func (m *MockGraphQLApiEventHandler) DeleteGraphQLApi(obj *v1alpha1.GraphQLApi) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteGraphQLSchema", obj)
+	ret := m.ctrl.Call(m, "DeleteGraphQLApi", obj)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteGraphQLSchema indicates an expected call of DeleteGraphQLSchema.
-func (mr *MockGraphQLSchemaEventHandlerMockRecorder) DeleteGraphQLSchema(obj interface{}) *gomock.Call {
+// DeleteGraphQLApi indicates an expected call of DeleteGraphQLApi.
+func (mr *MockGraphQLApiEventHandlerMockRecorder) DeleteGraphQLApi(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaEventHandler)(nil).DeleteGraphQLSchema), obj)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteGraphQLApi", reflect.TypeOf((*MockGraphQLApiEventHandler)(nil).DeleteGraphQLApi), obj)
 }
 
-// GenericGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaEventHandler) GenericGraphQLSchema(obj *v1alpha1.GraphQLSchema) error {
+// GenericGraphQLApi mocks base method.
+func (m *MockGraphQLApiEventHandler) GenericGraphQLApi(obj *v1alpha1.GraphQLApi) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GenericGraphQLSchema", obj)
+	ret := m.ctrl.Call(m, "GenericGraphQLApi", obj)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// GenericGraphQLSchema indicates an expected call of GenericGraphQLSchema.
-func (mr *MockGraphQLSchemaEventHandlerMockRecorder) GenericGraphQLSchema(obj interface{}) *gomock.Call {
+// GenericGraphQLApi indicates an expected call of GenericGraphQLApi.
+func (mr *MockGraphQLApiEventHandlerMockRecorder) GenericGraphQLApi(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaEventHandler)(nil).GenericGraphQLSchema), obj)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericGraphQLApi", reflect.TypeOf((*MockGraphQLApiEventHandler)(nil).GenericGraphQLApi), obj)
 }
 
-// UpdateGraphQLSchema mocks base method.
-func (m *MockGraphQLSchemaEventHandler) UpdateGraphQLSchema(old, new *v1alpha1.GraphQLSchema) error {
+// UpdateGraphQLApi mocks base method.
+func (m *MockGraphQLApiEventHandler) UpdateGraphQLApi(old, new *v1alpha1.GraphQLApi) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateGraphQLSchema", old, new)
+	ret := m.ctrl.Call(m, "UpdateGraphQLApi", old, new)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UpdateGraphQLSchema indicates an expected call of UpdateGraphQLSchema.
-func (mr *MockGraphQLSchemaEventHandlerMockRecorder) UpdateGraphQLSchema(old, new interface{}) *gomock.Call {
+// UpdateGraphQLApi indicates an expected call of UpdateGraphQLApi.
+func (mr *MockGraphQLApiEventHandlerMockRecorder) UpdateGraphQLApi(old, new interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLSchema", reflect.TypeOf((*MockGraphQLSchemaEventHandler)(nil).UpdateGraphQLSchema), old, new)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGraphQLApi", reflect.TypeOf((*MockGraphQLApiEventHandler)(nil).UpdateGraphQLApi), old, new)
 }
 
-// MockGraphQLSchemaEventWatcher is a mock of GraphQLSchemaEventWatcher interface.
-type MockGraphQLSchemaEventWatcher struct {
+// MockGraphQLApiEventWatcher is a mock of GraphQLApiEventWatcher interface.
+type MockGraphQLApiEventWatcher struct {
 	ctrl     *gomock.Controller
-	recorder *MockGraphQLSchemaEventWatcherMockRecorder
+	recorder *MockGraphQLApiEventWatcherMockRecorder
 }
 
-// MockGraphQLSchemaEventWatcherMockRecorder is the mock recorder for MockGraphQLSchemaEventWatcher.
-type MockGraphQLSchemaEventWatcherMockRecorder struct {
-	mock *MockGraphQLSchemaEventWatcher
+// MockGraphQLApiEventWatcherMockRecorder is the mock recorder for MockGraphQLApiEventWatcher.
+type MockGraphQLApiEventWatcherMockRecorder struct {
+	mock *MockGraphQLApiEventWatcher
 }
 
-// NewMockGraphQLSchemaEventWatcher creates a new mock instance.
-func NewMockGraphQLSchemaEventWatcher(ctrl *gomock.Controller) *MockGraphQLSchemaEventWatcher {
-	mock := &MockGraphQLSchemaEventWatcher{ctrl: ctrl}
-	mock.recorder = &MockGraphQLSchemaEventWatcherMockRecorder{mock}
+// NewMockGraphQLApiEventWatcher creates a new mock instance.
+func NewMockGraphQLApiEventWatcher(ctrl *gomock.Controller) *MockGraphQLApiEventWatcher {
+	mock := &MockGraphQLApiEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockGraphQLApiEventWatcherMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockGraphQLSchemaEventWatcher) EXPECT() *MockGraphQLSchemaEventWatcherMockRecorder {
+func (m *MockGraphQLApiEventWatcher) EXPECT() *MockGraphQLApiEventWatcherMockRecorder {
 	return m.recorder
 }
 
 // AddEventHandler mocks base method.
-func (m *MockGraphQLSchemaEventWatcher) AddEventHandler(ctx context.Context, h controller.GraphQLSchemaEventHandler, predicates ...predicate.Predicate) error {
+func (m *MockGraphQLApiEventWatcher) AddEventHandler(ctx context.Context, h controller.GraphQLApiEventHandler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, h}
 	for _, a := range predicates {
@@ -129,8 +129,8 @@ func (m *MockGraphQLSchemaEventWatcher) AddEventHandler(ctx context.Context, h c
 }
 
 // AddEventHandler indicates an expected call of AddEventHandler.
-func (mr *MockGraphQLSchemaEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+func (mr *MockGraphQLApiEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockGraphQLSchemaEventWatcher)(nil).AddEventHandler), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockGraphQLApiEventWatcher)(nil).AddEventHandler), varargs...)
 }

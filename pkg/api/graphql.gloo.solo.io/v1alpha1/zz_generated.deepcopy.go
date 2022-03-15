@@ -8,9 +8,9 @@ import (
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
-// Generated Deepcopy methods for GraphQLSchema
+// Generated Deepcopy methods for GraphQLApi
 
-func (in *GraphQLSchema) DeepCopyInto(out *GraphQLSchema) {
+func (in *GraphQLApi) DeepCopyInto(out *GraphQLApi) {
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 
@@ -22,29 +22,29 @@ func (in *GraphQLSchema) DeepCopyInto(out *GraphQLSchema) {
 	return
 }
 
-func (in *GraphQLSchema) DeepCopy() *GraphQLSchema {
+func (in *GraphQLApi) DeepCopy() *GraphQLApi {
 	if in == nil {
 		return nil
 	}
-	out := new(GraphQLSchema)
+	out := new(GraphQLApi)
 	in.DeepCopyInto(out)
 	return out
 }
 
-func (in *GraphQLSchema) DeepCopyObject() runtime.Object {
+func (in *GraphQLApi) DeepCopyObject() runtime.Object {
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 
-func (in *GraphQLSchemaList) DeepCopyInto(out *GraphQLSchemaList) {
+func (in *GraphQLApiList) DeepCopyInto(out *GraphQLApiList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
-		*out = make([]GraphQLSchema, len(*in))
+		*out = make([]GraphQLApi, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -52,16 +52,16 @@ func (in *GraphQLSchemaList) DeepCopyInto(out *GraphQLSchemaList) {
 	return
 }
 
-func (in *GraphQLSchemaList) DeepCopy() *GraphQLSchemaList {
+func (in *GraphQLApiList) DeepCopy() *GraphQLApiList {
 	if in == nil {
 		return nil
 	}
-	out := new(GraphQLSchemaList)
+	out := new(GraphQLApiList)
 	in.DeepCopyInto(out)
 	return out
 }
 
-func (in *GraphQLSchemaList) DeepCopyObject() runtime.Object {
+func (in *GraphQLApiList) DeepCopyObject() runtime.Object {
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
