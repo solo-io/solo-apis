@@ -331,6 +331,47 @@ func (m *GrpcResolver) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *StitchedSchema) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*StitchedSchema)
+	if !ok {
+		that2, ok := that.(StitchedSchema)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetSubschemas()) != len(target.GetSubschemas()) {
+		return false
+	}
+	for idx, v := range m.GetSubschemas() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSubschemas()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSubschemas()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *Resolution) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -424,16 +465,6 @@ func (m *GraphQLApiSpec) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetExecutableSchema()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetExecutableSchema()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetExecutableSchema(), target.GetExecutableSchema()) {
-			return false
-		}
-	}
-
 	if h, ok := interface{}(m.GetStatPrefix()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetStatPrefix()) {
 			return false
@@ -463,6 +494,45 @@ func (m *GraphQLApiSpec) Equal(that interface{}) bool {
 			return false
 		}
 
+	}
+
+	switch m.Schema.(type) {
+
+	case *GraphQLApiSpec_ExecutableSchema:
+		if _, ok := target.Schema.(*GraphQLApiSpec_ExecutableSchema); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetExecutableSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetExecutableSchema()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetExecutableSchema(), target.GetExecutableSchema()) {
+				return false
+			}
+		}
+
+	case *GraphQLApiSpec_StitchedSchema:
+		if _, ok := target.Schema.(*GraphQLApiSpec_StitchedSchema); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetStitchedSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStitchedSchema()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetStitchedSchema(), target.GetStitchedSchema()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Schema != target.Schema {
+			return false
+		}
 	}
 
 	return true
@@ -689,6 +759,98 @@ func (m *GraphQLApiNamespacedStatuses) Equal(that interface{}) bool {
 			if !proto.Equal(v, target.GetStatuses()[k]) {
 				return false
 			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *StitchedSchema_SubschemaConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*StitchedSchema_SubschemaConfig)
+	if !ok {
+		that2, ok := that.(StitchedSchema_SubschemaConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetName(), target.GetName()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetNamespace(), target.GetNamespace()) != 0 {
+		return false
+	}
+
+	if len(m.GetTypeMerge()) != len(target.GetTypeMerge()) {
+		return false
+	}
+	for k, v := range m.GetTypeMerge() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetTypeMerge()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetTypeMerge()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *StitchedSchema_SubschemaConfig_TypeMergeConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*StitchedSchema_SubschemaConfig_TypeMergeConfig)
+	if !ok {
+		that2, ok := that.(StitchedSchema_SubschemaConfig_TypeMergeConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetSelectionSet(), target.GetSelectionSet()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetQueryName(), target.GetQueryName()) != 0 {
+		return false
+	}
+
+	if len(m.GetArgs()) != len(target.GetArgs()) {
+		return false
+	}
+	for k, v := range m.GetArgs() {
+
+		if strings.Compare(v, target.GetArgs()[k]) != 0 {
+			return false
 		}
 
 	}

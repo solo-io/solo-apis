@@ -390,6 +390,46 @@ func (m *GrpcResolver) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *StitchedSchema) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("graphql.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1.StitchedSchema")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetSubschemas() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *Resolution) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -486,26 +526,6 @@ func (m *GraphQLApiSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
-	if h, ok := interface{}(m.GetExecutableSchema()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetExecutableSchema(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
 	if h, ok := interface{}(m.GetStatPrefix()).(safe_hasher.SafeHasher); ok {
 		if _, err = hasher.Write([]byte("StatPrefix")); err != nil {
 			return 0, err
@@ -550,6 +570,54 @@ func (m *GraphQLApiSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 		if _, err = hasher.Write([]byte(v)); err != nil {
 			return 0, err
+		}
+
+	}
+
+	switch m.Schema.(type) {
+
+	case *GraphQLApiSpec_ExecutableSchema:
+
+		if h, ok := interface{}(m.GetExecutableSchema()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetExecutableSchema(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *GraphQLApiSpec_StitchedSchema:
+
+		if h, ok := interface{}(m.GetStitchedSchema()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetStitchedSchema(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
 		}
 
 	}
@@ -805,6 +873,116 @@ func (m *GraphQLApiNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) 
 						return 0, err
 					}
 				}
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *StitchedSchema_SubschemaConfig) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("graphql.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1.StitchedSchema_SubschemaConfig")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetName())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetNamespace())); err != nil {
+		return 0, err
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetTypeMerge() {
+			innerHash.Reset()
+
+			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+				if _, err = innerHash.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if _, err = h.Hash(innerHash); err != nil {
+					return 0, err
+				}
+			} else {
+				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+					return 0, err
+				} else {
+					if _, err = innerHash.Write([]byte("")); err != nil {
+						return 0, err
+					}
+					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+						return 0, err
+					}
+				}
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *StitchedSchema_SubschemaConfig_TypeMergeConfig) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("graphql.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1.StitchedSchema_SubschemaConfig_TypeMergeConfig")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetSelectionSet())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetQueryName())); err != nil {
+		return 0, err
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetArgs() {
+			innerHash.Reset()
+
+			if _, err = innerHash.Write([]byte(v)); err != nil {
+				return 0, err
 			}
 
 			if _, err = innerHash.Write([]byte(k)); err != nil {
