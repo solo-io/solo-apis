@@ -205,6 +205,9 @@ message DestinationSpec {
         // to all clusters and all namespaces.
         repeated ExportTo export_to = 6;
 
+        // Optional configurations on the external service
+        Options options = 7;
+
         // ExternalEndpoint represents the address/port(s) of the external service
         // which will receive requests sent to this Destination.
         message ExternalEndpoint {
@@ -242,6 +245,15 @@ message DestinationSpec {
             // List of namespaces to export to in the given clusters. If namespaces is omitted or empty, 
             // resource is exported to _all_ namespaces in the given clusters.
             repeated string namespaces = 2;
+        }
+
+        // Optional configurations for external services
+        message Options {
+
+            // Enable/Disable auto host re-write.
+            // Indicates that the host header will be swapped with the hostname of the upstream host.
+            // default is true
+            google.protobuf.BoolValue auto_host_rewrite = 1;
         }
     }
 
