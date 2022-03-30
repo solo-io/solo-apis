@@ -366,6 +366,12 @@ func (m *GraphQLApiSpec) Clone() proto.Message {
 		}
 	}
 
+	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
+		target.Options = h.Clone().(*GraphQLApiSpec_GraphQLApiOptions)
+	} else {
+		target.Options = proto.Clone(m.GetOptions()).(*GraphQLApiSpec_GraphQLApiOptions)
+	}
+
 	switch m.Schema.(type) {
 
 	case *GraphQLApiSpec_ExecutableSchema:
@@ -593,6 +599,19 @@ func (m *MockResolver_AsyncResponse) Clone() proto.Message {
 	} else {
 		target.Delay = proto.Clone(m.GetDelay()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLApiSpec_GraphQLApiOptions) Clone() proto.Message {
+	var target *GraphQLApiSpec_GraphQLApiOptions
+	if m == nil {
+		return target
+	}
+	target = &GraphQLApiSpec_GraphQLApiOptions{}
+
+	target.LogSensitiveInfo = m.GetLogSensitiveInfo()
 
 	return target
 }

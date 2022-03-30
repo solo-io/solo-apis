@@ -583,6 +583,16 @@ func (m *GraphQLApiSpec) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptions(), target.GetOptions()) {
+			return false
+		}
+	}
+
 	switch m.Schema.(type) {
 
 	case *GraphQLApiSpec_ExecutableSchema:
@@ -984,6 +994,34 @@ func (m *MockResolver_AsyncResponse) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetDelay(), target.GetDelay()) {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GraphQLApiSpec_GraphQLApiOptions) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GraphQLApiSpec_GraphQLApiOptions)
+	if !ok {
+		that2, ok := that.(GraphQLApiSpec_GraphQLApiOptions)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetLogSensitiveInfo() != target.GetLogSensitiveInfo() {
+		return false
 	}
 
 	return true
