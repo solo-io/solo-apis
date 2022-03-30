@@ -130,9 +130,15 @@ func getRelevantTypes(file []byte, glooGroups []model.Group) []string {
 	return resources
 }
 
-func patchSpecMessage(file []byte, oldMessageBytes []byte) []byte {
-	oldMessageBytes = oldMessageBytes[:len(oldMessageBytes)-1]
-	return bytes.ReplaceAll(file, oldMessageBytes, append(oldMessageBytes, []byte("Spec")...))
+func patchSpecMessage(file []byte, oldMessage []byte) []byte {
+	// get the message without trailing space, e.g. "message MyMessage"
+	// make a copy so we don't modify oldMessage
+	oldMessageNoSpace := make([]byte, len(oldMessage)-1)
+	copy(oldMessageNoSpace, oldMessage)
+
+	// replaces "message MyMessage " with "message MyMessageSpec "
+	newMessage := append(oldMessageNoSpace, []byte("Spec ")...)
+	return bytes.ReplaceAll(file, oldMessage, newMessage)
 }
 
 func appendStatusMessage(fileContents []byte, relevantType string) []byte {
