@@ -966,6 +966,8 @@ func (m *Ldap) Clone() proto.Message {
 		target.Pool = proto.Clone(m.GetPool()).(*Ldap_ConnectionPool)
 	}
 
+	target.PresenceFilter = m.GetPresenceFilter()
+
 	return target
 }
 
@@ -1471,8 +1473,6 @@ func (m *UserSession_CookieOptions) Clone() proto.Message {
 	} else {
 		target.Path = proto.Clone(m.GetPath()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	}
-
-	target.SameSite = m.GetSameSite()
 
 	target.Domain = m.GetDomain()
 

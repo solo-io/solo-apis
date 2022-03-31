@@ -1618,6 +1618,10 @@ func (m *Ldap) Equal(that interface{}) bool {
 		}
 	}
 
+	if strings.Compare(m.GetPresenceFilter(), target.GetPresenceFilter()) != 0 {
+		return false
+	}
+
 	return true
 }
 
@@ -2453,10 +2457,6 @@ func (m *UserSession_CookieOptions) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetPath(), target.GetPath()) {
 			return false
 		}
-	}
-
-	if m.GetSameSite() != target.GetSameSite() {
-		return false
 	}
 
 	if strings.Compare(m.GetDomain(), target.GetDomain()) != 0 {

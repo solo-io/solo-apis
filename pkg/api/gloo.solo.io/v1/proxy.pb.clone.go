@@ -21,8 +21,6 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_core_v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/core/v3"
 
-	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_matcher_v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/type/matcher/v3"
-
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_core_matchers "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/core/matchers"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_dynamic_forward_proxy "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/dynamic_forward_proxy"
@@ -848,18 +846,6 @@ func (m *RedirectAction) Clone() proto.Message {
 
 		target.PathRewriteSpecifier = &RedirectAction_PrefixRewrite{
 			PrefixRewrite: m.GetPrefixRewrite(),
-		}
-
-	case *RedirectAction_RegexRewrite:
-
-		if h, ok := interface{}(m.GetRegexRewrite()).(clone.Cloner); ok {
-			target.PathRewriteSpecifier = &RedirectAction_RegexRewrite{
-				RegexRewrite: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_matcher_v3.RegexMatchAndSubstitute),
-			}
-		} else {
-			target.PathRewriteSpecifier = &RedirectAction_RegexRewrite{
-				RegexRewrite: proto.Clone(m.GetRegexRewrite()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_matcher_v3.RegexMatchAndSubstitute),
-			}
 		}
 
 	}
