@@ -1618,6 +1618,10 @@ func (m *Ldap) Equal(that interface{}) bool {
 		}
 	}
 
+	if strings.Compare(m.GetPresenceFilter(), target.GetPresenceFilter()) != 0 {
+		return false
+	}
+
 	return true
 }
 

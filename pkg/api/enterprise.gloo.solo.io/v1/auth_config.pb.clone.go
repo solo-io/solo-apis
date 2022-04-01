@@ -966,6 +966,8 @@ func (m *Ldap) Clone() proto.Message {
 		target.Pool = proto.Clone(m.GetPool()).(*Ldap_ConnectionPool)
 	}
 
+	target.PresenceFilter = m.GetPresenceFilter()
+
 	return target
 }
 
