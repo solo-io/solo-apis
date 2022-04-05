@@ -2,7 +2,7 @@
 
 //go:generate mockgen -source ./clients.go -destination mocks/clients.go
 
-package v1alpha1
+package v1beta1
 
 import (
 	"context"
@@ -15,7 +15,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// MulticlusterClientset for the graphql.gloo.solo.io/v1alpha1 APIs
+// MulticlusterClientset for the graphql.gloo.solo.io/v1beta1 APIs
 type MulticlusterClientset interface {
 	// Cluster returns a Clientset for the given cluster
 	Cluster(cluster string) (Clientset, error)
@@ -37,9 +37,9 @@ func (m *multiclusterClientset) Cluster(cluster string) (Clientset, error) {
 	return NewClientset(client), nil
 }
 
-// clienset for the graphql.gloo.solo.io/v1alpha1 APIs
+// clienset for the graphql.gloo.solo.io/v1beta1 APIs
 type Clientset interface {
-	// clienset for the graphql.gloo.solo.io/v1alpha1/v1alpha1 APIs
+	// clienset for the graphql.gloo.solo.io/v1beta1/v1beta1 APIs
 	GraphQLApis() GraphQLApiClient
 }
 
@@ -65,7 +65,7 @@ func NewClientset(client client.Client) Clientset {
 	return &clientSet{client: client}
 }
 
-// clienset for the graphql.gloo.solo.io/v1alpha1/v1alpha1 APIs
+// clienset for the graphql.gloo.solo.io/v1beta1/v1beta1 APIs
 func (c *clientSet) GraphQLApis() GraphQLApiClient {
 	return NewGraphQLApiClient(c.client)
 }

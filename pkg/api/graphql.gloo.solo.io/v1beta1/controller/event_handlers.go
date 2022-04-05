@@ -8,7 +8,7 @@ package controller
 import (
 	"context"
 
-	graphql_gloo_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1"
+	graphql_gloo_solo_io_v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/events"
@@ -20,41 +20,41 @@ import (
 // Handle events for the GraphQLApi Resource
 // DEPRECATED: Prefer reconciler pattern.
 type GraphQLApiEventHandler interface {
-	CreateGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
-	UpdateGraphQLApi(old, new *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
-	DeleteGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
-	GenericGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
+	CreateGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
+	UpdateGraphQLApi(old, new *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
+	DeleteGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
+	GenericGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
 }
 
 type GraphQLApiEventHandlerFuncs struct {
-	OnCreate  func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
-	OnUpdate  func(old, new *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
-	OnDelete  func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
-	OnGeneric func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
+	OnCreate  func(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
+	OnUpdate  func(old, new *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
+	OnDelete  func(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
+	OnGeneric func(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
 }
 
-func (f *GraphQLApiEventHandlerFuncs) CreateGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error {
+func (f *GraphQLApiEventHandlerFuncs) CreateGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error {
 	if f.OnCreate == nil {
 		return nil
 	}
 	return f.OnCreate(obj)
 }
 
-func (f *GraphQLApiEventHandlerFuncs) DeleteGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error {
+func (f *GraphQLApiEventHandlerFuncs) DeleteGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error {
 	if f.OnDelete == nil {
 		return nil
 	}
 	return f.OnDelete(obj)
 }
 
-func (f *GraphQLApiEventHandlerFuncs) UpdateGraphQLApi(objOld, objNew *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error {
+func (f *GraphQLApiEventHandlerFuncs) UpdateGraphQLApi(objOld, objNew *graphql_gloo_solo_io_v1beta1.GraphQLApi) error {
 	if f.OnUpdate == nil {
 		return nil
 	}
 	return f.OnUpdate(objOld, objNew)
 }
 
-func (f *GraphQLApiEventHandlerFuncs) GenericGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error {
+func (f *GraphQLApiEventHandlerFuncs) GenericGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error {
 	if f.OnGeneric == nil {
 		return nil
 	}
@@ -71,7 +71,7 @@ type graphQLApiEventWatcher struct {
 
 func NewGraphQLApiEventWatcher(name string, mgr manager.Manager) GraphQLApiEventWatcher {
 	return &graphQLApiEventWatcher{
-		watcher: events.NewWatcher(name, mgr, &graphql_gloo_solo_io_v1alpha1.GraphQLApi{}),
+		watcher: events.NewWatcher(name, mgr, &graphql_gloo_solo_io_v1beta1.GraphQLApi{}),
 	}
 }
 
@@ -89,7 +89,7 @@ type genericGraphQLApiHandler struct {
 }
 
 func (h genericGraphQLApiHandler) Create(object client.Object) error {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+	obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	if !ok {
 		return errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}
@@ -97,7 +97,7 @@ func (h genericGraphQLApiHandler) Create(object client.Object) error {
 }
 
 func (h genericGraphQLApiHandler) Delete(object client.Object) error {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+	obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	if !ok {
 		return errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}
@@ -105,11 +105,11 @@ func (h genericGraphQLApiHandler) Delete(object client.Object) error {
 }
 
 func (h genericGraphQLApiHandler) Update(old, new client.Object) error {
-	objOld, ok := old.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+	objOld, ok := old.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	if !ok {
 		return errors.Errorf("internal error: GraphQLApi handler received event for %T", old)
 	}
-	objNew, ok := new.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+	objNew, ok := new.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	if !ok {
 		return errors.Errorf("internal error: GraphQLApi handler received event for %T", new)
 	}
@@ -117,7 +117,7 @@ func (h genericGraphQLApiHandler) Update(old, new client.Object) error {
 }
 
 func (h genericGraphQLApiHandler) Generic(object client.Object) error {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+	obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	if !ok {
 		return errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}

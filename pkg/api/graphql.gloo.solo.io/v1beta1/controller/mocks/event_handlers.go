@@ -9,8 +9,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1"
-	controller "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1/controller"
+	v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
+	controller "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1/controller"
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
@@ -38,7 +38,7 @@ func (m *MockGraphQLApiEventHandler) EXPECT() *MockGraphQLApiEventHandlerMockRec
 }
 
 // CreateGraphQLApi mocks base method.
-func (m *MockGraphQLApiEventHandler) CreateGraphQLApi(obj *v1alpha1.GraphQLApi) error {
+func (m *MockGraphQLApiEventHandler) CreateGraphQLApi(obj *v1beta1.GraphQLApi) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateGraphQLApi", obj)
 	ret0, _ := ret[0].(error)
@@ -52,7 +52,7 @@ func (mr *MockGraphQLApiEventHandlerMockRecorder) CreateGraphQLApi(obj interface
 }
 
 // DeleteGraphQLApi mocks base method.
-func (m *MockGraphQLApiEventHandler) DeleteGraphQLApi(obj *v1alpha1.GraphQLApi) error {
+func (m *MockGraphQLApiEventHandler) DeleteGraphQLApi(obj *v1beta1.GraphQLApi) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteGraphQLApi", obj)
 	ret0, _ := ret[0].(error)
@@ -66,7 +66,7 @@ func (mr *MockGraphQLApiEventHandlerMockRecorder) DeleteGraphQLApi(obj interface
 }
 
 // GenericGraphQLApi mocks base method.
-func (m *MockGraphQLApiEventHandler) GenericGraphQLApi(obj *v1alpha1.GraphQLApi) error {
+func (m *MockGraphQLApiEventHandler) GenericGraphQLApi(obj *v1beta1.GraphQLApi) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GenericGraphQLApi", obj)
 	ret0, _ := ret[0].(error)
@@ -80,7 +80,7 @@ func (mr *MockGraphQLApiEventHandlerMockRecorder) GenericGraphQLApi(obj interfac
 }
 
 // UpdateGraphQLApi mocks base method.
-func (m *MockGraphQLApiEventHandler) UpdateGraphQLApi(old, new *v1alpha1.GraphQLApi) error {
+func (m *MockGraphQLApiEventHandler) UpdateGraphQLApi(old, new *v1beta1.GraphQLApi) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateGraphQLApi", old, new)
 	ret0, _ := ret[0].(error)

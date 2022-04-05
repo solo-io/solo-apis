@@ -2,10 +2,10 @@
 
 //go:generate mockgen -source ./sets.go -destination mocks/sets.go
 
-package v1alpha1sets
+package v1beta1sets
 
 import (
-	graphql_gloo_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1"
+	graphql_gloo_solo_io_v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
 
 	"github.com/rotisserie/eris"
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
@@ -17,13 +17,13 @@ type GraphQLApiSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
-	List(filterResource ...func(*graphql_gloo_solo_io_v1alpha1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1alpha1.GraphQLApi
+	List(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-	UnsortedList(filterResource ...func(*graphql_gloo_solo_io_v1alpha1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1alpha1.GraphQLApi
+	UnsortedList(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	// Return the Set as a map of key to resource.
-	Map() map[string]*graphql_gloo_solo_io_v1alpha1.GraphQLApi
+	Map() map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	// Insert a resource into the set.
-	Insert(graphQLApi ...*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+	Insert(graphQLApi ...*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	// Compare the equality of the keys in two sets (not the resources themselves)
 	Equal(graphQLApiSet GraphQLApiSet) bool
 	// Check if the set contains a key matching the resource (not the resource itself)
@@ -37,7 +37,7 @@ type GraphQLApiSet interface {
 	// Return the intersection with the provided set
 	Intersection(set GraphQLApiSet) GraphQLApiSet
 	// Find the resource with the given ID
-	Find(id ezkube.ResourceId) (*graphql_gloo_solo_io_v1alpha1.GraphQLApi, error)
+	Find(id ezkube.ResourceId) (*graphql_gloo_solo_io_v1beta1.GraphQLApi, error)
 	// Get the length of the set
 	Length() int
 	// returns the generic implementation of the set
@@ -48,7 +48,7 @@ type GraphQLApiSet interface {
 	Clone() GraphQLApiSet
 }
 
-func makeGenericGraphQLApiSet(graphQLApiList []*graphql_gloo_solo_io_v1alpha1.GraphQLApi) sksets.ResourceSet {
+func makeGenericGraphQLApiSet(graphQLApiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range graphQLApiList {
 		genericResources = append(genericResources, obj)
@@ -60,12 +60,12 @@ type graphQLApiSet struct {
 	set sksets.ResourceSet
 }
 
-func NewGraphQLApiSet(graphQLApiList ...*graphql_gloo_solo_io_v1alpha1.GraphQLApi) GraphQLApiSet {
+func NewGraphQLApiSet(graphQLApiList ...*graphql_gloo_solo_io_v1beta1.GraphQLApi) GraphQLApiSet {
 	return &graphQLApiSet{set: makeGenericGraphQLApiSet(graphQLApiList)}
 }
 
-func NewGraphQLApiSetFromList(graphQLApiList *graphql_gloo_solo_io_v1alpha1.GraphQLApiList) GraphQLApiSet {
-	list := make([]*graphql_gloo_solo_io_v1alpha1.GraphQLApi, 0, len(graphQLApiList.Items))
+func NewGraphQLApiSetFromList(graphQLApiList *graphql_gloo_solo_io_v1beta1.GraphQLApiList) GraphQLApiSet {
+	list := make([]*graphql_gloo_solo_io_v1beta1.GraphQLApi, 0, len(graphQLApiList.Items))
 	for idx := range graphQLApiList.Items {
 		list = append(list, &graphQLApiList.Items[idx])
 	}
@@ -79,57 +79,57 @@ func (s *graphQLApiSet) Keys() sets.String {
 	return s.Generic().Keys()
 }
 
-func (s *graphQLApiSet) List(filterResource ...func(*graphql_gloo_solo_io_v1alpha1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1alpha1.GraphQLApi {
+func (s *graphQLApiSet) List(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi {
 	if s == nil {
 		return nil
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi))
+			return filter(obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
 		})
 	}
 
 	objs := s.Generic().List(genericFilters...)
-	graphQLApiList := make([]*graphql_gloo_solo_io_v1alpha1.GraphQLApi, 0, len(objs))
+	graphQLApiList := make([]*graphql_gloo_solo_io_v1beta1.GraphQLApi, 0, len(objs))
 	for _, obj := range objs {
-		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi))
+		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
 	}
 	return graphQLApiList
 }
 
-func (s *graphQLApiSet) UnsortedList(filterResource ...func(*graphql_gloo_solo_io_v1alpha1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1alpha1.GraphQLApi {
+func (s *graphQLApiSet) UnsortedList(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi {
 	if s == nil {
 		return nil
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi))
+			return filter(obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
 		})
 	}
 
-	var graphQLApiList []*graphql_gloo_solo_io_v1alpha1.GraphQLApi
+	var graphQLApiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi))
+		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
 	}
 	return graphQLApiList
 }
 
-func (s *graphQLApiSet) Map() map[string]*graphql_gloo_solo_io_v1alpha1.GraphQLApi {
+func (s *graphQLApiSet) Map() map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi {
 	if s == nil {
 		return nil
 	}
 
-	newMap := map[string]*graphql_gloo_solo_io_v1alpha1.GraphQLApi{}
+	newMap := map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi{}
 	for k, v := range s.Generic().Map() {
-		newMap[k] = v.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+		newMap[k] = v.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	}
 	return newMap
 }
 
 func (s *graphQLApiSet) Insert(
-	graphQLApiList ...*graphql_gloo_solo_io_v1alpha1.GraphQLApi,
+	graphQLApiList ...*graphql_gloo_solo_io_v1beta1.GraphQLApi,
 ) {
 	if s == nil {
 		panic("cannot insert into nil set")
@@ -183,23 +183,23 @@ func (s *graphQLApiSet) Intersection(set GraphQLApiSet) GraphQLApiSet {
 		return nil
 	}
 	newSet := s.Generic().Intersection(set.Generic())
-	var graphQLApiList []*graphql_gloo_solo_io_v1alpha1.GraphQLApi
+	var graphQLApiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	for _, obj := range newSet.List() {
-		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi))
+		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
 	}
 	return NewGraphQLApiSet(graphQLApiList...)
 }
 
-func (s *graphQLApiSet) Find(id ezkube.ResourceId) (*graphql_gloo_solo_io_v1alpha1.GraphQLApi, error) {
+func (s *graphQLApiSet) Find(id ezkube.ResourceId) (*graphql_gloo_solo_io_v1beta1.GraphQLApi, error) {
 	if s == nil {
 		return nil, eris.Errorf("empty set, cannot find GraphQLApi %v", sksets.Key(id))
 	}
-	obj, err := s.Generic().Find(&graphql_gloo_solo_io_v1alpha1.GraphQLApi{}, id)
+	obj, err := s.Generic().Find(&graphql_gloo_solo_io_v1beta1.GraphQLApi{}, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return obj.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi), nil
+	return obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi), nil
 }
 
 func (s *graphQLApiSet) Length() int {

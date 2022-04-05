@@ -8,7 +8,7 @@ package controller
 import (
 	"context"
 
-	graphql_gloo_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1"
+	graphql_gloo_solo_io_v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/ezkube"
@@ -21,7 +21,7 @@ import (
 // Reconcile Upsert events for the GraphQLApi Resource across clusters.
 // implemented by the user
 type MulticlusterGraphQLApiReconciler interface {
-	ReconcileGraphQLApi(clusterName string, obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) (reconcile.Result, error)
+	ReconcileGraphQLApi(clusterName string, obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the GraphQLApi Resource across clusters.
@@ -33,11 +33,11 @@ type MulticlusterGraphQLApiDeletionReconciler interface {
 }
 
 type MulticlusterGraphQLApiReconcilerFuncs struct {
-	OnReconcileGraphQLApi         func(clusterName string, obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) (reconcile.Result, error)
+	OnReconcileGraphQLApi         func(clusterName string, obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error)
 	OnReconcileGraphQLApiDeletion func(clusterName string, req reconcile.Request) error
 }
 
-func (f *MulticlusterGraphQLApiReconcilerFuncs) ReconcileGraphQLApi(clusterName string, obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) (reconcile.Result, error) {
+func (f *MulticlusterGraphQLApiReconcilerFuncs) ReconcileGraphQLApi(clusterName string, obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error) {
 	if f.OnReconcileGraphQLApi == nil {
 		return reconcile.Result{}, nil
 	}
@@ -67,7 +67,7 @@ func (m *multiclusterGraphQLApiReconcileLoop) AddMulticlusterGraphQLApiReconcile
 }
 
 func NewMulticlusterGraphQLApiReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterGraphQLApiReconcileLoop {
-	return &multiclusterGraphQLApiReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &graphql_gloo_solo_io_v1alpha1.GraphQLApi{}, options)}
+	return &multiclusterGraphQLApiReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &graphql_gloo_solo_io_v1beta1.GraphQLApi{}, options)}
 }
 
 type genericGraphQLApiMulticlusterReconciler struct {
@@ -82,7 +82,7 @@ func (g genericGraphQLApiMulticlusterReconciler) ReconcileDeletion(cluster strin
 }
 
 func (g genericGraphQLApiMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+	obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	if !ok {
 		return reconcile.Result{}, errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}

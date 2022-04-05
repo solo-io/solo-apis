@@ -8,7 +8,7 @@ package controller
 import (
 	"context"
 
-	graphql_gloo_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1"
+	graphql_gloo_solo_io_v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
 
 	"github.com/pkg/errors"
 	"github.com/solo-io/skv2/pkg/ezkube"
@@ -20,7 +20,7 @@ import (
 // Reconcile Upsert events for the GraphQLApi Resource.
 // implemented by the user
 type GraphQLApiReconciler interface {
-	ReconcileGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) (reconcile.Result, error)
+	ReconcileGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the GraphQLApi Resource.
@@ -32,11 +32,11 @@ type GraphQLApiDeletionReconciler interface {
 }
 
 type GraphQLApiReconcilerFuncs struct {
-	OnReconcileGraphQLApi         func(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) (reconcile.Result, error)
+	OnReconcileGraphQLApi         func(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error)
 	OnReconcileGraphQLApiDeletion func(req reconcile.Request) error
 }
 
-func (f *GraphQLApiReconcilerFuncs) ReconcileGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) (reconcile.Result, error) {
+func (f *GraphQLApiReconcilerFuncs) ReconcileGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error) {
 	if f.OnReconcileGraphQLApi == nil {
 		return reconcile.Result{}, nil
 	}
@@ -61,7 +61,7 @@ type GraphQLApiFinalizer interface {
 
 	// finalize the object before it is deleted.
 	// Watchers created with a finalizing handler will a
-	FinalizeGraphQLApi(obj *graphql_gloo_solo_io_v1alpha1.GraphQLApi) error
+	FinalizeGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
 }
 
 type GraphQLApiReconcileLoop interface {
@@ -75,7 +75,7 @@ type graphQLApiReconcileLoop struct {
 func NewGraphQLApiReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) GraphQLApiReconcileLoop {
 	return &graphQLApiReconcileLoop{
 		// empty cluster indicates this reconciler is built for the local cluster
-		loop: reconcile.NewLoop(name, "", mgr, &graphql_gloo_solo_io_v1alpha1.GraphQLApi{}, options),
+		loop: reconcile.NewLoop(name, "", mgr, &graphql_gloo_solo_io_v1beta1.GraphQLApi{}, options),
 	}
 }
 
@@ -102,7 +102,7 @@ type genericGraphQLApiReconciler struct {
 }
 
 func (r genericGraphQLApiReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+	obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	if !ok {
 		return reconcile.Result{}, errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}
@@ -127,7 +127,7 @@ func (r genericGraphQLApiFinalizer) FinalizerName() string {
 }
 
 func (r genericGraphQLApiFinalizer) Finalize(object ezkube.Object) error {
-	obj, ok := object.(*graphql_gloo_solo_io_v1alpha1.GraphQLApi)
+	obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	if !ok {
 		return errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
 	}

@@ -10,8 +10,8 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	reconcile "github.com/solo-io/skv2/pkg/reconcile"
-	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1"
-	controller "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1alpha1/controller"
+	v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
+	controller "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1/controller"
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
@@ -39,7 +39,7 @@ func (m *MockGraphQLApiReconciler) EXPECT() *MockGraphQLApiReconcilerMockRecorde
 }
 
 // ReconcileGraphQLApi mocks base method.
-func (m *MockGraphQLApiReconciler) ReconcileGraphQLApi(obj *v1alpha1.GraphQLApi) (reconcile.Result, error) {
+func (m *MockGraphQLApiReconciler) ReconcileGraphQLApi(obj *v1beta1.GraphQLApi) (reconcile.Result, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReconcileGraphQLApi", obj)
 	ret0, _ := ret[0].(reconcile.Result)
@@ -114,7 +114,7 @@ func (m *MockGraphQLApiFinalizer) EXPECT() *MockGraphQLApiFinalizerMockRecorder 
 }
 
 // FinalizeGraphQLApi mocks base method.
-func (m *MockGraphQLApiFinalizer) FinalizeGraphQLApi(obj *v1alpha1.GraphQLApi) error {
+func (m *MockGraphQLApiFinalizer) FinalizeGraphQLApi(obj *v1beta1.GraphQLApi) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FinalizeGraphQLApi", obj)
 	ret0, _ := ret[0].(error)
@@ -142,7 +142,7 @@ func (mr *MockGraphQLApiFinalizerMockRecorder) GraphQLApiFinalizerName() *gomock
 }
 
 // ReconcileGraphQLApi mocks base method.
-func (m *MockGraphQLApiFinalizer) ReconcileGraphQLApi(obj *v1alpha1.GraphQLApi) (reconcile.Result, error) {
+func (m *MockGraphQLApiFinalizer) ReconcileGraphQLApi(obj *v1beta1.GraphQLApi) (reconcile.Result, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReconcileGraphQLApi", obj)
 	ret0, _ := ret[0].(reconcile.Result)
