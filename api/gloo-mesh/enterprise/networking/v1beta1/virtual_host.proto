@@ -47,6 +47,35 @@ message VirtualHostOptions {
 
     //     TODO: Move into traffic policy anything that goes on the route level and would be conceivably used for East/West traffic
     //    .networking.enterprise.mesh.gloo.solo.io.filters.Waf waf = 2;
+
+    // Policy for handling invalid routes.  If not defined, the default behaviour is to fail the VirtualHost and not create _any_ routes
+    // from it.
+    InvalidRoutePolicy invalid_route_policy = 3;
+
+    message InvalidRoutePolicy {
+        oneof policy {
+        
+            // Drop individual invalid routes from translated Istio VirtualServices.
+            DropRoute drop = 1;
+
+            // Replace invalid routes with the given static response.  Only available with Gloo Mesh Gateway license.  
+            // Without a license, bad routes will be dropped instead.
+            DirectResponse direct_response = 2;
+        }
+    }
+
+    message DropRoute {
+
+    }
+
+    message DirectResponse {
+
+        // Http code to return in the response.  Default is 404
+        uint32 code = 1;
+
+        // Body to return in the response.  Default "No valid route configured"
+        string body = 2;
+    }
 }
 
 message VirtualHostStatus {
