@@ -13,7 +13,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.1
       - name: Parse GitHub Ref
         id: parse_github_ref
         env:
@@ -54,7 +54,7 @@ jobs:
             echo "$BRANCH exists, nothing to do"
           fi
       - name: Create Pull Request
-        uses: repo-sync/pull-request@v2
+        uses: repo-sync/pull-request@v2.6.2
         with:
           destination_branch: ${{ steps.parse_github_ref.outputs.destination_branch }}
           pr_reviewer: "solo-apis/solo-apis"
