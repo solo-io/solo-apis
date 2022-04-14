@@ -575,6 +575,8 @@ func (m *SettingsSpec_VaultSecrets) Clone() proto.Message {
 
 	target.RootKey = m.GetRootKey()
 
+	target.PathPrefix = m.GetPathPrefix()
+
 	return target
 }
 
