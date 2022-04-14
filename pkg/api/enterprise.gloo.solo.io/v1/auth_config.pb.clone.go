@@ -662,6 +662,12 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 
 	target.ParseCallbackPathAsRegex = m.GetParseCallbackPathAsRegex()
 
+	if h, ok := interface{}(m.GetAutoMapFromMetadata()).(clone.Cloner); ok {
+		target.AutoMapFromMetadata = h.Clone().(*OidcAuthorizationCodeAutoMapFromMetadata)
+	} else {
+		target.AutoMapFromMetadata = proto.Clone(m.GetAutoMapFromMetadata()).(*OidcAuthorizationCodeAutoMapFromMetadata)
+	}
+
 	return target
 }
 
@@ -1477,6 +1483,19 @@ func (m *UserSession_CookieOptions) Clone() proto.Message {
 	target.SameSite = m.GetSameSite()
 
 	target.Domain = m.GetDomain()
+
+	return target
+}
+
+// Clone function
+func (m *OidcAuthorizationCodeAutoMapFromMetadata) Clone() proto.Message {
+	var target *OidcAuthorizationCodeAutoMapFromMetadata
+	if m == nil {
+		return target
+	}
+	target = &OidcAuthorizationCodeAutoMapFromMetadata{}
+
+	target.Namespace = m.GetNamespace()
 
 	return target
 }

@@ -532,6 +532,17 @@ message OidcAuthorizationCode {
 
     // If set, CallbackPath will be evaluated as a regular expression
     bool parse_callback_path_as_regex = 17;
+
+    message autoMapFromMetadata {
+        // The namespace from which to map metadata
+        string namespace = 1;
+    }
+
+    // If specified, authEndpointQueryParams and tokenEndpointQueryParams will be populated using dynamic metadata values.
+    // By default parameters will be extracted from the solo_authconfig_oidc namespace
+    // this behavior can be overridden by explicitly specifying a namespace
+    autoMapFromMetadata auto_map_from_metadata = 18;
+    
 }
 
 // Defines how JSON Web Token (JWT) access tokens are validated.
