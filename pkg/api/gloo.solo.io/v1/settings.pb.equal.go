@@ -938,6 +938,10 @@ func (m *SettingsSpec_VaultSecrets) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetPathPrefix(), target.GetPathPrefix()) != 0 {
+		return false
+	}
+
 	return true
 }
 
