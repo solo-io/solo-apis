@@ -1250,6 +1250,10 @@ func (m *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) Equal(that interface
 		return false
 	}
 
+	if m.GetConsistencyMode() != target.GetConsistencyMode() {
+		return false
+	}
+
 	return true
 }
 
