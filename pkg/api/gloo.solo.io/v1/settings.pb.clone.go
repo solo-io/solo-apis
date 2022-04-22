@@ -730,6 +730,8 @@ func (m *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) Clone() proto.Messag
 
 	target.SplitTlsServices = m.GetSplitTlsServices()
 
+	target.ConsistencyMode = m.GetConsistencyMode()
+
 	return target
 }
 

@@ -79,6 +79,8 @@ func (m *UpstreamSpec) Clone() proto.Message {
 		target.ServiceSpec = proto.Clone(m.GetServiceSpec()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options.ServiceSpec)
 	}
 
+	target.ConsistencyMode = m.GetConsistencyMode()
+
 	target.ConnectEnabled = m.GetConnectEnabled()
 
 	if m.GetDataCenters() != nil {
