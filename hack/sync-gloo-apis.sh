@@ -7,6 +7,8 @@ rsync -ax --exclude 'solo-kit.json' --exclude 'grpc/v*'  ../gloo/projects/gloo/a
 rmdir api/gloo/gloo/grpc
 rsync -ax --exclude 'solo-kit.json'  ../gloo/projects/gateway/api/  ./api/gloo/gateway
 
+rsync ../gloo/LICENSE ./
+
 # Create Enterprise Gloo directory
 mkdir -p ./api/gloo/enterprise.gloo/v1
 mv ./api/gloo/gloo/v1/enterprise/options/extauth/v1/extauth.proto ./api/gloo/enterprise.gloo/v1/auth_config.proto
