@@ -1375,6 +1375,8 @@ func (m *UserSession_CookieOptions) Clone() proto.Message {
 		target.Path = proto.Clone(m.GetPath()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	}
 
+	target.SameSite = m.GetSameSite()
+
 	target.Domain = m.GetDomain()
 
 	return target
