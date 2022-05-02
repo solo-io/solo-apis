@@ -26,14 +26,14 @@ var (
 )
 
 // Equal function
-func (m *MatchableHttpGatewaySpec) Equal(that interface{}) bool {
+func (m *HttpGatewaySpec) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*MatchableHttpGatewaySpec)
+	target, ok := that.(*HttpGatewaySpec)
 	if !ok {
-		that2, ok := that.(MatchableHttpGatewaySpec)
+		that2, ok := that.(HttpGatewaySpec)
 		if ok {
 			target = &that2
 		} else {
@@ -194,14 +194,14 @@ func (m *VirtualServiceSelectorExpressions) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *MatchableHttpGatewayStatus) Equal(that interface{}) bool {
+func (m *HttpGatewayStatus) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*MatchableHttpGatewayStatus)
+	target, ok := that.(*HttpGatewayStatus)
 	if !ok {
-		that2, ok := that.(MatchableHttpGatewayStatus)
+		that2, ok := that.(HttpGatewayStatus)
 		if ok {
 			target = &that2
 		} else {
@@ -257,14 +257,14 @@ func (m *MatchableHttpGatewayStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *MatchableHttpGatewayNamespacedStatuses) Equal(that interface{}) bool {
+func (m *HttpGatewayNamespacedStatuses) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*MatchableHttpGatewayNamespacedStatuses)
+	target, ok := that.(*HttpGatewayNamespacedStatuses)
 	if !ok {
-		that2, ok := that.(MatchableHttpGatewayNamespacedStatuses)
+		that2, ok := that.(HttpGatewayNamespacedStatuses)
 		if ok {
 			target = &that2
 		} else {
@@ -298,14 +298,14 @@ func (m *MatchableHttpGatewayNamespacedStatuses) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *MatchableHttpGatewaySpec_Matcher) Equal(that interface{}) bool {
+func (m *HttpGatewaySpec_Matcher) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*MatchableHttpGatewaySpec_Matcher)
+	target, ok := that.(*HttpGatewaySpec_Matcher)
 	if !ok {
-		that2, ok := that.(MatchableHttpGatewaySpec_Matcher)
+		that2, ok := that.(HttpGatewaySpec_Matcher)
 		if ok {
 			target = &that2
 		} else {

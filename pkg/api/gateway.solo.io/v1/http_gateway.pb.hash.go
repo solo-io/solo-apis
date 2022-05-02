@@ -26,7 +26,7 @@ var (
 )
 
 // Hash function
-func (m *MatchableHttpGatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *HttpGatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -34,7 +34,7 @@ func (m *MatchableHttpGatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.MatchableHttpGatewaySpec")); err != nil {
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.HttpGatewaySpec")); err != nil {
 		return 0, err
 	}
 
@@ -233,7 +233,7 @@ func (m *VirtualServiceSelectorExpressions) Hash(hasher hash.Hash64) (uint64, er
 }
 
 // Hash function
-func (m *MatchableHttpGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *HttpGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -241,7 +241,7 @@ func (m *MatchableHttpGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.MatchableHttpGatewayStatus")); err != nil {
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.HttpGatewayStatus")); err != nil {
 		return 0, err
 	}
 
@@ -321,7 +321,7 @@ func (m *MatchableHttpGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *MatchableHttpGatewayNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *HttpGatewayNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -329,7 +329,7 @@ func (m *MatchableHttpGatewayNamespacedStatuses) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.MatchableHttpGatewayNamespacedStatuses")); err != nil {
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.HttpGatewayNamespacedStatuses")); err != nil {
 		return 0, err
 	}
 
@@ -376,7 +376,7 @@ func (m *MatchableHttpGatewayNamespacedStatuses) Hash(hasher hash.Hash64) (uint6
 }
 
 // Hash function
-func (m *MatchableHttpGatewaySpec_Matcher) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *HttpGatewaySpec_Matcher) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -384,7 +384,7 @@ func (m *MatchableHttpGatewaySpec_Matcher) Hash(hasher hash.Hash64) (uint64, err
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.MatchableHttpGatewaySpec_Matcher")); err != nil {
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.HttpGatewaySpec_Matcher")); err != nil {
 		return 0, err
 	}
 

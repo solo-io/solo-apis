@@ -34,17 +34,17 @@ var (
 )
 
 // Clone function
-func (m *MatchableHttpGatewaySpec) Clone() proto.Message {
-	var target *MatchableHttpGatewaySpec
+func (m *HttpGatewaySpec) Clone() proto.Message {
+	var target *HttpGatewaySpec
 	if m == nil {
 		return target
 	}
-	target = &MatchableHttpGatewaySpec{}
+	target = &HttpGatewaySpec{}
 
 	if h, ok := interface{}(m.GetMatcher()).(clone.Cloner); ok {
-		target.Matcher = h.Clone().(*MatchableHttpGatewaySpec_Matcher)
+		target.Matcher = h.Clone().(*HttpGatewaySpec_Matcher)
 	} else {
-		target.Matcher = proto.Clone(m.GetMatcher()).(*MatchableHttpGatewaySpec_Matcher)
+		target.Matcher = proto.Clone(m.GetMatcher()).(*HttpGatewaySpec_Matcher)
 	}
 
 	if h, ok := interface{}(m.GetHttpGateway()).(clone.Cloner); ok {
@@ -135,12 +135,12 @@ func (m *VirtualServiceSelectorExpressions) Clone() proto.Message {
 }
 
 // Clone function
-func (m *MatchableHttpGatewayStatus) Clone() proto.Message {
-	var target *MatchableHttpGatewayStatus
+func (m *HttpGatewayStatus) Clone() proto.Message {
+	var target *HttpGatewayStatus
 	if m == nil {
 		return target
 	}
-	target = &MatchableHttpGatewayStatus{}
+	target = &HttpGatewayStatus{}
 
 	target.State = m.GetState()
 
@@ -149,13 +149,13 @@ func (m *MatchableHttpGatewayStatus) Clone() proto.Message {
 	target.ReportedBy = m.GetReportedBy()
 
 	if m.GetSubresourceStatuses() != nil {
-		target.SubresourceStatuses = make(map[string]*MatchableHttpGatewayStatus, len(m.GetSubresourceStatuses()))
+		target.SubresourceStatuses = make(map[string]*HttpGatewayStatus, len(m.GetSubresourceStatuses()))
 		for k, v := range m.GetSubresourceStatuses() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.SubresourceStatuses[k] = h.Clone().(*MatchableHttpGatewayStatus)
+				target.SubresourceStatuses[k] = h.Clone().(*HttpGatewayStatus)
 			} else {
-				target.SubresourceStatuses[k] = proto.Clone(v).(*MatchableHttpGatewayStatus)
+				target.SubresourceStatuses[k] = proto.Clone(v).(*HttpGatewayStatus)
 			}
 
 		}
@@ -171,21 +171,21 @@ func (m *MatchableHttpGatewayStatus) Clone() proto.Message {
 }
 
 // Clone function
-func (m *MatchableHttpGatewayNamespacedStatuses) Clone() proto.Message {
-	var target *MatchableHttpGatewayNamespacedStatuses
+func (m *HttpGatewayNamespacedStatuses) Clone() proto.Message {
+	var target *HttpGatewayNamespacedStatuses
 	if m == nil {
 		return target
 	}
-	target = &MatchableHttpGatewayNamespacedStatuses{}
+	target = &HttpGatewayNamespacedStatuses{}
 
 	if m.GetStatuses() != nil {
-		target.Statuses = make(map[string]*MatchableHttpGatewayStatus, len(m.GetStatuses()))
+		target.Statuses = make(map[string]*HttpGatewayStatus, len(m.GetStatuses()))
 		for k, v := range m.GetStatuses() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Statuses[k] = h.Clone().(*MatchableHttpGatewayStatus)
+				target.Statuses[k] = h.Clone().(*HttpGatewayStatus)
 			} else {
-				target.Statuses[k] = proto.Clone(v).(*MatchableHttpGatewayStatus)
+				target.Statuses[k] = proto.Clone(v).(*HttpGatewayStatus)
 			}
 
 		}
@@ -195,12 +195,12 @@ func (m *MatchableHttpGatewayNamespacedStatuses) Clone() proto.Message {
 }
 
 // Clone function
-func (m *MatchableHttpGatewaySpec_Matcher) Clone() proto.Message {
-	var target *MatchableHttpGatewaySpec_Matcher
+func (m *HttpGatewaySpec_Matcher) Clone() proto.Message {
+	var target *HttpGatewaySpec_Matcher
 	if m == nil {
 		return target
 	}
-	target = &MatchableHttpGatewaySpec_Matcher{}
+	target = &HttpGatewaySpec_Matcher{}
 
 	if m.GetSourcePrefixRanges() != nil {
 		target.SourcePrefixRanges = make([]*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_core_v3.CidrRange, len(m.GetSourcePrefixRanges()))
