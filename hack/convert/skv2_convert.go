@@ -105,26 +105,27 @@ func modifyRelevantFile(file []byte) ([]byte, bool) {
 
 func modifyFileForResourceKind(filePtr *[]byte, resourceKind string) bool {
 	file := *filePtr
-	// Make sure to add extra space after to check specifically for only Message
-	oldMessageBytes := []byte(fmt.Sprintf("message %s ", resourceKind))
-	if !bytes.Contains(file, oldMessageBytes) {
-		return false
-	}
 
 	// In general, we use the exact kind when generating the new Spec and Status messages
-	newResourceKind := resourceKind
+	originalResourceKind := resourceKind
 
 	// This is a hack
 	// The preferred name for the resource is HttpGateway but that was already used
 	// Given that we are creating a new message, we can choose the preferred name
 	// Additionally, we make certain assumptions about proto file name and resource kind
 	// so generating the resource to have this Kind, allows other forms of codegen to be unchanged
-	if resourceKind == "MatchableHttpGateway" {
-		newResourceKind = "HttpGateway"
+	if resourceKind == "HttpGateway" {
+		originalResourceKind = "MatchableHttpGateway"
 	}
 
-	file = patchSpecMessage(file, oldMessageBytes, newResourceKind)
-	file = appendStatusMessage(file, newResourceKind)
+	// Make sure to add extra space after to check specifically for only Message
+	oldMessageBytes := []byte(fmt.Sprintf("message %s ", originalResourceKind))
+	if !bytes.Contains(file, oldMessageBytes) {
+		return false
+	}
+
+	file = patchSpecMessage(file, oldMessageBytes, resourceKind)
+	file = appendStatusMessage(file, resourceKind)
 	file = addImport(file)
 
 	*filePtr = file
