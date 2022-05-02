@@ -130,6 +130,121 @@ func (mr *MockMulticlusterFederatedGatewayReconcileLoopMockRecorder) AddMulticlu
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterFederatedGatewayReconciler", reflect.TypeOf((*MockMulticlusterFederatedGatewayReconcileLoop)(nil).AddMulticlusterFederatedGatewayReconciler), varargs...)
 }
 
+// MockMulticlusterFederatedHttpGatewayReconciler is a mock of MulticlusterFederatedHttpGatewayReconciler interface.
+type MockMulticlusterFederatedHttpGatewayReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterFederatedHttpGatewayReconcilerMockRecorder
+}
+
+// MockMulticlusterFederatedHttpGatewayReconcilerMockRecorder is the mock recorder for MockMulticlusterFederatedHttpGatewayReconciler.
+type MockMulticlusterFederatedHttpGatewayReconcilerMockRecorder struct {
+	mock *MockMulticlusterFederatedHttpGatewayReconciler
+}
+
+// NewMockMulticlusterFederatedHttpGatewayReconciler creates a new mock instance.
+func NewMockMulticlusterFederatedHttpGatewayReconciler(ctrl *gomock.Controller) *MockMulticlusterFederatedHttpGatewayReconciler {
+	mock := &MockMulticlusterFederatedHttpGatewayReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterFederatedHttpGatewayReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterFederatedHttpGatewayReconciler) EXPECT() *MockMulticlusterFederatedHttpGatewayReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileFederatedHttpGateway mocks base method.
+func (m *MockMulticlusterFederatedHttpGatewayReconciler) ReconcileFederatedHttpGateway(clusterName string, obj *v1.FederatedHttpGateway) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileFederatedHttpGateway", clusterName, obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileFederatedHttpGateway indicates an expected call of ReconcileFederatedHttpGateway.
+func (mr *MockMulticlusterFederatedHttpGatewayReconcilerMockRecorder) ReconcileFederatedHttpGateway(clusterName, obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileFederatedHttpGateway", reflect.TypeOf((*MockMulticlusterFederatedHttpGatewayReconciler)(nil).ReconcileFederatedHttpGateway), clusterName, obj)
+}
+
+// MockMulticlusterFederatedHttpGatewayDeletionReconciler is a mock of MulticlusterFederatedHttpGatewayDeletionReconciler interface.
+type MockMulticlusterFederatedHttpGatewayDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterFederatedHttpGatewayDeletionReconcilerMockRecorder
+}
+
+// MockMulticlusterFederatedHttpGatewayDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterFederatedHttpGatewayDeletionReconciler.
+type MockMulticlusterFederatedHttpGatewayDeletionReconcilerMockRecorder struct {
+	mock *MockMulticlusterFederatedHttpGatewayDeletionReconciler
+}
+
+// NewMockMulticlusterFederatedHttpGatewayDeletionReconciler creates a new mock instance.
+func NewMockMulticlusterFederatedHttpGatewayDeletionReconciler(ctrl *gomock.Controller) *MockMulticlusterFederatedHttpGatewayDeletionReconciler {
+	mock := &MockMulticlusterFederatedHttpGatewayDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterFederatedHttpGatewayDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterFederatedHttpGatewayDeletionReconciler) EXPECT() *MockMulticlusterFederatedHttpGatewayDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileFederatedHttpGatewayDeletion mocks base method.
+func (m *MockMulticlusterFederatedHttpGatewayDeletionReconciler) ReconcileFederatedHttpGatewayDeletion(clusterName string, req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileFederatedHttpGatewayDeletion", clusterName, req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileFederatedHttpGatewayDeletion indicates an expected call of ReconcileFederatedHttpGatewayDeletion.
+func (mr *MockMulticlusterFederatedHttpGatewayDeletionReconcilerMockRecorder) ReconcileFederatedHttpGatewayDeletion(clusterName, req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileFederatedHttpGatewayDeletion", reflect.TypeOf((*MockMulticlusterFederatedHttpGatewayDeletionReconciler)(nil).ReconcileFederatedHttpGatewayDeletion), clusterName, req)
+}
+
+// MockMulticlusterFederatedHttpGatewayReconcileLoop is a mock of MulticlusterFederatedHttpGatewayReconcileLoop interface.
+type MockMulticlusterFederatedHttpGatewayReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterFederatedHttpGatewayReconcileLoopMockRecorder
+}
+
+// MockMulticlusterFederatedHttpGatewayReconcileLoopMockRecorder is the mock recorder for MockMulticlusterFederatedHttpGatewayReconcileLoop.
+type MockMulticlusterFederatedHttpGatewayReconcileLoopMockRecorder struct {
+	mock *MockMulticlusterFederatedHttpGatewayReconcileLoop
+}
+
+// NewMockMulticlusterFederatedHttpGatewayReconcileLoop creates a new mock instance.
+func NewMockMulticlusterFederatedHttpGatewayReconcileLoop(ctrl *gomock.Controller) *MockMulticlusterFederatedHttpGatewayReconcileLoop {
+	mock := &MockMulticlusterFederatedHttpGatewayReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterFederatedHttpGatewayReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterFederatedHttpGatewayReconcileLoop) EXPECT() *MockMulticlusterFederatedHttpGatewayReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// AddMulticlusterFederatedHttpGatewayReconciler mocks base method.
+func (m *MockMulticlusterFederatedHttpGatewayReconcileLoop) AddMulticlusterFederatedHttpGatewayReconciler(ctx context.Context, rec controller.MulticlusterFederatedHttpGatewayReconciler, predicates ...predicate.Predicate) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "AddMulticlusterFederatedHttpGatewayReconciler", varargs...)
+}
+
+// AddMulticlusterFederatedHttpGatewayReconciler indicates an expected call of AddMulticlusterFederatedHttpGatewayReconciler.
+func (mr *MockMulticlusterFederatedHttpGatewayReconcileLoopMockRecorder) AddMulticlusterFederatedHttpGatewayReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterFederatedHttpGatewayReconciler", reflect.TypeOf((*MockMulticlusterFederatedHttpGatewayReconcileLoop)(nil).AddMulticlusterFederatedHttpGatewayReconciler), varargs...)
+}
+
 // MockMulticlusterFederatedRouteTableReconciler is a mock of MulticlusterFederatedRouteTableReconciler interface.
 type MockMulticlusterFederatedRouteTableReconciler struct {
 	ctrl     *gomock.Controller

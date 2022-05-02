@@ -124,6 +124,113 @@ func (h genericFederatedGatewayHandler) Generic(object client.Object) error {
 	return h.handler.GenericFederatedGateway(obj)
 }
 
+// Handle events for the FederatedHttpGateway Resource
+// DEPRECATED: Prefer reconciler pattern.
+type FederatedHttpGatewayEventHandler interface {
+	CreateFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+	UpdateFederatedHttpGateway(old, new *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+	DeleteFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+	GenericFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+}
+
+type FederatedHttpGatewayEventHandlerFuncs struct {
+	OnCreate  func(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+	OnUpdate  func(old, new *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+	OnDelete  func(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+	OnGeneric func(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+}
+
+func (f *FederatedHttpGatewayEventHandlerFuncs) CreateFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *FederatedHttpGatewayEventHandlerFuncs) DeleteFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *FederatedHttpGatewayEventHandlerFuncs) UpdateFederatedHttpGateway(objOld, objNew *fed_gateway_solo_io_v1.FederatedHttpGateway) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *FederatedHttpGatewayEventHandlerFuncs) GenericFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type FederatedHttpGatewayEventWatcher interface {
+	AddEventHandler(ctx context.Context, h FederatedHttpGatewayEventHandler, predicates ...predicate.Predicate) error
+}
+
+type federatedHttpGatewayEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewFederatedHttpGatewayEventWatcher(name string, mgr manager.Manager) FederatedHttpGatewayEventWatcher {
+	return &federatedHttpGatewayEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &fed_gateway_solo_io_v1.FederatedHttpGateway{}),
+	}
+}
+
+func (c *federatedHttpGatewayEventWatcher) AddEventHandler(ctx context.Context, h FederatedHttpGatewayEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericFederatedHttpGatewayHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericFederatedHttpGatewayHandler implements a generic events.EventHandler
+type genericFederatedHttpGatewayHandler struct {
+	handler FederatedHttpGatewayEventHandler
+}
+
+func (h genericFederatedHttpGatewayHandler) Create(object client.Object) error {
+	obj, ok := object.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+	if !ok {
+		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", object)
+	}
+	return h.handler.CreateFederatedHttpGateway(obj)
+}
+
+func (h genericFederatedHttpGatewayHandler) Delete(object client.Object) error {
+	obj, ok := object.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+	if !ok {
+		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", object)
+	}
+	return h.handler.DeleteFederatedHttpGateway(obj)
+}
+
+func (h genericFederatedHttpGatewayHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+	if !ok {
+		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", old)
+	}
+	objNew, ok := new.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+	if !ok {
+		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", new)
+	}
+	return h.handler.UpdateFederatedHttpGateway(objOld, objNew)
+}
+
+func (h genericFederatedHttpGatewayHandler) Generic(object client.Object) error {
+	obj, ok := object.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+	if !ok {
+		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", object)
+	}
+	return h.handler.GenericFederatedHttpGateway(obj)
+}
+
 // Handle events for the FederatedRouteTable Resource
 // DEPRECATED: Prefer reconciler pattern.
 type FederatedRouteTableEventHandler interface {

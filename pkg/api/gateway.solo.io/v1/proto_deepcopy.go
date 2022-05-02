@@ -31,24 +31,24 @@ func (in *GatewayStatus) DeepCopyInto(out *GatewayStatus) {
 	*out = *p
 }
 
-// DeepCopyInto for the MatchableHttpGateway.Spec
-func (in *MatchableHttpGatewaySpec) DeepCopyInto(out *MatchableHttpGatewaySpec) {
-	var p *MatchableHttpGatewaySpec
+// DeepCopyInto for the HttpGateway.Spec
+func (in *HttpGatewaySpec) DeepCopyInto(out *HttpGatewaySpec) {
+	var p *HttpGatewaySpec
 	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*MatchableHttpGatewaySpec)
+		p = h.Clone().(*HttpGatewaySpec)
 	} else {
-		p = proto.Clone(in).(*MatchableHttpGatewaySpec)
+		p = proto.Clone(in).(*HttpGatewaySpec)
 	}
 	*out = *p
 }
 
-// DeepCopyInto for the MatchableHttpGateway.Status
-func (in *MatchableHttpGatewayStatus) DeepCopyInto(out *MatchableHttpGatewayStatus) {
-	var p *MatchableHttpGatewayStatus
+// DeepCopyInto for the HttpGateway.Status
+func (in *HttpGatewayStatus) DeepCopyInto(out *HttpGatewayStatus) {
+	var p *HttpGatewayStatus
 	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*MatchableHttpGatewayStatus)
+		p = h.Clone().(*HttpGatewayStatus)
 	} else {
-		p = proto.Clone(in).(*MatchableHttpGatewayStatus)
+		p = proto.Clone(in).(*HttpGatewayStatus)
 	}
 	*out = *p
 }

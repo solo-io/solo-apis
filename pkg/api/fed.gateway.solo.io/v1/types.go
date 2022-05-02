@@ -49,6 +49,41 @@ type FederatedGatewayList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for FederatedHttpGateway
+var FederatedHttpGatewayGVK = schema.GroupVersionKind{
+	Group:   "fed.gateway.solo.io",
+	Version: "v1",
+	Kind:    "FederatedHttpGateway",
+}
+
+// FederatedHttpGateway is the Schema for the federatedHttpGateway API
+type FederatedHttpGateway struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   FederatedHttpGatewaySpec   `json:"spec,omitempty"`
+	Status FederatedHttpGatewayStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (FederatedHttpGateway) GVK() schema.GroupVersionKind {
+	return FederatedHttpGatewayGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// FederatedHttpGatewayList contains a list of FederatedHttpGateway
+type FederatedHttpGatewayList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []FederatedHttpGateway `json:"items"`
+}
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
 // GroupVersionKind for FederatedRouteTable
 var FederatedRouteTableGVK = schema.GroupVersionKind{
 	Group:   "fed.gateway.solo.io",
@@ -116,6 +151,7 @@ type FederatedVirtualServiceList struct {
 
 func init() {
 	SchemeBuilder.Register(&FederatedGateway{}, &FederatedGatewayList{})
+	SchemeBuilder.Register(&FederatedHttpGateway{}, &FederatedHttpGatewayList{})
 	SchemeBuilder.Register(&FederatedRouteTable{}, &FederatedRouteTableList{})
 	SchemeBuilder.Register(&FederatedVirtualService{}, &FederatedVirtualServiceList{})
 }

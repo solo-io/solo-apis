@@ -232,6 +232,225 @@ func (s *federatedGatewaySet) Clone() FederatedGatewaySet {
 	return &federatedGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
+type FederatedHttpGatewaySet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedHttpGateway
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedHttpGateway
+	// Return the Set as a map of key to resource.
+	Map() map[string]*fed_gateway_solo_io_v1.FederatedHttpGateway
+	// Insert a resource into the set.
+	Insert(federatedHttpGateway ...*fed_gateway_solo_io_v1.FederatedHttpGateway)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(federatedHttpGatewaySet FederatedHttpGatewaySet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(federatedHttpGateway ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(federatedHttpGateway ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set FederatedHttpGatewaySet) FederatedHttpGatewaySet
+	// Return the difference with the provided set
+	Difference(set FederatedHttpGatewaySet) FederatedHttpGatewaySet
+	// Return the intersection with the provided set
+	Intersection(set FederatedHttpGatewaySet) FederatedHttpGatewaySet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedHttpGateway, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another FederatedHttpGatewaySet
+	Delta(newSet FederatedHttpGatewaySet) sksets.ResourceDelta
+	// Create a deep copy of the current FederatedHttpGatewaySet
+	Clone() FederatedHttpGatewaySet
+}
+
+func makeGenericFederatedHttpGatewaySet(federatedHttpGatewayList []*fed_gateway_solo_io_v1.FederatedHttpGateway) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range federatedHttpGatewayList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type federatedHttpGatewaySet struct {
+	set sksets.ResourceSet
+}
+
+func NewFederatedHttpGatewaySet(federatedHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedHttpGateway) FederatedHttpGatewaySet {
+	return &federatedHttpGatewaySet{set: makeGenericFederatedHttpGatewaySet(federatedHttpGatewayList)}
+}
+
+func NewFederatedHttpGatewaySetFromList(federatedHttpGatewayList *fed_gateway_solo_io_v1.FederatedHttpGatewayList) FederatedHttpGatewaySet {
+	list := make([]*fed_gateway_solo_io_v1.FederatedHttpGateway, 0, len(federatedHttpGatewayList.Items))
+	for idx := range federatedHttpGatewayList.Items {
+		list = append(list, &federatedHttpGatewayList.Items[idx])
+	}
+	return &federatedHttpGatewaySet{set: makeGenericFederatedHttpGatewaySet(list)}
+}
+
+func (s *federatedHttpGatewaySet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *federatedHttpGatewaySet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedHttpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	federatedHttpGatewayList := make([]*fed_gateway_solo_io_v1.FederatedHttpGateway, 0, len(objs))
+	for _, obj := range objs {
+		federatedHttpGatewayList = append(federatedHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+	}
+	return federatedHttpGatewayList
+}
+
+func (s *federatedHttpGatewaySet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedHttpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+		})
+	}
+
+	var federatedHttpGatewayList []*fed_gateway_solo_io_v1.FederatedHttpGateway
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		federatedHttpGatewayList = append(federatedHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+	}
+	return federatedHttpGatewayList
+}
+
+func (s *federatedHttpGatewaySet) Map() map[string]*fed_gateway_solo_io_v1.FederatedHttpGateway {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedHttpGateway{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+	}
+	return newMap
+}
+
+func (s *federatedHttpGatewaySet) Insert(
+	federatedHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedHttpGateway,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range federatedHttpGatewayList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *federatedHttpGatewaySet) Has(federatedHttpGateway ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(federatedHttpGateway)
+}
+
+func (s *federatedHttpGatewaySet) Equal(
+	federatedHttpGatewaySet FederatedHttpGatewaySet,
+) bool {
+	if s == nil {
+		return federatedHttpGatewaySet == nil
+	}
+	return s.Generic().Equal(federatedHttpGatewaySet.Generic())
+}
+
+func (s *federatedHttpGatewaySet) Delete(FederatedHttpGateway ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(FederatedHttpGateway)
+}
+
+func (s *federatedHttpGatewaySet) Union(set FederatedHttpGatewaySet) FederatedHttpGatewaySet {
+	if s == nil {
+		return set
+	}
+	return NewFederatedHttpGatewaySet(append(s.List(), set.List()...)...)
+}
+
+func (s *federatedHttpGatewaySet) Difference(set FederatedHttpGatewaySet) FederatedHttpGatewaySet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &federatedHttpGatewaySet{set: newSet}
+}
+
+func (s *federatedHttpGatewaySet) Intersection(set FederatedHttpGatewaySet) FederatedHttpGatewaySet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var federatedHttpGatewayList []*fed_gateway_solo_io_v1.FederatedHttpGateway
+	for _, obj := range newSet.List() {
+		federatedHttpGatewayList = append(federatedHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+	}
+	return NewFederatedHttpGatewaySet(federatedHttpGatewayList...)
+}
+
+func (s *federatedHttpGatewaySet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedHttpGateway, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedHttpGateway %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&fed_gateway_solo_io_v1.FederatedHttpGateway{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway), nil
+}
+
+func (s *federatedHttpGatewaySet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *federatedHttpGatewaySet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *federatedHttpGatewaySet) Delta(newSet FederatedHttpGatewaySet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *federatedHttpGatewaySet) Clone() FederatedHttpGatewaySet {
+	if s == nil {
+		return nil
+	}
+	return &federatedHttpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
 type FederatedRouteTableSet interface {
 	// Get the set stored keys
 	Keys() sets.String

@@ -68,6 +68,66 @@ func (in *FederatedGatewayList) DeepCopyObject() runtime.Object {
 	return nil
 }
 
+// Generated Deepcopy methods for FederatedHttpGateway
+
+func (in *FederatedHttpGateway) DeepCopyInto(out *FederatedHttpGateway) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *FederatedHttpGateway) DeepCopy() *FederatedHttpGateway {
+	if in == nil {
+		return nil
+	}
+	out := new(FederatedHttpGateway)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *FederatedHttpGateway) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *FederatedHttpGatewayList) DeepCopyInto(out *FederatedHttpGatewayList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]FederatedHttpGateway, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *FederatedHttpGatewayList) DeepCopy() *FederatedHttpGatewayList {
+	if in == nil {
+		return nil
+	}
+	out := new(FederatedHttpGatewayList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *FederatedHttpGatewayList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
 // Generated Deepcopy methods for FederatedRouteTable
 
 func (in *FederatedRouteTable) DeepCopyInto(out *FederatedRouteTable) {

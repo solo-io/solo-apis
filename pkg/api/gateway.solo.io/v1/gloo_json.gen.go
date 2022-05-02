@@ -58,26 +58,26 @@ func (this *GatewayStatus) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// MarshalJSON is a custom marshaler for MatchableHttpGatewaySpec
-func (this *MatchableHttpGatewaySpec) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for HttpGatewaySpec
+func (this *HttpGatewaySpec) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for MatchableHttpGatewaySpec
-func (this *MatchableHttpGatewaySpec) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for HttpGatewaySpec
+func (this *HttpGatewaySpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for MatchableHttpGatewayStatus
-func (this *MatchableHttpGatewayStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for HttpGatewayStatus
+func (this *HttpGatewayStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for MatchableHttpGatewayStatus
-func (this *MatchableHttpGatewayStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := MatchableHttpGatewayNamespacedStatuses{}
+// UnmarshalJSON is a custom unmarshaler for HttpGatewayStatus
+func (this *HttpGatewayStatus) UnmarshalJSON(b []byte) error {
+	namespacedStatuses := HttpGatewayNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
