@@ -2610,6 +2610,11 @@ func (m *UserSession_CookieOptions) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetSameSite())
+	if err != nil {
+		return 0, err
+	}
+
 	if _, err = hasher.Write([]byte(m.GetDomain())); err != nil {
 		return 0, err
 	}
