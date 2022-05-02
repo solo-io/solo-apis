@@ -42,6 +42,8 @@ type Clientset interface {
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	Gateways() GatewayClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
+	MatchableHttpGateways() MatchableHttpGatewayClient
+	// clienset for the gateway.solo.io/v1/v1 APIs
 	RouteTables() RouteTableClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	VirtualServices() VirtualServiceClient
@@ -76,6 +78,11 @@ func NewClientset(client client.Client) Clientset {
 // clienset for the gateway.solo.io/v1/v1 APIs
 func (c *clientSet) Gateways() GatewayClient {
 	return NewGatewayClient(c.client)
+}
+
+// clienset for the gateway.solo.io/v1/v1 APIs
+func (c *clientSet) MatchableHttpGateways() MatchableHttpGatewayClient {
+	return NewMatchableHttpGatewayClient(c.client)
 }
 
 // clienset for the gateway.solo.io/v1/v1 APIs
@@ -238,6 +245,148 @@ func (m *multiclusterGatewayClient) Cluster(cluster string) (GatewayClient, erro
 		return nil, err
 	}
 	return NewGatewayClient(client), nil
+}
+
+// Reader knows how to read and list MatchableHttpGateways.
+type MatchableHttpGatewayReader interface {
+	// Get retrieves a MatchableHttpGateway for the given object key
+	GetMatchableHttpGateway(ctx context.Context, key client.ObjectKey) (*MatchableHttpGateway, error)
+
+	// List retrieves list of MatchableHttpGateways for a given namespace and list options.
+	ListMatchableHttpGateway(ctx context.Context, opts ...client.ListOption) (*MatchableHttpGatewayList, error)
+}
+
+// MatchableHttpGatewayTransitionFunction instructs the MatchableHttpGatewayWriter how to transition between an existing
+// MatchableHttpGateway object and a desired on an Upsert
+type MatchableHttpGatewayTransitionFunction func(existing, desired *MatchableHttpGateway) error
+
+// Writer knows how to create, delete, and update MatchableHttpGateways.
+type MatchableHttpGatewayWriter interface {
+	// Create saves the MatchableHttpGateway object.
+	CreateMatchableHttpGateway(ctx context.Context, obj *MatchableHttpGateway, opts ...client.CreateOption) error
+
+	// Delete deletes the MatchableHttpGateway object.
+	DeleteMatchableHttpGateway(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given MatchableHttpGateway object.
+	UpdateMatchableHttpGateway(ctx context.Context, obj *MatchableHttpGateway, opts ...client.UpdateOption) error
+
+	// Patch patches the given MatchableHttpGateway object.
+	PatchMatchableHttpGateway(ctx context.Context, obj *MatchableHttpGateway, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all MatchableHttpGateway objects matching the given options.
+	DeleteAllOfMatchableHttpGateway(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the MatchableHttpGateway object.
+	UpsertMatchableHttpGateway(ctx context.Context, obj *MatchableHttpGateway, transitionFuncs ...MatchableHttpGatewayTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a MatchableHttpGateway object.
+type MatchableHttpGatewayStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given MatchableHttpGateway object.
+	UpdateMatchableHttpGatewayStatus(ctx context.Context, obj *MatchableHttpGateway, opts ...client.UpdateOption) error
+
+	// Patch patches the given MatchableHttpGateway object's subresource.
+	PatchMatchableHttpGatewayStatus(ctx context.Context, obj *MatchableHttpGateway, patch client.Patch, opts ...client.PatchOption) error
+}
+
+// Client knows how to perform CRUD operations on MatchableHttpGateways.
+type MatchableHttpGatewayClient interface {
+	MatchableHttpGatewayReader
+	MatchableHttpGatewayWriter
+	MatchableHttpGatewayStatusWriter
+}
+
+type matchableHttpGatewayClient struct {
+	client client.Client
+}
+
+func NewMatchableHttpGatewayClient(client client.Client) *matchableHttpGatewayClient {
+	return &matchableHttpGatewayClient{client: client}
+}
+
+func (c *matchableHttpGatewayClient) GetMatchableHttpGateway(ctx context.Context, key client.ObjectKey) (*MatchableHttpGateway, error) {
+	obj := &MatchableHttpGateway{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *matchableHttpGatewayClient) ListMatchableHttpGateway(ctx context.Context, opts ...client.ListOption) (*MatchableHttpGatewayList, error) {
+	list := &MatchableHttpGatewayList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *matchableHttpGatewayClient) CreateMatchableHttpGateway(ctx context.Context, obj *MatchableHttpGateway, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *matchableHttpGatewayClient) DeleteMatchableHttpGateway(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &MatchableHttpGateway{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *matchableHttpGatewayClient) UpdateMatchableHttpGateway(ctx context.Context, obj *MatchableHttpGateway, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *matchableHttpGatewayClient) PatchMatchableHttpGateway(ctx context.Context, obj *MatchableHttpGateway, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *matchableHttpGatewayClient) DeleteAllOfMatchableHttpGateway(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &MatchableHttpGateway{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *matchableHttpGatewayClient) UpsertMatchableHttpGateway(ctx context.Context, obj *MatchableHttpGateway, transitionFuncs ...MatchableHttpGatewayTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*MatchableHttpGateway), desired.(*MatchableHttpGateway)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *matchableHttpGatewayClient) UpdateMatchableHttpGatewayStatus(ctx context.Context, obj *MatchableHttpGateway, opts ...client.UpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *matchableHttpGatewayClient) PatchMatchableHttpGatewayStatus(ctx context.Context, obj *MatchableHttpGateway, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides MatchableHttpGatewayClients for multiple clusters.
+type MulticlusterMatchableHttpGatewayClient interface {
+	// Cluster returns a MatchableHttpGatewayClient for the given cluster
+	Cluster(cluster string) (MatchableHttpGatewayClient, error)
+}
+
+type multiclusterMatchableHttpGatewayClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterMatchableHttpGatewayClient(client multicluster.Client) MulticlusterMatchableHttpGatewayClient {
+	return &multiclusterMatchableHttpGatewayClient{client: client}
+}
+
+func (m *multiclusterMatchableHttpGatewayClient) Cluster(cluster string) (MatchableHttpGatewayClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewMatchableHttpGatewayClient(client), nil
 }
 
 // Reader knows how to read and list RouteTables.

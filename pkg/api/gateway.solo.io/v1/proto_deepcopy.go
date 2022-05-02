@@ -31,6 +31,28 @@ func (in *GatewayStatus) DeepCopyInto(out *GatewayStatus) {
 	*out = *p
 }
 
+// DeepCopyInto for the MatchableHttpGateway.Spec
+func (in *MatchableHttpGatewaySpec) DeepCopyInto(out *MatchableHttpGatewaySpec) {
+	var p *MatchableHttpGatewaySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*MatchableHttpGatewaySpec)
+	} else {
+		p = proto.Clone(in).(*MatchableHttpGatewaySpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the MatchableHttpGateway.Status
+func (in *MatchableHttpGatewayStatus) DeepCopyInto(out *MatchableHttpGatewayStatus) {
+	var p *MatchableHttpGatewayStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*MatchableHttpGatewayStatus)
+	} else {
+		p = proto.Clone(in).(*MatchableHttpGatewayStatus)
+	}
+	*out = *p
+}
+
 // DeepCopyInto for the RouteTable.Spec
 func (in *RouteTableSpec) DeepCopyInto(out *RouteTableSpec) {
 	var p *RouteTableSpec
