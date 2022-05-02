@@ -95,17 +95,40 @@ func modifyRelevantFile(file []byte) ([]byte, bool) {
 		return nil, false
 	}
 	for _, relevantType := range relevantTypes {
-		// Make sure to add extra space after to check specifically for only Message
-		oldMessageBytes := []byte(fmt.Sprintf("message %s ", relevantType))
-		if bytes.Contains(file, oldMessageBytes) {
-			file = patchSpecMessage(file, oldMessageBytes)
-			file = appendStatusMessage(file, relevantType)
-			file = addImport(file)
+		if modifyFileForResourceKind(&file, relevantType) {
 			relevantMessage = true
 		}
 	}
 
 	return file, relevantMessage
+}
+
+func modifyFileForResourceKind(filePtr *[]byte, resourceKind string) bool {
+	file := *filePtr
+	// Make sure to add extra space after to check specifically for only Message
+	oldMessageBytes := []byte(fmt.Sprintf("message %s ", resourceKind))
+	if !bytes.Contains(file, oldMessageBytes) {
+		return false
+	}
+
+	// In general, we use the exact kind when generating the new Spec and Status messages
+	newResourceKind := resourceKind
+
+	// This is a hack
+	// The preferred name for the resource is HttpGateway but that was already used
+	// Given that we are creating a new message, we can choose the preferred name
+	// Additionally, we make certain assumptions about proto file name and resource kind
+	// so generating the resource to have this Kind, allows other forms of codegen to be unchanged
+	if resourceKind == "MatchableHttpGateway" {
+		newResourceKind = "HttpGateway"
+	}
+
+	file = patchSpecMessage(file, oldMessageBytes, newResourceKind)
+	file = appendStatusMessage(file, newResourceKind)
+	file = addImport(file)
+
+	*filePtr = file
+	return true
 }
 
 // List the kind names of all gloo groups (defined in gloo.go)
@@ -130,15 +153,9 @@ func getRelevantTypes(file []byte, glooGroups []model.Group) []string {
 	return resources
 }
 
-func patchSpecMessage(file []byte, oldMessage []byte) []byte {
-	// get the message without trailing space, e.g. "message MyMessage"
-	// make a copy so we don't modify oldMessage
-	oldMessageNoSpace := make([]byte, len(oldMessage)-1)
-	copy(oldMessageNoSpace, oldMessage)
-
-	// replaces "message MyMessage " with "message MyMessageSpec "
-	newMessage := append(oldMessageNoSpace, []byte("Spec ")...)
-	return bytes.ReplaceAll(file, oldMessage, newMessage)
+func patchSpecMessage(file []byte, oldMessage []byte, newResourceKind string) []byte {
+	newMessageBytes := []byte(fmt.Sprintf("message %sSpec ", newResourceKind))
+	return bytes.ReplaceAll(file, oldMessage, newMessageBytes)
 }
 
 func appendStatusMessage(fileContents []byte, relevantType string) []byte {
