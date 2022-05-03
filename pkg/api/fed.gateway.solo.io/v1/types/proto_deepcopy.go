@@ -31,6 +31,28 @@ func (in *FederatedGatewayStatus) DeepCopyInto(out *FederatedGatewayStatus) {
 	*out = *p
 }
 
+// DeepCopyInto for the FederatedMatchableHttpGateway.Spec
+func (in *FederatedMatchableHttpGatewaySpec) DeepCopyInto(out *FederatedMatchableHttpGatewaySpec) {
+	var p *FederatedMatchableHttpGatewaySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedMatchableHttpGatewaySpec)
+	} else {
+		p = proto.Clone(in).(*FederatedMatchableHttpGatewaySpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the FederatedMatchableHttpGateway.Status
+func (in *FederatedMatchableHttpGatewayStatus) DeepCopyInto(out *FederatedMatchableHttpGatewayStatus) {
+	var p *FederatedMatchableHttpGatewayStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedMatchableHttpGatewayStatus)
+	} else {
+		p = proto.Clone(in).(*FederatedMatchableHttpGatewayStatus)
+	}
+	*out = *p
+}
+
 // DeepCopyInto for the FederatedRouteTable.Spec
 func (in *FederatedRouteTableSpec) DeepCopyInto(out *FederatedRouteTableSpec) {
 	var p *FederatedRouteTableSpec

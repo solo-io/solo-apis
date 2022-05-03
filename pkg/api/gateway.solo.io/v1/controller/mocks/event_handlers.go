@@ -135,6 +135,127 @@ func (mr *MockGatewayEventWatcherMockRecorder) AddEventHandler(ctx, h interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockGatewayEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
+// MockMatchableHttpGatewayEventHandler is a mock of MatchableHttpGatewayEventHandler interface.
+type MockMatchableHttpGatewayEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMatchableHttpGatewayEventHandlerMockRecorder
+}
+
+// MockMatchableHttpGatewayEventHandlerMockRecorder is the mock recorder for MockMatchableHttpGatewayEventHandler.
+type MockMatchableHttpGatewayEventHandlerMockRecorder struct {
+	mock *MockMatchableHttpGatewayEventHandler
+}
+
+// NewMockMatchableHttpGatewayEventHandler creates a new mock instance.
+func NewMockMatchableHttpGatewayEventHandler(ctrl *gomock.Controller) *MockMatchableHttpGatewayEventHandler {
+	mock := &MockMatchableHttpGatewayEventHandler{ctrl: ctrl}
+	mock.recorder = &MockMatchableHttpGatewayEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMatchableHttpGatewayEventHandler) EXPECT() *MockMatchableHttpGatewayEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateMatchableHttpGateway mocks base method.
+func (m *MockMatchableHttpGatewayEventHandler) CreateMatchableHttpGateway(obj *v1.MatchableHttpGateway) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateMatchableHttpGateway", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateMatchableHttpGateway indicates an expected call of CreateMatchableHttpGateway.
+func (mr *MockMatchableHttpGatewayEventHandlerMockRecorder) CreateMatchableHttpGateway(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMatchableHttpGateway", reflect.TypeOf((*MockMatchableHttpGatewayEventHandler)(nil).CreateMatchableHttpGateway), obj)
+}
+
+// DeleteMatchableHttpGateway mocks base method.
+func (m *MockMatchableHttpGatewayEventHandler) DeleteMatchableHttpGateway(obj *v1.MatchableHttpGateway) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteMatchableHttpGateway", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteMatchableHttpGateway indicates an expected call of DeleteMatchableHttpGateway.
+func (mr *MockMatchableHttpGatewayEventHandlerMockRecorder) DeleteMatchableHttpGateway(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMatchableHttpGateway", reflect.TypeOf((*MockMatchableHttpGatewayEventHandler)(nil).DeleteMatchableHttpGateway), obj)
+}
+
+// GenericMatchableHttpGateway mocks base method.
+func (m *MockMatchableHttpGatewayEventHandler) GenericMatchableHttpGateway(obj *v1.MatchableHttpGateway) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericMatchableHttpGateway", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericMatchableHttpGateway indicates an expected call of GenericMatchableHttpGateway.
+func (mr *MockMatchableHttpGatewayEventHandlerMockRecorder) GenericMatchableHttpGateway(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericMatchableHttpGateway", reflect.TypeOf((*MockMatchableHttpGatewayEventHandler)(nil).GenericMatchableHttpGateway), obj)
+}
+
+// UpdateMatchableHttpGateway mocks base method.
+func (m *MockMatchableHttpGatewayEventHandler) UpdateMatchableHttpGateway(old, new *v1.MatchableHttpGateway) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateMatchableHttpGateway", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateMatchableHttpGateway indicates an expected call of UpdateMatchableHttpGateway.
+func (mr *MockMatchableHttpGatewayEventHandlerMockRecorder) UpdateMatchableHttpGateway(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMatchableHttpGateway", reflect.TypeOf((*MockMatchableHttpGatewayEventHandler)(nil).UpdateMatchableHttpGateway), old, new)
+}
+
+// MockMatchableHttpGatewayEventWatcher is a mock of MatchableHttpGatewayEventWatcher interface.
+type MockMatchableHttpGatewayEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockMatchableHttpGatewayEventWatcherMockRecorder
+}
+
+// MockMatchableHttpGatewayEventWatcherMockRecorder is the mock recorder for MockMatchableHttpGatewayEventWatcher.
+type MockMatchableHttpGatewayEventWatcherMockRecorder struct {
+	mock *MockMatchableHttpGatewayEventWatcher
+}
+
+// NewMockMatchableHttpGatewayEventWatcher creates a new mock instance.
+func NewMockMatchableHttpGatewayEventWatcher(ctrl *gomock.Controller) *MockMatchableHttpGatewayEventWatcher {
+	mock := &MockMatchableHttpGatewayEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockMatchableHttpGatewayEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMatchableHttpGatewayEventWatcher) EXPECT() *MockMatchableHttpGatewayEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockMatchableHttpGatewayEventWatcher) AddEventHandler(ctx context.Context, h controller.MatchableHttpGatewayEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockMatchableHttpGatewayEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockMatchableHttpGatewayEventWatcher)(nil).AddEventHandler), varargs...)
+}
+
 // MockRouteTableEventHandler is a mock of RouteTableEventHandler interface.
 type MockRouteTableEventHandler struct {
 	ctrl     *gomock.Controller

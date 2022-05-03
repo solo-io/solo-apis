@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
+
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_core_v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/core/v3"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
-
-	github_com_solo_io_solo_kit_pkg_api_v1_resources_core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
 // ensure the imports are used
@@ -32,29 +32,17 @@ var (
 )
 
 // Clone function
-func (m *MatchableHttpGateway) Clone() proto.Message {
-	var target *MatchableHttpGateway
+func (m *MatchableHttpGatewaySpec) Clone() proto.Message {
+	var target *MatchableHttpGatewaySpec
 	if m == nil {
 		return target
 	}
-	target = &MatchableHttpGateway{}
-
-	if h, ok := interface{}(m.GetNamespacedStatuses()).(clone.Cloner); ok {
-		target.NamespacedStatuses = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.NamespacedStatuses)
-	} else {
-		target.NamespacedStatuses = proto.Clone(m.GetNamespacedStatuses()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.NamespacedStatuses)
-	}
-
-	if h, ok := interface{}(m.GetMetadata()).(clone.Cloner); ok {
-		target.Metadata = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.Metadata)
-	} else {
-		target.Metadata = proto.Clone(m.GetMetadata()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.Metadata)
-	}
+	target = &MatchableHttpGatewaySpec{}
 
 	if h, ok := interface{}(m.GetMatcher()).(clone.Cloner); ok {
-		target.Matcher = h.Clone().(*MatchableHttpGateway_Matcher)
+		target.Matcher = h.Clone().(*MatchableHttpGatewaySpec_Matcher)
 	} else {
-		target.Matcher = proto.Clone(m.GetMatcher()).(*MatchableHttpGateway_Matcher)
+		target.Matcher = proto.Clone(m.GetMatcher()).(*MatchableHttpGatewaySpec_Matcher)
 	}
 
 	if h, ok := interface{}(m.GetHttpGateway()).(clone.Cloner); ok {
@@ -67,12 +55,72 @@ func (m *MatchableHttpGateway) Clone() proto.Message {
 }
 
 // Clone function
-func (m *MatchableHttpGateway_Matcher) Clone() proto.Message {
-	var target *MatchableHttpGateway_Matcher
+func (m *MatchableHttpGatewayStatus) Clone() proto.Message {
+	var target *MatchableHttpGatewayStatus
 	if m == nil {
 		return target
 	}
-	target = &MatchableHttpGateway_Matcher{}
+	target = &MatchableHttpGatewayStatus{}
+
+	target.State = m.GetState()
+
+	target.Reason = m.GetReason()
+
+	target.ReportedBy = m.GetReportedBy()
+
+	if m.GetSubresourceStatuses() != nil {
+		target.SubresourceStatuses = make(map[string]*MatchableHttpGatewayStatus, len(m.GetSubresourceStatuses()))
+		for k, v := range m.GetSubresourceStatuses() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SubresourceStatuses[k] = h.Clone().(*MatchableHttpGatewayStatus)
+			} else {
+				target.SubresourceStatuses[k] = proto.Clone(v).(*MatchableHttpGatewayStatus)
+			}
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(clone.Cloner); ok {
+		target.Details = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
+	} else {
+		target.Details = proto.Clone(m.GetDetails()).(*github_com_golang_protobuf_ptypes_struct.Struct)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *MatchableHttpGatewayNamespacedStatuses) Clone() proto.Message {
+	var target *MatchableHttpGatewayNamespacedStatuses
+	if m == nil {
+		return target
+	}
+	target = &MatchableHttpGatewayNamespacedStatuses{}
+
+	if m.GetStatuses() != nil {
+		target.Statuses = make(map[string]*MatchableHttpGatewayStatus, len(m.GetStatuses()))
+		for k, v := range m.GetStatuses() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Statuses[k] = h.Clone().(*MatchableHttpGatewayStatus)
+			} else {
+				target.Statuses[k] = proto.Clone(v).(*MatchableHttpGatewayStatus)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *MatchableHttpGatewaySpec_Matcher) Clone() proto.Message {
+	var target *MatchableHttpGatewaySpec_Matcher
+	if m == nil {
+		return target
+	}
+	target = &MatchableHttpGatewaySpec_Matcher{}
 
 	if m.GetSourcePrefixRanges() != nil {
 		target.SourcePrefixRanges = make([]*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_core_v3.CidrRange, len(m.GetSourcePrefixRanges()))

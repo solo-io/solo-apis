@@ -48,6 +48,41 @@ type GatewayList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for MatchableHttpGateway
+var MatchableHttpGatewayGVK = schema.GroupVersionKind{
+	Group:   "gateway.solo.io",
+	Version: "v1",
+	Kind:    "MatchableHttpGateway",
+}
+
+// MatchableHttpGateway is the Schema for the matchableHttpGateway API
+type MatchableHttpGateway struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   MatchableHttpGatewaySpec   `json:"spec,omitempty"`
+	Status MatchableHttpGatewayStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (MatchableHttpGateway) GVK() schema.GroupVersionKind {
+	return MatchableHttpGatewayGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// MatchableHttpGatewayList contains a list of MatchableHttpGateway
+type MatchableHttpGatewayList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []MatchableHttpGateway `json:"items"`
+}
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
 // GroupVersionKind for RouteTable
 var RouteTableGVK = schema.GroupVersionKind{
 	Group:   "gateway.solo.io",
@@ -185,6 +220,7 @@ type RouteOptionList struct {
 
 func init() {
 	SchemeBuilder.Register(&Gateway{}, &GatewayList{})
+	SchemeBuilder.Register(&MatchableHttpGateway{}, &MatchableHttpGatewayList{})
 	SchemeBuilder.Register(&RouteTable{}, &RouteTableList{})
 	SchemeBuilder.Register(&VirtualService{}, &VirtualServiceList{})
 	SchemeBuilder.Register(&VirtualHostOption{}, &VirtualHostOptionList{})
