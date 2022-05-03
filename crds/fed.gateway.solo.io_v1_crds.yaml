@@ -33,14 +33,14 @@ metadata:
   labels:
     app: ""
     app.kubernetes.io/name: ""
-  name: federatedhttpgateways.fed.gateway.solo.io
+  name: federatedmatchablehttpgateways.fed.gateway.solo.io
 spec:
   group: fed.gateway.solo.io
   names:
-    kind: FederatedHttpGateway
-    listKind: FederatedHttpGatewayList
-    plural: federatedhttpgateways
-    singular: federatedhttpgateway
+    kind: FederatedMatchableHttpGateway
+    listKind: FederatedMatchableHttpGatewayList
+    plural: federatedmatchablehttpgateways
+    singular: federatedmatchablehttpgateway
   scope: Namespaced
   versions:
   - name: v1

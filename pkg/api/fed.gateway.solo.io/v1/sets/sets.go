@@ -232,210 +232,210 @@ func (s *federatedGatewaySet) Clone() FederatedGatewaySet {
 	return &federatedGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
-type FederatedHttpGatewaySet interface {
+type FederatedMatchableHttpGatewaySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
-	List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedHttpGateway
+	List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-	UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedHttpGateway
+	UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
 	// Return the Set as a map of key to resource.
-	Map() map[string]*fed_gateway_solo_io_v1.FederatedHttpGateway
+	Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
 	// Insert a resource into the set.
-	Insert(federatedHttpGateway ...*fed_gateway_solo_io_v1.FederatedHttpGateway)
+	Insert(federatedMatchableHttpGateway ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
 	// Compare the equality of the keys in two sets (not the resources themselves)
-	Equal(federatedHttpGatewaySet FederatedHttpGatewaySet) bool
+	Equal(federatedMatchableHttpGatewaySet FederatedMatchableHttpGatewaySet) bool
 	// Check if the set contains a key matching the resource (not the resource itself)
-	Has(federatedHttpGateway ezkube.ResourceId) bool
+	Has(federatedMatchableHttpGateway ezkube.ResourceId) bool
 	// Delete the key matching the resource
-	Delete(federatedHttpGateway ezkube.ResourceId)
+	Delete(federatedMatchableHttpGateway ezkube.ResourceId)
 	// Return the union with the provided set
-	Union(set FederatedHttpGatewaySet) FederatedHttpGatewaySet
+	Union(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet
 	// Return the difference with the provided set
-	Difference(set FederatedHttpGatewaySet) FederatedHttpGatewaySet
+	Difference(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet
 	// Return the intersection with the provided set
-	Intersection(set FederatedHttpGatewaySet) FederatedHttpGatewaySet
+	Intersection(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet
 	// Find the resource with the given ID
-	Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedHttpGateway, error)
+	Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, error)
 	// Get the length of the set
 	Length() int
 	// returns the generic implementation of the set
 	Generic() sksets.ResourceSet
-	// returns the delta between this and and another FederatedHttpGatewaySet
-	Delta(newSet FederatedHttpGatewaySet) sksets.ResourceDelta
-	// Create a deep copy of the current FederatedHttpGatewaySet
-	Clone() FederatedHttpGatewaySet
+	// returns the delta between this and and another FederatedMatchableHttpGatewaySet
+	Delta(newSet FederatedMatchableHttpGatewaySet) sksets.ResourceDelta
+	// Create a deep copy of the current FederatedMatchableHttpGatewaySet
+	Clone() FederatedMatchableHttpGatewaySet
 }
 
-func makeGenericFederatedHttpGatewaySet(federatedHttpGatewayList []*fed_gateway_solo_io_v1.FederatedHttpGateway) sksets.ResourceSet {
+func makeGenericFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
-	for _, obj := range federatedHttpGatewayList {
+	for _, obj := range federatedMatchableHttpGatewayList {
 		genericResources = append(genericResources, obj)
 	}
 	return sksets.NewResourceSet(genericResources...)
 }
 
-type federatedHttpGatewaySet struct {
+type federatedMatchableHttpGatewaySet struct {
 	set sksets.ResourceSet
 }
 
-func NewFederatedHttpGatewaySet(federatedHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedHttpGateway) FederatedHttpGatewaySet {
-	return &federatedHttpGatewaySet{set: makeGenericFederatedHttpGatewaySet(federatedHttpGatewayList)}
+func NewFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) FederatedMatchableHttpGatewaySet {
+	return &federatedMatchableHttpGatewaySet{set: makeGenericFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList)}
 }
 
-func NewFederatedHttpGatewaySetFromList(federatedHttpGatewayList *fed_gateway_solo_io_v1.FederatedHttpGatewayList) FederatedHttpGatewaySet {
-	list := make([]*fed_gateway_solo_io_v1.FederatedHttpGateway, 0, len(federatedHttpGatewayList.Items))
-	for idx := range federatedHttpGatewayList.Items {
-		list = append(list, &federatedHttpGatewayList.Items[idx])
+func NewFederatedMatchableHttpGatewaySetFromList(federatedMatchableHttpGatewayList *fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayList) FederatedMatchableHttpGatewaySet {
+	list := make([]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, 0, len(federatedMatchableHttpGatewayList.Items))
+	for idx := range federatedMatchableHttpGatewayList.Items {
+		list = append(list, &federatedMatchableHttpGatewayList.Items[idx])
 	}
-	return &federatedHttpGatewaySet{set: makeGenericFederatedHttpGatewaySet(list)}
+	return &federatedMatchableHttpGatewaySet{set: makeGenericFederatedMatchableHttpGatewaySet(list)}
 }
 
-func (s *federatedHttpGatewaySet) Keys() sets.String {
+func (s *federatedMatchableHttpGatewaySet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
 	}
 	return s.Generic().Keys()
 }
 
-func (s *federatedHttpGatewaySet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedHttpGateway {
+func (s *federatedMatchableHttpGatewaySet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
 	if s == nil {
 		return nil
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
 		})
 	}
 
 	objs := s.Generic().List(genericFilters...)
-	federatedHttpGatewayList := make([]*fed_gateway_solo_io_v1.FederatedHttpGateway, 0, len(objs))
+	federatedMatchableHttpGatewayList := make([]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, 0, len(objs))
 	for _, obj := range objs {
-		federatedHttpGatewayList = append(federatedHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+		federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
 	}
-	return federatedHttpGatewayList
+	return federatedMatchableHttpGatewayList
 }
 
-func (s *federatedHttpGatewaySet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedHttpGateway {
+func (s *federatedMatchableHttpGatewaySet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
 	if s == nil {
 		return nil
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
 		})
 	}
 
-	var federatedHttpGatewayList []*fed_gateway_solo_io_v1.FederatedHttpGateway
+	var federatedMatchableHttpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
 	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-		federatedHttpGatewayList = append(federatedHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+		federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
 	}
-	return federatedHttpGatewayList
+	return federatedMatchableHttpGatewayList
 }
 
-func (s *federatedHttpGatewaySet) Map() map[string]*fed_gateway_solo_io_v1.FederatedHttpGateway {
+func (s *federatedMatchableHttpGatewaySet) Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
 	if s == nil {
 		return nil
 	}
 
-	newMap := map[string]*fed_gateway_solo_io_v1.FederatedHttpGateway{}
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
 	for k, v := range s.Generic().Map() {
-		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
 	}
 	return newMap
 }
 
-func (s *federatedHttpGatewaySet) Insert(
-	federatedHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedHttpGateway,
+func (s *federatedMatchableHttpGatewaySet) Insert(
+	federatedMatchableHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway,
 ) {
 	if s == nil {
 		panic("cannot insert into nil set")
 	}
 
-	for _, obj := range federatedHttpGatewayList {
+	for _, obj := range federatedMatchableHttpGatewayList {
 		s.Generic().Insert(obj)
 	}
 }
 
-func (s *federatedHttpGatewaySet) Has(federatedHttpGateway ezkube.ResourceId) bool {
+func (s *federatedMatchableHttpGatewaySet) Has(federatedMatchableHttpGateway ezkube.ResourceId) bool {
 	if s == nil {
 		return false
 	}
-	return s.Generic().Has(federatedHttpGateway)
+	return s.Generic().Has(federatedMatchableHttpGateway)
 }
 
-func (s *federatedHttpGatewaySet) Equal(
-	federatedHttpGatewaySet FederatedHttpGatewaySet,
+func (s *federatedMatchableHttpGatewaySet) Equal(
+	federatedMatchableHttpGatewaySet FederatedMatchableHttpGatewaySet,
 ) bool {
 	if s == nil {
-		return federatedHttpGatewaySet == nil
+		return federatedMatchableHttpGatewaySet == nil
 	}
-	return s.Generic().Equal(federatedHttpGatewaySet.Generic())
+	return s.Generic().Equal(federatedMatchableHttpGatewaySet.Generic())
 }
 
-func (s *federatedHttpGatewaySet) Delete(FederatedHttpGateway ezkube.ResourceId) {
+func (s *federatedMatchableHttpGatewaySet) Delete(FederatedMatchableHttpGateway ezkube.ResourceId) {
 	if s == nil {
 		return
 	}
-	s.Generic().Delete(FederatedHttpGateway)
+	s.Generic().Delete(FederatedMatchableHttpGateway)
 }
 
-func (s *federatedHttpGatewaySet) Union(set FederatedHttpGatewaySet) FederatedHttpGatewaySet {
+func (s *federatedMatchableHttpGatewaySet) Union(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet {
 	if s == nil {
 		return set
 	}
-	return NewFederatedHttpGatewaySet(append(s.List(), set.List()...)...)
+	return NewFederatedMatchableHttpGatewaySet(append(s.List(), set.List()...)...)
 }
 
-func (s *federatedHttpGatewaySet) Difference(set FederatedHttpGatewaySet) FederatedHttpGatewaySet {
+func (s *federatedMatchableHttpGatewaySet) Difference(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet {
 	if s == nil {
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &federatedHttpGatewaySet{set: newSet}
+	return &federatedMatchableHttpGatewaySet{set: newSet}
 }
 
-func (s *federatedHttpGatewaySet) Intersection(set FederatedHttpGatewaySet) FederatedHttpGatewaySet {
+func (s *federatedMatchableHttpGatewaySet) Intersection(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet {
 	if s == nil {
 		return nil
 	}
 	newSet := s.Generic().Intersection(set.Generic())
-	var federatedHttpGatewayList []*fed_gateway_solo_io_v1.FederatedHttpGateway
+	var federatedMatchableHttpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
 	for _, obj := range newSet.List() {
-		federatedHttpGatewayList = append(federatedHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway))
+		federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
 	}
-	return NewFederatedHttpGatewaySet(federatedHttpGatewayList...)
+	return NewFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList...)
 }
 
-func (s *federatedHttpGatewaySet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedHttpGateway, error) {
+func (s *federatedMatchableHttpGatewaySet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, error) {
 	if s == nil {
-		return nil, eris.Errorf("empty set, cannot find FederatedHttpGateway %v", sksets.Key(id))
+		return nil, eris.Errorf("empty set, cannot find FederatedMatchableHttpGateway %v", sksets.Key(id))
 	}
-	obj, err := s.Generic().Find(&fed_gateway_solo_io_v1.FederatedHttpGateway{}, id)
+	obj, err := s.Generic().Find(&fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return obj.(*fed_gateway_solo_io_v1.FederatedHttpGateway), nil
+	return obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway), nil
 }
 
-func (s *federatedHttpGatewaySet) Length() int {
+func (s *federatedMatchableHttpGatewaySet) Length() int {
 	if s == nil {
 		return 0
 	}
 	return s.Generic().Length()
 }
 
-func (s *federatedHttpGatewaySet) Generic() sksets.ResourceSet {
+func (s *federatedMatchableHttpGatewaySet) Generic() sksets.ResourceSet {
 	if s == nil {
 		return nil
 	}
 	return s.set
 }
 
-func (s *federatedHttpGatewaySet) Delta(newSet FederatedHttpGatewaySet) sksets.ResourceDelta {
+func (s *federatedMatchableHttpGatewaySet) Delta(newSet FederatedMatchableHttpGatewaySet) sksets.ResourceDelta {
 	if s == nil {
 		return sksets.ResourceDelta{
 			Inserted: newSet.Generic(),
@@ -444,11 +444,11 @@ func (s *federatedHttpGatewaySet) Delta(newSet FederatedHttpGatewaySet) sksets.R
 	return s.Generic().Delta(newSet.Generic())
 }
 
-func (s *federatedHttpGatewaySet) Clone() FederatedHttpGatewaySet {
+func (s *federatedMatchableHttpGatewaySet) Clone() FederatedMatchableHttpGatewaySet {
 	if s == nil {
 		return nil
 	}
-	return &federatedHttpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &federatedMatchableHttpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
 type FederatedRouteTableSet interface {

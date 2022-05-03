@@ -198,187 +198,187 @@ func (mr *MockFederatedGatewayReconcileLoopMockRecorder) RunFederatedGatewayReco
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunFederatedGatewayReconciler", reflect.TypeOf((*MockFederatedGatewayReconcileLoop)(nil).RunFederatedGatewayReconciler), varargs...)
 }
 
-// MockFederatedHttpGatewayReconciler is a mock of FederatedHttpGatewayReconciler interface.
-type MockFederatedHttpGatewayReconciler struct {
+// MockFederatedMatchableHttpGatewayReconciler is a mock of FederatedMatchableHttpGatewayReconciler interface.
+type MockFederatedMatchableHttpGatewayReconciler struct {
 	ctrl     *gomock.Controller
-	recorder *MockFederatedHttpGatewayReconcilerMockRecorder
+	recorder *MockFederatedMatchableHttpGatewayReconcilerMockRecorder
 }
 
-// MockFederatedHttpGatewayReconcilerMockRecorder is the mock recorder for MockFederatedHttpGatewayReconciler.
-type MockFederatedHttpGatewayReconcilerMockRecorder struct {
-	mock *MockFederatedHttpGatewayReconciler
+// MockFederatedMatchableHttpGatewayReconcilerMockRecorder is the mock recorder for MockFederatedMatchableHttpGatewayReconciler.
+type MockFederatedMatchableHttpGatewayReconcilerMockRecorder struct {
+	mock *MockFederatedMatchableHttpGatewayReconciler
 }
 
-// NewMockFederatedHttpGatewayReconciler creates a new mock instance.
-func NewMockFederatedHttpGatewayReconciler(ctrl *gomock.Controller) *MockFederatedHttpGatewayReconciler {
-	mock := &MockFederatedHttpGatewayReconciler{ctrl: ctrl}
-	mock.recorder = &MockFederatedHttpGatewayReconcilerMockRecorder{mock}
+// NewMockFederatedMatchableHttpGatewayReconciler creates a new mock instance.
+func NewMockFederatedMatchableHttpGatewayReconciler(ctrl *gomock.Controller) *MockFederatedMatchableHttpGatewayReconciler {
+	mock := &MockFederatedMatchableHttpGatewayReconciler{ctrl: ctrl}
+	mock.recorder = &MockFederatedMatchableHttpGatewayReconcilerMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockFederatedHttpGatewayReconciler) EXPECT() *MockFederatedHttpGatewayReconcilerMockRecorder {
+func (m *MockFederatedMatchableHttpGatewayReconciler) EXPECT() *MockFederatedMatchableHttpGatewayReconcilerMockRecorder {
 	return m.recorder
 }
 
-// ReconcileFederatedHttpGateway mocks base method.
-func (m *MockFederatedHttpGatewayReconciler) ReconcileFederatedHttpGateway(obj *v1.FederatedHttpGateway) (reconcile.Result, error) {
+// ReconcileFederatedMatchableHttpGateway mocks base method.
+func (m *MockFederatedMatchableHttpGatewayReconciler) ReconcileFederatedMatchableHttpGateway(obj *v1.FederatedMatchableHttpGateway) (reconcile.Result, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReconcileFederatedHttpGateway", obj)
+	ret := m.ctrl.Call(m, "ReconcileFederatedMatchableHttpGateway", obj)
 	ret0, _ := ret[0].(reconcile.Result)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ReconcileFederatedHttpGateway indicates an expected call of ReconcileFederatedHttpGateway.
-func (mr *MockFederatedHttpGatewayReconcilerMockRecorder) ReconcileFederatedHttpGateway(obj interface{}) *gomock.Call {
+// ReconcileFederatedMatchableHttpGateway indicates an expected call of ReconcileFederatedMatchableHttpGateway.
+func (mr *MockFederatedMatchableHttpGatewayReconcilerMockRecorder) ReconcileFederatedMatchableHttpGateway(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileFederatedHttpGateway", reflect.TypeOf((*MockFederatedHttpGatewayReconciler)(nil).ReconcileFederatedHttpGateway), obj)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileFederatedMatchableHttpGateway", reflect.TypeOf((*MockFederatedMatchableHttpGatewayReconciler)(nil).ReconcileFederatedMatchableHttpGateway), obj)
 }
 
-// MockFederatedHttpGatewayDeletionReconciler is a mock of FederatedHttpGatewayDeletionReconciler interface.
-type MockFederatedHttpGatewayDeletionReconciler struct {
+// MockFederatedMatchableHttpGatewayDeletionReconciler is a mock of FederatedMatchableHttpGatewayDeletionReconciler interface.
+type MockFederatedMatchableHttpGatewayDeletionReconciler struct {
 	ctrl     *gomock.Controller
-	recorder *MockFederatedHttpGatewayDeletionReconcilerMockRecorder
+	recorder *MockFederatedMatchableHttpGatewayDeletionReconcilerMockRecorder
 }
 
-// MockFederatedHttpGatewayDeletionReconcilerMockRecorder is the mock recorder for MockFederatedHttpGatewayDeletionReconciler.
-type MockFederatedHttpGatewayDeletionReconcilerMockRecorder struct {
-	mock *MockFederatedHttpGatewayDeletionReconciler
+// MockFederatedMatchableHttpGatewayDeletionReconcilerMockRecorder is the mock recorder for MockFederatedMatchableHttpGatewayDeletionReconciler.
+type MockFederatedMatchableHttpGatewayDeletionReconcilerMockRecorder struct {
+	mock *MockFederatedMatchableHttpGatewayDeletionReconciler
 }
 
-// NewMockFederatedHttpGatewayDeletionReconciler creates a new mock instance.
-func NewMockFederatedHttpGatewayDeletionReconciler(ctrl *gomock.Controller) *MockFederatedHttpGatewayDeletionReconciler {
-	mock := &MockFederatedHttpGatewayDeletionReconciler{ctrl: ctrl}
-	mock.recorder = &MockFederatedHttpGatewayDeletionReconcilerMockRecorder{mock}
+// NewMockFederatedMatchableHttpGatewayDeletionReconciler creates a new mock instance.
+func NewMockFederatedMatchableHttpGatewayDeletionReconciler(ctrl *gomock.Controller) *MockFederatedMatchableHttpGatewayDeletionReconciler {
+	mock := &MockFederatedMatchableHttpGatewayDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockFederatedMatchableHttpGatewayDeletionReconcilerMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockFederatedHttpGatewayDeletionReconciler) EXPECT() *MockFederatedHttpGatewayDeletionReconcilerMockRecorder {
+func (m *MockFederatedMatchableHttpGatewayDeletionReconciler) EXPECT() *MockFederatedMatchableHttpGatewayDeletionReconcilerMockRecorder {
 	return m.recorder
 }
 
-// ReconcileFederatedHttpGatewayDeletion mocks base method.
-func (m *MockFederatedHttpGatewayDeletionReconciler) ReconcileFederatedHttpGatewayDeletion(req reconcile.Request) error {
+// ReconcileFederatedMatchableHttpGatewayDeletion mocks base method.
+func (m *MockFederatedMatchableHttpGatewayDeletionReconciler) ReconcileFederatedMatchableHttpGatewayDeletion(req reconcile.Request) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReconcileFederatedHttpGatewayDeletion", req)
+	ret := m.ctrl.Call(m, "ReconcileFederatedMatchableHttpGatewayDeletion", req)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// ReconcileFederatedHttpGatewayDeletion indicates an expected call of ReconcileFederatedHttpGatewayDeletion.
-func (mr *MockFederatedHttpGatewayDeletionReconcilerMockRecorder) ReconcileFederatedHttpGatewayDeletion(req interface{}) *gomock.Call {
+// ReconcileFederatedMatchableHttpGatewayDeletion indicates an expected call of ReconcileFederatedMatchableHttpGatewayDeletion.
+func (mr *MockFederatedMatchableHttpGatewayDeletionReconcilerMockRecorder) ReconcileFederatedMatchableHttpGatewayDeletion(req interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileFederatedHttpGatewayDeletion", reflect.TypeOf((*MockFederatedHttpGatewayDeletionReconciler)(nil).ReconcileFederatedHttpGatewayDeletion), req)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileFederatedMatchableHttpGatewayDeletion", reflect.TypeOf((*MockFederatedMatchableHttpGatewayDeletionReconciler)(nil).ReconcileFederatedMatchableHttpGatewayDeletion), req)
 }
 
-// MockFederatedHttpGatewayFinalizer is a mock of FederatedHttpGatewayFinalizer interface.
-type MockFederatedHttpGatewayFinalizer struct {
+// MockFederatedMatchableHttpGatewayFinalizer is a mock of FederatedMatchableHttpGatewayFinalizer interface.
+type MockFederatedMatchableHttpGatewayFinalizer struct {
 	ctrl     *gomock.Controller
-	recorder *MockFederatedHttpGatewayFinalizerMockRecorder
+	recorder *MockFederatedMatchableHttpGatewayFinalizerMockRecorder
 }
 
-// MockFederatedHttpGatewayFinalizerMockRecorder is the mock recorder for MockFederatedHttpGatewayFinalizer.
-type MockFederatedHttpGatewayFinalizerMockRecorder struct {
-	mock *MockFederatedHttpGatewayFinalizer
+// MockFederatedMatchableHttpGatewayFinalizerMockRecorder is the mock recorder for MockFederatedMatchableHttpGatewayFinalizer.
+type MockFederatedMatchableHttpGatewayFinalizerMockRecorder struct {
+	mock *MockFederatedMatchableHttpGatewayFinalizer
 }
 
-// NewMockFederatedHttpGatewayFinalizer creates a new mock instance.
-func NewMockFederatedHttpGatewayFinalizer(ctrl *gomock.Controller) *MockFederatedHttpGatewayFinalizer {
-	mock := &MockFederatedHttpGatewayFinalizer{ctrl: ctrl}
-	mock.recorder = &MockFederatedHttpGatewayFinalizerMockRecorder{mock}
+// NewMockFederatedMatchableHttpGatewayFinalizer creates a new mock instance.
+func NewMockFederatedMatchableHttpGatewayFinalizer(ctrl *gomock.Controller) *MockFederatedMatchableHttpGatewayFinalizer {
+	mock := &MockFederatedMatchableHttpGatewayFinalizer{ctrl: ctrl}
+	mock.recorder = &MockFederatedMatchableHttpGatewayFinalizerMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockFederatedHttpGatewayFinalizer) EXPECT() *MockFederatedHttpGatewayFinalizerMockRecorder {
+func (m *MockFederatedMatchableHttpGatewayFinalizer) EXPECT() *MockFederatedMatchableHttpGatewayFinalizerMockRecorder {
 	return m.recorder
 }
 
-// FederatedHttpGatewayFinalizerName mocks base method.
-func (m *MockFederatedHttpGatewayFinalizer) FederatedHttpGatewayFinalizerName() string {
+// FederatedMatchableHttpGatewayFinalizerName mocks base method.
+func (m *MockFederatedMatchableHttpGatewayFinalizer) FederatedMatchableHttpGatewayFinalizerName() string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FederatedHttpGatewayFinalizerName")
+	ret := m.ctrl.Call(m, "FederatedMatchableHttpGatewayFinalizerName")
 	ret0, _ := ret[0].(string)
 	return ret0
 }
 
-// FederatedHttpGatewayFinalizerName indicates an expected call of FederatedHttpGatewayFinalizerName.
-func (mr *MockFederatedHttpGatewayFinalizerMockRecorder) FederatedHttpGatewayFinalizerName() *gomock.Call {
+// FederatedMatchableHttpGatewayFinalizerName indicates an expected call of FederatedMatchableHttpGatewayFinalizerName.
+func (mr *MockFederatedMatchableHttpGatewayFinalizerMockRecorder) FederatedMatchableHttpGatewayFinalizerName() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FederatedHttpGatewayFinalizerName", reflect.TypeOf((*MockFederatedHttpGatewayFinalizer)(nil).FederatedHttpGatewayFinalizerName))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FederatedMatchableHttpGatewayFinalizerName", reflect.TypeOf((*MockFederatedMatchableHttpGatewayFinalizer)(nil).FederatedMatchableHttpGatewayFinalizerName))
 }
 
-// FinalizeFederatedHttpGateway mocks base method.
-func (m *MockFederatedHttpGatewayFinalizer) FinalizeFederatedHttpGateway(obj *v1.FederatedHttpGateway) error {
+// FinalizeFederatedMatchableHttpGateway mocks base method.
+func (m *MockFederatedMatchableHttpGatewayFinalizer) FinalizeFederatedMatchableHttpGateway(obj *v1.FederatedMatchableHttpGateway) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FinalizeFederatedHttpGateway", obj)
+	ret := m.ctrl.Call(m, "FinalizeFederatedMatchableHttpGateway", obj)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// FinalizeFederatedHttpGateway indicates an expected call of FinalizeFederatedHttpGateway.
-func (mr *MockFederatedHttpGatewayFinalizerMockRecorder) FinalizeFederatedHttpGateway(obj interface{}) *gomock.Call {
+// FinalizeFederatedMatchableHttpGateway indicates an expected call of FinalizeFederatedMatchableHttpGateway.
+func (mr *MockFederatedMatchableHttpGatewayFinalizerMockRecorder) FinalizeFederatedMatchableHttpGateway(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeFederatedHttpGateway", reflect.TypeOf((*MockFederatedHttpGatewayFinalizer)(nil).FinalizeFederatedHttpGateway), obj)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeFederatedMatchableHttpGateway", reflect.TypeOf((*MockFederatedMatchableHttpGatewayFinalizer)(nil).FinalizeFederatedMatchableHttpGateway), obj)
 }
 
-// ReconcileFederatedHttpGateway mocks base method.
-func (m *MockFederatedHttpGatewayFinalizer) ReconcileFederatedHttpGateway(obj *v1.FederatedHttpGateway) (reconcile.Result, error) {
+// ReconcileFederatedMatchableHttpGateway mocks base method.
+func (m *MockFederatedMatchableHttpGatewayFinalizer) ReconcileFederatedMatchableHttpGateway(obj *v1.FederatedMatchableHttpGateway) (reconcile.Result, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReconcileFederatedHttpGateway", obj)
+	ret := m.ctrl.Call(m, "ReconcileFederatedMatchableHttpGateway", obj)
 	ret0, _ := ret[0].(reconcile.Result)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ReconcileFederatedHttpGateway indicates an expected call of ReconcileFederatedHttpGateway.
-func (mr *MockFederatedHttpGatewayFinalizerMockRecorder) ReconcileFederatedHttpGateway(obj interface{}) *gomock.Call {
+// ReconcileFederatedMatchableHttpGateway indicates an expected call of ReconcileFederatedMatchableHttpGateway.
+func (mr *MockFederatedMatchableHttpGatewayFinalizerMockRecorder) ReconcileFederatedMatchableHttpGateway(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileFederatedHttpGateway", reflect.TypeOf((*MockFederatedHttpGatewayFinalizer)(nil).ReconcileFederatedHttpGateway), obj)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileFederatedMatchableHttpGateway", reflect.TypeOf((*MockFederatedMatchableHttpGatewayFinalizer)(nil).ReconcileFederatedMatchableHttpGateway), obj)
 }
 
-// MockFederatedHttpGatewayReconcileLoop is a mock of FederatedHttpGatewayReconcileLoop interface.
-type MockFederatedHttpGatewayReconcileLoop struct {
+// MockFederatedMatchableHttpGatewayReconcileLoop is a mock of FederatedMatchableHttpGatewayReconcileLoop interface.
+type MockFederatedMatchableHttpGatewayReconcileLoop struct {
 	ctrl     *gomock.Controller
-	recorder *MockFederatedHttpGatewayReconcileLoopMockRecorder
+	recorder *MockFederatedMatchableHttpGatewayReconcileLoopMockRecorder
 }
 
-// MockFederatedHttpGatewayReconcileLoopMockRecorder is the mock recorder for MockFederatedHttpGatewayReconcileLoop.
-type MockFederatedHttpGatewayReconcileLoopMockRecorder struct {
-	mock *MockFederatedHttpGatewayReconcileLoop
+// MockFederatedMatchableHttpGatewayReconcileLoopMockRecorder is the mock recorder for MockFederatedMatchableHttpGatewayReconcileLoop.
+type MockFederatedMatchableHttpGatewayReconcileLoopMockRecorder struct {
+	mock *MockFederatedMatchableHttpGatewayReconcileLoop
 }
 
-// NewMockFederatedHttpGatewayReconcileLoop creates a new mock instance.
-func NewMockFederatedHttpGatewayReconcileLoop(ctrl *gomock.Controller) *MockFederatedHttpGatewayReconcileLoop {
-	mock := &MockFederatedHttpGatewayReconcileLoop{ctrl: ctrl}
-	mock.recorder = &MockFederatedHttpGatewayReconcileLoopMockRecorder{mock}
+// NewMockFederatedMatchableHttpGatewayReconcileLoop creates a new mock instance.
+func NewMockFederatedMatchableHttpGatewayReconcileLoop(ctrl *gomock.Controller) *MockFederatedMatchableHttpGatewayReconcileLoop {
+	mock := &MockFederatedMatchableHttpGatewayReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockFederatedMatchableHttpGatewayReconcileLoopMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockFederatedHttpGatewayReconcileLoop) EXPECT() *MockFederatedHttpGatewayReconcileLoopMockRecorder {
+func (m *MockFederatedMatchableHttpGatewayReconcileLoop) EXPECT() *MockFederatedMatchableHttpGatewayReconcileLoopMockRecorder {
 	return m.recorder
 }
 
-// RunFederatedHttpGatewayReconciler mocks base method.
-func (m *MockFederatedHttpGatewayReconcileLoop) RunFederatedHttpGatewayReconciler(ctx context.Context, rec controller.FederatedHttpGatewayReconciler, predicates ...predicate.Predicate) error {
+// RunFederatedMatchableHttpGatewayReconciler mocks base method.
+func (m *MockFederatedMatchableHttpGatewayReconcileLoop) RunFederatedMatchableHttpGatewayReconciler(ctx context.Context, rec controller.FederatedMatchableHttpGatewayReconciler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, rec}
 	for _, a := range predicates {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "RunFederatedHttpGatewayReconciler", varargs...)
+	ret := m.ctrl.Call(m, "RunFederatedMatchableHttpGatewayReconciler", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// RunFederatedHttpGatewayReconciler indicates an expected call of RunFederatedHttpGatewayReconciler.
-func (mr *MockFederatedHttpGatewayReconcileLoopMockRecorder) RunFederatedHttpGatewayReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+// RunFederatedMatchableHttpGatewayReconciler indicates an expected call of RunFederatedMatchableHttpGatewayReconciler.
+func (mr *MockFederatedMatchableHttpGatewayReconcileLoopMockRecorder) RunFederatedMatchableHttpGatewayReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, rec}, predicates...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunFederatedHttpGatewayReconciler", reflect.TypeOf((*MockFederatedHttpGatewayReconcileLoop)(nil).RunFederatedHttpGatewayReconciler), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunFederatedMatchableHttpGatewayReconciler", reflect.TypeOf((*MockFederatedMatchableHttpGatewayReconcileLoop)(nil).RunFederatedMatchableHttpGatewayReconciler), varargs...)
 }
 
 // MockFederatedRouteTableReconciler is a mock of FederatedRouteTableReconciler interface.

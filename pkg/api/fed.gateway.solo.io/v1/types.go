@@ -49,34 +49,34 @@ type FederatedGatewayList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
-// GroupVersionKind for FederatedHttpGateway
-var FederatedHttpGatewayGVK = schema.GroupVersionKind{
+// GroupVersionKind for FederatedMatchableHttpGateway
+var FederatedMatchableHttpGatewayGVK = schema.GroupVersionKind{
 	Group:   "fed.gateway.solo.io",
 	Version: "v1",
-	Kind:    "FederatedHttpGateway",
+	Kind:    "FederatedMatchableHttpGateway",
 }
 
-// FederatedHttpGateway is the Schema for the federatedHttpGateway API
-type FederatedHttpGateway struct {
+// FederatedMatchableHttpGateway is the Schema for the federatedMatchableHttpGateway API
+type FederatedMatchableHttpGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedHttpGatewaySpec   `json:"spec,omitempty"`
-	Status FederatedHttpGatewayStatus `json:"status,omitempty"`
+	Spec   FederatedMatchableHttpGatewaySpec   `json:"spec,omitempty"`
+	Status FederatedMatchableHttpGatewayStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedHttpGateway) GVK() schema.GroupVersionKind {
-	return FederatedHttpGatewayGVK
+func (FederatedMatchableHttpGateway) GVK() schema.GroupVersionKind {
+	return FederatedMatchableHttpGatewayGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// FederatedHttpGatewayList contains a list of FederatedHttpGateway
-type FederatedHttpGatewayList struct {
+// FederatedMatchableHttpGatewayList contains a list of FederatedMatchableHttpGateway
+type FederatedMatchableHttpGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FederatedHttpGateway `json:"items"`
+	Items           []FederatedMatchableHttpGateway `json:"items"`
 }
 
 // +genclient
@@ -151,7 +151,7 @@ type FederatedVirtualServiceList struct {
 
 func init() {
 	SchemeBuilder.Register(&FederatedGateway{}, &FederatedGatewayList{})
-	SchemeBuilder.Register(&FederatedHttpGateway{}, &FederatedHttpGatewayList{})
+	SchemeBuilder.Register(&FederatedMatchableHttpGateway{}, &FederatedMatchableHttpGatewayList{})
 	SchemeBuilder.Register(&FederatedRouteTable{}, &FederatedRouteTableList{})
 	SchemeBuilder.Register(&FederatedVirtualService{}, &FederatedVirtualServiceList{})
 }

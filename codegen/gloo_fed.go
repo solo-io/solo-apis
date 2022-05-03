@@ -28,7 +28,7 @@ func makeFedGroup() model.Group {
 func makeFedGatewayGroup() model.Group {
 	return makeGroup("fed.gateway", "v1", []resourceToGenerate{
 		{kind: "FederatedGateway"},
-		{kind: "FederatedHttpGateway"},
+		{kind: "FederatedMatchableHttpGateway"},
 		{kind: "FederatedRouteTable"},
 		{kind: "FederatedVirtualService"},
 	}, []model.CustomTemplates{})

@@ -45,31 +45,31 @@ func FederatedGatewayClientFromConfigFactoryProvider() FederatedGatewayClientFro
 	}
 }
 
-// Provider for FederatedHttpGatewayClient from Clientset
-func FederatedHttpGatewayClientFromClientsetProvider(clients fed_gateway_solo_io_v1.Clientset) fed_gateway_solo_io_v1.FederatedHttpGatewayClient {
-	return clients.FederatedHttpGateways()
+// Provider for FederatedMatchableHttpGatewayClient from Clientset
+func FederatedMatchableHttpGatewayClientFromClientsetProvider(clients fed_gateway_solo_io_v1.Clientset) fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient {
+	return clients.FederatedMatchableHttpGateways()
 }
 
-// Provider for FederatedHttpGateway Client from Client
-func FederatedHttpGatewayClientProvider(client client.Client) fed_gateway_solo_io_v1.FederatedHttpGatewayClient {
-	return fed_gateway_solo_io_v1.NewFederatedHttpGatewayClient(client)
+// Provider for FederatedMatchableHttpGateway Client from Client
+func FederatedMatchableHttpGatewayClientProvider(client client.Client) fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient {
+	return fed_gateway_solo_io_v1.NewFederatedMatchableHttpGatewayClient(client)
 }
 
-type FederatedHttpGatewayClientFactory func(client client.Client) fed_gateway_solo_io_v1.FederatedHttpGatewayClient
+type FederatedMatchableHttpGatewayClientFactory func(client client.Client) fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient
 
-func FederatedHttpGatewayClientFactoryProvider() FederatedHttpGatewayClientFactory {
-	return FederatedHttpGatewayClientProvider
+func FederatedMatchableHttpGatewayClientFactoryProvider() FederatedMatchableHttpGatewayClientFactory {
+	return FederatedMatchableHttpGatewayClientProvider
 }
 
-type FederatedHttpGatewayClientFromConfigFactory func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedHttpGatewayClient, error)
+type FederatedMatchableHttpGatewayClientFromConfigFactory func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient, error)
 
-func FederatedHttpGatewayClientFromConfigFactoryProvider() FederatedHttpGatewayClientFromConfigFactory {
-	return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedHttpGatewayClient, error) {
+func FederatedMatchableHttpGatewayClientFromConfigFactoryProvider() FederatedMatchableHttpGatewayClientFromConfigFactory {
+	return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient, error) {
 		clients, err := fed_gateway_solo_io_v1.NewClientsetFromConfig(cfg)
 		if err != nil {
 			return nil, err
 		}
-		return clients.FederatedHttpGateways(), nil
+		return clients.FederatedMatchableHttpGateways(), nil
 	}
 }
 

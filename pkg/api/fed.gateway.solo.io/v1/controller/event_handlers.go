@@ -124,111 +124,111 @@ func (h genericFederatedGatewayHandler) Generic(object client.Object) error {
 	return h.handler.GenericFederatedGateway(obj)
 }
 
-// Handle events for the FederatedHttpGateway Resource
+// Handle events for the FederatedMatchableHttpGateway Resource
 // DEPRECATED: Prefer reconciler pattern.
-type FederatedHttpGatewayEventHandler interface {
-	CreateFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
-	UpdateFederatedHttpGateway(old, new *fed_gateway_solo_io_v1.FederatedHttpGateway) error
-	DeleteFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
-	GenericFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+type FederatedMatchableHttpGatewayEventHandler interface {
+	CreateFederatedMatchableHttpGateway(obj *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error
+	UpdateFederatedMatchableHttpGateway(old, new *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error
+	DeleteFederatedMatchableHttpGateway(obj *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error
+	GenericFederatedMatchableHttpGateway(obj *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error
 }
 
-type FederatedHttpGatewayEventHandlerFuncs struct {
-	OnCreate  func(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
-	OnUpdate  func(old, new *fed_gateway_solo_io_v1.FederatedHttpGateway) error
-	OnDelete  func(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
-	OnGeneric func(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error
+type FederatedMatchableHttpGatewayEventHandlerFuncs struct {
+	OnCreate  func(obj *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error
+	OnUpdate  func(old, new *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error
+	OnDelete  func(obj *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error
+	OnGeneric func(obj *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error
 }
 
-func (f *FederatedHttpGatewayEventHandlerFuncs) CreateFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error {
+func (f *FederatedMatchableHttpGatewayEventHandlerFuncs) CreateFederatedMatchableHttpGateway(obj *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error {
 	if f.OnCreate == nil {
 		return nil
 	}
 	return f.OnCreate(obj)
 }
 
-func (f *FederatedHttpGatewayEventHandlerFuncs) DeleteFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error {
+func (f *FederatedMatchableHttpGatewayEventHandlerFuncs) DeleteFederatedMatchableHttpGateway(obj *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error {
 	if f.OnDelete == nil {
 		return nil
 	}
 	return f.OnDelete(obj)
 }
 
-func (f *FederatedHttpGatewayEventHandlerFuncs) UpdateFederatedHttpGateway(objOld, objNew *fed_gateway_solo_io_v1.FederatedHttpGateway) error {
+func (f *FederatedMatchableHttpGatewayEventHandlerFuncs) UpdateFederatedMatchableHttpGateway(objOld, objNew *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error {
 	if f.OnUpdate == nil {
 		return nil
 	}
 	return f.OnUpdate(objOld, objNew)
 }
 
-func (f *FederatedHttpGatewayEventHandlerFuncs) GenericFederatedHttpGateway(obj *fed_gateway_solo_io_v1.FederatedHttpGateway) error {
+func (f *FederatedMatchableHttpGatewayEventHandlerFuncs) GenericFederatedMatchableHttpGateway(obj *fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) error {
 	if f.OnGeneric == nil {
 		return nil
 	}
 	return f.OnGeneric(obj)
 }
 
-type FederatedHttpGatewayEventWatcher interface {
-	AddEventHandler(ctx context.Context, h FederatedHttpGatewayEventHandler, predicates ...predicate.Predicate) error
+type FederatedMatchableHttpGatewayEventWatcher interface {
+	AddEventHandler(ctx context.Context, h FederatedMatchableHttpGatewayEventHandler, predicates ...predicate.Predicate) error
 }
 
-type federatedHttpGatewayEventWatcher struct {
+type federatedMatchableHttpGatewayEventWatcher struct {
 	watcher events.EventWatcher
 }
 
-func NewFederatedHttpGatewayEventWatcher(name string, mgr manager.Manager) FederatedHttpGatewayEventWatcher {
-	return &federatedHttpGatewayEventWatcher{
-		watcher: events.NewWatcher(name, mgr, &fed_gateway_solo_io_v1.FederatedHttpGateway{}),
+func NewFederatedMatchableHttpGatewayEventWatcher(name string, mgr manager.Manager) FederatedMatchableHttpGatewayEventWatcher {
+	return &federatedMatchableHttpGatewayEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}),
 	}
 }
 
-func (c *federatedHttpGatewayEventWatcher) AddEventHandler(ctx context.Context, h FederatedHttpGatewayEventHandler, predicates ...predicate.Predicate) error {
-	handler := genericFederatedHttpGatewayHandler{handler: h}
+func (c *federatedMatchableHttpGatewayEventWatcher) AddEventHandler(ctx context.Context, h FederatedMatchableHttpGatewayEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericFederatedMatchableHttpGatewayHandler{handler: h}
 	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
 		return err
 	}
 	return nil
 }
 
-// genericFederatedHttpGatewayHandler implements a generic events.EventHandler
-type genericFederatedHttpGatewayHandler struct {
-	handler FederatedHttpGatewayEventHandler
+// genericFederatedMatchableHttpGatewayHandler implements a generic events.EventHandler
+type genericFederatedMatchableHttpGatewayHandler struct {
+	handler FederatedMatchableHttpGatewayEventHandler
 }
 
-func (h genericFederatedHttpGatewayHandler) Create(object client.Object) error {
-	obj, ok := object.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+func (h genericFederatedMatchableHttpGatewayHandler) Create(object client.Object) error {
+	obj, ok := object.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", object)
+		return errors.Errorf("internal error: FederatedMatchableHttpGateway handler received event for %T", object)
 	}
-	return h.handler.CreateFederatedHttpGateway(obj)
+	return h.handler.CreateFederatedMatchableHttpGateway(obj)
 }
 
-func (h genericFederatedHttpGatewayHandler) Delete(object client.Object) error {
-	obj, ok := object.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+func (h genericFederatedMatchableHttpGatewayHandler) Delete(object client.Object) error {
+	obj, ok := object.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", object)
+		return errors.Errorf("internal error: FederatedMatchableHttpGateway handler received event for %T", object)
 	}
-	return h.handler.DeleteFederatedHttpGateway(obj)
+	return h.handler.DeleteFederatedMatchableHttpGateway(obj)
 }
 
-func (h genericFederatedHttpGatewayHandler) Update(old, new client.Object) error {
-	objOld, ok := old.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+func (h genericFederatedMatchableHttpGatewayHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", old)
+		return errors.Errorf("internal error: FederatedMatchableHttpGateway handler received event for %T", old)
 	}
-	objNew, ok := new.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+	objNew, ok := new.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", new)
+		return errors.Errorf("internal error: FederatedMatchableHttpGateway handler received event for %T", new)
 	}
-	return h.handler.UpdateFederatedHttpGateway(objOld, objNew)
+	return h.handler.UpdateFederatedMatchableHttpGateway(objOld, objNew)
 }
 
-func (h genericFederatedHttpGatewayHandler) Generic(object client.Object) error {
-	obj, ok := object.(*fed_gateway_solo_io_v1.FederatedHttpGateway)
+func (h genericFederatedMatchableHttpGatewayHandler) Generic(object client.Object) error {
+	obj, ok := object.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: FederatedHttpGateway handler received event for %T", object)
+		return errors.Errorf("internal error: FederatedMatchableHttpGateway handler received event for %T", object)
 	}
-	return h.handler.GenericFederatedHttpGateway(obj)
+	return h.handler.GenericFederatedMatchableHttpGateway(obj)
 }
 
 // Handle events for the FederatedRouteTable Resource

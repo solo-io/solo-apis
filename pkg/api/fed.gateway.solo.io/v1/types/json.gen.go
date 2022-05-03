@@ -46,25 +46,25 @@ func (this *FederatedGatewayStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for FederatedHttpGatewaySpec
-func (this *FederatedHttpGatewaySpec) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for FederatedMatchableHttpGatewaySpec
+func (this *FederatedMatchableHttpGatewaySpec) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for FederatedHttpGatewaySpec
-func (this *FederatedHttpGatewaySpec) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for FederatedMatchableHttpGatewaySpec
+func (this *FederatedMatchableHttpGatewaySpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for FederatedHttpGatewayStatus
-func (this *FederatedHttpGatewayStatus) MarshalJSON() ([]byte, error) {
+// MarshalJSON is a custom marshaler for FederatedMatchableHttpGatewayStatus
+func (this *FederatedMatchableHttpGatewayStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
 	return []byte(str), err
 }
 
-// UnmarshalJSON is a custom unmarshaler for FederatedHttpGatewayStatus
-func (this *FederatedHttpGatewayStatus) UnmarshalJSON(b []byte) error {
+// UnmarshalJSON is a custom unmarshaler for FederatedMatchableHttpGatewayStatus
+func (this *FederatedMatchableHttpGatewayStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
