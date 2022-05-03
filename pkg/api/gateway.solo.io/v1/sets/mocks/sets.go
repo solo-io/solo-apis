@@ -271,57 +271,57 @@ func (mr *MockGatewaySetMockRecorder) UnsortedList(filterResource ...interface{}
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockGatewaySet)(nil).UnsortedList), filterResource...)
 }
 
-// MockHttpGatewaySet is a mock of HttpGatewaySet interface.
-type MockHttpGatewaySet struct {
+// MockMatchableHttpGatewaySet is a mock of MatchableHttpGatewaySet interface.
+type MockMatchableHttpGatewaySet struct {
 	ctrl     *gomock.Controller
-	recorder *MockHttpGatewaySetMockRecorder
+	recorder *MockMatchableHttpGatewaySetMockRecorder
 }
 
-// MockHttpGatewaySetMockRecorder is the mock recorder for MockHttpGatewaySet.
-type MockHttpGatewaySetMockRecorder struct {
-	mock *MockHttpGatewaySet
+// MockMatchableHttpGatewaySetMockRecorder is the mock recorder for MockMatchableHttpGatewaySet.
+type MockMatchableHttpGatewaySetMockRecorder struct {
+	mock *MockMatchableHttpGatewaySet
 }
 
-// NewMockHttpGatewaySet creates a new mock instance.
-func NewMockHttpGatewaySet(ctrl *gomock.Controller) *MockHttpGatewaySet {
-	mock := &MockHttpGatewaySet{ctrl: ctrl}
-	mock.recorder = &MockHttpGatewaySetMockRecorder{mock}
+// NewMockMatchableHttpGatewaySet creates a new mock instance.
+func NewMockMatchableHttpGatewaySet(ctrl *gomock.Controller) *MockMatchableHttpGatewaySet {
+	mock := &MockMatchableHttpGatewaySet{ctrl: ctrl}
+	mock.recorder = &MockMatchableHttpGatewaySetMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockHttpGatewaySet) EXPECT() *MockHttpGatewaySetMockRecorder {
+func (m *MockMatchableHttpGatewaySet) EXPECT() *MockMatchableHttpGatewaySetMockRecorder {
 	return m.recorder
 }
 
 // Clone mocks base method.
-func (m *MockHttpGatewaySet) Clone() v1sets.HttpGatewaySet {
+func (m *MockMatchableHttpGatewaySet) Clone() v1sets.MatchableHttpGatewaySet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v1sets.HttpGatewaySet)
+	ret0, _ := ret[0].(v1sets.MatchableHttpGatewaySet)
 	return ret0
 }
 
 // Clone indicates an expected call of Clone.
-func (mr *MockHttpGatewaySetMockRecorder) Clone() *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Clone() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockHttpGatewaySet)(nil).Clone))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Clone))
 }
 
 // Delete mocks base method.
-func (m *MockHttpGatewaySet) Delete(httpGateway ezkube.ResourceId) {
+func (m *MockMatchableHttpGatewaySet) Delete(matchableHttpGateway ezkube.ResourceId) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", httpGateway)
+	m.ctrl.Call(m, "Delete", matchableHttpGateway)
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockHttpGatewaySetMockRecorder) Delete(httpGateway interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Delete(matchableHttpGateway interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockHttpGatewaySet)(nil).Delete), httpGateway)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Delete), matchableHttpGateway)
 }
 
 // Delta mocks base method.
-func (m *MockHttpGatewaySet) Delta(newSet v1sets.HttpGatewaySet) sets.ResourceDelta {
+func (m *MockMatchableHttpGatewaySet) Delta(newSet v1sets.MatchableHttpGatewaySet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delta", newSet)
 	ret0, _ := ret[0].(sets.ResourceDelta)
@@ -329,56 +329,56 @@ func (m *MockHttpGatewaySet) Delta(newSet v1sets.HttpGatewaySet) sets.ResourceDe
 }
 
 // Delta indicates an expected call of Delta.
-func (mr *MockHttpGatewaySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockHttpGatewaySet)(nil).Delta), newSet)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Delta), newSet)
 }
 
 // Difference mocks base method.
-func (m *MockHttpGatewaySet) Difference(set v1sets.HttpGatewaySet) v1sets.HttpGatewaySet {
+func (m *MockMatchableHttpGatewaySet) Difference(set v1sets.MatchableHttpGatewaySet) v1sets.MatchableHttpGatewaySet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1sets.HttpGatewaySet)
+	ret0, _ := ret[0].(v1sets.MatchableHttpGatewaySet)
 	return ret0
 }
 
 // Difference indicates an expected call of Difference.
-func (mr *MockHttpGatewaySetMockRecorder) Difference(set interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Difference(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockHttpGatewaySet)(nil).Difference), set)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Difference), set)
 }
 
 // Equal mocks base method.
-func (m *MockHttpGatewaySet) Equal(httpGatewaySet v1sets.HttpGatewaySet) bool {
+func (m *MockMatchableHttpGatewaySet) Equal(matchableHttpGatewaySet v1sets.MatchableHttpGatewaySet) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", httpGatewaySet)
+	ret := m.ctrl.Call(m, "Equal", matchableHttpGatewaySet)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // Equal indicates an expected call of Equal.
-func (mr *MockHttpGatewaySetMockRecorder) Equal(httpGatewaySet interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Equal(matchableHttpGatewaySet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockHttpGatewaySet)(nil).Equal), httpGatewaySet)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Equal), matchableHttpGatewaySet)
 }
 
 // Find mocks base method.
-func (m *MockHttpGatewaySet) Find(id ezkube.ResourceId) (*v1.HttpGateway, error) {
+func (m *MockMatchableHttpGatewaySet) Find(id ezkube.ResourceId) (*v1.MatchableHttpGateway, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v1.HttpGateway)
+	ret0, _ := ret[0].(*v1.MatchableHttpGateway)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Find indicates an expected call of Find.
-func (mr *MockHttpGatewaySetMockRecorder) Find(id interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Find(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockHttpGatewaySet)(nil).Find), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Find), id)
 }
 
 // Generic mocks base method.
-func (m *MockHttpGatewaySet) Generic() sets.ResourceSet {
+func (m *MockMatchableHttpGatewaySet) Generic() sets.ResourceSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Generic")
 	ret0, _ := ret[0].(sets.ResourceSet)
@@ -386,57 +386,57 @@ func (m *MockHttpGatewaySet) Generic() sets.ResourceSet {
 }
 
 // Generic indicates an expected call of Generic.
-func (mr *MockHttpGatewaySetMockRecorder) Generic() *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockHttpGatewaySet)(nil).Generic))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Generic))
 }
 
 // Has mocks base method.
-func (m *MockHttpGatewaySet) Has(httpGateway ezkube.ResourceId) bool {
+func (m *MockMatchableHttpGatewaySet) Has(matchableHttpGateway ezkube.ResourceId) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", httpGateway)
+	ret := m.ctrl.Call(m, "Has", matchableHttpGateway)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // Has indicates an expected call of Has.
-func (mr *MockHttpGatewaySetMockRecorder) Has(httpGateway interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Has(matchableHttpGateway interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockHttpGatewaySet)(nil).Has), httpGateway)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Has), matchableHttpGateway)
 }
 
 // Insert mocks base method.
-func (m *MockHttpGatewaySet) Insert(httpGateway ...*v1.HttpGateway) {
+func (m *MockMatchableHttpGatewaySet) Insert(matchableHttpGateway ...*v1.MatchableHttpGateway) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
-	for _, a := range httpGateway {
+	for _, a := range matchableHttpGateway {
 		varargs = append(varargs, a)
 	}
 	m.ctrl.Call(m, "Insert", varargs...)
 }
 
 // Insert indicates an expected call of Insert.
-func (mr *MockHttpGatewaySetMockRecorder) Insert(httpGateway ...interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Insert(matchableHttpGateway ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockHttpGatewaySet)(nil).Insert), httpGateway...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Insert), matchableHttpGateway...)
 }
 
 // Intersection mocks base method.
-func (m *MockHttpGatewaySet) Intersection(set v1sets.HttpGatewaySet) v1sets.HttpGatewaySet {
+func (m *MockMatchableHttpGatewaySet) Intersection(set v1sets.MatchableHttpGatewaySet) v1sets.MatchableHttpGatewaySet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1sets.HttpGatewaySet)
+	ret0, _ := ret[0].(v1sets.MatchableHttpGatewaySet)
 	return ret0
 }
 
 // Intersection indicates an expected call of Intersection.
-func (mr *MockHttpGatewaySetMockRecorder) Intersection(set interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Intersection(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockHttpGatewaySet)(nil).Intersection), set)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Intersection), set)
 }
 
 // Keys mocks base method.
-func (m *MockHttpGatewaySet) Keys() sets0.String {
+func (m *MockMatchableHttpGatewaySet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
 	ret0, _ := ret[0].(sets0.String)
@@ -444,13 +444,13 @@ func (m *MockHttpGatewaySet) Keys() sets0.String {
 }
 
 // Keys indicates an expected call of Keys.
-func (mr *MockHttpGatewaySetMockRecorder) Keys() *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockHttpGatewaySet)(nil).Keys))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Keys))
 }
 
 // Length mocks base method.
-func (m *MockHttpGatewaySet) Length() int {
+func (m *MockMatchableHttpGatewaySet) Length() int {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Length")
 	ret0, _ := ret[0].(int)
@@ -458,73 +458,73 @@ func (m *MockHttpGatewaySet) Length() int {
 }
 
 // Length indicates an expected call of Length.
-func (mr *MockHttpGatewaySetMockRecorder) Length() *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Length() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockHttpGatewaySet)(nil).Length))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Length))
 }
 
 // List mocks base method.
-func (m *MockHttpGatewaySet) List(filterResource ...func(*v1.HttpGateway) bool) []*v1.HttpGateway {
+func (m *MockMatchableHttpGatewaySet) List(filterResource ...func(*v1.MatchableHttpGateway) bool) []*v1.MatchableHttpGateway {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
 	for _, a := range filterResource {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "List", varargs...)
-	ret0, _ := ret[0].([]*v1.HttpGateway)
+	ret0, _ := ret[0].([]*v1.MatchableHttpGateway)
 	return ret0
 }
 
 // List indicates an expected call of List.
-func (mr *MockHttpGatewaySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockHttpGatewaySet)(nil).List), filterResource...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).List), filterResource...)
 }
 
 // Map mocks base method.
-func (m *MockHttpGatewaySet) Map() map[string]*v1.HttpGateway {
+func (m *MockMatchableHttpGatewaySet) Map() map[string]*v1.MatchableHttpGateway {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v1.HttpGateway)
+	ret0, _ := ret[0].(map[string]*v1.MatchableHttpGateway)
 	return ret0
 }
 
 // Map indicates an expected call of Map.
-func (mr *MockHttpGatewaySetMockRecorder) Map() *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Map() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockHttpGatewaySet)(nil).Map))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Map))
 }
 
 // Union mocks base method.
-func (m *MockHttpGatewaySet) Union(set v1sets.HttpGatewaySet) v1sets.HttpGatewaySet {
+func (m *MockMatchableHttpGatewaySet) Union(set v1sets.MatchableHttpGatewaySet) v1sets.MatchableHttpGatewaySet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1sets.HttpGatewaySet)
+	ret0, _ := ret[0].(v1sets.MatchableHttpGatewaySet)
 	return ret0
 }
 
 // Union indicates an expected call of Union.
-func (mr *MockHttpGatewaySetMockRecorder) Union(set interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) Union(set interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockHttpGatewaySet)(nil).Union), set)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).Union), set)
 }
 
 // UnsortedList mocks base method.
-func (m *MockHttpGatewaySet) UnsortedList(filterResource ...func(*v1.HttpGateway) bool) []*v1.HttpGateway {
+func (m *MockMatchableHttpGatewaySet) UnsortedList(filterResource ...func(*v1.MatchableHttpGateway) bool) []*v1.MatchableHttpGateway {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
 	for _, a := range filterResource {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
-	ret0, _ := ret[0].([]*v1.HttpGateway)
+	ret0, _ := ret[0].([]*v1.MatchableHttpGateway)
 	return ret0
 }
 
 // UnsortedList indicates an expected call of UnsortedList.
-func (mr *MockHttpGatewaySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+func (mr *MockMatchableHttpGatewaySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockHttpGatewaySet)(nil).UnsortedList), filterResource...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockMatchableHttpGatewaySet)(nil).UnsortedList), filterResource...)
 }
 
 // MockRouteTableSet is a mock of RouteTableSet interface.

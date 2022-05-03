@@ -232,210 +232,210 @@ func (s *gatewaySet) Clone() GatewaySet {
 	return &gatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
-type HttpGatewaySet interface {
+type MatchableHttpGatewaySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
-	List(filterResource ...func(*gateway_solo_io_v1.HttpGateway) bool) []*gateway_solo_io_v1.HttpGateway
+	List(filterResource ...func(*gateway_solo_io_v1.MatchableHttpGateway) bool) []*gateway_solo_io_v1.MatchableHttpGateway
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-	UnsortedList(filterResource ...func(*gateway_solo_io_v1.HttpGateway) bool) []*gateway_solo_io_v1.HttpGateway
+	UnsortedList(filterResource ...func(*gateway_solo_io_v1.MatchableHttpGateway) bool) []*gateway_solo_io_v1.MatchableHttpGateway
 	// Return the Set as a map of key to resource.
-	Map() map[string]*gateway_solo_io_v1.HttpGateway
+	Map() map[string]*gateway_solo_io_v1.MatchableHttpGateway
 	// Insert a resource into the set.
-	Insert(httpGateway ...*gateway_solo_io_v1.HttpGateway)
+	Insert(matchableHttpGateway ...*gateway_solo_io_v1.MatchableHttpGateway)
 	// Compare the equality of the keys in two sets (not the resources themselves)
-	Equal(httpGatewaySet HttpGatewaySet) bool
+	Equal(matchableHttpGatewaySet MatchableHttpGatewaySet) bool
 	// Check if the set contains a key matching the resource (not the resource itself)
-	Has(httpGateway ezkube.ResourceId) bool
+	Has(matchableHttpGateway ezkube.ResourceId) bool
 	// Delete the key matching the resource
-	Delete(httpGateway ezkube.ResourceId)
+	Delete(matchableHttpGateway ezkube.ResourceId)
 	// Return the union with the provided set
-	Union(set HttpGatewaySet) HttpGatewaySet
+	Union(set MatchableHttpGatewaySet) MatchableHttpGatewaySet
 	// Return the difference with the provided set
-	Difference(set HttpGatewaySet) HttpGatewaySet
+	Difference(set MatchableHttpGatewaySet) MatchableHttpGatewaySet
 	// Return the intersection with the provided set
-	Intersection(set HttpGatewaySet) HttpGatewaySet
+	Intersection(set MatchableHttpGatewaySet) MatchableHttpGatewaySet
 	// Find the resource with the given ID
-	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.HttpGateway, error)
+	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.MatchableHttpGateway, error)
 	// Get the length of the set
 	Length() int
 	// returns the generic implementation of the set
 	Generic() sksets.ResourceSet
-	// returns the delta between this and and another HttpGatewaySet
-	Delta(newSet HttpGatewaySet) sksets.ResourceDelta
-	// Create a deep copy of the current HttpGatewaySet
-	Clone() HttpGatewaySet
+	// returns the delta between this and and another MatchableHttpGatewaySet
+	Delta(newSet MatchableHttpGatewaySet) sksets.ResourceDelta
+	// Create a deep copy of the current MatchableHttpGatewaySet
+	Clone() MatchableHttpGatewaySet
 }
 
-func makeGenericHttpGatewaySet(httpGatewayList []*gateway_solo_io_v1.HttpGateway) sksets.ResourceSet {
+func makeGenericMatchableHttpGatewaySet(matchableHttpGatewayList []*gateway_solo_io_v1.MatchableHttpGateway) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
-	for _, obj := range httpGatewayList {
+	for _, obj := range matchableHttpGatewayList {
 		genericResources = append(genericResources, obj)
 	}
 	return sksets.NewResourceSet(genericResources...)
 }
 
-type httpGatewaySet struct {
+type matchableHttpGatewaySet struct {
 	set sksets.ResourceSet
 }
 
-func NewHttpGatewaySet(httpGatewayList ...*gateway_solo_io_v1.HttpGateway) HttpGatewaySet {
-	return &httpGatewaySet{set: makeGenericHttpGatewaySet(httpGatewayList)}
+func NewMatchableHttpGatewaySet(matchableHttpGatewayList ...*gateway_solo_io_v1.MatchableHttpGateway) MatchableHttpGatewaySet {
+	return &matchableHttpGatewaySet{set: makeGenericMatchableHttpGatewaySet(matchableHttpGatewayList)}
 }
 
-func NewHttpGatewaySetFromList(httpGatewayList *gateway_solo_io_v1.HttpGatewayList) HttpGatewaySet {
-	list := make([]*gateway_solo_io_v1.HttpGateway, 0, len(httpGatewayList.Items))
-	for idx := range httpGatewayList.Items {
-		list = append(list, &httpGatewayList.Items[idx])
+func NewMatchableHttpGatewaySetFromList(matchableHttpGatewayList *gateway_solo_io_v1.MatchableHttpGatewayList) MatchableHttpGatewaySet {
+	list := make([]*gateway_solo_io_v1.MatchableHttpGateway, 0, len(matchableHttpGatewayList.Items))
+	for idx := range matchableHttpGatewayList.Items {
+		list = append(list, &matchableHttpGatewayList.Items[idx])
 	}
-	return &httpGatewaySet{set: makeGenericHttpGatewaySet(list)}
+	return &matchableHttpGatewaySet{set: makeGenericMatchableHttpGatewaySet(list)}
 }
 
-func (s *httpGatewaySet) Keys() sets.String {
+func (s *matchableHttpGatewaySet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
 	}
 	return s.Generic().Keys()
 }
 
-func (s *httpGatewaySet) List(filterResource ...func(*gateway_solo_io_v1.HttpGateway) bool) []*gateway_solo_io_v1.HttpGateway {
+func (s *matchableHttpGatewaySet) List(filterResource ...func(*gateway_solo_io_v1.MatchableHttpGateway) bool) []*gateway_solo_io_v1.MatchableHttpGateway {
 	if s == nil {
 		return nil
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*gateway_solo_io_v1.HttpGateway))
+			return filter(obj.(*gateway_solo_io_v1.MatchableHttpGateway))
 		})
 	}
 
 	objs := s.Generic().List(genericFilters...)
-	httpGatewayList := make([]*gateway_solo_io_v1.HttpGateway, 0, len(objs))
+	matchableHttpGatewayList := make([]*gateway_solo_io_v1.MatchableHttpGateway, 0, len(objs))
 	for _, obj := range objs {
-		httpGatewayList = append(httpGatewayList, obj.(*gateway_solo_io_v1.HttpGateway))
+		matchableHttpGatewayList = append(matchableHttpGatewayList, obj.(*gateway_solo_io_v1.MatchableHttpGateway))
 	}
-	return httpGatewayList
+	return matchableHttpGatewayList
 }
 
-func (s *httpGatewaySet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.HttpGateway) bool) []*gateway_solo_io_v1.HttpGateway {
+func (s *matchableHttpGatewaySet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.MatchableHttpGateway) bool) []*gateway_solo_io_v1.MatchableHttpGateway {
 	if s == nil {
 		return nil
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*gateway_solo_io_v1.HttpGateway))
+			return filter(obj.(*gateway_solo_io_v1.MatchableHttpGateway))
 		})
 	}
 
-	var httpGatewayList []*gateway_solo_io_v1.HttpGateway
+	var matchableHttpGatewayList []*gateway_solo_io_v1.MatchableHttpGateway
 	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-		httpGatewayList = append(httpGatewayList, obj.(*gateway_solo_io_v1.HttpGateway))
+		matchableHttpGatewayList = append(matchableHttpGatewayList, obj.(*gateway_solo_io_v1.MatchableHttpGateway))
 	}
-	return httpGatewayList
+	return matchableHttpGatewayList
 }
 
-func (s *httpGatewaySet) Map() map[string]*gateway_solo_io_v1.HttpGateway {
+func (s *matchableHttpGatewaySet) Map() map[string]*gateway_solo_io_v1.MatchableHttpGateway {
 	if s == nil {
 		return nil
 	}
 
-	newMap := map[string]*gateway_solo_io_v1.HttpGateway{}
+	newMap := map[string]*gateway_solo_io_v1.MatchableHttpGateway{}
 	for k, v := range s.Generic().Map() {
-		newMap[k] = v.(*gateway_solo_io_v1.HttpGateway)
+		newMap[k] = v.(*gateway_solo_io_v1.MatchableHttpGateway)
 	}
 	return newMap
 }
 
-func (s *httpGatewaySet) Insert(
-	httpGatewayList ...*gateway_solo_io_v1.HttpGateway,
+func (s *matchableHttpGatewaySet) Insert(
+	matchableHttpGatewayList ...*gateway_solo_io_v1.MatchableHttpGateway,
 ) {
 	if s == nil {
 		panic("cannot insert into nil set")
 	}
 
-	for _, obj := range httpGatewayList {
+	for _, obj := range matchableHttpGatewayList {
 		s.Generic().Insert(obj)
 	}
 }
 
-func (s *httpGatewaySet) Has(httpGateway ezkube.ResourceId) bool {
+func (s *matchableHttpGatewaySet) Has(matchableHttpGateway ezkube.ResourceId) bool {
 	if s == nil {
 		return false
 	}
-	return s.Generic().Has(httpGateway)
+	return s.Generic().Has(matchableHttpGateway)
 }
 
-func (s *httpGatewaySet) Equal(
-	httpGatewaySet HttpGatewaySet,
+func (s *matchableHttpGatewaySet) Equal(
+	matchableHttpGatewaySet MatchableHttpGatewaySet,
 ) bool {
 	if s == nil {
-		return httpGatewaySet == nil
+		return matchableHttpGatewaySet == nil
 	}
-	return s.Generic().Equal(httpGatewaySet.Generic())
+	return s.Generic().Equal(matchableHttpGatewaySet.Generic())
 }
 
-func (s *httpGatewaySet) Delete(HttpGateway ezkube.ResourceId) {
+func (s *matchableHttpGatewaySet) Delete(MatchableHttpGateway ezkube.ResourceId) {
 	if s == nil {
 		return
 	}
-	s.Generic().Delete(HttpGateway)
+	s.Generic().Delete(MatchableHttpGateway)
 }
 
-func (s *httpGatewaySet) Union(set HttpGatewaySet) HttpGatewaySet {
+func (s *matchableHttpGatewaySet) Union(set MatchableHttpGatewaySet) MatchableHttpGatewaySet {
 	if s == nil {
 		return set
 	}
-	return NewHttpGatewaySet(append(s.List(), set.List()...)...)
+	return NewMatchableHttpGatewaySet(append(s.List(), set.List()...)...)
 }
 
-func (s *httpGatewaySet) Difference(set HttpGatewaySet) HttpGatewaySet {
+func (s *matchableHttpGatewaySet) Difference(set MatchableHttpGatewaySet) MatchableHttpGatewaySet {
 	if s == nil {
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &httpGatewaySet{set: newSet}
+	return &matchableHttpGatewaySet{set: newSet}
 }
 
-func (s *httpGatewaySet) Intersection(set HttpGatewaySet) HttpGatewaySet {
+func (s *matchableHttpGatewaySet) Intersection(set MatchableHttpGatewaySet) MatchableHttpGatewaySet {
 	if s == nil {
 		return nil
 	}
 	newSet := s.Generic().Intersection(set.Generic())
-	var httpGatewayList []*gateway_solo_io_v1.HttpGateway
+	var matchableHttpGatewayList []*gateway_solo_io_v1.MatchableHttpGateway
 	for _, obj := range newSet.List() {
-		httpGatewayList = append(httpGatewayList, obj.(*gateway_solo_io_v1.HttpGateway))
+		matchableHttpGatewayList = append(matchableHttpGatewayList, obj.(*gateway_solo_io_v1.MatchableHttpGateway))
 	}
-	return NewHttpGatewaySet(httpGatewayList...)
+	return NewMatchableHttpGatewaySet(matchableHttpGatewayList...)
 }
 
-func (s *httpGatewaySet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.HttpGateway, error) {
+func (s *matchableHttpGatewaySet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.MatchableHttpGateway, error) {
 	if s == nil {
-		return nil, eris.Errorf("empty set, cannot find HttpGateway %v", sksets.Key(id))
+		return nil, eris.Errorf("empty set, cannot find MatchableHttpGateway %v", sksets.Key(id))
 	}
-	obj, err := s.Generic().Find(&gateway_solo_io_v1.HttpGateway{}, id)
+	obj, err := s.Generic().Find(&gateway_solo_io_v1.MatchableHttpGateway{}, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return obj.(*gateway_solo_io_v1.HttpGateway), nil
+	return obj.(*gateway_solo_io_v1.MatchableHttpGateway), nil
 }
 
-func (s *httpGatewaySet) Length() int {
+func (s *matchableHttpGatewaySet) Length() int {
 	if s == nil {
 		return 0
 	}
 	return s.Generic().Length()
 }
 
-func (s *httpGatewaySet) Generic() sksets.ResourceSet {
+func (s *matchableHttpGatewaySet) Generic() sksets.ResourceSet {
 	if s == nil {
 		return nil
 	}
 	return s.set
 }
 
-func (s *httpGatewaySet) Delta(newSet HttpGatewaySet) sksets.ResourceDelta {
+func (s *matchableHttpGatewaySet) Delta(newSet MatchableHttpGatewaySet) sksets.ResourceDelta {
 	if s == nil {
 		return sksets.ResourceDelta{
 			Inserted: newSet.Generic(),
@@ -444,11 +444,11 @@ func (s *httpGatewaySet) Delta(newSet HttpGatewaySet) sksets.ResourceDelta {
 	return s.Generic().Delta(newSet.Generic())
 }
 
-func (s *httpGatewaySet) Clone() HttpGatewaySet {
+func (s *matchableHttpGatewaySet) Clone() MatchableHttpGatewaySet {
 	if s == nil {
 		return nil
 	}
-	return &httpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &matchableHttpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
 type RouteTableSet interface {

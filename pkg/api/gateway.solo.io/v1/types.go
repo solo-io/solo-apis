@@ -48,34 +48,34 @@ type GatewayList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
-// GroupVersionKind for HttpGateway
-var HttpGatewayGVK = schema.GroupVersionKind{
+// GroupVersionKind for MatchableHttpGateway
+var MatchableHttpGatewayGVK = schema.GroupVersionKind{
 	Group:   "gateway.solo.io",
 	Version: "v1",
-	Kind:    "HttpGateway",
+	Kind:    "MatchableHttpGateway",
 }
 
-// HttpGateway is the Schema for the httpGateway API
-type HttpGateway struct {
+// MatchableHttpGateway is the Schema for the matchableHttpGateway API
+type MatchableHttpGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   HttpGatewaySpec   `json:"spec,omitempty"`
-	Status HttpGatewayStatus `json:"status,omitempty"`
+	Spec   MatchableHttpGatewaySpec   `json:"spec,omitempty"`
+	Status MatchableHttpGatewayStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (HttpGateway) GVK() schema.GroupVersionKind {
-	return HttpGatewayGVK
+func (MatchableHttpGateway) GVK() schema.GroupVersionKind {
+	return MatchableHttpGatewayGVK
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// HttpGatewayList contains a list of HttpGateway
-type HttpGatewayList struct {
+// MatchableHttpGatewayList contains a list of MatchableHttpGateway
+type MatchableHttpGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []HttpGateway `json:"items"`
+	Items           []MatchableHttpGateway `json:"items"`
 }
 
 // +genclient
@@ -220,7 +220,7 @@ type RouteOptionList struct {
 
 func init() {
 	SchemeBuilder.Register(&Gateway{}, &GatewayList{})
-	SchemeBuilder.Register(&HttpGateway{}, &HttpGatewayList{})
+	SchemeBuilder.Register(&MatchableHttpGateway{}, &MatchableHttpGatewayList{})
 	SchemeBuilder.Register(&RouteTable{}, &RouteTableList{})
 	SchemeBuilder.Register(&VirtualService{}, &VirtualServiceList{})
 	SchemeBuilder.Register(&VirtualHostOption{}, &VirtualHostOptionList{})

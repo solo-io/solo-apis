@@ -10,7 +10,7 @@ option (extproto.hash_all) = true;
 
 import "github.com/solo-io/solo-apis/api/skv2-enterprise/v1alpha1/multicluster.proto";
 import "github.com/solo-io/solo-apis/api/gloo-fed/fed/core/v1/placement.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gateway/v1/http_gateway.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gateway/v1/matchable_http_gateway.proto";
 
 import "google/protobuf/wrappers.proto";
 
@@ -20,7 +20,7 @@ import "google/protobuf/wrappers.proto";
 message FederatedHttpGatewaySpec {
 
     message Template {
-        .gateway.solo.io.HttpGatewaySpec spec = 1;
+        .gateway.solo.io.MatchableHttpGatewaySpec spec = 1;
 
         core.fed.solo.io.TemplateMetadata metadata = 2;
     }

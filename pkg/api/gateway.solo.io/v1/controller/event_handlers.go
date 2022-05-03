@@ -124,111 +124,111 @@ func (h genericGatewayHandler) Generic(object client.Object) error {
 	return h.handler.GenericGateway(obj)
 }
 
-// Handle events for the HttpGateway Resource
+// Handle events for the MatchableHttpGateway Resource
 // DEPRECATED: Prefer reconciler pattern.
-type HttpGatewayEventHandler interface {
-	CreateHttpGateway(obj *gateway_solo_io_v1.HttpGateway) error
-	UpdateHttpGateway(old, new *gateway_solo_io_v1.HttpGateway) error
-	DeleteHttpGateway(obj *gateway_solo_io_v1.HttpGateway) error
-	GenericHttpGateway(obj *gateway_solo_io_v1.HttpGateway) error
+type MatchableHttpGatewayEventHandler interface {
+	CreateMatchableHttpGateway(obj *gateway_solo_io_v1.MatchableHttpGateway) error
+	UpdateMatchableHttpGateway(old, new *gateway_solo_io_v1.MatchableHttpGateway) error
+	DeleteMatchableHttpGateway(obj *gateway_solo_io_v1.MatchableHttpGateway) error
+	GenericMatchableHttpGateway(obj *gateway_solo_io_v1.MatchableHttpGateway) error
 }
 
-type HttpGatewayEventHandlerFuncs struct {
-	OnCreate  func(obj *gateway_solo_io_v1.HttpGateway) error
-	OnUpdate  func(old, new *gateway_solo_io_v1.HttpGateway) error
-	OnDelete  func(obj *gateway_solo_io_v1.HttpGateway) error
-	OnGeneric func(obj *gateway_solo_io_v1.HttpGateway) error
+type MatchableHttpGatewayEventHandlerFuncs struct {
+	OnCreate  func(obj *gateway_solo_io_v1.MatchableHttpGateway) error
+	OnUpdate  func(old, new *gateway_solo_io_v1.MatchableHttpGateway) error
+	OnDelete  func(obj *gateway_solo_io_v1.MatchableHttpGateway) error
+	OnGeneric func(obj *gateway_solo_io_v1.MatchableHttpGateway) error
 }
 
-func (f *HttpGatewayEventHandlerFuncs) CreateHttpGateway(obj *gateway_solo_io_v1.HttpGateway) error {
+func (f *MatchableHttpGatewayEventHandlerFuncs) CreateMatchableHttpGateway(obj *gateway_solo_io_v1.MatchableHttpGateway) error {
 	if f.OnCreate == nil {
 		return nil
 	}
 	return f.OnCreate(obj)
 }
 
-func (f *HttpGatewayEventHandlerFuncs) DeleteHttpGateway(obj *gateway_solo_io_v1.HttpGateway) error {
+func (f *MatchableHttpGatewayEventHandlerFuncs) DeleteMatchableHttpGateway(obj *gateway_solo_io_v1.MatchableHttpGateway) error {
 	if f.OnDelete == nil {
 		return nil
 	}
 	return f.OnDelete(obj)
 }
 
-func (f *HttpGatewayEventHandlerFuncs) UpdateHttpGateway(objOld, objNew *gateway_solo_io_v1.HttpGateway) error {
+func (f *MatchableHttpGatewayEventHandlerFuncs) UpdateMatchableHttpGateway(objOld, objNew *gateway_solo_io_v1.MatchableHttpGateway) error {
 	if f.OnUpdate == nil {
 		return nil
 	}
 	return f.OnUpdate(objOld, objNew)
 }
 
-func (f *HttpGatewayEventHandlerFuncs) GenericHttpGateway(obj *gateway_solo_io_v1.HttpGateway) error {
+func (f *MatchableHttpGatewayEventHandlerFuncs) GenericMatchableHttpGateway(obj *gateway_solo_io_v1.MatchableHttpGateway) error {
 	if f.OnGeneric == nil {
 		return nil
 	}
 	return f.OnGeneric(obj)
 }
 
-type HttpGatewayEventWatcher interface {
-	AddEventHandler(ctx context.Context, h HttpGatewayEventHandler, predicates ...predicate.Predicate) error
+type MatchableHttpGatewayEventWatcher interface {
+	AddEventHandler(ctx context.Context, h MatchableHttpGatewayEventHandler, predicates ...predicate.Predicate) error
 }
 
-type httpGatewayEventWatcher struct {
+type matchableHttpGatewayEventWatcher struct {
 	watcher events.EventWatcher
 }
 
-func NewHttpGatewayEventWatcher(name string, mgr manager.Manager) HttpGatewayEventWatcher {
-	return &httpGatewayEventWatcher{
-		watcher: events.NewWatcher(name, mgr, &gateway_solo_io_v1.HttpGateway{}),
+func NewMatchableHttpGatewayEventWatcher(name string, mgr manager.Manager) MatchableHttpGatewayEventWatcher {
+	return &matchableHttpGatewayEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &gateway_solo_io_v1.MatchableHttpGateway{}),
 	}
 }
 
-func (c *httpGatewayEventWatcher) AddEventHandler(ctx context.Context, h HttpGatewayEventHandler, predicates ...predicate.Predicate) error {
-	handler := genericHttpGatewayHandler{handler: h}
+func (c *matchableHttpGatewayEventWatcher) AddEventHandler(ctx context.Context, h MatchableHttpGatewayEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericMatchableHttpGatewayHandler{handler: h}
 	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
 		return err
 	}
 	return nil
 }
 
-// genericHttpGatewayHandler implements a generic events.EventHandler
-type genericHttpGatewayHandler struct {
-	handler HttpGatewayEventHandler
+// genericMatchableHttpGatewayHandler implements a generic events.EventHandler
+type genericMatchableHttpGatewayHandler struct {
+	handler MatchableHttpGatewayEventHandler
 }
 
-func (h genericHttpGatewayHandler) Create(object client.Object) error {
-	obj, ok := object.(*gateway_solo_io_v1.HttpGateway)
+func (h genericMatchableHttpGatewayHandler) Create(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: HttpGateway handler received event for %T", object)
+		return errors.Errorf("internal error: MatchableHttpGateway handler received event for %T", object)
 	}
-	return h.handler.CreateHttpGateway(obj)
+	return h.handler.CreateMatchableHttpGateway(obj)
 }
 
-func (h genericHttpGatewayHandler) Delete(object client.Object) error {
-	obj, ok := object.(*gateway_solo_io_v1.HttpGateway)
+func (h genericMatchableHttpGatewayHandler) Delete(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: HttpGateway handler received event for %T", object)
+		return errors.Errorf("internal error: MatchableHttpGateway handler received event for %T", object)
 	}
-	return h.handler.DeleteHttpGateway(obj)
+	return h.handler.DeleteMatchableHttpGateway(obj)
 }
 
-func (h genericHttpGatewayHandler) Update(old, new client.Object) error {
-	objOld, ok := old.(*gateway_solo_io_v1.HttpGateway)
+func (h genericMatchableHttpGatewayHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*gateway_solo_io_v1.MatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: HttpGateway handler received event for %T", old)
+		return errors.Errorf("internal error: MatchableHttpGateway handler received event for %T", old)
 	}
-	objNew, ok := new.(*gateway_solo_io_v1.HttpGateway)
+	objNew, ok := new.(*gateway_solo_io_v1.MatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: HttpGateway handler received event for %T", new)
+		return errors.Errorf("internal error: MatchableHttpGateway handler received event for %T", new)
 	}
-	return h.handler.UpdateHttpGateway(objOld, objNew)
+	return h.handler.UpdateMatchableHttpGateway(objOld, objNew)
 }
 
-func (h genericHttpGatewayHandler) Generic(object client.Object) error {
-	obj, ok := object.(*gateway_solo_io_v1.HttpGateway)
+func (h genericMatchableHttpGatewayHandler) Generic(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableHttpGateway)
 	if !ok {
-		return errors.Errorf("internal error: HttpGateway handler received event for %T", object)
+		return errors.Errorf("internal error: MatchableHttpGateway handler received event for %T", object)
 	}
-	return h.handler.GenericHttpGateway(obj)
+	return h.handler.GenericMatchableHttpGateway(obj)
 }
 
 // Handle events for the RouteTable Resource

@@ -68,9 +68,9 @@ func (in *GatewayList) DeepCopyObject() runtime.Object {
 	return nil
 }
 
-// Generated Deepcopy methods for HttpGateway
+// Generated Deepcopy methods for MatchableHttpGateway
 
-func (in *HttpGateway) DeepCopyInto(out *HttpGateway) {
+func (in *MatchableHttpGateway) DeepCopyInto(out *MatchableHttpGateway) {
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 
@@ -82,29 +82,29 @@ func (in *HttpGateway) DeepCopyInto(out *HttpGateway) {
 	return
 }
 
-func (in *HttpGateway) DeepCopy() *HttpGateway {
+func (in *MatchableHttpGateway) DeepCopy() *MatchableHttpGateway {
 	if in == nil {
 		return nil
 	}
-	out := new(HttpGateway)
+	out := new(MatchableHttpGateway)
 	in.DeepCopyInto(out)
 	return out
 }
 
-func (in *HttpGateway) DeepCopyObject() runtime.Object {
+func (in *MatchableHttpGateway) DeepCopyObject() runtime.Object {
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 
-func (in *HttpGatewayList) DeepCopyInto(out *HttpGatewayList) {
+func (in *MatchableHttpGatewayList) DeepCopyInto(out *MatchableHttpGatewayList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
-		*out = make([]HttpGateway, len(*in))
+		*out = make([]MatchableHttpGateway, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -112,16 +112,16 @@ func (in *HttpGatewayList) DeepCopyInto(out *HttpGatewayList) {
 	return
 }
 
-func (in *HttpGatewayList) DeepCopy() *HttpGatewayList {
+func (in *MatchableHttpGatewayList) DeepCopy() *MatchableHttpGatewayList {
 	if in == nil {
 		return nil
 	}
-	out := new(HttpGatewayList)
+	out := new(MatchableHttpGatewayList)
 	in.DeepCopyInto(out)
 	return out
 }
 
-func (in *HttpGatewayList) DeepCopyObject() runtime.Object {
+func (in *MatchableHttpGatewayList) DeepCopyObject() runtime.Object {
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}

@@ -106,20 +106,8 @@ func modifyRelevantFile(file []byte) ([]byte, bool) {
 func modifyFileForResourceKind(filePtr *[]byte, resourceKind string) bool {
 	file := *filePtr
 
-	// In general, we use the exact kind when generating the new Spec and Status messages
-	originalResourceKind := resourceKind
-
-	// This is a hack
-	// The preferred name for the resource is HttpGateway but that was already used
-	// Given that we are creating a new message, we can choose the preferred name
-	// Additionally, we make certain assumptions about proto file name and resource kind
-	// so generating the resource to have this Kind, allows other forms of codegen to be unchanged
-	if resourceKind == "HttpGateway" {
-		originalResourceKind = "MatchableHttpGateway"
-	}
-
 	// Make sure to add extra space after to check specifically for only Message
-	oldMessageBytes := []byte(fmt.Sprintf("message %s ", originalResourceKind))
+	oldMessageBytes := []byte(fmt.Sprintf("message %s ", resourceKind))
 	if !bytes.Contains(file, oldMessageBytes) {
 		return false
 	}

@@ -45,31 +45,31 @@ func GatewayClientFromConfigFactoryProvider() GatewayClientFromConfigFactory {
 	}
 }
 
-// Provider for HttpGatewayClient from Clientset
-func HttpGatewayClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.HttpGatewayClient {
-	return clients.HttpGateways()
+// Provider for MatchableHttpGatewayClient from Clientset
+func MatchableHttpGatewayClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.MatchableHttpGatewayClient {
+	return clients.MatchableHttpGateways()
 }
 
-// Provider for HttpGateway Client from Client
-func HttpGatewayClientProvider(client client.Client) gateway_solo_io_v1.HttpGatewayClient {
-	return gateway_solo_io_v1.NewHttpGatewayClient(client)
+// Provider for MatchableHttpGateway Client from Client
+func MatchableHttpGatewayClientProvider(client client.Client) gateway_solo_io_v1.MatchableHttpGatewayClient {
+	return gateway_solo_io_v1.NewMatchableHttpGatewayClient(client)
 }
 
-type HttpGatewayClientFactory func(client client.Client) gateway_solo_io_v1.HttpGatewayClient
+type MatchableHttpGatewayClientFactory func(client client.Client) gateway_solo_io_v1.MatchableHttpGatewayClient
 
-func HttpGatewayClientFactoryProvider() HttpGatewayClientFactory {
-	return HttpGatewayClientProvider
+func MatchableHttpGatewayClientFactoryProvider() MatchableHttpGatewayClientFactory {
+	return MatchableHttpGatewayClientProvider
 }
 
-type HttpGatewayClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.HttpGatewayClient, error)
+type MatchableHttpGatewayClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.MatchableHttpGatewayClient, error)
 
-func HttpGatewayClientFromConfigFactoryProvider() HttpGatewayClientFromConfigFactory {
-	return func(cfg *rest.Config) (gateway_solo_io_v1.HttpGatewayClient, error) {
+func MatchableHttpGatewayClientFromConfigFactoryProvider() MatchableHttpGatewayClientFromConfigFactory {
+	return func(cfg *rest.Config) (gateway_solo_io_v1.MatchableHttpGatewayClient, error) {
 		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
 		if err != nil {
 			return nil, err
 		}
-		return clients.HttpGateways(), nil
+		return clients.MatchableHttpGateways(), nil
 	}
 }
 

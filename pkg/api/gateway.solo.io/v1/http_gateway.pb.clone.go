@@ -13,10 +13,6 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
-
-	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_core_v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/core/v3"
-
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 
 	github_com_solo_io_solo_kit_pkg_api_v1_resources_core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
@@ -32,29 +28,6 @@ var (
 	_ = clone.Cloner(nil)
 	_ = proto.Message(nil)
 )
-
-// Clone function
-func (m *HttpGatewaySpec) Clone() proto.Message {
-	var target *HttpGatewaySpec
-	if m == nil {
-		return target
-	}
-	target = &HttpGatewaySpec{}
-
-	if h, ok := interface{}(m.GetMatcher()).(clone.Cloner); ok {
-		target.Matcher = h.Clone().(*HttpGatewaySpec_Matcher)
-	} else {
-		target.Matcher = proto.Clone(m.GetMatcher()).(*HttpGatewaySpec_Matcher)
-	}
-
-	if h, ok := interface{}(m.GetHttpGateway()).(clone.Cloner); ok {
-		target.HttpGateway = h.Clone().(*HttpGateway)
-	} else {
-		target.HttpGateway = proto.Clone(m.GetHttpGateway()).(*HttpGateway)
-	}
-
-	return target
-}
 
 // Clone function
 func (m *HttpGateway) Clone() proto.Message {
@@ -129,96 +102,6 @@ func (m *VirtualServiceSelectorExpressions) Clone() proto.Message {
 			}
 
 		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *HttpGatewayStatus) Clone() proto.Message {
-	var target *HttpGatewayStatus
-	if m == nil {
-		return target
-	}
-	target = &HttpGatewayStatus{}
-
-	target.State = m.GetState()
-
-	target.Reason = m.GetReason()
-
-	target.ReportedBy = m.GetReportedBy()
-
-	if m.GetSubresourceStatuses() != nil {
-		target.SubresourceStatuses = make(map[string]*HttpGatewayStatus, len(m.GetSubresourceStatuses()))
-		for k, v := range m.GetSubresourceStatuses() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.SubresourceStatuses[k] = h.Clone().(*HttpGatewayStatus)
-			} else {
-				target.SubresourceStatuses[k] = proto.Clone(v).(*HttpGatewayStatus)
-			}
-
-		}
-	}
-
-	if h, ok := interface{}(m.GetDetails()).(clone.Cloner); ok {
-		target.Details = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
-	} else {
-		target.Details = proto.Clone(m.GetDetails()).(*github_com_golang_protobuf_ptypes_struct.Struct)
-	}
-
-	return target
-}
-
-// Clone function
-func (m *HttpGatewayNamespacedStatuses) Clone() proto.Message {
-	var target *HttpGatewayNamespacedStatuses
-	if m == nil {
-		return target
-	}
-	target = &HttpGatewayNamespacedStatuses{}
-
-	if m.GetStatuses() != nil {
-		target.Statuses = make(map[string]*HttpGatewayStatus, len(m.GetStatuses()))
-		for k, v := range m.GetStatuses() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Statuses[k] = h.Clone().(*HttpGatewayStatus)
-			} else {
-				target.Statuses[k] = proto.Clone(v).(*HttpGatewayStatus)
-			}
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *HttpGatewaySpec_Matcher) Clone() proto.Message {
-	var target *HttpGatewaySpec_Matcher
-	if m == nil {
-		return target
-	}
-	target = &HttpGatewaySpec_Matcher{}
-
-	if m.GetSourcePrefixRanges() != nil {
-		target.SourcePrefixRanges = make([]*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_core_v3.CidrRange, len(m.GetSourcePrefixRanges()))
-		for idx, v := range m.GetSourcePrefixRanges() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.SourcePrefixRanges[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_core_v3.CidrRange)
-			} else {
-				target.SourcePrefixRanges[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_core_v3.CidrRange)
-			}
-
-		}
-	}
-
-	if h, ok := interface{}(m.GetSslConfig()).(clone.Cloner); ok {
-		target.SslConfig = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1.SslConfig)
-	} else {
-		target.SslConfig = proto.Clone(m.GetSslConfig()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1.SslConfig)
 	}
 
 	return target

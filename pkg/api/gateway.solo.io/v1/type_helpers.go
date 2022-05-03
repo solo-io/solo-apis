@@ -6,8 +6,8 @@ package v1
 // GatewaySlice represents a slice of *Gateway
 type GatewaySlice []*Gateway
 
-// HttpGatewaySlice represents a slice of *HttpGateway
-type HttpGatewaySlice []*HttpGateway
+// MatchableHttpGatewaySlice represents a slice of *MatchableHttpGateway
+type MatchableHttpGatewaySlice []*MatchableHttpGateway
 
 // RouteTableSlice represents a slice of *RouteTable
 type RouteTableSlice []*RouteTable

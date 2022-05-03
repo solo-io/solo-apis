@@ -33,14 +33,14 @@ metadata:
   labels:
     app: ""
     app.kubernetes.io/name: ""
-  name: httpgateways.gateway.solo.io
+  name: matchablehttpgateways.gateway.solo.io
 spec:
   group: gateway.solo.io
   names:
-    kind: HttpGateway
-    listKind: HttpGatewayList
-    plural: httpgateways
-    singular: httpgateway
+    kind: MatchableHttpGateway
+    listKind: MatchableHttpGatewayList
+    plural: matchablehttpgateways
+    singular: matchablehttpgateway
   scope: Namespaced
   versions:
   - name: v1
