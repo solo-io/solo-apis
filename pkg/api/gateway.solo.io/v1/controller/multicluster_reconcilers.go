@@ -89,6 +89,77 @@ func (g genericGatewayMulticlusterReconciler) Reconcile(cluster string, object e
 	return g.reconciler.ReconcileGateway(cluster, obj)
 }
 
+// Reconcile Upsert events for the MatchableHttpGateway Resource across clusters.
+// implemented by the user
+type MulticlusterMatchableHttpGatewayReconciler interface {
+	ReconcileMatchableHttpGateway(clusterName string, obj *gateway_solo_io_v1.MatchableHttpGateway) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the MatchableHttpGateway Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterMatchableHttpGatewayDeletionReconciler interface {
+	ReconcileMatchableHttpGatewayDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterMatchableHttpGatewayReconcilerFuncs struct {
+	OnReconcileMatchableHttpGateway         func(clusterName string, obj *gateway_solo_io_v1.MatchableHttpGateway) (reconcile.Result, error)
+	OnReconcileMatchableHttpGatewayDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterMatchableHttpGatewayReconcilerFuncs) ReconcileMatchableHttpGateway(clusterName string, obj *gateway_solo_io_v1.MatchableHttpGateway) (reconcile.Result, error) {
+	if f.OnReconcileMatchableHttpGateway == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileMatchableHttpGateway(clusterName, obj)
+}
+
+func (f *MulticlusterMatchableHttpGatewayReconcilerFuncs) ReconcileMatchableHttpGatewayDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileMatchableHttpGatewayDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileMatchableHttpGatewayDeletion(clusterName, req)
+}
+
+type MulticlusterMatchableHttpGatewayReconcileLoop interface {
+	// AddMulticlusterMatchableHttpGatewayReconciler adds a MulticlusterMatchableHttpGatewayReconciler to the MulticlusterMatchableHttpGatewayReconcileLoop.
+	AddMulticlusterMatchableHttpGatewayReconciler(ctx context.Context, rec MulticlusterMatchableHttpGatewayReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterMatchableHttpGatewayReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterMatchableHttpGatewayReconcileLoop) AddMulticlusterMatchableHttpGatewayReconciler(ctx context.Context, rec MulticlusterMatchableHttpGatewayReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericMatchableHttpGatewayMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterMatchableHttpGatewayReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterMatchableHttpGatewayReconcileLoop {
+	return &multiclusterMatchableHttpGatewayReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.MatchableHttpGateway{}, options)}
+}
+
+type genericMatchableHttpGatewayMulticlusterReconciler struct {
+	reconciler MulticlusterMatchableHttpGatewayReconciler
+}
+
+func (g genericMatchableHttpGatewayMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterMatchableHttpGatewayDeletionReconciler); ok {
+		return deletionReconciler.ReconcileMatchableHttpGatewayDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericMatchableHttpGatewayMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableHttpGateway)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: MatchableHttpGateway handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileMatchableHttpGateway(cluster, obj)
+}
+
 // Reconcile Upsert events for the RouteTable Resource across clusters.
 // implemented by the user
 type MulticlusterRouteTableReconciler interface {
