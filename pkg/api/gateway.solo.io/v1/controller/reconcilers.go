@@ -134,6 +134,123 @@ func (r genericGatewayFinalizer) Finalize(object ezkube.Object) error {
 	return r.finalizingReconciler.FinalizeGateway(obj)
 }
 
+// Reconcile Upsert events for the MatchableHttpGateway Resource.
+// implemented by the user
+type MatchableHttpGatewayReconciler interface {
+	ReconcileMatchableHttpGateway(obj *gateway_solo_io_v1.MatchableHttpGateway) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the MatchableHttpGateway Resource.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MatchableHttpGatewayDeletionReconciler interface {
+	ReconcileMatchableHttpGatewayDeletion(req reconcile.Request) error
+}
+
+type MatchableHttpGatewayReconcilerFuncs struct {
+	OnReconcileMatchableHttpGateway         func(obj *gateway_solo_io_v1.MatchableHttpGateway) (reconcile.Result, error)
+	OnReconcileMatchableHttpGatewayDeletion func(req reconcile.Request) error
+}
+
+func (f *MatchableHttpGatewayReconcilerFuncs) ReconcileMatchableHttpGateway(obj *gateway_solo_io_v1.MatchableHttpGateway) (reconcile.Result, error) {
+	if f.OnReconcileMatchableHttpGateway == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileMatchableHttpGateway(obj)
+}
+
+func (f *MatchableHttpGatewayReconcilerFuncs) ReconcileMatchableHttpGatewayDeletion(req reconcile.Request) error {
+	if f.OnReconcileMatchableHttpGatewayDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileMatchableHttpGatewayDeletion(req)
+}
+
+// Reconcile and finalize the MatchableHttpGateway Resource
+// implemented by the user
+type MatchableHttpGatewayFinalizer interface {
+	MatchableHttpGatewayReconciler
+
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	MatchableHttpGatewayFinalizerName() string
+
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeMatchableHttpGateway(obj *gateway_solo_io_v1.MatchableHttpGateway) error
+}
+
+type MatchableHttpGatewayReconcileLoop interface {
+	RunMatchableHttpGatewayReconciler(ctx context.Context, rec MatchableHttpGatewayReconciler, predicates ...predicate.Predicate) error
+}
+
+type matchableHttpGatewayReconcileLoop struct {
+	loop reconcile.Loop
+}
+
+func NewMatchableHttpGatewayReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) MatchableHttpGatewayReconcileLoop {
+	return &matchableHttpGatewayReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &gateway_solo_io_v1.MatchableHttpGateway{}, options),
+	}
+}
+
+func (c *matchableHttpGatewayReconcileLoop) RunMatchableHttpGatewayReconciler(ctx context.Context, reconciler MatchableHttpGatewayReconciler, predicates ...predicate.Predicate) error {
+	genericReconciler := genericMatchableHttpGatewayReconciler{
+		reconciler: reconciler,
+	}
+
+	var reconcilerWrapper reconcile.Reconciler
+	if finalizingReconciler, ok := reconciler.(MatchableHttpGatewayFinalizer); ok {
+		reconcilerWrapper = genericMatchableHttpGatewayFinalizer{
+			genericMatchableHttpGatewayReconciler: genericReconciler,
+			finalizingReconciler:                  finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
+	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
+}
+
+// genericMatchableHttpGatewayHandler implements a generic reconcile.Reconciler
+type genericMatchableHttpGatewayReconciler struct {
+	reconciler MatchableHttpGatewayReconciler
+}
+
+func (r genericMatchableHttpGatewayReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableHttpGateway)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: MatchableHttpGateway handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileMatchableHttpGateway(obj)
+}
+
+func (r genericMatchableHttpGatewayReconciler) ReconcileDeletion(request reconcile.Request) error {
+	if deletionReconciler, ok := r.reconciler.(MatchableHttpGatewayDeletionReconciler); ok {
+		return deletionReconciler.ReconcileMatchableHttpGatewayDeletion(request)
+	}
+	return nil
+}
+
+// genericMatchableHttpGatewayFinalizer implements a generic reconcile.FinalizingReconciler
+type genericMatchableHttpGatewayFinalizer struct {
+	genericMatchableHttpGatewayReconciler
+	finalizingReconciler MatchableHttpGatewayFinalizer
+}
+
+func (r genericMatchableHttpGatewayFinalizer) FinalizerName() string {
+	return r.finalizingReconciler.MatchableHttpGatewayFinalizerName()
+}
+
+func (r genericMatchableHttpGatewayFinalizer) Finalize(object ezkube.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableHttpGateway)
+	if !ok {
+		return errors.Errorf("internal error: MatchableHttpGateway handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeMatchableHttpGateway(obj)
+}
+
 // Reconcile Upsert events for the RouteTable Resource.
 // implemented by the user
 type RouteTableReconciler interface {

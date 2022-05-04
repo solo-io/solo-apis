@@ -6,6 +6,9 @@ package v1
 // FederatedGatewaySlice represents a slice of *FederatedGateway
 type FederatedGatewaySlice []*FederatedGateway
 
+// FederatedMatchableHttpGatewaySlice represents a slice of *FederatedMatchableHttpGateway
+type FederatedMatchableHttpGatewaySlice []*FederatedMatchableHttpGateway
+
 // FederatedRouteTableSlice represents a slice of *FederatedRouteTable
 type FederatedRouteTableSlice []*FederatedRouteTable
 

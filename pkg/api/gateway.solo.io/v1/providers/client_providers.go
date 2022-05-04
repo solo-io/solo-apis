@@ -45,6 +45,34 @@ func GatewayClientFromConfigFactoryProvider() GatewayClientFromConfigFactory {
 	}
 }
 
+// Provider for MatchableHttpGatewayClient from Clientset
+func MatchableHttpGatewayClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.MatchableHttpGatewayClient {
+	return clients.MatchableHttpGateways()
+}
+
+// Provider for MatchableHttpGateway Client from Client
+func MatchableHttpGatewayClientProvider(client client.Client) gateway_solo_io_v1.MatchableHttpGatewayClient {
+	return gateway_solo_io_v1.NewMatchableHttpGatewayClient(client)
+}
+
+type MatchableHttpGatewayClientFactory func(client client.Client) gateway_solo_io_v1.MatchableHttpGatewayClient
+
+func MatchableHttpGatewayClientFactoryProvider() MatchableHttpGatewayClientFactory {
+	return MatchableHttpGatewayClientProvider
+}
+
+type MatchableHttpGatewayClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.MatchableHttpGatewayClient, error)
+
+func MatchableHttpGatewayClientFromConfigFactoryProvider() MatchableHttpGatewayClientFromConfigFactory {
+	return func(cfg *rest.Config) (gateway_solo_io_v1.MatchableHttpGatewayClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.MatchableHttpGateways(), nil
+	}
+}
+
 // Provider for RouteTableClient from Clientset
 func RouteTableClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.RouteTableClient {
 	return clients.RouteTables()
