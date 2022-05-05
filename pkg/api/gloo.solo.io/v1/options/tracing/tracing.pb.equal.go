@@ -108,6 +108,9 @@ func (m *ListenerTracingSettings) Equal(that interface{}) bool {
 	switch m.ProviderConfig.(type) {
 
 	case *ListenerTracingSettings_ZipkinConfig:
+		if _, ok := target.ProviderConfig.(*ListenerTracingSettings_ZipkinConfig); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetZipkinConfig()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetZipkinConfig()) {
@@ -120,6 +123,9 @@ func (m *ListenerTracingSettings) Equal(that interface{}) bool {
 		}
 
 	case *ListenerTracingSettings_DatadogConfig:
+		if _, ok := target.ProviderConfig.(*ListenerTracingSettings_DatadogConfig); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetDatadogConfig()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetDatadogConfig()) {
@@ -131,6 +137,11 @@ func (m *ListenerTracingSettings) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.ProviderConfig != target.ProviderConfig {
+			return false
+		}
 	}
 
 	return true
