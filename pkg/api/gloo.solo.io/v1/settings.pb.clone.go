@@ -23,6 +23,8 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_extensions_aws "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/extensions/aws"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_caching "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/caching"
+
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_ratelimit "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/ratelimit"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_rbac "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/rbac"
@@ -153,6 +155,12 @@ func (m *SettingsSpec) Clone() proto.Message {
 			}
 
 		}
+	}
+
+	if h, ok := interface{}(m.GetCachingServer()).(clone.Cloner); ok {
+		target.CachingServer = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_caching.Settings)
+	} else {
+		target.CachingServer = proto.Clone(m.GetCachingServer()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_caching.Settings)
 	}
 
 	if h, ok := interface{}(m.GetObservabilityOptions()).(clone.Cloner); ok {
