@@ -31,6 +31,8 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_matcher_v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/type/matcher/v3"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_caching "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/caching"
+
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_dlp "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/dlp"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_jwt "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/jwt"
@@ -226,6 +228,12 @@ func (m *HttpListenerOptions) Clone() proto.Message {
 		target.RatelimitServer = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_ratelimit.Settings)
 	} else {
 		target.RatelimitServer = proto.Clone(m.GetRatelimitServer()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_ratelimit.Settings)
+	}
+
+	if h, ok := interface{}(m.GetCaching()).(clone.Cloner); ok {
+		target.Caching = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_caching.Settings)
+	} else {
+		target.Caching = proto.Clone(m.GetCaching()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_caching.Settings)
 	}
 
 	if h, ok := interface{}(m.GetGzip()).(clone.Cloner); ok {

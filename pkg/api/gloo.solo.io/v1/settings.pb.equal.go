@@ -216,6 +216,16 @@ func (m *SettingsSpec) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetCachingServer()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCachingServer()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCachingServer(), target.GetCachingServer()) {
+			return false
+		}
+	}
+
 	if h, ok := interface{}(m.GetObservabilityOptions()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetObservabilityOptions()) {
 			return false
