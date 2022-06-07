@@ -79,7 +79,7 @@ message VirtualMeshSpec {
 
         // Selects the Destination(s) acting as ingress gateways for cross cluster traffic.
         // The supplied IngressGatewaySelectors will be used to select ingress gateways for all Meshes in this VirtualMesh.
-        repeated .common.mesh.gloo.solo.io.IngressGatewaySelector ingress_gateway_selectors = 6;
+        repeated IngressGatewaySelector ingress_gateway_selectors = 6;
 
         // DEPRECATED: Use `selectors` instead. Omission of the `selectors` field has permissive semantics.
         // The "mode" in which to federate Destinations within this VirtualMesh.
@@ -165,6 +165,31 @@ message VirtualMeshSpec {
         };
     }
 
+    message IngressGatewaySelector {
+
+        // The set of Destinations that will be used as ingress gateways for external traffic entering the Mesh.
+        // If omitted, a mesh-specific default ingress gateway destination will be used.
+        // For Istio, any Kubernetes Service(s) with the label pair `{"istio": "ingressgateway"}` will be selected.
+        repeated .common.mesh.gloo.solo.io.DestinationSelector destination_selectors = 1;
+
+        // Host information for an ingress gateway
+        message HostInfo {
+            // Address to be used for the gateway
+            string addr = 1;
+
+            // Port to be used for the gateway
+            uint32 port = 2;
+        }
+
+        // Used to specify whether destination is local or external.
+        oneof host {
+            // Specify the name of the port on the ingress gateway service. If not specified, will default to "tls".
+            string port_name = 2;
+
+            // Set external host info to override discovered info for the ingress gateway
+            HostInfo override_host_info = 3;
+        }
+    }
 
 }
 
