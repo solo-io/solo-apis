@@ -879,6 +879,10 @@ func (m *DiscoveryOverride) Equal(that interface{}) bool {
 
 	}
 
+	if strings.Compare(m.GetRevocationEndpoint(), target.GetRevocationEndpoint()) != 0 {
+		return false
+	}
+
 	return true
 }
 
