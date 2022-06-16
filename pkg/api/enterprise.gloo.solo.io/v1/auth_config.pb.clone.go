@@ -456,6 +456,8 @@ func (m *HeaderConfiguration) Clone() proto.Message {
 
 	target.AccessTokenHeader = m.GetAccessTokenHeader()
 
+	target.UseBearerSchemaForAuthorization = m.GetUseBearerSchemaForAuthorization()
+
 	return target
 }
 
