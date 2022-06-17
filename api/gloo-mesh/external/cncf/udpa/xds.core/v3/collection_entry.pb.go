@@ -11,7 +11,7 @@ import (
 	sync "sync"
 
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	any "github.com/golang/protobuf/ptypes/any"
+	any1 "github.com/golang/protobuf/ptypes/any"
 	_ "github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/udpa/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -129,7 +129,7 @@ type CollectionEntry_InlineEntry struct {
 	// resource name at a given version with different resource payloads.
 	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	// The resource payload, including type URL.
-	Resource *any.Any `protobuf:"bytes,3,opt,name=resource,proto3" json:"resource,omitempty"`
+	Resource *any1.Any `protobuf:"bytes,3,opt,name=resource,proto3" json:"resource,omitempty"`
 }
 
 func (x *CollectionEntry_InlineEntry) Reset() {
@@ -178,7 +178,7 @@ func (x *CollectionEntry_InlineEntry) GetVersion() string {
 	return ""
 }
 
-func (x *CollectionEntry_InlineEntry) GetResource() *any.Any {
+func (x *CollectionEntry_InlineEntry) GetResource() *any1.Any {
 	if x != nil {
 		return x.Resource
 	}
@@ -262,7 +262,7 @@ var file_github_com_solo_io_solo_apis_api_gloo_mesh_external_cncf_udpa_xds_core_
 	(*CollectionEntry)(nil),             // 0: xds.core.v3.CollectionEntry
 	(*CollectionEntry_InlineEntry)(nil), // 1: xds.core.v3.CollectionEntry.InlineEntry
 	(*ResourceLocator)(nil),             // 2: xds.core.v3.ResourceLocator
-	(*any.Any)(nil),                     // 3: google.protobuf.Any
+	(*any1.Any)(nil),                    // 3: google.protobuf.Any
 }
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_external_cncf_udpa_xds_core_v3_collection_entry_proto_depIdxs = []int32{
 	2, // 0: xds.core.v3.CollectionEntry.locator:type_name -> xds.core.v3.ResourceLocator

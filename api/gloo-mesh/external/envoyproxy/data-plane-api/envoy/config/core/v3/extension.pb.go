@@ -11,7 +11,7 @@ import (
 	sync "sync"
 
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	any "github.com/golang/protobuf/ptypes/any"
+	any1 "github.com/golang/protobuf/ptypes/any"
 	_ "github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/udpa/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -39,7 +39,7 @@ type TypedExtensionConfig struct {
 	// the inner type URL of *TypedStruct* will be utilized. See the
 	// :ref:`extension configuration overview
 	// <config_overview_extension_configuration>` for further details.
-	TypedConfig *any.Any `protobuf:"bytes,2,opt,name=typed_config,json=typedConfig,proto3" json:"typed_config,omitempty"`
+	TypedConfig *any1.Any `protobuf:"bytes,2,opt,name=typed_config,json=typedConfig,proto3" json:"typed_config,omitempty"`
 }
 
 func (x *TypedExtensionConfig) Reset() {
@@ -81,7 +81,7 @@ func (x *TypedExtensionConfig) GetName() string {
 	return ""
 }
 
-func (x *TypedExtensionConfig) GetTypedConfig() *any.Any {
+func (x *TypedExtensionConfig) GetTypedConfig() *any1.Any {
 	if x != nil {
 		return x.TypedConfig
 	}
@@ -108,7 +108,7 @@ type ExtensionConfigSource struct {
 	// Optional default configuration to use as the initial configuration if
 	// there is a failure to receive the initial extension configuration or if
 	// `apply_default_config_without_warming` flag is set.
-	DefaultConfig *any.Any `protobuf:"bytes,2,opt,name=default_config,json=defaultConfig,proto3" json:"default_config,omitempty"`
+	DefaultConfig *any1.Any `protobuf:"bytes,2,opt,name=default_config,json=defaultConfig,proto3" json:"default_config,omitempty"`
 	// Use the default config as the initial configuration without warming and
 	// waiting for the first discovery response. Requires the default configuration
 	// to be supplied.
@@ -157,7 +157,7 @@ func (x *ExtensionConfigSource) GetConfigSource() *ConfigSource {
 	return nil
 }
 
-func (x *ExtensionConfigSource) GetDefaultConfig() *any.Any {
+func (x *ExtensionConfigSource) GetDefaultConfig() *any1.Any {
 	if x != nil {
 		return x.DefaultConfig
 	}
@@ -264,7 +264,7 @@ var file_github_com_solo_io_solo_apis_api_gloo_mesh_external_envoyproxy_data_pla
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_external_envoyproxy_data_plane_api_envoy_config_core_v3_extension_proto_goTypes = []interface{}{
 	(*TypedExtensionConfig)(nil),  // 0: envoy.config.core.v3.TypedExtensionConfig
 	(*ExtensionConfigSource)(nil), // 1: envoy.config.core.v3.ExtensionConfigSource
-	(*any.Any)(nil),               // 2: google.protobuf.Any
+	(*any1.Any)(nil),              // 2: google.protobuf.Any
 	(*ConfigSource)(nil),          // 3: envoy.config.core.v3.ConfigSource
 }
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_external_envoyproxy_data_plane_api_envoy_config_core_v3_extension_proto_depIdxs = []int32{

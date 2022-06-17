@@ -11,7 +11,7 @@ import (
 	sync "sync"
 
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	any "github.com/golang/protobuf/ptypes/any"
+	any1 "github.com/golang/protobuf/ptypes/any"
 	_ "github.com/golang/protobuf/ptypes/duration"
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
@@ -1522,7 +1522,7 @@ func (m *TransportSocket) GetConfigType() isTransportSocket_ConfigType {
 	return nil
 }
 
-func (x *TransportSocket) GetTypedConfig() *any.Any {
+func (x *TransportSocket) GetTypedConfig() *any1.Any {
 	if x, ok := x.GetConfigType().(*TransportSocket_TypedConfig); ok {
 		return x.TypedConfig
 	}
@@ -1534,7 +1534,7 @@ type isTransportSocket_ConfigType interface {
 }
 
 type TransportSocket_TypedConfig struct {
-	TypedConfig *any.Any `protobuf:"bytes,3,opt,name=typed_config,json=typedConfig,proto3,oneof"`
+	TypedConfig *any1.Any `protobuf:"bytes,3,opt,name=typed_config,json=typedConfig,proto3,oneof"`
 }
 
 func (*TransportSocket_TypedConfig) isTransportSocket_ConfigType() {}
@@ -2041,7 +2041,7 @@ var file_github_com_solo_io_solo_apis_api_gloo_mesh_external_envoyproxy_data_pla
 	(*BackoffStrategy)(nil),          // 29: envoy.config.core.v3.BackoffStrategy
 	(*wrappers.UInt32Value)(nil),     // 30: google.protobuf.UInt32Value
 	(*HttpUri)(nil),                  // 31: envoy.config.core.v3.HttpUri
-	(*any.Any)(nil),                  // 32: google.protobuf.Any
+	(*any1.Any)(nil),                 // 32: google.protobuf.Any
 	(*v3.FractionalPercent)(nil),     // 33: envoy.type.v3.FractionalPercent
 }
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_external_envoyproxy_data_plane_api_envoy_config_core_v3_base_proto_depIdxs = []int32{
