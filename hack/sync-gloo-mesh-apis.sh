@@ -12,6 +12,13 @@ add_go_package() {
   echo "eval sed '$subst'"
 }
 
+# Emits a sed statement that will remove all lines starting with "option go_package" from a file
+# $(remove_go_package "github.com/solo-io/my-repo/pkg/my/proto/package")
+remove_go_package() {
+  substring="^option go_package = "
+  sed -i '/$substring/d' ${1}
+}
+
 for file in $(find api/gloo-mesh -type f | grep ".proto")
 do
   # Re-map imports within oss-imported and enterprise-networking
@@ -26,6 +33,7 @@ do
   sed 's|"gogoproto/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/gogo/protobuf/gogoproto/|g' | \
   sed 's|github.com/solo-io/envoy-gloo|github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo|g' | \
   sed 's|"transformation";|"github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/api/envoy/config/filter/http/transformation/v2/";|g' | \
+  $(remove_go_package "${ENVOY_API_PKG}")
   $(add_go_package "envoy.annotations" "${ENVOY_API_PKG}/annotations") | \
   $(add_go_package "envoy.api.v2.core" "${ENVOY_API_PKG}/api/v2/core") | \
   $(add_go_package "envoy.api.v2.route" "${ENVOY_API_PKG}/api/v2/route") | \
