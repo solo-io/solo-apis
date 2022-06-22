@@ -8,8 +8,6 @@ replace (
 	cuelang.org/go => github.com/solo-io/cue v0.4.1-0.20210623143425-308aee4ff092
 
 	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
-	k8s.io/apimachinery => k8s.io/apimachinery v0.19.6
-	k8s.io/client-go => k8s.io/client-go v0.19.6
 )
 
 require (
@@ -38,7 +36,32 @@ require (
 	google.golang.org/protobuf v1.26.0
 	istio.io/tools v0.0.0-20200918020118-6d0a0e49b5d3
 	k8s.io/apimachinery v0.19.6
-	k8s.io/client-go v8.0.0+incompatible
+	k8s.io/client-go v0.19.6
 	k8s.io/code-generator v0.19.6
 	sigs.k8s.io/controller-runtime v0.7.0
+)
+
+exclude (
+	// Exclude pre-go-mod kubernetes tags, because they are older
+	// than v0.x releases but are picked when updating dependencies.
+	k8s.io/client-go v1.4.0
+	k8s.io/client-go v1.5.0
+	k8s.io/client-go v1.5.1
+	k8s.io/client-go v1.5.2
+	k8s.io/client-go v10.0.0+incompatible
+	k8s.io/client-go v11.0.0+incompatible
+	k8s.io/client-go v12.0.0+incompatible
+	k8s.io/client-go v2.0.0+incompatible
+	k8s.io/client-go v2.0.0-alpha.1+incompatible
+	k8s.io/client-go v3.0.0+incompatible
+	k8s.io/client-go v3.0.0-beta.0+incompatible
+	k8s.io/client-go v4.0.0+incompatible
+	k8s.io/client-go v4.0.0-beta.0+incompatible
+	k8s.io/client-go v5.0.0+incompatible
+	k8s.io/client-go v5.0.1+incompatible
+	k8s.io/client-go v6.0.0+incompatible
+	k8s.io/client-go v7.0.0+incompatible
+	k8s.io/client-go v8.0.0+incompatible
+	k8s.io/client-go v9.0.0+incompatible
+	k8s.io/client-go v9.0.0-invalid+incompatible
 )
