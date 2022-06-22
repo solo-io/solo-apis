@@ -14,8 +14,10 @@ add_go_package() {
 
 for file in $(find api/gloo-mesh -type f | grep ".proto")
 do
-  # Re-map imports within oss-imported and enterprise-networking
   cat $file | \
+  # remove all lines starting with 'option go_package = "github.com/envoyproxy/', new go_package will be added below
+  grep -v '^option go_package = "github.com/envoyproxy/' | \
+  # Re-map imports
   sed 's|github.com/solo-io/gloo-mesh-enterprise/api/|github.com/solo-io/solo-apis/api/gloo-mesh/|g' | \
   sed 's|"networking/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/networking/|g' | \
   sed 's|"udpa/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/udpa/|g' | \
@@ -25,9 +27,8 @@ do
   sed 's|"xds/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/xds/|g' | \
   sed 's|"gogoproto/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/gogo/protobuf/gogoproto/|g' | \
   sed 's|github.com/solo-io/envoy-gloo|github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo|g' | \
+  sed 's|github.com/envoyproxy/|github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/|g' | \
   sed 's|"transformation";|"github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/api/envoy/config/filter/http/transformation/v2/";|g' | \
-  # remove all lines starting with 'option go_package = "github.com/envoyproxy/', will be replaced below
-  grep -v '^option go_package = "github.com/envoyproxy/' | \
   $(add_go_package "envoy.annotations" "${ENVOY_API_PKG}/annotations") | \
   $(add_go_package "envoy.api.v2.core" "${ENVOY_API_PKG}/api/v2/core") | \
   $(add_go_package "envoy.api.v2.route" "${ENVOY_API_PKG}/api/v2/route") | \
