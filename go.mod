@@ -7,8 +7,6 @@ replace (
 
 	// skv2 uses a newer version than the imported solo-kit version which causes issues. Replaces the version with the solo-kit version
 	github.com/pseudomuto/protoc-gen-doc => github.com/pseudomuto/protoc-gen-doc v1.0.0
-	k8s.io/apimachinery => k8s.io/apimachinery v0.20.9
-	k8s.io/client-go => k8s.io/client-go v0.20.9
 )
 
 require (
@@ -31,7 +29,7 @@ require (
 	google.golang.org/protobuf v1.27.1
 	istio.io/tools v0.0.0-20200918020118-6d0a0e49b5d3
 	k8s.io/apimachinery v0.20.9
-	k8s.io/client-go v0.21.0
+	k8s.io/client-go v0.20.9
 	k8s.io/code-generator v0.20.9
 	sigs.k8s.io/controller-runtime v0.7.0
 )
