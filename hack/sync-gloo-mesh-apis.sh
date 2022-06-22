@@ -33,7 +33,7 @@ do
   sed 's|"gogoproto/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/gogo/protobuf/gogoproto/|g' | \
   sed 's|github.com/solo-io/envoy-gloo|github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo|g' | \
   sed 's|"transformation";|"github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/api/envoy/config/filter/http/transformation/v2/";|g' | \
-  $(remove_go_package "${ENVOY_API_PKG}")
+  $(remove_go_package api/gloo-mesh/external/envoyproxy/data-plane-api/envoy)
   $(add_go_package "envoy.annotations" "${ENVOY_API_PKG}/annotations") | \
   $(add_go_package "envoy.api.v2.core" "${ENVOY_API_PKG}/api/v2/core") | \
   $(add_go_package "envoy.api.v2.route" "${ENVOY_API_PKG}/api/v2/route") | \
