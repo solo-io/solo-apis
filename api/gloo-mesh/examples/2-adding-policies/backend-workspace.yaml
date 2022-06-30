@@ -1,0 +1,149 @@
+---
+# Workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: backend
+  namespace: gloo-mesh
+  labels:
+    # export services from this workspace to the global-ingress workspace
+    acme.io/export-to-gateway: 'true'
+spec:
+  namespaces:
+    - name: backend
+  exports:
+    meshServices:
+      - matchLabels:
+          acme.io/exported: 'true'
+---
+
+# routes for the backend workspace
+apiVersion: mesh.gloo.solo.io/v2
+kind: HTTPRouteTable
+metadata:
+  name: backend-root-routes
+  namespace: backend
+  labels:
+    # export this route table from the workspace so it can be used in the gateway
+    # this implicitly makes any destinations used in this route table routable from those workspaces.
+    acme.io/exported: 'true'
+
+    # apply any matching policies to the whole route table
+    acme.io/auth-policy: basic
+spec:
+  # routes that do not specify a destination will forward traffic to this destination.
+  defaultDestination:
+
+    # the type of destination defined here can be one of:
+    # - meshService: a grouping of backend services
+    # - kubeService: a kubernetes services
+    # - vmService: an external vm registered with the mesh
+    meshService:
+      name: backend
+      namespace: backend
+
+    # attach thos route table to virtual services for the default destination
+    # this ensures that all traffic will be routed by this route table,
+    # regardless of whether it is routed via a route table
+    interceptTraffic: true
+
+  # http route tables define the set of http matchers & actions (routes) to serve
+  routes:
+    # this route provides an example of subset-based routing
+    - name: backend-v2
+      matchers:
+        - headers:
+            name: client-version
+            value: v2
+      forwardTo:
+        # selects a subset of the default destination
+        - subset:
+            version: v2
+
+    - name: backend-default
+      forwardTo:
+        - subset:
+            version: v1
+      # apply any matching policies to the this specific route
+      labels:
+        acme.io/rate-limit: strict
+
+---
+
+# MeshServices define groupings of servies, both as routing destinations purposes and applying policy to independently selected groups of services
+apiVersion: mesh.gloo.solo.io/v2
+kind: MeshService
+metadata:
+  # this MeshService represents a selection of services which compose the "backend" app
+  name: backend
+  namespace: backend
+spec:
+  backingServices:
+    # this Mesh Service groups together all kube services across all clusters matching these namespace and labels
+    - kube:
+        clusterName: * # on any cluster
+        namespace: backend
+        selector:
+          app: web-server
+
+  # enable "federation" or locality-based failover across services defined in this mesh service.
+  # this should only be enabled when a mesh service is used as an endpoint for routing.
+  failover:
+    outlierDetection:
+      baseEjectionTime: 120s
+      consecutiveErrors: 1
+      interval: 5s
+      maxEjectionPercent: 100
+    directives:
+      - from:
+          region: us-east-1
+        to:
+          - region: us-west-1
+      - from:
+          region: us-west-1
+        to:
+          - region: us-east-1
+
+
+---
+
+# RateLimitPolicy defines a policy for retrying requests to a service
+apiVersion: trafficcontrol.gloo.solo.io/v2
+kind: RateLimitPolicy
+metadata:
+  name: strict-rate-limit-policy
+  namespace: backend
+spec:
+  # apply this policy to selected objects
+  applyTo:
+    # apply this policy to routes with these labels
+    - routeSelector:
+        matchLabels:
+          acme.io/rate-limit: strict
+
+  config:
+    raw:
+      descriptors:
+        - key: generic_key
+          rateLimit:
+            requestsPerUnit: 1
+            unit: DAY
+          value: counter
+
+---
+
+apiVersion: security.gloo.solo.io/v2
+kind: ExternalAuth
+metadata:
+  name: basic-auth-policy
+  namespace: backend
+spec:
+  applyTo:
+    - routeSelector:
+        matchLabels:
+          acme.io/auth-policy: strict
+  config:
+    extauth:
+      configRef:
+        name: basic-auth
+        namespace: backend

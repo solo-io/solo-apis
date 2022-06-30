@@ -1,0 +1,37 @@
+# Backend Workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: backend1
+  namespace: gloo-mesh
+  labels:
+    # enable consumer of the workspace to import workspace by labels
+    team: backend
+spec:
+  workloadClusters:
+    - namespaces:
+      - name: backend*
+---
+# backend workspace setting configures exports
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: default
+  namespace: backend
+spec:
+  exportTo:
+    - name: 'web*'
+    - selector:
+        team: web
+---
+# backend workspace setting configures exports
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: default
+  namespace: backend
+spec:
+  exportTo:
+    - name: 'web*'
+      selector:
+        team: web

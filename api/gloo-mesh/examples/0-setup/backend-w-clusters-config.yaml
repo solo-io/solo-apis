@@ -1,0 +1,16 @@
+# Backend Workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: backend1
+  namespace: gloo-mesh
+  labels:
+    # enable consumer of the workspace to import workspace by labels
+    team: 'backend'
+spec:
+  workloadClusters:
+    - selector:
+        env: prod
+        region: us-east
+      namespaces:
+        - name: backend*

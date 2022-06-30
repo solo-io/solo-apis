@@ -1,0 +1,99 @@
+
+---
+#
+#a -> b
+#
+#ing
+#|
+#a -> b
+---
+
+Gateway: a
+labels:
+  retry-policy: my-retries
+host: reviews.bookinfo.svc.cluster.local
+ports:
+  - number: 8080
+
+---
+
+VirtualHost: a
+labels:
+  retry-policy: my-retries
+host: reviews.bookinfo.svc.cluster.local
+ports:
+  - number: 9080
+    routeTable: a-route-table
+
+---
+
+RouteTable: gateway-route-table
+routes:
+  - matchers:
+      - uri:
+          prefix: /
+    delegate:
+      routeTable: special-routes
+    labels:
+      retry-policy: my-retries
+
+---
+
+RouteTable: special-routes
+# default destination for all routes in this RT
+defaultDestination:
+  kube:
+    name: foo
+    namespace: foo
+    cluster: *
+  port: 9080
+routes:
+  - matchers:
+      - uri:
+          prefix: /api/v1
+        destination:
+          subset:
+            version: v1
+  - matchers:
+      - uri:
+          prefix: /api/v2
+    destinations:
+      - subset:
+          version: v2
+
+---
+
+MeshService: a-mesh-service
+backends:
+  - kube:
+      selector:
+        app: my-service
+      cluster: *
+  - vm:
+      selector:
+        app: my-service
+      cluster: *
+failover: true
+
+---
+
+Kind: VirtualService
+spec:
+  hosts:
+    - reviews.bookinfo.svc.cluster.local
+  http:
+    - matchers:
+        - uri:
+            prefix: /api/v1
+      destinations:
+        - host: reviews.bookinfo.svc.cluster.local
+          port: 9080
+          subset: v1
+    - matchers:
+        - uri:
+            prefix: /api/v2
+      destinations:
+        - host: reviews.bookinfo.svc.cluster.local
+          port: 9080
+          subset: v2
+---

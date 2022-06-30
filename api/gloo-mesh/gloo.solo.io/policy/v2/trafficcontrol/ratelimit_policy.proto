@@ -1,0 +1,81 @@
+syntax = "proto3";
+package trafficcontrol.policy.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/phase.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/policy/v2/trafficcontrol/ratelimit_client_config.proto";
+
+import "github.com/solo-io/solo-apis/api/rate-limiter/v1alpha1/ratelimit.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// RateLimitPolicy is used to assign ratelimit configuration to specific routes or destinations.
+// Traffic is forwarded to a rate-limited destinations specified in the RatelimitServerSettings.
+// The RatelimitServerSettings is also used to configure connecting settings.
+// If this is not provided, the default connection settings and default gloo mesh ratelimiter server destination will be used.
+// RateLimitPolicies are applied at the *Route* level and *Destination* levels.
+// Default is to apply policy to all destinations.
+message RateLimitPolicySpec {
+
+  // Select the routes where the policy will be applied.
+  // If left empty, no ratelimits on routes will be applied in the workspace.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // Select the destinations where the policy will be applied.
+  // Default behavior if no selectors are specified is to apply to all destinations in the workspace.
+  // If left empty and the route selector is set, no ratelimits on destinations will be applied.
+  repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 2;
+
+  // The configuration details of the rate limit policy to apply to the selected routes
+  Config config = 3;
+
+  message Config {
+
+    // Specify the phase to indicate where this policy should be applied relative to other policies.
+    // If no phase is specified, the default will be post AuthZ.
+    .common.gloo.solo.io.PrioritizedPhase phase = 1;
+
+    // Reference to the RatelimitServerConfig to use for this policy.
+    // If none is provided, no ratelimit will be enforced
+    .common.gloo.solo.io.ObjectReference ratelimit_server_config = 2;
+
+    // Reference to the RatelimitServerSettings to use for this policy.
+    // Currently routes on a single VirtualGateway or destination must share a single RatelimitServerSettings.
+    // If none is provided, the default Gloo RatelimitServerSettings will be used.
+    .common.gloo.solo.io.ObjectReference server_settings = 3;
+
+    // Each `RateLimitPolicyConfig` is an instance of one specific configuration type.
+    // Currently, only raw configuration is supported, but going forward we are planning on adding
+    // more high-level configuration formats to support specific use cases.
+    oneof config_type {
+      // Inline a policy using the raw configuration format used by the ratelimit server.
+      trafficcontrol.policy.gloo.solo.io.Raw raw = 4;
+
+      // Select a RatelimitClientConfig policy to apply.
+      .common.gloo.solo.io.ObjectReference ratelimit_client_config = 5;
+    }
+
+  }
+}
+
+// Reflects the status of the RateLimitPolicy
+message RateLimitPolicyStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Destination ports selected by the policy
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 3;
+
+  // Routes selected by the policy
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 4;
+
+}

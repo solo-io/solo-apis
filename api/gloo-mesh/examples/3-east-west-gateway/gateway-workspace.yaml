@@ -1,0 +1,217 @@
+---
+# Workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  # a workspace for managing global ingress across all workspaces
+  name: global-ingress
+  # workspaces live in management cluster
+  namespace: gloo-mesh
+spec:
+  # this workspace owns a namespace called 'gateway' in all registered clusters.
+  namespaces:
+    # the name field here supports wildcard matching, using '*' for string substitution
+    - name: gateway
+  # this workspace imports all exported resources from selected workspaces
+  imports:
+    - workspaces:
+        - matchLabels:
+            # user-defined labels for self-service workspace discovery
+            acme.io/export-to-gateway: 'true'
+
+# optional: define a root namespace which will be treated as global config for the whole workspace
+#  configRoot:
+#    cluster: *
+#    namespace: *
+
+---
+# Defines a shared Gateway which routes traffic to endpoints in the the workspace, as well as endpoints imported from other workspaces
+apiVersion: gateway.mesh.gloo.solo.io/v2
+kind: VirtualGateway
+metadata:
+  name: global-ingress
+  # gateways should be defined in the workspace that contains gateway workloads
+  namespace: gateway
+spec:
+  # deploy this gateway to istio instances in this workspce match
+  deployToIngressGateways:
+    gatewayWorkloads:
+      - kubeWorkloadMatcher:
+          labels:
+            istio: ingressgateway
+  # define the listeners
+  listeners:
+    - connectionOptions:
+        bindPort: 8080
+        sslConfig:
+          secretName: app-gateway-secret
+      # http listener type
+      http:
+        # handle http requests using virtual hosts available to this workspce
+        virtualHostSelectors:
+          - matchLabels:
+              # expose virtual hosts with these labels on this gateway
+              acme.io/app-gateway: 'true'
+
+---
+apiVersion: gateway.mesh.gloo.solo.io/v2
+kind: VirtualHost
+metadata:
+  # Virtual Host to serve the UI workspace on a given domain
+  name: web-ui-virtual-host
+  # virtual hosts can be hosted in the gateway workspace, or they can be imported from other workspaces
+  namespace: gateway
+  labels:
+    # match the gateway selector to serve these hosts from the gateway
+    acme.io/app-gateway: 'exposed'
+spec:
+  # define the hosts on which this virtualhost will serve requests
+  hosts:
+    - app.example.com
+    - *.app.example.com
+  httpRouteTable:
+    # serve traffic for this domain using the web-ui-root-routes route table, which is imported from the web-ui workspace
+    name: web-ui-root-routes
+
+    # optional, only required if an import collision happens for a given name in a workspace
+    #workspace: web-ui
+---
+
+---
+apiVersion: gateway.mesh.gloo.solo.io/v2
+kind: VirtualHost
+spec:
+  hosts:
+    - app.example.com
+  httpRouteTable:
+    name: default
+---
+
+kind: RouteTable
+name: default
+spec:
+  routes:
+    - name: default
+      matchers:
+        - uri:
+            prefix: /
+      forwardToAction:
+        destinations:
+          - virtualWorkload:
+              name: foo
+              workspace: bar
+
+---
+apiVersion: gateway.mesh.gloo.solo.io/v2
+kind: VirtualHost
+spec:
+  hosts:
+    - app.example.com
+  virtualWorkload:
+    name: foo
+    workspace: bar
+
+---
+apiVersion: gateway.mesh.gloo.solo.io/v2
+kind: VirtualHost
+metadata:
+  # Virtual Host to serve the UI workspace on a given domain
+  name: web-ui-virtual-host
+  # virtual hosts can be hosted in the gateway workspace, or they can be imported from other workspaces
+  namespace: gateway
+  labels:
+    # match the gateway selector to serve these hosts from the gateway
+    acme.io/app-gateway: 'exposed'
+spec:
+  # define the hosts on which this virtualhost will serve requests
+  hosts:
+    - app.example.com
+    - *.app.example.com
+  httpRouteTable:
+    # serve traffic for this domain using the web-ui-root-routes route table, which is imported from the web-ui workspace
+    name: web-ui-root-routes
+
+    # optional, only required if an import collision happens for a given name in a workspace
+    #workspace: web-ui
+
+
+
+
+
+
+
+
+---
+# Workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: my-workspace
+spec:
+  namespaces:
+    - name: my-app-*
+  exports:
+    - namespace: my-app-exposed
+      workloads: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+# Workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: my-workspace-exported
+spec:
+  namespaces:
+    - name: my-app-exposed
+
+---
+# Workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: my-workspace-private
+spec:
+  namespaces:
+    - name: my-app-private
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

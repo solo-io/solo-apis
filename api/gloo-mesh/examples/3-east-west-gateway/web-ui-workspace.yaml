@@ -1,0 +1,99 @@
+---
+# Workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: web-ui
+  namespace: gloo-mesh
+  labels:
+    acme.io/export-to-gateway: 'true'
+spec:
+  namespaces:
+    - name: web-ui
+  exports:
+    routeTables:
+      - matchLabels:
+          acme.io/exported: 'true'
+  imports:
+    - workspaces:
+        # import exported objects from the backend workspace
+        - matchLabels:
+            acme.io/export-to-ui: 'true'
+
+---
+# UI Routes
+apiVersion: mesh.gloo.solo.io/v2
+kind: HTTPRouteTable
+metadata:
+  name: web-ui-root-routes
+  namespace: web-ui
+  labels:
+    acme.io/exported: 'true'
+spec:
+  defaultDestination:
+    meshService:
+      name: web-server
+  routes:
+    # serve a legacy version of the web ui to mozilla browser
+    - name: web-ui-legacy
+      matchers:
+        - headers:
+            name: user-agent
+            value: 'Mozilla.*'
+            regex: true
+      forwardTo:
+        - subset:
+            version: v1
+
+    # serve an old version of the web ui to mozilla browser
+    - name: web-ui-default
+
+---
+# web-server Mesh Service, which groups the web-ui services of the web-ui service.
+apiVersion: mesh.gloo.solo.io/v2
+kind: MeshService
+metadata:
+  name: web-server
+  namespace: web-ui
+spec:
+  backingServices:
+    # this Mesh Service groups together all kube services across all clusters matching these namespace and labels
+    - kube:
+        clusterName: * # on any cluster
+        namespace: web-ui
+        selector:
+          app: web-server
+
+---
+
+# routes for the web-ui workspace
+apiVersion: mesh.gloo.solo.io/v2
+kind: HTTPRouteTable
+metadata:
+  name: web-ui-root-routes
+  namespace: web-ui
+  labels:
+    acme.io/exported: 'true'
+spec:
+  defaultDestination:
+    kubeService:
+      namespace: web-ui
+      selector:
+        app: web-server
+
+  routes:
+    # serve a legacy version of the web ui to mozilla browser
+    - name: web-ui-legacy
+      matchers:
+        - headers:
+            name: user-agent
+            value: 'Mozilla.*'
+            regex: true
+      forwardTo:
+        - subset:
+            version: v1
+
+    - name: web-ui-default
+      forwardTo:
+        - subset:
+            version: v2

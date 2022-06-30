@@ -1,0 +1,159 @@
+# 1. Scenario from Istio: 
+# It is possible to restrict the set of virtual services that can bind to
+# a gateway server using the namespace/hostname syntax in the hosts field.
+# For example, the following Gateway allows any virtual service in the ns1
+# namespace to bind to it, while restricting only the virtual service with
+# foo.bar.com host in the ns2 namespace to bind to it.
+#
+# {{<tabset category-name="example">}}
+# {{<tab name="v1alpha3" category-value="v1alpha3">}}
+# ```yaml
+# apiVersion: networking.istio.io/v1alpha3
+# kind: Gateway
+# metadata:
+#   name: my-gateway
+#   namespace: some-config-namespace
+# spec:
+#   selector:
+#     app: my-gateway-controller
+#   servers:
+#   - port:
+#       number: 80
+#       name: http
+#       protocol: HTTP
+#     hosts:
+#     - "ns1/*"
+#     - "ns2/foo.bar.com"
+# ```
+
+# GM example -  Note: I can't restrict which host from VG.  
+# Also, virtualHostSelectors, can i specify which workspace?
+# It is very important to delegate to workspace.
+
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualGateway
+metadata:
+  name: my-gateway
+  namespace: some-config-namespace
+  labels:
+    workspace.solo.io/exported: 'true'
+spec:
+  workloads:
+    - selector:
+        app: my-gateway-controller
+  listeners:
+    - port:
+        number: 80
+      routeTables:
+        - host: '*.foo.com'
+          workspace: foo-ws
+        - host: '*.bar.com'
+          workspace: bar-ws                                    
+# Scenario 2 from Istio: 
+# For example, the following Gateway configuration sets up a proxy to act
+# as a load balancer exposing port 80 and 9080 (http), 443 (https),
+# 9443(https) and port 2379 (TCP) for ingress.  The gateway will be
+# applied to the proxy running on a pod with labels `app:
+# my-gateway-controller`. While Istio will configure the proxy to listen
+# on these ports, it is the responsibility of the user to ensure that
+# external traffic to these ports are allowed into the mesh.
+#
+# ```yaml
+# apiVersion: networking.istio.io/v1alpha3
+# kind: Gateway
+# metadata:
+#   name: my-gateway
+#   namespace: some-config-namespace
+# spec:
+#   selector:
+#     app: my-gateway-controller
+#   servers:
+#   - port:
+#       number: 80
+#       name: http
+#       protocol: HTTP
+#     hosts:
+#     - uk.bookinfo.com
+#     - eu.bookinfo.com
+#     tls:
+#       httpsRedirect: true # sends 301 redirect for http requests
+#   - port:
+#       number: 443
+#       name: https-443
+#       protocol: HTTPS
+#     hosts:
+#     - uk.bookinfo.com
+#     - eu.bookinfo.com
+#     tls:
+#       mode: SIMPLE # enables HTTPS on this port
+#       serverCertificate: /etc/certs/servercert.pem
+#       privateKey: /etc/certs/privatekey.pem
+#   - port:
+#       number: 9443
+#       name: https-9443
+#       protocol: HTTPS
+#     hosts:
+#     - "bookinfo-namespace/*.bookinfo.com"
+#     tls:
+#       mode: SIMPLE # enables HTTPS on this port
+#       credentialName: bookinfo-secret # fetches certs from Kubernetes secret
+#   - port:
+#       number: 9080
+#       name: http-wildcard
+#       protocol: HTTP
+#     hosts:
+#     - "*"
+#   - port:
+#       number: 2379 # to expose internal service via external port 2379
+#       name: mongo
+#       protocol: MONGO
+#     hosts:
+#     - "*"
+
+
+# GM yaml for above scenario.
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualGateway
+metadata:
+  name: my-gateway
+  namespace: some-config-namespace
+  labels:
+    workspace.solo.io/exported: 'true'  
+spec:
+  workloads:
+    - selector:
+        app: my-gateway-controller
+  listeners:
+    - port:
+        number: 80
+      httpsRedirect: true
+      routeTables:
+        - host: '*.foo.com'
+          workspace: foo-ws
+    - port:
+        number: 443
+      tls:
+        mode: SIMPLE
+        files:
+          privateKey: /etc/certs/privatekey.pem
+          serverCert: /etc/certs/servercert.pem
+      routeTables:
+        - host: '*.foo.com'
+          workspace: foo-ws
+    - port:
+        number: 9443
+      tls:
+        mode: SIMPLE
+        secretName: my-secret
+      routeTables:
+        - host: '*.foo.com'
+          workspace: foo-ws
+    - port:
+        number: 9080
+      routeTables:
+        - host: '*.bar.com'
+          workspace: bar-ws
+              
+
+# Attach routes: gateway specifies what routes could attach, can routes specify what gateway to be bound to?

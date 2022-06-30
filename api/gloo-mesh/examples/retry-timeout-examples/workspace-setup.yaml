@@ -1,0 +1,83 @@
+# setup necessary for the retry policy examples to work in addition to having istio and bookinfo
+
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualGateway
+metadata:
+  name: north-south-gw
+  namespace: bookinfo
+  # clusterName is only needed for testing the translator
+  clusterName: cluster-1
+spec:
+  workloads:
+    - selector:
+        istio: ingressgateway
+  listeners:
+    - http: {}
+      port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        secretName: gw-ssl-secret
+        mode: SIMPLE
+      allowedRouteTables:
+        - host: 'www.example.com'
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: RouteTable
+metadata:
+  name: www-example-com
+  namespace: bookinfo
+  # clusterName is only needed for testing the translator
+  clusterName: cluster-1
+spec:
+  hosts:
+    - 'uk.bookinfo.com'
+    - 'eu.bookinfo.com'
+  virtualGateways:
+    - name: north-south-gw
+  defaultDestination:
+    ref:
+      name: ratings
+      namespace: bookinfo
+    port:
+      number: 9080
+  http:
+    - name: ratings-ingress
+      labels:
+        route: ratings
+      forwardTo:
+        {}
+---
+apiVersion: admin.gloo.solo.io/v2
+kind: KubernetesCluster
+metadata:
+  name: cluster-1
+  namespace: gloo-mesh
+spec:
+  clusterDomain: cluster.local
+---
+
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: bookinfo
+  namespace: gloo-mesh
+spec:
+  workloadClusters:
+    - name: "*"
+      namespaces:
+        - name: "*"
+
+---
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: anything
+  # This will be the root namespace for the workspace
+  namespace: bookinfo
+  clusterName: cluster-1
+  labels:
+    # enable consumer of the workspace to import workspace by labels
+    team: backend
+spec: {}

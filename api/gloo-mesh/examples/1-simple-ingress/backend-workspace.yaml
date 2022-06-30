@@ -1,0 +1,272 @@
+---
+# Workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: backend
+  namespace: gloo-mesh
+  labels:
+    # export services from this workspace to the global-ingress workspace
+    acme.io/export-to-gateway: 'true'
+spec:
+  namespaces:
+    - name: backend
+  exports:
+    workloads:
+      - matchLabels:
+          acme.io/exported: 'true'
+---
+
+# routes for the backend workspace
+apiVersion: mesh.gloo.solo.io/v2
+kind: HTTPRouteTable
+metadata:
+  name: backend-root-routes
+  namespace: backend
+  labels:
+    # export this route table from the workspace so it can be used in the gateway
+    # this implicitly makes any destinations used in this route table routable from those workspaces.
+    acme.io/exported: 'true'
+spec:
+  # routes that do not specify a destination will forward traffic to this destination.
+  defaultDestination:
+
+    # the type of destination defined here can be one of:
+    # - meshService: a grouping of backend services
+    # - kubeService: a kubernetes services
+    # - vmService: an external vm registered with the mesh
+    meshService:
+      name: backend
+      namespace: backend
+
+  # http route tables define the set of http matchers & actions (routes) to serve
+  routes:
+    # this route provides an example of subset-based routing
+    - name: backend-v2
+      matchers:
+        - headers:
+            name: client-version
+            value: v2
+      forwardTo:
+        # selects a subset of the default destination
+        - subset:
+            version: v2
+          name: other-backend
+
+    - name: backend-default
+      forwardTo:
+        - subset:
+            version: v1
+
+---
+
+# MeshServices define groupings of servies, both as routing destinations purposes and applying policy to independently selected groups of services
+apiVersion: mesh.gloo.solo.io/v2
+kind: MeshService
+metadata:
+  # this MeshService represents a selection of services which compose the "backend" app
+  name: backend
+  namespace: backend
+spec:
+  backingServices:
+    # this Mesh Service groups together all kube services across all clusters matching these namespace and labels
+    - kube:
+        clusterName: * # on any cluster
+        namespace: backend
+        selector:
+          app: web-server
+
+  # enable "federation" or locality-based failover across services defined in this mesh service.
+  # this should only be enabled when a mesh service is used as an endpoint for routing.
+  failover:
+    outlierDetection:
+      baseEjectionTime: 120s
+      consecutiveErrors: 1
+      interval: 5s
+      maxEjectionPercent: 100
+    directives:
+      - from:
+          region: us-east-1
+        to:
+          - region: us-west-1
+      - from:
+          region: us-west-1
+        to:
+          - region: us-east-1
+
+
+
+---
+
+# MeshServices define groupings of servies, both as routing destinations purposes and applying policy to independently selected groups of services
+apiVersion: mesh.gloo.solo.io/v2
+kind: MeshService
+metadata:
+  # this MeshService represents a selection of services which compose the "backend" app
+  name: backend
+  namespace: backend
+spec:
+  backingServices:
+    # this Mesh Service groups together all kube services across all clusters matching these namespace and labels
+    - kube:
+        clusterName: * # on any cluster
+        namespace: backend
+        selector:
+          app: web-server
+
+  # enable "federation" or locality-based failover across services defined in this mesh service.
+  # this should only be enabled when a mesh service is used as an endpoint for routing.
+  failover:
+    outlierDetection:
+      baseEjectionTime: 120s
+      consecutiveErrors: 1
+      interval: 5s
+      maxEjectionPercent: 100
+    directives:
+      - from:
+          region: us-east-1
+        to:
+          - region: us-west-1
+      - from:
+          region: us-west-1
+        to:
+          - region: us-east-1
+
+---
+
+# MeshServices define groupings of servies, both as routing destinations purposes and applying policy to independently selected groups of services
+apiVersion: mesh.gloo.solo.io/v2
+kind: MeshService
+metadata:
+  # this MeshService represents a selection of services which compose the "backend" app
+  name: backend
+  namespace: backend
+spec:
+  backingServices:
+    # this Mesh Service groups together all kube services across all clusters matching these namespace and labels
+    - kube:
+        clusterName: * # on any cluster
+        namespace: backend
+        selector:
+          app: web-server
+
+  # enable "federation" or locality-based failover across services defined in this mesh service.
+  # this should only be enabled when a mesh service is used as an endpoint for routing.
+  failover:
+    outlierDetection:
+      baseEjectionTime: 120s
+      consecutiveErrors: 1
+      interval: 5s
+      maxEjectionPercent: 100
+    directives:
+      - from:
+          region: us-east-1
+        to:
+          - region: us-west-1
+      - from:
+          region: us-west-1
+        to:
+          - region: us-east-1
+
+---
+
+
+
+kind: ExtAuthPolicy
+spec:
+  config:
+    name: basic-auth
+  applyTo:
+    - virtualHosts:
+        matchLabels: {} # all labels
+        namespace: foo
+        hosts: '*.foo.com'
+      routes:
+        matchLabels: {} # all labels
+        namespace: foo
+        matchers:
+          # apply to all routes not prefixed with /static
+          - uri:
+              prefix: /static
+            invertMatch: true
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/default/sa/sleep"]
+        - source:
+            namespaces: ["test"]
+      to:
+        - operation:
+            methods: ["GET"]
+            paths: ["/info*"]
+        - operation:
+            methods: ["POST"]
+            paths: ["/data"]
+      when:
+        - key: request.auth.claims[iss]
+          values: ["https://accounts.google.com"]
+
+---
+
+# routes for the backend workspace
+apiVersion: mesh.gloo.solo.io/v2
+kind: HTTPRouteTable
+metadata:
+  name: backend-root-routes
+  namespace: backend
+  labels:
+    # export this route table from the workspace so it can be used in the gateway
+    # this implicitly makes any destinations used in this route table routable from those workspaces.
+    acme.io/exported: 'true'
+spec:
+  # routes that do not specify a destination will forward traffic to this destination.
+  defaultDestination:
+
+    # the type of destination defined here can be one of:
+    # - meshService: a grouping of backend services
+    # - kubeService: a kubernetes services
+    # - vmService: an external vm registered with the mesh
+    meshService:
+      name: backend
+      namespace: backend
+
+  # http route tables define the set of http matchers & actions (routes) to serve
+  routes:
+    - name: backend-v2
+      matchers:
+        - headers:
+            name: client-version
+            value: v2
+          uri:
+            prefix: /foo/hello
+      forwardTo:
+        - subset:
+            version: v2
+    - name: backend-v1
+      matchers:
+        - headers:
+            name: client-version
+            value: v1
+          uri:
+            prefix: /foo/goodbye
+      forwardTo:
+        - subset:
+            version: v1
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,141 @@
+syntax = "proto3";
+package common.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
+
+import "google/protobuf/timestamp.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Name of Workspace that owns resource
+message OwnerWorkspace {
+  string workspace = 1;
+}
+
+message WorkspaceStatus {
+  // The status of the resource in each cluster within the
+  // workspace.
+  map<string, ClusterStatus> clusters = 1;
+
+  message ClusterStatus {
+    GenericContextStatus generic = 1;
+  }
+}
+
+// Generic status used for persisting Gloo Mesh statuses for kubernetes
+// workloads (deployments, stateful sets, etc)
+message K8sWorkloadStatus {
+
+  GenericGlobalStatus global = 1;
+
+  // The status of the kubernetes resource in each workspace that it exists in.
+  map<string, WorkspaceStatus> workspaces = 2;
+
+  // Map of policy GVK to policy references for all policies applied on this
+  //resource.
+  map<string, AppliedWorkloadPolicies> applied_workload_policies = 3;
+
+  // Name of Workspace that owns K8s Workload
+  OwnerWorkspace owner_workspace = 4;
+
+}
+
+// Generic status used for persisting Gloo Mesh statuses for kubernetes
+// services
+message K8sServiceStatus {
+
+  GenericGlobalStatus global = 1;
+
+  // The status of the kubernetes resource in each workspace that it exists in.
+  map<string, WorkspaceStatus> workspaces = 2;
+
+  // Map of policy GVK to policy references for all policies applied on this
+  // resource.
+  map<string, AppliedDestinationPortPolicies> applied_destination_policies = 3;
+
+  // Name of Workspace that owns K8s Service
+  OwnerWorkspace owner_workspace = 4;
+
+}
+
+message GenericGlobalStatus {
+  // Whether the resource has been accepted as valid and processed in workspace
+  // clusters that it exists in.
+  ApprovalState state = 1;
+
+  // Additional information about the current state of the resource across all
+  // workspace clusters.
+  string message = 2;
+}
+
+message GenericContextStatus {
+  // The most recent generation observed in the the object's metadata.
+  // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh
+  // has not processed the most recent version of this object.
+  int64 observed_generation = 1;
+
+  // Whether the resource has been accepted as valid and processed in the Gloo
+  // Mesh config translation.
+  ApprovalState state = 2;
+
+  // Additional information about the current state of the resource.
+  string message = 3;
+
+  // The last time the status was updated.
+  .google.protobuf.Timestamp updated_at = 4;
+}
+
+// Indicates selected routes on status messages.
+message RouteReference {
+  // The name of the route
+  string route_name = 1;
+
+  // The index of the route on the route table
+  int32 route_index = 2;
+
+  // The route table containing the route
+  ObjectReference route_table = 3;
+}
+
+message AppliedDestinationPortPolicies {
+  // List of applied destination port policies
+  repeated DestinationPolicyReference policies = 1;
+
+  message DestinationPolicyReference {
+    // the port on the destination object that the policy applies to
+    int32 destination_port = 1;
+
+    // the kind of destination object that the policy applies to
+    DestinationKind destination_kind = 2;
+
+    // The reference to the policy
+    ObjectReference policy = 3;
+  }
+}
+
+message AppliedRoutePolicies {
+  // List of applied route policies
+  repeated RoutePolicyReference policies = 1;
+
+  message RoutePolicyReference {
+    // The name of the route that the policy is applied to
+    string route_name = 1;
+
+    // The index of the route on the route table
+    int32 route_index = 2;
+
+    // The reference to the policy
+    ObjectReference policy = 3;
+  }
+}
+
+message AppliedWorkloadPolicies {
+  // Policies on the workload
+  repeated ObjectReference policies = 1;
+}

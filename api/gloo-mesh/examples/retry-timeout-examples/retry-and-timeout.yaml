@@ -1,0 +1,17 @@
+apiVersion: resilience.gloo.solo.io/v2
+kind: RetryTimeoutPolicy
+metadata:
+  name: retry-timeout
+  namespace: bookinfo
+  # clusterName is only needed for testing the translator
+  clusterName: cluster-1
+spec:
+  applyToRoutes:
+    - route:
+        labels:
+          route: ratings # matches on route table route's labels
+  config:
+    requestTimeout: 2s
+    retryPolicy:
+      attempts: 5
+      # if perTryTimeout is not set this will default to the requestTimeout value

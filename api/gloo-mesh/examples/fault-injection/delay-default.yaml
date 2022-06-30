@@ -1,0 +1,19 @@
+# Simple example to apply a fault injection delay policy with a default value for delay percentage.
+# Only the delay is applied in this example. No abort config is specified so the request will not be aborted.
+
+apiVersion: resilience.gloo.solo.io/v2
+kind: FaultInjectionPolicy
+metadata:
+  name: default-delay
+  namespace: bookinfo
+  # clusterName is only needed for testing the translator
+  clusterName: cluster-1
+spec:
+  applyToRoutes:
+    - route:
+        labels:
+          route: ratings # this is the route label from the route table
+  config:
+    delay:
+      # setting the percentage is optional. The policy will default to 100% of requests being delayed.
+      fixedDelay: 5s # the fixed delay value is required and does not have a default

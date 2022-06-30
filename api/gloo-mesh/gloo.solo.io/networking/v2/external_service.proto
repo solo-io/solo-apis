@@ -1,0 +1,95 @@
+syntax = "proto3";
+package networking.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// ExternalService defines a destination for routing which exist outside the mesh.
+// This could for example be a web API or a set of virtual machines that are not running in Kubernetes.
+// When an ExternalService is defined for a given workspace, it can be used as a
+// Destination in Routes, as well as called directly via its specified hostname.
+// Resolution of the IP addresses for external services can be done via DNS
+// or provided statically using the ExternalEndpoint object.
+message ExternalServiceSpec {
+
+    // The List of hostnames which will resolve to this service.
+    // These hosts must be unique among all ExternalServices and VirtualHosts within a workspace.
+    // Only FQDNs are supported at this time (wildcard domains are not allowed for ExternalServices).
+    // or
+    // Originating TLS connections to ExternalServices is only supported for FQDNs (not for wildcard domains).
+    repeated string hosts = 1;
+
+    // The associated ports of the external service.
+    repeated Port ports = 2;
+
+    // Port establishes a new port that will be exposed on an ExternalService.
+    message Port {
+
+        // The port number. Must be a valid, non-negative integer port number.
+        uint32 number = 1;
+
+        // (optional): The port number or name used to match the corresponding port on the ExternalService's backing ExternalEndpoints.
+        // All of the backing ExternalEndpoints for this ExternalService must contain
+        // this port, matching by name or number.
+        // If no backing ExternalEndpoints are provided, a name selector is invalid,
+        // and requests will be routed to the provided hosts on the port number specified.
+        // If unspecified, will default to the value of the port number field above.
+        .common.gloo.solo.io.PortSelector target_port = 2;
+
+        // A label for the port, eg "http".
+        string name = 3;
+
+        // The protocol used in communication with this destination
+        // MUST be one of the following: HTTP, HTTPS, GRPC, HTTP2, MONGO, TCP, TLS.
+        string protocol = 4;
+
+        // The tls config for the given port.
+        // If the protocol is HTTPS or TLS, the ExternalService will be configured to use TLS automatically.
+        TlsConfig clientside_tls = 5;
+
+        message TlsConfig {
+
+            // SNI string to present to the server during TLS handshake.
+            // If there is a single host in the hosts list, this will be used as the SNI string.
+            string sni = 1;
+        }
+    }
+
+    // Selecting ExternalEndpoints will provide the addresses used for routing traffic to on the ExternalService's hosts.
+    // An empty selector will not select any endpoints.
+    // If no endpoints are selected, requests will be routed to the provided hosts using dns resolution.
+    map<string, string> selector = 3;
+
+    // A list of alternate names to verify the subject identity in the
+    // certificate. If specified, the proxy will verify that the server
+    // certificate's subject alt name matches one of the specified values.
+    // Only applicable when using TLS to communicate with the ExternalService.
+    repeated string subject_alt_names = 4;
+}
+
+// reflects the status of the ExternalService
+message ExternalServiceStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Map of policy GVK to policy references for all policies applied on this
+  // resource.
+  map<string, .common.gloo.solo.io.AppliedDestinationPortPolicies> applied_destination_policies = 3;
+
+  // The list of endpoints that this ExternalService is currently using.
+  repeated .common.gloo.solo.io.ObjectReference selected_external_endpoints = 4;
+
+  // Name of Workspace that owns ExternalService
+  .common.gloo.solo.io.OwnerWorkspace owner_workspace = 5;
+
+}

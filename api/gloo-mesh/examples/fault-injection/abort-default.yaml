@@ -1,0 +1,19 @@
+# Simple example to apply a fault injection abort policy with a default value for abort percentage.
+# Only the abort is applied in this example. No delay config is specified so the request will not have a fixed delay applied.
+
+apiVersion: resilience.gloo.solo.io/v2
+kind: FaultInjectionPolicy
+metadata:
+  name: default-abort
+  namespace: bookinfo
+  # clusterName is only needed for testing the translator
+  clusterName: cluster-1
+spec:
+  applyToRoutes:
+    - route:
+        labels:
+          route: ratings # this is the route label from the route table
+  config:
+    abort:
+      # setting the percentage is optional. The policy will default to 100% of requests being delayed.
+      httpStatus: 500 # The HTTP status code to abort a request with is required. This should be an integer value in the range [200, 600).

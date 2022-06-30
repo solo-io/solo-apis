@@ -1,0 +1,26 @@
+# Simple example to add a fault injection policy for a 5-second delay and a 500 - Internal Server Error
+# When the ratings service is called, 10% of the calls will return 500 responses and 40% will experience a five second delay before they send a response.
+# This fault rule has both a delay or abort specified. Delay and abort faults are independent of one another, even if both are set to occur simultaneously.
+# If the percentage here was set to 100 for the abort and delay, then the policy would first add a 5-second delay, followed by a 500 - Internal Server Error on all responses.
+
+apiVersion: resilience.gloo.solo.io/v2
+kind: FaultInjectionPolicy
+metadata:
+  name: abort-and-delay
+  namespace: bookinfo
+  # clusterName is only needed for testing the translator
+  clusterName: cluster-1
+spec:
+  applyToRoutes:
+    - route:
+        labels:
+          route: ratings # this is the route label from the route table
+  config:
+    abort:
+      httpStatus: 500
+      percentage:
+        value: 10 # this value is independent of the delay percentage
+    delay:
+      percentage:
+        value: 40 # this value is independent of the abort percentage
+      fixedDelay: 5s

@@ -1,0 +1,134 @@
+syntax = "proto3";
+package internal.gloo.solo.io;
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/policy/v2/security/tls/ca_options.proto";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+
+/*
+    IssuedCertificates are used to issue SSL certificates
+    to workload Kubernetes clusters from a central (out-of-cluster) Certificate Authority.
+
+    When an IssuedCertificate is created, a certificate is issued to a workload cluster by 
+    a central Certificate Authority via the following workflow:
+
+    1. The Certificate Issuer creates the IssuedCertificate resource on the remote cluster
+    2. The Certificate Signature Requesting agent installed to the remote cluster generates
+      a Certificate Signing Request (CSR) and writes it to the status of the IssuedCertificate
+    3. Finally, the Certificate Issuer generates a signed certificate for the CSR and writes
+      it back as Kubernetes Secret in the remote cluster.
+
+    Trust can therefore be established across the Gloo Mesh server cluster and agents on workload clusters 
+    without requiring private keys to ever leave workload clusters.
+
+    The certificate requested here is for Gloo Mesh agents on workload clusters to securely establish communication 
+    with Gloo Mesh server. This is not related to certificates for services running in the mesh.
+*/
+message IssuedCertificateSpec {
+    /*
+         A list of hostnames and IPs to generate a certificate for.
+         This can also be set to the identity running the workload,
+         e.g. a Kubernetes service account.
+
+         Generally for an Istio CA this will take the form `spiffe://cluster.local/ns/istio-system/sa/citadel`.
+
+         "cluster.local" may be replaced by the root of trust domain for the mesh.
+     */
+    repeated string hosts = 1;
+
+    // The secret containing the SSL certificate to be generated for this IssuedCertificate (located in the Gloo Mesh agent's cluster).
+    // If nil, the sidecar agent stores the signing certificate in memory. (Enterprise only)
+    .core.skv2.solo.io.ObjectRef issued_certificate_secret = 2;
+
+    // Set of options to configure the intermediate certificate being generated
+    .tls.security.policy.gloo.solo.io.CommonCertOptions cert_options = 3;
+
+    // The location of the certificate authority to sign this certificate
+    oneof certificate_authority {
+        // Gloo Mesh CA options
+        MgmtServerCertificateAuthority mgmt_server_ca = 4;
+        // Agent CA options
+        .tls.security.policy.gloo.solo.io.AgentCertificateAuthority agent_ca = 5;
+    }
+
+    // Reference to the mesh on which this cert is being issued for.
+    .core.skv2.solo.io.ObjectRef mesh_ref = 6;
+
+    // Signals whether or not the workload pods should be restarted
+    // to pick up the new cert.
+    bool auto_restart_pods = 7;
+
+    // The current state of rotation, this value signals to the cert issuer how to 
+    // construct the intermediary certs which the data-plane clusters receive
+//    .tls.security.policy.gloo.solo.io.CertificateRotationState rotation_state = 9;
+
+}
+
+// Set of options which represent the certificate authorities the management cluster can use
+// to sign the intermediate certs.
+message MgmtServerCertificateAuthority {
+    // Certificate authority which gloo-mesh management will use to sign the intermediate cert
+    oneof certificate_authority {
+        .core.skv2.solo.io.ObjectRef signing_certificate_secret = 1;
+    }
+}
+
+// The IssuedCertificate status is written by the CertificateRequesting agent.
+message IssuedCertificateStatus {
+
+    // The most recent generation observed in the the IssuedCertificate metadata.
+    // If the `observedGeneration` does not match `metadata.generation`, the Gloo Mesh agent has not processed the most
+    // recent version of this IssuedCertificate.
+    int64 observed_generation = 1;
+
+    // Any error observed which prevented the CertificateRequest from being processed.
+    // If the error is empty, the request has been processed successfully.
+    string error = 2;
+
+    // The current state of the IssuedCertificate workflow, reported by the agent.
+    State state = 3;
+
+    // Possible states in which an IssuedCertificate can exist.
+    enum State {
+        // The IssuedCertificate has yet to be picked up by the agent.
+        PENDING = 0;
+
+        // The agent has created a local private key
+        // and a CertificateRequest for the IssuedCertificate.
+        // In this state, the agent is waiting for the Issuer
+        // to issue certificates for the CertificateRequest before proceeding.
+        REQUESTED = 1;
+
+        // The certificate has been issued. Any pods that require restarting will be restarted at this point.
+        ISSUED = 2;
+
+        // The reply from the Issuer has been processed and
+        // the agent has placed the final certificate secret
+        // in the target location specified by the IssuedCertificate.
+        FINISHED = 3;
+
+        // Processing the certificate workflow failed.
+        FAILED = 4;
+    }
+
+//    // The location of the certificate authority to sign this certificate
+//    oneof applied_certificate_authority {
+//        // Gloo Mesh CA options
+//        MgmtServerCertificateAuthority applied_gloo_mesh_ca = 4;
+//        // Agent CA options
+//        .tls.security.policy.gloo.solo.io.AgentCertificateAuthority applied_agent_ca = 5;
+//    }
+//
+//
+//    // The rotation state as recorded by the issued cert agent. This is read by the networking
+//    // reconciler to ensure it is looking at the correct iteration of the object.
+//    .tls.security.policy.gloo.solo.io.CertificateRotationState observed_rotation_state = 6;
+
+}

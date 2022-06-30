@@ -1,0 +1,85 @@
+# web-ui workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: web
+  namespace: gloo-mesh
+  labels:
+    acme.io/export-to-gateway: 'true'
+spec:
+  workloadClusters:
+    - namespaces:
+      - name: web
+---
+# web-ui workspace example 2
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: web
+  namespace: gloo-mesh
+spec:
+  workloadClusters:
+    - name: '*'
+---
+# web-ui workspace setting example 1
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: default
+  namespace: web
+spec:
+  imports:
+    - name: 'backend*'
+---
+# web-ui workspace setting example 2
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: default
+  namespace: web
+spec:
+  imports:
+    - selector:
+        team: backend
+---
+# web-ui workspace setting example 3
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: default
+  namespace: web
+spec:
+  imports:
+    - selector:
+        team: backend
+      name: 'backend*'
+---
+# web-ui workspace setting example 3
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: default
+  namespace: web
+spec:
+  imports:
+    - selector:
+        team: backend
+    - name: 'backend*'
+---
+# policy workspace
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: policy
+  namespace: gloo-mesh
+  labels:
+    gloo.solo.io/global: 'true'
+---
+# deploy this to the namespace you want to claim root config namespace.
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: default
+  namespace: policy
+
+

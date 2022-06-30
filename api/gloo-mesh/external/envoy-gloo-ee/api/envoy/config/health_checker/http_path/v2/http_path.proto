@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package envoy.config.health_checker.http_path.v2;
+
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/pkg/api/envoy-gloo-ee/api/envoy/config/health_checker/http_path/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/udpa/annotations/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/config/core/v3/health_check.proto";
+
+option java_package = "io.envoyproxy.envoy.config.health_checker.http_path.v2";
+option java_outer_classname = "HttpPath";
+option java_multiple_files = true;
+option (udpa.annotations.file_status).package_version_status = ACTIVE;
+
+// DEPRECATED in favor of AdvancedHttp health checker, which has support for
+// per-endpoint HTTP path health checking as well as additional behaviors.
+//
+// This proto remains for backwards compatibility.
+//
+// Same as envoy's default HTTP health checker, but with some additions:
+// - allows a custom path on the health check request per endpoint.
+//   The http path to use can be overridden using endpoint metadata. The
+//   endpoint-specific path should be in the "io.solo.health_checkers.http_path"
+//   namespace, under a string value named "path".
+message HttpPath {
+  // Http health check.
+  config.core.v3.HealthCheck.HttpHealthCheck http_health_check = 1;
+}

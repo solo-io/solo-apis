@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package envoy.config.filter.http.json_grpc_transcoder.v2;
+
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/pkg/api/envoy-gloo-ee/api/envoy/config/filter/http/json_grpc_transcoder/v2";
+
+option java_package = "io.envoyproxy.envoy.config.filter.http.json_grpc_transcoder.v2";
+option java_outer_classname = "JsonGrpcTranscoderProto";
+option java_multiple_files = true;
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/protoc-gen-validate/validate/validate.proto";
+
+// [#proto-status: experimental]
+message JsonGrpcTranscoder {
+  oneof descriptor_set {
+    option (validate.required) = true;
+
+    // Supplies the filename of the proto descriptor for the gRPC services.
+    string proto_descriptor = 1 [ (validate.rules).string.min_bytes = 1 ];
+
+    // Supplies the binary content of the proto descriptor set for the gRPC
+    // services.
+    bytes proto_descriptor_bin = 2;
+  }
+}

@@ -1,0 +1,199 @@
+syntax = "proto3";
+package rpc.solo.io;
+
+option go_package = "github.com/solo-io/gloo-mesh-enterprise/pkg/api/rpc.solo.io/v2";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+service MetricsSource {
+  rpc GetNodeMetrics (NodeMetricsRequest) returns (NodeMetricsResponse) {
+    option (google.api.http) = {
+      post: "/v2/observability/metrics/node"
+      body: "*"
+    };
+  }
+
+  rpc GetEdgeMetrics (EdgeMetricsRequest) returns (EdgeMetricsResponse) {
+    option (google.api.http) = {
+      post: "/v2/observability/metrics/edge"
+      body: "*"
+    };
+  }
+}
+
+// Request for metrics aggregated for a network node over time.
+message NodeMetricsRequest {
+  // A list of workloads whose metrics should be retrieved.
+  // Leave empty to retrieve metrics for all workloads.
+  repeated string workload_ids = 1;
+
+  // The time which the metrics represent. Defaults to the present time if not specified.
+  .google.protobuf.Timestamp time = 2;
+
+  // The duration over which the metrics are computed, floored to the minute.
+  // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // Defaults to 5 minutes.
+  .google.protobuf.Duration window = 3;
+
+  // The duration for each sample in the range, floored to the minute.
+  // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // If omitted, defaults to the value of `window`, which represents a request for a single sample.
+  .google.protobuf.Duration step = 4;
+}
+
+// Metrics aggregated for one or more network nodes over time.
+message NodeMetricsResponse {
+
+  // Metrics for each selected node.
+  repeated NodeMetrics node_metrics = 1;
+
+  // Metrics for single node.
+  message NodeMetrics {
+    // Identifier for the workload associated with the metrics.
+    string workload_id = 1;
+
+    // HTTP Metrics over time for all requests originating from a single workload.
+    HttpMetrics outgoing_metrics = 2;
+
+    // HTTP Metrics over time for all requests targeting a single workload.
+    HttpMetrics incoming_metrics = 3;
+
+    TcpMetrics tcp_metrics = 4;
+
+    CiliumMetrics cilium_metrics = 5;
+
+    // Counts of active ejections for outgoing requests originating from this service.
+    // Sidecars must be annotated to record outlier detection in order to populate this data.
+    // The key of each k/v pair is a combination of the service/namespace/owner that the ejections are tied to.
+    // Due to system limitations, we cannot differentiate between workloads of the ejected service.
+    // For example, we could say that the reviews service has ejections, but we wouldn't know if it's
+    // Caused by reviews-v1, reviews-v2, or both.
+    // This is not included in the metrics struct because it is not temporal - active ejections either exist,
+    // or they aren't active anymore. Also this data is node-only.
+    map<string, int32>  active_ejection_counts = 7;
+  }
+}
+
+// Request for metrics aggregated for one or more network edges over time.
+message EdgeMetricsRequest {
+
+  // Select the edges (i.e. (source, target) workload pairs) whose metrics should be retrieved.
+  // Leave empty to retrieve metrics for all edges.
+  repeated EdgeSelector edge_selectors = 1;
+
+  // The time which the metrics represent. Defaults to the present time if not specified.
+  .google.protobuf.Timestamp time = 2;
+
+  // The duration over which the metrics are computed, floored to the minute.
+  // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // Defaults to 5 minutes.
+  .google.protobuf.Duration window = 3;
+
+  // The duration for each sample in the range, floored to the minute.
+  // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // Defaults to 2 minutes.
+  .google.protobuf.Duration step = 4;
+}
+
+// Metrics aggregated for a network edge over time.
+message EdgeMetricsResponse {
+
+  // Metrics over time for a set of network edges.
+  repeated EdgeMetrics edge_metrics = 1;
+
+  // Metrics over time for a single network edge.
+  message EdgeMetrics {
+
+    // Identifier for the source workload.
+    string source_workload_id = 1;
+
+    // Identifier for the target workload.
+    string target_workload_id = 2;
+
+    // HTTP Metrics over time for a network edge with a single source and target.
+    HttpMetrics http_metrics = 3;
+
+    // TCP Metrics over time for a network edge with a single source and target
+    TcpMetrics tcp_metrics = 4;
+  }
+}
+
+// Select the workloads whose metrics should be retrieved.
+// Leave empty to retrieve metrics for all workloads.
+message EdgeSelector {
+
+  // Specify the source workload. If omitted, retrieve edges targeting this workload and originating from any workload.
+  string source_workload_id = 1;
+
+  // Specify the target workload. If omitted, retrieve edges originating from this workload and targeting any workload.
+  string target_workload_id = 2;
+}
+
+// HTTP Metrics sampled over time.
+message HttpMetrics {
+
+  repeated .google.protobuf.Timestamp timestamps = 1;
+
+  // The number of requests.
+  repeated uint64 request_count = 2;
+
+  // The number of successful requests.
+  repeated uint64 success_count = 3;
+
+  // The number of failed requests.
+  repeated uint64 failure_count = 4;
+
+  // Percentiles for request latencies, measured in milliseconds.
+  RequestLatencies request_latencies = 5;
+
+  // Describes the security policy, if any, applied to this network edge.
+  Security security = 6;
+
+  // Percentiles for request latencies, measured in milliseconds.
+  message RequestLatencies {
+
+    // 99th percentile request latency.
+    repeated uint64 p99 = 1;
+
+    // 90th percentile request latency.
+    repeated uint64 p90 = 2;
+
+    // 50th percentile request latency.
+    repeated uint64 p50 = 3;
+  }
+
+  // Describes the security policy, if any, applied to this network edge.
+  message Security {
+
+    // Describes the security policy of the connection.
+    string security_policy = 1;
+
+    // The identity of the source workload, only populated if mTLS is enabled."
+    string source_principal = 2;
+
+    // The identity of the destination, only populated if mTLS is enabled.
+    string destination_principal = 3;
+  }
+}
+
+message TcpMetrics {
+  repeated .google.protobuf.Timestamp timestamps = 1;
+
+  repeated uint64 bytes_sent = 2;
+
+  repeated uint64 bytes_received = 3;
+}
+
+message CiliumMetrics {
+  repeated .google.protobuf.Timestamp timestamps = 1;
+
+  repeated uint64 forwarded_sent = 2;
+
+  repeated uint64 forwarded_received = 3;
+
+  repeated uint64 policy_drops = 6;
+}

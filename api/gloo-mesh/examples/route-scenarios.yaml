@@ -1,0 +1,162 @@
+# Scenario 1 from Istio (bound to gateway and internal service):
+# For example, the following VirtualService splits traffic for
+# `https://uk.bookinfo.com/reviews`, `https://eu.bookinfo.com/reviews`,
+# `http://uk.bookinfo.com:9080/reviews`,
+# `http://eu.bookinfo.com:9080/reviews` into two versions (prod and qa) of
+# an internal reviews service on port 9080. In addition, requests
+# containing the cookie "user: dev-123" will be sent to special port 7777
+# in the qa version. The same rule is also applicable inside the mesh for
+# requests to the "reviews.prod.svc.cluster.local" service. This rule is
+# applicable across ports 443, 9080. Note that `http://uk.bookinfo.com`
+# gets redirected to `https://uk.bookinfo.com` (i.e. 80 redirects to 443).
+#
+# {{<tabset category-name="example">}}
+# {{<tab name="v1alpha3" category-value="v1alpha3">}}
+# ```yaml
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: bookinfo-rule
+#   namespace: bookinfo-namespace
+# spec:
+#   hosts:
+#   - reviews.prod.svc.cluster.local
+#   - uk.bookinfo.com
+#   - eu.bookinfo.com
+#   gateways:
+#   - some-config-namespace/my-gateway
+#   - mesh # applies to all the sidecars in the mesh
+#   http:
+#   - match:
+#     - headers:
+#         cookie:
+#           exact: "user=dev-123"
+#     route:
+#     - destination:
+#         port:
+#           number: 7777
+#         host: reviews.qa.svc.cluster.local
+#   - match:
+#     - uri:
+#         prefix: /reviews/
+#     route:
+#     - destination:
+#         port:
+#           number: 9080 # can be omitted if it's the only port for reviews
+#         host: reviews.prod.svc.cluster.local
+#       weight: 80
+#     - destination:
+#         host: reviews.qa.svc.cluster.local
+#       weight: 20
+# ```
+
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualGateway
+metadata:
+  name: my-gateway
+  namespace: some-config-namespace
+spec:
+  workloads:
+    - selector:
+        app: my-gateway-controller
+  listeners:
+    - port:
+        number: 80
+      httpsRedirect: true
+      routeTables:
+        - host: 'uk.bookinfo.com'
+          workspace: bookinfo-ws
+        - host: 'eu.bookinfo.com'
+          workspace: bookinfo-ws  
+    - port:
+        number: 443
+      tls:
+        files:
+          privateKey: /etc/certs/privatekey.pem
+          serverCert: /etc/certs/servercert.pem
+      routeTables:
+        - host: 'uk.bookinfo.com'
+          workspace: bookinfo-ws
+        - host: 'eu.bookinfo.com'
+          workspace: bookinfo-ws
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: RouteTable
+metadata:
+  name: bookinfo-root-routes
+  namespace: bookinfo
+spec:
+  hosts:
+    - 'uk.bookinfo.com'
+    - 'eu.bookinfo.com'
+  virtualGateways:
+    - name: my-gateway
+      workspace: my-gateway-ws
+  defaultDestination:
+    name: reviews
+    namespace: prod
+    workspace: bookinfo
+    port:
+      number: 9080
+  http:
+    - name: reviews-qa
+      matchers:
+        - headers:
+            - name: cookie
+              value: 'user=dev-123'  
+      forwardTo:
+        destinations:
+          - name: reviews
+            namespace: qa
+            subset: 
+              version: v1
+            port:
+              number: 7777
+    - name: reviews
+      matchers:
+        - name: review-prefix
+          uri: 
+            exact: /reviews/
+      forwardTo:
+        destinations:
+          - weight: 80
+          - name: reviews
+            namespace: qa
+            port:
+              number: 9080
+            weight: 20
+
+# scenario 2 (bound to gateway only):
+# The following VirtualService forwards traffic arriving at (external)
+# port 27017 to internal Mongo server on port 5555. This rule is not
+# applicable internally in the mesh as the gateway list omits the
+# reserved name `mesh`.
+#
+# {{<tabset category-name="example">}}
+# {{<tab name="v1alpha3" category-value="v1alpha3">}}
+# ```yaml
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: bookinfo-mongo
+#   namespace: bookinfo-namespace
+# spec:
+#   hosts:
+#   - mongosvr.prod.svc.cluster.local # name of internal Mongo service
+#   gateways:
+#   - some-config-namespace/my-gateway # can omit the namespace if gateway is in same namespace as virtual service.
+#   tcp:
+#   - match:
+#     - port: 27017
+#     route:
+#     - destination:
+#         host: mongo.prod.svc.cluster.local
+#         port:
+#           number: 5555
+# ```
+
+# Attaching routes to gw: 
+# 1. one to one relationship
+# 2. one to many: a gateway can have many routes bound
+# 3. Many to one: routes can eb bounded to more than one gateway.
+# Q: should we support this? https://gateway-api.sigs.k8s.io/concepts/api-overview/#further-gateway-route-attachment-examples
