@@ -1,0 +1,75 @@
+syntax = "proto3";
+package observability.policy.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/observability.policy.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/string_match.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/http_matchers.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// AccessLogPolicy is used to collect access logs from workloads which have injected (sidecars) or are standalone proxies (gateways).
+// AccessLogPolicies are applied at the *Workload* level.
+message AccessLogPolicySpec {
+
+    // Select the workloads where access logs will be collected.
+    // If left empty, will apply to all workloads in the workspace.
+    repeated .common.gloo.solo.io.WorkloadSelector apply_to_workloads = 1;
+
+    // The details of the policy specifying how to collect access logs from the selected workloads.
+    Config config = 2;
+
+    message Config {
+
+
+        // Configure criteria for determining which access logs will be recorded.
+        // The list is disjunctive, a request will be recorded if it matches any filter.
+        // Leave empty to emit all access logs.
+        repeated Filter filters = 2;
+
+        // Specify request headers to include in access logs.
+        repeated string included_request_headers = 3;
+
+        // Specify response headers to include in access logs.
+        repeated string included_response_headers = 4;
+
+        // Specify response trailers to include in access logs.
+        repeated string included_response_trailers = 5;
+
+        // Specify filter state objects to include in access logs.
+        repeated string included_filter_state_objects = 6;
+
+        // Specify criteria for recording access logs. A request must match all specified criteria to be recorded.
+        message Filter {
+
+            // Criteria type.
+            oneof type {
+                // Matches against a response status code. Omit to match any status code.
+                .common.gloo.solo.io.StatusCodeMatcher status_code_matcher = 1;
+
+                // Matches against a request or response header. Omit to match any headers.
+                .common.gloo.solo.io.HeaderMatcher header_matcher = 2;
+            }
+        }
+    }
+}
+
+// Reflects the status of the AccessLogPolicy.
+message AccessLogPolicyStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Workloads selected by the policy
+  repeated .common.gloo.solo.io.ObjectReference selected_workloads = 3;
+
+}

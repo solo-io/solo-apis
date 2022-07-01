@@ -1,0 +1,55 @@
+syntax = "proto3";
+package security.policy.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/string_match.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo-ee/api/envoy/config/filter/http/modsecurity/v2/modsecurity.proto";
+
+import "google/protobuf/wrappers.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// WAFPolicy is used to set safeguard your services with the functionality of Web ApplicationFirewall
+// WAFPolicies are applied at the *Route* level.
+message WAFPolicySpec {
+
+  // select the routes where the policy will be applied
+  // if left empty, will apply to all routes in the workspace.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // The details of the WAF policy to apply to the selected routes.
+  Config config = 2;
+
+  message Config {
+    // Disable the OWASP core rule set from being applied
+    bool disable_core_rule_set = 1;
+    // Overwrite the global rules on this route
+    repeated .envoy.config.filter.http.modsecurity.v2.RuleSet custom_rule_sets = 2;
+    // Custom message to display when an intervention occurs
+    string custom_intervention_message = 3;
+    // This instructs the filter what to do with the transaction's audit log.
+    .envoy.config.filter.http.modsecurity.v2.AuditLogging audit_logging = 4;
+    // If set, the body will not be buffered and fed to ModSecurity. Only the
+    // headers will. This can help improve performance.
+    bool request_headers_only = 5;
+    bool response_headers_only = 6;
+  }
+}
+
+// reflects the status of the WAFPolicy
+message WAFPolicyStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Routes selected by the policy
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+
+}
