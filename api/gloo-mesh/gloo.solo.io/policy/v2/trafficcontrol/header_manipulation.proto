@@ -1,0 +1,57 @@
+syntax = "proto3";
+package trafficcontrol.policy.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/trafficcontrol.policy.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// HeaderManipulationPolicy is used to transform HTTP requests and responses matching selected routes.
+// TransformationPolicies are applied at the *Route* level.
+// If no selectors are provided, will apply to all routes in the workspace.
+message HeaderManipulationPolicySpec {
+
+    // select the routes where the policy will be applied
+    repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+    // The details of the transformation policy to apply to the selected routes or destinations for a given route.
+    Config config = 2;
+
+    // Select routes' destinations where the policy will be applied.
+    // This field is intended for when the config should be applied to a `forwardTo` route only when
+    // it is forwarded to a subset of the route's backing destinations.
+    repeated .common.gloo.solo.io.RouteDestinationSelector apply_to_route_destinations = 3;
+
+    message Config {
+
+        // HTTP headers to remove before returning a response to the caller.
+        repeated string remove_response_headers = 1;
+
+        // Additional HTTP headers to add before returning a response to the caller.
+        map<string, string> append_response_headers = 2;
+
+        // HTTP headers to remove before forwarding a request to the destination service.
+        repeated string remove_request_headers = 3;
+
+        // Additional HTTP headers to add before forwarding a request to the destination service.
+        map<string, string> append_request_headers = 4;
+
+    }
+}
+
+// reflects the status of the HeaderManipulationPolicy
+message HeaderManipulationPolicyStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Routes selected by the policy
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+
+}

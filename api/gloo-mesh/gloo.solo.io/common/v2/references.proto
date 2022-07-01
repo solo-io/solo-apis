@@ -1,0 +1,26 @@
+syntax = "proto3";
+package common.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+message WorkloadReference {
+  ObjectReference ref = 1;
+
+  WorkloadKind kind = 2;
+
+  // References the supported types for the Workload interface in pkg/utils/workloadutils/workload_types.go
+  enum WorkloadKind {
+    // Default value for unsupported workload kind
+    UNRECOGNIZED_WORKLOAD = 0;
+    DEPLOYMENT = 1;
+    DAEMON_SET = 2;
+    STATEFUL_SET = 3;
+    REPLICA_SET = 4;
+  }
+}

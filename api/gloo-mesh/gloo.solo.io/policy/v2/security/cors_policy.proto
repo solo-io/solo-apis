@@ -1,0 +1,69 @@
+syntax = "proto3";
+package security.policy.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/string_match.proto";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// CORSPolicy is used to set a Cross-Origin Resource Sharing policy (CORS) for requests matching selected routes.
+// Refer to [this link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+// for further details about cross origin resource sharing.
+// CORSPolicies are applied at the *Route* level.
+message CORSPolicySpec {
+
+    // Select the routes where the policy will be applied.
+    // If left empty, will apply to all routes in the workspace.
+    repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+    // The details of the CORS policy to apply to the selected routes.
+    Config config = 2;
+
+    message Config {
+
+        // String patterns that match allowed origins. An origin is allowed if any of the string matchers match.
+        repeated .common.gloo.solo.io.StringMatch allow_origins = 7;
+
+        // List of HTTP methods allowed to access the resource. The content will
+        // be serialized to the `Access-Control-Allow-Methods` header.
+        repeated string allow_methods = 2;
+
+        // List of HTTP headers that can be used when requesting the
+        // resource. Serialized to the `Access-Control-Allow-Headers` header.
+        repeated string allow_headers = 3;
+
+        // A list of HTTP headers that browsers are allowed to
+        // access. Serialized to the `Access-Control-Expose-Headers` header.
+        repeated string expose_headers = 4;
+
+        // Specify how long the results of a preflight request can be
+        // cached. Serialized to the `Access-Control-Max-Age` header.
+        google.protobuf.Duration max_age = 5;
+
+        // Indicates whether the caller is allowed to send the actual request
+        // (not the preflight) using credentials. Translates to the
+        // `Access-Control-Allow-Credentials` header.
+        google.protobuf.BoolValue allow_credentials = 6;
+    }
+}
+
+// Reflects the status of the CORSPolicy.
+message CORSPolicyStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Routes selected by the policy
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+
+}

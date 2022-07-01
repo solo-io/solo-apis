@@ -1,0 +1,55 @@
+syntax = "proto3";
+package rpc.solo.io;
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/rpc.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/data/accesslog/v3/accesslog.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+// The logging service provides structured retrieval of event logs captured by Gloo Mesh.
+service Logging {
+    // Stream Envoy access logs as they are captured.
+    rpc WatchAccessLogs (WatchAccessLogsRequest) returns (stream AccessLog) {}
+    rpc GetAccessLogs (GetAccessLogsRequest) returns (AccessLogs) {}
+}
+
+message WatchAccessLogsRequest {
+    // Select the workloads whose access logs should be streamed.
+    // Leave empty to stream access logs for all workloads.
+    repeated .common.gloo.solo.io.ObjectSelector workload_selectors = 1;
+}
+
+message GetAccessLogsRequest {
+    // Select the workloads whose access logs should be returned.
+    // Leave empty to get access logs for all workloads.
+    repeated .common.gloo.solo.io.ObjectSelector workload_selectors = 1;
+
+    // Maximum number of access logs to get. If not set, a default value of 20
+    // will be used.
+    google.protobuf.UInt32Value retrieval_number = 2;
+}
+
+message AccessLog {
+    // Metadata for workload
+    WorkloadMetadata workload_metadata = 1;
+
+    // An Envoy access log.
+    .envoy.data.accesslog.v3.HTTPAccessLogEntry http_access_log = 2;
+
+    // Reference and labels for the associated workload
+    message WorkloadMetadata {
+        string name = 1;
+
+        string namespace = 2;
+
+        string cluster = 3;
+
+        map<string, string> labels = 4;
+    }
+}
+
+message AccessLogs {
+    repeated AccessLog access_logs = 1;
+}

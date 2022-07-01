@@ -1,0 +1,71 @@
+syntax = "proto3";
+package networking.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// VirtualDestinations define groupings of backing destinations (for network traffic).
+message VirtualDestinationSpec {
+
+    // Optional: The set of custom hosts for which this virtual destination will serve traffic.
+    repeated string hosts = 1;
+
+    // Selectors for the backing K8s services that comprise this VirtualDestination.
+    // A service will be selected if it matches any of the given selectors.
+    // Currently only one K8s Service can be selected per cluster. If more than one service is selected
+    // within a cluster the VirtualDestination will be invalid and will not be translated.
+    repeated .common.gloo.solo.io.ObjectSelector services = 2;
+
+    // Selectors for the backing External services that comprise this VirtualDestination.
+    // An external service will be selected if it matches any of the given selectors.
+    // Multiple External Services can be selected.
+    repeated .common.gloo.solo.io.ObjectSelector external_services = 3;
+
+    // The ports on which the VirtualDestination will serve traffic.
+    repeated PortMapping ports = 4;
+
+    // PortMapping establishes a new port that will be exposed on a VirtualDestination.
+    message PortMapping {
+
+        // The port number. Must be a valid, non-negative integer port number.
+        uint32 number = 1;
+
+        // The protocol used in communication with this destination
+        // MUST be one of the following: HTTP, HTTPS, GRPC, HTTP2, MONGO, TCP, TLS.
+        string protocol = 2;
+
+        // (optional): The port number or name used to match the corresponding port on the
+        // VirtualDestination's backing Services and ExternalServices.
+        // All of the backing services for this VirtualDestination must contain
+        // this port, matching by name or number.
+        // If unspecified, will default to the value of the port number field above.
+        .common.gloo.solo.io.PortSelector target_port = 3;
+    }
+}
+
+// reflects the status of the VirtualDestination
+message VirtualDestinationStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Map of policy GVK to policy references for all policies applied on this
+  // resource.
+  map<string, .common.gloo.solo.io.AppliedDestinationPortPolicies> applied_destination_policies = 3;
+
+  // Destinations that back this virtual destination
+  repeated .common.gloo.solo.io.DestinationReference selected_backing_services = 4;
+
+  // Name of Workspace that owns VirtualDestination
+  .common.gloo.solo.io.OwnerWorkspace owner_workspace = 5;
+
+}
