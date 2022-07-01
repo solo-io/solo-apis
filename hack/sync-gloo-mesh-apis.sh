@@ -15,6 +15,7 @@ for file in $(find api/gloo-mesh -type f | grep ".proto")
 do
   cat $file | \
   # Re-map imports
+  sed 's|github.com/solo-io/gloo-mesh-enterprise/pkg/api/|github.com/solo-io/solo-apis/pkg/api/|g' | \
   sed 's|github.com/solo-io/gloo-mesh-enterprise/api/|github.com/solo-io/solo-apis/api/gloo-mesh/|g' | \
   sed 's|"networking/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/networking/|g' | \
   sed 's|"udpa/|"github.com/solo-io/solo-apis/api/gloo-mesh/external/cncf/udpa/udpa/|g' | \
