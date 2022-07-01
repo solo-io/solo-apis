@@ -19,7 +19,6 @@ func GlooMeshGroups() []model.Group {
 			{kind: "RateLimitServerSettings"},
 			{kind: "RateLimitServerConfig"},
 			{kind: "Dashboard"},
-			{kind: "IstioLifecycleManager"},
 		}),
 		makeGroup("networking", "v2", []resourceToGenerate{
 			{kind: "ExternalService"},
