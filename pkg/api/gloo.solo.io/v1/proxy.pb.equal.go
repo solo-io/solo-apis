@@ -159,6 +159,9 @@ func (m *Listener) Equal(that interface{}) bool {
 	switch m.ListenerType.(type) {
 
 	case *Listener_HttpListener:
+		if _, ok := target.ListenerType.(*Listener_HttpListener); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetHttpListener()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetHttpListener()) {
@@ -171,6 +174,9 @@ func (m *Listener) Equal(that interface{}) bool {
 		}
 
 	case *Listener_TcpListener:
+		if _, ok := target.ListenerType.(*Listener_TcpListener); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetTcpListener()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetTcpListener()) {
@@ -182,6 +188,11 @@ func (m *Listener) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.ListenerType != target.ListenerType {
+			return false
+		}
 	}
 
 	return true
@@ -486,6 +497,9 @@ func (m *Route) Equal(that interface{}) bool {
 	switch m.Action.(type) {
 
 	case *Route_RouteAction:
+		if _, ok := target.Action.(*Route_RouteAction); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetRouteAction()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRouteAction()) {
@@ -498,6 +512,9 @@ func (m *Route) Equal(that interface{}) bool {
 		}
 
 	case *Route_RedirectAction:
+		if _, ok := target.Action.(*Route_RedirectAction); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetRedirectAction()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRedirectAction()) {
@@ -510,6 +527,9 @@ func (m *Route) Equal(that interface{}) bool {
 		}
 
 	case *Route_DirectResponseAction:
+		if _, ok := target.Action.(*Route_DirectResponseAction); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetDirectResponseAction()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetDirectResponseAction()) {
@@ -521,6 +541,11 @@ func (m *Route) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.Action != target.Action {
+			return false
+		}
 	}
 
 	return true
@@ -550,6 +575,9 @@ func (m *RouteAction) Equal(that interface{}) bool {
 	switch m.Destination.(type) {
 
 	case *RouteAction_Single:
+		if _, ok := target.Destination.(*RouteAction_Single); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetSingle()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSingle()) {
@@ -562,6 +590,9 @@ func (m *RouteAction) Equal(that interface{}) bool {
 		}
 
 	case *RouteAction_Multi:
+		if _, ok := target.Destination.(*RouteAction_Multi); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetMulti()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetMulti()) {
@@ -574,6 +605,9 @@ func (m *RouteAction) Equal(that interface{}) bool {
 		}
 
 	case *RouteAction_UpstreamGroup:
+		if _, ok := target.Destination.(*RouteAction_UpstreamGroup); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetUpstreamGroup()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetUpstreamGroup()) {
@@ -586,11 +620,19 @@ func (m *RouteAction) Equal(that interface{}) bool {
 		}
 
 	case *RouteAction_ClusterHeader:
+		if _, ok := target.Destination.(*RouteAction_ClusterHeader); !ok {
+			return false
+		}
 
 		if strings.Compare(m.GetClusterHeader(), target.GetClusterHeader()) != 0 {
 			return false
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.Destination != target.Destination {
+			return false
+		}
 	}
 
 	return true
@@ -640,6 +682,9 @@ func (m *Destination) Equal(that interface{}) bool {
 	switch m.DestinationType.(type) {
 
 	case *Destination_Upstream:
+		if _, ok := target.DestinationType.(*Destination_Upstream); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetUpstream()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetUpstream()) {
@@ -652,6 +697,9 @@ func (m *Destination) Equal(that interface{}) bool {
 		}
 
 	case *Destination_Kube:
+		if _, ok := target.DestinationType.(*Destination_Kube); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetKube()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetKube()) {
@@ -664,6 +712,9 @@ func (m *Destination) Equal(that interface{}) bool {
 		}
 
 	case *Destination_Consul:
+		if _, ok := target.DestinationType.(*Destination_Consul); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetConsul()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetConsul()) {
@@ -675,6 +726,11 @@ func (m *Destination) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.DestinationType != target.DestinationType {
+			return false
+		}
 	}
 
 	return true
@@ -938,17 +994,28 @@ func (m *RedirectAction) Equal(that interface{}) bool {
 	switch m.PathRewriteSpecifier.(type) {
 
 	case *RedirectAction_PathRedirect:
+		if _, ok := target.PathRewriteSpecifier.(*RedirectAction_PathRedirect); !ok {
+			return false
+		}
 
 		if strings.Compare(m.GetPathRedirect(), target.GetPathRedirect()) != 0 {
 			return false
 		}
 
 	case *RedirectAction_PrefixRewrite:
+		if _, ok := target.PathRewriteSpecifier.(*RedirectAction_PrefixRewrite); !ok {
+			return false
+		}
 
 		if strings.Compare(m.GetPrefixRewrite(), target.GetPrefixRewrite()) != 0 {
 			return false
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.PathRewriteSpecifier != target.PathRewriteSpecifier {
+			return false
+		}
 	}
 
 	return true
@@ -1136,6 +1203,9 @@ func (m *TcpHost_TcpAction) Equal(that interface{}) bool {
 	switch m.Destination.(type) {
 
 	case *TcpHost_TcpAction_Single:
+		if _, ok := target.Destination.(*TcpHost_TcpAction_Single); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetSingle()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSingle()) {
@@ -1148,6 +1218,9 @@ func (m *TcpHost_TcpAction) Equal(that interface{}) bool {
 		}
 
 	case *TcpHost_TcpAction_Multi:
+		if _, ok := target.Destination.(*TcpHost_TcpAction_Multi); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetMulti()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetMulti()) {
@@ -1160,6 +1233,9 @@ func (m *TcpHost_TcpAction) Equal(that interface{}) bool {
 		}
 
 	case *TcpHost_TcpAction_UpstreamGroup:
+		if _, ok := target.Destination.(*TcpHost_TcpAction_UpstreamGroup); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetUpstreamGroup()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetUpstreamGroup()) {
@@ -1172,6 +1248,9 @@ func (m *TcpHost_TcpAction) Equal(that interface{}) bool {
 		}
 
 	case *TcpHost_TcpAction_ForwardSniClusterName:
+		if _, ok := target.Destination.(*TcpHost_TcpAction_ForwardSniClusterName); !ok {
+			return false
+		}
 
 		if h, ok := interface{}(m.GetForwardSniClusterName()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetForwardSniClusterName()) {
@@ -1183,6 +1262,11 @@ func (m *TcpHost_TcpAction) Equal(that interface{}) bool {
 			}
 		}
 
+	default:
+		// m is nil but target is not nil
+		if m.Destination != target.Destination {
+			return false
+		}
 	}
 
 	return true

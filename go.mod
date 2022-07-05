@@ -28,14 +28,16 @@ require (
 	github.com/onsi/gomega v1.10.5
 	github.com/pkg/errors v0.9.1
 	github.com/rotisserie/eris v0.1.1
+	github.com/solo-io/cue v0.4.3
 	github.com/solo-io/go-utils v0.21.6
-	github.com/solo-io/protoc-gen-ext v0.0.13
+	github.com/solo-io/protoc-gen-ext v0.0.16
 	github.com/solo-io/skv2 v0.18.3
 	github.com/solo-io/solo-kit v0.21.0
 	golang.org/x/tools v0.1.0
 	google.golang.org/genproto v0.0.0-20210218151259-fe80b386bf06
 	google.golang.org/grpc v1.36.0
 	google.golang.org/protobuf v1.26.0
+	istio.io/api v0.0.0-20200723170824-3c2193e74947
 	istio.io/tools v0.0.0-20200918020118-6d0a0e49b5d3
 	k8s.io/apimachinery v0.19.6
 	k8s.io/client-go v8.0.0+incompatible

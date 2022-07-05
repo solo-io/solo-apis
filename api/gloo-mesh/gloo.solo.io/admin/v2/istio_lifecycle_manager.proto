@@ -1,0 +1,138 @@
+syntax = "proto3";
+package admin.gloo.solo.io;
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+import "google/protobuf/struct.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+message IstioLifecycleManagerSpec {
+    // The clusters where the Istio should be installed.
+    repeated Cluster clusters = 1;
+
+    // List of Istio installations. It is recommended to split
+    // the Istio control plane and Istio gateways into separate
+    // installations, to facilitate easier Istio upgrades in the future.
+    // Note that Istio installation versions must be the same.
+    repeated IstioInstallation installations = 2;
+
+    // Optional Istio upgrade settings. By default, Gloo
+    // Mesh will use canary upgrades for minor version upgrades but will do
+    // an in place upgrade for patch version upgrades.
+    UpgradeStrategy upgrade_strategy = 3;
+
+    // List of Istio revisions that Gloo Mesh should uninstall. The uninstall
+    // will only be done if the revision was originally installed by the same
+    // IstioLifecycleManager.
+    // Associated revisions can be seen in the IstioLifecycleManager's status.
+    repeated string uninstall_revisions = 4;
+
+    message Cluster {
+        // The name of the cluster that Istio should be installed in. This should
+        // matched the registered cluster name.
+        string name = 1;
+
+        // [Optional] The trust domain value that should be set for this cluster's
+        // Istio installations. This value will be set in the installation's mesh
+        // config. (See https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
+        // Defaults to the cluster's name.
+        string trust_domain = 2;
+    }
+
+    message UpgradeStrategy {
+        // When upgrading Istio, always do it via a canary upgrade (install new
+        // version of Istio alongside the existing version). By default, Gloo
+        // Mesh will use canary upgrades (full new installation of Istio
+        // while still using the old one for traffic until the new one is
+        // complete) for minor version upgrades
+        // (e.g., 1.12.x -> 1.13.x) but will do an in place upgrade
+        // for patch version upgrades (e.g., 1.13.4 -> 1.13.5).
+        bool always_use_canary_upgrade = 1;
+    }
+}
+
+message IstioLifecycleManagerStatus {
+
+    // The status of each Istio installation that is being managed by Gloo Mesh, where
+    // the key is the cluster name of the installation.
+    map<string, ClusterStatuses>  clusters = 4;
+
+    message ClusterStatuses {
+        // The Istio installation that is considered active. This is the stable,
+        // pre-upgrade installation.
+        InstallationStatus active = 1;
+
+        // The pending Istio installation that was created as part of a canary
+        // upgrade. The canary will become the active installation when the
+        // active installation is uninstalled.
+        InstallationStatus canary = 2;
+
+        message InstallationStatus {
+            // State of the Istio installation
+            State state = 1;
+
+            // A human readable message about the current state of the IstioInstallationInstance.
+            string message = 2;
+
+            // The revision that Gloo Mesh created for the Istio installation
+            string generated_revision = 3;
+
+            // List of the last observed Istio installations
+            repeated IstioInstallation last_observed_installations = 4;
+
+            // The state of an Istio installation.
+            enum State {
+                // Waiting for resources to be installed.
+                PENDING = 0;
+
+                // Gloo Mesh server encountered a problem while attempting
+                // to install Istio.
+                FAILED = 1;
+
+                // In the process of installing the controller.
+                INSTALLING_CONTROLLER = 2;
+
+                // Controller installed successfully.
+                CONTROLLER_INSTALLED = 3;
+
+                // Controller failed to install.
+                CONTROLLER_INSTALL_FAILED = 4;
+
+                // In the process of installing Istio control plane.
+                INSTALLING_CONTROL_PLANE = 5;
+
+                // Failed to install Istio control plane.
+                CONTROL_PLANE_FAILED = 6;
+
+                // In the process of installing Istio gateway(s).
+                INSTALLING_GATEWAY = 7;
+
+                // Waiting for resources to be upgraded.
+                UPGRADE_PENDING = 8;
+
+                // All Istio components are successfully installed and healthy.
+                HEALTHY = 9;
+
+                // The Istio installation is no longer healthy.
+                UNHEALTHY = 10;
+            }
+        }
+    }
+}
+
+message IstioInstallation {
+    // A unique identifier for the given Istio installation
+    string name = 1;
+
+    // Specs for the IstioOperators that should be applied.
+    // See https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
+    google.protobuf.Struct istio_operator_spec = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
+}

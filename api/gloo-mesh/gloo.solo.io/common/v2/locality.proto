@@ -1,0 +1,28 @@
+syntax = "proto3";
+package common.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+// A locality defines the geographic location of a workload instance.
+message Locality {
+
+  // Represents a large geographic area, such as us-east1. A region typically contains a number of availability zones.
+  // A workload's region is determined by the value of the "topology.kubernetes.io/region" label (or the deprecated
+  // "failure-domain.beta.kubernetes.io/region" one) of the Node
+  // that is running it.
+  string region = 1;
+
+  // Represents an availability zone within a region, e.g. us-east-1a.
+  // A workload's zone is determined by the value of the "topology.kubernetes.io/zone" label (or the deprecated
+  // "failure-domain.beta.kubernetes.io/zone" one) of the Node that is running it.
+  string zone = 2;
+
+  // A zone can be divided into sub-zones to have even more fine-grained control over load balancing behavior.
+  // The sub-zone concept doesn't exist in Kubernetes. This value is derived by the Istio-specific
+  // "topology.istio.io/subzone" Node label.
+  string sub_zone = 3;
+}
