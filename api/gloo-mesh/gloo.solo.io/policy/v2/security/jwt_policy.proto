@@ -145,6 +145,9 @@ message JWTPolicySpec {
 
             // Optional: What claims should be copied to upstream headers.
             repeated ClaimsToHeader claims_to_headers = 6;
+
+            // Optional: KeepToken is used to keep the JWT in the request post verification.
+            bool keep_token = 7;
         }
 
         // Map provider name to jwt provider configuration.

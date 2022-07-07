@@ -74,7 +74,7 @@ message NodeMetricsResponse {
     // Caused by reviews-v1, reviews-v2, or both.
     // This is not included in the metrics struct because it is not temporal - active ejections either exist,
     // or they aren't active anymore. Also this data is node-only.
-    map<string, int32>  active_ejection_counts = 7;
+    map<string, int32>  active_ejection_counts = 6;
   }
 }
 
@@ -119,6 +119,9 @@ message EdgeMetricsResponse {
 
     // TCP Metrics over time for a network edge with a single source and target
     TcpMetrics tcp_metrics = 4;
+
+    // Cilium Metrics over time for a network edge with a single source and target
+    CiliumMetrics cilium_metrics = 5;
   }
 }
 

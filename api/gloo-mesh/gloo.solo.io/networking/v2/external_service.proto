@@ -19,12 +19,16 @@ option (extproto.clone_all) = true;
 // or provided statically using the ExternalEndpoint object.
 message ExternalServiceSpec {
 
-    // The List of hostnames which will resolve to this service.
+    // (mutually exclusive with addresses): The List of hostnames which will resolve to this service.
     // These hosts must be unique among all ExternalServices and VirtualHosts within a workspace.
     // Only FQDNs are supported at this time (wildcard domains are not allowed for ExternalServices).
     // or
     // Originating TLS connections to ExternalServices is only supported for FQDNs (not for wildcard domains).
     repeated string hosts = 1;
+
+    // (mutually exclusive with hosts): The List of ipv4 or ipv6 addresses which will be associated to this service. Can be CIDR prefixes.
+    // These addresses must be unique among all ExternalServices within a workspace.
+    repeated string addresses = 5;
 
     // The associated ports of the external service.
     repeated Port ports = 2;

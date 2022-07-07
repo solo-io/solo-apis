@@ -57,6 +57,17 @@ func (m *ExternalServiceSpec) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetAddresses()) != len(target.GetAddresses()) {
+		return false
+	}
+	for idx, v := range m.GetAddresses() {
+
+		if strings.Compare(v, target.GetAddresses()[idx]) != 0 {
+			return false
+		}
+
+	}
+
 	if len(m.GetPorts()) != len(target.GetPorts()) {
 		return false
 	}

@@ -258,6 +258,10 @@ func (m *JWTPolicySpec_Config_Provider) Equal(that interface{}) bool {
 
 	}
 
+	if m.GetKeepToken() != target.GetKeepToken() {
+		return false
+	}
+
 	switch m.JwksSource.(type) {
 
 	case *JWTPolicySpec_Config_Provider_Local:
