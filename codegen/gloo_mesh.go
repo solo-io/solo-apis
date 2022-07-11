@@ -27,10 +27,10 @@ func GlooMeshGroups() []model.Group {
 			{kind: "VirtualDestination"},
 			{kind: "VirtualGateway"},
 		}),
-		makeGroup("extensions", "v2", []resourceToGenerate{
+		makeGroup("extensions.policy", "v2", []resourceToGenerate{
 			{kind: "WasmDeploymentPolicy"},
 		}),
-		makeGroup("security", "v2", []resourceToGenerate{
+		makeGroup("security.policy", "v2", []resourceToGenerate{
 			{kind: "AccessPolicy"},
 			{kind: "CORSPolicy"},
 			{kind: "CSRFPolicy"},
@@ -38,16 +38,16 @@ func GlooMeshGroups() []model.Group {
 			{kind: "WAFPolicy"},
 			{kind: "JWTPolicy"},
 		}),
-		makeGroup("observability", "v2", []resourceToGenerate{
+		makeGroup("observability.policy", "v2", []resourceToGenerate{
 			{kind: "AccessLogPolicy"},
 		}),
-		makeGroup("resilience", "v2", []resourceToGenerate{
+		makeGroup("resilience.policy", "v2", []resourceToGenerate{
 			{kind: "FailoverPolicy"},
 			{kind: "OutlierDetectionPolicy"},
 			{kind: "FaultInjectionPolicy"},
 			{kind: "RetryTimeoutPolicy"},
 		}),
-		makeGroup("trafficcontrol", "v2", []resourceToGenerate{
+		makeGroup("trafficcontrol.policy", "v2", []resourceToGenerate{
 			{kind: "MirrorPolicy"},
 			{kind: "RateLimitPolicy"},
 			{kind: "RateLimitClientConfig"},

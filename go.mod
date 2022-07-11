@@ -24,12 +24,9 @@ require (
 	github.com/golang/mock v1.4.4
 	github.com/golang/protobuf v1.5.2
 	github.com/mitchellh/hashstructure v1.0.0
-	github.com/onsi/ginkgo v1.14.1
-	github.com/onsi/gomega v1.10.5
 	github.com/pkg/errors v0.9.1
 	github.com/rotisserie/eris v0.1.1
 	github.com/solo-io/cue v0.4.3
-	github.com/solo-io/go-utils v0.21.6
 	github.com/solo-io/protoc-gen-ext v0.0.16
 	github.com/solo-io/skv2 v0.18.3
 	github.com/solo-io/solo-kit v0.21.0

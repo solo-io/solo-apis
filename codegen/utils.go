@@ -45,7 +45,7 @@ func makeGroup(
 
 	return model.Group{
 		GroupVersion: schema.GroupVersion{
-			Group:   groupPrefix + "." + "solo.io",
+			Group:   groupPrefix + "." + "gloo.solo.io",
 			Version: version,
 		},
 		Module:           module,
