@@ -4,7 +4,7 @@ APIs are the projects that own them. The goal of this repository is to allow for
 without having to depend on the project that owns it.
 
 ## Gloo Mesh APIs
-For each release of Gloo Mesh, we want to freeze the solo-apis dependency by creating a unique tag tied to the dependent release. For example, when Gloo Mesh Enterprise `v2.0.9` is released, a corresponding `v2.0.9` tag is created in the Gloo Mesh Enterprise repository. We create a `gloo-mesh-v2.0.9` tag in solo-apis with a read-only mirror of the API.
+For each release of Gloo Mesh, we want to freeze the solo-apis dependency by creating a unique tag tied to the dependent release. For example, when Gloo Mesh Enterprise `v2.1.0-beta10` is released, a corresponding `v2.1.0-beta10` tag is created in the Gloo Mesh Enterprise repository. We create a `gloo-mesh-v2.1.0-beta10` tag in solo-apis with a read-only mirror of the API.
 
 ## Consuming Gloo Mesh APIs
 In order to use this repo in your own code, you'll need to pin the following dependencies to specific versions:
