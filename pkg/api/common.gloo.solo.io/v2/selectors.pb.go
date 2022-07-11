@@ -619,7 +619,9 @@ type IdentitySelector struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// select kubernetes service accounts as identities
+	// Select kubernetes service accounts as identities.
+	// When selecting a service account that will be created in the future for use in a AuthorizationPolicy, ONLY provide the name, namespace and cluster where the service account will exist in the selector.
+	// Providing labels and/or the workspace for a service account that does not exist in the selector will not result in that service account being added to the resulting AuthorizationPolicy.
 	ServiceAccountSelector *ObjectSelector `protobuf:"bytes,1,opt,name=service_account_selector,json=serviceAccountSelector,proto3" json:"service_account_selector,omitempty"`
 	// Select identities based on properties of the request. If multiple fields are set, they are ANDed together.
 	// More information about the individual values can be found here: https://istio.io/latest/docs/reference/config/security/authorization-policy/#Source

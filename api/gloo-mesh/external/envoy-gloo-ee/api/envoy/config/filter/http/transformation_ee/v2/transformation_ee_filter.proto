@@ -9,6 +9,7 @@ option go_package = "github.com/solo-io/solo-apis/pkg/api/envoy-gloo-ee/api/envo
 
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/protoc-gen-validate/validate/validate.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/api/v2/route/route.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/config/route/v3/route_components.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/data-plane-api/envoy/type/percent.proto";
 
 message FilterTransformations {
@@ -29,8 +30,10 @@ message TransformationRule {
   //    match:
   //      prefix: /
   //
-  api.v2.route.RouteMatch match = 1
-      [ (validate.rules).message = {required : true} ];
+  api.v2.route.RouteMatch match = 1;
+
+  envoy.config.route.v3.RouteMatch match_v3 = 3;
+
   // transformation to perform
   RouteTransformations route_transformations = 2;
 }
