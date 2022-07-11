@@ -10,18 +10,7 @@ func init() {
 
 func GlooGroups() []model.Group {
 	return []model.Group{
-		makeGroup("gloo", "v1", []resourceToGenerate{
-			{kind: "Settings"},
-			{kind: "Upstream"},
-			{kind: "UpstreamGroup"},
-			{kind: "Proxy"},
-		}),
-		makeGroup("gateway", "v1", []resourceToGenerate{
-			{kind: "Gateway"},
-			{kind: "RouteTable"},
-			{kind: "VirtualService"},
-		}),
-		makeGroup("enterprise.gloo", "v1", []resourceToGenerate{
+		makeGroup("enterprise", "v1", []resourceToGenerate{
 			{
 				kind:         "AuthConfig",
 				protoPackage: "enterprise.gloo.solo.io",
