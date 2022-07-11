@@ -31,3 +31,10 @@ update-deps: mod-download
 	GOBIN=$(DEPSGOBIN) go install github.com/golang/protobuf/protoc-gen-go@v1.4.0
 	GOBIN=$(DEPSGOBIN) go install github.com/golang/mock/gomock
 	GOBIN=$(DEPSGOBIN) go install github.com/golang/mock/mockgen
+
+.PHONY: clean
+clean:
+	rm -rf pkg/api
+	rm -rf crds
+	rm -rf vendor_any
+	rm -rf .bin
