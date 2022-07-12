@@ -17,14 +17,14 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.2
 	github.com/mitchellh/hashstructure v1.0.0
-	github.com/onsi/ginkgo v1.14.2
-	github.com/onsi/gomega v1.10.5
+	github.com/onsi/ginkgo v1.16.5
+	github.com/onsi/gomega v1.16.0
 	github.com/pkg/errors v0.9.1
 	github.com/rotisserie/eris v0.4.0
 	github.com/solo-io/go-utils v0.21.24
 	github.com/solo-io/protoc-gen-ext v0.0.16
 	github.com/solo-io/skv2 v0.21.6
-	github.com/solo-io/solo-kit v0.24.0
+	github.com/solo-io/solo-kit v0.30.1
 	golang.org/x/tools v0.1.5
 	google.golang.org/genproto v0.0.0-20210416161957-9910b6c460de
 	google.golang.org/grpc v1.40.0
@@ -54,7 +54,7 @@ require (
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gertd/go-pluralize v0.1.1 // indirect
 	github.com/go-logr/logr v0.4.0 // indirect
-	github.com/go-openapi/jsonpointer v0.19.3 // indirect
+	github.com/go-openapi/jsonpointer v0.19.5 // indirect
 	github.com/go-openapi/jsonreference v0.19.3 // indirect
 	github.com/go-openapi/spec v0.19.4 // indirect
 	github.com/go-openapi/swag v0.19.5 // indirect
@@ -88,7 +88,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/mpvl/unique v0.0.0-20150818121801-cbe035fff7de // indirect
-	github.com/nxadm/tail v1.4.4 // indirect
+	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/pborman/uuid v1.2.0 // indirect
 	github.com/prometheus/client_golang v1.9.0 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
