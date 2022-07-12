@@ -44,6 +44,15 @@ func (m *ExternalServiceSpec) Clone() proto.Message {
 		}
 	}
 
+	if m.GetAddresses() != nil {
+		target.Addresses = make([]string, len(m.GetAddresses()))
+		for idx, v := range m.GetAddresses() {
+
+			target.Addresses[idx] = v
+
+		}
+	}
+
 	if m.GetPorts() != nil {
 		target.Ports = make([]*ExternalServiceSpec_Port, len(m.GetPorts()))
 		for idx, v := range m.GetPorts() {
