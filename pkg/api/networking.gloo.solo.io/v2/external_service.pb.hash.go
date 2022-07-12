@@ -46,6 +46,14 @@ func (m *ExternalServiceSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	for _, v := range m.GetAddresses() {
+
+		if _, err = hasher.Write([]byte(v)); err != nil {
+			return 0, err
+		}
+
+	}
+
 	for _, v := range m.GetPorts() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
