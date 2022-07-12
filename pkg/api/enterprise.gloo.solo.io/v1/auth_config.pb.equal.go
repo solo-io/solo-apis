@@ -668,6 +668,10 @@ func (m *RedisOptions) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetTlsCertMountPath(), target.GetTlsCertMountPath()) != 0 {
+		return false
+	}
+
 	if m.GetSocketType() != target.GetSocketType() {
 		return false
 	}
