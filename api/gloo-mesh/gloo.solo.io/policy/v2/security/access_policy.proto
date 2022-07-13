@@ -1,0 +1,102 @@
+syntax = "proto3";
+package security.policy.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// AccessPolicy is used to define how a destination service is granted. Specifically it describes
+// both how clients should be authenticated and authorized to access the service.
+// Refer to [this link](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+// for further details about cross origin resource sharing.
+// AccessPolicies are applied at the *Destination* level.
+message AccessPolicySpec {
+
+    // select the destinations where the policy will be applied
+    // if left empty, will apply to all destinations in the workspace.
+    repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
+
+    // The details of the access policy to apply to the selected destinations.
+    Config config = 2;
+
+    message Config {
+
+        // specify how clients will be authenticated to the destination.
+        Authentication authn = 1;
+
+        // specify how clients will be authorized to access the destination.
+        Authorization authz = 2;
+
+        message Authentication {
+
+            // specify the type of TLS policy that will be enforced on clients connecting to the destination.
+            // note that if service isolation is enabled for the workspace, this field will always be treated as 'STRICT'.
+            TLSmode tls_mode = 1;
+
+            // TLS connection mode. Enums correspond to those
+            // [defined here](https://github.com/istio/api/blob/00636152b9d9254b614828a65723840282a177d3/networking/v1beta1/destination_rule.proto#L886)
+            enum TLSmode {
+
+                // Do not originate a TLS connection to the upstream endpoint.
+                DISABLE = 0;
+
+                // Originate a TLS connection to the upstream endpoint.
+                PERMISSIVE = 1;
+
+                // Secure connections to the upstream using mutual TLS by presenting
+                // client certificates for authentication.
+                // This mode uses certificates generated
+                // automatically by Istio for mTLS authentication. When this mode is
+                // used, all other fields in `ClientTLSSettings` should be empty.
+                STRICT = 2;
+            };
+        }
+
+
+        message Authorization {
+            // the set of client identities that will be permitted to access the destination.
+            // Provide a single empty selector to allow access for all client identities.
+            repeated .common.gloo.solo.io.IdentitySelector allowed_clients = 1;
+
+            /*
+                Optional. A list of HTTP paths or gRPC methods to allow.
+                gRPC methods must be presented as fully-qualified name in the form of
+                "/packageName.serviceName/methodName" and are case sensitive.
+                Exact match, prefix match, and suffix match are supported for paths.
+                For example, the path "/books/review" matches
+                "/books/review" (exact match), "*books/" (suffix match), or "/books*" (prefix match).
+
+                If not specified, allow any path.
+            */
+            repeated string allowed_paths = 2;
+
+            /*
+                Optional. A list of HTTP methods to allow (e.g., "GET", "POST").
+                It is ignored in gRPC case because the value is always "POST".
+                If not specified, allows any method.
+            */
+            repeated string allowed_methods = 3;
+
+        }
+    }
+}
+
+// reflects the status of the AccessPolicy
+message AccessPolicyStatus {
+
+    .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+    // The status of the resource in each workspace that it exists in.
+    map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+    // Destination ports selected by the policy
+    repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 3;
+
+}

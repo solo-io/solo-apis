@@ -26,8 +26,15 @@ mod-download:
 update-deps: mod-download
 	mkdir -p $(DEPSGOBIN)
 	GOBIN=$(DEPSGOBIN) go install istio.io/tools/cmd/protoc-gen-jsonshim
-	GOBIN=$(DEPSGOBIN) go install github.com/solo-io/protoc-gen-ext
+	GOBIN=$(DEPSGOBIN) go install github.com/solo-io/protoc-gen-ext@v0.0.16
 	GOBIN=$(DEPSGOBIN) go install golang.org/x/tools/cmd/goimports
-	GOBIN=$(DEPSGOBIN) go install github.com/golang/protobuf/protoc-gen-go
+	GOBIN=$(DEPSGOBIN) go install github.com/golang/protobuf/protoc-gen-go@v1.4.0
 	GOBIN=$(DEPSGOBIN) go install github.com/golang/mock/gomock
 	GOBIN=$(DEPSGOBIN) go install github.com/golang/mock/mockgen
+
+.PHONY: clean
+clean:
+	rm -rf pkg/api
+	rm -rf crds
+	rm -rf vendor_any
+	rm -rf .bin

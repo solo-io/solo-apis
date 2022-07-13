@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package envoy.config.filter.http.sanitize.v2;
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/envoy-gloo-ee/api/envoy/config/filter/http/sanitize/v2";
+
+option java_package = "io.envoyproxy.envoy.config.filter.http.sanitize.v2";
+option java_outer_classname = "SanitizeProto";
+option java_multiple_files = true;
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/protoc-gen-validate/validate/validate.proto";
+
+message Sanitize {
+  repeated string headers_to_remove = 1;
+
+  // The name of the custom ext auth server
+  // This is only set in the case where multiple auth servers exist and a
+  // non-default server configuration is applied. If using the default ext auth
+  // server, do not set this value.
+  string custom_auth_server_name = 2;
+}
+
+message SanitizePerRoute {
+  // The name of the custom ext auth server
+  // This is only set in the case where multiple auth servers exist and a
+  // non-default server configuration is applied. If using the default ext auth
+  // server, do not set this value.
+  string custom_auth_server_name = 1;
+}
