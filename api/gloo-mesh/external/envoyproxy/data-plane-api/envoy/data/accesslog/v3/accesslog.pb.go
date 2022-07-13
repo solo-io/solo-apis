@@ -11,7 +11,7 @@ import (
 	sync "sync"
 
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	any "github.com/golang/protobuf/ptypes/any"
+	any1 "github.com/golang/protobuf/ptypes/any"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
@@ -461,7 +461,7 @@ type AccessLogCommon struct {
 	// Map of filter state in stream info that have been configured to be logged. If the filter
 	// state serialized to any message other than `google.protobuf.Any` it will be packed into
 	// `google.protobuf.Any`.
-	FilterStateObjects map[string]*any.Any `protobuf:"bytes,21,rep,name=filter_state_objects,json=filterStateObjects,proto3" json:"filter_state_objects,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	FilterStateObjects map[string]*any1.Any `protobuf:"bytes,21,rep,name=filter_state_objects,json=filterStateObjects,proto3" json:"filter_state_objects,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *AccessLogCommon) Reset() {
@@ -636,7 +636,7 @@ func (x *AccessLogCommon) GetDownstreamDirectRemoteAddress() *v3.Address {
 	return nil
 }
 
-func (x *AccessLogCommon) GetFilterStateObjects() map[string]*any.Any {
+func (x *AccessLogCommon) GetFilterStateObjects() map[string]*any1.Any {
 	if x != nil {
 		return x.FilterStateObjects
 	}
@@ -1971,7 +1971,7 @@ var file_github_com_solo_io_solo_apis_api_gloo_mesh_external_envoyproxy_data_pla
 	(*v3.Metadata)(nil),          // 21: envoy.config.core.v3.Metadata
 	(*wrappers.UInt32Value)(nil), // 22: google.protobuf.UInt32Value
 	(v3.RequestMethod)(0),        // 23: envoy.config.core.v3.RequestMethod
-	(*any.Any)(nil),              // 24: google.protobuf.Any
+	(*any1.Any)(nil),             // 24: google.protobuf.Any
 }
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_external_envoyproxy_data_plane_api_envoy_data_accesslog_v3_accesslog_proto_depIdxs = []int32{
 	6,  // 0: envoy.data.accesslog.v3.TCPAccessLogEntry.common_properties:type_name -> envoy.data.accesslog.v3.AccessLogCommon

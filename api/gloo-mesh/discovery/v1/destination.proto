@@ -323,6 +323,10 @@ message DestinationStatus {
         // Specify a keepalive rule for all requests made within the VirtualMesh which cross clusters within that VirtualMesh,
         // as well as any requests to externalService type destinations.
         .common.mesh.gloo.solo.io.TCPKeepalive tcp_keepalive = 5;
+
+        // The list of service entries that are created by defining an external service,
+        // this will not be populated for KubeServices.
+        repeated .core.skv2.solo.io.ClusterObjectRef service_entries = 6;
     }
 
 }
