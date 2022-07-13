@@ -290,7 +290,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/network
 //   namespace : egress
 // spec:
 //   hosts:
-//   - example.com
+//   - httpbin.com
 //   exportTo:
 //   - "."
 //   location: MESH_EXTERNAL
@@ -311,7 +311,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/network
 //   namespace : egress
 // spec:
 //   hosts:
-//   - example.com
+//   - httpbin.com
 //   exportTo:
 //   - "."
 //   location: MESH_EXTERNAL
@@ -385,7 +385,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/network
 //   namespace: egress
 // spec:
 //   hosts:
-//   - example.com
+//   - httpbin.com
 //   exportTo:
 //   - "*"
 //   gateways:
@@ -405,7 +405,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/network
 //       - istio-egressgateway
 //     route:
 //     - destination:
-//         host: example.com
+//         host: httpbin.com
 // ```
 // {{</tab>}}
 //
@@ -418,7 +418,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/network
 //   namespace: egress
 // spec:
 //   hosts:
-//   - example.com
+//   - httpbin.com
 //   exportTo:
 //   - "*"
 //   gateways:
@@ -438,7 +438,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/network
 //       - istio-egressgateway
 //     route:
 //     - destination:
-//         host: example.com
+//         host: httpbin.com
 // ```
 // {{</tab>}}
 // {{</tabset>}}
@@ -617,7 +617,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/network
 //   namespace : httpbin-ns
 // spec:
 //   hosts:
-//   - example.com
+//   - httpbin.com
 //   location: MESH_INTERNAL
 //   ports:
 //   - number: 80
@@ -641,7 +641,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/external/istio.io/api/network
 //   namespace : httpbin-ns
 // spec:
 //   hosts:
-//   - example.com
+//   - httpbin.com
 //   location: MESH_INTERNAL
 //   ports:
 //   - number: 80
