@@ -41,9 +41,9 @@ type ExternalServiceSpec struct {
 
 	// (mutually exclusive with addresses): The List of hostnames which will resolve to this service.
 	// These hosts must be unique among all ExternalServices and VirtualHosts within a workspace.
-	// Only FQDNs are supported at this time (wildcard domains are not allowed for ExternalServices).
+	// Both FQDN and wildcard prefix domains are supported.
 	// or
-	// Originating TLS connections to ExternalServices is only supported for FQDNs (not for wildcard domains).
+	// TLS origination to ExternalServices is only supported for FQDNs and not wildcards at this time.
 	Hosts []string `protobuf:"bytes,1,rep,name=hosts,proto3" json:"hosts,omitempty"`
 	// (mutually exclusive with hosts): The List of ipv4 or ipv6 addresses which will be associated to this service. Can be CIDR prefixes.
 	// These addresses must be unique among all ExternalServices within a workspace.
@@ -235,6 +235,9 @@ type ExternalServiceSpec_Port struct {
 	Protocol string `protobuf:"bytes,4,opt,name=protocol,proto3" json:"protocol,omitempty"`
 	// The tls config for the given port.
 	// If the protocol is HTTPS or TLS, the ExternalService will be configured to use TLS automatically.
+	// If used in conjunction with targetPort this can be used for TLS Origination.
+	// For example, port: 80, targetPort: 443, with ClientsideTls will cause port 80 traffic from workloads to be forwarded to 443 resulting in HTTPS traffic over the internet with TLS originating at the sidecar proxy.
+	// This will not have any impact for wildcard domains, not currently supported.
 	ClientsideTls *ExternalServiceSpec_Port_TlsConfig `protobuf:"bytes,5,opt,name=clientside_tls,json=clientsideTls,proto3" json:"clientside_tls,omitempty"`
 }
 

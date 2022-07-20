@@ -63,6 +63,9 @@ message MeshSpec {
 
     // The namespace in which the Gloo Mesh agent is installed.
     string namespace = 1;
+
+    // The version of the Gloo Mesh agent.
+    string version = 2;
   }
 
   // Describes the Gloo Mesh agent if it has been installed to the managed cluster.
