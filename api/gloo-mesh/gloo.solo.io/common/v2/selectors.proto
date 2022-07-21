@@ -22,6 +22,10 @@ message ObjectReference {
     string cluster = 3;
 }
 
+message ObjectReferenceList {
+    repeated ObjectReference refs = 1;
+}
+
 // selects zero or more Kubernetes API resource by matching on labels, name, namespace, cluster, and workspace.
 message ObjectSelector {
     // labels matching those of the object

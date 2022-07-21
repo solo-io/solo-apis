@@ -6,6 +6,13 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/http_m
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
 
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
+
+import "google/protobuf/wrappers.proto";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
+
+
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
@@ -189,6 +196,33 @@ message HTTPRoute {
 
         // respond directly to the client from the proxy.
         DirectResponseAction direct_response = 7;
+
+        // handle the HTTP request as a GraphQL request, including query validation, and execution of the GraphQL request.
+        // The incoming GraphQL request must either be a GET or POST request, see
+        // ["Serving over HTTP"](https://graphql.org/learn/serving-over-http/).
+        GraphQLAction graphql = 8;
+    }
+}
+
+message GraphQLAction {
+    oneof graphql {
+        // Reference to a GraphQLStitchedSchema resource.
+        .common.gloo.solo.io.ObjectReference stitched_schema_ref = 1;
+
+        // Responsible for pairing a GraphQL schema definition with how it's executed,
+        // whether that is locally executed (using resolvers and Envoy as the GraphQL engine)
+        // or remotely executed (using a remote GraphQL server for the execution).
+        .apimanagement.gloo.solo.io.ExecutableSchema executable_schema = 2;
+    }
+
+    // Options that apply to this GraphQL Schema.
+    Options options = 4;
+
+    message Options{
+        // Include information about request/response in the envoy debug logs.
+        // This is helpful for debugging GraphQL
+        // Defaults to false.
+        google.protobuf.BoolValue log_sensitive_info = 1;
     }
 }
 

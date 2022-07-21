@@ -116,5 +116,7 @@ func (m *MeshSpec_AgentInfo) Clone() proto.Message {
 
 	target.Namespace = m.GetNamespace()
 
+	target.Version = m.GetVersion()
+
 	return target
 }

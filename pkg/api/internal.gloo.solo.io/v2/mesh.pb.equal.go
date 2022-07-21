@@ -200,5 +200,9 @@ func (m *MeshSpec_AgentInfo) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetVersion(), target.GetVersion()) != 0 {
+		return false
+	}
+
 	return true
 }
