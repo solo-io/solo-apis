@@ -197,6 +197,16 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetHttpConnectSslConfig()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetHttpConnectSslConfig()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetHttpConnectSslConfig(), target.GetHttpConnectSslConfig()) {
+			return false
+		}
+	}
+
 	if h, ok := interface{}(m.GetIgnoreHealthOnHostRemoval()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetIgnoreHealthOnHostRemoval()) {
 			return false
