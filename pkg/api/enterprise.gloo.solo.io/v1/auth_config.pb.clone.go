@@ -539,6 +539,8 @@ func (m *DiscoveryOverride) Clone() proto.Message {
 
 	target.RevocationEndpoint = m.GetRevocationEndpoint()
 
+	target.EndSessionEndpoint = m.GetEndSessionEndpoint()
+
 	return target
 }
 
@@ -596,6 +598,19 @@ func (m *AutoMapFromMetadata) Clone() proto.Message {
 	target = &AutoMapFromMetadata{}
 
 	target.Namespace = m.GetNamespace()
+
+	return target
+}
+
+// Clone function
+func (m *EndSessionProperties) Clone() proto.Message {
+	var target *EndSessionProperties
+	if m == nil {
+		return target
+	}
+	target = &EndSessionProperties{}
+
+	target.MethodType = m.GetMethodType()
 
 	return target
 }
@@ -691,6 +706,12 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 		target.AutoMapFromMetadata = h.Clone().(*AutoMapFromMetadata)
 	} else {
 		target.AutoMapFromMetadata = proto.Clone(m.GetAutoMapFromMetadata()).(*AutoMapFromMetadata)
+	}
+
+	if h, ok := interface{}(m.GetEndSessionProperties()).(clone.Cloner); ok {
+		target.EndSessionProperties = h.Clone().(*EndSessionProperties)
+	} else {
+		target.EndSessionProperties = proto.Clone(m.GetEndSessionProperties()).(*EndSessionProperties)
 	}
 
 	return target
