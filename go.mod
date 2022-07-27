@@ -17,14 +17,14 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.2
 	github.com/mitchellh/hashstructure v1.0.0
-	github.com/onsi/ginkgo v1.14.2
-	github.com/onsi/gomega v1.10.5
+	github.com/onsi/ginkgo v1.16.5
+	github.com/onsi/gomega v1.16.0
 	github.com/pkg/errors v0.9.1
 	github.com/rotisserie/eris v0.4.0
 	github.com/solo-io/go-utils v0.21.24
 	github.com/solo-io/protoc-gen-ext v0.0.16
 	github.com/solo-io/skv2 v0.21.6
-	github.com/solo-io/solo-kit v0.24.0
+	github.com/solo-io/solo-kit v0.30.2
 	golang.org/x/tools v0.1.5
 	google.golang.org/genproto v0.0.0-20210416161957-9910b6c460de
 	google.golang.org/grpc v1.40.0
