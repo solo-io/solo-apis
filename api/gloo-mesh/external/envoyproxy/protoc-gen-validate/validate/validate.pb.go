@@ -1972,6 +1972,7 @@ type StringRules struct {
 	// characters may differ from the number of bytes in the string.
 	MaxLen *uint64 `protobuf:"varint,3,opt,name=max_len,json=maxLen" json:"max_len,omitempty"`
 	// LenBytes specifies that this field must be the specified number of bytes
+	// at a minimum
 	LenBytes *uint64 `protobuf:"varint,20,opt,name=len_bytes,json=lenBytes" json:"len_bytes,omitempty"`
 	// MinBytes specifies that this field must be the specified number of bytes
 	// at a minimum
