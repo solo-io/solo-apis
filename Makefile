@@ -20,7 +20,8 @@ tidy:
 
 .PHONY: mod-download
 mod-download:
-	PATH=$(DEPSGOBIN):$$PATH go mod download
+	go mod tidy -v
+	PATH=$(DEPSGOBIN):$$PATH go mod download all
 
 .PHONY: update-deps
 update-deps: mod-download
