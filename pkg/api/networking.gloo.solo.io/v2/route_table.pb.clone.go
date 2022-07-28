@@ -13,6 +13,10 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+
+	github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2"
+
 	github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2"
 )
 
@@ -173,6 +177,63 @@ func (m *HTTPRoute) Clone() proto.Message {
 		} else {
 			target.ActionType = &HTTPRoute_DirectResponse{
 				DirectResponse: proto.Clone(m.GetDirectResponse()).(*DirectResponseAction),
+			}
+		}
+
+	case *HTTPRoute_Graphql:
+
+		if h, ok := interface{}(m.GetGraphql()).(clone.Cloner); ok {
+			target.ActionType = &HTTPRoute_Graphql{
+				Graphql: h.Clone().(*GraphQLAction),
+			}
+		} else {
+			target.ActionType = &HTTPRoute_Graphql{
+				Graphql: proto.Clone(m.GetGraphql()).(*GraphQLAction),
+			}
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLAction) Clone() proto.Message {
+	var target *GraphQLAction
+	if m == nil {
+		return target
+	}
+	target = &GraphQLAction{}
+
+	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
+		target.Options = h.Clone().(*GraphQLAction_Options)
+	} else {
+		target.Options = proto.Clone(m.GetOptions()).(*GraphQLAction_Options)
+	}
+
+	switch m.Graphql.(type) {
+
+	case *GraphQLAction_StitchedSchemaRef:
+
+		if h, ok := interface{}(m.GetStitchedSchemaRef()).(clone.Cloner); ok {
+			target.Graphql = &GraphQLAction_StitchedSchemaRef{
+				StitchedSchemaRef: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference),
+			}
+		} else {
+			target.Graphql = &GraphQLAction_StitchedSchemaRef{
+				StitchedSchemaRef: proto.Clone(m.GetStitchedSchemaRef()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference),
+			}
+		}
+
+	case *GraphQLAction_ExecutableSchema:
+
+		if h, ok := interface{}(m.GetExecutableSchema()).(clone.Cloner); ok {
+			target.Graphql = &GraphQLAction_ExecutableSchema{
+				ExecutableSchema: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2.ExecutableSchema),
+			}
+		} else {
+			target.Graphql = &GraphQLAction_ExecutableSchema{
+				ExecutableSchema: proto.Clone(m.GetExecutableSchema()).(*github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2.ExecutableSchema),
 			}
 		}
 
@@ -345,6 +406,23 @@ func (m *RouteTableStatus) Clone() proto.Message {
 			}
 
 		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLAction_Options) Clone() proto.Message {
+	var target *GraphQLAction_Options
+	if m == nil {
+		return target
+	}
+	target = &GraphQLAction_Options{}
+
+	if h, ok := interface{}(m.GetLogSensitiveInfo()).(clone.Cloner); ok {
+		target.LogSensitiveInfo = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	} else {
+		target.LogSensitiveInfo = proto.Clone(m.GetLogSensitiveInfo()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	}
 
 	return target

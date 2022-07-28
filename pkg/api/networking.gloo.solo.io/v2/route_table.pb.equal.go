@@ -240,9 +240,97 @@ func (m *HTTPRoute) Equal(that interface{}) bool {
 			}
 		}
 
+	case *HTTPRoute_Graphql:
+		if _, ok := target.ActionType.(*HTTPRoute_Graphql); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetGraphql()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetGraphql()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetGraphql(), target.GetGraphql()) {
+				return false
+			}
+		}
+
 	default:
 		// m is nil but target is not nil
 		if m.ActionType != target.ActionType {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GraphQLAction) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GraphQLAction)
+	if !ok {
+		that2, ok := that.(GraphQLAction)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptions(), target.GetOptions()) {
+			return false
+		}
+	}
+
+	switch m.Graphql.(type) {
+
+	case *GraphQLAction_StitchedSchemaRef:
+		if _, ok := target.Graphql.(*GraphQLAction_StitchedSchemaRef); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetStitchedSchemaRef()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStitchedSchemaRef()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetStitchedSchemaRef(), target.GetStitchedSchemaRef()) {
+				return false
+			}
+		}
+
+	case *GraphQLAction_ExecutableSchema:
+		if _, ok := target.Graphql.(*GraphQLAction_ExecutableSchema); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetExecutableSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetExecutableSchema()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetExecutableSchema(), target.GetExecutableSchema()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Graphql != target.Graphql {
 			return false
 		}
 	}
@@ -533,6 +621,40 @@ func (m *RouteTableStatus) Equal(that interface{}) bool {
 			}
 		}
 
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GraphQLAction_Options) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GraphQLAction_Options)
+	if !ok {
+		that2, ok := that.(GraphQLAction_Options)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetLogSensitiveInfo()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetLogSensitiveInfo()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetLogSensitiveInfo(), target.GetLogSensitiveInfo()) {
+			return false
+		}
 	}
 
 	return true

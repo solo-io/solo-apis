@@ -43,6 +43,30 @@ func (m *ObjectReference) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ObjectReferenceList) Clone() proto.Message {
+	var target *ObjectReferenceList
+	if m == nil {
+		return target
+	}
+	target = &ObjectReferenceList{}
+
+	if m.GetRefs() != nil {
+		target.Refs = make([]*ObjectReference, len(m.GetRefs()))
+		for idx, v := range m.GetRefs() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Refs[idx] = h.Clone().(*ObjectReference)
+			} else {
+				target.Refs[idx] = proto.Clone(v).(*ObjectReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *ObjectSelector) Clone() proto.Message {
 	var target *ObjectSelector
 	if m == nil {
