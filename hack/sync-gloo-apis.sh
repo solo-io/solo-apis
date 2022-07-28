@@ -11,6 +11,8 @@ rsync -ax --exclude 'solo-kit.json'  ../gloo/projects/gateway/api/  ./api/gloo/g
 mkdir -p ./api/gloo/enterprise.gloo/v1
 mv ./api/gloo/gloo/v1/enterprise/options/extauth/v1/extauth.proto ./api/gloo/enterprise.gloo/v1/auth_config.proto
 
+rsync ../gloo/go.* ./
+
 # Fix paths
 for file in $(find api/gloo -type f | grep ".proto")
 do
