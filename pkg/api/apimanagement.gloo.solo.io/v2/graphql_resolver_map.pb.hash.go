@@ -911,6 +911,46 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 }
 
 // Hash function
+func (m *ExecutableSchema_ClusterObjectRefList) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.ExecutableSchema_ClusterObjectRefList")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetRefs() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *ExecutableSchema_GraphQLServer) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil

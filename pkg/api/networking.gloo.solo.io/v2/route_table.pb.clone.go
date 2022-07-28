@@ -15,6 +15,8 @@ import (
 
 	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
 
+	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
+
 	github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2"
 
 	github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2"
@@ -217,11 +219,11 @@ func (m *GraphQLAction) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetStitchedSchemaRef()).(clone.Cloner); ok {
 			target.Graphql = &GraphQLAction_StitchedSchemaRef{
-				StitchedSchemaRef: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference),
+				StitchedSchemaRef: h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		} else {
 			target.Graphql = &GraphQLAction_StitchedSchemaRef{
-				StitchedSchemaRef: proto.Clone(m.GetStitchedSchemaRef()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference),
+				StitchedSchemaRef: proto.Clone(m.GetStitchedSchemaRef()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		}
 

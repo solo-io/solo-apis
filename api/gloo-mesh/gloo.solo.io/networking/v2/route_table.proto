@@ -2,6 +2,7 @@ syntax = "proto3";
 package networking.gloo.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2";
 
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/http_matchers.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
@@ -207,7 +208,7 @@ message HTTPRoute {
 message GraphQLAction {
     oneof graphql {
         // Reference to a GraphQLStitchedSchema resource.
-        .common.gloo.solo.io.ObjectReference stitched_schema_ref = 1;
+        .core.skv2.solo.io.ClusterObjectRef stitched_schema_ref = 1;
 
         // Responsible for pairing a GraphQL schema definition with how it's executed,
         // whether that is locally executed (using resolvers and Envoy as the GraphQL engine)
@@ -225,6 +226,8 @@ message GraphQLAction {
         google.protobuf.BoolValue log_sensitive_info = 1;
     }
 }
+
+
 
 // when a route is matched, forward the request to the destinations specified in this action
 message ForwardToAction {
