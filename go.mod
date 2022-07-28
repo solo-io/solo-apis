@@ -24,7 +24,7 @@ require (
 	github.com/solo-io/go-utils v0.21.24
 	github.com/solo-io/protoc-gen-ext v0.0.16
 	github.com/solo-io/skv2 v0.21.6
-	github.com/solo-io/solo-kit v0.30.0
+	github.com/solo-io/solo-kit v0.30.2
 	golang.org/x/tools v0.1.5
 	google.golang.org/genproto v0.0.0-20210416161957-9910b6c460de
 	google.golang.org/grpc v1.40.0
