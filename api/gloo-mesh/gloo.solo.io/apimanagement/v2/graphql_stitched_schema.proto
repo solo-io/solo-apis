@@ -3,12 +3,9 @@ package apimanagement.gloo.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2";
 
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
 
-
 import "google/protobuf/wrappers.proto";
-
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
 
 import "extproto/ext.proto";

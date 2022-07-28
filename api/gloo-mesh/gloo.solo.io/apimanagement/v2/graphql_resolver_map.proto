@@ -2,6 +2,7 @@ syntax = "proto3";
 package apimanagement.gloo.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2";
 
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/http_matchers.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
@@ -151,7 +152,11 @@ message GraphQLResolverMapSpec {
 message ExecutableSchema {
   // Required: Reference to the GraphQLSchema object which contains the [GraphQL SDL](https://graphql.org/learn/schema/)
   // defining this GraphQL schema.
-  .common.gloo.solo.io.ObjectReference schema_ref = 1;
+  .core.skv2.solo.io.ClusterObjectRef schema_ref = 1;
+
+  message ClusterObjectRefList {
+    repeated .core.skv2.solo.io.ClusterObjectRef refs = 1;
+  }
 
   oneof executable_schema {
     // Configuration to delegate resolving this GraphQL request to an external GraphQL server, which can be
@@ -164,7 +169,7 @@ message ExecutableSchema {
     // locally by this GraphQL-envoy instance.
     // Order of the references listed below does matter as resolver maps listed first
     // will be given priority over later ones when tie-breaking field resolver configurations.
-    .common.gloo.solo.io.ObjectReferenceList resolver_map_refs = 4;
+    ClusterObjectRefList resolver_map_refs = 4;
   }
 
   message GraphQLServer {

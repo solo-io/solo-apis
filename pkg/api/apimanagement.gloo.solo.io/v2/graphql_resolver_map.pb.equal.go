@@ -750,6 +750,47 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 }
 
 // Equal function
+func (m *ExecutableSchema_ClusterObjectRefList) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExecutableSchema_ClusterObjectRefList)
+	if !ok {
+		that2, ok := that.(ExecutableSchema_ClusterObjectRefList)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetRefs()) != len(target.GetRefs()) {
+		return false
+	}
+	for idx, v := range m.GetRefs() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetRefs()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetRefs()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ExecutableSchema_GraphQLServer) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
