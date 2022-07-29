@@ -539,6 +539,8 @@ func (m *DiscoveryOverride) Clone() proto.Message {
 
 	target.RevocationEndpoint = m.GetRevocationEndpoint()
 
+	target.EndSessionEndpoint = m.GetEndSessionEndpoint()
+
 	return target
 }
 
@@ -596,6 +598,19 @@ func (m *AutoMapFromMetadata) Clone() proto.Message {
 	target = &AutoMapFromMetadata{}
 
 	target.Namespace = m.GetNamespace()
+
+	return target
+}
+
+// Clone function
+func (m *EndSessionProperties) Clone() proto.Message {
+	var target *EndSessionProperties
+	if m == nil {
+		return target
+	}
+	target = &EndSessionProperties{}
+
+	target.MethodType = m.GetMethodType()
 
 	return target
 }
@@ -691,6 +706,12 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 		target.AutoMapFromMetadata = h.Clone().(*AutoMapFromMetadata)
 	} else {
 		target.AutoMapFromMetadata = proto.Clone(m.GetAutoMapFromMetadata()).(*AutoMapFromMetadata)
+	}
+
+	if h, ok := interface{}(m.GetEndSessionProperties()).(clone.Cloner); ok {
+		target.EndSessionProperties = h.Clone().(*EndSessionProperties)
+	} else {
+		target.EndSessionProperties = proto.Clone(m.GetEndSessionProperties()).(*EndSessionProperties)
 	}
 
 	return target
@@ -1441,6 +1462,14 @@ func (m *UserSession_InternalSession) Clone() proto.Message {
 	}
 	target = &UserSession_InternalSession{}
 
+	if h, ok := interface{}(m.GetAllowRefreshing()).(clone.Cloner); ok {
+		target.AllowRefreshing = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	} else {
+		target.AllowRefreshing = proto.Clone(m.GetAllowRefreshing()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	target.KeyPrefix = m.GetKeyPrefix()
+
 	return target
 }
 
@@ -1794,6 +1823,12 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Clone() proto.Message {
 		target.AutoMapFromMetadata = h.Clone().(*AutoMapFromMetadata)
 	} else {
 		target.AutoMapFromMetadata = proto.Clone(m.GetAutoMapFromMetadata()).(*AutoMapFromMetadata)
+	}
+
+	if h, ok := interface{}(m.GetEndSessionProperties()).(clone.Cloner); ok {
+		target.EndSessionProperties = h.Clone().(*EndSessionProperties)
+	} else {
+		target.EndSessionProperties = proto.Clone(m.GetEndSessionProperties()).(*EndSessionProperties)
 	}
 
 	return target
