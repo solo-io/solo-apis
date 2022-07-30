@@ -22,7 +22,6 @@ tidy:
 
 .PHONY: mod-download
 mod-download:
-	go mod tidy
 	PATH=$(DEPSGOBIN):$$PATH go mod download	
 
 .PHONY: regenerate-sum
