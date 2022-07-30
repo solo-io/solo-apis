@@ -1,7 +1,9 @@
 DEPSGOBIN=$(shell pwd)/.bin
 
 .PHONY: generate
-generate: generate-code generate-mocks tidy
+generate: regenerate-sum generate-code generate-mocks tidy
+
+
 
 .PHONY: generate-code
 generate-code:
@@ -20,9 +22,14 @@ tidy:
 
 .PHONY: mod-download
 mod-download:
-	go mod tidy -v
-	PATH=$(DEPSGOBIN):$$PATH go mod tidy -e -v
-	PATH=$(DEPSGOBIN):$$PATH go mod download all
+	go mod tidy
+	PATH=$(DEPSGOBIN):$$PATH go mod download	
+
+.PHONY: regenerate-sum
+regenerate-sum:
+	goimports -w .
+	go mod tidy -e -v
+
 
 .PHONY: update-deps
 update-deps: mod-download
