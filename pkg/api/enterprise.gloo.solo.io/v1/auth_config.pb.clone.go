@@ -1304,6 +1304,8 @@ func (m *UserSession_InternalSession) Clone() proto.Message {
 	}
 	target = &UserSession_InternalSession{}
 
+	target.KeyPrefix = m.GetKeyPrefix()
+
 	return target
 }
 
