@@ -22,8 +22,7 @@ message ExternalServiceSpec {
     // (mutually exclusive with addresses): The List of hostnames which will resolve to this service.
     // These hosts must be unique among all ExternalServices and VirtualHosts within a workspace.
 	// Both FQDN and wildcard prefix domains are supported.
-    // or
-    // TLS origination to ExternalServices is only supported for FQDNs and not wildcards at this time.
+    // TLS origination to ExternalServices is supported with use of the ClientsideTls property.
     repeated string hosts = 1;
 
     // (mutually exclusive with hosts): The List of ipv4 or ipv6 addresses which will be associated to this service. Can be CIDR prefixes.
@@ -58,7 +57,6 @@ message ExternalServiceSpec {
         // If the protocol is HTTPS or TLS, the ExternalService will be configured to use TLS automatically.
         // If used in conjunction with targetPort this can be used for TLS Origination.
         // For example, port: 80, targetPort: 443, with ClientsideTls will cause port 80 traffic from workloads to be forwarded to 443 resulting in HTTPS traffic over the internet with TLS originating at the sidecar proxy.
-        // This will not have any impact for wildcard domains, not currently supported.
         TlsConfig clientside_tls = 5;
 
         message TlsConfig {

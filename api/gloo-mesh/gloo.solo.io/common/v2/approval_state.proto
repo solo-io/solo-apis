@@ -32,6 +32,9 @@ enum ApprovalState {
     // but the server encountered an error trying to synchronize the system to
     // the desired state.
     FAILED = 4;
+
+    // The license key(s) in the application do not allow you to use this resource.
+    UNLICENSED = 5;
 }
 
 // the state of a resource across clusters
