@@ -73,6 +73,10 @@ func (m *AuthConfigSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetFailOnRedirect() != target.GetFailOnRedirect() {
+		return false
+	}
+
 	return true
 }
 
@@ -1721,6 +1725,10 @@ func (m *Ldap) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetSearchFilter(), target.GetSearchFilter()) != 0 {
+		return false
+	}
+
+	if m.GetDisableGroupChecking() != target.GetDisableGroupChecking() {
 		return false
 	}
 
