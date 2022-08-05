@@ -30,5 +30,7 @@ do
   sed "s|gloo.solo.io/v1/enterprise/options/extauth|enterprise.gloo.solo.io|g" "$file" > "$file".tmp && mv "$file".tmp "$file"
 done
 
+make regenerate-sum
+
 # convert protos used by skv1 into protos that can be used by skv2.
 go run hack/convert.go
