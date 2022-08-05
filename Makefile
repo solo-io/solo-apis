@@ -26,8 +26,9 @@ mod-download:
 
 .PHONY: regenerate-sum
 regenerate-sum:
-	goimports -w .
-	go mod tidy -e -v
+	PATH=$(DEPSGOBIN):$$PATH goimports -w .
+	PATH=$(DEPSGOBIN):$$PATH go mod download all
+	PATH=$(DEPSGOBIN):$$PATH go mod tidy -e -v
 
 
 .PHONY: update-deps
