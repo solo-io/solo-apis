@@ -171,7 +171,9 @@ message HTTPRoute {
     // labels for the route. used to apply policies which implement routeSelectors.
     map<string, string> labels = 2;
 
-    // the set of request matchers which this route will match on. if none are specified, this route will match any HTTP traffic.
+    // The set of request matchers which this route will match on. If none are specified, this route will match any HTTP traffic.
+    // On a delegated RouteTable, this route will only match traffic that includes both the parent and child's matchers.
+    // If these sets conflict, the delegating route on the parent will be replaced with a DirectResponseAction indicating the misconfiguration.
     repeated .common.gloo.solo.io.HTTPRequestMatcher matchers = 3;
 
     // the type of action determines what this route will with a request when it is matched.

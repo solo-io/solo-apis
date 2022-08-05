@@ -371,7 +371,9 @@ type HTTPRoute struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// labels for the route. used to apply policies which implement routeSelectors.
 	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// the set of request matchers which this route will match on. if none are specified, this route will match any HTTP traffic.
+	// The set of request matchers which this route will match on. If none are specified, this route will match any HTTP traffic.
+	// On a delegated RouteTable, this route will only match traffic that includes both the parent and child's matchers.
+	// If these sets conflict, the delegating route on the parent will be replaced with a DirectResponseAction indicating the misconfiguration.
 	Matchers []*v2.HTTPRequestMatcher `protobuf:"bytes,3,rep,name=matchers,proto3" json:"matchers,omitempty"`
 	// the type of action determines what this route will with a request when it is matched.
 	//
