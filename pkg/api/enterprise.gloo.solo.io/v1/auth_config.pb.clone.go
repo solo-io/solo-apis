@@ -62,6 +62,8 @@ func (m *AuthConfigSpec) Clone() proto.Message {
 		target.BooleanExpr = proto.Clone(m.GetBooleanExpr()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	}
 
+	target.FailOnRedirect = m.GetFailOnRedirect()
+
 	return target
 }
 
@@ -980,6 +982,8 @@ func (m *Ldap) Clone() proto.Message {
 
 	target.SearchFilter = m.GetSearchFilter()
 
+	target.DisableGroupChecking = m.GetDisableGroupChecking()
+
 	return target
 }
 
@@ -1106,6 +1110,8 @@ func (m *ExtAuthConfig) Clone() proto.Message {
 	} else {
 		target.BooleanExpr = proto.Clone(m.GetBooleanExpr()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	}
+
+	target.FailOnRedirect = m.GetFailOnRedirect()
 
 	return target
 }
