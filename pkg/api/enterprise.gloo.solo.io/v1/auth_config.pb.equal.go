@@ -73,6 +73,10 @@ func (m *AuthConfigSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetFailOnRedirect() != target.GetFailOnRedirect() {
+		return false
+	}
+
 	return true
 }
 
@@ -1950,6 +1954,10 @@ func (m *ExtAuthConfig) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetBooleanExpr(), target.GetBooleanExpr()) {
 			return false
 		}
+	}
+
+	if m.GetFailOnRedirect() != target.GetFailOnRedirect() {
+		return false
 	}
 
 	return true
