@@ -43,6 +43,11 @@ message NodeMetricsRequest {
   // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
   // If omitted, defaults to the value of `window`, which represents a request for a single sample.
   .google.protobuf.Duration step = 4;
+
+  // Return Istio metrics, false by default
+  bool istio_metrics = 5;
+  // Return Cilium metrics, false by default
+  bool cilium_metrics = 6;
 }
 
 // Metrics aggregated for one or more network nodes over time.
@@ -97,6 +102,11 @@ message EdgeMetricsRequest {
   // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
   // Defaults to 2 minutes.
   .google.protobuf.Duration step = 4;
+
+  // Return Istio metrics, false by default
+  bool istio_metrics = 5;
+  // Return Cilium metrics, false by default
+  bool cilium_metrics = 6;
 }
 
 // Metrics aggregated for a network edge over time.
