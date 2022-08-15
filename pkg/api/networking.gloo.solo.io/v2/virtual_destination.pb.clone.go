@@ -83,6 +83,12 @@ func (m *VirtualDestinationSpec) Clone() proto.Message {
 		}
 	}
 
+	if h, ok := interface{}(m.GetClientMode()).(clone.Cloner); ok {
+		target.ClientMode = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ClientMode)
+	} else {
+		target.ClientMode = proto.Clone(m.GetClientMode()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ClientMode)
+	}
+
 	return target
 }
 

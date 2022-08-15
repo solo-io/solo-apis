@@ -5,6 +5,7 @@ option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2"
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/clientmode.proto";
 import "google/protobuf/wrappers.proto";
 
 import "extproto/ext.proto";
@@ -298,6 +299,12 @@ message WorkspaceSettingsSpec {
         // routed across clusters for federation and virtual destinations.
         repeated EastWestGatewaySelector east_west_gateways = 3;
 
+        // Optional: Virtual destination client mode determines how VirtualDestinations will be translated.
+        // If nil, the default value of auto mode will be used. Any configuration here can be overriden
+        // on any individual virtual destination. The settings defined here apply to both user-provided
+        // VirtualDestinations and those generated internally when federation is enabled.
+        .common.gloo.solo.io.ClientMode virtual_dest_client_mode = 4;
+
         message ServiceIsolation {
             // Automatically enables strict mTLS and blocks any access from non-importing workspaces into any destination in the current workspaces.
             // Default value is disabled.
@@ -309,7 +316,6 @@ message WorkspaceSettingsSpec {
         }
 
         message Federation {
-
             // enables the federation feature for selected Kubernetes services in the workspace.
             bool enabled = 1;
 

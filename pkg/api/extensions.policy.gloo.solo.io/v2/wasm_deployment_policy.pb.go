@@ -255,7 +255,7 @@ type WasmDeploymentPolicySpec_Config_WasmFilter struct {
 	//	*WasmDeploymentPolicySpec_Config_WasmFilter_DynamicFilterConfig
 	FilterConfigSource isWasmDeploymentPolicySpec_Config_WasmFilter_FilterConfigSource `protobuf_oneof:"filter_config_source"`
 	// The `root id` must match the `root id` defined inside the filter.
-	// If the user does not provide this field, Gloo Mesh will attempt to pull the image
+	// If the user does not provide this field, Gloo Mesh will pull the image
 	// and set it from the `filter_conf` contained in the image config.
 	// Note that if the `filter_source` is not set to `wasm_image_source`, this field is required.
 	RootId string `protobuf:"bytes,5,opt,name=root_id,json=rootId,proto3" json:"root_id,omitempty"`

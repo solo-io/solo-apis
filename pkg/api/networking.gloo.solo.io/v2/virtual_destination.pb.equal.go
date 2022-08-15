@@ -108,6 +108,16 @@ func (m *VirtualDestinationSpec) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetClientMode()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetClientMode()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetClientMode(), target.GetClientMode()) {
+			return false
+		}
+	}
+
 	return true
 }
 

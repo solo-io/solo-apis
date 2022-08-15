@@ -262,6 +262,16 @@ func (m *JWTPolicySpec_Config_Provider) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetClockSkewSeconds()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetClockSkewSeconds()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetClockSkewSeconds(), target.GetClockSkewSeconds()) {
+			return false
+		}
+	}
+
 	switch m.JwksSource.(type) {
 
 	case *JWTPolicySpec_Config_Provider_Local:

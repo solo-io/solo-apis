@@ -8,6 +8,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/phase.
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
 
 import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
 
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
@@ -148,6 +149,9 @@ message JWTPolicySpec {
 
             // Optional: KeepToken is used to keep the JWT in the request post verification.
             bool keep_token = 7;
+
+            // Optional: ClockSkewSeconds is used to verify time constraints, such as `exp` and `npf`. Default is 60s
+            google.protobuf.UInt32Value clock_skew_seconds = 8;
         }
 
         // Map provider name to jwt provider configuration.

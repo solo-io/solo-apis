@@ -15,6 +15,8 @@ import (
 
 	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
 
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+
 	github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2"
 )
 
@@ -171,6 +173,12 @@ func (m *JWTPolicySpec_Config_Provider) Clone() proto.Message {
 	}
 
 	target.KeepToken = m.GetKeepToken()
+
+	if h, ok := interface{}(m.GetClockSkewSeconds()).(clone.Cloner); ok {
+		target.ClockSkewSeconds = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	} else {
+		target.ClockSkewSeconds = proto.Clone(m.GetClockSkewSeconds()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	}
 
 	switch m.JwksSource.(type) {
 

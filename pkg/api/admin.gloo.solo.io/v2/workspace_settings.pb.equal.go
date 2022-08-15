@@ -287,6 +287,16 @@ func (m *WorkspaceSettingsSpec_Options) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetVirtualDestClientMode()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetVirtualDestClientMode()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetVirtualDestClientMode(), target.GetVirtualDestClientMode()) {
+			return false
+		}
+	}
+
 	return true
 }
 
