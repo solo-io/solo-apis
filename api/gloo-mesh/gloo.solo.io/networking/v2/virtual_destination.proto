@@ -5,6 +5,7 @@ option go_package = "github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.i
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/clientmode.proto";
 
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
@@ -28,8 +29,12 @@ message VirtualDestinationSpec {
     // Multiple External Services can be selected.
     repeated .common.gloo.solo.io.ObjectSelector external_services = 3;
 
-    // The ports on which the VirtualDestination will serve traffic.
+    // Required: The ports on which the VirtualDestination will serve traffic. Must have at least one port.
     repeated PortMapping ports = 4;
+
+    // Optional: Client mode determines how the VirtualDestination will be translated.
+    // If nil, the mode is inherited from the WorkspaceSettings defined by the admin.
+    .common.gloo.solo.io.ClientMode client_mode = 5;
 
     // PortMapping establishes a new port that will be exposed on a VirtualDestination.
     message PortMapping {

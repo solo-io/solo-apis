@@ -191,6 +191,12 @@ func (m *WorkspaceSettingsSpec_Options) Clone() proto.Message {
 		}
 	}
 
+	if h, ok := interface{}(m.GetVirtualDestClientMode()).(clone.Cloner); ok {
+		target.VirtualDestClientMode = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ClientMode)
+	} else {
+		target.VirtualDestClientMode = proto.Clone(m.GetVirtualDestClientMode()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ClientMode)
+	}
+
 	return target
 }
 

@@ -283,6 +283,8 @@ type VirtualGatewaySpec struct {
 
 	// Optional: Select which gateway workloads implement this virtual gateway in the same workspace.
 	// A gateway workload will be selected if it matches any of the provided selectors.
+	// For 'selector.name', specify the gateway service's name.
+	// For 'selector.labels', specify the gateway service's 'spec.selector' label.
 	// If workloads is nil, it will be applied to all gateway workloads.
 	Workloads []*v2.WorkloadSelector `protobuf:"bytes,1,rep,name=workloads,proto3" json:"workloads,omitempty"`
 	// Required: One or more listeners for the virtual gateway.

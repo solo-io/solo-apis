@@ -133,6 +133,8 @@ message VirtualGatewaySpec {
 
     // Optional: Select which gateway workloads implement this virtual gateway in the same workspace.
     // A gateway workload will be selected if it matches any of the provided selectors.
+	// For 'selector.name', specify the gateway service's name.
+	// For 'selector.labels', specify the gateway service's 'spec.selector' label.
     // If workloads is nil, it will be applied to all gateway workloads.
     repeated .common.gloo.solo.io.WorkloadSelector workloads = 1;
 
