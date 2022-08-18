@@ -860,6 +860,9 @@ message PassThroughAuth {
     // Custom config to be passed per request to the passthrough auth service.
     google.protobuf.Struct config = 4;
 
+    // If set to true, the filter will accept client request even if the communication with
+    //  the authorization service has failed, or if the authorization service has returned a HTTP 5xx error.
+    bool failure_mode_allow = 5;
 }
 
 // Authorizes requests by querying a custom extauth grpc server
