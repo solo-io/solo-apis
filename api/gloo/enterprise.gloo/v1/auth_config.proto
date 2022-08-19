@@ -231,10 +231,11 @@ message BasicAuth {
 
 // Deprecated: Prefer OAuth2
 message OAuth {
-    // your client id as registered with the issuer
+    // The client ID token that you got when you registered your app with the issuer.
     string client_id = 1 [deprecated = true];
 
-    // your client secret as registered with the issuer
+    // The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+    // The secret must exist on the same cluster as the external auth server.
     core.solo.io.ResourceRef client_secret_ref = 2 [deprecated = true];
 
     // The url of the issuer. We will look for OIDC information in issuerUrl+
@@ -395,10 +396,11 @@ message JwksOnDemandCacheRefreshPolicy {
 
 
 message OidcAuthorizationCode {
-    // your client id as registered with the issuer
+    // The client ID token that you got when you registered your app with the issuer.
     string client_id = 1;
 
-    // your client secret as registered with the issuer
+    // The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+    // The secret must exist on the same cluster as the external auth server.
     core.solo.io.ResourceRef client_secret_ref = 2;
 
     // The url of the issuer. We will look for OIDC information in issuerUrl+
@@ -545,11 +547,12 @@ message AccessTokenValidation {
         // will be validated against this endpoint, or locally cached responses for this access token.
         string introspection_url = 1;
 
-        // Your client id as registered with the issuer.
+        // The client ID token that you got when you registered your app with the issuer..
         // Optional: Use if the token introspection url requires client authentication.
         string client_id = 2;
 
-        // Your client secret as registered with the issuer.
+        // The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+    // The secret must exist on the same cluster as the external auth server..
         // Optional: Use if the token introspection url requires client authentication.
         core.solo.io.ResourceRef client_secret_ref = 3;
 
@@ -745,10 +748,11 @@ message ExtAuthConfig {
 
     // Deprecated, prefer OAuth2Config
     message OAuthConfig {
-        // your client id as registered with the issuer
+        // The client ID token that you got when you registered your app with the issuer.
         string client_id = 1 [deprecated = true];
 
-        // your client secret as registered with the issuer
+        // The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+    // The secret must exist on the same cluster as the external auth server.
         string client_secret = 2 [deprecated = true, (extproto.sensitive) = true];
 
         // The url of the issuer. We will look for OIDC information in issuerUrl+
@@ -773,10 +777,11 @@ message ExtAuthConfig {
 
     message OidcAuthorizationCodeConfig {
 
-        // your client id as registered with the issuer
+        // The client ID token that you got when you registered your app with the issuer.
         string client_id = 1;
 
-        // your client secret as registered with the issuer
+        // The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+    // The secret must exist on the same cluster as the external auth server.
         string client_secret = 2 [(extproto.sensitive) = true];
 
         // The url of the issuer. We will look for OIDC information in issuerUrl+
@@ -921,11 +926,12 @@ message ExtAuthConfig {
             // will be validated against this endpoint, or locally cached responses for this access token.
             string introspection_url = 1;
 
-            // Your client id as registered with the issuer.
+            // The client ID token that you got when you registered your app with the issuer..
             // Optional: Use if the token introspection url requires client authentication.
             string client_id = 2;
 
-            // Your client secret as registered with the issuer.
+            // The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+    // The secret must exist on the same cluster as the external auth server..
             // Optional: Use if the token introspection url requires client authentication.
             string client_secret = 3 [(extproto.sensitive) = true];
 

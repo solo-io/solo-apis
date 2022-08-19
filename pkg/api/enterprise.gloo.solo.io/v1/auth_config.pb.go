@@ -791,11 +791,12 @@ type OAuth struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// your client id as registered with the issuer
+	// The client ID token that you got when you registered your app with the issuer.
 	//
 	// Deprecated: Do not use.
 	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	// your client secret as registered with the issuer
+	// The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+	// The secret must exist on the same cluster as the external auth server.
 	//
 	// Deprecated: Do not use.
 	ClientSecretRef *core.ResourceRef `protobuf:"bytes,2,opt,name=client_secret_ref,json=clientSecretRef,proto3" json:"client_secret_ref,omitempty"`
@@ -1467,9 +1468,10 @@ type OidcAuthorizationCode struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// your client id as registered with the issuer
+	// The client ID token that you got when you registered your app with the issuer.
 	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	// your client secret as registered with the issuer
+	// The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+	// The secret must exist on the same cluster as the external auth server.
 	ClientSecretRef *core.ResourceRef `protobuf:"bytes,2,opt,name=client_secret_ref,json=clientSecretRef,proto3" json:"client_secret_ref,omitempty"`
 	// The url of the issuer. We will look for OIDC information in issuerUrl+
 	// ".well-known/openid-configuration"
@@ -3246,10 +3248,11 @@ type AccessTokenValidation_IntrospectionValidation struct {
 	// If provided, the (opaque) access token provided or received from the oauth authorization endpoint
 	// will be validated against this endpoint, or locally cached responses for this access token.
 	IntrospectionUrl string `protobuf:"bytes,1,opt,name=introspection_url,json=introspectionUrl,proto3" json:"introspection_url,omitempty"`
-	// Your client id as registered with the issuer.
+	// The client ID token that you got when you registered your app with the issuer..
 	// Optional: Use if the token introspection url requires client authentication.
 	ClientId string `protobuf:"bytes,2,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	// Your client secret as registered with the issuer.
+	// The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+	// The secret must exist on the same cluster as the external auth server..
 	// Optional: Use if the token introspection url requires client authentication.
 	ClientSecretRef *core.ResourceRef `protobuf:"bytes,3,opt,name=client_secret_ref,json=clientSecretRef,proto3" json:"client_secret_ref,omitempty"`
 	// The name of the [introspection response](https://tools.ietf.org/html/rfc7662#section-2.2)
@@ -3600,11 +3603,12 @@ type ExtAuthConfig_OAuthConfig struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// your client id as registered with the issuer
+	// The client ID token that you got when you registered your app with the issuer.
 	//
 	// Deprecated: Do not use.
 	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	// your client secret as registered with the issuer
+	// The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+	// The secret must exist on the same cluster as the external auth server.
 	//
 	// Deprecated: Do not use.
 	ClientSecret string `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"`
@@ -3726,9 +3730,10 @@ type ExtAuthConfig_OidcAuthorizationCodeConfig struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// your client id as registered with the issuer
+	// The client ID token that you got when you registered your app with the issuer.
 	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	// your client secret as registered with the issuer
+	// The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+	// The secret must exist on the same cluster as the external auth server.
 	ClientSecret string `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"`
 	// The url of the issuer. We will look for OIDC information in issuerUrl+
 	// ".well-known/openid-configuration"
@@ -4643,10 +4648,11 @@ type ExtAuthConfig_AccessTokenValidationConfig_IntrospectionValidation struct {
 	// If provided, the (opaque) access token provided or received from the oauth authorization endpoint
 	// will be validated against this endpoint, or locally cached responses for this access token.
 	IntrospectionUrl string `protobuf:"bytes,1,opt,name=introspection_url,json=introspectionUrl,proto3" json:"introspection_url,omitempty"`
-	// Your client id as registered with the issuer.
+	// The client ID token that you got when you registered your app with the issuer..
 	// Optional: Use if the token introspection url requires client authentication.
 	ClientId string `protobuf:"bytes,2,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	// Your client secret as registered with the issuer.
+	// The Kubernetes secret that has the client secret that you got when you registered your app with the issuer.
+	// The secret must exist on the same cluster as the external auth server..
 	// Optional: Use if the token introspection url requires client authentication.
 	ClientSecret string `protobuf:"bytes,3,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"`
 	// The name of the [introspection response](https://tools.ietf.org/html/rfc7662#section-2.2)
