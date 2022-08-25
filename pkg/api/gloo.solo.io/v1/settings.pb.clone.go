@@ -800,6 +800,15 @@ func (m *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) Clone() proto.Messag
 		target.QueryOptions = proto.Clone(m.GetQueryOptions()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_consul.QueryOptions)
 	}
 
+	if m.GetServiceTagsAllowlist() != nil {
+		target.ServiceTagsAllowlist = make([]string, len(m.GetServiceTagsAllowlist()))
+		for idx, v := range m.GetServiceTagsAllowlist() {
+
+			target.ServiceTagsAllowlist[idx] = v
+
+		}
+	}
+
 	return target
 }
 
