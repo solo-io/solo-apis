@@ -1819,6 +1819,14 @@ func (m *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) Hash(hasher hash.Has
 		}
 	}
 
+	for _, v := range m.GetServiceTagsAllowlist() {
+
+		if _, err = hasher.Write([]byte(v)); err != nil {
+			return 0, err
+		}
+
+	}
+
 	return hasher.Sum64(), nil
 }
 
