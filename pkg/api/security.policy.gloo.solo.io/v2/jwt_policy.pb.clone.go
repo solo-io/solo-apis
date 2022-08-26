@@ -131,6 +131,8 @@ func (m *JWTPolicySpec_Config) Clone() proto.Message {
 		target.Phase = proto.Clone(m.GetPhase()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PrioritizedPhase)
 	}
 
+	target.AllowMissingOrFailed = m.GetAllowMissingOrFailed()
+
 	return target
 }
 
