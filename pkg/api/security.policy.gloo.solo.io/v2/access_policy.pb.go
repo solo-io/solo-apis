@@ -92,14 +92,14 @@ func (AccessPolicySpec_Config_Authentication_TLSmode) EnumDescriptor() ([]byte, 
 // both how clients should be authenticated and authorized to access the service.
 // Refer to [this link](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 // for further details about cross origin resource sharing.
-// AccessPolicies are applied at the *Destination* level.
+// AccessPolicies are applied at the *Destination Port* level.
 type AccessPolicySpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// select the destinations where the policy will be applied
-	// if left empty, will apply to all destinations in the workspace.
+	// select the destinations and their ports where the policy will be applied
+	// if left empty, will apply to all ports on all destinations in the workspace.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// The details of the access policy to apply to the selected destinations.
 	Config *AccessPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`

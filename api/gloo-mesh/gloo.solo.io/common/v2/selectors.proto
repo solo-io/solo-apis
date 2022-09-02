@@ -91,7 +91,7 @@ message DestinationSelector {
     DestinationKind kind = 2;
 
     // the port on the Destination which receives traffic.
-    // Not required if the Destination only exposes a single port.
+    // All ports on the Destination will be selected if left empty.
     PortSelector port = 3;
 
     // TODO(ilackarms): support subsets here

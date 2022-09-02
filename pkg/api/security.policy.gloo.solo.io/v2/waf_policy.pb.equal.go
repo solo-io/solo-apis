@@ -208,5 +208,15 @@ func (m *WAFPolicySpec_Config) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetPriority()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetPriority()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetPriority(), target.GetPriority()) {
+			return false
+		}
+	}
+
 	return true
 }
