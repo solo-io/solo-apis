@@ -39,11 +39,7 @@ func (m *ZipkinConfig) Clone() proto.Message {
 
 	target.CollectorEndpoint = m.GetCollectorEndpoint()
 
-	if h, ok := interface{}(m.GetTraceId_128Bit()).(clone.Cloner); ok {
-		target.TraceId_128Bit = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
-	} else {
-		target.TraceId_128Bit = proto.Clone(m.GetTraceId_128Bit()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
-	}
+	target.TraceId_128Bit = m.GetTraceId_128Bit()
 
 	if h, ok := interface{}(m.GetSharedSpanContext()).(clone.Cloner); ok {
 		target.SharedSpanContext = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)

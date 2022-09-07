@@ -809,12 +809,6 @@ func (m *SettingsSpec_ConsulUpstreamDiscoveryConfiguration) Clone() proto.Messag
 		}
 	}
 
-	if h, ok := interface{}(m.GetEdsBlockingQueries()).(clone.Cloner); ok {
-		target.EdsBlockingQueries = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
-	} else {
-		target.EdsBlockingQueries = proto.Clone(m.GetEdsBlockingQueries()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
-	}
-
 	return target
 }
 
