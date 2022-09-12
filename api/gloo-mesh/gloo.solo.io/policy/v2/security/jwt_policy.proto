@@ -165,6 +165,14 @@ message JWTPolicySpec {
         // Use phase to indicate where in the request chain this JWT Filter should be applied.
         // If no phase is specified, the default will be post AuthZ.
         .common.gloo.solo.io.PrioritizedPhase phase = 2;
+
+        // Allow requests to succeed even if JWT authentication is missing or fails.
+        // For example, you might apply multiple policies to your routes to require
+        // JWT auth OR another method such as external auth. Set this value to "true"
+        // to allow a failed JWT auth request to pass through to the other authentication
+        // method. By default, this value is "false" so that requests that fail JWT
+        // authentication then fail authorization immediately.
+        bool allow_missing_or_failed = 3;
     }
 
     /* The details of the JWT policy to apply to the selected routes.

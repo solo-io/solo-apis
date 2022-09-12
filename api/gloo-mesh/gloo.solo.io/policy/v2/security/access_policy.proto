@@ -16,11 +16,11 @@ option (extproto.clone_all) = true;
 // both how clients should be authenticated and authorized to access the service.
 // Refer to [this link](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 // for further details about cross origin resource sharing.
-// AccessPolicies are applied at the *Destination* level.
+// AccessPolicies are applied at the *Destination Port* level.
 message AccessPolicySpec {
 
-    // select the destinations where the policy will be applied
-    // if left empty, will apply to all destinations in the workspace.
+    // select the destinations and their ports where the policy will be applied
+    // if left empty, will apply to all ports on all destinations in the workspace.
     repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
 
     // The details of the access policy to apply to the selected destinations.

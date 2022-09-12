@@ -34,6 +34,9 @@ message ExtAuthPolicySpec {
     // The details of the external auth policy to apply to the selected routes and destinations.
     Config config = 3;
 
+    // Make sure to select the appropriate ExtAuthServer to use, which might be in a different cluster and namespace
+    // than the ExtAuthPolicy. For auth configurations that require a client secret from the identity provider issuer,
+    // the secret must be in the same cluster as the ExtAuthServer resource.
     message Config {
 
         oneof auth_type {

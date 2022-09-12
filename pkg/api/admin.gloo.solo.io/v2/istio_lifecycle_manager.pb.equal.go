@@ -46,6 +46,14 @@ func (m *IstioLifecycleManagerSpec) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetRevision(), target.GetRevision()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetDefaultRevision(), target.GetDefaultRevision()) != 0 {
+		return false
+	}
+
 	if len(m.GetClusters()) != len(target.GetClusters()) {
 		return false
 	}
@@ -78,16 +86,6 @@ func (m *IstioLifecycleManagerSpec) Equal(that interface{}) bool {
 			}
 		}
 
-	}
-
-	if h, ok := interface{}(m.GetUpgradeStrategy()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetUpgradeStrategy()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetUpgradeStrategy(), target.GetUpgradeStrategy()) {
-			return false
-		}
 	}
 
 	if len(m.GetUninstallRevisions()) != len(target.GetUninstallRevisions()) {
@@ -216,34 +214,6 @@ func (m *IstioLifecycleManagerSpec_Cluster) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *IstioLifecycleManagerSpec_UpgradeStrategy) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*IstioLifecycleManagerSpec_UpgradeStrategy)
-	if !ok {
-		that2, ok := that.(IstioLifecycleManagerSpec_UpgradeStrategy)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if m.GetAlwaysUseCanaryUpgrade() != target.GetAlwaysUseCanaryUpgrade() {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
 func (m *IstioLifecycleManagerStatus_ClusterStatuses) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -316,7 +286,7 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Equal(t
 		return false
 	}
 
-	if strings.Compare(m.GetGeneratedRevision(), target.GetGeneratedRevision()) != 0 {
+	if strings.Compare(m.GetRevision(), target.GetRevision()) != 0 {
 		return false
 	}
 

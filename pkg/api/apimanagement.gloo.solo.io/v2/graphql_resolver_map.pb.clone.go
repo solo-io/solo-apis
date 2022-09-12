@@ -13,6 +13,8 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
+
 	github_com_golang_protobuf_ptypes_empty "github.com/golang/protobuf/ptypes/empty"
 
 	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
@@ -87,15 +89,15 @@ func (m *ExecutableSchema) Clone() proto.Message {
 			}
 		}
 
-	case *ExecutableSchema_ResolverMapRefs:
+	case *ExecutableSchema_Local_:
 
-		if h, ok := interface{}(m.GetResolverMapRefs()).(clone.Cloner); ok {
-			target.ExecutableSchema = &ExecutableSchema_ResolverMapRefs{
-				ResolverMapRefs: h.Clone().(*ExecutableSchema_ClusterObjectRefList),
+		if h, ok := interface{}(m.GetLocal()).(clone.Cloner); ok {
+			target.ExecutableSchema = &ExecutableSchema_Local_{
+				Local: h.Clone().(*ExecutableSchema_Local),
 			}
 		} else {
-			target.ExecutableSchema = &ExecutableSchema_ResolverMapRefs{
-				ResolverMapRefs: proto.Clone(m.GetResolverMapRefs()).(*ExecutableSchema_ClusterObjectRefList),
+			target.ExecutableSchema = &ExecutableSchema_Local_{
+				Local: proto.Clone(m.GetLocal()).(*ExecutableSchema_Local),
 			}
 		}
 
@@ -124,6 +126,18 @@ func (m *VariableTransformation) Clone() proto.Message {
 
 		target.Transformation = &VariableTransformation_Jq{
 			Jq: m.GetJq(),
+		}
+
+	case *VariableTransformation_Value:
+
+		if h, ok := interface{}(m.GetValue()).(clone.Cloner); ok {
+			target.Transformation = &VariableTransformation_Value{
+				Value: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
+			}
+		} else {
+			target.Transformation = &VariableTransformation_Value{
+				Value: proto.Clone(m.GetValue()).(*github_com_golang_protobuf_ptypes_struct.Value),
+			}
 		}
 
 	}
@@ -315,6 +329,12 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers) Clone() proto.Message {
 		}
 	}
 
+	if h, ok := interface{}(m.GetStatPrefix()).(clone.Cloner); ok {
+		target.StatPrefix = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+	} else {
+		target.StatPrefix = proto.Clone(m.GetStatPrefix()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+	}
+
 	return target
 }
 
@@ -326,26 +346,10 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver) Clone() proto.Mes
 	}
 	target = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver{}
 
-	if h, ok := interface{}(m.GetResponseTransform()).(clone.Cloner); ok {
-		target.ResponseTransform = h.Clone().(*VariableTransformation)
+	if h, ok := interface{}(m.GetResolverResultTransform()).(clone.Cloner); ok {
+		target.ResolverResultTransform = h.Clone().(*VariableTransformation)
 	} else {
-		target.ResponseTransform = proto.Clone(m.GetResponseTransform()).(*VariableTransformation)
-	}
-
-	switch m.OptionalMatcher.(type) {
-
-	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_HttpMatcher:
-
-		if h, ok := interface{}(m.GetHttpMatcher()).(clone.Cloner); ok {
-			target.OptionalMatcher = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_HttpMatcher{
-				HttpMatcher: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.HTTPRequestMatcher),
-			}
-		} else {
-			target.OptionalMatcher = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_HttpMatcher{
-				HttpMatcher: proto.Clone(m.GetHttpMatcher()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.HTTPRequestMatcher),
-			}
-		}
-
+		target.ResolverResultTransform = proto.Clone(m.GetResolverResultTransform()).(*VariableTransformation)
 	}
 
 	switch m.Resolver.(type) {
@@ -413,6 +417,12 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) Clon
 		target.SpanName = proto.Clone(m.GetSpanName()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	}
 
+	if h, ok := interface{}(m.GetTimeout()).(clone.Cloner); ok {
+		target.Timeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+	} else {
+		target.Timeout = proto.Clone(m.GetTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+	}
+
 	return target
 }
 
@@ -473,24 +483,30 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 }
 
 // Clone function
-func (m *ExecutableSchema_ClusterObjectRefList) Clone() proto.Message {
-	var target *ExecutableSchema_ClusterObjectRefList
+func (m *ExecutableSchema_Local) Clone() proto.Message {
+	var target *ExecutableSchema_Local
 	if m == nil {
 		return target
 	}
-	target = &ExecutableSchema_ClusterObjectRefList{}
+	target = &ExecutableSchema_Local{}
 
-	if m.GetRefs() != nil {
-		target.Refs = make([]*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef, len(m.GetRefs()))
-		for idx, v := range m.GetRefs() {
+	if m.GetResolverMapRefs() != nil {
+		target.ResolverMapRefs = make([]*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef, len(m.GetResolverMapRefs()))
+		for idx, v := range m.GetResolverMapRefs() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Refs[idx] = h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef)
+				target.ResolverMapRefs[idx] = h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef)
 			} else {
-				target.Refs[idx] = proto.Clone(v).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef)
+				target.ResolverMapRefs[idx] = proto.Clone(v).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef)
 			}
 
 		}
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
+		target.Options = h.Clone().(*ExecutableSchema_Local_Options)
+	} else {
+		target.Options = proto.Clone(m.GetOptions()).(*ExecutableSchema_Local_Options)
 	}
 
 	return target
@@ -557,6 +573,25 @@ func (m *ExecutableSchema_GraphQLServer) Clone() proto.Message {
 	}
 
 	target.SpanName = m.GetSpanName()
+
+	return target
+}
+
+// Clone function
+func (m *ExecutableSchema_Local_Options) Clone() proto.Message {
+	var target *ExecutableSchema_Local_Options
+	if m == nil {
+		return target
+	}
+	target = &ExecutableSchema_Local_Options{}
+
+	if h, ok := interface{}(m.GetMaxDepth()).(clone.Cloner); ok {
+		target.MaxDepth = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	} else {
+		target.MaxDepth = proto.Clone(m.GetMaxDepth()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	}
+
+	target.EnableIntrospection = m.GetEnableIntrospection()
 
 	return target
 }

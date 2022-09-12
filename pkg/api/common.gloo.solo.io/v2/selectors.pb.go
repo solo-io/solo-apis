@@ -442,7 +442,7 @@ type DestinationSelector struct {
 	// the kind of destination being selected. defaults to Kubernetes Service.
 	Kind DestinationKind `protobuf:"varint,2,opt,name=kind,proto3,enum=common.gloo.solo.io.DestinationKind" json:"kind,omitempty"`
 	// the port on the Destination which receives traffic.
-	// Not required if the Destination only exposes a single port.
+	// All ports on the Destination will be selected if left empty.
 	Port *PortSelector `protobuf:"bytes,3,opt,name=port,proto3" json:"port,omitempty"`
 }
 

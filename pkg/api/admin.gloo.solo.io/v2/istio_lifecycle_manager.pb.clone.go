@@ -35,6 +35,10 @@ func (m *IstioLifecycleManagerSpec) Clone() proto.Message {
 	}
 	target = &IstioLifecycleManagerSpec{}
 
+	target.Revision = m.GetRevision()
+
+	target.DefaultRevision = m.GetDefaultRevision()
+
 	if m.GetClusters() != nil {
 		target.Clusters = make([]*IstioLifecycleManagerSpec_Cluster, len(m.GetClusters()))
 		for idx, v := range m.GetClusters() {
@@ -59,12 +63,6 @@ func (m *IstioLifecycleManagerSpec) Clone() proto.Message {
 			}
 
 		}
-	}
-
-	if h, ok := interface{}(m.GetUpgradeStrategy()).(clone.Cloner); ok {
-		target.UpgradeStrategy = h.Clone().(*IstioLifecycleManagerSpec_UpgradeStrategy)
-	} else {
-		target.UpgradeStrategy = proto.Clone(m.GetUpgradeStrategy()).(*IstioLifecycleManagerSpec_UpgradeStrategy)
 	}
 
 	if m.GetUninstallRevisions() != nil {
@@ -138,19 +136,6 @@ func (m *IstioLifecycleManagerSpec_Cluster) Clone() proto.Message {
 }
 
 // Clone function
-func (m *IstioLifecycleManagerSpec_UpgradeStrategy) Clone() proto.Message {
-	var target *IstioLifecycleManagerSpec_UpgradeStrategy
-	if m == nil {
-		return target
-	}
-	target = &IstioLifecycleManagerSpec_UpgradeStrategy{}
-
-	target.AlwaysUseCanaryUpgrade = m.GetAlwaysUseCanaryUpgrade()
-
-	return target
-}
-
-// Clone function
 func (m *IstioLifecycleManagerStatus_ClusterStatuses) Clone() proto.Message {
 	var target *IstioLifecycleManagerStatus_ClusterStatuses
 	if m == nil {
@@ -185,7 +170,7 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Clone()
 
 	target.Message = m.GetMessage()
 
-	target.GeneratedRevision = m.GetGeneratedRevision()
+	target.Revision = m.GetRevision()
 
 	if m.GetLastObservedInstallations() != nil {
 		target.LastObservedInstallations = make([]*IstioInstallation, len(m.GetLastObservedInstallations()))
