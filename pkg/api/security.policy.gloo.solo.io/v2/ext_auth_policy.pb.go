@@ -180,6 +180,9 @@ func (x *ExtAuthPolicyStatus) GetSelectedRoutes() []*v2.RouteReference {
 	return nil
 }
 
+// Make sure to select the appropriate ExtAuthServer to use, which might be in a different cluster and namespace
+// than the ExtAuthPolicy. For auth configurations that require a client secret from the identity provider issuer,
+// the secret must be in the same cluster as the ExtAuthServer resource.
 type ExtAuthPolicySpec_Config struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

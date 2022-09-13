@@ -10,6 +10,7 @@ import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status
 import "google/protobuf/struct.proto";
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/duration.proto";
 
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
 
@@ -64,16 +65,11 @@ message GraphQLResolverMapSpec {
       // The value defines where the variable value is extracted from on the GraphQL request.
       map<string, Extraction> variables = 2;
 
+      // The stats prefix which will be used for this resolver.
+      // If empty, will generate a stats prefix ${RESOLVER_NAME}
+      google.protobuf.StringValue stat_prefix = 4;
+
       message Resolver {
-        // Not yet supported by the data plane
-        // This is included as a place holder
-        // But should not be used as it serves no function yet.
-
-        oneof optional_matcher {
-          .common.gloo.solo.io.HTTPRequestMatcher http_matcher = 1;
-        }
-
-
         // The resolver to use.
         oneof resolver {
           // Resolves values by making a HTTP/2 request to a HTTP/REST destination.
@@ -92,7 +88,7 @@ message GraphQLResolverMapSpec {
         // Use a transformation on extracted variables to transform the upstream REST response.
         // By default, the transformation is empty and the destination response is left as is before
         // being passed into the GraphQL execution engine.
-        VariableTransformation response_transform = 10;
+        VariableTransformation resolver_result_transform = 10;
 
         message RestResolver {
           // Required: list of destinations which point to destinations containing
@@ -114,6 +110,9 @@ message GraphQLResolverMapSpec {
           // The span name for the upstream REST request, used for tracing.
           // If left empty or not set, the request span name will be set to the upstream cluster name.
           google.protobuf.StringValue span_name = 4;
+
+          // Set the timeout of the HTTP request to the REST service (default 5s)
+          google.protobuf.Duration timeout = 5;
 
           message RequestTemplate {
             // Sets the headers on the request to the REST destination.
@@ -154,10 +153,6 @@ message ExecutableSchema {
   // defining this GraphQL schema.
   .core.skv2.solo.io.ClusterObjectRef schema_ref = 1;
 
-  message ClusterObjectRefList {
-    repeated .core.skv2.solo.io.ClusterObjectRef refs = 1;
-  }
-
   oneof executable_schema {
     // Configuration to delegate resolving this GraphQL request to an external GraphQL server, which can be
     // another GlooGraphQL instance or another instance of a GraphQL server. The external GraphQL server must
@@ -169,7 +164,66 @@ message ExecutableSchema {
     // locally by this GraphQL-envoy instance.
     // Order of the references listed below does matter as resolver maps listed first
     // will be given priority over later ones when tie-breaking field resolver configurations.
-    ClusterObjectRefList resolver_map_refs = 4;
+    Local local = 4;
+  }
+
+  message Local {
+    // List of references to GraphQLResolverMap resources. GraphQLResolverMaps
+    // contain a mapping from GraphQL fields to resolver configuration, so that those fields can be resolved
+    // locally by this GraphQL-envoy instance.
+    // Order of the references listed below does matter as resolver maps listed first
+    // will be given priority over later ones when tie-breaking field resolver configurations.
+    repeated .core.skv2.solo.io.ClusterObjectRef resolver_map_refs = 1;
+
+    Options options = 2;
+
+    message Options {
+      // Max GraphQL operation (query/mutation/subscription) depth. This sets a limitation on the max nesting on a query that runs against this schema.
+      // any GraphQL operation that runs past the `max_depth` will add an error message to the response and will return as `null`.
+      // As as simple example, if the schema is
+      // ```gql
+      // type Query {
+      //   employee: Employee
+      // }
+      //
+      // type Employee {
+      //   manager: Employee
+      //   name: String
+      // }
+      // ```
+      // and we set a `max_depth` of `3` and we run a query
+      // ```gql
+      // query {             # query depth : 0
+      //   employee {        # query depth : 1
+      //     manager {       # query depth : 2
+      //       name          # query depth : 3
+      //       manager {     # query depth : 3
+      //         name        # query depth : 4
+      //       }
+      //     }
+      //   }
+      // }
+      // ```
+      // the graphql server will respond with a response:
+      // ```json
+      // { "data" : {
+      //     "employee" : {
+      //       "manager" : {
+      //         "name" : "Manager 1",
+      //         "manager"  : {
+      //           "name" : null
+      //   }}}},
+      //   "errors": [
+      //      {"message": "field 'name' exceeds the max operation depth of 3 for this schema"}
+      //    ]
+      // }
+      // If not configured, or the value is 0, the query depth will be unbounded.
+      google.protobuf.UInt32Value max_depth = 1;
+
+      // Do we enable introspection for the schema? general recommendation is to
+      // disable this for production and hence it defaults to false.
+      bool enable_introspection = 2;
+    }
   }
 
   message GraphQLServer {
@@ -212,6 +266,8 @@ message ExecutableSchema {
       }
     }
   }
+
+
 }
 
 // Variable transformations are used to take variables that were declared
@@ -269,6 +325,9 @@ message VariableTransformation {
     // "User john_doe123, Name: John Doe"
     // ```
     string jq = 2;
+
+    // Static JSON value. 
+    google.protobuf.Value value = 3 [(.solo.io.cue.opt).disable_openapi_validation = true];
   }
 }
 

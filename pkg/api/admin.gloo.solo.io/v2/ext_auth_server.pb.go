@@ -91,9 +91,10 @@ type ExtAuthServerSpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Select the destination External Auth service which Gloo Mesh will use to authenticate traffic.
-	//
-	// If omitted, Gloo Mesh will look for a service with the name extauth in the agent namespace in each cluster where the selected workload is deployed.
+	// Select the destination of the external auth service for Gloo to use to authenticate traffic, such as the Gloo external auth service or your own external auth service.
+	// Make sure to select the correct cluster and namespace of the external auth service.
+	// For example, although you create this ExtAuthServer resource in the management cluster in most cases, remember that the Gloo external auth service runs in each workload cluster.
+	// If omitted, Gloo looks for a service with the name 'extauth' in the agent namespace in each cluster where the external auth service is deployed.
 	DestinationServer *v2.DestinationReference `protobuf:"bytes,1,opt,name=destination_server,json=destinationServer,proto3" json:"destination_server,omitempty"`
 	// If this is set, communication to the upstream will be via HTTP and not GRPC.
 	HttpService *ExtAuthServerSpec_HttpService `protobuf:"bytes,2,opt,name=http_service,json=httpService,proto3" json:"http_service,omitempty"`
