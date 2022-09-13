@@ -48,6 +48,8 @@ message NodeMetricsRequest {
   bool istio_metrics = 5;
   // Return Cilium metrics, false by default
   bool cilium_metrics = 6;
+  // Return TCP metrics, false by default
+  bool tcp_metrics = 7;
 }
 
 // Metrics aggregated for one or more network nodes over time.
@@ -107,6 +109,8 @@ message EdgeMetricsRequest {
   bool istio_metrics = 5;
   // Return Cilium metrics, false by default
   bool cilium_metrics = 6;
+  // Return TCP metrics, false by default
+  bool tcp_metrics = 7;
 }
 
 // Metrics aggregated for a network edge over time.

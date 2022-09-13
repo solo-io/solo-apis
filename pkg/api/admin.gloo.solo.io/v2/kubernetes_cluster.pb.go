@@ -28,6 +28,40 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
+// `KubernetesCluster` defines a Kubernetes cluster that has been registered with Gloo Mesh for management.
+// A KubernetesCluster must be created in order to connect the Gloo Mesh Agent
+// with the Gloo Mesh Server.
+// KubernetesCluster must be deployed to the management cluster in the `gloo-mesh` namespace.
+// The name of the KubernetesCluster has to be unique among all managed workload clusters for a
+// given Gloo Mesh management plane.
+// The name or/and labels of a KubernetesCluster resource can be used in a Workspace resource to determine
+// the workload clusters for a given workspace.
+//
+// The following example show a simple KubernetesCluster resource named `cluster1` with `cluster.local`
+// as its cluster domain:
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: KubernetesCluster
+// metadata:
+//   name: cluster1
+//   namespace: gloo-mesh
+// spec:
+//   clusterDomain: cluster.local
+// ```
+//
+// The following example adds the region label to the KubernetesCluster resource:
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: KubernetesCluster
+// metadata:
+//   name: cluster1
+//   namespace: gloo-mesh
+//   labels:
+//     region: us-east
+// spec:
+//   clusterDomain: cluster.local
+// ```
+//
 type KubernetesClusterSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -114,17 +114,17 @@ func (m *ExecutableSchema) Equal(that interface{}) bool {
 			}
 		}
 
-	case *ExecutableSchema_ResolverMapRefs:
-		if _, ok := target.ExecutableSchema.(*ExecutableSchema_ResolverMapRefs); !ok {
+	case *ExecutableSchema_Local_:
+		if _, ok := target.ExecutableSchema.(*ExecutableSchema_Local_); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetResolverMapRefs()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetResolverMapRefs()) {
+		if h, ok := interface{}(m.GetLocal()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetLocal()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetResolverMapRefs(), target.GetResolverMapRefs()) {
+			if !proto.Equal(m.GetLocal(), target.GetLocal()) {
 				return false
 			}
 		}
@@ -178,6 +178,21 @@ func (m *VariableTransformation) Equal(that interface{}) bool {
 
 		if strings.Compare(m.GetJq(), target.GetJq()) != 0 {
 			return false
+		}
+
+	case *VariableTransformation_Value:
+		if _, ok := target.Transformation.(*VariableTransformation_Value); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetValue()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetValue()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetValue(), target.GetValue()) {
+				return false
+			}
 		}
 
 	default:
@@ -490,6 +505,16 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers) Equal(that interface{}) bo
 
 	}
 
+	if h, ok := interface{}(m.GetStatPrefix()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetStatPrefix()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetStatPrefix(), target.GetStatPrefix()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -514,36 +539,12 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver) Equal(that interf
 		return false
 	}
 
-	if h, ok := interface{}(m.GetResponseTransform()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetResponseTransform()) {
+	if h, ok := interface{}(m.GetResolverResultTransform()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetResolverResultTransform()) {
 			return false
 		}
 	} else {
-		if !proto.Equal(m.GetResponseTransform(), target.GetResponseTransform()) {
-			return false
-		}
-	}
-
-	switch m.OptionalMatcher.(type) {
-
-	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_HttpMatcher:
-		if _, ok := target.OptionalMatcher.(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_HttpMatcher); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetHttpMatcher()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetHttpMatcher()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetHttpMatcher(), target.GetHttpMatcher()) {
-				return false
-			}
-		}
-
-	default:
-		// m is nil but target is not nil
-		if m.OptionalMatcher != target.OptionalMatcher {
+		if !proto.Equal(m.GetResolverResultTransform(), target.GetResolverResultTransform()) {
 			return false
 		}
 	}
@@ -650,6 +651,16 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) Equa
 		}
 	}
 
+	if h, ok := interface{}(m.GetTimeout()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetTimeout()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetTimeout(), target.GetTimeout()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -750,14 +761,14 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 }
 
 // Equal function
-func (m *ExecutableSchema_ClusterObjectRefList) Equal(that interface{}) bool {
+func (m *ExecutableSchema_Local) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*ExecutableSchema_ClusterObjectRefList)
+	target, ok := that.(*ExecutableSchema_Local)
 	if !ok {
-		that2, ok := that.(ExecutableSchema_ClusterObjectRefList)
+		that2, ok := that.(ExecutableSchema_Local)
 		if ok {
 			target = &that2
 		} else {
@@ -770,21 +781,31 @@ func (m *ExecutableSchema_ClusterObjectRefList) Equal(that interface{}) bool {
 		return false
 	}
 
-	if len(m.GetRefs()) != len(target.GetRefs()) {
+	if len(m.GetResolverMapRefs()) != len(target.GetResolverMapRefs()) {
 		return false
 	}
-	for idx, v := range m.GetRefs() {
+	for idx, v := range m.GetResolverMapRefs() {
 
 		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetRefs()[idx]) {
+			if !h.Equal(target.GetResolverMapRefs()[idx]) {
 				return false
 			}
 		} else {
-			if !proto.Equal(v, target.GetRefs()[idx]) {
+			if !proto.Equal(v, target.GetResolverMapRefs()[idx]) {
 				return false
 			}
 		}
 
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptions(), target.GetOptions()) {
+			return false
+		}
 	}
 
 	return true
@@ -880,6 +901,44 @@ func (m *ExecutableSchema_GraphQLServer) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetSpanName(), target.GetSpanName()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExecutableSchema_Local_Options) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExecutableSchema_Local_Options)
+	if !ok {
+		that2, ok := that.(ExecutableSchema_Local_Options)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetMaxDepth()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMaxDepth()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMaxDepth(), target.GetMaxDepth()) {
+			return false
+		}
+	}
+
+	if m.GetEnableIntrospection() != target.GetEnableIntrospection() {
 		return false
 	}
 
