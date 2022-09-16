@@ -97,11 +97,11 @@ func (m *Secret) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetApiKey()).(clone.Cloner); ok {
 			target.Kind = &Secret_ApiKey{
-				ApiKey: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_enterprise_gloo_solo_io_v1.ApiKeySecret),
+				ApiKey: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_enterprise_gloo_solo_io_v1.ApiKey),
 			}
 		} else {
 			target.Kind = &Secret_ApiKey{
-				ApiKey: proto.Clone(m.GetApiKey()).(*github_com_solo_io_solo_apis_pkg_api_enterprise_gloo_solo_io_v1.ApiKeySecret),
+				ApiKey: proto.Clone(m.GetApiKey()).(*github_com_solo_io_solo_apis_pkg_api_enterprise_gloo_solo_io_v1.ApiKey),
 			}
 		}
 
