@@ -316,6 +316,17 @@ message SettingsSpec {
         // All Services with tags in the allowlisted values will have endpoints and upstreams discovered.
         // Default is all services - if values specified this will limit discovery to only services with specified tags
         repeated string service_tags_allowlist = 22;
+
+        // Enables blocking queries for Gloo's requests to the Consul Catalog API for each service
+        // (`/catalog/service/:servicename`) to get endpoints for EDS. For more on blocking queries, see
+        // https://www.consul.io/api-docs/features/blocking
+        //
+        // Enabling this feature will likely result in fewer network calls to Consul, but may also result in
+        // fewer local consul agent cache hits for Gloo's requests to the Consul Catalog API. (see
+        // `query_options` above to configure caching; caching is enabled by default).
+        //
+        // Defaults to false.
+        google.protobuf.BoolValue eds_blocking_queries = 23;
     }
 
     ConsulUpstreamDiscoveryConfiguration consulDiscovery = 30;
@@ -325,10 +336,10 @@ message SettingsSpec {
     message KubernetesConfiguration {
 
         message RateLimits {
-            // The maximum queries-per-second Gloo can make to the Kubernetes API Server.
+            // The maximum queries-per-second Gloo can make to the Kubernetes API Server. Defaults to 50.
             float QPS = 1;
             // Maximum burst for throttle. When a steady state of QPS requests per second,
-            // this is an additional number of allowed, to allow for short bursts.
+            // this is an additional number of allowed, to allow for short bursts. Defaults to 100.
             uint32 burst = 2;
         }
         // Rate limits for the kubernetes clients
