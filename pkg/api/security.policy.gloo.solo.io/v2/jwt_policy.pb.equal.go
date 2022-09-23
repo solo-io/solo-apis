@@ -192,6 +192,10 @@ func (m *JWTPolicySpec_Config) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetAllowMissingOrFailed() != target.GetAllowMissingOrFailed() {
+		return false
+	}
+
 	return true
 }
 
