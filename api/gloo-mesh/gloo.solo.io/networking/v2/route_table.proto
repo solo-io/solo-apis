@@ -247,7 +247,7 @@ message RedirectAction {
 // Note: This message needs to be at this level (rather than nested) due to cue restrictions.
 // DirectResponseAction is copied directly from https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
 message DirectResponseAction {
-    // Specifies the HTTP response status to be returned.
+    // Required. Specifies an HTTP response status between 100-599 inclusive to be returned.
     uint32 status = 1;
 
     // Specifies the content of the response body. If this setting is omitted,
