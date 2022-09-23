@@ -29,7 +29,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rotisserie/eris v0.1.1
 	github.com/solo-io/go-utils v0.21.6
-	github.com/solo-io/protoc-gen-ext v0.0.13
+	github.com/solo-io/protoc-gen-ext v0.0.17
 	github.com/solo-io/skv2 v0.18.3
 	github.com/solo-io/solo-kit v0.21.0
 	golang.org/x/tools v0.1.0
