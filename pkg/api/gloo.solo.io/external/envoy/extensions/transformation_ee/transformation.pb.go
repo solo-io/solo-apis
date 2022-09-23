@@ -85,8 +85,9 @@ type TransformationRule struct {
 	//
 	// .. code-block:: yaml
 	//
-	//	match:
-	//	  prefix: /
+	//    match:
+	//      prefix: /
+	//
 	Match *route.RouteMatch `protobuf:"bytes,1,opt,name=match,proto3" json:"match,omitempty"`
 	// transformation to perform
 	RouteTransformations *RouteTransformations `protobuf:"bytes,2,opt,name=route_transformations,json=routeTransformations,proto3" json:"route_transformations,omitempty"`
@@ -220,7 +221,6 @@ type Transformation struct {
 	// Template is in the transformed request language domain
 	//
 	// Types that are assignable to TransformationType:
-	//
 	//	*Transformation_DlpTransformation
 	TransformationType isTransformation_TransformationType `protobuf_oneof:"transformation_type"`
 }

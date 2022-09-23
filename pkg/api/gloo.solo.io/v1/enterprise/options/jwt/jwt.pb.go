@@ -345,7 +345,6 @@ type Jwks struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Jwks:
-	//
 	//	*Jwks_Remote
 	//	*Jwks_Local
 	Jwks isJwks_Jwks `protobuf_oneof:"jwks"`

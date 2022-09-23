@@ -35,7 +35,6 @@ type DatadogConfig struct {
 	// The cluster to use for submitting traces to the Datadog agent.
 	//
 	// Types that are assignable to CollectorCluster:
-	//
 	//	*DatadogConfig_CollectorUpstreamRef
 	//	*DatadogConfig_ClusterName
 	CollectorCluster isDatadogConfig_CollectorCluster `protobuf_oneof:"collector_cluster"`

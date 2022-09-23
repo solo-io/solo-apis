@@ -255,9 +255,8 @@ type ConnectionConfig_HttpProtocolOptions struct {
 	// If not specified, this defaults to 1 hour. To disable idle timeouts explicitly set this to 0.
 	//
 	// .. warning::
-	//
-	//	Disabling this timeout has a highly likelihood of yielding connection leaks due to lost TCP
-	//	FIN packets, etc.
+	//   Disabling this timeout has a highly likelihood of yielding connection leaks due to lost TCP
+	//   FIN packets, etc.
 	IdleTimeout *duration.Duration `protobuf:"bytes,1,opt,name=idle_timeout,json=idleTimeout,proto3" json:"idle_timeout,omitempty"`
 	// The maximum number of headers. If unconfigured, the default
 	// maximum number of request headers allowed is 100. Requests that exceed this limit will receive
