@@ -176,6 +176,15 @@ func (m *ClusterSelector_NamespaceSelector) Clone() proto.Message {
 
 	target.ConfigEnabled = m.GetConfigEnabled()
 
+	if m.GetLabels() != nil {
+		target.Labels = make(map[string]string, len(m.GetLabels()))
+		for k, v := range m.GetLabels() {
+
+			target.Labels[k] = v
+
+		}
+	}
+
 	return target
 }
 

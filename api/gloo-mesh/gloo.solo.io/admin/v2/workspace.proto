@@ -114,12 +114,18 @@ message ClusterSelector {
 
     // Select namespaces for the selected cluster(s)
     message NamespaceSelector {
-        // name of the namespace to select.
-        // can use * to match name patterns in multiple namespaces.
+        // Name of the namespace to select.
+        // Can use * to match name patterns in multiple namespaces.
+        // Note: When this field is used in conjunction with "labels", both conditions are ANDed together.
         string name = 1;
 
         // Optional: Enable configuration from this namespace. (default: true unless explicitly enabled for any selected clusters or namespaces)
         bool config_enabled = 2;
+
+        // Optional: Select groups of namespaces via labels.
+        // Leaving this field empty will NOT select all namespaces, but rather be ignored.
+        // Note: When this field is used in conjunction with "name", both conditions are ANDed together.
+        map<string, string> labels = 3;
     }
 }
 
