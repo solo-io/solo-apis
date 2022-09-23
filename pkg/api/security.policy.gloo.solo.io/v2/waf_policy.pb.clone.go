@@ -13,6 +13,8 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+
 	github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2"
 
 	github_com_solo_io_solo_apis_pkg_api_envoy_gloo_ee_api_envoy_config_filter_http_modsecurity_v2 "github.com/solo-io/solo-apis/pkg/api/envoy-gloo-ee/api/envoy/config/filter/http/modsecurity/v2"
@@ -136,6 +138,12 @@ func (m *WAFPolicySpec_Config) Clone() proto.Message {
 	target.RequestHeadersOnly = m.GetRequestHeadersOnly()
 
 	target.ResponseHeadersOnly = m.GetResponseHeadersOnly()
+
+	if h, ok := interface{}(m.GetPriority()).(clone.Cloner); ok {
+		target.Priority = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	} else {
+		target.Priority = proto.Clone(m.GetPriority()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	}
 
 	return target
 }
