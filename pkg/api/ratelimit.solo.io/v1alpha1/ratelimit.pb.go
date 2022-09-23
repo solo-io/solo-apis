@@ -186,6 +186,7 @@ type RateLimitConfigSpec struct {
 	// more high-level configuration formats to support specific use cases.
 	//
 	// Types that are assignable to ConfigType:
+	//
 	//	*RateLimitConfigSpec_Raw_
 	ConfigType isRateLimitConfigSpec_ConfigType `protobuf_oneof:"config_type"`
 }
@@ -326,10 +327,11 @@ func (x *RateLimitConfigStatus) GetObservedGeneration() int64 {
 //   - key: <rule key: required>
 //     value: <rule value: optional>
 //     rate_limit: (optional block)
-//       unit: <see below: required>
-//       requests_per_unit: <see below: required>
+//     unit: <see below: required>
+//     requests_per_unit: <see below: required>
 //     descriptors: (optional block)
-//       - ... (nested repetition of above)
+//   - ... (nested repetition of above)
+//
 // ```
 //
 // Each descriptor in a descriptor list must have a key. It can also optionally have a value to enable
@@ -454,15 +456,16 @@ func (x *Descriptor) GetAlwaysApply() bool {
 //
 // ```
 // set_descriptors:
-//  - simple_descriptors: (optional block)
-//      - key: <rule key: required>
-//        value: <rule value: optional>
-//      - ... (repetition of above)
-//    rate_limit:
-//      requests_per_unit: <see below: required>
-//      unit: <see below: required>
-//    always_apply: <bool value: optional>
-//  - ... (repetition of above)
+//   - simple_descriptors: (optional block)
+//   - key: <rule key: required>
+//     value: <rule value: optional>
+//   - ... (repetition of above)
+//     rate_limit:
+//     requests_per_unit: <see below: required>
+//     unit: <see below: required>
+//     always_apply: <bool value: optional>
+//   - ... (repetition of above)
+//
 // ```
 //
 // Each SetDescriptor defines a new Rate Limit "rule". When a request comes in, rate limit
@@ -553,10 +556,12 @@ func (x *SetDescriptor) GetAlwaysApply() bool {
 // The format is:
 //
 // ```
-//  simple_descriptors:
-//    - key: <rule key: required>
-//      value: <rule value: optional>
-//    - ... (repetition of above)
+//
+//	simple_descriptors:
+//	  - key: <rule key: required>
+//	    value: <rule value: optional>
+//	  - ... (repetition of above)
+//
 // ```
 //
 // Each simpleDescriptor in a simpleDescriptor list must have a key. It can also optionally have a value to enable
@@ -624,37 +629,39 @@ func (x *SimpleDescriptor) GetValue() string {
 // Order matters on provided actions but not on setActions, e.g. the following actions:
 // - actions:
 //   - requestHeaders:
-//      descriptorKey: account_id
-//      headerName: x-account-id
+//     descriptorKey: account_id
+//     headerName: x-account-id
 //   - requestHeaders:
-//      descriptorKey: plan
-//      headerName: x-plan
+//     descriptorKey: plan
+//     headerName: x-plan
+//
 // define an ordered descriptor tuple like so: ('account_id', '<x-account-id value>'), ('plan', '<x-plan value>')
 //
 // While the current form matches, the same tuple in reverse order would not match the following descriptor:
 //
 // descriptors:
-// - key: account_id
-//   descriptors:
+//   - key: account_id
+//     descriptors:
 //   - key: plan
 //     value: BASIC
 //     rateLimit:
-//       requestsPerUnit: 1
-//       unit: MINUTE
-//  - key: plan
-//    value: PLUS
-//    rateLimit:
-//      requestsPerUnit: 20
-//      unit: MINUTE
+//     requestsPerUnit: 1
+//     unit: MINUTE
+//   - key: plan
+//     value: PLUS
+//     rateLimit:
+//     requestsPerUnit: 20
+//     unit: MINUTE
 //
 // Similarly, the following setActions:
 // - setActions:
 //   - requestHeaders:
-//      descriptorKey: account_id
-//      headerName: x-account-id
+//     descriptorKey: account_id
+//     headerName: x-account-id
 //   - requestHeaders:
-//      descriptorKey: plan
-//      headerName: x-plan
+//     descriptorKey: plan
+//     headerName: x-plan
+//
 // define an unordered descriptor set like so: {('account_id', '<x-account-id value>'), ('plan', '<x-plan value>')}
 //
 // This set would match the following setDescriptor:
@@ -664,26 +671,26 @@ func (x *SimpleDescriptor) GetValue() string {
 //   - key: plan
 //     value: BASIC
 //   - key: account_id
-//  rateLimit:
-//    requestsPerUnit: 20
-//    unit: MINUTE
+//     rateLimit:
+//     requestsPerUnit: 20
+//     unit: MINUTE
 //
 // It would also match the following setDescriptor which includes only a subset of the setActions enumerated:
 //
 // setDescriptors:
 // - simpleDescriptors:
 //   - key: account_id
-//  rateLimit:
-//    requestsPerUnit: 20
-//    unit: MINUTE
+//     rateLimit:
+//     requestsPerUnit: 20
+//     unit: MINUTE
 //
 // It would even match the following setDescriptor.
 // Any setActions list would match this setDescriptor which has simpleDescriptors omitted entirely:
 //
 // setDescriptors:
-// - rateLimit:
-//    requestsPerUnit: 20
-//    unit: MINUTE
+//   - rateLimit:
+//     requestsPerUnit: 20
+//     unit: MINUTE
 type RateLimitActions struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -803,6 +810,7 @@ type Action struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to ActionSpecifier:
+	//
 	//	*Action_SourceCluster_
 	//	*Action_DestinationCluster_
 	//	*Action_RequestHeaders_
@@ -1029,7 +1037,9 @@ func (x *RateLimitConfigSpec_Raw) GetSetDescriptors() []*SetDescriptor {
 // The following descriptor entry is appended to the descriptor:
 //
 // ```
-//   ("source_cluster", "<local service cluster>")
+//
+//	("source_cluster", "<local service cluster>")
+//
 // ```
 //
 // <local service cluster> is derived from the :option:`--service-cluster` option.
@@ -1074,19 +1084,21 @@ func (*Action_SourceCluster) Descriptor() ([]byte, []int) {
 // The following descriptor entry is appended to the descriptor:
 //
 // ```
-//   ("destination_cluster", "<routed target cluster>")
+//
+//	("destination_cluster", "<routed target cluster>")
+//
 // ```
 //
 // Once a request matches against a route table rule, a routed cluster is determined by one of
 // the following `route table configuration (envoy_api_msg_RouteConfiguration)`
 // settings:
 //
-// * `cluster (envoy_api_field_route.RouteAction.cluster)` indicates the upstream cluster
-//   to route to.
-// * `weighted_clusters (envoy_api_field_route.RouteAction.weighted_clusters)`
-//   chooses a cluster randomly from a set of clusters with attributed weight.
-// * `cluster_header (envoy_api_field_route.RouteAction.cluster_header)` indicates which
-//   header in the request contains the target cluster.
+//   - `cluster (envoy_api_field_route.RouteAction.cluster)` indicates the upstream cluster
+//     to route to.
+//   - `weighted_clusters (envoy_api_field_route.RouteAction.weighted_clusters)`
+//     chooses a cluster randomly from a set of clusters with attributed weight.
+//   - `cluster_header (envoy_api_field_route.RouteAction.cluster_header)` indicates which
+//     header in the request contains the target cluster.
 type Action_DestinationCluster struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1129,7 +1141,9 @@ func (*Action_DestinationCluster) Descriptor() ([]byte, []int) {
 // *header_name*:
 //
 // ```
-//   ("<descriptor_key>", "<header_value_queried_from_header>")
+//
+//	("<descriptor_key>", "<header_value_queried_from_header>")
+//
 // ```
 type Action_RequestHeaders struct {
 	state         protoimpl.MessageState
@@ -1194,7 +1208,9 @@ func (x *Action_RequestHeaders) GetDescriptorKey() string {
 // trusted address from `x-forwarded-for (config_http_conn_man_headers_x-forwarded-for)`:
 //
 // ```
-//   ("remote_address", "<trusted address from x-forwarded-for>")
+//
+//	("remote_address", "<trusted address from x-forwarded-for>")
+//
 // ```
 type Action_RemoteAddress struct {
 	state         protoimpl.MessageState
@@ -1237,7 +1253,9 @@ func (*Action_RemoteAddress) Descriptor() ([]byte, []int) {
 // The following descriptor entry is appended to the descriptor:
 //
 // ```
-//   ("generic_key", "<descriptor_value>")
+//
+//	("generic_key", "<descriptor_value>")
+//
 // ```
 type Action_GenericKey struct {
 	state         protoimpl.MessageState
@@ -1290,7 +1308,9 @@ func (x *Action_GenericKey) GetDescriptorValue() string {
 // The following descriptor entry is appended to the descriptor:
 //
 // ```
-//   ("header_match", "<descriptor_value>")
+//
+//	("header_match", "<descriptor_value>")
+//
 // ```
 type Action_HeaderValueMatch struct {
 	state         protoimpl.MessageState
@@ -1366,7 +1386,8 @@ func (x *Action_HeaderValueMatch) GetHeaders() []*Action_HeaderValueMatch_Header
 }
 
 // The following descriptor entry is appended when the metadata contains a key value:
-//   ("<descriptor_key>", "<value_queried_from_metadata>")
+//
+//	("<descriptor_key>", "<value_queried_from_metadata>")
 type Action_MetaData struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1454,6 +1475,7 @@ type Action_HeaderValueMatch_HeaderMatcher struct {
 	// Specifies how the header match will be performed to route the request.
 	//
 	// Types that are assignable to HeaderMatchSpecifier:
+	//
 	//	*Action_HeaderValueMatch_HeaderMatcher_ExactMatch
 	//	*Action_HeaderValueMatch_HeaderMatcher_RegexMatch
 	//	*Action_HeaderValueMatch_HeaderMatcher_RangeMatch
@@ -1598,8 +1620,8 @@ type Action_HeaderValueMatch_HeaderMatcher_RangeMatch struct {
 	//
 	// Examples:
 	//
-	// * For range [-10,0), route will match for header value -1, but not for 0, "somestring", 10.9,
-	//   "-1somestring"
+	//   - For range [-10,0), route will match for header value -1, but not for 0, "somestring", 10.9,
+	//     "-1somestring"
 	RangeMatch *Action_HeaderValueMatch_HeaderMatcher_Int64Range `protobuf:"bytes,6,opt,name=range_match,json=rangeMatch,proto3,oneof"`
 }
 
@@ -1713,11 +1735,13 @@ func (x *Action_HeaderValueMatch_HeaderMatcher_Int64Range) GetEnd() int64 {
 //
 // ```yaml
 // filter_metadata:
-//   envoy.xxx:
-//     prop:
-//       foo: bar
-//       xyz:
-//         hello: envoy
+//
+//	envoy.xxx:
+//	  prop:
+//	    foo: bar
+//	    xyz:
+//	      hello: envoy
+//
 // ```
 //
 // The following MetadataKey will retrieve a string value "bar" from the Metadata.
@@ -1728,7 +1752,6 @@ func (x *Action_HeaderValueMatch_HeaderMatcher_Int64Range) GetEnd() int64 {
 // - key: prop
 // - key: foo
 // ```
-//
 type Action_MetaData_MetadataKey struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1738,7 +1761,7 @@ type Action_MetaData_MetadataKey struct {
 	// Typically, it represents a builtin subsystem or custom extension.
 	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"` // [(validate.rules).string = {min_len: 1}];
 	// Must have at least one element. The path to retrieve the Value from the Struct. It can be a prefix or a full path,
-	// e.g. ``[prop, xyz]`` for a struct or ``[prop, foo]`` for a string in the example,
+	// e.g. “[prop, xyz]“ for a struct or “[prop, foo]“ for a string in the example,
 	// which depends on the particular scenario.
 	//
 	// Note: Due to that only the key type segment is supported, the path can not specify a list
@@ -1800,6 +1823,7 @@ type Action_MetaData_MetadataKey_PathSegment struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Segment:
+	//
 	//	*Action_MetaData_MetadataKey_PathSegment_Key
 	Segment isAction_MetaData_MetadataKey_PathSegment_Segment `protobuf_oneof:"segment"`
 }

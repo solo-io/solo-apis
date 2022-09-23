@@ -92,7 +92,6 @@ func (UpstreamStatus_State) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_upstream_proto_rawDescGZIP(), []int{2, 0}
 }
 
-//
 // Upstreams represent destination for routing HTTP requests. Upstreams can be compared to
 // [clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto) in Envoy terminology.
 // Each upstream in Gloo has a type. Supported types include `static`, `kubernetes`, `aws`, `consul`, and more.
@@ -123,6 +122,7 @@ type UpstreamSpec struct {
 	// to be usable by Gloo. (plugins currently need to be compiled into Gloo)
 	//
 	// Types that are assignable to UpstreamType:
+	//
 	//	*UpstreamSpec_Kube
 	//	*UpstreamSpec_Static
 	//	*UpstreamSpec_Pipe
@@ -152,13 +152,13 @@ type UpstreamSpec struct {
 	// For example, setting to: host.com:443 and making a request routed to the upstream such as `curl <envoy>:<port>/v1`
 	// would result in the following request:
 	//
-	//    CONNECT host.com:443 HTTP/1.1
-	//    host: host.com:443
+	//	CONNECT host.com:443 HTTP/1.1
+	//	host: host.com:443
 	//
-	//    GET /v1 HTTP/1.1
-	//    host: <envoy>:<port>
-	//    user-agent: curl/7.64.1
-	//    accept: */*
+	//	GET /v1 HTTP/1.1
+	//	host: <envoy>:<port>
+	//	user-agent: curl/7.64.1
+	//	accept: */*
 	//
 	// Note: if setting this field to a hostname rather than IP:PORT, you may want to also set `host_rewrite` on the route
 	HttpProxyHostname *wrappers.StringValue `protobuf:"bytes,21,opt,name=http_proxy_hostname,json=httpProxyHostname,proto3" json:"http_proxy_hostname,omitempty"`
