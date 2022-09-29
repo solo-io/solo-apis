@@ -86,9 +86,6 @@ message GenericContextStatus {
 
   // Additional information about the current state of the resource.
   string message = 3;
-
-  // The last time the status was updated.
-  .google.protobuf.Timestamp updated_at = 4;
 }
 
 // Indicates selected routes on status messages.

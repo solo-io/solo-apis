@@ -315,16 +315,6 @@ func (m *GenericContextStatus) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetUpdatedAt()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetUpdatedAt()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetUpdatedAt(), target.GetUpdatedAt()) {
-			return false
-		}
-	}
-
 	return true
 }
 

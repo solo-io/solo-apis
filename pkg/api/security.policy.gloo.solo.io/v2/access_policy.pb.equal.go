@@ -145,6 +145,40 @@ func (m *AccessPolicyStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *AccessPolicySpec_NamespaceWorkloadSelector) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessPolicySpec_NamespaceWorkloadSelector)
+	if !ok {
+		that2, ok := that.(AccessPolicySpec_NamespaceWorkloadSelector)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetSelector()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetSelector()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetSelector(), target.GetSelector()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *AccessPolicySpec_Config) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -183,6 +217,53 @@ func (m *AccessPolicySpec_Config) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetAuthz(), target.GetAuthz()) {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector)
+	if !ok {
+		that2, ok := that.(AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetLabels()) != len(target.GetLabels()) {
+		return false
+	}
+	for k, v := range m.GetLabels() {
+
+		if strings.Compare(v, target.GetLabels()[k]) != 0 {
+			return false
+		}
+
+	}
+
+	if strings.Compare(m.GetNamespace(), target.GetNamespace()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetCluster(), target.GetCluster()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetWorkspace(), target.GetWorkspace()) != 0 {
+		return false
 	}
 
 	return true
@@ -271,6 +352,137 @@ func (m *AccessPolicySpec_Config_Authorization) Equal(that interface{}) bool {
 	for idx, v := range m.GetAllowedMethods() {
 
 		if strings.Compare(v, target.GetAllowedMethods()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetMatch()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMatch()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMatch(), target.GetMatch()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessPolicySpec_Config_Authorization_MatchSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessPolicySpec_Config_Authorization_MatchSpec)
+	if !ok {
+		that2, ok := that.(AccessPolicySpec_Config_Authorization_MatchSpec)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetRequest()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetRequest()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetRequest(), target.GetRequest()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec)
+	if !ok {
+		that2, ok := that.(AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetHeaders()) != len(target.GetHeaders()) {
+		return false
+	}
+	for k, v := range m.GetHeaders() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetHeaders()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetHeaders()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues)
+	if !ok {
+		that2, ok := that.(AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetValues()) != len(target.GetValues()) {
+		return false
+	}
+	for idx, v := range m.GetValues() {
+
+		if strings.Compare(v, target.GetValues()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetNotValues()) != len(target.GetNotValues()) {
+		return false
+	}
+	for idx, v := range m.GetNotValues() {
+
+		if strings.Compare(v, target.GetNotValues()[idx]) != 0 {
 			return false
 		}
 

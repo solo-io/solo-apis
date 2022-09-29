@@ -143,16 +143,17 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses) Clone() proto.Message {
 	}
 	target = &IstioLifecycleManagerStatus_ClusterStatuses{}
 
-	if h, ok := interface{}(m.GetActive()).(clone.Cloner); ok {
-		target.Active = h.Clone().(*IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus)
-	} else {
-		target.Active = proto.Clone(m.GetActive()).(*IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus)
-	}
+	if m.GetInstallations() != nil {
+		target.Installations = make(map[string]*IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus, len(m.GetInstallations()))
+		for k, v := range m.GetInstallations() {
 
-	if h, ok := interface{}(m.GetCanary()).(clone.Cloner); ok {
-		target.Canary = h.Clone().(*IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus)
-	} else {
-		target.Canary = proto.Clone(m.GetCanary()).(*IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus)
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Installations[k] = h.Clone().(*IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus)
+			} else {
+				target.Installations[k] = proto.Clone(v).(*IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus)
+			}
+
+		}
 	}
 
 	return target
@@ -172,14 +173,14 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Clone()
 
 	target.Revision = m.GetRevision()
 
-	if m.GetLastObservedInstallations() != nil {
-		target.LastObservedInstallations = make([]*IstioInstallation, len(m.GetLastObservedInstallations()))
-		for idx, v := range m.GetLastObservedInstallations() {
+	if m.GetObservedInstallations() != nil {
+		target.ObservedInstallations = make([]*IstioInstallation, len(m.GetObservedInstallations()))
+		for idx, v := range m.GetObservedInstallations() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.LastObservedInstallations[idx] = h.Clone().(*IstioInstallation)
+				target.ObservedInstallations[idx] = h.Clone().(*IstioInstallation)
 			} else {
-				target.LastObservedInstallations[idx] = proto.Clone(v).(*IstioInstallation)
+				target.ObservedInstallations[idx] = proto.Clone(v).(*IstioInstallation)
 			}
 
 		}

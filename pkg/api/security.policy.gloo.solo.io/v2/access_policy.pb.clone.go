@@ -101,6 +101,23 @@ func (m *AccessPolicyStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *AccessPolicySpec_NamespaceWorkloadSelector) Clone() proto.Message {
+	var target *AccessPolicySpec_NamespaceWorkloadSelector
+	if m == nil {
+		return target
+	}
+	target = &AccessPolicySpec_NamespaceWorkloadSelector{}
+
+	if h, ok := interface{}(m.GetSelector()).(clone.Cloner); ok {
+		target.Selector = h.Clone().(*AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector)
+	} else {
+		target.Selector = proto.Clone(m.GetSelector()).(*AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector)
+	}
+
+	return target
+}
+
+// Clone function
 func (m *AccessPolicySpec_Config) Clone() proto.Message {
 	var target *AccessPolicySpec_Config
 	if m == nil {
@@ -119,6 +136,32 @@ func (m *AccessPolicySpec_Config) Clone() proto.Message {
 	} else {
 		target.Authz = proto.Clone(m.GetAuthz()).(*AccessPolicySpec_Config_Authorization)
 	}
+
+	return target
+}
+
+// Clone function
+func (m *AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector) Clone() proto.Message {
+	var target *AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector
+	if m == nil {
+		return target
+	}
+	target = &AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector{}
+
+	if m.GetLabels() != nil {
+		target.Labels = make(map[string]string, len(m.GetLabels()))
+		for k, v := range m.GetLabels() {
+
+			target.Labels[k] = v
+
+		}
+	}
+
+	target.Namespace = m.GetNamespace()
+
+	target.Cluster = m.GetCluster()
+
+	target.Workspace = m.GetWorkspace()
 
 	return target
 }
@@ -171,6 +214,82 @@ func (m *AccessPolicySpec_Config_Authorization) Clone() proto.Message {
 		for idx, v := range m.GetAllowedMethods() {
 
 			target.AllowedMethods[idx] = v
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetMatch()).(clone.Cloner); ok {
+		target.Match = h.Clone().(*AccessPolicySpec_Config_Authorization_MatchSpec)
+	} else {
+		target.Match = proto.Clone(m.GetMatch()).(*AccessPolicySpec_Config_Authorization_MatchSpec)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *AccessPolicySpec_Config_Authorization_MatchSpec) Clone() proto.Message {
+	var target *AccessPolicySpec_Config_Authorization_MatchSpec
+	if m == nil {
+		return target
+	}
+	target = &AccessPolicySpec_Config_Authorization_MatchSpec{}
+
+	if h, ok := interface{}(m.GetRequest()).(clone.Cloner); ok {
+		target.Request = h.Clone().(*AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec)
+	} else {
+		target.Request = proto.Clone(m.GetRequest()).(*AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec) Clone() proto.Message {
+	var target *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec
+	if m == nil {
+		return target
+	}
+	target = &AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec{}
+
+	if m.GetHeaders() != nil {
+		target.Headers = make(map[string]*AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues, len(m.GetHeaders()))
+		for k, v := range m.GetHeaders() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Headers[k] = h.Clone().(*AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues)
+			} else {
+				target.Headers[k] = proto.Clone(v).(*AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues) Clone() proto.Message {
+	var target *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues
+	if m == nil {
+		return target
+	}
+	target = &AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues{}
+
+	if m.GetValues() != nil {
+		target.Values = make([]string, len(m.GetValues()))
+		for idx, v := range m.GetValues() {
+
+			target.Values[idx] = v
+
+		}
+	}
+
+	if m.GetNotValues() != nil {
+		target.NotValues = make([]string, len(m.GetNotValues()))
+		for idx, v := range m.GetNotValues() {
+
+			target.NotValues[idx] = v
 
 		}
 	}
