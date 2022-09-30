@@ -58,14 +58,8 @@ message IstioLifecycleManagerStatus {
     map<string, ClusterStatuses>  clusters = 4;
 
     message ClusterStatuses {
-        // The Istio installation that is considered active. This is the stable,
-        // pre-upgrade installation.
-        InstallationStatus active = 1;
-
-        // The pending Istio installation that was created as part of a canary
-        // upgrade. The canary will become the active installation when the
-        // active installation is uninstalled.
-        InstallationStatus canary = 2;
+        // The Istio installations by revision.
+        map<string, InstallationStatus>  installations = 1;
 
         message InstallationStatus {
             // State of the Istio installation
@@ -77,8 +71,8 @@ message IstioLifecycleManagerStatus {
             // The revision that Gloo Mesh created for the Istio installation
             string revision = 3;
 
-            // List of the last observed Istio installations
-            repeated IstioInstallation last_observed_installations = 4;
+            // List of the observed Istio installations that are currently deployed
+            repeated IstioInstallation observed_installations = 4;
 
             // The state of an Istio installation.
             enum State {

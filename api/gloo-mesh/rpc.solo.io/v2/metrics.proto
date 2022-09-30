@@ -203,6 +203,22 @@ message TcpMetrics {
   repeated uint64 bytes_sent = 2;
 
   repeated uint64 bytes_received = 3;
+
+  // Describes the security policy, if any, applied to this network edge.
+  Security security = 4;
+
+  // Describes the security policy, if any, applied to this network edge.
+  message Security {
+
+    // Describes the security policy of the connection.
+    string security_policy = 1;
+
+    // The identity of the source workload, only populated if mTLS is enabled."
+    string source_principal = 2;
+
+    // The identity of the destination, only populated if mTLS is enabled.
+    string destination_principal = 3;
+  }
 }
 
 message CiliumMetrics {

@@ -12,8 +12,6 @@ import (
 
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
-
-	github_com_golang_protobuf_ptypes_timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // ensure the imports are used
@@ -190,12 +188,6 @@ func (m *GenericContextStatus) Clone() proto.Message {
 	target.State = m.GetState()
 
 	target.Message = m.GetMessage()
-
-	if h, ok := interface{}(m.GetUpdatedAt()).(clone.Cloner); ok {
-		target.UpdatedAt = h.Clone().(*github_com_golang_protobuf_ptypes_timestamp.Timestamp)
-	} else {
-		target.UpdatedAt = proto.Clone(m.GetUpdatedAt()).(*github_com_golang_protobuf_ptypes_timestamp.Timestamp)
-	}
 
 	return target
 }

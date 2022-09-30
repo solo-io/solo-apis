@@ -234,24 +234,21 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses) Equal(that interface{}) bo
 		return false
 	}
 
-	if h, ok := interface{}(m.GetActive()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetActive()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetActive(), target.GetActive()) {
-			return false
-		}
+	if len(m.GetInstallations()) != len(target.GetInstallations()) {
+		return false
 	}
+	for k, v := range m.GetInstallations() {
 
-	if h, ok := interface{}(m.GetCanary()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetCanary()) {
-			return false
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetInstallations()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetInstallations()[k]) {
+				return false
+			}
 		}
-	} else {
-		if !proto.Equal(m.GetCanary(), target.GetCanary()) {
-			return false
-		}
+
 	}
 
 	return true
@@ -290,17 +287,17 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Equal(t
 		return false
 	}
 
-	if len(m.GetLastObservedInstallations()) != len(target.GetLastObservedInstallations()) {
+	if len(m.GetObservedInstallations()) != len(target.GetObservedInstallations()) {
 		return false
 	}
-	for idx, v := range m.GetLastObservedInstallations() {
+	for idx, v := range m.GetObservedInstallations() {
 
 		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetLastObservedInstallations()[idx]) {
+			if !h.Equal(target.GetObservedInstallations()[idx]) {
 				return false
 			}
 		} else {
-			if !proto.Equal(v, target.GetLastObservedInstallations()[idx]) {
+			if !proto.Equal(v, target.GetObservedInstallations()[idx]) {
 				return false
 			}
 		}

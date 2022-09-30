@@ -790,7 +790,7 @@ type DirectResponseAction struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Specifies the HTTP response status to be returned.
+	// Required. Specifies an HTTP response status between 100-599 inclusive to be returned.
 	Status uint32 `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
 	// Specifies the content of the response body. If this setting is omitted,
 	// no body is included in the generated response.

@@ -30,6 +30,9 @@ message HTTPRequestMatcher {
     // Optional: Specify an HTTP method to match against.
     string method = 7;
 
+    // Optional: Specifies ports on the host to match against.
+    uint32 port = 8;
+
     // Specify match criteria against the target URL's query parameters.
     message QueryParameterMatcher {
 

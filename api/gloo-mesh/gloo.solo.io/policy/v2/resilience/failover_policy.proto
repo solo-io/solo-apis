@@ -16,8 +16,8 @@ option (extproto.clone_all) = true;
 // FailoverPolicy can be used to reroute traffic across clusters when the local instance of a destination service fails. This requires that the backing destinations of the selected virtual destination belong to meshes in the same TrustDomain.
 // FailoverPolicies are applied at the *Destination* level.
 //
-// Note: If an OutlierDetectionPolicy is not configured for the same destinations,
-// we will apply our default.
+// Note: To remove unhealthy destinations from the pool of routable destinations, you must use an [OutlierDetectionPolicy]({{< versioned_link_path fromRoot="/policies/outlier-detection/">}})
+// in addition to the FailoverPolicy.
 message FailoverPolicySpec {
 
     // select the virtual destinations where the policy will be applied

@@ -69,6 +69,8 @@ func (m *HTTPRequestMatcher) Clone() proto.Message {
 
 	target.Method = m.GetMethod()
 
+	target.Port = m.GetPort()
+
 	return target
 }
 

@@ -98,6 +98,10 @@ func (m *HTTPRequestMatcher) Equal(that interface{}) bool {
 		return false
 	}
 
+	if m.GetPort() != target.GetPort() {
+		return false
+	}
+
 	return true
 }
 
