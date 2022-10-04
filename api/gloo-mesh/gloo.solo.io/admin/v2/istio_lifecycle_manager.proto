@@ -3,10 +3,8 @@ package admin.gloo.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
 
-import "github.com/solo-io/skv2/api/core/v1/core.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/istio_operator.proto";
 
-import "google/protobuf/struct.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
 
 import "extproto/ext.proto";
@@ -15,47 +13,43 @@ option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
 message IstioLifecycleManagerSpec {
+    // List of Istio control plane installations. 
+    // Any components that are NOT related to the control plane will be ignored
+    repeated IstioInstallation installations = 1;
+}
+
+message IstioClusterSelector {
+
+    // The name of the cluster that Istio should be installed in. This should
+    // match the registered cluster name.
+    string name = 1;
+    
+    // Optional: defaults to false
+    // When true this installation will be used as the Istio Default Revision for the selected cluster(s)
+    // Resources with the istio-injection=true label entry will use this revision. Updating this can be useful for switching over Canary deployments.
+    bool default_revision = 2;
+  
+}
+
+message IstioInstallation {
     // Istio Revsion that will be used to represent this installation.
     // Resources that want to leverage this installation will need to supply the revision as the following label value istio.io/rev.
     string revision = 1;
-    
-    // Istio Default Revsion that will be used as the default installation.
-    // Resources without the istio.io/rev label will use this revision. Updating this can be useful for switching over Canary deployments.
-    string default_revision = 2;
-    
-    // The clusters where the Istio should be installed.
-    repeated Cluster clusters = 3;
 
-    // List of Istio installations. It is recommended to split
-    // the Istio control plane and Istio gateways into separate
-    // installations, to facilitate easier Istio upgrades in the future.
-    // Note that Istio installation versions must be the same.
-    repeated IstioInstallation installations = 4;
+    // The clusters where the Istio Control Plane should be installed.
+    repeated IstioClusterSelector clusters = 2;
 
-    // List of Istio revisions that Gloo Mesh should uninstall. The uninstall
-    // will only be done if the revision was originally installed by the same
-    // IstioLifecycleManager.
-    // Associated revisions can be seen in the IstioLifecycleManager's status.
-    repeated string uninstall_revisions = 5;
+    // Spec for the IstioOperator that should be applied.
+    // See https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
+    .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 3;
 
-    message Cluster {
-        // The name of the cluster that Istio should be installed in. This should
-        // matched the registered cluster name.
-        string name = 1;
-
-        // [Optional] The trust domain value that should be set for this cluster's
-        // Istio installations. This value will be set in the installation's mesh
-        // config. (See https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
-        // Defaults to the cluster's name.
-        string trust_domain = 2;
-    }
 }
 
 message IstioLifecycleManagerStatus {
 
     // The status of each Istio installation that is being managed by Gloo Mesh, where
     // the key is the cluster name of the installation.
-    map<string, ClusterStatuses>  clusters = 4;
+    map<string, ClusterStatuses>  clusters = 1;
 
     message ClusterStatuses {
         // The Istio installations by revision.
@@ -68,15 +62,12 @@ message IstioLifecycleManagerStatus {
             // A human readable message about the current state of the IstioInstallationInstance.
             string message = 2;
 
-            // The revision that Gloo Mesh created for the Istio installation
-            string revision = 3;
-
-            // List of the observed Istio installations that are currently deployed
-            repeated IstioInstallation observed_installations = 4;
+            // operator that is currently deployed for this revision
+            .common.gloo.solo.io.IstioOperatorSpec observed_operator = 4;
 
             // The state of an Istio installation.
             enum State {
-                // Waiting for resources to be installed.
+                // Waiting for resources to be installed or updated.
                 PENDING = 0;
 
                 // Gloo Mesh server encountered a problem while attempting
@@ -86,39 +77,34 @@ message IstioLifecycleManagerStatus {
                 // In the process of installing the controller.
                 INSTALLING_CONTROLLER = 2;
 
-                // Controller installed successfully.
-                CONTROLLER_INSTALLED = 3;
-
                 // Controller failed to install.
-                CONTROLLER_INSTALL_FAILED = 4;
+                CONTROLLER_INSTALL_FAILED = 3;
 
                 // In the process of installing Istio control plane.
-                INSTALLING_CONTROL_PLANE = 5;
+                INSTALLING_CONTROL_PLANE = 4;
 
                 // Failed to install Istio control plane.
-                CONTROL_PLANE_FAILED = 6;
-
-                // In the process of installing Istio gateway(s).
-                INSTALLING_GATEWAY = 7;
-
-                // Waiting for resources to be upgraded.
-                UPGRADE_PENDING = 8;
+                CONTROL_PLANE_INSTALL_FAILED = 5;
 
                 // All Istio components are successfully installed and healthy.
-                HEALTHY = 9;
+                HEALTHY = 6;
 
                 // The Istio installation is no longer healthy.
-                UNHEALTHY = 10;
+                UNHEALTHY = 7;
+
+                // The control plane IstioOperator CR is in an 'ACTION_REQUIRED' state, please check logs of IstioOperator deployment for more info.
+                ACTION_REQUIRED = 8;
+
+                // The control plane IstioOperator CR is in an 'UPDATING' state\
+                UPDATING_CONTROL_PLANE  = 9;
+
+                // The control plane IstioOperator CR is in an 'RECONCILING' state
+                RECONCILING_CONTROL_PLANE  = 10;
+
+                // The control plane installation state could not be determined
+                UNKNOWN = 11;
             }
         }
     }
 }
 
-message IstioInstallation {
-    // A unique identifier for the given Istio installation
-    string name = 1;
-
-    // Specs for the IstioOperators that should be applied.
-    // See https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
-    google.protobuf.Struct istio_operator_spec = 3 [(.solo.io.cue.opt).disable_openapi_validation = true];
-}
