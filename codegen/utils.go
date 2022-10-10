@@ -33,6 +33,7 @@ func makeGroup(
 					GoPackage:    resource.goPackage,
 				},
 			},
+			StrictUnmarshal: false,
 		}
 		if !resource.noStatus {
 			res.Status = &model.Field{Type: model.Type{

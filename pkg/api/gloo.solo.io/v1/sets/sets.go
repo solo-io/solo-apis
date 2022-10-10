@@ -85,6 +85,7 @@ func (s *settingsSet) List(filterResource ...func(*gloo_solo_io_v1.Settings) boo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Settings))
 		})
@@ -104,6 +105,7 @@ func (s *settingsSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Setti
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Settings))
 		})
@@ -304,6 +306,7 @@ func (s *upstreamSet) List(filterResource ...func(*gloo_solo_io_v1.Upstream) boo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Upstream))
 		})
@@ -323,6 +326,7 @@ func (s *upstreamSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Upstr
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Upstream))
 		})
@@ -523,6 +527,7 @@ func (s *upstreamGroupSet) List(filterResource ...func(*gloo_solo_io_v1.Upstream
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.UpstreamGroup))
 		})
@@ -542,6 +547,7 @@ func (s *upstreamGroupSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.UpstreamGroup))
 		})
@@ -742,6 +748,7 @@ func (s *proxySet) List(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Proxy))
 		})
@@ -761,6 +768,7 @@ func (s *proxySet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Proxy) b
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Proxy))
 		})

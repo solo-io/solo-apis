@@ -5,7 +5,6 @@
 package types
 
 import (
-	bytes "bytes"
 	fmt "fmt"
 	math "math"
 
@@ -21,27 +20,8 @@ var _ = math.Inf
 
 var (
 	marshaller   = &skv2jsonpb.Marshaler{}
-	unmarshaller = &jsonpb.Unmarshaler{}
+	unmarshaller = &jsonpb.Unmarshaler{
+		AllowUnknownFields: true,
+	}
+	strictUnmarshaller = &jsonpb.Unmarshaler{}
 )
-
-// MarshalJSON is a custom marshaler for FederatedAuthConfigSpec
-func (this *FederatedAuthConfigSpec) MarshalJSON() ([]byte, error) {
-	str, err := marshaller.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for FederatedAuthConfigSpec
-func (this *FederatedAuthConfigSpec) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for FederatedAuthConfigStatus
-func (this *FederatedAuthConfigStatus) MarshalJSON() ([]byte, error) {
-	str, err := marshaller.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for FederatedAuthConfigStatus
-func (this *FederatedAuthConfigStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
-}
