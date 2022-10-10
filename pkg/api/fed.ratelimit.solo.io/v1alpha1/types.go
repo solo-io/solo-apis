@@ -4,7 +4,7 @@
 package v1alpha1
 
 import (
-	. "github.com/solo-io/solo-apis/pkg/api/fed.ratelimit.solo.io/v1alpha1/types"
+	i030ea16e9a32c349e55238df46175e70 "github.com/solo-io/solo-apis/pkg/api/fed.ratelimit.solo.io/v1alpha1/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -26,8 +26,8 @@ type FederatedRateLimitConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedRateLimitConfigSpec   `json:"spec,omitempty"`
-	Status FederatedRateLimitConfigStatus `json:"status,omitempty"`
+	Spec   i030ea16e9a32c349e55238df46175e70.FederatedRateLimitConfigSpec   `json:"spec,omitempty"`
+	Status i030ea16e9a32c349e55238df46175e70.FederatedRateLimitConfigStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.

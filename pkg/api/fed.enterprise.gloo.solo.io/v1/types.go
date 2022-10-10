@@ -4,7 +4,7 @@
 package v1
 
 import (
-	. "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1/types"
+	i5345b6a73a23b1ba71598d84ccc955e9 "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -26,8 +26,8 @@ type FederatedAuthConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedAuthConfigSpec   `json:"spec,omitempty"`
-	Status FederatedAuthConfigStatus `json:"status,omitempty"`
+	Spec   i5345b6a73a23b1ba71598d84ccc955e9.FederatedAuthConfigSpec   `json:"spec,omitempty"`
+	Status i5345b6a73a23b1ba71598d84ccc955e9.FederatedAuthConfigStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
