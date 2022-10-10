@@ -1724,6 +1724,10 @@ func (m *PassThroughAuth) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetFailureModeAllow() != target.GetFailureModeAllow() {
+		return false
+	}
+
 	switch m.Protocol.(type) {
 
 	case *PassThroughAuth_Grpc:
