@@ -85,6 +85,7 @@ func (s *rateLimitConfigSet) List(filterResource ...func(*ratelimit_solo_io_v1al
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
 		})
@@ -104,6 +105,7 @@ func (s *rateLimitConfigSet) UnsortedList(filterResource ...func(*ratelimit_solo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
 		})
