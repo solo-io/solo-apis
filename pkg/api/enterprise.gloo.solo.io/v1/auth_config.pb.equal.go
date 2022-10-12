@@ -2176,6 +2176,16 @@ func (m *LdapServiceAccount) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetCredentialsSecretRef()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCredentialsSecretRef()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCredentialsSecretRef(), target.GetCredentialsSecretRef()) {
+			return false
+		}
+	}
+
 	if m.GetCheckGroupsWithServiceAccount() != target.GetCheckGroupsWithServiceAccount() {
 		return false
 	}
