@@ -28,6 +28,16 @@ message WAFPolicySpec {
   message Config {
     // Disable the OWASP core rule set from being applied
     bool disable_core_rule_set = 1;
+
+    // If core_rule_set is not disabled, this field MUST be present.
+    // This configures various aspects of the OWASP Core Rule Set.
+    // See here for more info on how to configure https://github.com/coreruleset/coreruleset
+    oneof core_rule_set_settings {
+      // An inline string of the core rule set settings
+      string core_rule_set_settings_string = 8;
+      // The path to the core rule set settings to use
+      string core_rule_set_settings_path = 9;
+    }
     // Overwrite the global rules on this route
     repeated .envoy.config.filter.http.modsecurity.v2.RuleSet custom_rule_sets = 2;
     // Custom message to display when an intervention occurs

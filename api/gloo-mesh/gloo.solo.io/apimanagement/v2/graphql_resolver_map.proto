@@ -133,11 +133,13 @@ message GraphQLResolverMapSpec {
           }
 
           message RESTVariable {
-            // Only available on response transformations
-            // Extract the value from the GraphQL HTTP response header. The extracted value is a string.
-            // If this Extraction is used in a place where response headers are not available, an error
-            // will be thrown during configuration time.
-            string response_header = 5;
+            oneof extraction {
+              // Only available on resolver result transformations
+              // Extract the value from the GraphQL HTTP response header. The extracted value is a string.
+              // If this Extraction is used in a place where response headers are not available, an error
+              // will be thrown during configuration time.
+              string response_header = 1;
+            }
           }
         }
       }
@@ -149,7 +151,7 @@ message GraphQLResolverMapSpec {
 // The ExecutableSchema contains all the information needed to execute a schema by itself.
 // The execution can be done locally via resolver maps, or on a remote GraphQL instance, via a graphql server.
 message ExecutableSchema {
-  // Required: Reference to the GraphQLSchema object which contains the [GraphQL SDL](https://graphql.org/learn/schema/)
+  // Required: Reference to the ApiSchema object which is of type GraphQL schema, which contains the [GraphQL SDL](https://graphql.org/learn/schema/)
   // defining this GraphQL schema.
   .core.skv2.solo.io.ClusterObjectRef schema_ref = 1;
 

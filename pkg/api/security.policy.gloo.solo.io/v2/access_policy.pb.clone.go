@@ -48,6 +48,19 @@ func (m *AccessPolicySpec) Clone() proto.Message {
 		}
 	}
 
+	if m.GetApplyToWorkloads() != nil {
+		target.ApplyToWorkloads = make([]*AccessPolicySpec_NamespaceWorkloadSelector, len(m.GetApplyToWorkloads()))
+		for idx, v := range m.GetApplyToWorkloads() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ApplyToWorkloads[idx] = h.Clone().(*AccessPolicySpec_NamespaceWorkloadSelector)
+			} else {
+				target.ApplyToWorkloads[idx] = proto.Clone(v).(*AccessPolicySpec_NamespaceWorkloadSelector)
+			}
+
+		}
+	}
+
 	if h, ok := interface{}(m.GetConfig()).(clone.Cloner); ok {
 		target.Config = h.Clone().(*AccessPolicySpec_Config)
 	} else {

@@ -753,8 +753,22 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 		return false
 	}
 
-	if strings.Compare(m.GetResponseHeader(), target.GetResponseHeader()) != 0 {
-		return false
+	switch m.Extraction.(type) {
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable_ResponseHeader:
+		if _, ok := target.Extraction.(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable_ResponseHeader); !ok {
+			return false
+		}
+
+		if strings.Compare(m.GetResponseHeader(), target.GetResponseHeader()) != 0 {
+			return false
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Extraction != target.Extraction {
+			return false
+		}
 	}
 
 	return true

@@ -939,8 +939,14 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetResponseHeader())); err != nil {
-		return 0, err
+	switch m.Extraction.(type) {
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable_ResponseHeader:
+
+		if _, err = hasher.Write([]byte(m.GetResponseHeader())); err != nil {
+			return 0, err
+		}
+
 	}
 
 	return hasher.Sum64(), nil
