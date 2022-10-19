@@ -994,7 +994,7 @@ message OpaAuthOptions {
 message Ldap {
 
     // Configuration properties for pooling connections to the LDAP server. If the pool is exhausted when a connection
-    // is requested (meaning that all the polled connections are in use), the connection will be created on the fly.
+    // is requested (meaning that all the pooled connections are in use), the connection will be created on the fly.
     message ConnectionPool {
         // Maximum number connections that are pooled at any give time. The default value is 5.
         google.protobuf.UInt32Value maxSize = 1;
@@ -1556,7 +1556,7 @@ message ExtAuthConfig {
     }
     message LdapConfig {
         // Configuration properties for pooling connections to the LDAP server. If the pool is exhausted when a connection
-        // is requested (meaning that all the polled connections are in use), the connection will be created on the fly.
+        // is requested (meaning that all the pooled connections are in use), the connection will be created on the fly.
         message ConnectionPool {
             // Maximum number connections that are pooled at any give time. The default value is 5.
             google.protobuf.UInt32Value maxSize = 1;
@@ -1599,8 +1599,8 @@ message ExtAuthConfig {
     }
     message LdapServiceAccountConfig {
         // username and password are taken from the secret during gloo-ee translation
-        string username = 1;
-        string password = 2;
+        string username = 1 [(extproto.sensitive) = true];
+        string password = 2 [(extproto.sensitive) = true];
         // If true, Gloo will use the service account to check group membership
         bool check_groups_with_service_account = 3;
     }
@@ -1621,8 +1621,7 @@ message ExtAuthConfig {
             ApiKeyAuthConfig api_key_auth = 5;
             AuthPlugin plugin_auth = 6;
             OpaAuthConfig opa_auth = 7;
-            Ldap ldap = 8 [deprecated = true];
-            LdapConfig ldap_internal = 14;
+            LdapConfig ldap = 8;
             // This is a "dummy" extauth service which can be used to support multiple auth mechanisms with JWT authentication.
             // If Jwt authentication is to be used in the [boolean expression](https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto.sk/#authconfig) in an AuthConfig, you can use this auth config type to include Jwt as an Auth config.
             // In addition, `allow_missing_or_failed_jwt` must be set on the Virtual Host or Route that uses JWT auth or else the JWT filter will short circuit this behaviour.
