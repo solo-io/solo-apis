@@ -4,7 +4,7 @@
 package v1
 
 import (
-	. "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1/types"
+	ibcbcba3d723d592db06b09047ca22d90 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -26,8 +26,8 @@ type FederatedSettings struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedSettingsSpec   `json:"spec,omitempty"`
-	Status FederatedSettingsStatus `json:"status,omitempty"`
+	Spec   ibcbcba3d723d592db06b09047ca22d90.FederatedSettingsSpec   `json:"spec,omitempty"`
+	Status ibcbcba3d723d592db06b09047ca22d90.FederatedSettingsStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
@@ -61,8 +61,8 @@ type FederatedUpstream struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedUpstreamSpec   `json:"spec,omitempty"`
-	Status FederatedUpstreamStatus `json:"status,omitempty"`
+	Spec   ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamSpec   `json:"spec,omitempty"`
+	Status ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
@@ -96,8 +96,8 @@ type FederatedUpstreamGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   FederatedUpstreamGroupSpec   `json:"spec,omitempty"`
-	Status FederatedUpstreamGroupStatus `json:"status,omitempty"`
+	Spec   ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamGroupSpec   `json:"spec,omitempty"`
+	Status ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamGroupStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.

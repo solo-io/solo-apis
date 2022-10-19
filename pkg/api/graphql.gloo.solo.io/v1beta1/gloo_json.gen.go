@@ -21,7 +21,9 @@ var _ = math.Inf
 
 var (
 	marshaller   = &skv2jsonpb.Marshaler{EnumsAsInts: true}
-	unmarshaller = &jsonpb.Unmarshaler{}
+	unmarshaller = &jsonpb.Unmarshaler{
+		AllowUnknownFields: true,
+	}
 )
 
 // MarshalJSON is a custom marshaler for GraphQLApiSpec
