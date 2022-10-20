@@ -36,6 +36,7 @@ require (
 	google.golang.org/protobuf v1.26.0
 	istio.io/api v0.0.0-20200723170824-3c2193e74947
 	istio.io/tools v0.0.0-20200918020118-6d0a0e49b5d3
+	k8s.io/api v0.19.6
 	k8s.io/apimachinery v0.19.6
 	k8s.io/client-go v8.0.0+incompatible
 	k8s.io/code-generator v0.19.6

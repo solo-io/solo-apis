@@ -19,9 +19,18 @@ option (extproto.clone_all) = true;
 // AccessPolicies are applied at the *Destination Port* level.
 message AccessPolicySpec {
 
+    // Note: for security reasons, `applyToWorkloads` is preferred.
     // select the destinations and their ports where the policy will be applied
-    // if left empty, will apply to all ports on all destinations in the workspace.
+    // if `applyToWorkloads` is non-empty, will be ignored.
+    // if omitted and `applyToWorkloads` is also omitted, will apply to all ports on all destinations in the workspace.
     repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
+
+    // Note: For security reasons, this is recommended over the `applyToDestinations` field.
+    // select the workloads where the policy will be applied.
+    // if omitted, behavior will be determined by the `applyToDestinations` field.
+    // if an empty selector is provided in the list, will apply to all workloads in a
+    // namespace, cluster, and workspace available in the parent object's workspace
+    repeated NamespaceWorkloadSelector apply_to_workloads = 3;
 
     // NamespaceWorkloadSelector is a Selector specifically built for selecting individual namespaces and selecting Workloads within them by label.
     // Workloads must have injected (sidecars) or be standalone proxies (gateways) to be selected by Gloo Mesh policies.
@@ -114,6 +123,19 @@ message AccessPolicySpec {
                 Optional. Additional request matching conditions.
              */
             MatchSpec match = 4;
+
+            // Optional. A list of IP blocks, populated from the source address of the IP packet.
+            // Single IP (e.g. “1.2.3.4”) and CIDR (e.g. “1.2.3.0/24”) are supported. If not set,
+            // any IP is allowed.
+            repeated string allowed_ip_blocks = 5;
+
+            // Optional. A list of IP blocks, populated from X-Forwarded-For header or proxy protocol.
+            // To make use of this field, you must configure the numTrustedProxies field of the
+            // gatewayTopology under the meshConfig when you install Istio or using an annotation
+            // on the ingress gateway. See the documentation here: Configuring Gateway Network Topology.
+            // Single IP (e.g. “1.2.3.4”) and CIDR (e.g. “1.2.3.0/24”) are supported. This is the same
+            // as the remote.ip attribute. If not set, any IP is allowed.
+            repeated string allowed_remote_ip_blocks = 6;
 
             // allows specification of request conditions
             message MatchSpec {
