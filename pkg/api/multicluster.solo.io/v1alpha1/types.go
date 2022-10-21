@@ -4,6 +4,7 @@
 package v1alpha1
 
 import (
+	i704c263ff616014f5bdd9e2c7d50a75d "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -25,8 +26,8 @@ type MultiClusterRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   MultiClusterRoleSpec   `json:"spec,omitempty"`
-	Status MultiClusterRoleStatus `json:"status,omitempty"`
+	Spec   i704c263ff616014f5bdd9e2c7d50a75d.MultiClusterRoleSpec   `json:"spec,omitempty"`
+	Status i704c263ff616014f5bdd9e2c7d50a75d.MultiClusterRoleStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
