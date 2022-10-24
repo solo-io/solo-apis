@@ -9,7 +9,7 @@ import (
 	mock_resource "github.com/solo-io/skv2/pkg/resource/mocks"
 	v1 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
 	"github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1/types"
-	"github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1"
+	multicluster_types "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1/types"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -52,7 +52,7 @@ var _ = Describe("Controller", func() {
 					Name:      "name",
 				},
 				Spec: types.FederatedUpstreamSpec{
-					Placement: &v1alpha1.Placement{
+					Placement: &multicluster_types.Placement{
 						Namespaces: []string{"ns-desired"},
 					},
 				},
@@ -90,7 +90,7 @@ var _ = Describe("Controller", func() {
 
 				// necessary to ensure there is a diff between existing and desired
 				desired.(*v1.FederatedUpstream).Spec = types.FederatedUpstreamSpec{
-					Placement: &v1alpha1.Placement{
+					Placement: &multicluster_types.Placement{
 						Namespaces: []string{"ns-other"},
 					},
 				}
