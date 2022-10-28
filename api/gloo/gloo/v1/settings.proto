@@ -183,6 +183,13 @@ message SettingsSpec {
         }
 
         UdsOptions uds_options = 2;
+
+        message FdsOptions {
+            // Enable function discovery service on GraphQL gRPC and OpenApi upstreams. Defaults to true.
+            google.protobuf.BoolValue graphql_enabled = 1;
+        }
+
+        FdsOptions fds_options = 3;
     }
 
     // Options for configuring Gloo's Discovery service
@@ -305,10 +312,10 @@ message SettingsSpec {
     message KubernetesConfiguration {
 
         message RateLimits {
-            // The maximum queries-per-second Gloo can make to the Kubernetes API Server.
+            // The maximum queries-per-second Gloo can make to the Kubernetes API Server. Defaults to 50.
             float QPS = 1;
             // Maximum burst for throttle. When a steady state of QPS requests per second,
-            // this is an additional number of allowed, to allow for short bursts.
+            // this is an additional number of allowed, to allow for short bursts. Defaults to 100.
             uint32 burst = 2;
         }
         // Rate limits for the kubernetes clients
@@ -466,7 +473,7 @@ message GlooOptions {
         }
 
         // Send downstream path and method as `x-envoy-original-path` and
-        // `x-envoy-original-method` headers on the request to AWS lambda. 
+        // `x-envoy-original-method` headers on the request to AWS lambda.
         // Defaults to false.
         google.protobuf.BoolValue propagate_original_routing = 3;
 
@@ -655,6 +662,7 @@ message ConsoleOptions {
     // Defaults to true.
     google.protobuf.BoolValue api_explorer_enabled = 2;
 }
+
 
 message SettingsStatus {
 	enum State {
