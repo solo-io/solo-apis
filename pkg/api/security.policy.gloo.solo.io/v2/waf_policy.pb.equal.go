@@ -218,5 +218,32 @@ func (m *WAFPolicySpec_Config) Equal(that interface{}) bool {
 		}
 	}
 
+	switch m.CoreRuleSetSettings.(type) {
+
+	case *WAFPolicySpec_Config_CoreRuleSetSettingsString:
+		if _, ok := target.CoreRuleSetSettings.(*WAFPolicySpec_Config_CoreRuleSetSettingsString); !ok {
+			return false
+		}
+
+		if strings.Compare(m.GetCoreRuleSetSettingsString(), target.GetCoreRuleSetSettingsString()) != 0 {
+			return false
+		}
+
+	case *WAFPolicySpec_Config_CoreRuleSetSettingsPath:
+		if _, ok := target.CoreRuleSetSettings.(*WAFPolicySpec_Config_CoreRuleSetSettingsPath); !ok {
+			return false
+		}
+
+		if strings.Compare(m.GetCoreRuleSetSettingsPath(), target.GetCoreRuleSetSettingsPath()) != 0 {
+			return false
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.CoreRuleSetSettings != target.CoreRuleSetSettings {
+			return false
+		}
+	}
+
 	return true
 }

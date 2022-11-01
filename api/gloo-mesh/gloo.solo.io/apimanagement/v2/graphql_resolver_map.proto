@@ -133,11 +133,13 @@ message GraphQLResolverMapSpec {
           }
 
           message RESTVariable {
-            // Only available on response transformations
-            // Extract the value from the GraphQL HTTP response header. The extracted value is a string.
-            // If this Extraction is used in a place where response headers are not available, an error
-            // will be thrown during configuration time.
-            string response_header = 5;
+            oneof extraction {
+              // Only available on resolver result transformations
+              // Extract the value from the GraphQL HTTP response header. The extracted value is a string.
+              // If this Extraction is used in a place where response headers are not available, an error
+              // will be thrown during configuration time.
+              string response_header = 1;
+            }
           }
         }
       }
@@ -149,7 +151,7 @@ message GraphQLResolverMapSpec {
 // The ExecutableSchema contains all the information needed to execute a schema by itself.
 // The execution can be done locally via resolver maps, or on a remote GraphQL instance, via a graphql server.
 message ExecutableSchema {
-  // Required: Reference to the GraphQLSchema object which contains the [GraphQL SDL](https://graphql.org/learn/schema/)
+  // Required: Reference to the ApiSchema object which is of type GraphQL schema, which contains the [GraphQL SDL](https://graphql.org/learn/schema/)
   // defining this GraphQL schema.
   .core.skv2.solo.io.ClusterObjectRef schema_ref = 1;
 
@@ -262,7 +264,7 @@ message ExecutableSchema {
         string request_header = 2;
 
         // Assigns the variable to a JSON value specified here.
-        google.protobuf.Value json_value = 3 [(.solo.io.cue.opt).disable_openapi_validation = true];
+        google.protobuf.Value json = 3 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
       }
     }
   }
@@ -327,7 +329,7 @@ message VariableTransformation {
     string jq = 2;
 
     // Static JSON value. 
-    google.protobuf.Value value = 3 [(.solo.io.cue.opt).disable_openapi_validation = true];
+    google.protobuf.Value json = 3 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
   }
 }
 
@@ -350,7 +352,7 @@ message Extraction {
     // will be thrown during configuration time.
     google.protobuf.Empty resolver_result = 5;
     // Assigns the variable to a JSON value specified here
-    google.protobuf.Value json_value = 6 [(.solo.io.cue.opt).disable_openapi_validation = true];
+    google.protobuf.Value json = 6 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
 
     // In the future, we may want to allow for nested extractions along with transformations.
     // See https://github.com/solo-io/gloo-mesh-enterprise/pull/4354#discussion_r919055587 for discussion

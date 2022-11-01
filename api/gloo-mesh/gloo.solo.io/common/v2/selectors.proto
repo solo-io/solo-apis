@@ -26,7 +26,7 @@ message ObjectReferenceList {
     repeated ObjectReference refs = 1;
 }
 
-// selects zero or more Kubernetes API resource by matching on labels, name, namespace, cluster, and workspace.
+// selects zero or more Kubernetes API resources by matching on labels, name, namespace, cluster, and workspace.
 message ObjectSelector {
     // labels matching those of the object
     map<string, string> labels = 1;
@@ -240,32 +240,4 @@ message WorkspaceSelector {
     // ```
     map<string, string> selector = 2;
 
-}
-
-// A label selector is a label query over a set of resources.
-// An empty label selector matches all objects. A null
-// label selector matches no objects.
-message LabelSelector {
-
-    // Optional: Label selector is a map of {key,value} pairs
-    // Multiple {key,value} pair requirements are ANDed.
-    map<string, string> selector = 1;
-
-}
-
-// A label selector requirement is a selector that contains values, a key, and an operator that
-// relates the key and values.
-message LabelSelectorRequirement {
-    // key is the label key that the selector applies to.
-    string key = 1;
-
-    // operator represents a key's relationship to a set of values.
-    // Valid operators are In, NotIn, Exists and DoesNotExist.
-    string operator = 2;
-
-    // values is an array of string values. If the operator is In or NotIn,
-    // the values array must be non-empty. If the operator is Exists or DoesNotExist,
-    // the values array must be empty. This array is replaced during a strategic
-    // merge patch.
-    repeated string values = 3;
 }

@@ -243,7 +243,7 @@ func (x *ObjectReferenceList) GetRefs() []*ObjectReference {
 	return nil
 }
 
-// selects zero or more Kubernetes API resource by matching on labels, name, namespace, cluster, and workspace.
+// selects zero or more Kubernetes API resources by matching on labels, name, namespace, cluster, and workspace.
 type ObjectSelector struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -915,130 +915,6 @@ func (x *WorkspaceSelector) GetSelector() map[string]string {
 	return nil
 }
 
-// A label selector is a label query over a set of resources.
-// An empty label selector matches all objects. A null
-// label selector matches no objects.
-type LabelSelector struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Optional: Label selector is a map of {key,value} pairs
-	// Multiple {key,value} pair requirements are ANDed.
-	Selector map[string]string `protobuf:"bytes,1,rep,name=selector,proto3" json:"selector,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-}
-
-func (x *LabelSelector) Reset() {
-	*x = LabelSelector{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[11]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *LabelSelector) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LabelSelector) ProtoMessage() {}
-
-func (x *LabelSelector) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[11]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use LabelSelector.ProtoReflect.Descriptor instead.
-func (*LabelSelector) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *LabelSelector) GetSelector() map[string]string {
-	if x != nil {
-		return x.Selector
-	}
-	return nil
-}
-
-// A label selector requirement is a selector that contains values, a key, and an operator that
-// relates the key and values.
-type LabelSelectorRequirement struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// key is the label key that the selector applies to.
-	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
-	// operator represents a key's relationship to a set of values.
-	// Valid operators are In, NotIn, Exists and DoesNotExist.
-	Operator string `protobuf:"bytes,2,opt,name=operator,proto3" json:"operator,omitempty"`
-	// values is an array of string values. If the operator is In or NotIn,
-	// the values array must be non-empty. If the operator is Exists or DoesNotExist,
-	// the values array must be empty. This array is replaced during a strategic
-	// merge patch.
-	Values []string `protobuf:"bytes,3,rep,name=values,proto3" json:"values,omitempty"`
-}
-
-func (x *LabelSelectorRequirement) Reset() {
-	*x = LabelSelectorRequirement{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[12]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *LabelSelectorRequirement) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LabelSelectorRequirement) ProtoMessage() {}
-
-func (x *LabelSelectorRequirement) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[12]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use LabelSelectorRequirement.ProtoReflect.Descriptor instead.
-func (*LabelSelectorRequirement) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *LabelSelectorRequirement) GetKey() string {
-	if x != nil {
-		return x.Key
-	}
-	return ""
-}
-
-func (x *LabelSelectorRequirement) GetOperator() string {
-	if x != nil {
-		return x.Operator
-	}
-	return ""
-}
-
-func (x *LabelSelectorRequirement) GetValues() []string {
-	if x != nil {
-		return x.Values
-	}
-	return nil
-}
-
 type IdentitySelector_RequestIdentityMatcher struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1056,7 +932,7 @@ type IdentitySelector_RequestIdentityMatcher struct {
 func (x *IdentitySelector_RequestIdentityMatcher) Reset() {
 	*x = IdentitySelector_RequestIdentityMatcher{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[15]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1069,7 +945,7 @@ func (x *IdentitySelector_RequestIdentityMatcher) String() string {
 func (*IdentitySelector_RequestIdentityMatcher) ProtoMessage() {}
 
 func (x *IdentitySelector_RequestIdentityMatcher) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[15]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1121,7 +997,7 @@ type MeshSelector_Istio struct {
 func (x *MeshSelector_Istio) Reset() {
 	*x = MeshSelector_Istio{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[16]
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1134,7 +1010,7 @@ func (x *MeshSelector_Istio) String() string {
 func (*MeshSelector_Istio) ProtoMessage() {}
 
 func (x *MeshSelector_Istio) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[16]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1357,33 +1233,17 @@ var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selec
 	0x63, 0x74, 0x6f, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76,
 	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x9a, 0x01, 0x0a, 0x0d, 0x4c, 0x61, 0x62, 0x65, 0x6c, 0x53,
-	0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x12, 0x4c, 0x0a, 0x08, 0x73, 0x65, 0x6c, 0x65, 0x63,
-	0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x30, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e,
-	0x4c, 0x61, 0x62, 0x65, 0x6c, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x53, 0x65,
-	0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x08, 0x73, 0x65, 0x6c,
-	0x65, 0x63, 0x74, 0x6f, 0x72, 0x1a, 0x3b, 0x0a, 0x0d, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f,
-	0x72, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02,
-	0x38, 0x01, 0x22, 0x60, 0x0a, 0x18, 0x4c, 0x61, 0x62, 0x65, 0x6c, 0x53, 0x65, 0x6c, 0x65, 0x63,
-	0x74, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x10,
-	0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79,
-	0x12, 0x1a, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x16, 0x0a, 0x06,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x06, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x73, 0x2a, 0x4d, 0x0a, 0x0f, 0x44, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x4b, 0x69, 0x6e, 0x64, 0x12, 0x0b, 0x0a, 0x07, 0x53, 0x45, 0x52, 0x56, 0x49,
-	0x43, 0x45, 0x10, 0x00, 0x12, 0x17, 0x0a, 0x13, 0x56, 0x49, 0x52, 0x54, 0x55, 0x41, 0x4c, 0x5f,
-	0x44, 0x45, 0x53, 0x54, 0x49, 0x4e, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x01, 0x12, 0x14, 0x0a,
-	0x10, 0x45, 0x58, 0x54, 0x45, 0x52, 0x4e, 0x41, 0x4c, 0x5f, 0x53, 0x45, 0x52, 0x56, 0x49, 0x43,
-	0x45, 0x10, 0x02, 0x42, 0x49, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
-	0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x61,
-	0x70, 0x69, 0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f,
-	0x76, 0x32, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0xd0, 0xf5, 0x04, 0x01, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x3a, 0x02, 0x38, 0x01, 0x2a, 0x4d, 0x0a, 0x0f, 0x44, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x69, 0x6e, 0x64, 0x12, 0x0b, 0x0a, 0x07, 0x53, 0x45, 0x52, 0x56,
+	0x49, 0x43, 0x45, 0x10, 0x00, 0x12, 0x17, 0x0a, 0x13, 0x56, 0x49, 0x52, 0x54, 0x55, 0x41, 0x4c,
+	0x5f, 0x44, 0x45, 0x53, 0x54, 0x49, 0x4e, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x01, 0x12, 0x14,
+	0x0a, 0x10, 0x45, 0x58, 0x54, 0x45, 0x52, 0x4e, 0x41, 0x4c, 0x5f, 0x53, 0x45, 0x52, 0x56, 0x49,
+	0x43, 0x45, 0x10, 0x02, 0x42, 0x49, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
+	0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d,
+	0x61, 0x70, 0x69, 0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f,
+	0x2f, 0x76, 0x32, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0xd0, 0xf5, 0x04, 0x01, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1399,62 +1259,58 @@ func file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_sele
 }
 
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_goTypes = []interface{}{
-	(DestinationKind)(0),                            // 0: common.gloo.solo.io.DestinationKind
-	(WorkloadSelector_WorkloadKind)(0),              // 1: common.gloo.solo.io.WorkloadSelector.WorkloadKind
-	(*ObjectReference)(nil),                         // 2: common.gloo.solo.io.ObjectReference
-	(*ObjectReferenceList)(nil),                     // 3: common.gloo.solo.io.ObjectReferenceList
-	(*ObjectSelector)(nil),                          // 4: common.gloo.solo.io.ObjectSelector
-	(*DestinationReference)(nil),                    // 5: common.gloo.solo.io.DestinationReference
-	(*DestinationSelector)(nil),                     // 6: common.gloo.solo.io.DestinationSelector
-	(*RouteDestinationSelector)(nil),                // 7: common.gloo.solo.io.RouteDestinationSelector
-	(*RouteSelector)(nil),                           // 8: common.gloo.solo.io.RouteSelector
-	(*WorkloadSelector)(nil),                        // 9: common.gloo.solo.io.WorkloadSelector
-	(*IdentitySelector)(nil),                        // 10: common.gloo.solo.io.IdentitySelector
-	(*MeshSelector)(nil),                            // 11: common.gloo.solo.io.MeshSelector
-	(*WorkspaceSelector)(nil),                       // 12: common.gloo.solo.io.WorkspaceSelector
-	(*LabelSelector)(nil),                           // 13: common.gloo.solo.io.LabelSelector
-	(*LabelSelectorRequirement)(nil),                // 14: common.gloo.solo.io.LabelSelectorRequirement
-	nil,                                             // 15: common.gloo.solo.io.ObjectSelector.LabelsEntry
-	nil,                                             // 16: common.gloo.solo.io.DestinationReference.SubsetEntry
-	(*IdentitySelector_RequestIdentityMatcher)(nil), // 17: common.gloo.solo.io.IdentitySelector.RequestIdentityMatcher
-	(*MeshSelector_Istio)(nil),                      // 18: common.gloo.solo.io.MeshSelector.Istio
-	nil,                                             // 19: common.gloo.solo.io.MeshSelector.Istio.ClusterSelectorEntry
-	nil,                                             // 20: common.gloo.solo.io.MeshSelector.Istio.SelectorEntry
-	nil,                                             // 21: common.gloo.solo.io.WorkspaceSelector.SelectorEntry
-	nil,                                             // 22: common.gloo.solo.io.LabelSelector.SelectorEntry
-	(*PortSelector)(nil),                            // 23: common.gloo.solo.io.PortSelector
+	(DestinationKind)(0),               // 0: common.gloo.solo.io.DestinationKind
+	(WorkloadSelector_WorkloadKind)(0), // 1: common.gloo.solo.io.WorkloadSelector.WorkloadKind
+	(*ObjectReference)(nil),            // 2: common.gloo.solo.io.ObjectReference
+	(*ObjectReferenceList)(nil),        // 3: common.gloo.solo.io.ObjectReferenceList
+	(*ObjectSelector)(nil),             // 4: common.gloo.solo.io.ObjectSelector
+	(*DestinationReference)(nil),       // 5: common.gloo.solo.io.DestinationReference
+	(*DestinationSelector)(nil),        // 6: common.gloo.solo.io.DestinationSelector
+	(*RouteDestinationSelector)(nil),   // 7: common.gloo.solo.io.RouteDestinationSelector
+	(*RouteSelector)(nil),              // 8: common.gloo.solo.io.RouteSelector
+	(*WorkloadSelector)(nil),           // 9: common.gloo.solo.io.WorkloadSelector
+	(*IdentitySelector)(nil),           // 10: common.gloo.solo.io.IdentitySelector
+	(*MeshSelector)(nil),               // 11: common.gloo.solo.io.MeshSelector
+	(*WorkspaceSelector)(nil),          // 12: common.gloo.solo.io.WorkspaceSelector
+	nil,                                // 13: common.gloo.solo.io.ObjectSelector.LabelsEntry
+	nil,                                // 14: common.gloo.solo.io.DestinationReference.SubsetEntry
+	(*IdentitySelector_RequestIdentityMatcher)(nil), // 15: common.gloo.solo.io.IdentitySelector.RequestIdentityMatcher
+	(*MeshSelector_Istio)(nil),                      // 16: common.gloo.solo.io.MeshSelector.Istio
+	nil,                                             // 17: common.gloo.solo.io.MeshSelector.Istio.ClusterSelectorEntry
+	nil,                                             // 18: common.gloo.solo.io.MeshSelector.Istio.SelectorEntry
+	nil,                                             // 19: common.gloo.solo.io.WorkspaceSelector.SelectorEntry
+	(*PortSelector)(nil),                            // 20: common.gloo.solo.io.PortSelector
 }
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_depIdxs = []int32{
 	2,  // 0: common.gloo.solo.io.ObjectReferenceList.refs:type_name -> common.gloo.solo.io.ObjectReference
-	15, // 1: common.gloo.solo.io.ObjectSelector.labels:type_name -> common.gloo.solo.io.ObjectSelector.LabelsEntry
+	13, // 1: common.gloo.solo.io.ObjectSelector.labels:type_name -> common.gloo.solo.io.ObjectSelector.LabelsEntry
 	2,  // 2: common.gloo.solo.io.DestinationReference.ref:type_name -> common.gloo.solo.io.ObjectReference
 	0,  // 3: common.gloo.solo.io.DestinationReference.kind:type_name -> common.gloo.solo.io.DestinationKind
-	23, // 4: common.gloo.solo.io.DestinationReference.port:type_name -> common.gloo.solo.io.PortSelector
-	16, // 5: common.gloo.solo.io.DestinationReference.subset:type_name -> common.gloo.solo.io.DestinationReference.SubsetEntry
+	20, // 4: common.gloo.solo.io.DestinationReference.port:type_name -> common.gloo.solo.io.PortSelector
+	14, // 5: common.gloo.solo.io.DestinationReference.subset:type_name -> common.gloo.solo.io.DestinationReference.SubsetEntry
 	4,  // 6: common.gloo.solo.io.DestinationSelector.selector:type_name -> common.gloo.solo.io.ObjectSelector
 	0,  // 7: common.gloo.solo.io.DestinationSelector.kind:type_name -> common.gloo.solo.io.DestinationKind
-	23, // 8: common.gloo.solo.io.DestinationSelector.port:type_name -> common.gloo.solo.io.PortSelector
+	20, // 8: common.gloo.solo.io.DestinationSelector.port:type_name -> common.gloo.solo.io.PortSelector
 	4,  // 9: common.gloo.solo.io.RouteDestinationSelector.route:type_name -> common.gloo.solo.io.ObjectSelector
 	6,  // 10: common.gloo.solo.io.RouteDestinationSelector.on_destinations:type_name -> common.gloo.solo.io.DestinationSelector
 	4,  // 11: common.gloo.solo.io.RouteSelector.route:type_name -> common.gloo.solo.io.ObjectSelector
 	6,  // 12: common.gloo.solo.io.RouteSelector.with_destinations:type_name -> common.gloo.solo.io.DestinationSelector
 	4,  // 13: common.gloo.solo.io.WorkloadSelector.selector:type_name -> common.gloo.solo.io.ObjectSelector
 	1,  // 14: common.gloo.solo.io.WorkloadSelector.kind:type_name -> common.gloo.solo.io.WorkloadSelector.WorkloadKind
-	23, // 15: common.gloo.solo.io.WorkloadSelector.port:type_name -> common.gloo.solo.io.PortSelector
+	20, // 15: common.gloo.solo.io.WorkloadSelector.port:type_name -> common.gloo.solo.io.PortSelector
 	4,  // 16: common.gloo.solo.io.IdentitySelector.service_account_selector:type_name -> common.gloo.solo.io.ObjectSelector
-	17, // 17: common.gloo.solo.io.IdentitySelector.request_identity_matcher:type_name -> common.gloo.solo.io.IdentitySelector.RequestIdentityMatcher
-	18, // 18: common.gloo.solo.io.MeshSelector.istio:type_name -> common.gloo.solo.io.MeshSelector.Istio
-	21, // 19: common.gloo.solo.io.WorkspaceSelector.selector:type_name -> common.gloo.solo.io.WorkspaceSelector.SelectorEntry
-	22, // 20: common.gloo.solo.io.LabelSelector.selector:type_name -> common.gloo.solo.io.LabelSelector.SelectorEntry
-	19, // 21: common.gloo.solo.io.MeshSelector.Istio.cluster_selector:type_name -> common.gloo.solo.io.MeshSelector.Istio.ClusterSelectorEntry
-	20, // 22: common.gloo.solo.io.MeshSelector.Istio.selector:type_name -> common.gloo.solo.io.MeshSelector.Istio.SelectorEntry
-	23, // [23:23] is the sub-list for method output_type
-	23, // [23:23] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	15, // 17: common.gloo.solo.io.IdentitySelector.request_identity_matcher:type_name -> common.gloo.solo.io.IdentitySelector.RequestIdentityMatcher
+	16, // 18: common.gloo.solo.io.MeshSelector.istio:type_name -> common.gloo.solo.io.MeshSelector.Istio
+	19, // 19: common.gloo.solo.io.WorkspaceSelector.selector:type_name -> common.gloo.solo.io.WorkspaceSelector.SelectorEntry
+	17, // 20: common.gloo.solo.io.MeshSelector.Istio.cluster_selector:type_name -> common.gloo.solo.io.MeshSelector.Istio.ClusterSelectorEntry
+	18, // 21: common.gloo.solo.io.MeshSelector.Istio.selector:type_name -> common.gloo.solo.io.MeshSelector.Istio.SelectorEntry
+	22, // [22:22] is the sub-list for method output_type
+	22, // [22:22] is the sub-list for method input_type
+	22, // [22:22] is the sub-list for extension type_name
+	22, // [22:22] is the sub-list for extension extendee
+	0,  // [0:22] is the sub-list for field type_name
 }
 
 func init() {
@@ -1598,31 +1454,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_sele
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LabelSelector); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LabelSelectorRequirement); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*IdentitySelector_RequestIdentityMatcher); i {
 			case 0:
 				return &v.state
@@ -1634,7 +1466,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_sele
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*MeshSelector_Istio); i {
 			case 0:
 				return &v.state
@@ -1660,7 +1492,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_sele
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_selectors_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   21,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -63,6 +63,23 @@ func (m *AccessPolicySpec) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetApplyToWorkloads()) != len(target.GetApplyToWorkloads()) {
+		return false
+	}
+	for idx, v := range m.GetApplyToWorkloads() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApplyToWorkloads()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetApplyToWorkloads()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	if h, ok := interface{}(m.GetConfig()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetConfig()) {
 			return false
@@ -365,6 +382,28 @@ func (m *AccessPolicySpec_Config_Authorization) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetMatch(), target.GetMatch()) {
 			return false
 		}
+	}
+
+	if len(m.GetAllowedIpBlocks()) != len(target.GetAllowedIpBlocks()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedIpBlocks() {
+
+		if strings.Compare(v, target.GetAllowedIpBlocks()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetAllowedRemoteIpBlocks()) != len(target.GetAllowedRemoteIpBlocks()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedRemoteIpBlocks() {
+
+		if strings.Compare(v, target.GetAllowedRemoteIpBlocks()[idx]) != 0 {
+			return false
+		}
+
 	}
 
 	return true

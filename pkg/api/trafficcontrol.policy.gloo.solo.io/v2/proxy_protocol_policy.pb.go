@@ -30,7 +30,7 @@ const _ = proto.ProtoPackageIsVersion4
 // ProxyProtocolPolicy is used to enable proxy protocol for gateway listener(s).
 //
 // For more details on ProxyProtocol, visit:
-// https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt
+// https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt.
 //
 // ```
 // apiVersion: trafficcontrol.policy.gloo.solo.io/v2

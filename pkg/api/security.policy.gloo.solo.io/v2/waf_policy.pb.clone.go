@@ -145,5 +145,21 @@ func (m *WAFPolicySpec_Config) Clone() proto.Message {
 		target.Priority = proto.Clone(m.GetPriority()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
+	switch m.CoreRuleSetSettings.(type) {
+
+	case *WAFPolicySpec_Config_CoreRuleSetSettingsString:
+
+		target.CoreRuleSetSettings = &WAFPolicySpec_Config_CoreRuleSetSettingsString{
+			CoreRuleSetSettingsString: m.GetCoreRuleSetSettingsString(),
+		}
+
+	case *WAFPolicySpec_Config_CoreRuleSetSettingsPath:
+
+		target.CoreRuleSetSettings = &WAFPolicySpec_Config_CoreRuleSetSettingsPath{
+			CoreRuleSetSettingsPath: m.GetCoreRuleSetSettingsPath(),
+		}
+
+	}
+
 	return target
 }
