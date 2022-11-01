@@ -38,11 +38,76 @@ func (m *IstioLifecycleManagerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetRevision())); err != nil {
+	for _, v := range m.GetInstallations() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *IstioClusterSelector) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2.IstioClusterSelector")); err != nil {
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetDefaultRevision())); err != nil {
+	if _, err = hasher.Write([]byte(m.GetName())); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetDefaultRevision())
+	if err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetTrustDomain())); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *IstioInstallation) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2.IstioInstallation")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetRevision())); err != nil {
 		return 0, err
 	}
 
@@ -70,36 +135,24 @@ func (m *IstioLifecycleManagerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
-	for _, v := range m.GetInstallations() {
-
-		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	}
-
-	for _, v := range m.GetUninstallRevisions() {
-
-		if _, err = hasher.Write([]byte(v)); err != nil {
+	if h, ok := interface{}(m.GetIstioOperatorSpec()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("IstioOperatorSpec")); err != nil {
 			return 0, err
 		}
-
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetIstioOperatorSpec(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("IstioOperatorSpec")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
 	}
 
 	return hasher.Sum64(), nil
@@ -155,70 +208,6 @@ func (m *IstioLifecycleManagerStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			return 0, err
 		}
 
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *IstioInstallation) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2.IstioInstallation")); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetName())); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetIstioOperatorSpec()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("IstioOperatorSpec")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetIstioOperatorSpec(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("IstioOperatorSpec")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *IstioLifecycleManagerSpec_Cluster) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2.IstioLifecycleManagerSpec_Cluster")); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetName())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetTrustDomain())); err != nil {
-		return 0, err
 	}
 
 	return hasher.Sum64(), nil
@@ -301,32 +290,24 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Hash(ha
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetRevision())); err != nil {
-		return 0, err
-	}
-
-	for _, v := range m.GetObservedInstallations() {
-
-		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
+	if h, ok := interface{}(m.GetObservedOperator()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("ObservedOperator")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetObservedOperator(), nil); err != nil {
+			return 0, err
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if _, err = hasher.Write([]byte("ObservedOperator")); err != nil {
 				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
 			}
 		}
-
 	}
 
 	return hasher.Sum64(), nil

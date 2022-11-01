@@ -1052,7 +1052,7 @@ func (x *SessionConfig_CookieOptions) GetDomain() string {
 // <issuerUrl>/.well-known/openid-configuration The discovery override
 // defines any properties that should override this discovery
 // configuration
-// https://openid.net/developers/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+// https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
 type OidcConfig_DiscoveryOverride struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
