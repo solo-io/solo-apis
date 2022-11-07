@@ -34,6 +34,8 @@ option (extproto.clone_all) = true;
 // - VirtualDestination
 // - ExternalService
 // - RouteTable
+// - APISchema
+// - GraphQLResolverMap
 //
 // You can use the `exportTo` field in the `WorkspaceSettings` resource for the workspace to configure what resources
 // are exported to which other workspaces. For example, the `web` application developer can export the RouteTable resource 
@@ -133,6 +135,8 @@ message WorkspaceSettingsSpec {
     // - virtual destinations
     // - external destinations
     // - route tables
+    // - API schemas
+    // - GraphQL resolver maps
     // You can select workspace using labels, for example:
     // ```yaml
     //     importFrom:
@@ -169,10 +173,12 @@ message WorkspaceSettingsSpec {
 
     // A workspace can specify resources to export for use by other workspaces.
     // Currently the following types of objects can be exported across workspaces:
-    // - kubernetes services
+    // - Kubernetes services
     // - virtual destinations
     // - external destinations
     // - route tables
+    // - API schemas
+    // - GraphQL resolver maps
     // You can select workspace using labels, for example:
     // ```yaml
     //     exportTo:
@@ -231,6 +237,8 @@ message WorkspaceSettingsSpec {
             // - `Service`
             // - `VirtualDestination`
             // - `ExternalService`
+            // - `APISchema`
+            // - `GraphQLResolverMap`
             // - `All` (all types)
             ObjectKind kind = 1;
 
@@ -264,6 +272,13 @@ message WorkspaceSettingsSpec {
 
                 // Select ExternalService objects.
                 EXTERNAL_SERVICE = 4;
+
+                // Select APISchema objects.
+                API_SCHEMA = 5;
+
+                // Select GraphQLResolverMap objects.
+                GRAPHQL_RESOLVER_MAP = 6;
+
             }
         }
     }

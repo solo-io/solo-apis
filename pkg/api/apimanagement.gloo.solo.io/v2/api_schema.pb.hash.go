@@ -60,50 +60,6 @@ func (m *ApiSchemaSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	switch m.SchemaType.(type) {
 
-	case *ApiSchemaSpec_Openapi:
-
-		if h, ok := interface{}(m.GetOpenapi()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Openapi")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetOpenapi(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("Openapi")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	case *ApiSchemaSpec_Grpc:
-
-		if h, ok := interface{}(m.GetGrpc()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Grpc")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetGrpc(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("Grpc")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
 	case *ApiSchemaSpec_Graphql:
 
 		if h, ok := interface{}(m.GetGraphql()).(safe_hasher.SafeHasher); ok {
@@ -221,46 +177,6 @@ func (m *ApiSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			}
 		}
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *ApiSchemaSpec_OpenAPISchema) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.ApiSchemaSpec_OpenAPISchema")); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetInlineString())); err != nil {
-		return 0, err
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *ApiSchemaSpec_GrpcSchema) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.ApiSchemaSpec_GrpcSchema")); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write(m.GetDescriptors()); err != nil {
-		return 0, err
 	}
 
 	return hasher.Sum64(), nil
