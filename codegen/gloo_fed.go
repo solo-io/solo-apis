@@ -15,6 +15,7 @@ func GlooFedGroups() []model.Group {
 		makeFedGlooGroup(),
 		makeFedEnterpriseGlooGroup(),
 		makeFedRateLimitGroup(),
+		makeMulticlusterGroups(),
 	}
 }
 
@@ -51,5 +52,11 @@ func makeFedEnterpriseGlooGroup() model.Group {
 func makeFedRateLimitGroup() model.Group {
 	return makeGroup("fed.ratelimit", "v1alpha1", []resourceToGenerate{
 		{kind: "FederatedRateLimitConfig"},
+	}, []model.CustomTemplates{})
+}
+
+func makeMulticlusterGroups() model.Group {
+	return makeGroup("multicluster", "v1alpha1", []resourceToGenerate{
+		{kind: "MultiClusterRole"},
 	}, []model.CustomTemplates{})
 }
