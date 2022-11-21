@@ -5,7 +5,7 @@ import "extproto/ext.proto";
 option (extproto.hash_all) = true;
 option (extproto.equal_all) = true;
 
-option go_package = "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1";
+option go_package = "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1/types";
 
 import "google/protobuf/wrappers.proto";
 import "github.com/solo-io/skv2/api/core/v1/core.proto";

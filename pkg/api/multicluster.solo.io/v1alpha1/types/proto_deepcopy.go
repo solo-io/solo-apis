@@ -2,7 +2,7 @@
 
 // This file contains generated Deepcopy methods for proto-based Spec and Status fields
 
-package v1alpha1
+package types
 
 import (
 	proto "github.com/golang/protobuf/proto"
