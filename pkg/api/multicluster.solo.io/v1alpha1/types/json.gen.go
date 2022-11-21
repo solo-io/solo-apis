@@ -5,6 +5,7 @@
 package types
 
 import (
+	bytes "bytes"
 	fmt "fmt"
 	math "math"
 
@@ -25,3 +26,25 @@ var (
 	}
 	strictUnmarshaller = &jsonpb.Unmarshaler{}
 )
+
+// MarshalJSON is a custom marshaler for MultiClusterRoleSpec
+func (this *MultiClusterRoleSpec) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for MultiClusterRoleSpec
+func (this *MultiClusterRoleSpec) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for MultiClusterRoleStatus
+func (this *MultiClusterRoleStatus) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for MultiClusterRoleStatus
+func (this *MultiClusterRoleStatus) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}
