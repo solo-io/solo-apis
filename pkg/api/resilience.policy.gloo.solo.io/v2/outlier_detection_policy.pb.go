@@ -32,6 +32,9 @@ const _ = proto.ProtoPackageIsVersion4
 // OutlierDetectionPolicy is used to configure [outlier detection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier) on the selected destinations.
 // Specifying this field requires an empty `source_selector` because it must apply to all traffic.
 // OutlierDetectionPolicies are applied at the *Destination* level.
+//
+// For VirtualDestinations, traffic will not be sent to deployments that are unavailable by default.
+// An OutlierDetectionPolicy will add configuration to also eject a deployment that is returning too many 5xx HTTP status codes.
 type OutlierDetectionPolicySpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,7 +164,7 @@ type OutlierDetectionPolicySpec_Config struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The number of errors before a destination is removed from the healthy connection pool. The default is 5.
+	// The number of 5xx errors before a destination is removed from the healthy connection pool. The default is 5.
 	ConsecutiveErrors uint32 `protobuf:"varint,1,opt,name=consecutive_errors,json=consecutiveErrors,proto3" json:"consecutive_errors,omitempty"`
 	// The amount of time between analyzing destinations for ejection.
 	// Set this value as an integer plus a unit of time, in the format `1h`, `1m`, `1s`, or `1ms`. The value must be at least `1ms`, and defaults to `10s`.

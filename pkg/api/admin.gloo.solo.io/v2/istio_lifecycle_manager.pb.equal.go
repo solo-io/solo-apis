@@ -46,11 +46,84 @@ func (m *IstioLifecycleManagerSpec) Equal(that interface{}) bool {
 		return false
 	}
 
-	if strings.Compare(m.GetRevision(), target.GetRevision()) != 0 {
+	if len(m.GetInstallations()) != len(target.GetInstallations()) {
+		return false
+	}
+	for idx, v := range m.GetInstallations() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetInstallations()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetInstallations()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *IstioClusterSelector) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*IstioClusterSelector)
+	if !ok {
+		that2, ok := that.(IstioClusterSelector)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
 		return false
 	}
 
-	if strings.Compare(m.GetDefaultRevision(), target.GetDefaultRevision()) != 0 {
+	if strings.Compare(m.GetName(), target.GetName()) != 0 {
+		return false
+	}
+
+	if m.GetDefaultRevision() != target.GetDefaultRevision() {
+		return false
+	}
+
+	if strings.Compare(m.GetTrustDomain(), target.GetTrustDomain()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *IstioInstallation) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*IstioInstallation)
+	if !ok {
+		that2, ok := that.(IstioInstallation)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetRevision(), target.GetRevision()) != 0 {
 		return false
 	}
 
@@ -71,32 +144,14 @@ func (m *IstioLifecycleManagerSpec) Equal(that interface{}) bool {
 
 	}
 
-	if len(m.GetInstallations()) != len(target.GetInstallations()) {
-		return false
-	}
-	for idx, v := range m.GetInstallations() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetInstallations()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetInstallations()[idx]) {
-				return false
-			}
-		}
-
-	}
-
-	if len(m.GetUninstallRevisions()) != len(target.GetUninstallRevisions()) {
-		return false
-	}
-	for idx, v := range m.GetUninstallRevisions() {
-
-		if strings.Compare(v, target.GetUninstallRevisions()[idx]) != 0 {
+	if h, ok := interface{}(m.GetIstioOperatorSpec()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetIstioOperatorSpec()) {
 			return false
 		}
-
+	} else {
+		if !proto.Equal(m.GetIstioOperatorSpec(), target.GetIstioOperatorSpec()) {
+			return false
+		}
 	}
 
 	return true
@@ -138,76 +193,6 @@ func (m *IstioLifecycleManagerStatus) Equal(that interface{}) bool {
 			}
 		}
 
-	}
-
-	return true
-}
-
-// Equal function
-func (m *IstioInstallation) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*IstioInstallation)
-	if !ok {
-		that2, ok := that.(IstioInstallation)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetName(), target.GetName()) != 0 {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetIstioOperatorSpec()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetIstioOperatorSpec()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetIstioOperatorSpec(), target.GetIstioOperatorSpec()) {
-			return false
-		}
-	}
-
-	return true
-}
-
-// Equal function
-func (m *IstioLifecycleManagerSpec_Cluster) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*IstioLifecycleManagerSpec_Cluster)
-	if !ok {
-		that2, ok := that.(IstioLifecycleManagerSpec_Cluster)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetName(), target.GetName()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetTrustDomain(), target.GetTrustDomain()) != 0 {
-		return false
 	}
 
 	return true
@@ -283,25 +268,14 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Equal(t
 		return false
 	}
 
-	if strings.Compare(m.GetRevision(), target.GetRevision()) != 0 {
-		return false
-	}
-
-	if len(m.GetObservedInstallations()) != len(target.GetObservedInstallations()) {
-		return false
-	}
-	for idx, v := range m.GetObservedInstallations() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetObservedInstallations()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetObservedInstallations()[idx]) {
-				return false
-			}
+	if h, ok := interface{}(m.GetObservedOperator()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetObservedOperator()) {
+			return false
 		}
-
+	} else {
+		if !proto.Equal(m.GetObservedOperator(), target.GetObservedOperator()) {
+			return false
+		}
 	}
 
 	return true

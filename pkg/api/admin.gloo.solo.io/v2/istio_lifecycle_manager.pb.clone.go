@@ -13,7 +13,7 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
+	github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2"
 )
 
 // ensure the imports are used
@@ -35,23 +35,6 @@ func (m *IstioLifecycleManagerSpec) Clone() proto.Message {
 	}
 	target = &IstioLifecycleManagerSpec{}
 
-	target.Revision = m.GetRevision()
-
-	target.DefaultRevision = m.GetDefaultRevision()
-
-	if m.GetClusters() != nil {
-		target.Clusters = make([]*IstioLifecycleManagerSpec_Cluster, len(m.GetClusters()))
-		for idx, v := range m.GetClusters() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Clusters[idx] = h.Clone().(*IstioLifecycleManagerSpec_Cluster)
-			} else {
-				target.Clusters[idx] = proto.Clone(v).(*IstioLifecycleManagerSpec_Cluster)
-			}
-
-		}
-	}
-
 	if m.GetInstallations() != nil {
 		target.Installations = make([]*IstioInstallation, len(m.GetInstallations()))
 		for idx, v := range m.GetInstallations() {
@@ -65,13 +48,53 @@ func (m *IstioLifecycleManagerSpec) Clone() proto.Message {
 		}
 	}
 
-	if m.GetUninstallRevisions() != nil {
-		target.UninstallRevisions = make([]string, len(m.GetUninstallRevisions()))
-		for idx, v := range m.GetUninstallRevisions() {
+	return target
+}
 
-			target.UninstallRevisions[idx] = v
+// Clone function
+func (m *IstioClusterSelector) Clone() proto.Message {
+	var target *IstioClusterSelector
+	if m == nil {
+		return target
+	}
+	target = &IstioClusterSelector{}
+
+	target.Name = m.GetName()
+
+	target.DefaultRevision = m.GetDefaultRevision()
+
+	target.TrustDomain = m.GetTrustDomain()
+
+	return target
+}
+
+// Clone function
+func (m *IstioInstallation) Clone() proto.Message {
+	var target *IstioInstallation
+	if m == nil {
+		return target
+	}
+	target = &IstioInstallation{}
+
+	target.Revision = m.GetRevision()
+
+	if m.GetClusters() != nil {
+		target.Clusters = make([]*IstioClusterSelector, len(m.GetClusters()))
+		for idx, v := range m.GetClusters() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Clusters[idx] = h.Clone().(*IstioClusterSelector)
+			} else {
+				target.Clusters[idx] = proto.Clone(v).(*IstioClusterSelector)
+			}
 
 		}
+	}
+
+	if h, ok := interface{}(m.GetIstioOperatorSpec()).(clone.Cloner); ok {
+		target.IstioOperatorSpec = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.IstioOperatorSpec)
+	} else {
+		target.IstioOperatorSpec = proto.Clone(m.GetIstioOperatorSpec()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.IstioOperatorSpec)
 	}
 
 	return target
@@ -97,40 +120,6 @@ func (m *IstioLifecycleManagerStatus) Clone() proto.Message {
 
 		}
 	}
-
-	return target
-}
-
-// Clone function
-func (m *IstioInstallation) Clone() proto.Message {
-	var target *IstioInstallation
-	if m == nil {
-		return target
-	}
-	target = &IstioInstallation{}
-
-	target.Name = m.GetName()
-
-	if h, ok := interface{}(m.GetIstioOperatorSpec()).(clone.Cloner); ok {
-		target.IstioOperatorSpec = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
-	} else {
-		target.IstioOperatorSpec = proto.Clone(m.GetIstioOperatorSpec()).(*github_com_golang_protobuf_ptypes_struct.Struct)
-	}
-
-	return target
-}
-
-// Clone function
-func (m *IstioLifecycleManagerSpec_Cluster) Clone() proto.Message {
-	var target *IstioLifecycleManagerSpec_Cluster
-	if m == nil {
-		return target
-	}
-	target = &IstioLifecycleManagerSpec_Cluster{}
-
-	target.Name = m.GetName()
-
-	target.TrustDomain = m.GetTrustDomain()
 
 	return target
 }
@@ -171,19 +160,10 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Clone()
 
 	target.Message = m.GetMessage()
 
-	target.Revision = m.GetRevision()
-
-	if m.GetObservedInstallations() != nil {
-		target.ObservedInstallations = make([]*IstioInstallation, len(m.GetObservedInstallations()))
-		for idx, v := range m.GetObservedInstallations() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.ObservedInstallations[idx] = h.Clone().(*IstioInstallation)
-			} else {
-				target.ObservedInstallations[idx] = proto.Clone(v).(*IstioInstallation)
-			}
-
-		}
+	if h, ok := interface{}(m.GetObservedOperator()).(clone.Cloner); ok {
+		target.ObservedOperator = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.IstioOperatorSpec)
+	} else {
+		target.ObservedOperator = proto.Clone(m.GetObservedOperator()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.IstioOperatorSpec)
 	}
 
 	return target

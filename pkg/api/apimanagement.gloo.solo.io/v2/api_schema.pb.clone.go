@@ -43,30 +43,6 @@ func (m *ApiSchemaSpec) Clone() proto.Message {
 
 	switch m.SchemaType.(type) {
 
-	case *ApiSchemaSpec_Openapi:
-
-		if h, ok := interface{}(m.GetOpenapi()).(clone.Cloner); ok {
-			target.SchemaType = &ApiSchemaSpec_Openapi{
-				Openapi: h.Clone().(*ApiSchemaSpec_OpenAPISchema),
-			}
-		} else {
-			target.SchemaType = &ApiSchemaSpec_Openapi{
-				Openapi: proto.Clone(m.GetOpenapi()).(*ApiSchemaSpec_OpenAPISchema),
-			}
-		}
-
-	case *ApiSchemaSpec_Grpc:
-
-		if h, ok := interface{}(m.GetGrpc()).(clone.Cloner); ok {
-			target.SchemaType = &ApiSchemaSpec_Grpc{
-				Grpc: h.Clone().(*ApiSchemaSpec_GrpcSchema),
-			}
-		} else {
-			target.SchemaType = &ApiSchemaSpec_Grpc{
-				Grpc: proto.Clone(m.GetGrpc()).(*ApiSchemaSpec_GrpcSchema),
-			}
-		}
-
 	case *ApiSchemaSpec_Graphql:
 
 		if h, ok := interface{}(m.GetGraphql()).(clone.Cloner); ok {
@@ -115,35 +91,6 @@ func (m *ApiSchemaStatus) Clone() proto.Message {
 		target.OwnerWorkspace = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.OwnerWorkspace)
 	} else {
 		target.OwnerWorkspace = proto.Clone(m.GetOwnerWorkspace()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.OwnerWorkspace)
-	}
-
-	return target
-}
-
-// Clone function
-func (m *ApiSchemaSpec_OpenAPISchema) Clone() proto.Message {
-	var target *ApiSchemaSpec_OpenAPISchema
-	if m == nil {
-		return target
-	}
-	target = &ApiSchemaSpec_OpenAPISchema{}
-
-	target.InlineString = m.GetInlineString()
-
-	return target
-}
-
-// Clone function
-func (m *ApiSchemaSpec_GrpcSchema) Clone() proto.Message {
-	var target *ApiSchemaSpec_GrpcSchema
-	if m == nil {
-		return target
-	}
-	target = &ApiSchemaSpec_GrpcSchema{}
-
-	if m.GetDescriptors() != nil {
-		target.Descriptors = make([]byte, len(m.GetDescriptors()))
-		copy(target.Descriptors, m.GetDescriptors())
 	}
 
 	return target

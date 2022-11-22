@@ -280,5 +280,21 @@ func (m *WAFPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	switch m.CoreRuleSetSettings.(type) {
+
+	case *WAFPolicySpec_Config_CoreRuleSetSettingsString:
+
+		if _, err = hasher.Write([]byte(m.GetCoreRuleSetSettingsString())); err != nil {
+			return 0, err
+		}
+
+	case *WAFPolicySpec_Config_CoreRuleSetSettingsPath:
+
+		if _, err = hasher.Write([]byte(m.GetCoreRuleSetSettingsPath())); err != nil {
+			return 0, err
+		}
+
+	}
+
 	return hasher.Sum64(), nil
 }
