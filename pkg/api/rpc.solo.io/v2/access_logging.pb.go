@@ -93,6 +93,7 @@ type GetAccessLogsRequest struct {
 	WorkloadSelectors []*v2.ObjectSelector `protobuf:"bytes,1,rep,name=workload_selectors,json=workloadSelectors,proto3" json:"workload_selectors,omitempty"`
 	// Maximum number of access logs to get. If not set, a default value of 20
 	// will be used.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
 	RetrievalNumber *wrappers.UInt32Value `protobuf:"bytes,2,opt,name=retrieval_number,json=retrievalNumber,proto3" json:"retrieval_number,omitempty"`
 }
 
@@ -150,6 +151,7 @@ type AccessLog struct {
 	// Metadata for workload
 	WorkloadMetadata *AccessLog_WorkloadMetadata `protobuf:"bytes,1,opt,name=workload_metadata,json=workloadMetadata,proto3" json:"workload_metadata,omitempty"`
 	// An Envoy access log.
+	// For more information, see the [Envoy API reference documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v3/data/accesslog/v3/accesslog.proto#data-accesslog-v3-httpaccesslogentry).
 	HttpAccessLog *v3.HTTPAccessLogEntry `protobuf:"bytes,2,opt,name=http_access_log,json=httpAccessLog,proto3" json:"http_access_log,omitempty"`
 }
 

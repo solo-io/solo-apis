@@ -43,3 +43,22 @@ func (m *WorkloadReference) Clone() proto.Message {
 
 	return target
 }
+
+// Clone function
+func (m *ListenerPortReference) Clone() proto.Message {
+	var target *ListenerPortReference
+	if m == nil {
+		return target
+	}
+	target = &ListenerPortReference{}
+
+	if h, ok := interface{}(m.GetGatewayRef()).(clone.Cloner); ok {
+		target.GatewayRef = h.Clone().(*ObjectReference)
+	} else {
+		target.GatewayRef = proto.Clone(m.GetGatewayRef()).(*ObjectReference)
+	}
+
+	target.Port = m.GetPort()
+
+	return target
+}

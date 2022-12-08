@@ -33,6 +33,7 @@ const _ = proto.ProtoPackageIsVersion4
 // specify a priority to indicate at what point this policy should be applied relative to other policies
 // defined in the same phase.
 // For Example, if you have the following policies defined with phases and priorities:
+// ```
 // 1.
 // phase:
 //   preAuthz:
@@ -44,8 +45,9 @@ const _ = proto.ProtoPackageIsVersion4
 // 3.
 // phase:
 //   preAuthz: {}
+// ```
 //
-// The policies will be run in the following order: (2, 3, 1).
+// The policies will be run in the following order: `(2, 3, 1)`.
 //
 // Note: The default phase is defined per policy type which you can find in the policy reference documentation.
 // The following policies currently implement prioritized staging:
@@ -142,6 +144,7 @@ type PrioritizedPhase_Phase struct {
 
 	// The priority at which this policy should be applied relative to other policies defined in the same phase.
 	// The lowest priority will be run first and the default priority value is 0.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/int32-value).
 	Priority *wrappers.Int32Value `protobuf:"bytes,1,opt,name=priority,proto3" json:"priority,omitempty"`
 }
 

@@ -322,50 +322,6 @@ func (m *WorkspaceSelector) Clone() proto.Message {
 }
 
 // Clone function
-func (m *LabelSelector) Clone() proto.Message {
-	var target *LabelSelector
-	if m == nil {
-		return target
-	}
-	target = &LabelSelector{}
-
-	if m.GetSelector() != nil {
-		target.Selector = make(map[string]string, len(m.GetSelector()))
-		for k, v := range m.GetSelector() {
-
-			target.Selector[k] = v
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *LabelSelectorRequirement) Clone() proto.Message {
-	var target *LabelSelectorRequirement
-	if m == nil {
-		return target
-	}
-	target = &LabelSelectorRequirement{}
-
-	target.Key = m.GetKey()
-
-	target.Operator = m.GetOperator()
-
-	if m.GetValues() != nil {
-		target.Values = make([]string, len(m.GetValues()))
-		for idx, v := range m.GetValues() {
-
-			target.Values[idx] = v
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
 func (m *IdentitySelector_RequestIdentityMatcher) Clone() proto.Message {
 	var target *IdentitySelector_RequestIdentityMatcher
 	if m == nil {

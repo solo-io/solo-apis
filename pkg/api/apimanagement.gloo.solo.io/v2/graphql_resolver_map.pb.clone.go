@@ -128,15 +128,15 @@ func (m *VariableTransformation) Clone() proto.Message {
 			Jq: m.GetJq(),
 		}
 
-	case *VariableTransformation_Value:
+	case *VariableTransformation_Json:
 
-		if h, ok := interface{}(m.GetValue()).(clone.Cloner); ok {
-			target.Transformation = &VariableTransformation_Value{
-				Value: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
+		if h, ok := interface{}(m.GetJson()).(clone.Cloner); ok {
+			target.Transformation = &VariableTransformation_Json{
+				Json: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
 			}
 		} else {
-			target.Transformation = &VariableTransformation_Value{
-				Value: proto.Clone(m.GetValue()).(*github_com_golang_protobuf_ptypes_struct.Value),
+			target.Transformation = &VariableTransformation_Json{
+				Json: proto.Clone(m.GetJson()).(*github_com_golang_protobuf_ptypes_struct.Value),
 			}
 		}
 
@@ -203,15 +203,15 @@ func (m *Extraction) Clone() proto.Message {
 			}
 		}
 
-	case *Extraction_JsonValue:
+	case *Extraction_Json:
 
-		if h, ok := interface{}(m.GetJsonValue()).(clone.Cloner); ok {
-			target.ExtractionType = &Extraction_JsonValue{
-				JsonValue: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
+		if h, ok := interface{}(m.GetJson()).(clone.Cloner); ok {
+			target.ExtractionType = &Extraction_Json{
+				Json: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
 			}
 		} else {
-			target.ExtractionType = &Extraction_JsonValue{
-				JsonValue: proto.Clone(m.GetJsonValue()).(*github_com_golang_protobuf_ptypes_struct.Value),
+			target.ExtractionType = &Extraction_Json{
+				Json: proto.Clone(m.GetJson()).(*github_com_golang_protobuf_ptypes_struct.Value),
 			}
 		}
 
@@ -477,7 +477,15 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 	}
 	target = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable{}
 
-	target.ResponseHeader = m.GetResponseHeader()
+	switch m.Extraction.(type) {
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable_ResponseHeader:
+
+		target.Extraction = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable_ResponseHeader{
+			ResponseHeader: m.GetResponseHeader(),
+		}
+
+	}
 
 	return target
 }
@@ -624,15 +632,15 @@ func (m *ExecutableSchema_GraphQLServer_RequestExtraction) Clone() proto.Message
 			RequestHeader: m.GetRequestHeader(),
 		}
 
-	case *ExecutableSchema_GraphQLServer_RequestExtraction_JsonValue:
+	case *ExecutableSchema_GraphQLServer_RequestExtraction_Json:
 
-		if h, ok := interface{}(m.GetJsonValue()).(clone.Cloner); ok {
-			target.Extraction = &ExecutableSchema_GraphQLServer_RequestExtraction_JsonValue{
-				JsonValue: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
+		if h, ok := interface{}(m.GetJson()).(clone.Cloner); ok {
+			target.Extraction = &ExecutableSchema_GraphQLServer_RequestExtraction_Json{
+				Json: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
 			}
 		} else {
-			target.Extraction = &ExecutableSchema_GraphQLServer_RequestExtraction_JsonValue{
-				JsonValue: proto.Clone(m.GetJsonValue()).(*github_com_golang_protobuf_ptypes_struct.Value),
+			target.Extraction = &ExecutableSchema_GraphQLServer_RequestExtraction_Json{
+				Json: proto.Clone(m.GetJson()).(*github_com_golang_protobuf_ptypes_struct.Value),
 			}
 		}
 

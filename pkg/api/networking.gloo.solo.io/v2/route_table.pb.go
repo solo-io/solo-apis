@@ -165,6 +165,8 @@ func (DelegateAction_SortMethod) EnumDescriptor() ([]byte, []int) {
 // `v1` of `reviews.qa`. When the path matches exactly to `/reviews/`, 80% traffic is forwarded to the port 9080
 // of `reviews.prod` and 20% traffic is forwarded to the port 9080 of `reviews.qa`. All other traffic is sent
 // to the default destination, which is the port 9080 of `reviews.prod` service in the `bookinfo` workspace.
+//
+// ```yaml
 // apiVersion: networking.gloo.solo.io/v2
 // kind: RouteTable
 // metadata:
@@ -212,6 +214,7 @@ func (DelegateAction_SortMethod) EnumDescriptor() ([]byte, []int) {
 //             port:
 //               number: 9080
 //             weight: 20
+// ```
 type RouteTableSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -224,54 +227,27 @@ type RouteTableSpec struct {
 	Hosts []string `protobuf:"bytes,1,rep,name=hosts,proto3" json:"hosts,omitempty"`
 	// Optional: A list of references to the virtual gateways which should serve this route table.
 	// Only valid for route tables which define at least one host.
-	// *Note*: Ignored on delegated (non-root) route tables.
+	// *Note*: This field must be empty for a delegated RouteTable.
 	//
 	// When not specified, the route table applies to either all the sidecars in the workspace
 	// or only sidecars for selected workloads (via the `workloadSelectors` field) in the workspace where
 	// the route table is deployed or imported.
 	// The following applies to sidecars of all the workloads for the workspace where the route table is
-	// deployed or imported.
-	//
-	// virtualGateways: null
-	// workloadSelectors: []
+	// deployed or imported: set `virtualGateways` to `null` and `workloadSelectors` to `[]`.
 	//
 	// The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
-	// no sidecars.
-	//
-	// virtualGateways:
-	//   - name: my-gateway
-	//     namespace: gateway
-	// workloadSelectors: []
+	// no sidecars: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `[]`.
 	//
 	// The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
 	// sidecars of all the workloads for the workspace where the route table is
-	// deployed or imported.
-	//
-	// virtualGateways:
-	//   - name: my-gateway
-	//     namespace: gateway
-	// workloadSelectors:
-	//   - selector: {}
+	// deployed or imported: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `{}`.
 	//
 	// The following applies to sidecars of all the `app: foo` workloads for the workspace where the route table
-	// is deployed or imported.
-	//
-	// virtualGateways: null
-	// workloadSelectors:
-	//   - selector:
-	//       labels:
-	//         app: foo
+	// is deployed or imported: set `virtualGateways` to `null` and `workloadSelectors.selector.labels` to `app: foo`.
 	//
 	// The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
-	// sidecars of all the `app: foo` workloads for the workspace where the route table is deployed or imported.
-	//
-	// virtualGateways:
-	//   - name: my-gateway
-	//     namespace: gateway
-	// workloadSelectors:
-	//   - selector:
-	//       labels:
-	//         app: foo
+	// sidecars of all the `app: foo` workloads for the workspace where the route table is deployed or imported:
+	// set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors.selector.labels` to `app: foo`.
 	//
 	// *Note*: This field must be empty for a delegated RouteTable.
 	VirtualGateways []*v2.ObjectReference `protobuf:"bytes,5,rep,name=virtual_gateways,json=virtualGateways,proto3" json:"virtual_gateways,omitempty"`
@@ -365,7 +341,7 @@ func (x *RouteTableSpec) GetWeight() int32 {
 	return 0
 }
 
-// an HTTP route pairs a set of HTTP Request Matchers with an action to take when a request is matched. HTTP Routes can be named and labeled for the purpose of metrics and applying policies.
+// An HTTP route pairs a set of HTTP Request Matchers with an action to take when a request is matched. HTTP Routes can be named and labeled for the purpose of metrics and applying policies.
 type HTTPRoute struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -373,7 +349,7 @@ type HTTPRoute struct {
 
 	// unique name of the route (within the route table). used to identify the route for metrics
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// labels for the route. used to apply policies which implement routeSelectors.
+	// Labels for the route. used to apply policies which implement routeSelectors.
 	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The set of request matchers which this route will match on. If none are specified, this route will match any HTTP traffic.
 	// On a delegated RouteTable, this route will only match traffic that includes both the parent and child's matchers.
@@ -693,7 +669,7 @@ func (x *ForwardToAction) GetHostRewrite() string {
 	return ""
 }
 
-// Note: This message needs to be at this level (rather than nested) due to cue restrictions.
+// @exclude Note: This message needs to be at this level (rather than nested) due to cue restrictions.
 // Notice: RedirectAction is copied directly from https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
 type RedirectAction struct {
 	state         protoimpl.MessageState
@@ -783,7 +759,7 @@ type RedirectAction_PathRedirect struct {
 
 func (*RedirectAction_PathRedirect) isRedirectAction_PathRewriteSpecifier() {}
 
-// Note: This message needs to be at this level (rather than nested) due to cue restrictions.
+// @exclude Note: This message needs to be at this level (rather than nested) due to cue restrictions.
 // DirectResponseAction is copied directly from https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
 type DirectResponseAction struct {
 	state         protoimpl.MessageState
@@ -846,7 +822,7 @@ func (x *DirectResponseAction) GetBody() string {
 	return ""
 }
 
-// Note: This message needs to be at this level (rather than nested) due to cue restrictions.
+// @exclude Note: This message needs to be at this level (rather than nested) due to cue restrictions.
 // DelegateActions are used to delegate routing decisions to other resources, for example RouteTables.
 type DelegateAction struct {
 	state         protoimpl.MessageState
@@ -1007,7 +983,7 @@ type GraphQLAction_Options struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Include information about request/response in the envoy debug logs.
-	// This is helpful for debugging GraphQL
+	// This is helpful for debugging GraphQL.
 	// Defaults to false.
 	LogSensitiveInfo *wrappers.BoolValue `protobuf:"bytes,1,opt,name=log_sensitive_info,json=logSensitiveInfo,proto3" json:"log_sensitive_info,omitempty"`
 }

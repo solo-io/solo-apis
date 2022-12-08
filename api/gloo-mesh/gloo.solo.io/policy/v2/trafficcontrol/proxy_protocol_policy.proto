@@ -2,9 +2,16 @@ syntax = "proto3";
 package trafficcontrol.policy.gloo.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/trafficcontrol.policy.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
 
 // ProxyProtocolPolicy is used to enable proxy protocol for gateway listener(s).
 //
@@ -46,12 +53,22 @@ message ProxyProtocolPolicySpec {
 
 // reflects the status of the ProxyProtocolPolicy
 message ProxyProtocolPolicyStatus {
+  // DEPRECATED: Use global instead
+  int64 observed_generation = 1  [deprecated=true];
+
+  // DEPRECATED: Use workspaces instead
+  .common.gloo.solo.io.ApprovalState state = 2 [deprecated=true];
+
   // The most recent generation observed in the the object's metadata.
   // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh
   // has not processed the most recent version of this object.
-  int64 observed_generation = 1;
-
+  .common.gloo.solo.io.GenericGlobalStatus global = 3;
+  
   // Whether the resource has been accepted as valid and processed in the Gloo
   // Mesh config translation.
-  .common.gloo.solo.io.ApprovalState state = 2;
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 4;
+
+  // Virtual Gateway listeners selected by the policy.
+  repeated .common.gloo.solo.io.ListenerPortReference selected_listeners = 5;
 }

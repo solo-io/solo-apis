@@ -29,7 +29,7 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
-// FailoverPolicy is used to enable failover routing for traffic being sent to selected destinations.
+// FailoverPolicy is used to enable or configure failover routing for traffic being sent to selected destinations.
 // When traffic is being routed to a backing service within a selected virtual destination, if that backing service is detected as being in an unhealthy state, traffic will be re-routed to another healthy backing service by locality as specified in the FailoverPolicy config.
 // FailoverPolicy can be used to reroute traffic across clusters when the local instance of a destination service fails. This requires that the backing destinations of the selected virtual destination belong to meshes in the same TrustDomain.
 // FailoverPolicies are applied at the *Destination* level.
@@ -355,6 +355,7 @@ type FailoverPolicySpec_Config_LocalityMappings_DestinationLocality struct {
 	// (Optional) Weight for destination locality. All weights must add up to 100.
 	// If not provided, we will determine the weight based on other
 	// destination locality weights.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
 	Weight *wrappers.UInt32Value `protobuf:"bytes,4,opt,name=weight,proto3" json:"weight,omitempty"`
 }
 

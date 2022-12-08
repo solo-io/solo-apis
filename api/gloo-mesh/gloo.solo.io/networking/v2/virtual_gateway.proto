@@ -170,7 +170,7 @@ message VirtualGatewaySpec {
             // requires tls to be enabled
             TCPServer tcp = 5;
 
-            // TODO: consider creating a type for tls
+            // @exclude TODO: consider creating a type for tls
         }
 
         // Optional: Filter RouteTables which can bind to this listener by the host names and object metadata.
@@ -190,7 +190,7 @@ message VirtualGatewaySpec {
 
         }
 
-        // TODO: TCPServer
+        // @exclude TODO: TCPServer
         message TCPServer {
 
         }

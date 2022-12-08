@@ -32,7 +32,73 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
-// JWTPolicy used to enable JWT Authentication for routes
+// JWTPolicy used to enable JWT Authentication for routes.
+//
+// Example:
+// Sample JWT Payload:
+// ```json
+// {
+//   "org": "solo-io",
+//   "iss": "https://localhost",
+//   "exp": 4804324736,
+//   "iat": 1648651136
+// }
+// ```
+//
+// Configuration below will enable JWT Authentication for selected routes
+// as well as inject a header into the request containing the value found
+// within the parsed claim if it exists. Empty sources default to extracting
+// JWTs from Authorization Header with prefix "Bearer <Token>"" or Query Param
+// "access_token=<Token>"
+//
+// ```yaml
+// apiVersion: security.policy.gloo.solo.io/v2
+// kind: JWTPolicy
+// metadata:
+//   name: <name>
+//   namespace: <namespace>
+// spec:
+//   config:
+//     providers:
+//       <provider_name>:
+//         issuer: "https://localhost"
+//         local:
+//           inline: |
+//             <pem formatted public key>
+//         claimsToHeaders:
+//         - claim: org
+//           header: x-org
+//       stage: PRE_AUTHZ
+// ```
+//
+// This example enables JWT Authentication for selected routes and
+// request will be checked using token found at either X-Auth header with prefix
+// "Bearer <token>" or query param "auth_token=<Token>". Note if a request has both
+// sources available all tokens will need to be valid for the request to be accepted.
+//
+// ```yaml
+// apiVersion: security.policy.gloo.solo.io/v2
+// kind: JWTPolicy
+// metadata:
+//   name: <name>
+//   namespace: <namespace>
+// spec:
+//   config:
+//     providers:
+//       <provider_name>:
+//         issuer: "https://localhost"
+//         local:
+//           inline: |
+//             <pem formatted public key>
+//         tokenSource:
+//           header:
+//           - name: "X-Auth"
+//             prefix: "Bearer"
+//           queryParams:
+//           - "auth_token"
+//       stage: PRE_AUTHZ
+// ```
+//
 type JWTPolicySpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -42,64 +108,6 @@ type JWTPolicySpec struct {
 	// If left empty, no policy will be applied to any routes in the workspace.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
 	// The details of the JWT policy to apply to the selected routes.
-	//
-	//Example:
-	//Sample JWT Payload: {
-	//"org": "solo-io",
-	//"iss": "https://localhost",
-	//"exp": 4804324736,
-	//"iat": 1648651136
-	//}
-	//
-	//Configuration below will enable JWT Authentication for selected routes
-	//as well as inject a header into the request containing the value found
-	//within the parsed claim if it exists. Empty sources default to extracting
-	//JWTs from Authorization Header with prefix "Bearer <Token>"" or Query Param
-	//"access_token=<Token>"
-	//
-	//apiVersion: security.policy.gloo.solo.io/v2
-	//kind: JWTPolicy
-	//metadata:
-	//name: <name>
-	//namespace: <namespace>
-	//spec:
-	//config:
-	//providers:
-	//<provider_name>:
-	//issuer: "https://localhost"
-	//local:
-	//inline: |
-	//<pem formatted public key>
-	//claimsToHeaders:
-	//- claim: org
-	//header: x-org
-	//stage: PRE_AUTHZ
-	//
-	//This example enables JWT Authentication for selected routes and
-	//request will be checked using token found at either X-Auth header with prefix
-	//"Bearer <token>" or query param "auth_token=<Token>". Note if a request has both
-	//sources available all tokens will need to be valid for the request to be accepted.
-	//
-	//apiVersion: security.policy.gloo.solo.io/v2
-	//kind: JWTPolicy
-	//metadata:
-	//name: <name>
-	//namespace: <namespace>
-	//spec:
-	//config:
-	//providers:
-	//<provider_name>:
-	//issuer: "https://localhost"
-	//local:
-	//inline: |
-	//<pem formatted public key>
-	//tokenSource:
-	//header:
-	//- name: "X-Auth"
-	//prefix: "Bearer"
-	//queryParams:
-	//- "auth_token"
-	//stage: PRE_AUTHZ
 	Config *JWTPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 }
 
@@ -331,6 +339,7 @@ type JWTPolicySpec_Config_Provider struct {
 	// Optional: KeepToken is used to keep the JWT in the request post verification.
 	KeepToken bool `protobuf:"varint,7,opt,name=keep_token,json=keepToken,proto3" json:"keep_token,omitempty"`
 	// Optional: ClockSkewSeconds is used to verify time constraints, such as `exp` and `npf`. Default is 60s
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
 	ClockSkewSeconds *wrappers.UInt32Value `protobuf:"bytes,8,opt,name=clock_skew_seconds,json=clockSkewSeconds,proto3" json:"clock_skew_seconds,omitempty"`
 }
 
@@ -604,10 +613,12 @@ type JWTPolicySpec_Config_Provider_RemoteJWKS struct {
 	// Duration after which the cached JWKS should be expired.
 	//
 	// If not specified, default cache duration is 5 minutes.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	CacheDuration *duration.Duration `protobuf:"bytes,3,opt,name=cache_duration,json=cacheDuration,proto3" json:"cache_duration,omitempty"`
 	// Sets the maximum duration in seconds that a response can take to arrive upon request.
 	//
 	// If left empty, defaults to 5s
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	Timeout *duration.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	// Fetch Jwks asynchronously in the main thread before the listener is activated. Fetched Jwks can be used by all worker threads.
 	//
