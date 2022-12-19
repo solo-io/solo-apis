@@ -26,7 +26,7 @@ message ObjectReferenceList {
     repeated ObjectReference refs = 1;
 }
 
-// selects zero or more Kubernetes API resource by matching on labels, name, namespace, cluster, and workspace.
+// selects zero or more Kubernetes API resources by matching on labels, name, namespace, cluster, and workspace.
 message ObjectSelector {
     // labels matching those of the object
     map<string, string> labels = 1;
@@ -171,7 +171,7 @@ message IdentitySelector {
 
     // Select kubernetes service accounts as identities.
     // When selecting a service account that will be created in the future for use in a AuthorizationPolicy, ONLY provide the name, namespace and cluster where the service account will exist in the selector.
-    // Providing labels and/or the workspace for a service account that does not exist in the selector will not result in that service account being added to the resulting AuthorizationPolicy.
+    // Providing labels and/or the workspace, or omitting the name, namespace or cluster for a service account that does not exist in the selector will not result in that service account being added to the resulting AuthorizationPolicy.
     ObjectSelector service_account_selector = 1;
 
     // Select identities based on properties of the request. If multiple fields are set, they are ANDed together.
@@ -232,40 +232,8 @@ message WorkspaceSelector {
     // Use * to match name patterns in multiple workspace names.
     string name = 1;
 
-    // Optional: Select workspaces based on their labels
-    // The example below select workspaces based on the label `team: backend`:
-    // ```yaml
-    //  - selector:
-    //      team: backend
-    // ```
+    // Optional: Select workspaces based on their labels,
+    // such as setting `selector` to `team: backend`.
     map<string, string> selector = 2;
 
-}
-
-// A label selector is a label query over a set of resources.
-// An empty label selector matches all objects. A null
-// label selector matches no objects.
-message LabelSelector {
-
-    // Optional: Label selector is a map of {key,value} pairs
-    // Multiple {key,value} pair requirements are ANDed.
-    map<string, string> selector = 1;
-
-}
-
-// A label selector requirement is a selector that contains values, a key, and an operator that
-// relates the key and values.
-message LabelSelectorRequirement {
-    // key is the label key that the selector applies to.
-    string key = 1;
-
-    // operator represents a key's relationship to a set of values.
-    // Valid operators are In, NotIn, Exists and DoesNotExist.
-    string operator = 2;
-
-    // values is an array of string values. If the operator is In or NotIn,
-    // the values array must be non-empty. If the operator is Exists or DoesNotExist,
-    // the values array must be empty. This array is replaced during a strategic
-    // merge patch.
-    repeated string values = 3;
 }

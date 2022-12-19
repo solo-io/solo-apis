@@ -26,9 +26,9 @@ message ApiSchemaSpec {
   // the type of schema this resource contains
   oneof schema_type {
     // OpenAPI schema
-    OpenAPISchema openapi = 1;
-    // gRPC schema
-    GrpcSchema grpc = 2;
+//    OpenAPISchema openapi = 1;
+//    // gRPC schema
+//    GrpcSchema grpc = 2;
     // GraphQL schema
     GraphQLSchema graphql = 3;
   }
@@ -37,19 +37,21 @@ message ApiSchemaSpec {
   .common.gloo.solo.io.DestinationReference service = 4;
 
   // a complete openapi schema describing the API
-  message OpenAPISchema {
-    // inline string containing the OpenAPI schema
-    string inline_string = 1;
-
-  }
+  // TODO(Api-team) - unimplemented in Gloo Mesh 2.1
+//  message OpenAPISchema {
+//    // inline string containing the OpenAPI schema
+//    string inline_string = 1;
+//
+//  }
 
   // a complete grpc schema describing the API
-  message GrpcSchema {
-    // Protobuf Descriptors that represent the gRPC services provided by the API.
-    // this is a serialized base64-encoded google.protobuf.FileDescriptorSet
-    bytes descriptors = 1;
-
-  }
+  // @exclude TODO(Api-team)- unimplemented in Gloo Mesh 2.1
+//  message GrpcSchema {
+//    // Protobuf Descriptors that represent the gRPC services provided by the API.
+//    // this is a serialized base64-encoded google.protobuf.FileDescriptorSet
+//    bytes descriptors = 1;
+//
+//  }
 
   // The GraphQLSchema resource is responsible for providing the schema definition
   // in GraphQL SDL format. It also has logging options for logging sensitive request-related information.
@@ -61,7 +63,7 @@ message ApiSchemaSpec {
 
   }
 
-  /* todo(API-team)
+  /* <!--todo(API-team)-->
   // Extensions such as Custom Types, which are contained in their own CRD.
   repeated .common.gloo.solo.io.ObjectReference schema_extensions = 5;
   */

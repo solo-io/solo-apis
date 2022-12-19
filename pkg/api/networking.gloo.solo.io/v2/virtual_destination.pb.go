@@ -40,6 +40,9 @@ type VirtualDestinationSpec struct {
 	// A service will be selected if it matches any of the given selectors.
 	// Currently only one K8s Service can be selected per cluster. If more than one service is selected
 	// within a cluster the VirtualDestination will be invalid and will not be translated.
+	// When a request is routed through the VirtualDestination, it will be forwarded to one of the backing services, selected at random.
+	// (To forward to the service on the local cluster only, a FailoverPolicy and/or OutlierDetectionPolicy must be configured.)
+	// If a deployment is unavailable, requests will not be forwarded to that deployment.
 	Services []*v2.ObjectSelector `protobuf:"bytes,2,rep,name=services,proto3" json:"services,omitempty"`
 	// Selectors for the backing External services that comprise this VirtualDestination.
 	// An external service will be selected if it matches any of the given selectors.

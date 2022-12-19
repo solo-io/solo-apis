@@ -99,11 +99,11 @@ type AccessLogPolicyStatus struct {
 	Global *v2.GenericGlobalStatus `protobuf:"bytes,1,opt,name=global,proto3" json:"global,omitempty"`
 	// The status of the resource in each workspace that it exists in.
 	Workspaces map[string]*v2.WorkspaceStatus `protobuf:"bytes,2,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// Workloads selected by the policy
 	// DEPRECATED: Use selected_workload_refs instead
 	//
 	// Deprecated: Do not use.
-	SelectedWorkloads    []*v2.ObjectReference   `protobuf:"bytes,3,rep,name=selected_workloads,json=selectedWorkloads,proto3" json:"selected_workloads,omitempty"`
+	SelectedWorkloads []*v2.ObjectReference `protobuf:"bytes,3,rep,name=selected_workloads,json=selectedWorkloads,proto3" json:"selected_workloads,omitempty"`
+	// Workloads selected by the policy
 	SelectedWorkloadRefs []*v2.WorkloadReference `protobuf:"bytes,4,rep,name=selected_workload_refs,json=selectedWorkloadRefs,proto3" json:"selected_workload_refs,omitempty"`
 }
 

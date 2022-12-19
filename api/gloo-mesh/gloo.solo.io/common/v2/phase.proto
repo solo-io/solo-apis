@@ -14,6 +14,7 @@ option (extproto.hash_all) = true;
 // specify a priority to indicate at what point this policy should be applied relative to other policies
 // defined in the same phase.
 // For Example, if you have the following policies defined with phases and priorities:
+// ```
 // 1.
 // phase:
 //   preAuthz:
@@ -25,8 +26,9 @@ option (extproto.hash_all) = true;
 // 3.
 // phase:
 //   preAuthz: {}
+// ```
 //
-// The policies will be run in the following order: (2, 3, 1).
+// The policies will be run in the following order: `(2, 3, 1)`.
 //
 // Note: The default phase is defined per policy type which you can find in the policy reference documentation.
 // The following policies currently implement prioritized staging:
@@ -39,6 +41,7 @@ message PrioritizedPhase {
   message Phase {
     // The priority at which this policy should be applied relative to other policies defined in the same phase.
     // The lowest priority will be run first and the default priority value is 0.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/int32-value).
     google.protobuf.Int32Value priority = 1;
   }
 

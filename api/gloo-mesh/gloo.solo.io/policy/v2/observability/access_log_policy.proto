@@ -70,9 +70,9 @@ message AccessLogPolicyStatus {
   // The status of the resource in each workspace that it exists in.
   map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
 
-  // Workloads selected by the policy
   // DEPRECATED: Use selected_workload_refs instead
   repeated .common.gloo.solo.io.ObjectReference selected_workloads = 3 [deprecated=true];
 
+  // Workloads selected by the policy
   repeated .common.gloo.solo.io.WorkloadReference selected_workload_refs = 4;
 }
