@@ -114,6 +114,30 @@ func (m *ListenerTracingSettings) Clone() proto.Message {
 			}
 		}
 
+	case *ListenerTracingSettings_OpenTelemetryConfig:
+
+		if h, ok := interface{}(m.GetOpenTelemetryConfig()).(clone.Cloner); ok {
+			target.ProviderConfig = &ListenerTracingSettings_OpenTelemetryConfig{
+				OpenTelemetryConfig: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_trace_v3.OpenTelemetryConfig),
+			}
+		} else {
+			target.ProviderConfig = &ListenerTracingSettings_OpenTelemetryConfig{
+				OpenTelemetryConfig: proto.Clone(m.GetOpenTelemetryConfig()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_trace_v3.OpenTelemetryConfig),
+			}
+		}
+
+	case *ListenerTracingSettings_OpenCensusConfig:
+
+		if h, ok := interface{}(m.GetOpenCensusConfig()).(clone.Cloner); ok {
+			target.ProviderConfig = &ListenerTracingSettings_OpenCensusConfig{
+				OpenCensusConfig: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_trace_v3.OpenCensusConfig),
+			}
+		} else {
+			target.ProviderConfig = &ListenerTracingSettings_OpenCensusConfig{
+				OpenCensusConfig: proto.Clone(m.GetOpenCensusConfig()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_trace_v3.OpenCensusConfig),
+			}
+		}
+
 	}
 
 	return target
