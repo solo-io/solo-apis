@@ -296,41 +296,41 @@ func (m *GraphQLAction) Equal(that interface{}) bool {
 		}
 	}
 
-	switch m.Graphql.(type) {
+	switch m.GraphqlSchema.(type) {
 
-	case *GraphQLAction_StitchedSchemaRef:
-		if _, ok := target.Graphql.(*GraphQLAction_StitchedSchemaRef); !ok {
+	case *GraphQLAction_Schema:
+		if _, ok := target.GraphqlSchema.(*GraphQLAction_Schema); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetStitchedSchemaRef()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetStitchedSchemaRef()) {
+		if h, ok := interface{}(m.GetSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSchema()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetStitchedSchemaRef(), target.GetStitchedSchemaRef()) {
+			if !proto.Equal(m.GetSchema(), target.GetSchema()) {
 				return false
 			}
 		}
 
-	case *GraphQLAction_ExecutableSchema:
-		if _, ok := target.Graphql.(*GraphQLAction_ExecutableSchema); !ok {
+	case *GraphQLAction_StitchedSchema:
+		if _, ok := target.GraphqlSchema.(*GraphQLAction_StitchedSchema); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetExecutableSchema()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetExecutableSchema()) {
+		if h, ok := interface{}(m.GetStitchedSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStitchedSchema()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetExecutableSchema(), target.GetExecutableSchema()) {
+			if !proto.Equal(m.GetStitchedSchema(), target.GetStitchedSchema()) {
 				return false
 			}
 		}
 
 	default:
 		// m is nil but target is not nil
-		if m.Graphql != target.Graphql {
+		if m.GraphqlSchema != target.GraphqlSchema {
 			return false
 		}
 	}
@@ -505,6 +505,16 @@ func (m *DelegateAction) Equal(that interface{}) bool {
 			}
 		}
 
+	}
+
+	if h, ok := interface{}(m.GetAllowedRoutes()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetAllowedRoutes()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetAllowedRoutes(), target.GetAllowedRoutes()) {
+			return false
+		}
 	}
 
 	if m.GetSortMethod() != target.GetSortMethod() {

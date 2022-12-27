@@ -298,6 +298,16 @@ func (m *VirtualGatewaySpec_Listener) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetAllowedRoutes()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetAllowedRoutes()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetAllowedRoutes(), target.GetAllowedRoutes()) {
+			return false
+		}
+	}
+
 	if strings.Compare(m.GetAppProtocol(), target.GetAppProtocol()) != 0 {
 		return false
 	}

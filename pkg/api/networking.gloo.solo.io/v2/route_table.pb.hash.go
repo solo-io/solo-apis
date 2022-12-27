@@ -360,22 +360,22 @@ func (m *GraphQLAction) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
-	switch m.Graphql.(type) {
+	switch m.GraphqlSchema.(type) {
 
-	case *GraphQLAction_StitchedSchemaRef:
+	case *GraphQLAction_Schema:
 
-		if h, ok := interface{}(m.GetStitchedSchemaRef()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("StitchedSchemaRef")); err != nil {
+		if h, ok := interface{}(m.GetSchema()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Schema")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetStitchedSchemaRef(), nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetSchema(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("StitchedSchemaRef")); err != nil {
+				if _, err = hasher.Write([]byte("Schema")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -384,20 +384,20 @@ func (m *GraphQLAction) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *GraphQLAction_ExecutableSchema:
+	case *GraphQLAction_StitchedSchema:
 
-		if h, ok := interface{}(m.GetExecutableSchema()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
+		if h, ok := interface{}(m.GetStitchedSchema()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetExecutableSchema(), nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetStitchedSchema(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
+				if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -554,6 +554,26 @@ func (m *DelegateAction) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
+	}
+
+	if h, ok := interface{}(m.GetAllowedRoutes()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("AllowedRoutes")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetAllowedRoutes(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("AllowedRoutes")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
 	}
 
 	err = binary.Write(hasher, binary.LittleEndian, m.GetSortMethod())

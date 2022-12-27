@@ -173,26 +173,6 @@ func (m *GraphQLStitchedSchemaSpec_Subschema) Hash(hasher hash.Hash64) (uint64, 
 		return 0, err
 	}
 
-	if h, ok := interface{}(m.GetExecutableSubschema()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ExecutableSubschema")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetExecutableSubschema(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("ExecutableSubschema")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
 	{
 		var result uint64
 		innerHash := fnv.New64()
@@ -228,6 +208,54 @@ func (m *GraphQLStitchedSchemaSpec_Subschema) Hash(hasher hash.Hash64) (uint64, 
 		err = binary.Write(hasher, binary.LittleEndian, result)
 		if err != nil {
 			return 0, err
+		}
+
+	}
+
+	switch m.GraphqlSchema.(type) {
+
+	case *GraphQLStitchedSchemaSpec_Subschema_Schema:
+
+		if h, ok := interface{}(m.GetSchema()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Schema")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetSchema(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("Schema")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *GraphQLStitchedSchemaSpec_Subschema_StitchedSchema:
+
+		if h, ok := interface{}(m.GetStitchedSchema()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetStitchedSchema(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
 		}
 
 	}

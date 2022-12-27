@@ -1,0 +1,45 @@
+syntax = "proto3";
+package networking.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+//import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/locality.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// CloudResources are units of functionality that back a referenced CloudProvider resource. These bits of functionality
+// can be referenced in the route table to route to the corresponding backend service.
+message CloudResourcesSpec {
+  // The name of the cloud provider that this configuration references. Must live in the same namespace as the
+  // CloudResources.
+  string provider = 1;
+
+  // The list of lambda functions Gloo Mesh can route to for the AWS provider.
+  repeated LambdaSpec lambda = 2;
+}
+
+// Each Function Spec contains data necessary for Gloo Mesh to invoke those functions:
+message LambdaSpec {
+  // The logical name Gloo Mesh should associate with this function. If left empty, it will default to
+  // lambda_function_name+qualifier.
+  string logical_name = 1;
+
+  // The Name of the Lambda Function as it appears in the AWS Lambda Portal
+  string lambda_function_name  = 2;
+
+  // The Qualifier for the Lambda Function. Qualifiers act as a kind of version
+  // for Lambda Functions. See https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html for more info.
+  string qualifier = 3;
+}
+
+message CloudResourcesStatus {
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+}

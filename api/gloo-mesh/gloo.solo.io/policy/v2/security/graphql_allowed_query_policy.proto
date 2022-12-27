@@ -1,0 +1,50 @@
+syntax = "proto3";
+package security.policy.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+message GraphQLAllowedQueryPolicySpec {
+  // Select the graphql routes where the policy will be applied.
+  // If left empty, will apply to no graphql routes.
+  // selection via Destination selectors will not work for this policy, and only
+  // route selectors will work.
+  // If more than one GraphQLAllowedQueryPolicy applies to a GraphQLRoute, the oldest
+  // one will be applied.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  Config config = 2;
+
+  message Config {
+
+    // A list of SHA-256 hashed graphql queries that are allowed to be executed by the server.
+    // If a query hash is not in this list, the server will return an error.
+    // If this list is empty, all queries are allowed. Else, all queries must be in this list.
+    // Queries that are not sent as hashes will be hashed and compared against the list.
+    // This is useful for preventing malicious queries from being executed.
+    repeated string allowed_query_hashes = 1;
+
+  }
+}
+
+// reflects the status of the GraphQLAllowedQueryPolicy
+message GraphQLAllowedQueryPolicyStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+}

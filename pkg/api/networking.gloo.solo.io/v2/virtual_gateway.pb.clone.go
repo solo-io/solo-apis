@@ -197,6 +197,12 @@ func (m *VirtualGatewaySpec_Listener) Clone() proto.Message {
 		}
 	}
 
+	if h, ok := interface{}(m.GetAllowedRoutes()).(clone.Cloner); ok {
+		target.AllowedRoutes = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter)
+	} else {
+		target.AllowedRoutes = proto.Clone(m.GetAllowedRoutes()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter)
+	}
+
 	target.AppProtocol = m.GetAppProtocol()
 
 	switch m.TlsSettings.(type) {

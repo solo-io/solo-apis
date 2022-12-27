@@ -1,14 +1,17 @@
 syntax = "proto3";
-package admin.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/clientmode.proto";
-import "google/protobuf/wrappers.proto";
+package admin.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/clientmode.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -34,6 +37,11 @@ option (extproto.clone_all) = true;
 // - VirtualDestination
 // - ExternalService
 // - RouteTable
+// - ApiDoc
+// - GraphQLResolverMap
+// - CloudProvider
+// - GraphQLSchema
+// - GraphQLStitchedSchema
 //
 // You can use the `exportTo` field in the `WorkspaceSettings` resource for the workspace to configure what resources
 // are exported to which other workspaces. For example, the `web` application developer can export the RouteTable resource 
@@ -125,254 +133,185 @@ option (extproto.clone_all) = true;
 // WorkspaceSettings defined in the admin namespace for Gloo Mesh will override settings defined in individual workspaces. Must have the name "global" to be picked up by Gloo Mesh.
 message WorkspaceSettingsSpec {
 
-    // Select the workspaces whose objects will be imported into this workspace.
-    // Objects must both be exported by the workspace that is being imported and imported into this workspace in order to be shared across workspaces.
-    // Imported objects allow the creation of routes and outbound-communication from one workspace to another.
-    // Currently the following types of objects can be imported across workspaces:
-    // - kubernetes services
-    // - virtual destinations
-    // - external destinations
-    // - route tables
-    // You can select workspace using labels, for example:
-    // ```yaml
-    //     importFrom:
-    //       - workspaces:
-    //         - selector:
-    //             team: backend
-    //         services:
-    //         - {} # select all services
-    // ```
-    // Or select workspace name using exact name match, for example:
-    // ```yaml
-    //     importFrom:
-    //       # import all importable objects from the workspace named "backend"
-    //       - workspaces:
-    //         - name: backend
-    //```
-    // Or select workspace using labels and name using simple regex, for example:
-    // ```yaml
-    //     importFrom:
-    //       - workspaces:
-    //         - selector:
-    //             team: backend
-    //           name: backend*
-    //```
-    // Or select workspace name using labels or select name using simple regex, for example:
-    // ```yaml
-    //     importFrom:
-    //       - workspaces:
-    //         - selector:
-    //             team: backend
-    //         - name: backend
-    //```
-    repeated WorkspaceObjectSelector importFrom = 1;
+  // Select the workspaces whose objects will be imported into this workspace.
+  // Objects must both be exported by the workspace that is being imported and imported into this workspace in order to be shared across workspaces.
+  // Imported objects allow the creation of routes and outbound-communication from one workspace to another.
+  // Currently the following types of objects can be imported across workspaces: Kubernetes services, virtual destinations, external destinations, route tables,
+  // API schemas, GraphQL resolver maps, and CloudProviders.
+  // You can select workspace using labels, such as setting `importFrom.workspaces.selector` to `team: backend`.
+  // Or select workspace name using exact name match, such as setting `importFrom.workspaces.name` to `backend`.
+  // Or select workspace using labels and name using simple regex, such as setting `importFrom.workspaces.selector` to `team: backend` and `importFrom.workspaces.name` to `backend*`.
+  repeated WorkspaceObjectSelector importFrom = 1;
 
-    // A workspace can specify resources to export for use by other workspaces.
-    // Currently the following types of objects can be exported across workspaces:
-    // - kubernetes services
-    // - virtual destinations
-    // - external destinations
-    // - route tables
-    // You can select workspace using labels, for example:
-    // ```yaml
-    //     exportTo:
-    //       - workspaces:
-    //         - selector:
-    //             team: backend
-    // ```
-    // Or select workspace name using exact name match, for example:
-    // ```yaml
-    //     exportTo:
-    //       - workspaces:
-    //         - name: backend
-    //```
-    // Or exportTo all other workspaces, for example:
-    // ```yaml
-    //     exportTo:
-    //       - workspaces:
-    //         - name: *
-    //```    
-    // Or select workspace using labels and name using simple regex, for example:
-    // ```yaml
-    //     exportTo:
-    //       - workspaces:
-    //         - selector:
-    //             team: backend
-    //             name: backend*
-    //```
-    // Or select workspace name using labels or select name using simple regex, for example:
-    // ```yaml
-    //     exportTo:
-    //       - workspaces:
-    //          - selector:
-    //              team: backend
-    //          - name: backend
-    //```      
-    repeated WorkspaceObjectSelector exportTo = 2;
+  // A workspace can specify resources to export for use by other workspaces.
+  // Currently the following types of objects can be exported across workspaces: Kubernetes services, virtual destinations, external destinations, route tables,
+  // API schemas, GraphQL resolver maps, and CloudProviders.
+  // You can select workspace using labels, such as setting `exportTo.workspaces.selector` to `team: backend`.
+  // Or select workspace name using exact name match, such as setting `exportTo.workspaces.name` to `backend`.
+  // Or exportTo all other workspaces, such as setting `exportTo.workspaces.name` to `*`.
+  // Or select workspace using labels and name using simple regex, such as setting `exportTo.workspaces.selector` to `team: backend` and `team: backend*`.
+  // Or select workspace name using labels or select name using simple regex, such as setting `exportTo.workspaces.selector` to `team: backend` and `exportTo.workspaces.name` to `backend`.
+  repeated WorkspaceObjectSelector exportTo = 2;
 
-    // Options for configuring the workspace as a whole.
-    Options options = 3;
+  // Options for configuring the workspace as a whole.
+  Options options = 3;
 
-    // Select a set of resources from a set of workspaces for import or export.
-    message WorkspaceObjectSelector {
+  // Select a set of resources from a set of workspaces for import or export.
+  message WorkspaceObjectSelector {
 
-        // the workspaces with the resources to export to or import.
-        repeated .common.gloo.solo.io.WorkspaceSelector workspaces = 1;
+    // the workspaces with the resources to export to or import.
+    repeated .common.gloo.solo.io.WorkspaceSelector workspaces = 1;
 
-        // the resources (and types of those resources) which will be imported from or exported to the selected workspaces.
-        repeated TypedObjectSelector resources = 2;
+    // the resources (and types of those resources) which will be imported from or exported to the selected workspaces.
+    repeated TypedObjectSelector resources = 2;
 
-        // selects objects of various types
-        message TypedObjectSelector {
-            // the type of the resource to import or export.
-            // The type must be a valid importable/exportable Kubernetes or Gloo Mesh resource type.
-            // Supported types:
-            // - `RouteTable`
-            // - `Service`
-            // - `VirtualDestination`
-            // - `ExternalService`
-            // - `All` (all types)
-            ObjectKind kind = 1;
+    // selects objects of various types
+    message TypedObjectSelector {
+      // The type of the resource to import or export.
+      // The type must be a valid importable/exportable Kubernetes or Gloo Mesh resource type.
+      // Supported types: `RouteTable`, `Service`, `VirtualDestination`, `ExternalService`, `APIDoc`, `GraphQLResolverMap`, `CloudProvider`, `GraphQLSchema`, `GraphQLStitchedSchema`, `All` (all types).
+      ObjectKind kind = 1;
 
-            // labels matching those of the object
-            map<string, string> labels = 2;
+      // labels matching those of the object
+      map<string, string> labels = 2;
 
-            // Only select objects exactly matching the name. If the field is omitted, Gloo Mesh will select
-            // matching objects with any name available in the workspace.
-            string name = 3;
+      // Only select objects exactly matching the name. If the field is omitted, Gloo Mesh will select
+      // matching objects with any name available in the workspace.
+      string name = 3;
 
-            // Only select objects exactly matching the namespace. If the field is omitted, Gloo Mesh will select
-            // matching objects across all namespaces available in the workspace.
-            string namespace = 4;
+      // Only select objects exactly matching the namespace. If the field is omitted, Gloo Mesh will select
+      // matching objects across all namespaces available in the workspace.
+      string namespace = 4;
 
-            // Only select objects in the exactly matching cluster. If the field is omitted, Gloo Mesh will select
-            // matching objects across all clusters available in the workspace.
-            string cluster = 5;
+      // Only select objects in the exactly matching cluster. If the field is omitted, Gloo Mesh will select
+      // matching objects across all clusters available in the workspace.
+      string cluster = 5;
 
-            enum ObjectKind {
-                // Select objects of all types.
-                ALL = 0;
+      enum ObjectKind {
+        // Select objects of all types.
+        ALL = 0;
 
-                // Select RouteTable objects.
-                ROUTE_TABLE = 1;
+        // Select RouteTable objects.
+        ROUTE_TABLE = 1;
 
-                // Select Service objects.
-                SERVICE = 2;
+        // Select Service objects.
+        SERVICE = 2;
 
-                // Select VirtualDestination objects.
-                VIRTUAL_DESTINATION = 3;
+        // Select VirtualDestination objects.
+        VIRTUAL_DESTINATION = 3;
 
-                // Select ExternalService objects.
-                EXTERNAL_SERVICE = 4;
-            }
-        }
+        // Select ExternalService objects.
+        EXTERNAL_SERVICE = 4;
+
+        // Select ApiDoc objects.
+        API_DOC = 5;
+
+        // Select GraphQLResolverMap objects.
+        GRAPHQL_RESOLVER_MAP = 6;
+
+        // Select CloudProvider objects.
+        CLOUD_PROVIDER = 7;
+
+        // Select GraphQLSchema objects.
+        GRAPHQL_SCHEMA = 8;
+
+        // Select GraphQLStitchedSchema objects.
+        GRAPHQL_STITCHED_SCHEMA = 9;
+      }
+    }
+  }
+
+  message Options {
+    // If Enabled, serviceIsolation will automatically block communication from non-importing workspaces into this one, enforced using mTLS.
+    // Applying AccessPolicies to destinations in this workspace will override the default service isolation behavior.
+    ServiceIsolation service_isolation = 1;
+
+    // Federation is a feature which allows Kubernetes Services to directly communicate with each other across clusters
+    // using generated hostnames. When enabled, federation will generate a hostname for each Service selected, which is
+    // reachable by all network clients in the workspace.
+    // Federation allows routes to be created in RouteTables which forward traffic across clusters. These routes will otherwise
+    // be treated by Gloo Mesh as errors.
+    Federation federation = 2;
+
+    // Selects the ingress gateways in a workspace. If no gateways are selected, defaults to attempting to use
+    // istio-eastwestgateway.istio-system as the Istio ingress gateway for "east-west" traffic, which is traffic
+    // routed across clusters for federation and virtual destinations.
+    repeated EastWestGatewaySelector east_west_gateways = 3;
+
+    // Optional: Virtual destination client mode determines how VirtualDestinations will be translated.
+    // If nil, the default value of auto mode will be used. Any configuration here can be overriden
+    // on any individual virtual destination. The settings defined here apply to both user-provided
+    // VirtualDestinations and those generated internally when federation is enabled.
+    .common.gloo.solo.io.ClientMode virtual_dest_client_mode = 4;
+
+    message ServiceIsolation {
+      // Automatically enables strict mTLS and blocks any access from non-importing workspaces into any destination in the current workspaces.
+      // Default value is disabled.
+      bool enabled = 1;
+
+      // When enabled, proxy config will be trimmed to eliminate unnecessary config updates.
+      // In Istio this will be implemented using the Sidecar resource.
+      google.protobuf.BoolValue trim_proxy_config = 2;
     }
 
-    message Options {
-        // If Enabled, serviceIsolation will automatically block communication from non-importing workspaces into this one, enforced using mTLS.
-        // Setting this to true is equivalent to manually creating an AccessPolicy with the following spec:
-        // spec:
-        //   applyToDestinations: nil
-        //   config:
-        //     authn:
-        //       tlsMode: STRICT
-        //     authz:
-        //       authz:
-        //         allowedClients:
-        //         - serviceAccountSelector:
-        //             workspace: this-workspace
-        //         - serviceAccountSelector:
-        //             workspace: importing-workspace-1 # for each workspace importing this one
-        //
-        // Applying AccessPolicies to destinations in this workspace will override the default service isolation behavior.
-        ServiceIsolation service_isolation = 1;
+    message Federation {
+      // enables the federation feature for selected Kubernetes services in the workspace.
+      bool enabled = 1;
 
-        // Federation is a feature which allows Kubernetes Services to directly communicate with each other across clusters
-        // using generated hostnames. When enabled, federation will generate a hostname for each Service selected, which is
-        // reachable by all network clients in the workspace.
-        // Federation allows routes to be created in RouteTables which forward traffic across clusters. These routes will otherwise
-        // be treated by Gloo Mesh as errors.
-        Federation federation = 2;
+      // Optional: The suffix used for generated hostnames. Hostnames will be generated for each selected service in the format `{{ service name }}.{{ service namespace }}.{{ service cluster }}.{{ host suffix }}`.
+      string host_suffix = 2;
 
-        // Selects the ingress gateways in a workspace. If no gateways are selected, defaults to attempting to use
-        // istio-eastwestgateway.istio-system as the Istio ingress gateway for "east-west" traffic, which is traffic
-        // routed across clusters for federation and virtual destinations.
-        repeated EastWestGatewaySelector east_west_gateways = 3;
+      // Selector for the K8s services that will be exposed to cross-cluster traffic within the Workspace.
+      // Federated hostnames will be generated for selected imported services.
+      repeated .common.gloo.solo.io.ObjectSelector service_selector = 3;
 
-        // Optional: Virtual destination client mode determines how VirtualDestinations will be translated.
-        // If nil, the default value of auto mode will be used. Any configuration here can be overriden
-        // on any individual virtual destination. The settings defined here apply to both user-provided
-        // VirtualDestinations and those generated internally when federation is enabled.
-        .common.gloo.solo.io.ClientMode virtual_dest_client_mode = 4;
-
-        message ServiceIsolation {
-            // Automatically enables strict mTLS and blocks any access from non-importing workspaces into any destination in the current workspaces.
-            // Default value is disabled.
-            bool enabled = 1;
-
-            // When enabled, proxy config will be trimmed to eliminate unnecessary config updates.
-            // In Istio this will be implemented using the Sidecar resource.
-            google.protobuf.BoolValue trim_proxy_config = 2;
-        }
-
-        message Federation {
-            // enables the federation feature for selected Kubernetes services in the workspace.
-            bool enabled = 1;
-
-            // Optional: The suffix used for generated hostnames. Hostnames will be generated for each selected service in the format {{ service name }}.{{ service namespace }}.{{ service cluster }}.{{ host suffix }}.
-            string host_suffix = 2;
-
-            // Selector for the K8s services that will be exposed to cross-cluster traffic within the Workspace.
-            // Federated hostnames will be generated for selected imported services.
-            repeated .common.gloo.solo.io.ObjectSelector service_selector = 3;
-
-            // if provided, expose only selected ports to cross-cluster traffic.
-            repeated .common.gloo.solo.io.PortSelector ports = 4;
-        }
-
-        message EastWestGatewaySelector {
-            // Select east-west gateway
-            .common.gloo.solo.io.ObjectSelector selector = 1;
-
-            // The port on the Destination which receives traffic.
-            // Not required if the Destination only exposes a single port.
-            .common.gloo.solo.io.PortSelector port = 2;
-
-            // Host information for an east-west gateway. Can be used to specify a set of routable
-            // destinations that proxy traffic back to the east-west gateway selected
-            // by the selector. Useful when a load balancer external to the mesh is being
-            // used. When using this feature, be careful to ensure that the selectors are
-            // granular enough to ensure that the correct HostInfo is mapped to the proper gateway.
-            repeated HostInfo host_info_overrides = 3;
-
-            // Specify Host Info to override discovered routing information for an east-west gateway.
-            message HostInfo {
-                // Address to be used to direct traffic to instead of the default gateway discovered address.
-                // Can be an IP address or hostname.
-                string addr = 1;
-
-                // Port to be used to direct traffic to instead of the default gateway discovered port.
-                uint32 port = 2;
-            }
-        }
+      // if provided, expose only selected ports to cross-cluster traffic.
+      repeated .common.gloo.solo.io.PortSelector ports = 4;
     }
+
+    message EastWestGatewaySelector {
+      // Select east-west gateway
+      .common.gloo.solo.io.ObjectSelector selector = 1;
+
+      // The port on the Destination which receives traffic.
+      // Not required if the Destination only exposes a single port.
+      .common.gloo.solo.io.PortSelector port = 2;
+
+      // Host information for an east-west gateway. Can be used to specify a set of routable
+      // destinations that proxy traffic back to the east-west gateway selected
+      // by the selector. Useful when a load balancer external to the mesh is being
+      // used. When using this feature, be careful to ensure that the selectors are
+      // granular enough to ensure that the correct HostInfo is mapped to the proper gateway.
+      repeated HostInfo host_info_overrides = 3;
+
+      // Specify Host Info to override discovered routing information for an east-west gateway.
+      message HostInfo {
+        // Address to be used to direct traffic to instead of the default gateway discovered address.
+        // Can be an IP address or hostname.
+        string addr = 1;
+
+        // Port to be used to direct traffic to instead of the default gateway discovered port.
+        uint32 port = 2;
+      }
+    }
+  }
 }
 
 // reflects the status of the workspace settings
 message WorkspaceSettingsStatus {
 
-    .common.gloo.solo.io.GenericContextStatus generic = 1;
+  .common.gloo.solo.io.GenericContextStatus generic = 1;
 
-    // The workspace that this workspacesettings object is configuring.
-    .common.gloo.solo.io.ObjectReference workspace = 2;
+  // The workspace that this workspacesettings object is configuring.
+  .common.gloo.solo.io.ObjectReference workspace = 2;
 
-    // Selected east-west gateways determined by the EastWestGatewaySelector
-    // The GVK of selected_east_west_gateways is DiscoveredGateway.
-    repeated .common.gloo.solo.io.ObjectReference selected_east_west_gateways = 3;
+  // Selected east-west gateways determined by the EastWestGatewaySelector
+  // The GVK of selected_east_west_gateways is DiscoveredGateway.
+  repeated .common.gloo.solo.io.ObjectReference selected_east_west_gateways = 3;
 
-    // Services federated to this workspace because of this workspacesettings configuration.
-    // The GVK of federated_services is core/v1/Service.
-    repeated .common.gloo.solo.io.ObjectReference federated_services = 4;
+  // Services federated to this workspace because of this workspacesettings configuration.
+  // The GVK of federated_services is core/v1/Service.
+  repeated .common.gloo.solo.io.ObjectReference federated_services = 4;
 
-    // TODO(ilackarms): imported workspaces/objects
+  // @exclude TODO(ilackarms): imported workspaces/objects
 }
