@@ -709,6 +709,18 @@ func (m *RouteOptions) Clone() proto.Message {
 			}
 		}
 
+	case *RouteOptions_HostRewritePathRegex:
+
+		if h, ok := interface{}(m.GetHostRewritePathRegex()).(clone.Cloner); ok {
+			target.HostRewriteType = &RouteOptions_HostRewritePathRegex{
+				HostRewritePathRegex: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_matcher_v3.RegexMatchAndSubstitute),
+			}
+		} else {
+			target.HostRewriteType = &RouteOptions_HostRewritePathRegex{
+				HostRewritePathRegex: proto.Clone(m.GetHostRewritePathRegex()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_matcher_v3.RegexMatchAndSubstitute),
+			}
+		}
+
 	}
 
 	switch m.RateLimitEarlyConfigType.(type) {
