@@ -95,6 +95,10 @@ func (m *IstioClusterSelector) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetTrustDomain(), target.GetTrustDomain()) != 0 {
+		return false
+	}
+
 	return true
 }
 

@@ -1,11 +1,12 @@
 syntax = "proto3";
-package tls.security.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2/tls";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/policy/v2/security/tls/vault_ca.proto";
+package tls.security.policy.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/policy/v2/security/tls/vault_ca.proto";
 import "google/protobuf/empty.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2/tls";
 
 option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;
@@ -23,20 +24,22 @@ message CommonCertOptions {
   // Root cert organization name. Defaults to "gloo-mesh".
   string org_name = 3;
 
-  // The ratio of cert lifetime to refresh a cert. For example, at 0.10 and 1 hour TTL,
-  // we would refresh 6 minutes before expiration
+  // The ratio of the certificate lifetime to when Gloo starts the certificate rotation process. 
+  // The ratio must be between 0 and 1 (exclusive). For example, if a certificate is valid for 
+  // 1 day (or 24 hours), and you specify a ratio of 0.1, Gloo starts the certificate rotation 
+  // process 2.4 hours before it expires (24x0.1). 
   float secret_rotation_grace_period_ratio = 4;
 }
 
 // Specify parameters for configuring the root certificate authority for a VirtualMesh.
-message AgentCertificateAuthority  {
+message AgentCertificateAuthority {
 
   // Specify the source of the Root CA data which Gloo Mesh will use for the VirtualMesh.
   oneof ca_source {
-      // Use vault as the intermediate CA source
-      .tls.security.policy.gloo.solo.io.VaultCA vault = 1;
+    // Use vault as the intermediate CA source
+    .tls.security.policy.gloo.solo.io.VaultCA vault = 1;
   }
-  
+
 }
 
 // State of Certificate Rotation
@@ -84,10 +87,12 @@ message CertificateRotationVerificationMethod {
   oneof method {
     // Verification not enabled. NOTE: This setting is only recommended for testing.
     // When enabled rotation will continue from step to step without any kind of verification.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
     google.protobuf.Empty none = 1;
 
     // Verification must be completed manually. This involves using our certificate verification 
     // endpoint when the certificates are in a VERIFYING state
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
     google.protobuf.Empty manual = 2;
   }
 }
@@ -118,7 +123,7 @@ enum CertificateRotationStrategy {
 // rotation workflow. This is used to keep track of the steps which have been completed
 // thus far.
 message CertificateRotationCondition {
-    
+
   // The time at which this condition was recorded
   string timestamp = 1;
 
