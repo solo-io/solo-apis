@@ -58,36 +58,6 @@ func (m *ApiSchemaSpec) Equal(that interface{}) bool {
 
 	switch m.SchemaType.(type) {
 
-	case *ApiSchemaSpec_Openapi:
-		if _, ok := target.SchemaType.(*ApiSchemaSpec_Openapi); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetOpenapi()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetOpenapi()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetOpenapi(), target.GetOpenapi()) {
-				return false
-			}
-		}
-
-	case *ApiSchemaSpec_Grpc:
-		if _, ok := target.SchemaType.(*ApiSchemaSpec_Grpc); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetGrpc()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetGrpc()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetGrpc(), target.GetGrpc()) {
-				return false
-			}
-		}
-
 	case *ApiSchemaSpec_Graphql:
 		if _, ok := target.SchemaType.(*ApiSchemaSpec_Graphql); !ok {
 			return false
@@ -169,62 +139,6 @@ func (m *ApiSchemaStatus) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) {
 			return false
 		}
-	}
-
-	return true
-}
-
-// Equal function
-func (m *ApiSchemaSpec_OpenAPISchema) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ApiSchemaSpec_OpenAPISchema)
-	if !ok {
-		that2, ok := that.(ApiSchemaSpec_OpenAPISchema)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetInlineString(), target.GetInlineString()) != 0 {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *ApiSchemaSpec_GrpcSchema) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ApiSchemaSpec_GrpcSchema)
-	if !ok {
-		that2, ok := that.(ApiSchemaSpec_GrpcSchema)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if bytes.Compare(m.GetDescriptors(), target.GetDescriptors()) != 0 {
-		return false
 	}
 
 	return true

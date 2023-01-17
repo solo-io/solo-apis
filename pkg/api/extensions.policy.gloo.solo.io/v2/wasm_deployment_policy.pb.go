@@ -100,11 +100,11 @@ type WasmDeploymentPolicyStatus struct {
 	Global *v2.GenericGlobalStatus `protobuf:"bytes,1,opt,name=global,proto3" json:"global,omitempty"`
 	// The status of the resource in each workspace that it exists in.
 	Workspaces map[string]*v2.WorkspaceStatus `protobuf:"bytes,2,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// Workloads selected by the policy
 	// DEPRECATED: Use selected_workload_refs instead
 	//
 	// Deprecated: Do not use.
-	SelectedWorkloads    []*v2.ObjectReference   `protobuf:"bytes,3,rep,name=selected_workloads,json=selectedWorkloads,proto3" json:"selected_workloads,omitempty"`
+	SelectedWorkloads []*v2.ObjectReference `protobuf:"bytes,3,rep,name=selected_workloads,json=selectedWorkloads,proto3" json:"selected_workloads,omitempty"`
+	// Workloads selected by the policy
 	SelectedWorkloadRefs []*v2.WorkloadReference `protobuf:"bytes,4,rep,name=selected_workload_refs,json=selectedWorkloadRefs,proto3" json:"selected_workload_refs,omitempty"`
 }
 
@@ -393,7 +393,7 @@ type WasmDeploymentPolicySpec_Config_WasmFilter_LocalPathSource struct {
 	// to the workload proxy. Note that Gloo Mesh cannot verify
 	// whether the target workload proxy containers contain the given path.
 	// If filters do not load, please inspect the sidecar proxy logs.
-	// TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status
+	// @exclude TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status
 	LocalPathSource string `protobuf:"bytes,1,opt,name=local_path_source,json=localPathSource,proto3,oneof"`
 }
 
@@ -402,8 +402,8 @@ type WasmDeploymentPolicySpec_Config_WasmFilter_HttpUriSource struct {
 	// to the workload proxy. Note that Gloo Mesh cannot verify
 	// whether the target workload proxy containers have HTTP access the given URI.
 	// If filters do not load, please inspect the sidecar proxy logs.
-	// TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status
-	// TODO(ilackarms): we may need to provide options for customizing the Cluster given to envoy along with the HTTP Fetch URI. currently Gloo Mesh will create a simple plaintext HTTP cluster from the Host/Port specified in the URI.
+	// @exclude TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status
+	// @exclude TODO(ilackarms): we may need to provide options for customizing the Cluster given to envoy along with the HTTP Fetch URI. currently Gloo Mesh will create a simple plaintext HTTP cluster from the Host/Port specified in the URI.
 	HttpUriSource *WasmDeploymentPolicySpec_Config_WasmFilter_UriSource `protobuf:"bytes,2,opt,name=http_uri_source,json=httpUriSource,proto3,oneof"`
 }
 
@@ -431,6 +431,7 @@ type WasmDeploymentPolicySpec_Config_WasmFilter_StaticFilterConfig struct {
 	// `google.protobuf.Struct` is serialized as JSON before
 	// passing it to the plugin. `google.protobuf.BytesValue` and
 	// `google.protobuf.StringValue` are passed directly without the wrapper.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/any).
 	StaticFilterConfig *any1.Any `protobuf:"bytes,4,opt,name=static_filter_config,json=staticFilterConfig,proto3,oneof"`
 }
 
@@ -441,7 +442,7 @@ type WasmDeploymentPolicySpec_Config_WasmFilter_DynamicFilterConfig struct {
 	// NOTE: Not currently implemented. This field serves as a placeholder.
 	// passing it to the plugin. `google.protobuf.BytesValue` and
 	// `google.protobuf.StringValue` are passed directly without the wrapper.
-	// TODO(ilackarms): implement with dynamic filter config source (FCDS) https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/issues/7867
+	// @exclude TODO(ilackarms): implement with dynamic filter config source (FCDS) https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/issues/7867
 	DynamicFilterConfig string `protobuf:"bytes,8,opt,name=dynamic_filter_config,json=dynamicFilterConfig,proto3,oneof"`
 }
 

@@ -252,13 +252,11 @@ type OidcConfig struct {
 	//   {{ issuerURL }}/.well-known/openid-configuration
 	IssuerUrl string `protobuf:"bytes,3,opt,name=issuer_url,json=issuerUrl,proto3" json:"issuer_url,omitempty"`
 	// Extra query parameters to apply to the authorization request to the
-	// identity provider. For example, using the PKCE flow
-	// (https://www.oauth.com/oauth2-servers/pkce/authorization-request/) by
+	// identity provider. For example, using the [PKCE flow](https://www.oauth.com/oauth2-servers/pkce/authorization-request/) by
 	// setting `code_challenge` and `code_challenge_method`.
 	AuthEndpointQueryParams map[string]string `protobuf:"bytes,4,rep,name=auth_endpoint_query_params,json=authEndpointQueryParams,proto3" json:"auth_endpoint_query_params,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Extra query parameters to apply to the token request to the identity
-	// provider. For example, using the PKCE flow
-	// (https://www.oauth.com/oauth2-servers/pkce/authorization-request/) by
+	// provider. For example, using the [PKCE flow](https://www.oauth.com/oauth2-servers/pkce/authorization-request/) by
 	// setting `code_challenge` and `code_challenge_method`.
 	TokenEndpointQueryParams map[string]string `protobuf:"bytes,5,rep,name=token_endpoint_query_params,json=tokenEndpointQueryParams,proto3" json:"token_endpoint_query_params,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// URL to redirect to after successful auth.
@@ -275,6 +273,7 @@ type OidcConfig struct {
 	// provider returns.
 	DiscoveryOverride *OidcConfig_DiscoveryOverride `protobuf:"bytes,11,opt,name=discovery_override,json=discoveryOverride,proto3" json:"discovery_override,omitempty"`
 	// How often to poll the OIDC issuer for new configuration.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	DiscoveryPollInterval *duration.Duration `protobuf:"bytes,12,opt,name=discovery_poll_interval,json=discoveryPollInterval,proto3" json:"discovery_poll_interval,omitempty"`
 	// If a user executes a request with a key that is not found in the
 	// JWKS, it could be that the keys have rotated on the remote source,
@@ -429,7 +428,7 @@ func (x *OidcConfig) GetCaCertConfigmapName() string {
 	return ""
 }
 
-// The json web key set (JWKS) (https://tools.ietf.org/html/rfc7517) is
+// The [json web key set (JWKS)](https://tools.ietf.org/html/rfc7517) is
 // discovered at an interval from a remote source. When keys rotate in
 // the remote source, there may be a delay in the local source picking
 // up those new keys. Therefore, a user could execute a request with a
@@ -520,6 +519,7 @@ type JwksOnDemandCacheRefreshPolicy_Never struct {
 	// in the cache, it is assumed to be malicious. This is the
 	// default policy since we assume that IdPs publish keys before
 	// they rotate them, and frequent polling finds the newest keys.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
 	Never *empty.Empty `protobuf:"bytes,1,opt,name=never,proto3,oneof"`
 }
 
@@ -531,6 +531,7 @@ type JwksOnDemandCacheRefreshPolicy_Always struct {
 	// the internet will allow malicious agents to execute a DDoS
 	// attack by spamming protected endpoints with tokens signed by
 	// invalid keys.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
 	Always *empty.Empty `protobuf:"bytes,2,opt,name=always,proto3,oneof"`
 }
 
@@ -1050,9 +1051,8 @@ func (x *SessionConfig_CookieOptions) GetDomain() string {
 
 // OIDC configuration is discovered at
 // <issuerUrl>/.well-known/openid-configuration The discovery override
-// defines any properties that should override this discovery
-// configuration
-// https://openid.net/developers/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+// defines any properties that should override
+// [this discovery configuration](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata).
 type OidcConfig_DiscoveryOverride struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

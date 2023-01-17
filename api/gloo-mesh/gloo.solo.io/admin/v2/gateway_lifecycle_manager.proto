@@ -31,7 +31,12 @@ message GatewayClusterSelector {
     // When true this installation will be the Active gateway that primary service traffic will be routed through for the selected cluster(s)
     // If the GatewayLifecycleManagerSpec defines a service, this field will switch over service selectors based off the gatewayRevsion. Updating this can be useful for switching over Canary deployments.
     bool active_gateway = 2;
-  
+
+    // [Optional] The trust domain value that should be set for this cluster's
+    // Istio installations. This value will be set in the installation's mesh
+    // config. (See https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
+    // Defaults to the cluster's name.
+    string trust_domain = 5; 
 }
 
 message GatewayInstallation {

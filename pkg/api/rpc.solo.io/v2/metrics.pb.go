@@ -45,13 +45,16 @@ type NodeMetricsRequest struct {
 	// Leave empty to retrieve metrics for all workloads.
 	WorkloadIds []string `protobuf:"bytes,1,rep,name=workload_ids,json=workloadIds,proto3" json:"workload_ids,omitempty"`
 	// The time which the metrics represent. Defaults to the present time if not specified.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
 	Time *timestamp.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 	// The duration over which the metrics are computed, floored to the minute.
 	// I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	// Defaults to 5 minutes.
 	Window *duration.Duration `protobuf:"bytes,3,opt,name=window,proto3" json:"window,omitempty"`
 	// The duration for each sample in the range, floored to the minute.
 	// I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	// If omitted, defaults to the value of `window`, which represents a request for a single sample.
 	Step *duration.Duration `protobuf:"bytes,4,opt,name=step,proto3" json:"step,omitempty"`
 	// Return Istio metrics, false by default
@@ -202,13 +205,16 @@ type EdgeMetricsRequest struct {
 	// Leave empty to retrieve metrics for all edges.
 	EdgeSelectors []*EdgeSelector `protobuf:"bytes,1,rep,name=edge_selectors,json=edgeSelectors,proto3" json:"edge_selectors,omitempty"`
 	// The time which the metrics represent. Defaults to the present time if not specified.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
 	Time *timestamp.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 	// The duration over which the metrics are computed, floored to the minute.
 	// I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
 	// Defaults to 5 minutes.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	Window *duration.Duration `protobuf:"bytes,3,opt,name=window,proto3" json:"window,omitempty"`
 	// The duration for each sample in the range, floored to the minute.
 	// I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	// Defaults to 2 minutes.
 	Step *duration.Duration `protobuf:"bytes,4,opt,name=step,proto3" json:"step,omitempty"`
 	// Return Istio metrics, false by default
@@ -414,6 +420,7 @@ type HttpMetrics struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
 	Timestamps []*timestamp.Timestamp `protobuf:"bytes,1,rep,name=timestamps,proto3" json:"timestamps,omitempty"`
 	// The number of requests.
 	RequestCount []uint64 `protobuf:"varint,2,rep,packed,name=request_count,json=requestCount,proto3" json:"request_count,omitempty"`
@@ -506,6 +513,7 @@ type TcpMetrics struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
 	Timestamps    []*timestamp.Timestamp `protobuf:"bytes,1,rep,name=timestamps,proto3" json:"timestamps,omitempty"`
 	BytesSent     []uint64               `protobuf:"varint,2,rep,packed,name=bytes_sent,json=bytesSent,proto3" json:"bytes_sent,omitempty"`
 	BytesReceived []uint64               `protobuf:"varint,3,rep,packed,name=bytes_received,json=bytesReceived,proto3" json:"bytes_received,omitempty"`
@@ -578,6 +586,7 @@ type CiliumMetrics struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
 	Timestamps        []*timestamp.Timestamp `protobuf:"bytes,1,rep,name=timestamps,proto3" json:"timestamps,omitempty"`
 	ForwardedSent     []uint64               `protobuf:"varint,2,rep,packed,name=forwarded_sent,json=forwardedSent,proto3" json:"forwarded_sent,omitempty"`
 	ForwardedReceived []uint64               `protobuf:"varint,3,rep,packed,name=forwarded_received,json=forwardedReceived,proto3" json:"forwarded_received,omitempty"`

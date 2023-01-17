@@ -163,6 +163,7 @@ type MirrorPolicySpec_Config struct {
 	// The destination to which to send mirrored traffic
 	Destination *v2.DestinationReference `protobuf:"bytes,1,opt,name=destination,proto3" json:"destination,omitempty"`
 	// Percentage of traffic to mirror. If omitted all traffic will be mirrored. Values must be between 0 and 100.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
 	Percentage *wrappers.DoubleValue `protobuf:"bytes,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
 }
 

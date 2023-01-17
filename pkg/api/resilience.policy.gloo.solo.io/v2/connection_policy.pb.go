@@ -212,6 +212,7 @@ type ConnectionPolicySpec_Config_TCPConfig struct {
 	// Sets the maximum allowed connections to the destination host.
 	MaxConnections int32 `protobuf:"varint,2,opt,name=max_connections,json=maxConnections,proto3" json:"max_connections,omitempty"`
 	// Sets the TCP connection timeout. It must be greater than or equal to 1ms.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	ConnectTimeout *duration.Duration `protobuf:"bytes,3,opt,name=connect_timeout,json=connectTimeout,proto3" json:"connect_timeout,omitempty"`
 }
 

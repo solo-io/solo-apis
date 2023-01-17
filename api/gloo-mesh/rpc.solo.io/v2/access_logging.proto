@@ -28,6 +28,7 @@ message GetAccessLogsRequest {
 
     // Maximum number of access logs to get. If not set, a default value of 20
     // will be used.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
     google.protobuf.UInt32Value retrieval_number = 2;
 }
 
@@ -36,6 +37,7 @@ message AccessLog {
     WorkloadMetadata workload_metadata = 1;
 
     // An Envoy access log.
+    // For more information, see the [Envoy API reference documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v3/data/accesslog/v3/accesslog.proto#data-accesslog-v3-httpaccesslogentry).
     .envoy.data.accesslog.v3.HTTPAccessLogEntry http_access_log = 2;
 
     // Reference and labels for the associated workload
