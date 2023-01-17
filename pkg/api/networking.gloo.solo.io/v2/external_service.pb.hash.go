@@ -356,5 +356,22 @@ func (m *ExternalServiceSpec_Port_TlsConfig) Hash(hasher hash.Hash64) (uint64, e
 		return 0, err
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetMode())
+	if err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetClientCertificate())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetPrivateKey())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetCaCertificates())); err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
