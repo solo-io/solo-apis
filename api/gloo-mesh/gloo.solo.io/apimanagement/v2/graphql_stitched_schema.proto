@@ -1,16 +1,20 @@
 syntax = "proto3";
+
 package apimanagement.gloo.solo.io;
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+
+
 option go_package = "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
-
-import "google/protobuf/wrappers.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
-
-import "extproto/ext.proto";
 option (extproto.equal_all) = true;
-option (extproto.hash_all)  = true;
+option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
 message GraphQLStitchedSchemaSpec {
@@ -18,7 +22,13 @@ message GraphQLStitchedSchemaSpec {
   repeated Subschema subschemas = 1;
 
   message Subschema {
-    .apimanagement.gloo.solo.io.ExecutableSchema executable_subschema = 1;
+    oneof graphql_schema {
+      // Reference to a GraphQLSchema resource that contains the configuration for this subschema.
+      core.skv2.solo.io.ClusterObjectRef schema = 1;
+
+      // Reference to a GraphQLStitchedSchema resource that contains the configuration for this subschema.
+      core.skv2.solo.io.ClusterObjectRef stitched_schema = 2;
+    }
 
     /*
       Type merge configuration for this subschema. Let's say this subschema is a Users service schema
@@ -57,7 +67,7 @@ message GraphQLStitchedSchemaSpec {
       we can now get the first name of an author from the Review.author field even though the Reviews schema doesn't
       provide the full User type.
      */
-    map<string,TypeMergeConfig> type_merge = 3;
+    map<string, TypeMergeConfig> type_merge = 3;
 
     message TypeMergeConfig {
       // This specifies one or more key fields required from other services to perform this query.

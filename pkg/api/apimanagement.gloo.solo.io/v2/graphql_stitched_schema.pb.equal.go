@@ -148,16 +148,6 @@ func (m *GraphQLStitchedSchemaSpec_Subschema) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetExecutableSubschema()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetExecutableSubschema()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetExecutableSubschema(), target.GetExecutableSubschema()) {
-			return false
-		}
-	}
-
 	if len(m.GetTypeMerge()) != len(target.GetTypeMerge()) {
 		return false
 	}
@@ -173,6 +163,45 @@ func (m *GraphQLStitchedSchemaSpec_Subschema) Equal(that interface{}) bool {
 			}
 		}
 
+	}
+
+	switch m.GraphqlSchema.(type) {
+
+	case *GraphQLStitchedSchemaSpec_Subschema_Schema:
+		if _, ok := target.GraphqlSchema.(*GraphQLStitchedSchemaSpec_Subschema_Schema); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSchema()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetSchema(), target.GetSchema()) {
+				return false
+			}
+		}
+
+	case *GraphQLStitchedSchemaSpec_Subschema_StitchedSchema:
+		if _, ok := target.GraphqlSchema.(*GraphQLStitchedSchemaSpec_Subschema_StitchedSchema); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetStitchedSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStitchedSchema()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetStitchedSchema(), target.GetStitchedSchema()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.GraphqlSchema != target.GraphqlSchema {
+			return false
+		}
 	}
 
 	return true
