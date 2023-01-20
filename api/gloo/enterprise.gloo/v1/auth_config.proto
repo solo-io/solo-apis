@@ -976,6 +976,14 @@ message OpaAuth {
 
     // Additional Options for Opa Auth configuration.
     OpaAuthOptions options = 3;
+
+    // The path that determines the auth decision. In OPA SDK the functions are endpoints. Path represent that endpoint
+    // i.e. "/test/allow" will run all the allow functions with in package "test"
+    // More details: https://www.openpolicyagent.org/docs/latest/integration/#integrating-with-the-go-sdk
+    string path = 4;
+    // Feature flag to migrated from old OPA Rego (used curretly with `Query` attribute) to OPA SDK (new api to
+    // allow remote bundles)
+    bool bundled = 5;
 }
 
 message OpaAuthOptions {
