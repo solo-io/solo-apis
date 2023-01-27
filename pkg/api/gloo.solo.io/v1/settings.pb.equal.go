@@ -1045,6 +1045,155 @@ func (m *SettingsSpec_VaultSecrets) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetTlsConfig()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetTlsConfig()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetTlsConfig(), target.GetTlsConfig()) {
+			return false
+		}
+	}
+
+	switch m.AuthMethod.(type) {
+
+	case *SettingsSpec_VaultSecrets_AccessToken:
+		if _, ok := target.AuthMethod.(*SettingsSpec_VaultSecrets_AccessToken); !ok {
+			return false
+		}
+
+		if strings.Compare(m.GetAccessToken(), target.GetAccessToken()) != 0 {
+			return false
+		}
+
+	case *SettingsSpec_VaultSecrets_Aws:
+		if _, ok := target.AuthMethod.(*SettingsSpec_VaultSecrets_Aws); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetAws()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAws()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetAws(), target.GetAws()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.AuthMethod != target.AuthMethod {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *SettingsSpec_VaultAwsAuth) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*SettingsSpec_VaultAwsAuth)
+	if !ok {
+		that2, ok := that.(SettingsSpec_VaultAwsAuth)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetVaultRole(), target.GetVaultRole()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetRegion(), target.GetRegion()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetIamServerIdHeader(), target.GetIamServerIdHeader()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetMountPath(), target.GetMountPath()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetAccessKeyId(), target.GetAccessKeyId()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetSecretAccessKey(), target.GetSecretAccessKey()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetSessionToken(), target.GetSessionToken()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *SettingsSpec_VaultTlsConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*SettingsSpec_VaultTlsConfig)
+	if !ok {
+		that2, ok := that.(SettingsSpec_VaultTlsConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetCaCert(), target.GetCaCert()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetCaPath(), target.GetCaPath()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetClientCert(), target.GetClientCert()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetClientKey(), target.GetClientKey()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetTlsServerName(), target.GetTlsServerName()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetInsecure()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetInsecure()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetInsecure(), target.GetInsecure()) {
+			return false
+		}
+	}
+
 	return true
 }
 

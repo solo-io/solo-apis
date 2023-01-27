@@ -1479,6 +1479,158 @@ func (m *SettingsSpec_VaultSecrets) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
+	if h, ok := interface{}(m.GetTlsConfig()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("TlsConfig")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetTlsConfig(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("TlsConfig")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	switch m.AuthMethod.(type) {
+
+	case *SettingsSpec_VaultSecrets_AccessToken:
+
+		if _, err = hasher.Write([]byte(m.GetAccessToken())); err != nil {
+			return 0, err
+		}
+
+	case *SettingsSpec_VaultSecrets_Aws:
+
+		if h, ok := interface{}(m.GetAws()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Aws")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetAws(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("Aws")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *SettingsSpec_VaultAwsAuth) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_VaultAwsAuth")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetVaultRole())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetRegion())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetIamServerIdHeader())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetMountPath())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetAccessKeyId())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetSecretAccessKey())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetSessionToken())); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *SettingsSpec_VaultTlsConfig) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_VaultTlsConfig")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetCaCert())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetCaPath())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetClientCert())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetClientKey())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetTlsServerName())); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetInsecure()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Insecure")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetInsecure(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Insecure")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return hasher.Sum64(), nil
 }
 

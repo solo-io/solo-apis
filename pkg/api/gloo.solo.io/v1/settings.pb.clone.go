@@ -639,6 +639,86 @@ func (m *SettingsSpec_VaultSecrets) Clone() proto.Message {
 
 	target.PathPrefix = m.GetPathPrefix()
 
+	if h, ok := interface{}(m.GetTlsConfig()).(clone.Cloner); ok {
+		target.TlsConfig = h.Clone().(*SettingsSpec_VaultTlsConfig)
+	} else {
+		target.TlsConfig = proto.Clone(m.GetTlsConfig()).(*SettingsSpec_VaultTlsConfig)
+	}
+
+	switch m.AuthMethod.(type) {
+
+	case *SettingsSpec_VaultSecrets_AccessToken:
+
+		target.AuthMethod = &SettingsSpec_VaultSecrets_AccessToken{
+			AccessToken: m.GetAccessToken(),
+		}
+
+	case *SettingsSpec_VaultSecrets_Aws:
+
+		if h, ok := interface{}(m.GetAws()).(clone.Cloner); ok {
+			target.AuthMethod = &SettingsSpec_VaultSecrets_Aws{
+				Aws: h.Clone().(*SettingsSpec_VaultAwsAuth),
+			}
+		} else {
+			target.AuthMethod = &SettingsSpec_VaultSecrets_Aws{
+				Aws: proto.Clone(m.GetAws()).(*SettingsSpec_VaultAwsAuth),
+			}
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
+func (m *SettingsSpec_VaultAwsAuth) Clone() proto.Message {
+	var target *SettingsSpec_VaultAwsAuth
+	if m == nil {
+		return target
+	}
+	target = &SettingsSpec_VaultAwsAuth{}
+
+	target.VaultRole = m.GetVaultRole()
+
+	target.Region = m.GetRegion()
+
+	target.IamServerIdHeader = m.GetIamServerIdHeader()
+
+	target.MountPath = m.GetMountPath()
+
+	target.AccessKeyId = m.GetAccessKeyId()
+
+	target.SecretAccessKey = m.GetSecretAccessKey()
+
+	target.SessionToken = m.GetSessionToken()
+
+	return target
+}
+
+// Clone function
+func (m *SettingsSpec_VaultTlsConfig) Clone() proto.Message {
+	var target *SettingsSpec_VaultTlsConfig
+	if m == nil {
+		return target
+	}
+	target = &SettingsSpec_VaultTlsConfig{}
+
+	target.CaCert = m.GetCaCert()
+
+	target.CaPath = m.GetCaPath()
+
+	target.ClientCert = m.GetClientCert()
+
+	target.ClientKey = m.GetClientKey()
+
+	target.TlsServerName = m.GetTlsServerName()
+
+	if h, ok := interface{}(m.GetInsecure()).(clone.Cloner); ok {
+		target.Insecure = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	} else {
+		target.Insecure = proto.Clone(m.GetInsecure()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
 	return target
 }
 
