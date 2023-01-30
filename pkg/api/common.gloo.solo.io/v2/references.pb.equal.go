@@ -62,3 +62,41 @@ func (m *WorkloadReference) Equal(that interface{}) bool {
 
 	return true
 }
+
+// Equal function
+func (m *ListenerPortReference) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ListenerPortReference)
+	if !ok {
+		that2, ok := that.(ListenerPortReference)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetGatewayRef()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetGatewayRef()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetGatewayRef(), target.GetGatewayRef()) {
+			return false
+		}
+	}
+
+	if m.GetPort() != target.GetPort() {
+		return false
+	}
+
+	return true
+}

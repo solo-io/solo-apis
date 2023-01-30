@@ -32,15 +32,18 @@ message NodeMetricsRequest {
   repeated string workload_ids = 1;
 
   // The time which the metrics represent. Defaults to the present time if not specified.
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
   .google.protobuf.Timestamp time = 2;
 
   // The duration over which the metrics are computed, floored to the minute.
   // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   // Defaults to 5 minutes.
   .google.protobuf.Duration window = 3;
 
   // The duration for each sample in the range, floored to the minute.
   // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   // If omitted, defaults to the value of `window`, which represents a request for a single sample.
   .google.protobuf.Duration step = 4;
 
@@ -93,15 +96,18 @@ message EdgeMetricsRequest {
   repeated EdgeSelector edge_selectors = 1;
 
   // The time which the metrics represent. Defaults to the present time if not specified.
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
   .google.protobuf.Timestamp time = 2;
 
   // The duration over which the metrics are computed, floored to the minute.
   // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
   // Defaults to 5 minutes.
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   .google.protobuf.Duration window = 3;
 
   // The duration for each sample in the range, floored to the minute.
   // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   // Defaults to 2 minutes.
   .google.protobuf.Duration step = 4;
 
@@ -152,7 +158,7 @@ message EdgeSelector {
 
 // HTTP Metrics sampled over time.
 message HttpMetrics {
-
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
   repeated .google.protobuf.Timestamp timestamps = 1;
 
   // The number of requests.
@@ -198,6 +204,7 @@ message HttpMetrics {
 }
 
 message TcpMetrics {
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
   repeated .google.protobuf.Timestamp timestamps = 1;
 
   repeated uint64 bytes_sent = 2;
@@ -222,6 +229,7 @@ message TcpMetrics {
 }
 
 message CiliumMetrics {
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
   repeated .google.protobuf.Timestamp timestamps = 1;
 
   repeated uint64 forwarded_sent = 2;

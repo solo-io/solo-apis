@@ -63,7 +63,7 @@ message ExtAuthPolicySpec {
             // This allows the server to base the auth decision on metadata that you define on the source of the request.
             //
             // This attribute is analogous to Envoy's config.filter.http.ext_authz.v2.CheckSettings. See the official
-            // [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/ext_authz_filter.html?highlight=ext authz#config-filter-http-ext-authz-v2-checksettings)
+            // [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/ext_authz_filter.html?highlight=extauthz#config-filter-http-ext-authz-v2-checksettings)
             // for more details.
             map<string, string> context_extensions = 1;
         }
