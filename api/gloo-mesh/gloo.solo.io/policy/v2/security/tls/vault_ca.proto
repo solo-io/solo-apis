@@ -1,10 +1,12 @@
 syntax = "proto3";
-package tls.security.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2/tls";
 
-import "github.com/solo-io/skv2/api/core/v1/core.proto";
+package tls.security.policy.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2/tls";
+
 option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;
 
@@ -74,7 +76,7 @@ message VaultKubernetesAuth {
   oneof service_account_location {
 
     // Reference to service account, other than the one mounted to the current pod.
-    .core.skv2.solo.io.ObjectRef  service_account_ref = 4;
+    .core.skv2.solo.io.ObjectRef service_account_ref = 4;
 
     // File System path to grab the service account token from.
     // Defaults to /var/run/secrets/kubernetes.io/serviceaccount

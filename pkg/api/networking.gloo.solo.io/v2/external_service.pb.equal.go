@@ -286,5 +286,21 @@ func (m *ExternalServiceSpec_Port_TlsConfig) Equal(that interface{}) bool {
 		return false
 	}
 
+	if m.GetMode() != target.GetMode() {
+		return false
+	}
+
+	if strings.Compare(m.GetClientCertificate(), target.GetClientCertificate()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetPrivateKey(), target.GetPrivateKey()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetCaCertificates(), target.GetCaCertificates()) != 0 {
+		return false
+	}
+
 	return true
 }
