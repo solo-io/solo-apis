@@ -1,8 +1,11 @@
 syntax = "proto3";
+
 package common.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
 
 import "extproto/ext.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;
 option (extproto.hash_all) = true;

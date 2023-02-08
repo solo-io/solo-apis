@@ -1,8 +1,11 @@
 syntax = "proto3";
+
 package common.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
 
 import "extproto/ext.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -11,34 +14,34 @@ option (extproto.clone_all) = true;
 // State of a Policy resource reflected in the status by Gloo Mesh while processing a resource.
 enum ApprovalState {
 
-    // Resources are in a Pending state before they have been processed by Gloo Mesh.
-    PENDING = 0;
+  // Resources are in a Pending state before they have been processed by Gloo Mesh.
+  PENDING = 0;
 
-    // Resources are in a Accepted state when they are valid and have been applied successfully to
-    // the Gloo Mesh configuration.
-    ACCEPTED = 1;
+  // Resources are in a Accepted state when they are valid and have been applied successfully to
+  // the Gloo Mesh configuration.
+  ACCEPTED = 1;
 
-    // Resources are in an Invalid state when they contain incorrect configuration parameters,
-    // such as missing required values or invalid resource references.
-    // An invalid state can also result when a resource's configuration is valid
-    // but conflicts with another resource which was accepted in an earlier point in time.
-    INVALID = 2;
+  // Resources are in an Invalid state when they contain incorrect configuration parameters,
+  // such as missing required values or invalid resource references.
+  // An invalid state can also result when a resource's configuration is valid
+  // but conflicts with another resource which was accepted in an earlier point in time.
+  INVALID = 2;
 
-    // Resources are in a Warning state when they contain partially incorrect configuration parameters,
-    // but has still been processed and applied by the system.
-    WARNING = 3;
+  // Resources are in a Warning state when they contain partially incorrect configuration parameters,
+  // but has still been processed and applied by the system.
+  WARNING = 3;
 
-    // Resources are in a Failed state when they contain correct configuration parameters,
-    // but the server encountered an error trying to synchronize the system to
-    // the desired state.
-    FAILED = 4;
+  // Resources are in a Failed state when they contain correct configuration parameters,
+  // but the server encountered an error trying to synchronize the system to
+  // the desired state.
+  FAILED = 4;
 
-    // The license key(s) in the application do not allow you to use this resource.
-    UNLICENSED = 5;
+  // The license key(s) in the application do not allow you to use this resource.
+  UNLICENSED = 5;
 }
 
 // the state of a resource across clusters
 message ClusterState {
-    // the approval state of the resource in each cluster
-    map<string, ApprovalState> states = 1;
+  // the approval state of the resource in each cluster
+  map<string, ApprovalState> states = 1;
 }

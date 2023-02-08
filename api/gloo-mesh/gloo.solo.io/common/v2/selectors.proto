@@ -1,78 +1,37 @@
 syntax = "proto3";
-package common.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
+package common.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/cloud_provider_options.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-// reference to a Kubernetes API object.
-// Kube API objects are referenced explicitly by the namespace and cluster containing them.
-message ObjectReference {
-    // the name of the object
-    string name = 1;
-
-    // the namespace of the object. if the field is omitted, Gloo Mesh will use the same namespace as the parent object containing this reference.
-    string namespace = 2;
-
-    // the cluster of the object. if the field is omitted, Gloo Mesh will use the same cluster as the parent object containing this reference.
-    string cluster = 3;
-}
-
-message ObjectReferenceList {
-    repeated ObjectReference refs = 1;
-}
-
-// selects zero or more Kubernetes API resource by matching on labels, name, namespace, cluster, and workspace.
+// selects zero or more Kubernetes API resources by matching on labels, name, namespace, cluster, and workspace.
 message ObjectSelector {
-    // labels matching those of the object
-    map<string, string> labels = 1;
+  // labels matching those of the object
+  map<string, string> labels = 1;
 
-    // Only select objects with the matching name. If the field is omitted, Gloo Mesh will select
-    // matching objects with any name available in the parent object's workspace.
-    string name = 2;
+  // Only select objects with the matching name. If the field is omitted, Gloo Mesh will select
+  // matching objects with any name available in the parent object's workspace.
+  string name = 2;
 
-    // Only select objects in the matching namespace. If the field is omitted, Gloo Mesh will select
-    // matching objects across all namespaces available in the parent object's workspace.
-    string namespace = 3;
+  // Only select objects in the matching namespace. If the field is omitted, Gloo Mesh will select
+  // matching objects across all namespaces available in the parent object's workspace.
+  string namespace = 3;
 
-    // Only select objects in the matching cluster. If the field is omitted, Gloo Mesh will select
-    // matching objects across all clusters available in the parent object's workspace.
-    string cluster = 4;
+  // Only select objects in the matching cluster. If the field is omitted, Gloo Mesh will select
+  // matching objects across all clusters available in the parent object's workspace.
+  string cluster = 4;
 
-    // Only select objects in the given workspace. If the field is omitted, Gloo Mesh will select
-    // matching objects across all workspaces available in the parent object's workspace.
-    string workspace = 5;
-}
-
-// Destinations are pointers to routable destinations for routes. Each destination should resolve to one and only one hostname.
-// Destinations can refer to a variety of object types. The behavior of the route action
-// will vary depending on the type of destination selected. Defaults to the kubernetes `v1/Service`.
-// Currently supported destination types:
-// - Service
-// - VirtualDestination (route traffic to one of the VirtualDestination's backing services, based on the locality of the request)
-// - ExternalService (route traffic to a static set of service endpoints external to the mesh)
-message DestinationReference {
-
-    // reference to the destination object by its metadata
-    ObjectReference ref = 1;
-
-    // the kind of destination being selected. defaults to Kubernetes Service.
-    DestinationKind kind = 2;
-
-    // the port on the destination object being targeted. required if the object provides more than one port.
-    PortSelector port = 3;
-
-    // select a subset of the destination's endpoints for routing based on their labels.
-    map<string, string> subset = 4;
-
-    // Specify the proportion of traffic to be forwarded to this destination.
-    // Weights across all of the `destinations` must sum to 100.
-    // Weight is only relevant when used in the context of a route with multiple destinations.
-    uint32 weight = 5;
+  // Only select objects in the given workspace. If the field is omitted, Gloo Mesh will select
+  // matching objects across all workspaces available in the parent object's workspace.
+  string workspace = 5;
 }
 
 // DestinationSelector is a selector for matching routable destinations for routes.
@@ -84,41 +43,72 @@ message DestinationReference {
 // - networking.gloo.solo.io/v2 ExternalService (route traffic to a static set of service endpoints external to the mesh)
 message DestinationSelector {
 
-    // selector used to match destination objects by their metadata
-    ObjectSelector selector = 1;
+  // selector used to match destination objects by their metadata
+  ObjectSelector selector = 1;
 
-    // the kind of destination being selected. defaults to Kubernetes Service.
-    DestinationKind kind = 2;
+  // the kind of destination being selected. defaults to Kubernetes Service.
+  DestinationKind kind = 2;
 
-    // the port on the Destination which receives traffic.
-    // All ports on the Destination will be selected if left empty.
-    PortSelector port = 3;
+  // the port on the Destination which receives traffic.
+  // All ports on the Destination will be selected if left empty.
+  PortSelector port = 3;
 
-    // TODO(ilackarms): support subsets here
-    // Select subsets of the destination.
-    //    map<string, string> subset = 5;
+  // @exclude TODO(ilackarms): support subsets here
+  // Select subsets of the destination.
+  //    map<string, string> subset = 5;
 
+  // Supported Kinds which can be selected for Destinations. Some DestinationKinds, such as CloudProviders, cannot
+  // be referenced by destination policies and so are omitted.
+  enum DestinationKind {
+      // Select a Kubernetes Service
+      SERVICE = 0;
+      // Select a Virtual Destination
+      VIRTUAL_DESTINATION = 1;
+      // Select an External Service
+      EXTERNAL_SERVICE = 2;
+  }
 }
 
-// Supported Kinds which can be selected for Destinations
+// Supported Kinds which can be selected by routes.
 enum DestinationKind {
-    // Select a Kubernetes Service
-    SERVICE = 0;
-    // Select a Virtual Destination
-    VIRTUAL_DESTINATION = 1;
-    // Select an External Service
-    EXTERNAL_SERVICE = 2;
+  // Select a Kubernetes Service
+  SERVICE = 0;
+  // Select a Virtual Destination
+  VIRTUAL_DESTINATION = 1;
+  // Select an External Service
+  EXTERNAL_SERVICE = 2;
+  // Select a Cloud Provider
+  CLOUD_PROVIDER = 3;
 }
 
 // RouteDestinationSelector is a Selector specifically built for individual destinations on individual Routes inside of RouteTables.
 message RouteDestinationSelector {
-    // select routes based on their labels.
-    // these labels can be used to match route tables or individual routes within route tables.
-    // if left empty, configuration will apply to all specified destinations on all routes in the workspace.
-    ObjectSelector route = 1;
+  // select routes based on their labels.
+  // these labels can be used to match route tables or individual routes within route tables.
+  // if left empty, configuration will apply to all specified destinations on all routes in the workspace.
+  RouteLabelSelector route = 1;
 
-    // for the selected routes, select destinations on which to apply this policy
-    repeated DestinationSelector on_destinations = 2;
+  // for the selected routes, select destinations on which to apply this policy
+  repeated DestinationSelector on_destinations = 2;
+}
+
+// RouteLabelSelector is used to select the details of a route primarily by label. The selection may be further
+// restricted by namespace, cluster, and workspace.
+message RouteLabelSelector {
+  // Select routes including all specified labels on the route or route table.
+  map<string, string> labels = 1;
+
+  // DEPRECATED. This field has been deprecated. It is ignored. Use labels to select routes.
+  string name = 2 [deprecated = true];
+
+  // Only select routes attached to route tables matching the namespace.
+  string namespace = 3;
+
+  // Only select routes attached to route tables matching the cluster.
+  string cluster = 4;
+
+  // Only select routes attached to route tables matching the workspace.
+  string workspace = 5;
 }
 
 // RouteSelector is a Selector specifically built for individual Routes inside of RouteTables.
@@ -126,19 +116,22 @@ message RouteDestinationSelector {
 // This selector can be used to select individual routes or entire route tables using the same label selector.
 message RouteSelector {
 
-    // routes can be selected based on properties of routes or the destinations to which the routes point (if they are using `forwardTo` actions).
-    oneof selector_type {
-        // select routes based on their labels.
-        // these labels can be used to match route tables or individual routes within route tables.
-        ObjectSelector route = 1;
+  // routes can be selected based on properties of routes or the destinations to which the routes point (if they are using `forwardTo` actions).
+  oneof selector_type {
+    // select routes based on their labels.
+    // these labels can be used to match route tables or individual routes within route tables.
+    RouteLabelSelector route = 1;
 
-        // select routes with `forwardTo` actions based on their destinations.
-        // this can be used to apply policy to routes regardless of
-        // their labels
-        DestinationSelector with_destinations = 2;
-    }
+    // select routes with `forwardTo` actions based on their destinations.
+    // this can be used to apply policy to routes regardless of
+    // their labels
+    DestinationSelector with_destinations = 2;
+  }
+}
 
-
+message RouteFilter {
+  // Optional: filter out route tables that use specify CloudProvider functionality, if provided.
+  .common.gloo.solo.io.CloudProviderFilterOptions cloud_provider = 3;
 }
 
 // WorkloadSelector is a Selector specifically built for selecting individual workloads.
@@ -147,125 +140,93 @@ message RouteSelector {
 // This selector can be used to select pods or injected external endpoints (vms).
 message WorkloadSelector {
 
-    // Selector used to match Workload objects by their metadata.
-    ObjectSelector selector = 1;
+  // Selector used to match Workload objects by their metadata.
+  ObjectSelector selector = 1;
 
-    // The kind of workload being selected. Defaults to Kube.
-    WorkloadKind kind = 2;
+  // The kind of workload being selected. Defaults to Kube.
+  WorkloadKind kind = 2;
 
-    // The port to select on the selected workloads.
-    // Only applies to policies which select specific workload ports, such as the WasmDeploymentPolicy.
-    PortSelector port = 4;
+  // The port to select on the selected workloads.
+  // Only applies to policies which select specific workload ports, such as the WasmDeploymentPolicy.
+  PortSelector port = 4;
 
-    enum WorkloadKind {
-        // Select kubernetes workloads (deployment, statefulset, daemonset, etc.).
-        KUBE = 0;
+  enum WorkloadKind {
+    // Select kubernetes workloads (deployment, statefulset, daemonset, etc.).
+    KUBE = 0;
 
-        // Select vms which are external, non-kube workloads.
-        VM = 1;
-    }
+    // Select vms which are external, non-kube workloads.
+    VM = 1;
+  }
 }
 
 // IdentitySelector is a Selector specifically built for selecting client identities for security policies.
 message IdentitySelector {
 
-    // Select kubernetes service accounts as identities.
-    // When selecting a service account that will be created in the future for use in a AuthorizationPolicy, ONLY provide the name, namespace and cluster where the service account will exist in the selector.
-    // Providing labels and/or the workspace for a service account that does not exist in the selector will not result in that service account being added to the resulting AuthorizationPolicy.
-    ObjectSelector service_account_selector = 1;
+  // Select kubernetes service accounts as identities.
+  // When selecting a service account that will be created in the future for use in a AuthorizationPolicy, ONLY provide the name, namespace and cluster where the service account will exist in the selector.
+  // Providing labels and/or the workspace, or omitting the name, namespace or cluster for a service account that does not exist in the selector will not result in that service account being added to the resulting AuthorizationPolicy.
+  ObjectSelector service_account_selector = 1;
 
-    // Select identities based on properties of the request. If multiple fields are set, they are ANDed together.
-    // More information about the individual values can be found here: https://istio.io/latest/docs/reference/config/security/authorization-policy/#Source
-    RequestIdentityMatcher request_identity_matcher = 2;
+  // Select identities based on properties of the request. If multiple fields are set, they are ANDed together.
+  // More information about the individual values can be found here: https://istio.io/latest/docs/reference/config/security/authorization-policy/#Source
+  RequestIdentityMatcher request_identity_matcher = 2;
 
-    message RequestIdentityMatcher {
+  message RequestIdentityMatcher {
 
-        /*
-            Optional. A list of identities to match the request identity ("iss/sub" from the JWT).
-            If omitted all request identity values will be accepted.
-         */
-        repeated string requestPrincipals = 3;
+    /*
+        Optional. A list of identities to match the request identity ("iss/sub" from the JWT).
+        If omitted all request identity values will be accepted.
+     */
+    repeated string requestPrincipals = 3;
 
-        /*
-            Optional. A list of identities to negative match the request identity.
-         */
-        repeated string notRequestPrincipals = 4;
-    }
+    /*
+        Optional. A list of identities to negative match the request identity.
+     */
+    repeated string notRequestPrincipals = 4;
+  }
 }
 
 // MeshSelector is a Selector built for selecting instances of Mesh control planes. A control plane is understood to have a single domain and provide a single root of trust for the data plane proxies it is managing. Each revision of Istiod maps
 message MeshSelector {
 
-    // includes all supported meshes (e.g. Istio, AppMesh)
-    oneof mesh_type {
-        // options for selecting istio Mesh control planes.
-        Istio istio = 1;
+  // includes all supported meshes (e.g. Istio, AppMesh)
+  oneof mesh_type {
+    // options for selecting istio Mesh control planes.
+    Istio istio = 1;
 
-        // TODO: add other supported mesh types here
+    // @exclude TODO: add other supported mesh types here
 
-    }
+  }
 
-    message Istio {
-        // istio.io/revision of Istio to select. regex supported.
-        // omit to select across all revisions.
-        string revision = 1;
+  message Istio {
+    // istio.io/revision of Istio to select. regex supported.
+    // omit to select across all revisions.
+    string revision = 1;
 
-        // match the name of the namespace where istiod is deployed.
-        // omit to select across all namespaces.
-        string namespace = 2;
+    // match the name of the namespace where istiod is deployed.
+    // omit to select across all namespaces.
+    string namespace = 2;
 
-        // match the labels of the cluster where istiod is deployed.
-        // omit to select across all clusters.
-        map<string, string> cluster_selector = 3;
+    // match the labels of the cluster where istiod is deployed.
+    // omit to select across all clusters.
+    map<string, string> cluster_selector = 3;
 
-        // select via the labels of the istiod deployment.
-        // omit to select across all labels.
-        map<string, string> selector = 4;
+    // select via the labels of the istiod deployment.
+    // omit to select across all labels.
+    map<string, string> selector = 4;
 
-    }
+  }
 }
 
 // WorkspaceSelector is a selector for workspaces.
 message WorkspaceSelector {
 
-    // Optional: Name of the workspace to select.
-    // Use * to match name patterns in multiple workspace names.
-    string name = 1;
+  // Optional: Name of the workspace to select.
+  // Use * to match name patterns in multiple workspace names.
+  string name = 1;
 
-    // Optional: Select workspaces based on their labels
-    // The example below select workspaces based on the label `team: backend`:
-    // ```yaml
-    //  - selector:
-    //      team: backend
-    // ```
-    map<string, string> selector = 2;
+  // Optional: Select workspaces based on their labels,
+  // such as setting `selector` to `team: backend`.
+  map<string, string> selector = 2;
 
-}
-
-// A label selector is a label query over a set of resources.
-// An empty label selector matches all objects. A null
-// label selector matches no objects.
-message LabelSelector {
-
-    // Optional: Label selector is a map of {key,value} pairs
-    // Multiple {key,value} pair requirements are ANDed.
-    map<string, string> selector = 1;
-
-}
-
-// A label selector requirement is a selector that contains values, a key, and an operator that
-// relates the key and values.
-message LabelSelectorRequirement {
-    // key is the label key that the selector applies to.
-    string key = 1;
-
-    // operator represents a key's relationship to a set of values.
-    // Valid operators are In, NotIn, Exists and DoesNotExist.
-    string operator = 2;
-
-    // values is an array of string values. If the operator is In or NotIn,
-    // the values array must be non-empty. If the operator is Exists or DoesNotExist,
-    // the values array must be empty. This array is replaced during a strategic
-    // merge patch.
-    repeated string values = 3;
 }

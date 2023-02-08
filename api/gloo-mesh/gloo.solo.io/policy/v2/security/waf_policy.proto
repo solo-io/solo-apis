@@ -1,15 +1,15 @@
 syntax = "proto3";
+
 package security.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
-
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/string_match.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo-ee/api/envoy/config/filter/http/modsecurity/v2/modsecurity.proto";
-
-import "google/protobuf/wrappers.proto";
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo-ee/api/envoy/config/filter/http/modsecurity/v2/modsecurity.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -53,6 +53,7 @@ message WAFPolicySpec {
     // is applied from the lowest numerical priority to the highest numerical priority if it is provided.
     // Use this field for all WAF policies applicable to a route or not at all. Defaults to nil if not provided,
     // and WAF policies will be applied in order of ascending creation time.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
     google.protobuf.UInt32Value priority = 7;
   }
 }
