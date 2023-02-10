@@ -1,12 +1,15 @@
 syntax = "proto3";
-package networking.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+package networking.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -129,185 +132,219 @@ option (extproto.clone_all) = true;
 //           selector:
 //             workspace: foo-ws
 // ```
+// For example, the following VirtualGateway resource configures the gateway to listen for incoming
+// HTTP requests on port 80, delegate any `*.foo.com` request to the `HTTPRouteTable` resource(s)
+// provided by the `foo-ws` workspace. This routeTable is restricted to using CloudProvider functionality
+// which routes to cloud functions `backend-function-*` in region us-east-2 and which assume the
+// `dev-team-B-*` IAM role.
+//
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: VirtualGateway
+// metadata:
+//   name: my-gateway
+//   namespace: some-config-namespace
+//   labels:
+//     workspace.solo.io/exported: 'true'
+// spec:
+//   workloads:
+//     - selector:
+//         labels:
+//           app: my-gateway-controller
+//   listeners:
+//     - port:
+//         number: 80
+//       allowedRouteTables:
+//         - host: '*.foo.com'
+//           selector:
+//             workspace: foo-ws
+//       allowedRoutes:
+//         - cloudProvider:
+//             aws:
+//               lambda_function:
+//                 - name: backend-function-*
+//               iam_roles:
+//                 - name: dev-team-B-*
+//               regions:
+//                 - us-east-2
+// ```
 message VirtualGatewaySpec {
 
-    // Optional: Select which gateway workloads implement this virtual gateway in the same workspace.
-    // A gateway workload will be selected if it matches any of the provided selectors.
-	// For 'selector.name', specify the gateway service's name.
-	// For 'selector.labels', specify the gateway service's 'spec.selector' label.
-    // If workloads is nil, it will be applied to all gateway workloads.
-    repeated .common.gloo.solo.io.WorkloadSelector workloads = 1;
+  // Optional: Select which gateway workloads implement this virtual gateway in the same workspace.
+  // A gateway workload will be selected if it matches any of the provided selectors.
+// For 'selector.name', specify the gateway service's name.
+// For 'selector.labels', specify the gateway service's 'spec.selector' label.
+  // If workloads is nil, it will be applied to all gateway workloads.
+  repeated .common.gloo.solo.io.WorkloadSelector workloads = 1;
 
-    // Required: One or more listeners for the virtual gateway.
-    // Each listener specifies a port and virtual host(s) for traffic received on those ports.
-    repeated Listener listeners = 2;
+  // Required: One or more listeners for the virtual gateway.
+  // Each listener specifies a port and virtual host(s) for traffic received on those ports.
+  repeated Listener listeners = 2;
 
-    message Listener {
-        // Required: The port on the gateway workload's service on
-        // which the gateway will listen for connections to route.
-        .common.gloo.solo.io.PortSelector port = 1;
+  message Listener {
+    // Required: The port on the gateway workload's service on
+    // which the gateway will listen for connections to route.
+    .common.gloo.solo.io.PortSelector port = 1;
 
-        // Optional: settings for configuring TLS behavior for this listener
-        // Specify either tls or httpsRedirect but not both.
-        oneof tls_settings {
-            // TLS configure for a virtual host or listener to use TLS
-            TLSConfig tls = 2;
+    // Optional: settings for configuring TLS behavior for this listener
+    // Specify either tls or httpsRedirect but not both.
+    oneof tls_settings {
+      // TLS configure for a virtual host or listener to use TLS
+      TLSConfig tls = 2;
 
-            // If set to true, the load balancer will send a 301 redirect for all http connections,
-            // asking the clients to use HTTPS.
-            bool https_redirect = 3;
-        }
+      // If set to true, the load balancer will send a 301 redirect for all http connections,
+      // asking the clients to use HTTPS.
+      bool https_redirect = 3;
+    }
 
-        // Required: choose ONE type of listener, http or tcp, or tls.
-        // Defaults to http.
-        oneof listener_type {
-            // Serves http requests on the hosts specified for a given listener.
-            // The listener will route traffic based on the HTTPRouteTable resource(s)
-            // that is attached to the virtual gateway.
-            HTTPServer http = 4;
+    // Required: choose ONE type of listener, http or tcp, or tls.
+    // Defaults to http.
+    oneof listener_type {
+      // Serves http requests on the hosts specified for a given listener.
+      // The listener will route traffic based on the HTTPRouteTable resource(s)
+      // that is attached to the virtual gateway.
+      HTTPServer http = 4;
 
-            // tcp routes on based on sni server name
-            // requires tls to be enabled
-            TCPServer tcp = 5;
+      // tcp routes on based on sni server name
+      // requires tls to be enabled
+      TCPServer tcp = 5;
 
-            // TODO: consider creating a type for tls
-        }
+      // @exclude TODO: consider creating a type for tls
+    }
 
-        // Optional: Filter RouteTables which can bind to this listener by the host names and object metadata.
-        // Wildcard matching for host name is supported here.
-        // If not specified, any route table will be allowed to bind to this VirtualGateway.
-        repeated RouteTableFilter allowed_route_tables = 6;
+    // Optional: Filter RouteTables which can bind to this listener by the host names and object metadata.
+    // Wildcard matching for host name is supported here.
+    // If not specified, any route table will be allowed to bind to this VirtualGateway.
+    repeated RouteTableFilter allowed_route_tables = 6;
 
-        // Optional: Apply an application protocol to use when deciding what additional capabilities to
-        // add to the gateway, such as routing and rich metrics. If no protocol is selected, it will be inferred
-        // from the listener type and its TLS settings. With an `http` listener, the `app_protocol` will default to
-        // `HTTP` if there are no TLS settings and `HTTPS` if there are. With a `tcp` listener, the `app_protocol`
-        // will default to `TCP` or `TLS` depending on the presence of TLS settings.
-        string app_protocol = 7;
+    // Optional: Apply an application protocol to use when deciding what additional capabilities to
+    // add to the gateway, such as routing and rich metrics. If no protocol is selected, it will be inferred
+    // from the listener type and its TLS settings. With an `http` listener, the `app_protocol` will default to
+    // `HTTP` if there are no TLS settings and `HTTPS` if there are. With a `tcp` listener, the `app_protocol`
+    // will default to `TCP` or `TLS` depending on the presence of TLS settings.
+    string app_protocol = 7;
 
-        // HTTP server indicates HTTP routes will be served for RouteTables which select this gateway.
-        message HTTPServer {
-
-        }
-
-        // TODO: TCPServer
-        message TCPServer {
-
-        }
-
-        // Filter route tables which can attach to a VGW by host name as well as an object selector.
-        message RouteTableFilter {
-
-            // Required: host name to select. Can use * to match host name patterns in multiple objects.
-            string host = 1;
-
-            // Optional: filter out route tables which do not match the selector, if provided.
-            .common.gloo.solo.io.ObjectSelector selector = 2;
-
-        }
+    // HTTP server indicates HTTP routes will be served for RouteTables which select this gateway.
+    message HTTPServer {
 
     }
+
+    // @exclude TODO: TCPServer
+    message TCPServer {
+
+    }
+
+    // Filter route tables which can attach to a VGW by host name as well as an object selector.
+    message RouteTableFilter {
+
+      // Required: host name to select. Can use * to match host name patterns in multiple objects.
+      string host = 1;
+
+      // Optional: filter out route tables which do not match the selector, if provided.
+      .common.gloo.solo.io.ObjectSelector selector = 2;
+    }
+  }
 }
 
 // TLSConfig contains the options necessary to configure a listener to use TLS
 message TLSConfig {
 
-    oneof certificates {
-        // SecretName is the name of the kubernetes secret which contains the ssl secret. Each
-        // Gateway will look for a secret with this name on its own local cluster in its own namespace.
-        string secret_name = 1;
+  oneof certificates {
+    // SecretName is the name of the kubernetes secret which contains the ssl secret. Each
+    // Gateway will look for a secret with this name on its own local cluster in its own namespace.
+    string secret_name = 1;
 
-        // Files reference paths to certificates which can be read by the proxy off of its local filesystem
-        Files files = 2;
+    // Files reference paths to certificates which can be read by the proxy off of its local filesystem
+    Files files = 2;
 
+  }
+
+  // Verify that the Subject Alternative Name in the peer certificate is one of the specified values.
+  // note that a ca_certs must be provided if this option is used.
+  repeated string verify_subject_alt_name = 3;
+
+  Parameters parameters = 4;
+
+  // TLS modes enforced by the proxy
+  TLSMode mode = 5;
+
+  enum TLSMode {
+    // The SNI string presented by the client will be used as the match criterion in a
+    // VirtualService TLS route to determine the destination service from the service registry.
+    PASSTHROUGH = 0;
+
+    // Secure connections with standard TLS semantics.
+    SIMPLE = 1;
+
+    // Secure connections to the downstream using mutual TLS by presenting server certificates for authentication.
+    MUTUAL = 2;
+
+    // Similar to the passthrough mode, except servers with this TLS mode do not require an associated VirtualService
+    // to map from the SNI value to service in the registry. The destination details such as the service/subset/port
+    // are encoded in the SNI value. The proxy will forward to the upstream (Envoy) cluster (a group of endpoints)
+    // specified by the SNI value. This server is typically used to provide connectivity between services in disparate
+    // L3 networks that otherwise do not have direct connectivity between their respective endpoints.
+    // Use of this mode assumes that both the source and the destination are using Istio mTLS to secure traffic.
+    // In order for this mode to be enabled, the gateway deployment must be configured with the ISTIO_META_ROUTER_MODE=sni-dnat
+    // environment variable.
+    AUTO_PASSTHROUGH = 3;
+
+    // Secure connections from the downstream using mutual TLS by presenting server certificates for authentication.
+    // Compared to Mutual mode, this mode uses certificates, representing gateway workload identity, generated automatically
+    // by Istio for mTLS authentication. When this mode is used, all other fields in `TLSConfig` should be empty.
+    ISTIO_MUTUAL = 4;
+  }
+
+  message Files {
+    // Required if tlsMode is `SIMPLE` or `MUTUAL`. The path to the file that
+    // contains the server side TLS certificate.
+    string server_cert = 1;
+    // Required if tlsMode is `SIMPLE` or `MUTUAL`. The path to the file that
+    // contains the server's private key.
+    string private_key = 2;
+    // Required if tlsMode is `MUTUAL`. The path to the file that contains the
+    // certificate authority(CA) certificates for validating client cert.
+    string ca_certs = 3;
+  }
+
+  // General TLS parameters. See the [envoy docs](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto#enum-extensions-transport-sockets-tls-v3-tlsparameters-tlsprotocol)
+  // for more information on the meaning of these values.
+  message Parameters {
+    enum ProtocolVersion {
+      // Automatically choose the optimal TLS version.
+      TLS_AUTO = 0;
+
+      // TLS 1.0
+      TLSv1_0 = 1;
+
+      // TLS 1.1
+      TLSv1_1 = 2;
+
+      // TLS 1.2
+      TLSv1_2 = 3;
+
+      // TLS 1.3
+      TLSv1_3 = 4;
     }
 
-    // Verify that the Subject Alternative Name in the peer certificate is one of the specified values.
-    // note that a ca_certs must be provided if this option is used.
-    repeated string verify_subject_alt_name = 3;
 
-    Parameters parameters = 4;
-
-    // TLS modes enforced by the proxy
-    TLSMode mode = 5;
-
-    enum TLSMode {
-        // The SNI string presented by the client will be used as the match criterion in a
-        // VirtualService TLS route to determine the destination service from the service registry.
-        PASSTHROUGH = 0;
-
-        // Secure connections with standard TLS semantics.
-        SIMPLE = 1;
-
-        // Secure connections to the downstream using mutual TLS by presenting server certificates for authentication.
-        MUTUAL = 2;
-
-        // Similar to the passthrough mode, except servers with this TLS mode do not require an associated VirtualService
-        // to map from the SNI value to service in the registry. The destination details such as the service/subset/port
-        // are encoded in the SNI value. The proxy will forward to the upstream (Envoy) cluster (a group of endpoints)
-        // specified by the SNI value. This server is typically used to provide connectivity between services in disparate
-        // L3 networks that otherwise do not have direct connectivity between their respective endpoints.
-        // Use of this mode assumes that both the source and the destination are using Istio mTLS to secure traffic.
-        // In order for this mode to be enabled, the gateway deployment must be configured with the ISTIO_META_ROUTER_MODE=sni-dnat
-        // environment variable.
-        AUTO_PASSTHROUGH = 3;
-
-        // Secure connections from the downstream using mutual TLS by presenting server certificates for authentication.
-        // Compared to Mutual mode, this mode uses certificates, representing gateway workload identity, generated automatically
-        // by Istio for mTLS authentication. When this mode is used, all other fields in `TLSConfig` should be empty.
-        ISTIO_MUTUAL = 4;
-    }
-
-    message Files {
-        // Required if tlsMode is `SIMPLE` or `MUTUAL`. The path to the file that
-        // contains the server side TLS certificate.
-        string server_cert = 1;
-        // Required if tlsMode is `SIMPLE` or `MUTUAL`. The path to the file that
-        // contains the server's private key.
-        string private_key = 2;
-        // Required if tlsMode is `MUTUAL`. The path to the file that contains the
-        // certificate authority(CA) certificates for validating client cert.
-        string ca_certs = 3;
-    }
-
-    // General TLS parameters. See the [envoy docs](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto#enum-extensions-transport-sockets-tls-v3-tlsparameters-tlsprotocol)
-    // for more information on the meaning of these values.
-    message Parameters {
-        enum ProtocolVersion {
-            // Automatically choose the optimal TLS version.
-            TLS_AUTO = 0;
-
-            // TLS 1.0
-            TLSv1_0 = 1;
-
-            // TLS 1.1
-            TLSv1_1 = 2;
-
-            // TLS 1.2
-            TLSv1_2 = 3;
-
-            // TLS 1.3
-            TLSv1_3 = 4;
-        }
-
-
-        ProtocolVersion minimum_protocol_version = 1;
-        ProtocolVersion maximum_protocol_version = 2;
-        repeated string cipher_suites = 3;
-    }
+    ProtocolVersion minimum_protocol_version = 1;
+    ProtocolVersion maximum_protocol_version = 2;
+    repeated string cipher_suites = 3;
+  }
 }
 
 // reflects the status of the gateway Template
 message VirtualGatewayStatus {
 
-    .common.gloo.solo.io.GenericGlobalStatus global = 1;
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
 
-    // The status of the resource in each workspace that it exists in
-    map<string,  .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+  // The status of the resource in each workspace that it exists in
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
 
-    // list of RouteTables allowed to bind to this VirtualGateway
-    repeated .common.gloo.solo.io.ObjectReference allowed_route_tables = 3;
+  // list of RouteTables allowed to bind to this VirtualGateway
+  repeated .common.gloo.solo.io.ObjectReference allowed_route_tables = 3;
 
-    // workloads selected by this VirtualGateway
-    repeated .common.gloo.solo.io.ObjectReference workloads = 4;
+  // workloads selected by this VirtualGateway
+  repeated .common.gloo.solo.io.ObjectReference workloads = 4;
 }
