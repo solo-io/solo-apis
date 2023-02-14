@@ -14,7 +14,7 @@ option (extproto.clone_all) = true;
 import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
 
-import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl/ssl.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/subset.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
 
