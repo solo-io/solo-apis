@@ -27,6 +27,8 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_dynamic_forward_proxy "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/dynamic_forward_proxy"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/ssl"
+
 	github_com_solo_io_solo_kit_pkg_api_v1_resources_core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
@@ -82,13 +84,13 @@ func (m *Listener) Clone() proto.Message {
 	target.BindPort = m.GetBindPort()
 
 	if m.GetSslConfigurations() != nil {
-		target.SslConfigurations = make([]*SslConfig, len(m.GetSslConfigurations()))
+		target.SslConfigurations = make([]*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig, len(m.GetSslConfigurations()))
 		for idx, v := range m.GetSslConfigurations() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.SslConfigurations[idx] = h.Clone().(*SslConfig)
+				target.SslConfigurations[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig)
 			} else {
-				target.SslConfigurations[idx] = proto.Clone(v).(*SslConfig)
+				target.SslConfigurations[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig)
 			}
 
 		}
@@ -238,9 +240,9 @@ func (m *TcpHost) Clone() proto.Message {
 	target.Name = m.GetName()
 
 	if h, ok := interface{}(m.GetSslConfig()).(clone.Cloner); ok {
-		target.SslConfig = h.Clone().(*SslConfig)
+		target.SslConfig = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig)
 	} else {
-		target.SslConfig = proto.Clone(m.GetSslConfig()).(*SslConfig)
+		target.SslConfig = proto.Clone(m.GetSslConfig()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig)
 	}
 
 	if h, ok := interface{}(m.GetDestination()).(clone.Cloner); ok {
@@ -323,13 +325,13 @@ func (m *MatchedListener) Clone() proto.Message {
 	}
 
 	if m.GetSslConfigurations() != nil {
-		target.SslConfigurations = make([]*SslConfig, len(m.GetSslConfigurations()))
+		target.SslConfigurations = make([]*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig, len(m.GetSslConfigurations()))
 		for idx, v := range m.GetSslConfigurations() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.SslConfigurations[idx] = h.Clone().(*SslConfig)
+				target.SslConfigurations[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig)
 			} else {
-				target.SslConfigurations[idx] = proto.Clone(v).(*SslConfig)
+				target.SslConfigurations[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig)
 			}
 
 		}
@@ -375,9 +377,9 @@ func (m *Matcher) Clone() proto.Message {
 	target = &Matcher{}
 
 	if h, ok := interface{}(m.GetSslConfig()).(clone.Cloner); ok {
-		target.SslConfig = h.Clone().(*SslConfig)
+		target.SslConfig = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig)
 	} else {
-		target.SslConfig = proto.Clone(m.GetSslConfig()).(*SslConfig)
+		target.SslConfig = proto.Clone(m.GetSslConfig()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.SslConfig)
 	}
 
 	if m.GetSourcePrefixRanges() != nil {

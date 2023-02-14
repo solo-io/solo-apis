@@ -9,7 +9,7 @@ option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl/ssl.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/circuit_breaker.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/load_balancer.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/connection.proto";
