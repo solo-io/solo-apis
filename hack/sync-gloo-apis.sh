@@ -4,8 +4,8 @@ set -e
 
 # Sync the proto files from the Gloo Repository checked out at ../gloo
 # Exclude gloo/api/grpc because we do not currently want to expose any of our grpc apis
-rsync -ax --exclude 'solo-kit.json' --exclude 'grpc'  ../gloo/projects/gloo/api/  ./api/gloo/gloo
-rsync -ax --exclude 'solo-kit.json'  ../gloo/projects/gateway/api/  ./api/gloo/gateway
+rsync -ax --delete --exclude 'solo-kit.json' --exclude 'grpc'  ../gloo/projects/gloo/api/  ./api/gloo/gloo
+rsync -ax --delete --exclude 'solo-kit.json'  ../gloo/projects/gateway/api/  ./api/gloo/gateway
 
 # Clean up the grpc directory (remove this line if we decide to expose a grpc api
 if [ -d 'api/gloo/gloo/grpc' ]; then rmdir 'api/gloo/gloo/grpc'; fi
