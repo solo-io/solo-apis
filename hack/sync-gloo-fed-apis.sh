@@ -2,7 +2,7 @@
 
 set -e
 
-rsync -ax ../solo-projects/projects/gloo-fed/api/  ./api/gloo-fed
+rsync --delete -ax ../solo-projects/projects/gloo-fed/api/  ./api/gloo-fed
 
 for file in $(find api/gloo-fed -type f | grep ".proto")
 do

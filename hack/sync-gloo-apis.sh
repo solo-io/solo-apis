@@ -3,9 +3,9 @@
 set -e
 
 # Sync the proto files from the Gloo Repository checked out at ../gloo
-rsync -ax --exclude 'solo-kit.json' --exclude 'grpc/v*'  ../gloo/projects/gloo/api/  ./api/gloo/gloo
+rsync -ax --delete --exclude 'solo-kit.json' --exclude 'grpc/v*'  ../gloo/projects/gloo/api/  ./api/gloo/gloo
 rmdir api/gloo/gloo/grpc
-rsync -ax --exclude 'solo-kit.json'  ../gloo/projects/gateway/api/  ./api/gloo/gateway
+rsync -ax --delete --exclude 'solo-kit.json'  ../gloo/projects/gateway/api/  ./api/gloo/gateway
 
 # Create Enterprise Gloo directory
 mkdir -p ./api/gloo/enterprise.gloo/v1
