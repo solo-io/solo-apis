@@ -13,6 +13,8 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
+
 	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
 
 	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
@@ -173,6 +175,18 @@ func (m *UpstreamSpec) Clone() proto.Message {
 		target.IgnoreHealthOnHostRemoval = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
 		target.IgnoreHealthOnHostRemoval = proto.Clone(m.GetIgnoreHealthOnHostRemoval()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	if h, ok := interface{}(m.GetRespectDnsTtl()).(clone.Cloner); ok {
+		target.RespectDnsTtl = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	} else {
+		target.RespectDnsTtl = proto.Clone(m.GetRespectDnsTtl()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	if h, ok := interface{}(m.GetDnsRefreshRate()).(clone.Cloner); ok {
+		target.DnsRefreshRate = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+	} else {
+		target.DnsRefreshRate = proto.Clone(m.GetDnsRefreshRate()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	switch m.UpstreamType.(type) {
