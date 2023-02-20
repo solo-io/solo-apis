@@ -13,7 +13,7 @@ import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
 
 import "github.com/solo-io/solo-apis/api/gloo/gateway/v1/http_gateway.proto";
 
-import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl/ssl.proto";
 
 import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/core/v3/address.proto";
 
