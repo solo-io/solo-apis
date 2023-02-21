@@ -18,7 +18,7 @@ import "github.com/solo-io/solo-apis/api/gloo/gateway/v1/http_gateway.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options/hcm/hcm.proto";
-import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl/ssl.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/core/selectors/selectors.proto";
 
 import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/core/v3/address.proto";

@@ -34,6 +34,8 @@ import (
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_pipe "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/pipe"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_static "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/static"
+
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/ssl"
 )
 
 // ensure the imports are used
@@ -62,9 +64,9 @@ func (m *UpstreamSpec) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetSslConfig()).(clone.Cloner); ok {
-		target.SslConfig = h.Clone().(*UpstreamSslConfig)
+		target.SslConfig = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.UpstreamSslConfig)
 	} else {
-		target.SslConfig = proto.Clone(m.GetSslConfig()).(*UpstreamSslConfig)
+		target.SslConfig = proto.Clone(m.GetSslConfig()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.UpstreamSslConfig)
 	}
 
 	if h, ok := interface{}(m.GetCircuitBreakers()).(clone.Cloner); ok {
@@ -149,9 +151,9 @@ func (m *UpstreamSpec) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetHttpConnectSslConfig()).(clone.Cloner); ok {
-		target.HttpConnectSslConfig = h.Clone().(*UpstreamSslConfig)
+		target.HttpConnectSslConfig = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.UpstreamSslConfig)
 	} else {
-		target.HttpConnectSslConfig = proto.Clone(m.GetHttpConnectSslConfig()).(*UpstreamSslConfig)
+		target.HttpConnectSslConfig = proto.Clone(m.GetHttpConnectSslConfig()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.UpstreamSslConfig)
 	}
 
 	if m.GetHttpConnectHeaders() != nil {
