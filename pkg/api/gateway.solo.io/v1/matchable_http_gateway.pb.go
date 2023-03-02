@@ -84,14 +84,13 @@ func (MatchableHttpGatewayStatus_State) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_matchable_http_gateway_proto_rawDescGZIP(), []int{1, 0}
 }
 
+// A MatchableHttpGateway describes a single FilterChain configured with:
+// - The HttpConnectionManager NetworkFilter
+// - A FilterChainMatch and TransportSocket that support TLS configuration and Source IP matching
 //
-//A MatchableHttpGateway describes a single FilterChain configured with:
-//- The HttpConnectionManager NetworkFilter
-//- A FilterChainMatch and TransportSocket that support TLS configuration and Source IP matching
-//
-//A Gateway CR may select one or more MatchableHttpGateways on a single listener.
-//This enables separate teams to own Listener configuration (Gateway CR)
-//and FilterChain configuration (MatchableHttpGateway CR)
+// A Gateway CR may select one or more MatchableHttpGateways on a single listener.
+// This enables separate teams to own Listener configuration (Gateway CR)
+// and FilterChain configuration (MatchableHttpGateway CR)
 type MatchableHttpGatewaySpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

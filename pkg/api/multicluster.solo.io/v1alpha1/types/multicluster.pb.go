@@ -76,9 +76,8 @@ func (MultiClusterRoleSpec_Rule_Action) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_fed_multicluster_v1alpha1_multicluster_proto_rawDescGZIP(), []int{1, 0, 0}
 }
 
-//
-//Object representing the clusters and namespaces on which resources are created/updated/deleted,
-//computed as the cartesian product of all declared namespace and cluster values.
+// Object representing the clusters and namespaces on which resources are created/updated/deleted,
+// computed as the cartesian product of all declared namespace and cluster values.
 type Placement struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
