@@ -475,6 +475,7 @@ type Node struct {
 	// E.g. "envoy" or "grpc"
 	UserAgentName string `protobuf:"bytes,6,opt,name=user_agent_name,json=userAgentName,proto3" json:"user_agent_name,omitempty"`
 	// Types that are assignable to UserAgentVersionType:
+	//
 	//	*Node_UserAgentVersion
 	//	*Node_UserAgentBuildVersion
 	UserAgentVersionType isNode_UserAgentVersionType `protobuf_oneof:"user_agent_version_type"`
@@ -1045,6 +1046,7 @@ type DataSource struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Specifier:
+	//
 	//	*DataSource_Filename
 	//	*DataSource_InlineBytes
 	//	*DataSource_InlineString
@@ -1271,6 +1273,7 @@ type AsyncDataSource struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Specifier:
+	//
 	//	*AsyncDataSource_Local
 	//	*AsyncDataSource_Remote
 	Specifier isAsyncDataSource_Specifier `protobuf_oneof:"specifier"`
@@ -1363,6 +1366,7 @@ type TransportSocket struct {
 	// See the supported transport socket implementations for further documentation.
 	//
 	// Types that are assignable to ConfigType:
+	//
 	//	*TransportSocket_TypedConfig
 	ConfigType isTransportSocket_ConfigType `protobuf_oneof:"config_type"`
 }

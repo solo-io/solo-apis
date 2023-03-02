@@ -40,6 +40,7 @@ type Secret struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Kind:
+	//
 	//	*Secret_Aws
 	//	*Secret_Azure
 	//	*Secret_Tls

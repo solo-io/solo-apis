@@ -399,7 +399,7 @@ type Failover_Policy struct {
 	//
 	// .. code-block:: json
 	//
-	//  { "overprovisioning_factor": 100 }
+	//	{ "overprovisioning_factor": 100 }
 	//
 	// Read more at :ref:`priority levels <arch_overview_load_balancing_priority_levels>` and
 	// :ref:`localities <arch_overview_load_balancing_locality_weighted_lb>`.

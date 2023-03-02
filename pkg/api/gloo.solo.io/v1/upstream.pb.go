@@ -170,6 +170,7 @@ type UpstreamSpec struct {
 	// to be usable by Gloo. (plugins currently need to be compiled into Gloo)
 	//
 	// Types that are assignable to UpstreamType:
+	//
 	//	*UpstreamSpec_Kube
 	//	*UpstreamSpec_Static
 	//	*UpstreamSpec_Pipe
@@ -180,7 +181,7 @@ type UpstreamSpec struct {
 	UpstreamType isUpstreamSpec_UpstreamType `protobuf_oneof:"upstream_type"`
 	// Failover endpoints for this upstream. If omitted (the default) no failovers will be applied.
 	Failover *Failover `protobuf:"bytes,18,opt,name=failover,proto3" json:"failover,omitempty"`
-	//HTTP/1 connection configurations
+	// HTTP/1 connection configurations
 	ConnectionConfig *ConnectionConfig `protobuf:"bytes,7,opt,name=connection_config,json=connectionConfig,proto3" json:"connection_config,omitempty"`
 	// Determines how Envoy selects the protocol used to speak to upstream hosts.
 	ProtocolSelection UpstreamSpec_ClusterProtocolSelection `protobuf:"varint,25,opt,name=protocol_selection,json=protocolSelection,proto3,enum=gloo.solo.io.UpstreamSpec_ClusterProtocolSelection" json:"protocol_selection,omitempty"`
@@ -220,13 +221,13 @@ type UpstreamSpec struct {
 	// For example, setting to: host.com:443 and making a request routed to the upstream such as `curl <envoy>:<port>/v1`
 	// would result in the following request:
 	//
-	//    CONNECT host.com:443 HTTP/1.1
-	//    host: host.com:443
+	//	CONNECT host.com:443 HTTP/1.1
+	//	host: host.com:443
 	//
-	//    GET /v1 HTTP/1.1
-	//    host: <envoy>:<port>
-	//    user-agent: curl/7.64.1
-	//    accept: */*
+	//	GET /v1 HTTP/1.1
+	//	host: <envoy>:<port>
+	//	user-agent: curl/7.64.1
+	//	accept: */*
 	//
 	// Note: if setting this field to a hostname rather than IP:PORT, you may want to also set `host_rewrite` on the route
 	HttpProxyHostname *wrappers.StringValue `protobuf:"bytes,21,opt,name=http_proxy_hostname,json=httpProxyHostname,proto3" json:"http_proxy_hostname,omitempty"`

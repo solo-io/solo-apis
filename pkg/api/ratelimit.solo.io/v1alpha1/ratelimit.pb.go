@@ -186,6 +186,7 @@ type RateLimitConfigSpec struct {
 	// more high-level configuration formats to support specific use cases.
 	//
 	// Types that are assignable to ConfigType:
+	//
 	//	*RateLimitConfigSpec_Raw_
 	ConfigType isRateLimitConfigSpec_ConfigType `protobuf_oneof:"config_type"`
 }
@@ -856,6 +857,7 @@ type Action struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to ActionSpecifier:
+	//
 	//	*Action_SourceCluster_
 	//	*Action_DestinationCluster_
 	//	*Action_RequestHeaders_
@@ -1520,6 +1522,7 @@ type Action_HeaderValueMatch_HeaderMatcher struct {
 	// Specifies how the header match will be performed to route the request.
 	//
 	// Types that are assignable to HeaderMatchSpecifier:
+	//
 	//	*Action_HeaderValueMatch_HeaderMatcher_ExactMatch
 	//	*Action_HeaderValueMatch_HeaderMatcher_RegexMatch
 	//	*Action_HeaderValueMatch_HeaderMatcher_RangeMatch
@@ -1664,8 +1667,8 @@ type Action_HeaderValueMatch_HeaderMatcher_RangeMatch struct {
 	//
 	// Examples:
 	//
-	// * For range [-10,0), route will match for header value -1, but not for 0, "somestring", 10.9,
-	//   "-1somestring"
+	//   - For range [-10,0), route will match for header value -1, but not for 0, "somestring", 10.9,
+	//     "-1somestring"
 	RangeMatch *Action_HeaderValueMatch_HeaderMatcher_Int64Range `protobuf:"bytes,6,opt,name=range_match,json=rangeMatch,proto3,oneof"`
 }
 
@@ -1805,7 +1808,7 @@ type Action_MetaData_MetadataKey struct {
 	// Typically, it represents a builtin subsystem or custom extension.
 	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"` // [(validate.rules).string = {min_len: 1}];
 	// Must have at least one element. The path to retrieve the Value from the Struct. It can be a prefix or a full path,
-	// e.g. ``[prop, xyz]`` for a struct or ``[prop, foo]`` for a string in the example,
+	// e.g. “[prop, xyz]“ for a struct or “[prop, foo]“ for a string in the example,
 	// which depends on the particular scenario.
 	//
 	// Note: Due to that only the key type segment is supported, the path can not specify a list
@@ -1867,6 +1870,7 @@ type Action_MetaData_MetadataKey_PathSegment struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Segment:
+	//
 	//	*Action_MetaData_MetadataKey_PathSegment_Key
 	Segment isAction_MetaData_MetadataKey_PathSegment_Segment `protobuf_oneof:"segment"`
 }

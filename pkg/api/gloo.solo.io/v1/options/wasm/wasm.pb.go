@@ -246,6 +246,7 @@ type WasmFilter struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Src:
+	//
 	//	*WasmFilter_Image
 	//	*WasmFilter_FilePath
 	Src isWasmFilter_Src `protobuf_oneof:"src"`

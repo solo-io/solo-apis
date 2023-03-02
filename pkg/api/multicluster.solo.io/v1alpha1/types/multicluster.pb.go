@@ -83,13 +83,11 @@ type Placement struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	//
-	//List of namespaces within each placement cluster in which to create/update/delete resources.
-	//Wildcard ("*") represents any namespace.
+	// List of namespaces within each placement cluster in which to create/update/delete resources.
+	// Wildcard ("*") represents any namespace.
 	Namespaces []string `protobuf:"bytes,1,rep,name=namespaces,proto3" json:"namespaces,omitempty"`
-	//
-	//List of clusters (represented by a string) in which to create/update/delete resources.
-	//Wildcard ("*") represents any cluster.
+	// List of clusters (represented by a string) in which to create/update/delete resources.
+	// Wildcard ("*") represents any cluster.
 	Clusters []string `protobuf:"bytes,2,rep,name=clusters,proto3" json:"clusters,omitempty"`
 }
 

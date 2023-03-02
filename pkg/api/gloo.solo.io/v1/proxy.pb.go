@@ -296,6 +296,7 @@ type Listener struct {
 	// Listeners can listen for HTTP, TCP (unsupported), and UDP (unsupported) connections
 	//
 	// Types that are assignable to ListenerType:
+	//
 	//	*Listener_HttpListener
 	//	*Listener_TcpListener
 	//	*Listener_HybridListener
@@ -314,6 +315,7 @@ type Listener struct {
 	// top level options
 	Options *ListenerOptions `protobuf:"bytes,8,opt,name=options,proto3" json:"options,omitempty"`
 	// Types that are assignable to OpaqueMetadata:
+	//
 	//	*Listener_Metadata
 	//	*Listener_MetadataStatic
 	OpaqueMetadata isListener_OpaqueMetadata `protobuf_oneof:"opaque_metadata"`
@@ -780,6 +782,7 @@ type MatchedListener struct {
 	// Empty Matchers are effectively catch-alls, and there can be no more than one empty Matcher per HybridListener
 	Matcher *Matcher `protobuf:"bytes,1,opt,name=matcher,proto3" json:"matcher,omitempty"`
 	// Types that are assignable to ListenerType:
+	//
 	//	*MatchedListener_HttpListener
 	//	*MatchedListener_TcpListener
 	ListenerType isMatchedListener_ListenerType `protobuf_oneof:"ListenerType"`
@@ -1011,6 +1014,7 @@ type VirtualHost struct {
 	// Some configuration here can be overridden by Route Options.
 	Options *VirtualHostOptions `protobuf:"bytes,4,opt,name=options,proto3" json:"options,omitempty"`
 	// Types that are assignable to OpaqueMetadata:
+	//
 	//	*VirtualHost_Metadata
 	//	*VirtualHost_MetadataStatic
 	OpaqueMetadata isVirtualHost_OpaqueMetadata `protobuf_oneof:"opaque_metadata"`
@@ -1132,6 +1136,7 @@ type Route struct {
 	// The Route Action Defines what action the proxy should take when a request matches the route.
 	//
 	// Types that are assignable to Action:
+	//
 	//	*Route_RouteAction
 	//	*Route_RedirectAction
 	//	*Route_DirectResponseAction
@@ -1141,6 +1146,7 @@ type Route struct {
 	// Route options include configuration such as retries, rate limiting, and request/response transformation.
 	Options *RouteOptions `protobuf:"bytes,5,opt,name=options,proto3" json:"options,omitempty"`
 	// Types that are assignable to OpaqueMetadata:
+	//
 	//	*Route_Metadata
 	//	*Route_MetadataStatic
 	OpaqueMetadata isRoute_OpaqueMetadata `protobuf_oneof:"opaque_metadata"`
@@ -1328,6 +1334,7 @@ type RouteAction struct {
 	// to be specified).
 	//
 	// Types that are assignable to Destination:
+	//
 	//	*RouteAction_Single
 	//	*RouteAction_Multi
 	//	*RouteAction_UpstreamGroup
@@ -1461,9 +1468,10 @@ type Destination struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	//  The type of the destination
+	//	The type of the destination
 	//
 	// Types that are assignable to DestinationType:
+	//
 	//	*Destination_Upstream
 	//	*Destination_Kube
 	//	*Destination_Consul
@@ -1885,6 +1893,7 @@ type RedirectAction struct {
 	// The host portion of the URL will be swapped with this value.
 	HostRedirect string `protobuf:"bytes,1,opt,name=host_redirect,json=hostRedirect,proto3" json:"host_redirect,omitempty"`
 	// Types that are assignable to PathRewriteSpecifier:
+	//
 	//	*RedirectAction_PathRedirect
 	//	*RedirectAction_PrefixRewrite
 	//	*RedirectAction_RegexRewrite
@@ -2001,8 +2010,8 @@ type RedirectAction_PrefixRewrite struct {
 	// should be swapped with this value. This option allows redirect URLs be dynamically created
 	// based on the request.
 	//
-	//   Pay attention to the use of trailing slashes as mentioned in
-	//   `RouteAction`'s `prefix_rewrite`.
+	//	Pay attention to the use of trailing slashes as mentioned in
+	//	`RouteAction`'s `prefix_rewrite`.
 	PrefixRewrite string `protobuf:"bytes,5,opt,name=prefix_rewrite,json=prefixRewrite,proto3,oneof"`
 }
 
@@ -2021,20 +2030,20 @@ type RedirectAction_RegexRewrite struct {
 	//
 	// Examples using Google's `RE2 <https://github.com/google/re2>`_ engine:
 	//
-	// * The path pattern ``^/service/([^/]+)(/.*)$`` paired with a substitution
-	//   string of ``\2/instance/\1`` would transform ``/service/foo/v1/api``
-	//   into ``/v1/api/instance/foo``.
+	//   - The path pattern “^/service/([^/]+)(/.*)$“ paired with a substitution
+	//     string of “\2/instance/\1“ would transform “/service/foo/v1/api“
+	//     into “/v1/api/instance/foo“.
 	//
-	// * The pattern ``one`` paired with a substitution string of ``two`` would
-	//   transform ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/two/zzz``.
+	//   - The pattern “one“ paired with a substitution string of “two“ would
+	//     transform “/xxx/one/yyy/one/zzz“ into “/xxx/two/yyy/two/zzz“.
 	//
-	// * The pattern ``^(.*?)one(.*)$`` paired with a substitution string of
-	//   ``\1two\2`` would replace only the first occurrence of ``one``,
-	//   transforming path ``/xxx/one/yyy/one/zzz`` into ``/xxx/two/yyy/one/zzz``.
+	//   - The pattern “^(.*?)one(.*)$“ paired with a substitution string of
+	//     “\1two\2“ would replace only the first occurrence of “one“,
+	//     transforming path “/xxx/one/yyy/one/zzz“ into “/xxx/two/yyy/one/zzz“.
 	//
-	// * The pattern ``(?i)/xxx/`` paired with a substitution string of ``/yyy/``
-	//   would do a case-insensitive match and transform path ``/aaa/XxX/bbb`` to
-	//   ``/aaa/yyy/bbb``.
+	//   - The pattern “(?i)/xxx/“ paired with a substitution string of “/yyy/“
+	//     would do a case-insensitive match and transform path “/aaa/XxX/bbb“ to
+	//     “/aaa/yyy/bbb“.
 	RegexRewrite *v31.RegexMatchAndSubstitute `protobuf:"bytes,32,opt,name=regex_rewrite,json=regexRewrite,proto3,oneof"`
 }
 
@@ -2055,8 +2064,8 @@ type DirectResponseAction struct {
 	// Specifies the content of the response body. If this setting is omitted,
 	// no body is included in the generated response.
 	//
-	//   Note: Headers can be specified using the Header Modification feature in the enclosing
-	//   Route, Virtual Host, or Listener options.
+	//	Note: Headers can be specified using the Header Modification feature in the enclosing
+	//	Route, Virtual Host, or Listener options.
 	Body string `protobuf:"bytes,2,opt,name=body,proto3" json:"body,omitempty"`
 }
 
@@ -2428,6 +2437,7 @@ type TcpHost_TcpAction struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Destination:
+	//
 	//	*TcpHost_TcpAction_Single
 	//	*TcpHost_TcpAction_Multi
 	//	*TcpHost_TcpAction_UpstreamGroup

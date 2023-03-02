@@ -117,11 +117,11 @@ type GatewaySpec struct {
 	// HybridGateway creates a listener with any number of filter chains that each may have either an http_connection_manager or a tcp proxy filter
 	//
 	// Types that are assignable to GatewayType:
+	//
 	//	*GatewaySpec_HttpGateway
 	//	*GatewaySpec_TcpGateway
 	//	*GatewaySpec_HybridGateway
 	GatewayType isGatewaySpec_GatewayType `protobuf_oneof:"GatewayType"`
-	//
 	// Names of the [`Proxy`](https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto.sk/)
 	// resources to generate from this gateway. If other gateways exist which point to the same proxy,
 	// Gloo will join them together.
@@ -140,7 +140,6 @@ type GatewaySpec struct {
 	//
 	// Defaults to `["gateway-proxy"]`
 	ProxyNames []string `protobuf:"bytes,12,rep,name=proxy_names,json=proxyNames,proto3" json:"proxy_names,omitempty"`
-	//
 	// Route configuration options that live under Envoy's [RouteConfigurationOptions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route.proto#config-route-v3-routeconfiguration)
 	RouteOptions *v1.RouteConfigurationOptions `protobuf:"bytes,13,opt,name=route_options,json=routeOptions,proto3" json:"route_options,omitempty"`
 }
@@ -405,6 +404,7 @@ type DelegatedHttpGateway struct {
 	// How to select MatchableHttpGateways
 	//
 	// Types that are assignable to SelectionType:
+	//
 	//	*DelegatedHttpGateway_Ref
 	//	*DelegatedHttpGateway_Selector
 	SelectionType isDelegatedHttpGateway_SelectionType `protobuf_oneof:"selection_type"`
@@ -525,6 +525,7 @@ type MatchedGateway struct {
 	// Empty Matchers are effectively catch-alls, and there can be no more than one empty Matcher per HybridGateway
 	Matcher *Matcher `protobuf:"bytes,1,opt,name=matcher,proto3" json:"matcher,omitempty"`
 	// Types that are assignable to GatewayType:
+	//
 	//	*MatchedGateway_HttpGateway
 	//	*MatchedGateway_TcpGateway
 	GatewayType isMatchedGateway_GatewayType `protobuf_oneof:"GatewayType"`

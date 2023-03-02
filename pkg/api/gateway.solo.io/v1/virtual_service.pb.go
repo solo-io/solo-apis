@@ -363,6 +363,7 @@ type VirtualHost struct {
 	// Some configuration here can be overridden by Route Options.
 	Options *v1.VirtualHostOptions `protobuf:"bytes,4,opt,name=options,proto3" json:"options,omitempty"`
 	// Types that are assignable to ExternalOptionsConfig:
+	//
 	//	*VirtualHost_OptionsConfigRefs
 	ExternalOptionsConfig isVirtualHost_ExternalOptionsConfig `protobuf_oneof:"external_options_config"`
 }
@@ -440,13 +441,13 @@ type isVirtualHost_ExternalOptionsConfig interface {
 
 type VirtualHost_OptionsConfigRefs struct {
 	// Delegate the VirtualHost options to an external VirtualHostOption Resource.
-	//Any options configured in the VirtualHost's `options` field will override all
-	//delegated options. If multiple VirtualHostOption CRs are delegated to, configuration will
-	//be taken from prior VirtualHostOption CRs over later ones.
-	//For example if `headerManipulation` is specified on the VirtualHost options, a delegated
-	//`VirtualHostOption` vhost-opt-1, and a second delegated `VirtualHostOption` vhost-opt-2, the `headerManipulation`
-	//config from only the VirtualHost-level `options` will be applied. If the config is removed from the VirtualHost-level `options` field,
-	//then the config from the first delegated `VirtualHostOption`, vhost-opt-1, is applied.
+	// Any options configured in the VirtualHost's `options` field will override all
+	// delegated options. If multiple VirtualHostOption CRs are delegated to, configuration will
+	// be taken from prior VirtualHostOption CRs over later ones.
+	// For example if `headerManipulation` is specified on the VirtualHost options, a delegated
+	// `VirtualHostOption` vhost-opt-1, and a second delegated `VirtualHostOption` vhost-opt-2, the `headerManipulation`
+	// config from only the VirtualHost-level `options` will be applied. If the config is removed from the VirtualHost-level `options` field,
+	// then the config from the first delegated `VirtualHostOption`, vhost-opt-1, is applied.
 	OptionsConfigRefs *DelegateOptionsRefs `protobuf:"bytes,5,opt,name=options_config_refs,json=optionsConfigRefs,proto3,oneof"`
 }
 
@@ -479,6 +480,7 @@ type Route struct {
 	// The Route Action Defines what action the proxy should take when a request matches the route.
 	//
 	// Types that are assignable to Action:
+	//
 	//	*Route_RouteAction
 	//	*Route_RedirectAction
 	//	*Route_DirectResponseAction
@@ -492,6 +494,7 @@ type Route struct {
 	// The name provides a convenience for users to be able to refer to a route by name.
 	Name string `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty"`
 	// Types that are assignable to ExternalOptionsConfig:
+	//
 	//	*Route_OptionsConfigRefs
 	ExternalOptionsConfig isRoute_ExternalOptionsConfig `protobuf_oneof:"external_options_config"`
 }
@@ -669,13 +672,13 @@ type isRoute_ExternalOptionsConfig interface {
 
 type Route_OptionsConfigRefs struct {
 	// Delegate the Route options to an external RouteOption Resource.
-	//Any options configured in the Route's `options` field will override all
-	//delegated options. If multiple RouteOption CRs are delegated to, configuration will
-	//be taken from prior RouteOption CRs over later ones.
-	//For example if `headerManipulation` is specified on the route options, a delegated
-	//`RouteOption` route-opt-1, and a second delegated `RouteOption` route-opt-2, the `headerManipulation`
-	//config from only the Route-level `options` will be applied. If the config is removed from the Route-level `options` field,
-	//then the config from the first delegated `RouteOption`, route-opt-1, is applied.
+	// Any options configured in the Route's `options` field will override all
+	// delegated options. If multiple RouteOption CRs are delegated to, configuration will
+	// be taken from prior RouteOption CRs over later ones.
+	// For example if `headerManipulation` is specified on the route options, a delegated
+	// `RouteOption` route-opt-1, and a second delegated `RouteOption` route-opt-2, the `headerManipulation`
+	// config from only the Route-level `options` will be applied. If the config is removed from the Route-level `options` field,
+	// then the config from the first delegated `RouteOption`, route-opt-1, is applied.
 	OptionsConfigRefs *DelegateOptionsRefs `protobuf:"bytes,10,opt,name=options_config_refs,json=optionsConfigRefs,proto3,oneof"`
 }
 
@@ -686,8 +689,7 @@ type DelegateOptionsRefs struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	//
-	//List of resource refs to Option CRs
+	// List of resource refs to Option CRs
 	DelegateOptions []*core.ResourceRef `protobuf:"bytes,1,rep,name=delegate_options,json=delegateOptions,proto3" json:"delegate_options,omitempty"`
 }
 
@@ -749,6 +751,7 @@ type DelegateAction struct {
 	// Deprecated: Do not use.
 	Namespace string `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Types that are assignable to DelegationType:
+	//
 	//	*DelegateAction_Ref
 	//	*DelegateAction_Selector
 	DelegationType isDelegateAction_DelegationType `protobuf_oneof:"delegation_type"`
