@@ -1,0 +1,75 @@
+syntax = "proto3";
+package security.policy.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/wrappers.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// ClientTLSPolicy explicitly controls the TLS/mTLS configuration for upstream connections
+message ClientTLSPolicySpec {
+
+    repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
+
+    // Type of TLS used when establishing connections to the selected destinations.
+    // Note that this mode will override any inherited TLS configuration when connecting to the destination,
+    // for example it will override a mesh-wide mTLS configured via Istio PeerAuthentication.
+    oneof mode {
+      Disable disable = 2;
+      Simple simple = 3;
+      Mutual mutual = 4;
+      IstioMutual istioMutual = 5;
+    }
+
+    // Explicitly do not establish a TLS connection to the destination
+    message Disable {}
+
+    // Initiate a mutual TLS connection using the Istio provided certificates. This is useful
+    // if a more broad policy/configuration has disabled Istio mTLS but you need it enabled
+    // for a specific destination.
+    message IstioMutual {}
+
+    // Initiate a mutual TLS connection and present client certificates via the provided credential/secret.
+    // This is separate from any TLS/mTLS provided by Istio.
+    message Mutual {
+      TLSConfig config = 1;
+    }
+
+    // Initiate a basic TLS connection, and possibly verify the server certificate if provided a CA via credential/secret.
+    // This is separate from any TLS/mTLS provided by Istio.
+    message Simple {
+      TLSConfig config = 1;
+    }
+}
+
+message TLSConfig {
+    // SNI string to present to the server during TLS handshake.
+    // Recommended to be set, however if omitted, the first hostname associated with the destination
+    // will be used
+    google.protobuf.StringValue sni = 1;
+
+    // The name of the secret that holds the TLS certs for the client including the CA certificates.
+    // Secret must exist in the same namespace with the proxy using the certificates.
+    // The secret (of type generic) should contain the following keys and values:
+    // key: <privateKey>, cert: <clientCert>, cacert: <CACertificate>.
+    // Here CACertificate is used to verify the server certificate.
+    // Secret of type tls for client certificates along with ca.crt key for CA certificates is also supported. 
+    // see: https://istio.io/latest/docs/reference/config/networking/destination-rule/#ClientTLSSettings
+    string credentialName = 2;
+}
+
+message ClientTLSPolicyStatus {
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Destination ports selected by the policy
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 3;
+}

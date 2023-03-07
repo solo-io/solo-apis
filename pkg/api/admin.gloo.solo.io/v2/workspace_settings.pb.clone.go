@@ -308,6 +308,12 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Clone() proto.Me
 		target.Port = proto.Clone(m.GetPort()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
 	}
 
+	if h, ok := interface{}(m.GetTlsTerminationPort()).(clone.Cloner); ok {
+		target.TlsTerminationPort = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
+	} else {
+		target.TlsTerminationPort = proto.Clone(m.GetTlsTerminationPort()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
+	}
+
 	if m.GetHostInfoOverrides() != nil {
 		target.HostInfoOverrides = make([]*WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo, len(m.GetHostInfoOverrides()))
 		for idx, v := range m.GetHostInfoOverrides() {

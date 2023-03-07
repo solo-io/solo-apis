@@ -1,20 +1,20 @@
 syntax = "proto3";
+
 package networking.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2";
-
-import "github.com/solo-io/skv2/api/core/v1/core.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/http_matchers.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
-
-import "google/protobuf/wrappers.proto";
 
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
-
-
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/http_matchers.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/cloud_provider_options.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -38,6 +38,8 @@ option (extproto.clone_all) = true;
 // `v1` of `reviews.qa`. When the path matches exactly to `/reviews/`, 80% traffic is forwarded to the port 9080
 // of `reviews.prod` and 20% traffic is forwarded to the port 9080 of `reviews.qa`. All other traffic is sent
 // to the default destination, which is the port 9080 of `reviews.prod` service in the `bookinfo` workspace.
+//
+// ```yaml
 // apiVersion: networking.gloo.solo.io/v2
 // kind: RouteTable
 // metadata:
@@ -85,217 +87,281 @@ option (extproto.clone_all) = true;
 //             port:
 //               number: 9080
 //             weight: 20
+// ```
+//
+// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts,
+// when traffic arriving at the `my-gateway` virtual gateway which is declared in the `my-gateway-ws` workspace.
+// When the path matches prefix `/lambda`, traffic is forwarded to the backing aws-provider CloudProvider, where
+// There is an associated CloudResources resource containing a lambda service named logicalName aws-dest within it. An
+// option, "SYNC", is also passed to indicate we want to route to the backing cloud function synchronously (though in
+// this case, "SYNC" is the default option and can be safely omitted).
+//
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: RouteTable
+// metadata:
+//   name: bookinfo-root-routes
+//   namespace: bookinfo
+// spec:
+//   hosts:
+//     - 'uk.bookinfo.com'
+//     - 'eu.bookinfo.com'
+//   virtualGateways:
+//     - name: my-gateway
+//       namespace: my-gateway-ws
+//   defaultDestination:
+//     ref:
+//       name: reviews
+//       namespace: prod
+//     port:
+//       number: 9080
+//   http:
+//     - name: lambda
+//       matchers:
+//         - uri:
+//             prefix: /lambda
+//       labels:
+//         route: lambda
+//       forwardTo:
+//         destinations:
+//           - ref:
+//               name: aws-provider
+//               namespace: bookinfo
+//               cluster: cluster-1
+//             kind: CLOUD_PROVIDER
+//             function:
+//               logicalName: aws-dest
+//               awsLambda:
+//                 invocationStyle: SYNC
+// ```
+//
+// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts,
+// when traffic arriving at the `my-gateway` virtual gateway which is declared in the `my-gateway-ws` workspace.
+// When the path matches prefix `/lambda`, traffic is forwarded to the delegated routetable for handling lambdas.
+// `allowedRoutes` is included to restrict usage of CloudProvider functionality which routes to cloud functions
+// `backend-function-*` in region us-east-2 and which assume the `dev-team-B-*` IAM role.
+//
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: RouteTable
+// metadata:
+//   name: bookinfo-root-routes
+//   namespace: bookinfo
+// spec:
+//   hosts:
+//     - 'uk.bookinfo.com'
+//     - 'eu.bookinfo.com'
+//   virtualGateways:
+//     - name: my-gateway
+//       namespace: my-gateway-ws
+//   defaultDestination:
+//     ref:
+//       name: reviews
+//       namespace: prod
+//     port:
+//       number: 9080
+//   http:
+//     - name: lambda
+//       matchers:
+//         - uri:
+//             prefix: /lambda
+//       labels:
+//         route: lambda
+//       delegate:
+//         allowedRoutes:
+//           - cloudProvider:
+//               aws:
+//                 lambda_function:
+//                   - backend-function-.*
+//                 iam_roles:
+//                   - dev-team-B-.*
+//                 regions:
+//                   - us-east-2
+//         routeTables:
+//           - labels:
+//               table: lambda
+// ```
+//
 message RouteTableSpec {
 
-    // Optional: One or more hosts for which this route table will route traffic.
-    // Supports wildcards. To avoid potential misconfigurations, it is recommended to always use fully
-    // qualified domain names over short names.
-    // *Note*: It must be empty for a delegated RouteTable.
-    repeated string hosts = 1 ;
+  // Optional: One or more hosts for which this route table will route traffic.
+  // Supports wildcards. To avoid potential misconfigurations, it is recommended to always use fully
+  // qualified domain names over short names.
+  // *Note*: It must be empty for a delegated RouteTable.
+  repeated string hosts = 1;
 
-    // Optional: A list of references to the virtual gateways which should serve this route table.
-    // Only valid for route tables which define at least one host.
-    // *Note*: Ignored on delegated (non-root) route tables.
-    //
-    // When not specified, the route table applies to either all the sidecars in the workspace
-    // or only sidecars for selected workloads (via the `workloadSelectors` field) in the workspace where
-    // the route table is deployed or imported.
-    // The following applies to sidecars of all the workloads for the workspace where the route table is
-    // deployed or imported.
-    //
-    // virtualGateways: null
-    // workloadSelectors: []
-    //
-    // The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
-    // no sidecars.
-    //
-    // virtualGateways:
-    //   - name: my-gateway
-    //     namespace: gateway
-    // workloadSelectors: []
-    //
-    // The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
-    // sidecars of all the workloads for the workspace where the route table is
-    // deployed or imported.
-    //
-    // virtualGateways:
-    //   - name: my-gateway
-    //     namespace: gateway
-    // workloadSelectors:
-    //   - selector: {}
-    //
-    // The following applies to sidecars of all the `app: foo` workloads for the workspace where the route table
-    // is deployed or imported.
-    //
-    // virtualGateways: null
-    // workloadSelectors:
-    //   - selector:
-    //       labels:
-    //         app: foo
-    //
-    // The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
-    // sidecars of all the `app: foo` workloads for the workspace where the route table is deployed or imported.
-    //
-    // virtualGateways:
-    //   - name: my-gateway
-    //     namespace: gateway
-    // workloadSelectors:
-    //   - selector:
-    //       labels:
-    //         app: foo
-    //
-    // *Note*: This field must be empty for a delegated RouteTable.
-    repeated .common.gloo.solo.io.ObjectReference virtual_gateways = 5;
+  // Optional: A list of references to the virtual gateways which should serve this route table.
+  // Only valid for route tables which define at least one host.
+  // *Note*: This field must be empty for a delegated RouteTable.
+  //
+  // When not specified, the route table applies to either all the sidecars in the workspace
+  // or only sidecars for selected workloads (via the `workloadSelectors` field) in the workspace where
+  // the route table is deployed or imported.
+  //
+  // The following applies to sidecars of all the workloads for the workspace where the route table is
+  // deployed or imported: set `virtualGateways` to `null` and `workloadSelectors` to `[]`.
+  //
+  // The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
+  // no sidecars: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `[]`.
+  //
+  // The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
+  // sidecars of all the workloads for the workspace where the route table is
+  // deployed or imported: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `{}`.
+  //
+  // The following applies to sidecars of all the `app: foo` workloads for the workspace where the route table
+  // is deployed or imported: set `virtualGateways` to `null` and `workloadSelectors.selector.labels` to `app: foo`.
+  //
+  // The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
+  // sidecars of all the `app: foo` workloads for the workspace where the route table is deployed or imported:
+  // set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors.selector.labels` to `app: foo`.
+  repeated .common.gloo.solo.io.ObjectReference virtual_gateways = 5;
 
-    // Optional: Selectors for source workloads (with sidecars) which will route traffic by this route table.
-    // Only valid for route tables which define at least one host.
-    // If no workloadSelectors or virtualGateways are specified, all workloads in the workspace will automatically be selected.
-    // If VirtualGateways are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.
-    // *Note*: This field must be empty for a delegated RouteTable.
-    // *Note*: Selection of external workloads (VMs) is currently not supported.
-    repeated .common.gloo.solo.io.WorkloadSelector workload_selectors = 6;
+  // Optional: Selectors for source workloads (with sidecars) which will route traffic by this route table.
+  // Only valid for route tables which define at least one host.
+  // If no workloadSelectors or virtualGateways are specified, all workloads in the workspace will automatically be selected.
+  // If VirtualGateways are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.
+  // *Note*: This field must be empty for a delegated RouteTable.
+  // *Note*: Selection of external workloads (VMs) is currently not supported.
+  repeated .common.gloo.solo.io.WorkloadSelector workload_selectors = 6;
 
-    // Optional: Routes that do not specify a destination will forward traffic to this destination.
-    .common.gloo.solo.io.DestinationReference default_destination = 2;
+  // Optional: Routes that do not specify a destination will forward traffic to this destination.
+  .common.gloo.solo.io.DestinationReference default_destination = 2;
 
-    // The set of HTTP routes this route table will serve. If no routes are matched in the route table, the client will get a 404.
-    repeated HTTPRoute http = 3;
+  // The set of HTTP routes this route table will serve. If no routes are matched in the route table, the client will get a 404.
+  repeated HTTPRoute http = 3;
 
-    // the set of TCP routes this route table will serve.
-    // TODO(ilackarms):   repeated TCPRoute tcp = 5;
+  // the set of TCP routes this route table will serve.
+  // @exclude TODO(ilackarms):   repeated TCPRoute tcp = 5;
 
-    // Weight is used when sorting route tables in delegate action or routes when sorted by specificity.
-    // Higher integer values are considered higher priority. The default value is 0.
-    int32 weight = 4;
+  // Weight is used when sorting route tables in delegate action or routes when sorted by specificity.
+  // Higher integer values are considered higher priority. The default value is 0.
+  int32 weight = 4;
 
 
 }
 
-// an HTTP route pairs a set of HTTP Request Matchers with an action to take when a request is matched. HTTP Routes can be named and labeled for the purpose of metrics and applying policies.
+// An HTTP route pairs a set of HTTP Request Matchers with an action to take when a request is matched. HTTP Routes can be named and labeled for the purpose of metrics and applying policies.
 message HTTPRoute {
-    // unique name of the route (within the route table). used to identify the route for metrics
-    string name = 1;
+  // unique name of the route (within the route table). used to identify the route for metrics
+  string name = 1;
 
-    // labels for the route. used to apply policies which implement routeSelectors.
-    map<string, string> labels = 2;
+  // Labels for the route. used to apply policies which implement routeSelectors.
+  map<string, string> labels = 2;
 
-    // The set of request matchers which this route will match on. If none are specified, this route will match any HTTP traffic.
-    // On a delegated RouteTable, this route will only match traffic that includes both the parent and child's matchers.
-    // If these sets conflict, the delegating route on the parent will be replaced with a DirectResponseAction indicating the misconfiguration.
-    repeated .common.gloo.solo.io.HTTPRequestMatcher matchers = 3;
+  // The set of request matchers which this route will match on. If none are specified, this route will match any HTTP traffic.
+  // On a delegated RouteTable, this route will only match traffic that includes both the parent and child's matchers.
+  // If these sets conflict, the delegating route on the parent will be replaced with a DirectResponseAction indicating the misconfiguration.
+  repeated .common.gloo.solo.io.HTTPRequestMatcher matchers = 3;
 
-    // the type of action determines what this route will with a request when it is matched.
-    oneof action_type {
-        // forward traffic to one or more destination services.
-        ForwardToAction forward_to = 4;
+  // the type of action determines what this route will with a request when it is matched.
+  oneof action_type {
+    // forward traffic to one or more destination services.
+    ForwardToAction forward_to = 4;
 
-        // delegate the handling of traffic to one or more HTTP Route Tables. This can be used to
-        // delegate a subset of the route table's traffic to another route table, which may live
-        // in an imported workspace, or to separate routing concerns between objects.
-        DelegateAction delegate = 5;
+    // delegate the handling of traffic to one or more HTTP Route Tables. This can be used to
+    // delegate a subset of the route table's traffic to another route table, which may live
+    // in an imported workspace, or to separate routing concerns between objects.
+    DelegateAction delegate = 5;
 
-        // return a redirect response to the downstream client.
-        RedirectAction redirect = 6;
+    // return a redirect response to the downstream client.
+    RedirectAction redirect = 6;
 
-        // respond directly to the client from the proxy.
-        DirectResponseAction direct_response = 7;
+    // respond directly to the client from the proxy.
+    DirectResponseAction direct_response = 7;
 
-        // handle the HTTP request as a GraphQL request, including query validation, and execution of the GraphQL request.
-        // The incoming GraphQL request must either be a GET or POST request, see
-        // ["Serving over HTTP"](https://graphql.org/learn/serving-over-http/).
-        GraphQLAction graphql = 8;
-    }
+    // handle the HTTP request as a GraphQL request, including query validation, and execution of the GraphQL request.
+    // The incoming GraphQL request must either be a GET or POST request, see
+    // ["Serving over HTTP"](https://graphql.org/learn/serving-over-http/).
+    GraphQLAction graphql = 8;
+  }
 }
 
 message GraphQLAction {
-    oneof graphql {
-        // Reference to a GraphQLStitchedSchema resource.
-        .core.skv2.solo.io.ClusterObjectRef stitched_schema_ref = 1;
+  // Reference to a GraphQLSchema or GraphQLStitchedSchema resource that contains the configuration for this subschema.
+  oneof graphql_schema {
+    // Reference to a GraphQLSchema resource that contains the configuration for this subschema.
+    core.skv2.solo.io.ClusterObjectRef schema = 1;
 
-        // Responsible for pairing a GraphQL schema definition with how it's executed,
-        // whether that is locally executed (using resolvers and Envoy as the GraphQL engine)
-        // or remotely executed (using a remote GraphQL server for the execution).
-        .apimanagement.gloo.solo.io.ExecutableSchema executable_schema = 2;
-    }
+    // Reference to a GraphQLStitchedSchema resource that contains the configuration for this subschema.
+    core.skv2.solo.io.ClusterObjectRef stitched_schema = 2;
+  }
 
-    // Options that apply to this GraphQL Schema.
-    Options options = 4;
+  // Options that apply to this GraphQL Schema.
+  Options options = 4;
 
-    message Options{
-        // Include information about request/response in the envoy debug logs.
-        // This is helpful for debugging GraphQL
-        // Defaults to false.
-        google.protobuf.BoolValue log_sensitive_info = 1;
-    }
+  message Options {
+    // Include information about request/response in the envoy debug logs.
+    // This is helpful for debugging GraphQL.
+    // Defaults to false.
+    google.protobuf.BoolValue log_sensitive_info = 1;
+  }
 }
-
-
 
 // when a route is matched, forward the request to the destinations specified in this action
 message ForwardToAction {
 
-    // Defines the destination upstream for routing
-    // Some destinations require additional configuration for the route (e.g. AWS upstreams require a function name
-    // to be specified).
-    repeated .common.gloo.solo.io.DestinationReference destinations = 1;
+  // Defines the destination upstream for routing
+  // Some destinations require additional configuration for the route (e.g. AWS upstreams require a function name
+  // to be specified).
+  repeated .common.gloo.solo.io.DestinationReference destinations = 1;
 
-    // Replace the path specified in the matcher with this value before forwarding the request to the upstream destination.
-    // When a prefix matcher is used, only the prefix portion of the path is rewritten.
-    // When an exact matcher is used, the whole path is replaced.
-    // Rewriting the path when a regex matcher is used is currently unsupported.
-    string path_rewrite = 2;
+  // Replace the path specified in the matcher with this value before forwarding the request to the upstream destination.
+  // When a prefix matcher is used, only the prefix portion of the path is rewritten.
+  // When an exact matcher is used, the whole path is replaced.
+  // Rewriting the path when a regex matcher is used is currently unsupported.
+  string path_rewrite = 2;
 
-    // Replace the Authority/Host header with this value before forwarding the request to the upstream destination.
-    string host_rewrite = 3;
+  // Replace the Authority/Host header with this value before forwarding the request to the upstream destination.
+  string host_rewrite = 3;
 }
 
-// Note: This message needs to be at this level (rather than nested) due to cue restrictions.
+// @exclude This message needs to be at this level (rather than nested) due to cue restrictions.
 // Notice: RedirectAction is copied directly from https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
 message RedirectAction {
 
-    // The host portion of the URL will be swapped with this value.
-    string host_redirect = 1;
+  // The host portion of the URL will be swapped with this value.
+  string host_redirect = 1;
 
-    // Defines whether and how the path portion of the URL will be modified.
-    oneof path_rewrite_specifier {
-        // The entire path portion of the URL will be overwritten with this value.
-        string path_redirect = 2;
-    }
+  // Defines whether and how the path portion of the URL will be modified.
+  oneof path_rewrite_specifier {
+    // The entire path portion of the URL will be overwritten with this value.
+    string path_redirect = 2;
+  }
 
-    // The HTTP status code to use in the redirect response. The default response
-    // code is MOVED_PERMANENTLY (301).
-    RedirectResponseCode response_code = 4;
+  // The HTTP status code to use in the redirect response. The default response
+  // code is MOVED_PERMANENTLY (301).
+  RedirectResponseCode response_code = 4;
 
-    enum RedirectResponseCode {
-        // Moved Permanently HTTP Status Code - 301.
-        MOVED_PERMANENTLY = 0;
+  enum RedirectResponseCode {
+    // Moved Permanently HTTP Status Code - 301.
+    MOVED_PERMANENTLY = 0;
 
-        // Found HTTP Status Code - 302.
-        FOUND = 1;
+    // Found HTTP Status Code - 302.
+    FOUND = 1;
 
-        // See Other HTTP Status Code - 303.
-        SEE_OTHER = 2;
+    // See Other HTTP Status Code - 303.
+    SEE_OTHER = 2;
 
-        // Temporary Redirect HTTP Status Code - 307.
-        TEMPORARY_REDIRECT = 3;
+    // Temporary Redirect HTTP Status Code - 307.
+    TEMPORARY_REDIRECT = 3;
 
-        // Permanent Redirect HTTP Status Code - 308.
-        PERMANENT_REDIRECT = 4;
-    }
+    // Permanent Redirect HTTP Status Code - 308.
+    PERMANENT_REDIRECT = 4;
+  }
 }
 
-// Note: This message needs to be at this level (rather than nested) due to cue restrictions.
+// @exclude This message needs to be at this level (rather than nested) due to cue restrictions.
 // DirectResponseAction is copied directly from https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
 message DirectResponseAction {
-    // Required. Specifies an HTTP response status between 100-599 inclusive to be returned.
-    uint32 status = 1;
+  // Required. Specifies an HTTP response status between 100-599 inclusive to be returned.
+  uint32 status = 1;
 
-    // Specifies the content of the response body. If this setting is omitted,
-    // no body is included in the generated response.
-    //
-    // Note: Headers can be specified using the Header Modification feature in the enclosing
-    // Route, ConnectionHandler, or Gateway options.
-    string body = 2;
+  // Specifies the content of the response body. If this setting is omitted,
+  // no body is included in the generated response.
+  //
+  // Note: Headers can be specified using the Header Modification feature in the enclosing
+  // Route, ConnectionHandler, or Gateway options.
+  string body = 2;
 }
 
 // DESTINATION
@@ -323,52 +389,87 @@ message DirectResponseAction {
 // sel - {labels, [wks]}           | {labels, [ns, cl]} // select across ns/clusters
 
 
-// Note: This message needs to be at this level (rather than nested) due to cue restrictions.
+// @exclude This message needs to be at this level (rather than nested) due to cue restrictions.
 // DelegateActions are used to delegate routing decisions to other resources, for example RouteTables.
 message DelegateAction {
 
-    // Delegate to the RouteTables that match the given selectors.
-    // Selected route tables are ordered by creation time stamp in ascending order to guarantee consistent ordering.
-    // Route tables will be selected from the pool of route tables defined within the current workspace, as well as any imported into the workspace.
-    repeated .common.gloo.solo.io.ObjectSelector route_tables = 2;
+  // Delegate to the RouteTables that match the given selectors.
+  // Selected route tables are ordered by creation time stamp in ascending order to guarantee consistent ordering.
+  // Route tables will be selected from the pool of route tables defined within the current workspace, as well as any imported into the workspace.
+  repeated .common.gloo.solo.io.ObjectSelector route_tables = 2;
 
-    // How routes should be sorted
-    SortMethod sort_method = 3;
+  // Optional: Restrict delegation to the RouteTables that match the set of route filter criteria specified.
+  // If not specified, any route will be allowed to be referenced by this RouteTable.
+  repeated .common.gloo.solo.io.RouteFilter allowed_routes = 4;
 
-    enum SortMethod {
-        // Routes are kept in the order that they appear relative to their tables, but tables are sorted by weight.
-        // Tables that have the same weight will stay in the same order that they are listed in, which is the list
-        // order when given as a reference and by creation timestamp when selected.
-        TABLE_WEIGHT = 0;
+  // How routes should be sorted
+  SortMethod sort_method = 3;
 
-        // After processing all routes, including additional route tables delegated to, the resulting routes are sorted
-        // by specificity to reduce the chance that a more specific route will be short-circuited by a general route.
-        // Matchers with exact path matchers are considered more specific than regex path patchers, which are more
-        // specific than prefix path matchers. Matchers of the same type are sorted by length of the path in descending
-        // order. Only the most specific matcher on each route is used.
-        ROUTE_SPECIFICITY = 1;
-    }
+  enum SortMethod {
+    // Routes are kept in the order that they appear relative to their tables, but tables are sorted by weight.
+    // Tables that have the same weight will stay in the same order that they are listed in, which is the list
+    // order when given as a reference and by creation timestamp when selected.
+    TABLE_WEIGHT = 0;
+
+    // After processing all routes, including additional route tables delegated to, the resulting routes are sorted
+    // by specificity to reduce the chance that a more specific route will be short-circuited by a general route.
+    // Matchers with exact path matchers are considered more specific than regex path patchers, which are more
+    // specific than prefix path matchers. For prefix and exact, matchers of the same type are sorted by length of the path in descending
+    // order. For regex matchers they are all treated equal when sorted. For sort ties, table weights are used across tables & 
+    // within tables user specified order is preserved. Only the most specific matcher on each route is used.
+    //
+    // For example, consider the following two sub-tables that are sorted by specificity and the resulting route list.
+    //
+    // Sub-table A, with a table weight of `1` in case of sort ties:<ul>
+    // <li>`prefix: /foo`</li>
+    // <li>`prefix: /foo/more/specific`</li>
+    // <li>`prefix: /foo/even/more/specific`</li>
+    // <li>`exact: /foo/exact`</li>
+    // <li>`exact: /foo/another/exact`</li>
+    // <li>`regex: /foo/*`</li>
+    // <li>`regex: /fooo/*`</li></ul>
+    // Sub-table B, with a table weight of `2` in case of sort ties:<ul>
+    // <li>`prefix: /bar`</li>
+    // <li>`prefix: /bar/more/specific`</li>
+    // <li>`prefix: /bar/even/more/specific`</li>
+    // <li>`exact: /bar/exact`</li>
+    // <li>`regex: /bar/*`</li></ul>
+    // The resulting routes are sorted in this order:<ul>
+    // <li>`exact: /foo/another/exact`</li>
+    // <li>`exact: /bar/exact`</li>
+    // <li>`exact: /foo/exact`</li>
+    // <li>`regex: /bar/*`</li>
+    // <li>`regex: /foo/*`</li>
+    // <li>`regex: /fooo/*`</li>
+    // <li>`prefix: /bar/even/more/specific`</li>
+    // <li>`prefix: /foo/even/more/specific`</li>
+    // <li>`prefix: /bar/more/specific`</li>
+    // <li>`prefix: /foo/more/specific`</li>
+    // <li>`prefix: /bar`</li>
+    // <li>`prefix: /foo`</li></ul>
+    //
+    ROUTE_SPECIFICITY = 1;
+  }
 }
-
 
 // reflects the status of the RouteTable
 message RouteTableStatus {
 
-    .common.gloo.solo.io.GenericGlobalStatus global = 1;
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
 
-    // The status of the resource in each workspace that it exists in.
-    map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
 
-    // Map of policy GVK to policy references for all policies applied on this
-    // resource.
-    map<string, .common.gloo.solo.io.AppliedRoutePolicies> applied_route_policies = 3;
+  // Map of policy GVK to policy references for all policies applied on this
+  // resource.
+  map<string, .common.gloo.solo.io.AppliedRoutePolicies> applied_route_policies = 3;
 
-    // The parents of this route table, if it is a delegated route table.
-    repeated .common.gloo.solo.io.ObjectReference parent_route_tables = 4;
+  // The parents of this route table, if it is a delegated route table.
+  repeated .common.gloo.solo.io.ObjectReference parent_route_tables = 4;
 
-    // Name of Workspace that owns the route table
-    .common.gloo.solo.io.OwnerWorkspace owner_workspace = 5;
+  // Name of Workspace that owns the route table
+  .common.gloo.solo.io.OwnerWorkspace owner_workspace = 5;
 
-    // list of allowed VirtualGateways this RouteTable can select
-    repeated .common.gloo.solo.io.ObjectReference allowed_virtual_gateways = 6;
+  // list of allowed VirtualGateways this RouteTable can select
+  repeated .common.gloo.solo.io.ObjectReference allowed_virtual_gateways = 6;
 }

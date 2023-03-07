@@ -17,8 +17,6 @@ import (
 
 	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 
-	github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2"
-
 	github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2"
 )
 
@@ -213,29 +211,29 @@ func (m *GraphQLAction) Clone() proto.Message {
 		target.Options = proto.Clone(m.GetOptions()).(*GraphQLAction_Options)
 	}
 
-	switch m.Graphql.(type) {
+	switch m.GraphqlSchema.(type) {
 
-	case *GraphQLAction_StitchedSchemaRef:
+	case *GraphQLAction_Schema:
 
-		if h, ok := interface{}(m.GetStitchedSchemaRef()).(clone.Cloner); ok {
-			target.Graphql = &GraphQLAction_StitchedSchemaRef{
-				StitchedSchemaRef: h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
+		if h, ok := interface{}(m.GetSchema()).(clone.Cloner); ok {
+			target.GraphqlSchema = &GraphQLAction_Schema{
+				Schema: h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		} else {
-			target.Graphql = &GraphQLAction_StitchedSchemaRef{
-				StitchedSchemaRef: proto.Clone(m.GetStitchedSchemaRef()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
+			target.GraphqlSchema = &GraphQLAction_Schema{
+				Schema: proto.Clone(m.GetSchema()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		}
 
-	case *GraphQLAction_ExecutableSchema:
+	case *GraphQLAction_StitchedSchema:
 
-		if h, ok := interface{}(m.GetExecutableSchema()).(clone.Cloner); ok {
-			target.Graphql = &GraphQLAction_ExecutableSchema{
-				ExecutableSchema: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2.ExecutableSchema),
+		if h, ok := interface{}(m.GetStitchedSchema()).(clone.Cloner); ok {
+			target.GraphqlSchema = &GraphQLAction_StitchedSchema{
+				StitchedSchema: h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		} else {
-			target.Graphql = &GraphQLAction_ExecutableSchema{
-				ExecutableSchema: proto.Clone(m.GetExecutableSchema()).(*github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2.ExecutableSchema),
+			target.GraphqlSchema = &GraphQLAction_StitchedSchema{
+				StitchedSchema: proto.Clone(m.GetStitchedSchema()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		}
 
@@ -328,6 +326,19 @@ func (m *DelegateAction) Clone() proto.Message {
 				target.RouteTables[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectSelector)
 			} else {
 				target.RouteTables[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectSelector)
+			}
+
+		}
+	}
+
+	if m.GetAllowedRoutes() != nil {
+		target.AllowedRoutes = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter, len(m.GetAllowedRoutes()))
+		for idx, v := range m.GetAllowedRoutes() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AllowedRoutes[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter)
+			} else {
+				target.AllowedRoutes[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter)
 			}
 
 		}

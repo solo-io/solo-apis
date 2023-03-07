@@ -496,6 +496,16 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Equal(that inter
 		}
 	}
 
+	if h, ok := interface{}(m.GetTlsTerminationPort()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetTlsTerminationPort()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetTlsTerminationPort(), target.GetTlsTerminationPort()) {
+			return false
+		}
+	}
+
 	if len(m.GetHostInfoOverrides()) != len(target.GetHostInfoOverrides()) {
 		return false
 	}

@@ -63,6 +63,8 @@ func (m *IstioClusterSelector) Clone() proto.Message {
 
 	target.DefaultRevision = m.GetDefaultRevision()
 
+	target.TrustDomain = m.GetTrustDomain()
+
 	return target
 }
 

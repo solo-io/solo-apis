@@ -43,3 +43,115 @@ func (m *WorkloadReference) Clone() proto.Message {
 
 	return target
 }
+
+// Clone function
+func (m *ObjectReference) Clone() proto.Message {
+	var target *ObjectReference
+	if m == nil {
+		return target
+	}
+	target = &ObjectReference{}
+
+	target.Name = m.GetName()
+
+	target.Namespace = m.GetNamespace()
+
+	target.Cluster = m.GetCluster()
+
+	return target
+}
+
+// Clone function
+func (m *ObjectReferenceList) Clone() proto.Message {
+	var target *ObjectReferenceList
+	if m == nil {
+		return target
+	}
+	target = &ObjectReferenceList{}
+
+	if m.GetRefs() != nil {
+		target.Refs = make([]*ObjectReference, len(m.GetRefs()))
+		for idx, v := range m.GetRefs() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Refs[idx] = h.Clone().(*ObjectReference)
+			} else {
+				target.Refs[idx] = proto.Clone(v).(*ObjectReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *DestinationReference) Clone() proto.Message {
+	var target *DestinationReference
+	if m == nil {
+		return target
+	}
+	target = &DestinationReference{}
+
+	if h, ok := interface{}(m.GetRef()).(clone.Cloner); ok {
+		target.Ref = h.Clone().(*ObjectReference)
+	} else {
+		target.Ref = proto.Clone(m.GetRef()).(*ObjectReference)
+	}
+
+	target.Kind = m.GetKind()
+
+	if h, ok := interface{}(m.GetPort()).(clone.Cloner); ok {
+		target.Port = h.Clone().(*PortSelector)
+	} else {
+		target.Port = proto.Clone(m.GetPort()).(*PortSelector)
+	}
+
+	if m.GetSubset() != nil {
+		target.Subset = make(map[string]string, len(m.GetSubset()))
+		for k, v := range m.GetSubset() {
+
+			target.Subset[k] = v
+
+		}
+	}
+
+	target.Weight = m.GetWeight()
+
+	switch m.DestinationSpec.(type) {
+
+	case *DestinationReference_Function:
+
+		if h, ok := interface{}(m.GetFunction()).(clone.Cloner); ok {
+			target.DestinationSpec = &DestinationReference_Function{
+				Function: h.Clone().(*FunctionDestinationSpec),
+			}
+		} else {
+			target.DestinationSpec = &DestinationReference_Function{
+				Function: proto.Clone(m.GetFunction()).(*FunctionDestinationSpec),
+			}
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ListenerPortReference) Clone() proto.Message {
+	var target *ListenerPortReference
+	if m == nil {
+		return target
+	}
+	target = &ListenerPortReference{}
+
+	if h, ok := interface{}(m.GetGatewayRef()).(clone.Cloner); ok {
+		target.GatewayRef = h.Clone().(*ObjectReference)
+	} else {
+		target.GatewayRef = proto.Clone(m.GetGatewayRef()).(*ObjectReference)
+	}
+
+	target.Port = m.GetPort()
+
+	return target
+}
