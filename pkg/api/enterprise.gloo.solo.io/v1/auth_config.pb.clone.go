@@ -301,6 +301,29 @@ func (m *BasicAuth) Clone() proto.Message {
 }
 
 // Clone function
+func (m *HmacAuth) Clone() proto.Message {
+	var target *HmacAuth
+	if m == nil {
+		return target
+	}
+	target = &HmacAuth{}
+
+	if h, ok := interface{}(m.GetClientSecretRef()).(clone.Cloner); ok {
+		target.ClientSecretRef = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
+	} else {
+		target.ClientSecretRef = proto.Clone(m.GetClientSecretRef()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
+	}
+
+	if h, ok := interface{}(m.GetMessageType()).(clone.Cloner); ok {
+		target.MessageType = h.Clone().(*HmacAuth_MessageType)
+	} else {
+		target.MessageType = proto.Clone(m.GetMessageType()).(*HmacAuth_MessageType)
+	}
+
+	return target
+}
+
+// Clone function
 func (m *OAuth) Clone() proto.Message {
 	var target *OAuth
 	if m == nil {
@@ -1848,6 +1871,18 @@ func (m *AuthConfigSpec_Config) Clone() proto.Message {
 			}
 		}
 
+	case *AuthConfigSpec_Config_HmacAuth:
+
+		if h, ok := interface{}(m.GetHmacAuth()).(clone.Cloner); ok {
+			target.AuthConfig = &AuthConfigSpec_Config_HmacAuth{
+				HmacAuth: h.Clone().(*HmacAuth),
+			}
+		} else {
+			target.AuthConfig = &AuthConfigSpec_Config_HmacAuth{
+				HmacAuth: proto.Clone(m.GetHmacAuth()).(*HmacAuth),
+			}
+		}
+
 	}
 
 	return target
@@ -1964,6 +1999,19 @@ func (m *BasicAuth_Apr_SaltedHashedPassword) Clone() proto.Message {
 	target.Salt = m.GetSalt()
 
 	target.HashedPassword = m.GetHashedPassword()
+
+	return target
+}
+
+// Clone function
+func (m *HmacAuth_MessageType) Clone() proto.Message {
+	var target *HmacAuth_MessageType
+	if m == nil {
+		return target
+	}
+	target = &HmacAuth_MessageType{}
+
+	target.Type = m.GetType()
 
 	return target
 }
@@ -2939,6 +2987,18 @@ func (m *ExtAuthConfig_Config) Clone() proto.Message {
 		} else {
 			target.AuthConfig = &ExtAuthConfig_Config_PassThroughAuth{
 				PassThroughAuth: proto.Clone(m.GetPassThroughAuth()).(*PassThroughAuth),
+			}
+		}
+
+	case *ExtAuthConfig_Config_HmacAuth:
+
+		if h, ok := interface{}(m.GetHmacAuth()).(clone.Cloner); ok {
+			target.AuthConfig = &ExtAuthConfig_Config_HmacAuth{
+				HmacAuth: h.Clone().(*HmacAuth),
+			}
+		} else {
+			target.AuthConfig = &ExtAuthConfig_Config_HmacAuth{
+				HmacAuth: proto.Clone(m.GetHmacAuth()).(*HmacAuth),
 			}
 		}
 

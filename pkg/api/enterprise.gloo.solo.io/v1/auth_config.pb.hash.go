@@ -556,6 +556,62 @@ func (m *BasicAuth) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *HmacAuth) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.HmacAuth")); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetClientSecretRef()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("ClientSecretRef")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetClientSecretRef(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("ClientSecretRef")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if h, ok := interface{}(m.GetMessageType()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("MessageType")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetMessageType(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("MessageType")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *OAuth) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -3458,6 +3514,28 @@ func (m *AuthConfigSpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
+	case *AuthConfigSpec_Config_HmacAuth:
+
+		if h, ok := interface{}(m.GetHmacAuth()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("HmacAuth")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetHmacAuth(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("HmacAuth")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
 	}
 
 	return hasher.Sum64(), nil
@@ -3631,6 +3709,26 @@ func (m *BasicAuth_Apr_SaltedHashedPassword) Hash(hasher hash.Hash64) (uint64, e
 	}
 
 	if _, err = hasher.Write([]byte(m.GetHashedPassword())); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *HmacAuth_MessageType) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.HmacAuth_MessageType")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetType())); err != nil {
 		return 0, err
 	}
 
@@ -5482,6 +5580,28 @@ func (m *ExtAuthConfig_Config) Hash(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			} else {
 				if _, err = hasher.Write([]byte("PassThroughAuth")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *ExtAuthConfig_Config_HmacAuth:
+
+		if h, ok := interface{}(m.GetHmacAuth()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("HmacAuth")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetHmacAuth(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("HmacAuth")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {

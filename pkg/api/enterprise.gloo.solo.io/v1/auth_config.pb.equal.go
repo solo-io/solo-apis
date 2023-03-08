@@ -505,6 +505,50 @@ func (m *BasicAuth) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *HmacAuth) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*HmacAuth)
+	if !ok {
+		that2, ok := that.(HmacAuth)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetClientSecretRef()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetClientSecretRef()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetClientSecretRef(), target.GetClientSecretRef()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetMessageType()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMessageType()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMessageType(), target.GetMessageType()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *OAuth) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -3078,6 +3122,21 @@ func (m *AuthConfigSpec_Config) Equal(that interface{}) bool {
 			}
 		}
 
+	case *AuthConfigSpec_Config_HmacAuth:
+		if _, ok := target.AuthConfig.(*AuthConfigSpec_Config_HmacAuth); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetHmacAuth()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetHmacAuth()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetHmacAuth(), target.GetHmacAuth()) {
+				return false
+			}
+		}
+
 	default:
 		// m is nil but target is not nil
 		if m.AuthConfig != target.AuthConfig {
@@ -3269,6 +3328,34 @@ func (m *BasicAuth_Apr_SaltedHashedPassword) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetHashedPassword(), target.GetHashedPassword()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *HmacAuth_MessageType) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*HmacAuth_MessageType)
+	if !ok {
+		that2, ok := that.(HmacAuth_MessageType)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetType(), target.GetType()) != 0 {
 		return false
 	}
 
@@ -4913,6 +5000,21 @@ func (m *ExtAuthConfig_Config) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetPassThroughAuth(), target.GetPassThroughAuth()) {
+				return false
+			}
+		}
+
+	case *ExtAuthConfig_Config_HmacAuth:
+		if _, ok := target.AuthConfig.(*ExtAuthConfig_Config_HmacAuth); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetHmacAuth()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetHmacAuth()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetHmacAuth(), target.GetHmacAuth()) {
 				return false
 			}
 		}
