@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package envoy.config.transformer.aws_lambda.v2;
+
+option java_package = "io.envoyproxy.envoy.config.transformer.aws_lambda.v2";
+option java_outer_classname = "ApiGatewayRequestTransformerProto";
+option java_multiple_files = true;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/envoy-gloo-ee/api/envoy/config/transformer/aws_lambda/v2";
+
+
+message ApiGatewayRequestTransformation {
+} 

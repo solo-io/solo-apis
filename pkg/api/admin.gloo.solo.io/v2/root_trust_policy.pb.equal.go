@@ -143,6 +143,23 @@ func (m *RootTrustPolicySpec_Config) Equal(that interface{}) bool {
 		return false
 	}
 
+	if len(m.GetPassiveCertificateAuthorities()) != len(target.GetPassiveCertificateAuthorities()) {
+		return false
+	}
+	for idx, v := range m.GetPassiveCertificateAuthorities() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetPassiveCertificateAuthorities()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetPassiveCertificateAuthorities()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	switch m.CertificateAuthorityType.(type) {
 
 	case *RootTrustPolicySpec_Config_MgmtServerCa:

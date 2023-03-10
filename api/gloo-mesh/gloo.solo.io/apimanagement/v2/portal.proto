@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package apimanagement.gloo.solo.io;
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+
+// The Portal resource configures a developer portal that you can use to securely expose your APIs to end users.
+// Before you create the Portal, you bundle the APIs that you want to expose into a route table.
+// Then, you prepare a usage plan to control access to your APIs
+// by applying rate limiting and external auth policies to the routes in the route table.
+// For more information, see the [Portal docs](https://docs.solo.io/gloo-gateway/main/portal/).
+//
+// The following examples show a Portal resource that refers to usage plans
+// that are named in the rate limit server config's descriptors.
+// ```yaml
+// apiVersion: portal.gloo.solo.io/v2
+// kind: Portal
+//    metadata:
+//      name: public-portal
+//      namespace: gloo-mesh
+// spec:
+//    portalBackendSelectors:
+//      - selector:
+//          namespace: gloo-mesh
+//          cluster: cluster-1
+//    usagePlans:
+//      - name: bronze
+//        displayName: "Bronze Plan"
+//        description: "A basic usage plan"
+//      - name: silver
+//        description: "A better usage plan"
+//      - name: gold
+//        description: "The best usage plan!"
+//    apis:
+//      - routeTables:
+//          name: productpage
+//          namespace: bookinfo
+//          cluster: cluster-1
+// ```
+//
+//```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: RateLimitServerConfig
+//    metadata:
+//      name: usage-plans
+//      namespace: gloo-mesh-addons
+// spec:
+//    destinationServers: [ ] # omitted, server refs
+//    raw:
+//      descriptors:
+//        - key: usagePlan
+//          value: bronze
+//          descriptors:
+//            - key: userId
+//              rateLimit:
+//                requestsPerUnit: 50
+//                unit: MINUTE
+//        - key: usagePlan
+//          value: silver
+//          descriptors:
+//            - key: userId
+//              rateLimit:
+//                requestsPerUnit: 200
+//                unit: MINUTE
+//         - key: usagePlan
+//           value: gold
+//           descriptors:
+//             - key: userId
+//               rateLimit:
+//                 requestsPerUnit: 1000
+//                 unit: MINUTE
+//```
+message PortalSpec {
+
+  // The workloads where an existing portal backend is running.
+  repeated .common.gloo.solo.io.WorkloadSelector portal_backend_selector = 1;
+
+  // A list of route tables that have routes to the APIs you want to expose in the developer portal.
+  repeated API apis = 2;
+
+  // The usage plans to control access to the APIs that the developer portal exposes.
+  repeated UsagePlan usage_plans = 3;
+
+  // The domains on which this Portal will be served. The Host header received by the
+  // Portal Web App will be matched to one of these domains in order to determine which Portal will be served.
+  //
+  // If you are using the Gateway through which you are exposing the Portal
+  // is listening on a port other than 80/443, you should include the port as part of the
+  // domain string, e.g. "portal.solo.io:8443".
+  //
+  // To prevent undefined behavior, creating a Portal whose domain conflicts with
+  // an existing Portal will result in the Portal resource being placed into an 'Invalid' state.
+  repeated string domains = 4;
+
+  message UsagePlan {
+    // Match the names of the usage plans with the descriptors that you defined in the rate limit server config.
+    string name = 1;
+    // Optional display name for the usage plan to show end users in the developer portal.
+    string display_name = 2;
+    // Optional description for the usage plan to show end users in the developer portal.
+    // You might include information about how to get the plan or what the plan includes and excludes.
+    string description = 3;
+  }
+}
+
+message API {
+    // A list of route tables with routes to the APIs you want the developer portal to expose.
+    // The route table might also have 'portalMetadata' key-value fields that you want to display in the developer portal for end users.
+    .common.gloo.solo.io.ObjectSelector route_table = 1;
+}
+
+// reflects the status of the Portal resource
+message PortalStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Name of workspace that owns the portal.
+  .common.gloo.solo.io.OwnerWorkspace owner_workspace = 3;
+}
+
+// $hide_from_docs
+message PortalNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  string owner_workspace = 2;
+}
+
+// $hide_from_docs
+message PortalReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  string owner_workspace = 2;
+}

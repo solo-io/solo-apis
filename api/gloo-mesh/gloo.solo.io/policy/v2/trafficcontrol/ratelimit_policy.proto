@@ -1,16 +1,18 @@
 syntax = "proto3";
+
 package trafficcontrol.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/trafficcontrol.policy.gloo.solo.io/v2";
 
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/phase.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/policy/v2/trafficcontrol/ratelimit_client_config.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
 
-import "github.com/solo-io/solo-apis/api/rate-limiter/v1alpha1/ratelimit.proto";
+option go_package = "github.com/solo-io/solo-apis/pkg/api/trafficcontrol.policy.gloo.solo.io/v2";
 
-import "extproto/ext.proto";
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -78,4 +80,27 @@ message RateLimitPolicyStatus {
   // Routes selected by the policy
   repeated .common.gloo.solo.io.RouteReference selected_routes = 4;
 
+}
+
+// $hide_from_docs
+message RateLimitPolicyNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // Count of destination ports selected by the policy
+  uint32 selected_destination_ports = 2;
+
+  // Count of routes selected by the policy
+  uint32 selected_routes = 3;
+}
+
+// $hide_from_docs
+message RateLimitPolicyReport {
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // Destination ports selected by the policy
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
+
+  // Routes selected by the policy
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
 }

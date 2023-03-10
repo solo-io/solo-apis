@@ -179,6 +179,123 @@ func (m *ExtAuthPolicyStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *ExtAuthPolicyNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthPolicyNewStatus)
+	if !ok {
+		that2, ok := that.(ExtAuthPolicyNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if m.GetSelectedDestinationPorts() != target.GetSelectedDestinationPorts() {
+		return false
+	}
+
+	if m.GetSelectedRoutes() != target.GetSelectedRoutes() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthPolicyReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthPolicyReport)
+	if !ok {
+		that2, ok := that.(ExtAuthPolicyReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedDestinationPorts()) != len(target.GetSelectedDestinationPorts()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedDestinationPorts() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedDestinationPorts()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedDestinationPorts()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedRoutes()) != len(target.GetSelectedRoutes()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedRoutes() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedRoutes()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedRoutes()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ExtAuthPolicySpec_Config) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil

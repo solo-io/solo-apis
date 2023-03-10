@@ -87,6 +87,10 @@ func (m *IstioClusterSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
+	if _, err = hasher.Write([]byte(m.GetTrustDomain())); err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -204,6 +208,38 @@ func (m *IstioLifecycleManagerStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			return 0, err
 		}
 
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *IstioLifecycleManagerNewStatus) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2.IstioLifecycleManagerNewStatus")); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *IstioLifecycleManagerReport) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2.IstioLifecycleManagerReport")); err != nil {
+		return 0, err
 	}
 
 	return hasher.Sum64(), nil

@@ -103,6 +103,62 @@ func (m *TransformationPolicyStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *TransformationPolicyNewStatus) Clone() proto.Message {
+	var target *TransformationPolicyNewStatus
+	if m == nil {
+		return target
+	}
+	target = &TransformationPolicyNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.SelectedRoutes = m.GetSelectedRoutes()
+
+	return target
+}
+
+// Clone function
+func (m *TransformationPolicyReport) Clone() proto.Message {
+	var target *TransformationPolicyReport
+	if m == nil {
+		return target
+	}
+	target = &TransformationPolicyReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetSelectedRoutes() != nil {
+		target.SelectedRoutes = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteReference, len(m.GetSelectedRoutes()))
+		for idx, v := range m.GetSelectedRoutes() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedRoutes[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteReference)
+			} else {
+				target.SelectedRoutes[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *TransformationPolicySpec_Config) Clone() proto.Message {
 	var target *TransformationPolicySpec_Config
 	if m == nil {

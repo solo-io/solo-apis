@@ -171,6 +171,77 @@ func (m *VirtualGatewayStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *VirtualGatewayNewStatus) Clone() proto.Message {
+	var target *VirtualGatewayNewStatus
+	if m == nil {
+		return target
+	}
+	target = &VirtualGatewayNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.RouteTablesCount = m.GetRouteTablesCount()
+
+	target.SelectedWorkloadsCount = m.GetSelectedWorkloadsCount()
+
+	return target
+}
+
+// Clone function
+func (m *VirtualGatewayReport) Clone() proto.Message {
+	var target *VirtualGatewayReport
+	if m == nil {
+		return target
+	}
+	target = &VirtualGatewayReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetAllowedRouteTables() != nil {
+		target.AllowedRouteTables = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference, len(m.GetAllowedRouteTables()))
+		for idx, v := range m.GetAllowedRouteTables() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AllowedRouteTables[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+			} else {
+				target.AllowedRouteTables[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+			}
+
+		}
+	}
+
+	if m.GetSelectedWorkloads() != nil {
+		target.SelectedWorkloads = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference, len(m.GetSelectedWorkloads()))
+		for idx, v := range m.GetSelectedWorkloads() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedWorkloads[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+			} else {
+				target.SelectedWorkloads[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *VirtualGatewaySpec_Listener) Clone() proto.Message {
 	var target *VirtualGatewaySpec_Listener
 	if m == nil {
@@ -288,6 +359,19 @@ func (m *VirtualGatewaySpec_Listener_RouteTableFilter) Clone() proto.Message {
 		target.Selector = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectSelector)
 	} else {
 		target.Selector = proto.Clone(m.GetSelector()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectSelector)
+	}
+
+	if m.GetAllowedRoutes() != nil {
+		target.AllowedRoutes = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter, len(m.GetAllowedRoutes()))
+		for idx, v := range m.GetAllowedRoutes() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AllowedRoutes[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter)
+			} else {
+				target.AllowedRoutes[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter)
+			}
+
+		}
 	}
 
 	return target

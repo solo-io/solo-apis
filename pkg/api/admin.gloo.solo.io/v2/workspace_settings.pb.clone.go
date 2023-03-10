@@ -122,6 +122,89 @@ func (m *WorkspaceSettingsStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *WorkspaceSettingsNewStatus) Clone() proto.Message {
+	var target *WorkspaceSettingsNewStatus
+	if m == nil {
+		return target
+	}
+	target = &WorkspaceSettingsNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	if h, ok := interface{}(m.GetWorkspace()).(clone.Cloner); ok {
+		target.Workspace = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+	} else {
+		target.Workspace = proto.Clone(m.GetWorkspace()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+	}
+
+	target.SelectedEastWestGateways = m.GetSelectedEastWestGateways()
+
+	target.FederatedServices = m.GetFederatedServices()
+
+	return target
+}
+
+// Clone function
+func (m *WorkspaceSettingsReport) Clone() proto.Message {
+	var target *WorkspaceSettingsReport
+	if m == nil {
+		return target
+	}
+	target = &WorkspaceSettingsReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetWorkspace()).(clone.Cloner); ok {
+		target.Workspace = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+	} else {
+		target.Workspace = proto.Clone(m.GetWorkspace()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+	}
+
+	if m.GetSelectedEastWestGateways() != nil {
+		target.SelectedEastWestGateways = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference, len(m.GetSelectedEastWestGateways()))
+		for idx, v := range m.GetSelectedEastWestGateways() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedEastWestGateways[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+			} else {
+				target.SelectedEastWestGateways[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+			}
+
+		}
+	}
+
+	if m.GetFederatedServices() != nil {
+		target.FederatedServices = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference, len(m.GetFederatedServices()))
+		for idx, v := range m.GetFederatedServices() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.FederatedServices[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+			} else {
+				target.FederatedServices[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector) Clone() proto.Message {
 	var target *WorkspaceSettingsSpec_WorkspaceObjectSelector
 	if m == nil {
@@ -196,6 +279,8 @@ func (m *WorkspaceSettingsSpec_Options) Clone() proto.Message {
 	} else {
 		target.VirtualDestClientMode = proto.Clone(m.GetVirtualDestClientMode()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ClientMode)
 	}
+
+	target.TrimAllProxyConfig = m.GetTrimAllProxyConfig()
 
 	return target
 }
@@ -306,6 +391,12 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Clone() proto.Me
 		target.Port = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
 	} else {
 		target.Port = proto.Clone(m.GetPort()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
+	}
+
+	if h, ok := interface{}(m.GetTlsTerminationPort()).(clone.Cloner); ok {
+		target.TlsTerminationPort = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
+	} else {
+		target.TlsTerminationPort = proto.Clone(m.GetTlsTerminationPort()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
 	}
 
 	if m.GetHostInfoOverrides() != nil {

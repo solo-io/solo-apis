@@ -63,6 +63,23 @@ func (m *AccessPolicySpec) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetApplyToWorkloads()) != len(target.GetApplyToWorkloads()) {
+		return false
+	}
+	for idx, v := range m.GetApplyToWorkloads() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApplyToWorkloads()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetApplyToWorkloads()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	if h, ok := interface{}(m.GetConfig()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetConfig()) {
 			return false
@@ -105,6 +122,102 @@ func (m *AccessPolicyStatus) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetGlobal(), target.GetGlobal()) {
 			return false
 		}
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedDestinationPorts()) != len(target.GetSelectedDestinationPorts()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedDestinationPorts() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedDestinationPorts()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedDestinationPorts()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessPolicyNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessPolicyNewStatus)
+	if !ok {
+		that2, ok := that.(AccessPolicyNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if m.GetSelectedDestinationPorts() != target.GetSelectedDestinationPorts() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessPolicyReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessPolicyReport)
+	if !ok {
+		that2, ok := that.(AccessPolicyReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
@@ -365,6 +478,28 @@ func (m *AccessPolicySpec_Config_Authorization) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetMatch(), target.GetMatch()) {
 			return false
 		}
+	}
+
+	if len(m.GetAllowedIpBlocks()) != len(target.GetAllowedIpBlocks()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedIpBlocks() {
+
+		if strings.Compare(v, target.GetAllowedIpBlocks()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetAllowedRemoteIpBlocks()) != len(target.GetAllowedRemoteIpBlocks()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedRemoteIpBlocks() {
+
+		if strings.Compare(v, target.GetAllowedRemoteIpBlocks()[idx]) != 0 {
+			return false
+		}
+
 	}
 
 	return true

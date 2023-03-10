@@ -116,6 +116,62 @@ func (m *WasmDeploymentPolicyStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *WasmDeploymentPolicyNewStatus) Clone() proto.Message {
+	var target *WasmDeploymentPolicyNewStatus
+	if m == nil {
+		return target
+	}
+	target = &WasmDeploymentPolicyNewStatus{}
+
+	if h, ok := interface{}(m.GetStatus()).(clone.Cloner); ok {
+		target.Status = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Status = proto.Clone(m.GetStatus()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.SelectedWorkloads = m.GetSelectedWorkloads()
+
+	return target
+}
+
+// Clone function
+func (m *WasmDeploymentPolicyReport) Clone() proto.Message {
+	var target *WasmDeploymentPolicyReport
+	if m == nil {
+		return target
+	}
+	target = &WasmDeploymentPolicyReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetSelectedWorkloads() != nil {
+		target.SelectedWorkloads = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkloadReference, len(m.GetSelectedWorkloads()))
+		for idx, v := range m.GetSelectedWorkloads() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedWorkloads[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkloadReference)
+			} else {
+				target.SelectedWorkloads[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkloadReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *WasmDeploymentPolicySpec_Config) Clone() proto.Message {
 	var target *WasmDeploymentPolicySpec_Config
 	if m == nil {

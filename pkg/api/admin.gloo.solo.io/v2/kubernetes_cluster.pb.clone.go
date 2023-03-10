@@ -56,3 +56,31 @@ func (m *KubernetesClusterStatus) Clone() proto.Message {
 
 	return target
 }
+
+// Clone function
+func (m *KubernetesClusterNewStatus) Clone() proto.Message {
+	var target *KubernetesClusterNewStatus
+	if m == nil {
+		return target
+	}
+	target = &KubernetesClusterNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *KubernetesClusterReport) Clone() proto.Message {
+	var target *KubernetesClusterReport
+	if m == nil {
+		return target
+	}
+	target = &KubernetesClusterReport{}
+
+	return target
+}

@@ -1,13 +1,17 @@
 syntax = "proto3";
-package resilience.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/resilience.policy.gloo.solo.io/v2";
 
+package resilience.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/keepalive.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/keepalive.proto";
-
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
 import "google/protobuf/duration.proto";
-import "extproto/ext.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/resilience.policy.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -35,6 +39,7 @@ message ConnectionPolicySpec {
       int32 max_connections = 2;
 
       // Sets the TCP connection timeout. It must be greater than or equal to 1ms.
+      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
       google.protobuf.Duration connect_timeout = 3;
     }
   }
@@ -49,4 +54,20 @@ message ConnectionPolicyStatus {
 
   // Destination ports selected by the policy
   repeated .common.gloo.solo.io.DestinationReference selected_destiantion_ports = 3;
+}
+
+// $hide_from_docs
+message ConnectionPolicyNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // Count of destination ports selected by this policy
+  uint32 selected_destination_ports = 2;
+}
+
+// $hide_from_docs
+message ConnectionPolicyReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // Destination ports selected by this policy
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
 }

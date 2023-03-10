@@ -48,6 +48,19 @@ func (m *AccessPolicySpec) Clone() proto.Message {
 		}
 	}
 
+	if m.GetApplyToWorkloads() != nil {
+		target.ApplyToWorkloads = make([]*AccessPolicySpec_NamespaceWorkloadSelector, len(m.GetApplyToWorkloads()))
+		for idx, v := range m.GetApplyToWorkloads() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ApplyToWorkloads[idx] = h.Clone().(*AccessPolicySpec_NamespaceWorkloadSelector)
+			} else {
+				target.ApplyToWorkloads[idx] = proto.Clone(v).(*AccessPolicySpec_NamespaceWorkloadSelector)
+			}
+
+		}
+	}
+
 	if h, ok := interface{}(m.GetConfig()).(clone.Cloner); ok {
 		target.Config = h.Clone().(*AccessPolicySpec_Config)
 	} else {
@@ -79,6 +92,62 @@ func (m *AccessPolicyStatus) Clone() proto.Message {
 				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus)
 			} else {
 				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus)
+			}
+
+		}
+	}
+
+	if m.GetSelectedDestinationPorts() != nil {
+		target.SelectedDestinationPorts = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference, len(m.GetSelectedDestinationPorts()))
+		for idx, v := range m.GetSelectedDestinationPorts() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedDestinationPorts[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			} else {
+				target.SelectedDestinationPorts[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *AccessPolicyNewStatus) Clone() proto.Message {
+	var target *AccessPolicyNewStatus
+	if m == nil {
+		return target
+	}
+	target = &AccessPolicyNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.SelectedDestinationPorts = m.GetSelectedDestinationPorts()
+
+	return target
+}
+
+// Clone function
+func (m *AccessPolicyReport) Clone() proto.Message {
+	var target *AccessPolicyReport
+	if m == nil {
+		return target
+	}
+	target = &AccessPolicyReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
 			}
 
 		}
@@ -222,6 +291,24 @@ func (m *AccessPolicySpec_Config_Authorization) Clone() proto.Message {
 		target.Match = h.Clone().(*AccessPolicySpec_Config_Authorization_MatchSpec)
 	} else {
 		target.Match = proto.Clone(m.GetMatch()).(*AccessPolicySpec_Config_Authorization_MatchSpec)
+	}
+
+	if m.GetAllowedIpBlocks() != nil {
+		target.AllowedIpBlocks = make([]string, len(m.GetAllowedIpBlocks()))
+		for idx, v := range m.GetAllowedIpBlocks() {
+
+			target.AllowedIpBlocks[idx] = v
+
+		}
+	}
+
+	if m.GetAllowedRemoteIpBlocks() != nil {
+		target.AllowedRemoteIpBlocks = make([]string, len(m.GetAllowedRemoteIpBlocks()))
+		for idx, v := range m.GetAllowedRemoteIpBlocks() {
+
+			target.AllowedRemoteIpBlocks[idx] = v
+
+		}
 	}
 
 	return target

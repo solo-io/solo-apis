@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package internal.gloo.solo.io;
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
+import "google/protobuf/struct.proto";
+
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/internal.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// PortalConfig is a internal representation of the user facing Portal resource.
+// It is used to provide configuration information for a single Portal backend.
+// The PortalConfig contains a list of all API resources that are exposed by the Portal,
+// the associated usage plans for each API, and all usage plans available
+// across the Portal.
+message PortalConfigSpec {
+
+  // Portal level metadata configured by the user in the user facing Portal resource as a JSON value.
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+  google.protobuf.Value portal_custom_metadata = 1 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
+
+  // The list of API resources that are exposed by the Portal.
+  repeated API apis = 2;
+
+  // The list of usage plans that are available across the Portal.
+  repeated UsagePlan usage_plans = 3;
+
+  // Reference to the Portal resource that this PortalConfig resource is derived from.
+  .common.gloo.solo.io.ObjectReference portal_ref = 4;
+
+  // The domains on which this Portal will be served. The Host header received by the
+  // Portal Web App will be matched to one of these domains in order to determine which Portal will be served.
+  repeated string domains = 5;
+
+  // TODO(jmhbh): Update this doc when we decide to support operation level usage plans.
+  // An API that is exposed by the Portal. API metadata is sourced from the
+  // referenced RouteTable and api_schema is a reference to the stitched API schema for the RouteTable.
+  // Also references a list of usage plan names that are associated with the API.
+  message API {
+    string title = 1;
+    string description = 2;
+    string terms_of_service = 3;
+    string contact = 4;
+    string license = 5;
+    .common.gloo.solo.io.ObjectReference api_schema = 6;
+    .common.gloo.solo.io.ObjectReference route_table = 7;
+    repeated UsagePlanRef usage_plans = 8;
+  }
+
+  // A usage plan contains a list of auth policies and one rate limit policy.
+  message UsagePlan {
+    string name = 1;
+    string display_name = 2;
+    string description = 3;
+
+    repeated AuthPolicy auth_policies = 4;
+    RateLimitPolicy rate_limit_policy = 5;
+  }
+
+  // Reference to a usage plan by name.
+  message UsagePlanRef {
+    string name = 1;
+  }
+
+  // An auth policy identified by its authentication type and contains a list of
+  // unique label selectors that are used to identify the set of clients that
+  // are authorized to use the auth policy.
+  message AuthPolicy {
+    AuthType auth_type = 1;
+    repeated AuthLabelSelector auth_label_selector = 2;
+  }
+
+  message AuthLabelSelector {
+    string key = 1;
+    string value = 2;
+  }
+
+  // AuthType is the type of authentication that is used to authorize clients.
+  enum AuthType {
+    API_KEY_AUTH = 0;
+    OIDC = 1;
+  }
+
+  message RateLimitPolicy {
+    Unit unit = 1;
+    uint32 requests_per_unit = 2;
+  }
+
+  enum Unit {
+    UNKNOWN = 0;
+    SECOND = 1;
+    MINUTE = 2;
+    HOUR = 3;
+    DAY = 4;
+  }
+}
+
+// reflects the status of the PortalConfig resource
+message PortalConfigStatus {
+
+  int64 observed_generation = 1;
+
+  // Any error observed which prevented the XdsConfig from being processed.
+  // If the error is empty, the request has been processed successfully.
+  string error = 2;
+}
+
+message PortalConfigNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+}
+
+message PortalConfigReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+}

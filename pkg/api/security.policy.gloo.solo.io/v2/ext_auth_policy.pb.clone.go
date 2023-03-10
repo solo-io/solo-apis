@@ -129,6 +129,77 @@ func (m *ExtAuthPolicyStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ExtAuthPolicyNewStatus) Clone() proto.Message {
+	var target *ExtAuthPolicyNewStatus
+	if m == nil {
+		return target
+	}
+	target = &ExtAuthPolicyNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.SelectedDestinationPorts = m.GetSelectedDestinationPorts()
+
+	target.SelectedRoutes = m.GetSelectedRoutes()
+
+	return target
+}
+
+// Clone function
+func (m *ExtAuthPolicyReport) Clone() proto.Message {
+	var target *ExtAuthPolicyReport
+	if m == nil {
+		return target
+	}
+	target = &ExtAuthPolicyReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetSelectedDestinationPorts() != nil {
+		target.SelectedDestinationPorts = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference, len(m.GetSelectedDestinationPorts()))
+		for idx, v := range m.GetSelectedDestinationPorts() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedDestinationPorts[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			} else {
+				target.SelectedDestinationPorts[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			}
+
+		}
+	}
+
+	if m.GetSelectedRoutes() != nil {
+		target.SelectedRoutes = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteReference, len(m.GetSelectedRoutes()))
+		for idx, v := range m.GetSelectedRoutes() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedRoutes[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteReference)
+			} else {
+				target.SelectedRoutes[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *ExtAuthPolicySpec_Config) Clone() proto.Message {
 	var target *ExtAuthPolicySpec_Config
 	if m == nil {

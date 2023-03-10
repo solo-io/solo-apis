@@ -109,3 +109,44 @@ func (m *RateLimitClientConfigStatus) Clone() proto.Message {
 
 	return target
 }
+
+// Clone function
+func (m *RateLimitClientConfigNewStatus) Clone() proto.Message {
+	var target *RateLimitClientConfigNewStatus
+	if m == nil {
+		return target
+	}
+	target = &RateLimitClientConfigNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *RateLimitClientConfigReport) Clone() proto.Message {
+	var target *RateLimitClientConfigReport
+	if m == nil {
+		return target
+	}
+	target = &RateLimitClientConfigReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	return target
+}

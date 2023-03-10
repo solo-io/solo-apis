@@ -13,6 +13,8 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
+
 	github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2"
 )
 
@@ -46,6 +48,12 @@ func (m *GraphQLStitchedSchemaSpec) Clone() proto.Message {
 			}
 
 		}
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
+		target.Options = h.Clone().(*GraphQLStitchedSchemaSpec_Options)
+	} else {
+		target.Options = proto.Clone(m.GetOptions()).(*GraphQLStitchedSchemaSpec_Options)
 	}
 
 	return target
@@ -88,18 +96,57 @@ func (m *GraphQLStitchedSchemaStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *GraphQLStitchedSchemaNewStatus) Clone() proto.Message {
+	var target *GraphQLStitchedSchemaNewStatus
+	if m == nil {
+		return target
+	}
+	target = &GraphQLStitchedSchemaNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.OwnerWorkspace = m.GetOwnerWorkspace()
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLStitchedSchemaReport) Clone() proto.Message {
+	var target *GraphQLStitchedSchemaReport
+	if m == nil {
+		return target
+	}
+	target = &GraphQLStitchedSchemaReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	target.OwnerWorkspace = m.GetOwnerWorkspace()
+
+	return target
+}
+
+// Clone function
 func (m *GraphQLStitchedSchemaSpec_Subschema) Clone() proto.Message {
 	var target *GraphQLStitchedSchemaSpec_Subschema
 	if m == nil {
 		return target
 	}
 	target = &GraphQLStitchedSchemaSpec_Subschema{}
-
-	if h, ok := interface{}(m.GetExecutableSubschema()).(clone.Cloner); ok {
-		target.ExecutableSubschema = h.Clone().(*ExecutableSchema)
-	} else {
-		target.ExecutableSubschema = proto.Clone(m.GetExecutableSubschema()).(*ExecutableSchema)
-	}
 
 	if m.GetTypeMerge() != nil {
 		target.TypeMerge = make(map[string]*GraphQLStitchedSchemaSpec_Subschema_TypeMergeConfig, len(m.GetTypeMerge()))
@@ -113,6 +160,47 @@ func (m *GraphQLStitchedSchemaSpec_Subschema) Clone() proto.Message {
 
 		}
 	}
+
+	switch m.GraphqlSchema.(type) {
+
+	case *GraphQLStitchedSchemaSpec_Subschema_Schema:
+
+		if h, ok := interface{}(m.GetSchema()).(clone.Cloner); ok {
+			target.GraphqlSchema = &GraphQLStitchedSchemaSpec_Subschema_Schema{
+				Schema: h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
+			}
+		} else {
+			target.GraphqlSchema = &GraphQLStitchedSchemaSpec_Subschema_Schema{
+				Schema: proto.Clone(m.GetSchema()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
+			}
+		}
+
+	case *GraphQLStitchedSchemaSpec_Subschema_StitchedSchema:
+
+		if h, ok := interface{}(m.GetStitchedSchema()).(clone.Cloner); ok {
+			target.GraphqlSchema = &GraphQLStitchedSchemaSpec_Subschema_StitchedSchema{
+				StitchedSchema: h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
+			}
+		} else {
+			target.GraphqlSchema = &GraphQLStitchedSchemaSpec_Subschema_StitchedSchema{
+				StitchedSchema: proto.Clone(m.GetStitchedSchema()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
+			}
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLStitchedSchemaSpec_Options) Clone() proto.Message {
+	var target *GraphQLStitchedSchemaSpec_Options
+	if m == nil {
+		return target
+	}
+	target = &GraphQLStitchedSchemaSpec_Options{}
+
+	target.EnableIntrospection = m.GetEnableIntrospection()
 
 	return target
 }

@@ -162,6 +162,102 @@ func (m *AccessLogPolicyStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *AccessLogPolicyNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessLogPolicyNewStatus)
+	if !ok {
+		that2, ok := that.(AccessLogPolicyNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if m.GetSelectedWorkloads() != target.GetSelectedWorkloads() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessLogPolicyReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessLogPolicyReport)
+	if !ok {
+		that2, ok := that.(AccessLogPolicyReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedWorkloads()) != len(target.GetSelectedWorkloads()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedWorkloads() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedWorkloads()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedWorkloads()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *AccessLogPolicySpec_Config) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil

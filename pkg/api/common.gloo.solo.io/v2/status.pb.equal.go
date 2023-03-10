@@ -251,6 +251,68 @@ func (m *K8SServiceStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *K8SServiceReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*K8SServiceReport)
+	if !ok {
+		that2, ok := that.(K8SServiceReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetAppliedDestinationPolicies()) != len(target.GetAppliedDestinationPolicies()) {
+		return false
+	}
+	for k, v := range m.GetAppliedDestinationPolicies() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAppliedDestinationPolicies()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetAppliedDestinationPolicies()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if strings.Compare(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
 func (m *GenericGlobalStatus) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil

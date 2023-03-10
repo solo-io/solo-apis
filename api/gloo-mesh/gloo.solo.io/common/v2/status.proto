@@ -1,14 +1,14 @@
 syntax = "proto3";
+
 package common.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
-
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
-
-import "google/protobuf/timestamp.proto";
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -62,6 +62,19 @@ message K8sServiceStatus {
   // Name of Workspace that owns K8s Service
   OwnerWorkspace owner_workspace = 4;
 
+}
+
+// $hide_from_docs
+message K8sServiceReport {
+  // The status of the kubernetes resource in each workspace that it exists in.
+  map<string, WorkspaceStatus> workspaces = 1;
+
+  // Map of policy GVK to policy references for all policies applied on this
+  // resource.
+  map<string, AppliedDestinationPortPolicies> applied_destination_policies = 2;
+
+  // Name of Workspace that owns K8s Service
+  string owner_workspace = 3;
 }
 
 message GenericGlobalStatus {

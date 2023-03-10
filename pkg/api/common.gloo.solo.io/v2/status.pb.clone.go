@@ -161,6 +161,45 @@ func (m *K8SServiceStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *K8SServiceReport) Clone() proto.Message {
+	var target *K8SServiceReport
+	if m == nil {
+		return target
+	}
+	target = &K8SServiceReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*WorkspaceStatus, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*WorkspaceStatus)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*WorkspaceStatus)
+			}
+
+		}
+	}
+
+	if m.GetAppliedDestinationPolicies() != nil {
+		target.AppliedDestinationPolicies = make(map[string]*AppliedDestinationPortPolicies, len(m.GetAppliedDestinationPolicies()))
+		for k, v := range m.GetAppliedDestinationPolicies() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AppliedDestinationPolicies[k] = h.Clone().(*AppliedDestinationPortPolicies)
+			} else {
+				target.AppliedDestinationPolicies[k] = proto.Clone(v).(*AppliedDestinationPortPolicies)
+			}
+
+		}
+	}
+
+	target.OwnerWorkspace = m.GetOwnerWorkspace()
+
+	return target
+}
+
+// Clone function
 func (m *GenericGlobalStatus) Clone() proto.Message {
 	var target *GenericGlobalStatus
 	if m == nil {

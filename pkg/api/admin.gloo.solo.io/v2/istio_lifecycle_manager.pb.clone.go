@@ -63,6 +63,8 @@ func (m *IstioClusterSelector) Clone() proto.Message {
 
 	target.DefaultRevision = m.GetDefaultRevision()
 
+	target.TrustDomain = m.GetTrustDomain()
+
 	return target
 }
 
@@ -118,6 +120,28 @@ func (m *IstioLifecycleManagerStatus) Clone() proto.Message {
 
 		}
 	}
+
+	return target
+}
+
+// Clone function
+func (m *IstioLifecycleManagerNewStatus) Clone() proto.Message {
+	var target *IstioLifecycleManagerNewStatus
+	if m == nil {
+		return target
+	}
+	target = &IstioLifecycleManagerNewStatus{}
+
+	return target
+}
+
+// Clone function
+func (m *IstioLifecycleManagerReport) Clone() proto.Message {
+	var target *IstioLifecycleManagerReport
+	if m == nil {
+		return target
+	}
+	target = &IstioLifecycleManagerReport{}
 
 	return target
 }

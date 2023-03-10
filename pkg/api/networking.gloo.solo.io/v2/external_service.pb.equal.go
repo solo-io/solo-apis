@@ -206,6 +206,144 @@ func (m *ExternalServiceStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *ExternalServiceNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExternalServiceNewStatus)
+	if !ok {
+		that2, ok := that.(ExternalServiceNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if len(m.GetAppliedDestinationPolicies()) != len(target.GetAppliedDestinationPolicies()) {
+		return false
+	}
+	for k, v := range m.GetAppliedDestinationPolicies() {
+
+		if v != target.GetAppliedDestinationPolicies()[k] {
+			return false
+		}
+
+	}
+
+	if m.GetSelectedExternalEndpoints() != target.GetSelectedExternalEndpoints() {
+		return false
+	}
+
+	if strings.Compare(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExternalServiceReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExternalServiceReport)
+	if !ok {
+		that2, ok := that.(ExternalServiceReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetAppliedDestinationPolicies()) != len(target.GetAppliedDestinationPolicies()) {
+		return false
+	}
+	for k, v := range m.GetAppliedDestinationPolicies() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAppliedDestinationPolicies()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetAppliedDestinationPolicies()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedExternalEndpoints()) != len(target.GetSelectedExternalEndpoints()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedExternalEndpoints() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedExternalEndpoints()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedExternalEndpoints()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetOwnerWorkspace()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOwnerWorkspace()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ExternalServiceSpec_Port) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -283,6 +421,22 @@ func (m *ExternalServiceSpec_Port_TlsConfig) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetSni(), target.GetSni()) != 0 {
+		return false
+	}
+
+	if m.GetMode() != target.GetMode() {
+		return false
+	}
+
+	if strings.Compare(m.GetClientCertificate(), target.GetClientCertificate()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetPrivateKey(), target.GetPrivateKey()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetCaCertificates(), target.GetCaCertificates()) != 0 {
 		return false
 	}
 

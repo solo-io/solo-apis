@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package apimanagement.gloo.solo.io;
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+
+// The ApiDoc resource represents an the schema of an API
+// served by a Destination (Service, ExternalService).
+// ApiDocs are typically created by Gloo Mesh Discovery running on the agent.
+// They can also be created manually by users.
+// The ApiDoc type is used to represent different types of API schema specification languages:
+// - OpenAPI
+// - gRPC
+// - GraphQL
+message ApiDocSpec {
+
+  // the type of schema this resource contains
+  oneof schema_type {
+    // OpenAPI schema
+    OpenAPISchema openapi = 1;
+
+    // gRPC schema
+    GrpcSchema grpc = 2;
+
+    // GraphQL schema
+    GraphQLSchema graphql = 3;
+  }
+
+  // the destinations that serve this API, if any.
+  // When manually creating an ApiDoc for a service that serves an OpenAPI or gRPC schema the destination selector
+  // field is required.
+  // A stitched OpenAPI schema for a set of routes exposed by a route table
+  // will have a reference to its corresponding route table.
+  repeated ServedBy served_by = 4;
+
+  message ServedBy {
+    oneof served_by_type {
+      .common.gloo.solo.io.DestinationSelector destination_selector = 1;
+      .common.gloo.solo.io.ObjectReference route_table = 2;
+    }
+  }
+
+  // a complete openapi schema describing the API
+  message OpenAPISchema {
+    // inline string containing the OpenAPI schema
+    string inline_string = 1;
+  }
+
+  // a complete grpc schema describing the API
+  // @exclude TODO(Api-team)- unimplemented in Gloo Mesh 2.1
+  message GrpcSchema {
+    // Protobuf Descriptors that represent the gRPC services provided by the API.
+    // this is a serialized base64-encoded google.protobuf.FileDescriptorSet
+    bytes descriptors = 1;
+
+  }
+
+  // The GraphQLSchema resource is responsible for providing the schema definition
+  // in GraphQL SDL format. It also has logging options for logging sensitive request-related information.
+  // And schema extension configuration such as custom type definitions.
+  message GraphQLSchema {
+    // Required: GraphQL Schema Definition. Root-level Query and Mutation types are supported, while the Subscription type is not
+    // yet supported.
+    string schema_definition = 1;
+  }
+
+  /* <!--todo(API-team)-->
+  // Extensions such as Custom Types, which are contained in their own CRD.
+  repeated .common.gloo.solo.io.ObjectReference schema_extensions = 5;
+  */
+
+}
+
+message ApiDocStatus {
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Name of Workspace that owns the api schema
+  .common.gloo.solo.io.OwnerWorkspace owner_workspace = 3;
+
+  // List of destinations serving the API
+  repeated .common.gloo.solo.io.DestinationReference serving_destinations = 4;
+}
+
+// $hide_from_docs
+message ApiDocNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // Name of workspace that owns the graphql schema
+  string owner_workspace = 2;
+
+  uint32 selected_serving_destinations = 3;
+}
+
+// $hide_from_docs
+message ApiDocReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // Name of Workspace that owns the graqphql schema
+  string owner_workspace = 2;
+
+  repeated .common.gloo.solo.io.DestinationReference serving_destinations = 3;
+}

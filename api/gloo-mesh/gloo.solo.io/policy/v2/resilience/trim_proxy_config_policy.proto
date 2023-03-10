@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package resilience.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/resilience.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Use the TrimConfigProxyPolicy to select workloads and their corresponding allowed destinations. Then, the Istio
+// sidecar of the workloads keeps only the configuration of those allowed destinations instead of all the destinations
+// in the Istio service mesh. Otherwise, the extra config can lead to memory pressure issues.
+message TrimProxyConfigPolicySpec {
+
+  // Select the workloads for the policy to trim the Istio sidecar config. If omitted, all workloads are selected.
+  repeated .common.gloo.solo.io.WorkloadSelector apply_to_workloads = 1;
+
+
+  // Trim Proxy Config
+  Config config = 2;
+
+  message Config {
+
+    // Select which destinations to include in the trimmed sidecar proxy configuration of the workloads that this policy
+    // applies to. You can select destinations by Kubernetes label. Destinations can be a Kubernetes service,
+    // VirtualDestination, or ExternalService. To select all destinations, specify {}. If omitted or if the selection
+    // does not match any destination, no destinations are selected and the sidecar proxy configurations of the
+    // workloads are not trimmed. The destinations must be within the same workspace as the policy, or imported to the
+    // workspace.
+    repeated .common.gloo.solo.io.DestinationSelector included_destinations = 1;
+
+  }
+
+}
+
+// $hide_from_docs
+message TrimProxyConfigPolicyStatus {
+  // TODO(fernandosanchezs): removing this proto causes the following error: generate.go:49: getting root message:
+  //  getting message: message resilience.policy.gloo.solo.io/[TrimProxyConfigPolicyStatus] not found in provided protos
+}
+
+// $hide_from_docs
+message TrimProxyConfigPolicyReport {
+  // TODO(fernandosanchezs): removing this proto causes an error: #21 1.162 pkg/api/resilience.policy.gloo.solo.io/v2/report_types.go:25:10: undefined: TrimProxyConfigPolicyReport
+  //  #21 1.194 make: *** [Makefile:221: _output/mgmt-server-linux-arm64] Error 2
+}

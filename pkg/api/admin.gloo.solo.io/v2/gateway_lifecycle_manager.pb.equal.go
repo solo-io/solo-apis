@@ -95,6 +95,10 @@ func (m *GatewayClusterSelector) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetTrustDomain(), target.GetTrustDomain()) != 0 {
+		return false
+	}
+
 	return true
 }
 
@@ -193,6 +197,54 @@ func (m *GatewayLifecycleManagerStatus) Equal(that interface{}) bool {
 			}
 		}
 
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GatewayLifecycleManagerNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GatewayLifecycleManagerNewStatus)
+	if !ok {
+		that2, ok := that.(GatewayLifecycleManagerNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GatewayLifecycleManagerReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GatewayLifecycleManagerReport)
+	if !ok {
+		that2, ok := that.(GatewayLifecycleManagerReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	return true

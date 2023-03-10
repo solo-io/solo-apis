@@ -26,47 +26,6 @@ var (
 )
 
 // Clone function
-func (m *ObjectReference) Clone() proto.Message {
-	var target *ObjectReference
-	if m == nil {
-		return target
-	}
-	target = &ObjectReference{}
-
-	target.Name = m.GetName()
-
-	target.Namespace = m.GetNamespace()
-
-	target.Cluster = m.GetCluster()
-
-	return target
-}
-
-// Clone function
-func (m *ObjectReferenceList) Clone() proto.Message {
-	var target *ObjectReferenceList
-	if m == nil {
-		return target
-	}
-	target = &ObjectReferenceList{}
-
-	if m.GetRefs() != nil {
-		target.Refs = make([]*ObjectReference, len(m.GetRefs()))
-		for idx, v := range m.GetRefs() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Refs[idx] = h.Clone().(*ObjectReference)
-			} else {
-				target.Refs[idx] = proto.Clone(v).(*ObjectReference)
-			}
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
 func (m *ObjectSelector) Clone() proto.Message {
 	var target *ObjectSelector
 	if m == nil {
@@ -90,42 +49,6 @@ func (m *ObjectSelector) Clone() proto.Message {
 	target.Cluster = m.GetCluster()
 
 	target.Workspace = m.GetWorkspace()
-
-	return target
-}
-
-// Clone function
-func (m *DestinationReference) Clone() proto.Message {
-	var target *DestinationReference
-	if m == nil {
-		return target
-	}
-	target = &DestinationReference{}
-
-	if h, ok := interface{}(m.GetRef()).(clone.Cloner); ok {
-		target.Ref = h.Clone().(*ObjectReference)
-	} else {
-		target.Ref = proto.Clone(m.GetRef()).(*ObjectReference)
-	}
-
-	target.Kind = m.GetKind()
-
-	if h, ok := interface{}(m.GetPort()).(clone.Cloner); ok {
-		target.Port = h.Clone().(*PortSelector)
-	} else {
-		target.Port = proto.Clone(m.GetPort()).(*PortSelector)
-	}
-
-	if m.GetSubset() != nil {
-		target.Subset = make(map[string]string, len(m.GetSubset()))
-		for k, v := range m.GetSubset() {
-
-			target.Subset[k] = v
-
-		}
-	}
-
-	target.Weight = m.GetWeight()
 
 	return target
 }
@@ -164,9 +87,9 @@ func (m *RouteDestinationSelector) Clone() proto.Message {
 	target = &RouteDestinationSelector{}
 
 	if h, ok := interface{}(m.GetRoute()).(clone.Cloner); ok {
-		target.Route = h.Clone().(*ObjectSelector)
+		target.Route = h.Clone().(*RouteLabelSelector)
 	} else {
-		target.Route = proto.Clone(m.GetRoute()).(*ObjectSelector)
+		target.Route = proto.Clone(m.GetRoute()).(*RouteLabelSelector)
 	}
 
 	if m.GetOnDestinations() != nil {
@@ -186,6 +109,34 @@ func (m *RouteDestinationSelector) Clone() proto.Message {
 }
 
 // Clone function
+func (m *RouteLabelSelector) Clone() proto.Message {
+	var target *RouteLabelSelector
+	if m == nil {
+		return target
+	}
+	target = &RouteLabelSelector{}
+
+	if m.GetLabels() != nil {
+		target.Labels = make(map[string]string, len(m.GetLabels()))
+		for k, v := range m.GetLabels() {
+
+			target.Labels[k] = v
+
+		}
+	}
+
+	target.Name = m.GetName()
+
+	target.Namespace = m.GetNamespace()
+
+	target.Cluster = m.GetCluster()
+
+	target.Workspace = m.GetWorkspace()
+
+	return target
+}
+
+// Clone function
 func (m *RouteSelector) Clone() proto.Message {
 	var target *RouteSelector
 	if m == nil {
@@ -199,11 +150,11 @@ func (m *RouteSelector) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetRoute()).(clone.Cloner); ok {
 			target.SelectorType = &RouteSelector_Route{
-				Route: h.Clone().(*ObjectSelector),
+				Route: h.Clone().(*RouteLabelSelector),
 			}
 		} else {
 			target.SelectorType = &RouteSelector_Route{
-				Route: proto.Clone(m.GetRoute()).(*ObjectSelector),
+				Route: proto.Clone(m.GetRoute()).(*RouteLabelSelector),
 			}
 		}
 
@@ -219,6 +170,23 @@ func (m *RouteSelector) Clone() proto.Message {
 			}
 		}
 
+	}
+
+	return target
+}
+
+// Clone function
+func (m *RouteFilter) Clone() proto.Message {
+	var target *RouteFilter
+	if m == nil {
+		return target
+	}
+	target = &RouteFilter{}
+
+	if h, ok := interface{}(m.GetCloudProvider()).(clone.Cloner); ok {
+		target.CloudProvider = h.Clone().(*CloudProviderFilterOptions)
+	} else {
+		target.CloudProvider = proto.Clone(m.GetCloudProvider()).(*CloudProviderFilterOptions)
 	}
 
 	return target
@@ -314,50 +282,6 @@ func (m *WorkspaceSelector) Clone() proto.Message {
 		for k, v := range m.GetSelector() {
 
 			target.Selector[k] = v
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *LabelSelector) Clone() proto.Message {
-	var target *LabelSelector
-	if m == nil {
-		return target
-	}
-	target = &LabelSelector{}
-
-	if m.GetSelector() != nil {
-		target.Selector = make(map[string]string, len(m.GetSelector()))
-		for k, v := range m.GetSelector() {
-
-			target.Selector[k] = v
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *LabelSelectorRequirement) Clone() proto.Message {
-	var target *LabelSelectorRequirement
-	if m == nil {
-		return target
-	}
-	target = &LabelSelectorRequirement{}
-
-	target.Key = m.GetKey()
-
-	target.Operator = m.GetOperator()
-
-	if m.GetValues() != nil {
-		target.Values = make([]string, len(m.GetValues()))
-		for idx, v := range m.GetValues() {
-
-			target.Values[idx] = v
 
 		}
 	}

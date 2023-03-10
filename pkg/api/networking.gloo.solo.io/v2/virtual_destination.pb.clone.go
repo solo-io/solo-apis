@@ -155,6 +155,86 @@ func (m *VirtualDestinationStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *VirtualDestinationNewStatus) Clone() proto.Message {
+	var target *VirtualDestinationNewStatus
+	if m == nil {
+		return target
+	}
+	target = &VirtualDestinationNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	if m.GetAppliedDestinationPolicies() != nil {
+		target.AppliedDestinationPolicies = make(map[string]uint32, len(m.GetAppliedDestinationPolicies()))
+		for k, v := range m.GetAppliedDestinationPolicies() {
+
+			target.AppliedDestinationPolicies[k] = v
+
+		}
+	}
+
+	target.SelectedBackingServices = m.GetSelectedBackingServices()
+
+	target.OwnerWorkspace = m.GetOwnerWorkspace()
+
+	return target
+}
+
+// Clone function
+func (m *VirtualDestinationReport) Clone() proto.Message {
+	var target *VirtualDestinationReport
+	if m == nil {
+		return target
+	}
+	target = &VirtualDestinationReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetAppliedDestinationPolicies() != nil {
+		target.AppliedDestinationPolicies = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.AppliedDestinationPortPolicies, len(m.GetAppliedDestinationPolicies()))
+		for k, v := range m.GetAppliedDestinationPolicies() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AppliedDestinationPolicies[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.AppliedDestinationPortPolicies)
+			} else {
+				target.AppliedDestinationPolicies[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.AppliedDestinationPortPolicies)
+			}
+
+		}
+	}
+
+	if m.GetSelectedBackingServices() != nil {
+		target.SelectedBackingServices = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference, len(m.GetSelectedBackingServices()))
+		for idx, v := range m.GetSelectedBackingServices() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedBackingServices[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			} else {
+				target.SelectedBackingServices[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *VirtualDestinationSpec_PortMapping) Clone() proto.Message {
 	var target *VirtualDestinationSpec_PortMapping
 	if m == nil {

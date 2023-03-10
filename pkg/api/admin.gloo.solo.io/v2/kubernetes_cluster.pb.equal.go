@@ -86,3 +86,61 @@ func (m *KubernetesClusterStatus) Equal(that interface{}) bool {
 
 	return true
 }
+
+// Equal function
+func (m *KubernetesClusterNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*KubernetesClusterNewStatus)
+	if !ok {
+		that2, ok := that.(KubernetesClusterNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *KubernetesClusterReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*KubernetesClusterReport)
+	if !ok {
+		that2, ok := that.(KubernetesClusterReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}

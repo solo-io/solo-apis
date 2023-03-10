@@ -127,6 +127,77 @@ func (m *RateLimitPolicyStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *RateLimitPolicyNewStatus) Clone() proto.Message {
+	var target *RateLimitPolicyNewStatus
+	if m == nil {
+		return target
+	}
+	target = &RateLimitPolicyNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.SelectedDestinationPorts = m.GetSelectedDestinationPorts()
+
+	target.SelectedRoutes = m.GetSelectedRoutes()
+
+	return target
+}
+
+// Clone function
+func (m *RateLimitPolicyReport) Clone() proto.Message {
+	var target *RateLimitPolicyReport
+	if m == nil {
+		return target
+	}
+	target = &RateLimitPolicyReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetSelectedDestinationPorts() != nil {
+		target.SelectedDestinationPorts = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference, len(m.GetSelectedDestinationPorts()))
+		for idx, v := range m.GetSelectedDestinationPorts() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedDestinationPorts[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			} else {
+				target.SelectedDestinationPorts[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			}
+
+		}
+	}
+
+	if m.GetSelectedRoutes() != nil {
+		target.SelectedRoutes = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteReference, len(m.GetSelectedRoutes()))
+		for idx, v := range m.GetSelectedRoutes() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedRoutes[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteReference)
+			} else {
+				target.SelectedRoutes[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *RateLimitPolicySpec_Config) Clone() proto.Message {
 	var target *RateLimitPolicySpec_Config
 	if m == nil {

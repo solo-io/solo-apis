@@ -63,6 +63,8 @@ func (m *GatewayClusterSelector) Clone() proto.Message {
 
 	target.ActiveGateway = m.GetActiveGateway()
 
+	target.TrustDomain = m.GetTrustDomain()
+
 	return target
 }
 
@@ -120,6 +122,28 @@ func (m *GatewayLifecycleManagerStatus) Clone() proto.Message {
 
 		}
 	}
+
+	return target
+}
+
+// Clone function
+func (m *GatewayLifecycleManagerNewStatus) Clone() proto.Message {
+	var target *GatewayLifecycleManagerNewStatus
+	if m == nil {
+		return target
+	}
+	target = &GatewayLifecycleManagerNewStatus{}
+
+	return target
+}
+
+// Clone function
+func (m *GatewayLifecycleManagerReport) Clone() proto.Message {
+	var target *GatewayLifecycleManagerReport
+	if m == nil {
+		return target
+	}
+	target = &GatewayLifecycleManagerReport{}
 
 	return target
 }

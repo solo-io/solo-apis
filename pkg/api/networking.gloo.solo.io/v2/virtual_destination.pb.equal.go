@@ -217,6 +217,134 @@ func (m *VirtualDestinationStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *VirtualDestinationNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*VirtualDestinationNewStatus)
+	if !ok {
+		that2, ok := that.(VirtualDestinationNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if len(m.GetAppliedDestinationPolicies()) != len(target.GetAppliedDestinationPolicies()) {
+		return false
+	}
+	for k, v := range m.GetAppliedDestinationPolicies() {
+
+		if v != target.GetAppliedDestinationPolicies()[k] {
+			return false
+		}
+
+	}
+
+	if m.GetSelectedBackingServices() != target.GetSelectedBackingServices() {
+		return false
+	}
+
+	if strings.Compare(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *VirtualDestinationReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*VirtualDestinationReport)
+	if !ok {
+		that2, ok := that.(VirtualDestinationReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetAppliedDestinationPolicies()) != len(target.GetAppliedDestinationPolicies()) {
+		return false
+	}
+	for k, v := range m.GetAppliedDestinationPolicies() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAppliedDestinationPolicies()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetAppliedDestinationPolicies()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedBackingServices()) != len(target.GetSelectedBackingServices()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedBackingServices() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedBackingServices()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedBackingServices()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *VirtualDestinationSpec_PortMapping) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil

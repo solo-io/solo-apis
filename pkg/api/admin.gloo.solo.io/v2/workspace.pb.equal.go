@@ -238,6 +238,224 @@ func (m *WorkspaceStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *WorkspaceNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*WorkspaceNewStatus)
+	if !ok {
+		that2, ok := that.(WorkspaceNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetWorkspaceSettings()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetWorkspaceSettings()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetWorkspaceSettings(), target.GetWorkspaceSettings()) {
+			return false
+		}
+	}
+
+	if m.GetSelectedClusters() != target.GetSelectedClusters() {
+		return false
+	}
+
+	if m.GetSelectedNamespaces() != target.GetSelectedNamespaces() {
+		return false
+	}
+
+	if len(m.GetResources()) != len(target.GetResources()) {
+		return false
+	}
+	for k, v := range m.GetResources() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetResources()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetResources()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetPolicyCounts()) != len(target.GetPolicyCounts()) {
+		return false
+	}
+	for k, v := range m.GetPolicyCounts() {
+
+		if v != target.GetPolicyCounts()[k] {
+			return false
+		}
+
+	}
+
+	if len(m.GetDestinationCounts()) != len(target.GetDestinationCounts()) {
+		return false
+	}
+	for k, v := range m.GetDestinationCounts() {
+
+		if v != target.GetDestinationCounts()[k] {
+			return false
+		}
+
+	}
+
+	if m.GetImportedWorkspaces() != target.GetImportedWorkspaces() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *WorkspaceReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*WorkspaceReport)
+	if !ok {
+		that2, ok := that.(WorkspaceReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetReport()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetReport()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetReport(), target.GetReport()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetWorkspaceSettings()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetWorkspaceSettings()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetWorkspaceSettings(), target.GetWorkspaceSettings()) {
+			return false
+		}
+	}
+
+	if len(m.GetSelectedClusters()) != len(target.GetSelectedClusters()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedClusters() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedClusters()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedClusters()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetResources()) != len(target.GetResources()) {
+		return false
+	}
+	for k, v := range m.GetResources() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetResources()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetResources()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetPolicyCounts()) != len(target.GetPolicyCounts()) {
+		return false
+	}
+	for k, v := range m.GetPolicyCounts() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetPolicyCounts()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetPolicyCounts()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetDestinationCounts()) != len(target.GetDestinationCounts()) {
+		return false
+	}
+	for k, v := range m.GetDestinationCounts() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetDestinationCounts()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetDestinationCounts()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetImportedWorkspaces()) != len(target.GetImportedWorkspaces()) {
+		return false
+	}
+	for idx, v := range m.GetImportedWorkspaces() {
+
+		if strings.Compare(v, target.GetImportedWorkspaces()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ClusterSelector_NamespaceSelector) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -464,6 +682,176 @@ func (m *WorkspaceStatus_Private) Equal(that interface{}) bool {
 	target, ok := that.(*WorkspaceStatus_Private)
 	if !ok {
 		that2, ok := that.(WorkspaceStatus_Private)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetObjectReferences()) != len(target.GetObjectReferences()) {
+		return false
+	}
+	for idx, v := range m.GetObjectReferences() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetObjectReferences()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetObjectReferences()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *WorkspaceNewStatus_SourceType) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*WorkspaceNewStatus_SourceType)
+	if !ok {
+		that2, ok := that.(WorkspaceNewStatus_SourceType)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetImported() != target.GetImported() {
+		return false
+	}
+
+	if m.GetExported() != target.GetExported() {
+		return false
+	}
+
+	if m.GetPrivate() != target.GetPrivate() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *WorkspaceReport_SelectedCluster) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*WorkspaceReport_SelectedCluster)
+	if !ok {
+		that2, ok := that.(WorkspaceReport_SelectedCluster)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetName(), target.GetName()) != 0 {
+		return false
+	}
+
+	if len(m.GetNamespaces()) != len(target.GetNamespaces()) {
+		return false
+	}
+	for idx, v := range m.GetNamespaces() {
+
+		if strings.Compare(v, target.GetNamespaces()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *WorkspaceReport_SourceType) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*WorkspaceReport_SourceType)
+	if !ok {
+		that2, ok := that.(WorkspaceReport_SourceType)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetImported()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetImported()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetImported(), target.GetImported()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetExported()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetExported()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetExported(), target.GetExported()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetPrivate()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetPrivate()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetPrivate(), target.GetPrivate()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *WorkspaceReport_ObjectReferences) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*WorkspaceReport_ObjectReferences)
+	if !ok {
+		that2, ok := that.(WorkspaceReport_ObjectReferences)
 		if ok {
 			target = &that2
 		} else {
