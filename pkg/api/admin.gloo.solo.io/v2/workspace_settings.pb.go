@@ -214,19 +214,92 @@ type WorkspaceSettingsSpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Currently the following types of objects can be imported across workspaces: Kubernetes services, virtual destinations, external destinations, route tables,
-	// API schemas, and GraphQL resolver maps.
-	// You can select workspace using labels, such as setting `importFrom.workspaces.selector` to `team: backend`.
-	// Or select workspace name using exact name match, such as setting `importFrom.workspaces.name` to `backend`.
-	// Or select workspace using labels and name using simple regex, such as setting `importFrom.workspaces.selector` to `team: backend` and `importFrom.workspaces.name` to `backend*`.
+	// Select the workspaces whose objects will be imported into this workspace.
+	// Objects must both be exported by the workspace that is being imported and imported into this workspace in order to be shared across workspaces.
+	// Imported objects allow the creation of routes and outbound-communication from one workspace to another.
+	// Currently the following types of objects can be imported across workspaces:
+	// - kubernetes services
+	// - virtual destinations
+	// - external destinations
+	// - route tables
+	// - API schemas
+	// - GraphQL resolver maps
+	// You can select workspace using labels, for example:
+	// ```yaml
+	//     importFrom:
+	//       - workspaces:
+	//         - selector:
+	//             team: backend
+	//         services:
+	//         - {} # select all services
+	// ```
+	// Or select workspace name using exact name match, for example:
+	// ```yaml
+	//     importFrom:
+	//       # import all importable objects from the workspace named "backend"
+	//       - workspaces:
+	//         - name: backend
+	//```
+	// Or select workspace using labels and name using simple regex, for example:
+	// ```yaml
+	//     importFrom:
+	//       - workspaces:
+	//         - selector:
+	//             team: backend
+	//           name: backend*
+	//```
+	// Or select workspace name using labels or select name using simple regex, for example:
+	// ```yaml
+	//     importFrom:
+	//       - workspaces:
+	//         - selector:
+	//             team: backend
+	//         - name: backend
+	//```
 	ImportFrom []*WorkspaceSettingsSpec_WorkspaceObjectSelector `protobuf:"bytes,1,rep,name=importFrom,proto3" json:"importFrom,omitempty"`
-	// Currently the following types of objects can be exported across workspaces: Kubernetes services, virtual destinations, external destinations, route tables,
-	// API schemas, and GraphQL resolver maps.
-	// You can select workspace using labels, such as setting `exportTo.workspaces.selector` to `team: backend`.
-	// Or select workspace name using exact name match, such as setting `exportTo.workspaces.name` to `backend`.
-	// Or exportTo all other workspaces, such as setting `exportTo.workspaces.name` to `*`.
-	// Or select workspace using labels and name using simple regex, such as setting `exportTo.workspaces.selector` to `team: backend` and `team: backend*`.
-	// Or select workspace name using labels or select name using simple regex, such as setting `exportTo.workspaces.selector` to `team: backend` and `exportTo.workspaces.name` to `backend`.
+	// A workspace can specify resources to export for use by other workspaces.
+	// Currently the following types of objects can be exported across workspaces:
+	// - Kubernetes services
+	// - virtual destinations
+	// - external destinations
+	// - route tables
+	// - API schemas
+	// - GraphQL resolver maps
+	// You can select workspace using labels, for example:
+	// ```yaml
+	//     exportTo:
+	//       - workspaces:
+	//         - selector:
+	//             team: backend
+	// ```
+	// Or select workspace name using exact name match, for example:
+	// ```yaml
+	//     exportTo:
+	//       - workspaces:
+	//         - name: backend
+	//```
+	// Or exportTo all other workspaces, for example:
+	// ```yaml
+	//     exportTo:
+	//       - workspaces:
+	//         - name: *
+	//```
+	// Or select workspace using labels and name using simple regex, for example:
+	// ```yaml
+	//     exportTo:
+	//       - workspaces:
+	//         - selector:
+	//             team: backend
+	//             name: backend*
+	//```
+	// Or select workspace name using labels or select name using simple regex, for example:
+	// ```yaml
+	//     exportTo:
+	//       - workspaces:
+	//          - selector:
+	//              team: backend
+	//          - name: backend
+	//```
 	ExportTo []*WorkspaceSettingsSpec_WorkspaceObjectSelector `protobuf:"bytes,2,rep,name=exportTo,proto3" json:"exportTo,omitempty"`
 	// Options for configuring the workspace as a whole.
 	Options *WorkspaceSettingsSpec_Options `protobuf:"bytes,3,opt,name=options,proto3" json:"options,omitempty"`
@@ -527,7 +600,14 @@ type WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector struct {
 
 	// the type of the resource to import or export.
 	// The type must be a valid importable/exportable Kubernetes or Gloo Mesh resource type.
-	// Supported types: `RouteTable`, `Service`, `VirtualDestination`, `ExternalService`, `APISchema`, `GraphQLResolverMap`, `All` (all types).
+	// Supported types:
+	// - `RouteTable`
+	// - `Service`
+	// - `VirtualDestination`
+	// - `ExternalService`
+	// - `APISchema`
+	// - `GraphQLResolverMap`
+	// - `All` (all types)
 	Kind WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind `protobuf:"varint,1,opt,name=kind,proto3,enum=admin.gloo.solo.io.WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind" json:"kind,omitempty"`
 	// labels matching those of the object
 	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`

@@ -188,5 +188,13 @@ func (m *ExternalServiceSpec_Port_TlsConfig) Clone() proto.Message {
 
 	target.Sni = m.GetSni()
 
+	target.Mode = m.GetMode()
+
+	target.ClientCertificate = m.GetClientCertificate()
+
+	target.PrivateKey = m.GetPrivateKey()
+
+	target.CaCertificates = m.GetCaCertificates()
+
 	return target
 }
