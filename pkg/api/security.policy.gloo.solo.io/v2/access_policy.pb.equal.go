@@ -384,6 +384,28 @@ func (m *AccessPolicySpec_Config_Authorization) Equal(that interface{}) bool {
 		}
 	}
 
+	if len(m.GetAllowedIpBlocks()) != len(target.GetAllowedIpBlocks()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedIpBlocks() {
+
+		if strings.Compare(v, target.GetAllowedIpBlocks()[idx]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetAllowedRemoteIpBlocks()) != len(target.GetAllowedRemoteIpBlocks()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedRemoteIpBlocks() {
+
+		if strings.Compare(v, target.GetAllowedRemoteIpBlocks()[idx]) != 0 {
+			return false
+		}
+
+	}
+
 	return true
 }
 

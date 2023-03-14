@@ -124,6 +124,19 @@ message AccessPolicySpec {
              */
             MatchSpec match = 4;
 
+            // Optional. A list of IP blocks, populated from the source address of the IP packet.
+            // Single IP (e.g. “1.2.3.4”) and CIDR (e.g. “1.2.3.0/24”) are supported. If not set,
+            // any IP is allowed.
+            repeated string allowed_ip_blocks = 5;
+
+            // Optional. A list of IP blocks, populated from X-Forwarded-For header or proxy protocol.
+            // To make use of this field, you must configure the numTrustedProxies field of the
+            // gatewayTopology under the meshConfig when you install Istio or using an annotation
+            // on the ingress gateway. See the documentation here: Configuring Gateway Network Topology.
+            // Single IP (e.g. “1.2.3.4”) and CIDR (e.g. “1.2.3.0/24”) are supported. This is the same
+            // as the remote.ip attribute. If not set, any IP is allowed.
+            repeated string allowed_remote_ip_blocks = 6;
+
             // allows specification of request conditions
             message MatchSpec {
 

@@ -180,17 +180,17 @@ func (m *VariableTransformation) Equal(that interface{}) bool {
 			return false
 		}
 
-	case *VariableTransformation_Value:
-		if _, ok := target.Transformation.(*VariableTransformation_Value); !ok {
+	case *VariableTransformation_Json:
+		if _, ok := target.Transformation.(*VariableTransformation_Json); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetValue()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetValue()) {
+		if h, ok := interface{}(m.GetJson()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetJson()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetValue(), target.GetValue()) {
+			if !proto.Equal(m.GetJson(), target.GetJson()) {
 				return false
 			}
 		}
@@ -291,17 +291,17 @@ func (m *Extraction) Equal(that interface{}) bool {
 			}
 		}
 
-	case *Extraction_JsonValue:
-		if _, ok := target.ExtractionType.(*Extraction_JsonValue); !ok {
+	case *Extraction_Json:
+		if _, ok := target.ExtractionType.(*Extraction_Json); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetJsonValue()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetJsonValue()) {
+		if h, ok := interface{}(m.GetJson()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetJson()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetJsonValue(), target.GetJsonValue()) {
+			if !proto.Equal(m.GetJson(), target.GetJson()) {
 				return false
 			}
 		}
@@ -1006,17 +1006,17 @@ func (m *ExecutableSchema_GraphQLServer_RequestExtraction) Equal(that interface{
 			return false
 		}
 
-	case *ExecutableSchema_GraphQLServer_RequestExtraction_JsonValue:
-		if _, ok := target.Extraction.(*ExecutableSchema_GraphQLServer_RequestExtraction_JsonValue); !ok {
+	case *ExecutableSchema_GraphQLServer_RequestExtraction_Json:
+		if _, ok := target.Extraction.(*ExecutableSchema_GraphQLServer_RequestExtraction_Json); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetJsonValue()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetJsonValue()) {
+		if h, ok := interface{}(m.GetJson()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetJson()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetJsonValue(), target.GetJsonValue()) {
+			if !proto.Equal(m.GetJson(), target.GetJson()) {
 				return false
 			}
 		}

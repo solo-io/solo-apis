@@ -191,20 +191,20 @@ func (m *VariableTransformation) Hash(hasher hash.Hash64) (uint64, error) {
 			return 0, err
 		}
 
-	case *VariableTransformation_Value:
+	case *VariableTransformation_Json:
 
-		if h, ok := interface{}(m.GetValue()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Value")); err != nil {
+		if h, ok := interface{}(m.GetJson()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Json")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetValue(), nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetJson(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Value")); err != nil {
+				if _, err = hasher.Write([]byte("Json")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -311,20 +311,20 @@ func (m *Extraction) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *Extraction_JsonValue:
+	case *Extraction_Json:
 
-		if h, ok := interface{}(m.GetJsonValue()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("JsonValue")); err != nil {
+		if h, ok := interface{}(m.GetJson()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Json")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetJsonValue(), nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetJson(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("JsonValue")); err != nil {
+				if _, err = hasher.Write([]byte("Json")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -1257,20 +1257,20 @@ func (m *ExecutableSchema_GraphQLServer_RequestExtraction) Hash(hasher hash.Hash
 			return 0, err
 		}
 
-	case *ExecutableSchema_GraphQLServer_RequestExtraction_JsonValue:
+	case *ExecutableSchema_GraphQLServer_RequestExtraction_Json:
 
-		if h, ok := interface{}(m.GetJsonValue()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("JsonValue")); err != nil {
+		if h, ok := interface{}(m.GetJson()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Json")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetJsonValue(), nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetJson(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("JsonValue")); err != nil {
+				if _, err = hasher.Write([]byte("Json")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {

@@ -237,6 +237,24 @@ func (m *AccessPolicySpec_Config_Authorization) Clone() proto.Message {
 		target.Match = proto.Clone(m.GetMatch()).(*AccessPolicySpec_Config_Authorization_MatchSpec)
 	}
 
+	if m.GetAllowedIpBlocks() != nil {
+		target.AllowedIpBlocks = make([]string, len(m.GetAllowedIpBlocks()))
+		for idx, v := range m.GetAllowedIpBlocks() {
+
+			target.AllowedIpBlocks[idx] = v
+
+		}
+	}
+
+	if m.GetAllowedRemoteIpBlocks() != nil {
+		target.AllowedRemoteIpBlocks = make([]string, len(m.GetAllowedRemoteIpBlocks()))
+		for idx, v := range m.GetAllowedRemoteIpBlocks() {
+
+			target.AllowedRemoteIpBlocks[idx] = v
+
+		}
+	}
+
 	return target
 }
 

@@ -19,8 +19,16 @@ message FieldOptions {
     // This is currently required to disable infinite recursion when expanding references with CUE on recursive types.
     bool disable_openapi_validation = 2;
 
+
     // pass field name strait through as-is as an override and do not run toLowerCamel on it. Useful for field names with a number in them like "k8s"
-    string json_field_name_override = 3; 
+    string json_field_name_override = 3;
+
+    // Enable this option to treat this field as any value in the OpenAPI schema.
+    // This can be set to disable infinite recursion when expanding references with CUE on recursive types.
+    // In addition, should be set when using `google.protobuf.Value`, which can accept any JSON value type:
+    // object, array, string, number, boolean, or null.
+    bool disable_openapi_type_validation = 4;
+
 }
 
 extend google.protobuf.FieldOptions {

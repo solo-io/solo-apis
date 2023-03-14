@@ -445,6 +445,22 @@ func (m *AccessPolicySpec_Config_Authorization) Hash(hasher hash.Hash64) (uint64
 		}
 	}
 
+	for _, v := range m.GetAllowedIpBlocks() {
+
+		if _, err = hasher.Write([]byte(v)); err != nil {
+			return 0, err
+		}
+
+	}
+
+	for _, v := range m.GetAllowedRemoteIpBlocks() {
+
+		if _, err = hasher.Write([]byte(v)); err != nil {
+			return 0, err
+		}
+
+	}
+
 	return hasher.Sum64(), nil
 }
 

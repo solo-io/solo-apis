@@ -157,7 +157,7 @@ message OidcConfig {
   // <issuerUrl>/.well-known/openid-configuration The discovery override
   // defines any properties that should override this discovery
   // configuration
-  // https://openid.net/developers/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  // https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   message DiscoveryOverride {
     // URL of the provider authorization endpoint.
     string auth_endpoint = 1;
