@@ -231,6 +231,7 @@ type TransformationPolicySpec_Config_RequestTransformation struct {
 	// recalculate the routing destination (select a new route) based on the transformed content of the request.
 	RecalculateRoutingDestination bool `protobuf:"varint,1,opt,name=recalculate_routing_destination,json=recalculateRoutingDestination,proto3" json:"recalculate_routing_destination,omitempty"`
 	// transform HTTP body and headers using Inja templates.
+	// For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
 	InjaTemplate *v21.TransformationTemplate `protobuf:"bytes,2,opt,name=injaTemplate,proto3" json:"injaTemplate,omitempty"`
 }
 
@@ -287,6 +288,7 @@ type TransformationPolicySpec_Config_ResponseTransformation struct {
 	unknownFields protoimpl.UnknownFields
 
 	// transform response body and headers using Inja templates
+	// For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
 	InjaTemplate *v21.TransformationTemplate `protobuf:"bytes,1,opt,name=injaTemplate,proto3" json:"injaTemplate,omitempty"`
 }
 

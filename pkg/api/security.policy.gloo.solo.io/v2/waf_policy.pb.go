@@ -186,6 +186,7 @@ type WAFPolicySpec_Config struct {
 	// is applied from the lowest numerical priority to the highest numerical priority if it is provided.
 	// Use this field for all WAF policies applicable to a route or not at all. Defaults to nil if not provided,
 	// and WAF policies will be applied in order of ascending creation time.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
 	Priority *wrappers.UInt32Value `protobuf:"bytes,7,opt,name=priority,proto3" json:"priority,omitempty"`
 }
 

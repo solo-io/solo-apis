@@ -398,12 +398,14 @@ type isCertificateRotationVerificationMethod_Method interface {
 type CertificateRotationVerificationMethod_None struct {
 	// Verification not enabled. NOTE: This setting is only recommended for testing.
 	// When enabled rotation will continue from step to step without any kind of verification.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
 	None *empty.Empty `protobuf:"bytes,1,opt,name=none,proto3,oneof"`
 }
 
 type CertificateRotationVerificationMethod_Manual struct {
 	// Verification must be completed manually. This involves using our certificate verification
 	// endpoint when the certificates are in a VERIFYING state
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
 	Manual *empty.Empty `protobuf:"bytes,2,opt,name=manual,proto3,oneof"`
 }
 

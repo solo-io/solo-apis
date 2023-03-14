@@ -40,6 +40,7 @@ message TransformationPolicySpec {
       bool recalculate_routing_destination = 1;
 
       // transform HTTP body and headers using Inja templates.
+      // For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
       envoy.api.v2.filter.http.TransformationTemplate injaTemplate = 2;
 
       reserved 3; // Reserved for xslt
@@ -52,6 +53,7 @@ message TransformationPolicySpec {
     message ResponseTransformation {
 
       // transform response body and headers using Inja templates
+      // For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
       envoy.api.v2.filter.http.TransformationTemplate injaTemplate = 1;
 
       reserved 2; // Reserved for xslt

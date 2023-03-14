@@ -38,6 +38,8 @@ option (extproto.clone_all) = true;
 // `v1` of `reviews.qa`. When the path matches exactly to `/reviews/`, 80% traffic is forwarded to the port 9080
 // of `reviews.prod` and 20% traffic is forwarded to the port 9080 of `reviews.qa`. All other traffic is sent
 // to the default destination, which is the port 9080 of `reviews.prod` service in the `bookinfo` workspace.
+//
+// ```yaml
 // apiVersion: networking.gloo.solo.io/v2
 // kind: RouteTable
 // metadata:
@@ -85,6 +87,7 @@ option (extproto.clone_all) = true;
 //             port:
 //               number: 9080
 //             weight: 20
+// ```
 message RouteTableSpec {
 
     // Optional: One or more hosts for which this route table will route traffic.
@@ -95,54 +98,27 @@ message RouteTableSpec {
 
     // Optional: A list of references to the virtual gateways which should serve this route table.
     // Only valid for route tables which define at least one host.
-    // *Note*: Ignored on delegated (non-root) route tables.
+    // *Note*: This field must be empty for a delegated RouteTable.
     //
     // When not specified, the route table applies to either all the sidecars in the workspace
     // or only sidecars for selected workloads (via the `workloadSelectors` field) in the workspace where
     // the route table is deployed or imported.
     // The following applies to sidecars of all the workloads for the workspace where the route table is
-    // deployed or imported.
-    //
-    // virtualGateways: null
-    // workloadSelectors: []
+    // deployed or imported: set `virtualGateways` to `null` and `workloadSelectors` to `[]`.
     //
     // The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
-    // no sidecars.
-    //
-    // virtualGateways:
-    //   - name: my-gateway
-    //     namespace: gateway
-    // workloadSelectors: []
+    // no sidecars: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `[]`.
     //
     // The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
     // sidecars of all the workloads for the workspace where the route table is
-    // deployed or imported.
-    //
-    // virtualGateways:
-    //   - name: my-gateway
-    //     namespace: gateway
-    // workloadSelectors:
-    //   - selector: {}
+    // deployed or imported: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `{}`.
     //
     // The following applies to sidecars of all the `app: foo` workloads for the workspace where the route table
-    // is deployed or imported.
-    //
-    // virtualGateways: null
-    // workloadSelectors:
-    //   - selector:
-    //       labels:
-    //         app: foo
+    // is deployed or imported: set `virtualGateways` to `null` and `workloadSelectors.selector.labels` to `app: foo`.
     //
     // The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
-    // sidecars of all the `app: foo` workloads for the workspace where the route table is deployed or imported.
-    //
-    // virtualGateways:
-    //   - name: my-gateway
-    //     namespace: gateway
-    // workloadSelectors:
-    //   - selector:
-    //       labels:
-    //         app: foo
+    // sidecars of all the `app: foo` workloads for the workspace where the route table is deployed or imported:
+    // set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors.selector.labels` to `app: foo`.
     //
     // *Note*: This field must be empty for a delegated RouteTable.
     repeated .common.gloo.solo.io.ObjectReference virtual_gateways = 5;
@@ -162,7 +138,7 @@ message RouteTableSpec {
     repeated HTTPRoute http = 3;
 
     // the set of TCP routes this route table will serve.
-    // TODO(ilackarms):   repeated TCPRoute tcp = 5;
+    // @exclude TODO(ilackarms):   repeated TCPRoute tcp = 5;
 
     // Weight is used when sorting route tables in delegate action or routes when sorted by specificity.
     // Higher integer values are considered higher priority. The default value is 0.
@@ -171,12 +147,12 @@ message RouteTableSpec {
 
 }
 
-// an HTTP route pairs a set of HTTP Request Matchers with an action to take when a request is matched. HTTP Routes can be named and labeled for the purpose of metrics and applying policies.
+// An HTTP route pairs a set of HTTP Request Matchers with an action to take when a request is matched. HTTP Routes can be named and labeled for the purpose of metrics and applying policies.
 message HTTPRoute {
     // unique name of the route (within the route table). used to identify the route for metrics
     string name = 1;
 
-    // labels for the route. used to apply policies which implement routeSelectors.
+    // Labels for the route. used to apply policies which implement routeSelectors.
     map<string, string> labels = 2;
 
     // The set of request matchers which this route will match on. If none are specified, this route will match any HTTP traffic.
@@ -223,7 +199,7 @@ message GraphQLAction {
 
     message Options{
         // Include information about request/response in the envoy debug logs.
-        // This is helpful for debugging GraphQL
+        // This is helpful for debugging GraphQL.
         // Defaults to false.
         google.protobuf.BoolValue log_sensitive_info = 1;
     }
@@ -249,7 +225,7 @@ message ForwardToAction {
     string host_rewrite = 3;
 }
 
-// Note: This message needs to be at this level (rather than nested) due to cue restrictions.
+// @exclude Note: This message needs to be at this level (rather than nested) due to cue restrictions.
 // Notice: RedirectAction is copied directly from https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
 message RedirectAction {
 
@@ -284,7 +260,7 @@ message RedirectAction {
     }
 }
 
-// Note: This message needs to be at this level (rather than nested) due to cue restrictions.
+// @exclude Note: This message needs to be at this level (rather than nested) due to cue restrictions.
 // DirectResponseAction is copied directly from https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
 message DirectResponseAction {
     // Required. Specifies an HTTP response status between 100-599 inclusive to be returned.
@@ -323,7 +299,7 @@ message DirectResponseAction {
 // sel - {labels, [wks]}           | {labels, [ns, cl]} // select across ns/clusters
 
 
-// Note: This message needs to be at this level (rather than nested) due to cue restrictions.
+// @exclude Note: This message needs to be at this level (rather than nested) due to cue restrictions.
 // DelegateActions are used to delegate routing decisions to other resources, for example RouteTables.
 message DelegateAction {
 

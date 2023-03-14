@@ -732,7 +732,7 @@ func (*VirtualGatewaySpec_Listener_HTTPServer) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_networking_v2_virtual_gateway_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-// TODO: TCPServer
+// @exclude TODO: TCPServer
 type VirtualGatewaySpec_Listener_TCPServer struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

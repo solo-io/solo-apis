@@ -41,14 +41,14 @@ const _ = proto.ProtoPackageIsVersion4
 //    GetName: String
 //  }
 // ```
-//  you can configure a resolver for the `GetName` field as follows:
-//  ```yaml
-//  types:
-//    Query:
-//      fields:
-//        GetName:
-//          <insert resolver config>
-//  ```
+// you can configure a resolver for the `GetName` field as follows:
+// ```yaml
+// types:
+//   Query:
+//     fields:
+//       GetName:
+//         <insert resolver config>
+// ```
 type GraphQLResolverMapSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -184,6 +184,7 @@ type ExecutableSchema_Server struct {
 	// Configuration to delegate resolving this GraphQL request to an external GraphQL server, which can be
 	// another GlooGraphQL instance or another instance of a GraphQL server. The external GraphQL server must
 	// be compliant with the [June 2018 GraphQL specification](https://spec.graphql.org/June2018/).
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	Server *ExecutableSchema_GraphQLServer `protobuf:"bytes,3,opt,name=server,proto3,oneof"`
 }
 
@@ -204,6 +205,44 @@ func (*ExecutableSchema_Local_) isExecutableSchema_ExecutableSchema() {}
 // and transform them using a transformation. The simplest transformation is the `variable`
 // transform, which passes through the value of a single variable. For more complex transforms,
 // the `jq` transformation can be used to form more complicated JSON values.
+//
+// **Using variables**:
+//
+// Variables that are declared in the `variables` field are available at the top level of the input JSON object to the
+// jq filter.
+// For example, if the following variables have been declared:
+// ```yaml
+// variables:
+//   userIdHeader:
+//     request_header: x-user-id
+//   resolverResultVar:
+//     resolver_result: {}
+// ```
+// then the input object to the `jq` filter would be
+// ```json
+// {
+//  "userIdHeader": <x-user-id header value from GraphQL request>,
+//  "resolverResultVar": { .. the resolver result .. }
+// }
+// ```
+//
+// **Using a jq filter**:
+//
+// Given the following input object to the `jq` transformation, we can use a filter to transform the values.
+// ```json
+// {
+//  "userIdHeader": "john_doe123",
+//  "resolverResultVar": { "data": {"name": "John Doe"} }
+// }
+// ```
+// If the `jq` filter is defined as
+// ```
+// "User: " + .userIdHeader + ", Name: " + .resolverResultVar.data.name
+// ```
+// the result of the jq transformation would be
+// ```
+// "User john_doe123, Name: John Doe"
+// ```
 type VariableTransformation struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -293,48 +332,15 @@ type VariableTransformation_Jq struct {
 	// variables defined in `variables` can be used in the jq filter via regular jq variable syntax.
 	// For example, a variable named "userIdHeader" can be used in a jq filter as `$userIdHeader`
 	// Jq filters must only result in one value, or an error will be sent back to the client.
-	// For example, for the input `[1,2,3]`, the jq filter `.[]` is not a valid jq filter as it results
-	// in multiple jq results. However, the jq filter '. | join(",")' is valid as it results in one result: "1,2,3".
+	// For example, for the input `[1,2,3]`, the jq filter '.[]' is not a valid jq filter as it results
+	// in multiple jq results. However, the jq filter '. &#124; join(",")' is valid as it results in one result: "1,2,3".
 	// Refer to the [jq manual](https://stedolan.github.io/jq/manual/) for jq syntax and tips.
-	// --- Using variables ---
-	// Variables that are declared in the `variables` field are available at the top level of the input JSON object to the
-	// jq filter.
-	// For example, if the following variables have been declared:
-	// ```yaml
-	// variables:
-	//   userIdHeader:
-	//     request_header: x-user-id
-	//   resolverResultVar:
-	//     resolver_result: {}
-	// ```
-	// then the input object to the `jq` filter would be
-	// ```json
-	// {
-	//  "userIdHeader": <x-user-id header value from GraphQL request>,
-	//  "resolverResultVar": { .. the resolver result .. }
-	// }
-	// ```
-	// --- Using a jq filter ---
-	// Given the following input object to the `jq` transformation, we can use a filter to transform the values.
-	// ```json
-	// {
-	//  "userIdHeader": "john_doe123",
-	//  "resolverResultVar": { "data": {"name": "John Doe"} }
-	// }
-	// ```
-	// If the `jq` filter is defined as
-	// ```
-	// "User: " + .userIdHeader + ", Name: " + .resolverResultVar.data.name
-	// ```
-	// the result of the jq transformation would be
-	// ```
-	// "User john_doe123, Name: John Doe"
-	// ```
 	Jq string `protobuf:"bytes,2,opt,name=jq,proto3,oneof"`
 }
 
 type VariableTransformation_Json struct {
 	// Static JSON value.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
 	Json *_struct.Value `protobuf:"bytes,3,opt,name=json,proto3,oneof"`
 }
 
@@ -459,6 +465,7 @@ type Extraction_DynamicMetadata struct {
 
 type Extraction_GraphqlParent struct {
 	// Assigns the variable to the parent object
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
 	GraphqlParent *empty.Empty `protobuf:"bytes,3,opt,name=graphql_parent,json=graphqlParent,proto3,oneof"`
 }
 
@@ -472,11 +479,13 @@ type Extraction_ResolverResult struct {
 	// Assigns the variable to the GraphQL resolver result.
 	// If this Extraction is used in a place where the resolver result is not available, an error
 	// will be thrown during configuration time.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
 	ResolverResult *empty.Empty `protobuf:"bytes,5,opt,name=resolver_result,json=resolverResult,proto3,oneof"`
 }
 
 type Extraction_Json struct {
 	// Assigns the variable to a JSON value specified here
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
 	Json *_struct.Value `protobuf:"bytes,6,opt,name=json,proto3,oneof"`
 }
 
@@ -841,6 +850,7 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver struct {
 	// If left empty or not set, the request span name will be set to the upstream cluster name.
 	SpanName *wrappers.StringValue `protobuf:"bytes,4,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the REST service (default 5s)
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	Timeout *duration.Duration `protobuf:"bytes,5,opt,name=timeout,proto3" json:"timeout,omitempty"`
 }
 
@@ -1211,6 +1221,45 @@ func (x *ExecutableSchema_GraphQLServer) GetSpanName() string {
 	return ""
 }
 
+// Set additional options on the references to GraphQLResolverMap resources.
+// As as simple example for the `mex_depth` option, if the schema is
+// ```gql
+// type Query {
+//   employee: Employee
+// }
+//
+// type Employee {
+//   manager: Employee
+//   name: String
+// }
+// ```
+// and we set a `max_depth` of `3` and we run a query
+// ```gql
+// query {             # query depth : 0
+//   employee {        # query depth : 1
+//     manager {       # query depth : 2
+//       name          # query depth : 3
+//       manager {     # query depth : 3
+//         name        # query depth : 4
+//       }
+//     }
+//   }
+// }
+// ```
+// the graphql server will respond with a response:
+// ```json
+// { "data" : {
+//     "employee" : {
+//       "manager" : {
+//         "name" : "Manager 1",
+//         "manager"  : {
+//           "name" : null
+//   }}}},
+//   "errors": [
+//      {"message": "field 'name' exceeds the max operation depth of 3 for this schema"}
+//    ]
+// }
+// ```
 type ExecutableSchema_Local_Options struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1218,44 +1267,8 @@ type ExecutableSchema_Local_Options struct {
 
 	// Max GraphQL operation (query/mutation/subscription) depth. This sets a limitation on the max nesting on a query that runs against this schema.
 	// any GraphQL operation that runs past the `max_depth` will add an error message to the response and will return as `null`.
-	// As as simple example, if the schema is
-	// ```gql
-	// type Query {
-	//   employee: Employee
-	// }
-	//
-	// type Employee {
-	//   manager: Employee
-	//   name: String
-	// }
-	// ```
-	// and we set a `max_depth` of `3` and we run a query
-	// ```gql
-	// query {             # query depth : 0
-	//   employee {        # query depth : 1
-	//     manager {       # query depth : 2
-	//       name          # query depth : 3
-	//       manager {     # query depth : 3
-	//         name        # query depth : 4
-	//       }
-	//     }
-	//   }
-	// }
-	// ```
-	// the graphql server will respond with a response:
-	// ```json
-	// { "data" : {
-	//     "employee" : {
-	//       "manager" : {
-	//         "name" : "Manager 1",
-	//         "manager"  : {
-	//           "name" : null
-	//   }}}},
-	//   "errors": [
-	//      {"message": "field 'name' exceeds the max operation depth of 3 for this schema"}
-	//    ]
-	// }
 	// If not configured, or the value is 0, the query depth will be unbounded.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
 	MaxDepth *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
 	// Do we enable introspection for the schema? general recommendation is to
 	// disable this for production and hence it defaults to false.

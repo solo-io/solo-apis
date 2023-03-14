@@ -113,20 +113,20 @@ type ProxyProtocolPolicyStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The most recent generation observed in the the object's metadata.
-	// If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh
-	// has not processed the most recent version of this object.
 	// DEPRECATED: Use global instead
 	//
 	// Deprecated: Do not use.
 	ObservedGeneration int64 `protobuf:"varint,1,opt,name=observed_generation,json=observedGeneration,proto3" json:"observed_generation,omitempty"`
-	// Whether the resource has been accepted as valid and processed in the Gloo
-	// Mesh config translation.
 	// DEPRECATED: Use workspaces instead
 	//
 	// Deprecated: Do not use.
-	State  v2.ApprovalState        `protobuf:"varint,2,opt,name=state,proto3,enum=common.gloo.solo.io.ApprovalState" json:"state,omitempty"`
+	State v2.ApprovalState `protobuf:"varint,2,opt,name=state,proto3,enum=common.gloo.solo.io.ApprovalState" json:"state,omitempty"`
+	// The most recent generation observed in the the object's metadata.
+	// If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh
+	// has not processed the most recent version of this object.
 	Global *v2.GenericGlobalStatus `protobuf:"bytes,3,opt,name=global,proto3" json:"global,omitempty"`
+	// Whether the resource has been accepted as valid and processed in the Gloo
+	// Mesh config translation.
 	// The status of the resource in each workspace that it exists in.
 	Workspaces map[string]*v2.WorkspaceStatus `protobuf:"bytes,4,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Virtual Gateway listeners selected by the policy.

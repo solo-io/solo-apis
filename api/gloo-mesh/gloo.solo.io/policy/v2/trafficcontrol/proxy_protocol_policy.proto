@@ -53,19 +53,19 @@ message ProxyProtocolPolicySpec {
 
 // reflects the status of the ProxyProtocolPolicy
 message ProxyProtocolPolicyStatus {
-  // The most recent generation observed in the the object's metadata.
-  // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh
-  // has not processed the most recent version of this object.
   // DEPRECATED: Use global instead
   int64 observed_generation = 1  [deprecated=true];
 
-  // Whether the resource has been accepted as valid and processed in the Gloo
-  // Mesh config translation.
   // DEPRECATED: Use workspaces instead
   .common.gloo.solo.io.ApprovalState state = 2 [deprecated=true];
 
+  // The most recent generation observed in the the object's metadata.
+  // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh
+  // has not processed the most recent version of this object.
   .common.gloo.solo.io.GenericGlobalStatus global = 3;
-
+  
+  // Whether the resource has been accepted as valid and processed in the Gloo
+  // Mesh config translation.
   // The status of the resource in each workspace that it exists in.
   map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 4;
 

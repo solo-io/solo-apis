@@ -45,7 +45,7 @@ message ApiSchemaSpec {
 //  }
 
   // a complete grpc schema describing the API
-  // TODO(Api-team)- unimplemented in Gloo Mesh 2.1
+  // @exclude TODO(Api-team)- unimplemented in Gloo Mesh 2.1
 //  message GrpcSchema {
 //    // Protobuf Descriptors that represent the gRPC services provided by the API.
 //    // this is a serialized base64-encoded google.protobuf.FileDescriptorSet
@@ -63,7 +63,7 @@ message ApiSchemaSpec {
 
   }
 
-  /* todo(API-team)
+  /* <!--todo(API-team)-->
   // Extensions such as Custom Types, which are contained in their own CRD.
   repeated .common.gloo.solo.io.ObjectReference schema_extensions = 5;
   */
