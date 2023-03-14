@@ -477,7 +477,15 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 	}
 	target = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable{}
 
-	target.ResponseHeader = m.GetResponseHeader()
+	switch m.Extraction.(type) {
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable_ResponseHeader:
+
+		target.Extraction = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable_ResponseHeader{
+			ResponseHeader: m.GetResponseHeader(),
+		}
+
+	}
 
 	return target
 }

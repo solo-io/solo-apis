@@ -8,6 +8,8 @@ option java_package = "io.envoyproxy.envoy.config.filter.http.modsecurity.v2";
 option java_outer_classname = "ModsecurityProto";
 option java_multiple_files = true;
 
+import "api/envoy/config/filter/http/transformation_ee/v2/transformation_ee_filter.proto";
+
 // ModSecurity native audit logging is not a good fit for envoy/kubernetes cloud
 // native environments. ModSecurity has 3 logging engines. They are not a good
 // fit for the following reasons:
@@ -96,6 +98,8 @@ message ModSecurity {
   // this format is a multiline log format, so it is disabled for regular use.
   // do not enable this in production!
   bool regression_logs = 4;
+
+  envoy.config.filter.http.transformation_ee.v2.DlpTransformation dlp_transformation = 8;
 }
 
 message RuleSet {
@@ -122,4 +126,6 @@ message ModSecurityPerRoute {
   // headers will. This can help improve perforance.
   bool request_headers_only = 6;
   bool response_headers_only = 7;
+
+  envoy.config.filter.http.transformation_ee.v2.DlpTransformation dlp_transformation = 8;
 }
