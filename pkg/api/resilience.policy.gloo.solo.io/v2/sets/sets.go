@@ -85,6 +85,7 @@ func (s *failoverPolicySet) List(filterResource ...func(*resilience_policy_gloo_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*resilience_policy_gloo_solo_io_v2.FailoverPolicy))
 		})
@@ -104,6 +105,7 @@ func (s *failoverPolicySet) UnsortedList(filterResource ...func(*resilience_poli
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*resilience_policy_gloo_solo_io_v2.FailoverPolicy))
 		})
@@ -304,6 +306,7 @@ func (s *outlierDetectionPolicySet) List(filterResource ...func(*resilience_poli
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*resilience_policy_gloo_solo_io_v2.OutlierDetectionPolicy))
 		})
@@ -323,6 +326,7 @@ func (s *outlierDetectionPolicySet) UnsortedList(filterResource ...func(*resilie
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*resilience_policy_gloo_solo_io_v2.OutlierDetectionPolicy))
 		})
@@ -523,6 +527,7 @@ func (s *faultInjectionPolicySet) List(filterResource ...func(*resilience_policy
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*resilience_policy_gloo_solo_io_v2.FaultInjectionPolicy))
 		})
@@ -542,6 +547,7 @@ func (s *faultInjectionPolicySet) UnsortedList(filterResource ...func(*resilienc
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*resilience_policy_gloo_solo_io_v2.FaultInjectionPolicy))
 		})
@@ -742,6 +748,7 @@ func (s *retryTimeoutPolicySet) List(filterResource ...func(*resilience_policy_g
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*resilience_policy_gloo_solo_io_v2.RetryTimeoutPolicy))
 		})
@@ -761,6 +768,7 @@ func (s *retryTimeoutPolicySet) UnsortedList(filterResource ...func(*resilience_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*resilience_policy_gloo_solo_io_v2.RetryTimeoutPolicy))
 		})

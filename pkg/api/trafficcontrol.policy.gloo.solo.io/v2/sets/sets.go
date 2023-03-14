@@ -85,6 +85,7 @@ func (s *mirrorPolicySet) List(filterResource ...func(*trafficcontrol_policy_glo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.MirrorPolicy))
 		})
@@ -104,6 +105,7 @@ func (s *mirrorPolicySet) UnsortedList(filterResource ...func(*trafficcontrol_po
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.MirrorPolicy))
 		})
@@ -304,6 +306,7 @@ func (s *rateLimitPolicySet) List(filterResource ...func(*trafficcontrol_policy_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.RateLimitPolicy))
 		})
@@ -323,6 +326,7 @@ func (s *rateLimitPolicySet) UnsortedList(filterResource ...func(*trafficcontrol
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.RateLimitPolicy))
 		})
@@ -523,6 +527,7 @@ func (s *rateLimitClientConfigSet) List(filterResource ...func(*trafficcontrol_p
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.RateLimitClientConfig))
 		})
@@ -542,6 +547,7 @@ func (s *rateLimitClientConfigSet) UnsortedList(filterResource ...func(*trafficc
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.RateLimitClientConfig))
 		})
@@ -742,6 +748,7 @@ func (s *headerManipulationPolicySet) List(filterResource ...func(*trafficcontro
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.HeaderManipulationPolicy))
 		})
@@ -761,6 +768,7 @@ func (s *headerManipulationPolicySet) UnsortedList(filterResource ...func(*traff
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.HeaderManipulationPolicy))
 		})
@@ -961,6 +969,7 @@ func (s *transformationPolicySet) List(filterResource ...func(*trafficcontrol_po
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.TransformationPolicy))
 		})
@@ -980,6 +989,7 @@ func (s *transformationPolicySet) UnsortedList(filterResource ...func(*trafficco
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.TransformationPolicy))
 		})
@@ -1180,6 +1190,7 @@ func (s *proxyProtocolPolicySet) List(filterResource ...func(*trafficcontrol_pol
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.ProxyProtocolPolicy))
 		})
@@ -1199,6 +1210,7 @@ func (s *proxyProtocolPolicySet) UnsortedList(filterResource ...func(*trafficcon
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*trafficcontrol_policy_gloo_solo_io_v2.ProxyProtocolPolicy))
 		})

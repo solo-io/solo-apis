@@ -6,52 +6,93 @@ package v2
 
 import (
 	proto "github.com/golang/protobuf/proto"
+	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 )
 
 // DeepCopyInto for the FailoverPolicy.Spec
 func (in *FailoverPolicySpec) DeepCopyInto(out *FailoverPolicySpec) {
-	p := proto.Clone(in).(*FailoverPolicySpec)
+	var p *FailoverPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FailoverPolicySpec)
+	} else {
+		p = proto.Clone(in).(*FailoverPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the FailoverPolicy.Status
 func (in *FailoverPolicyStatus) DeepCopyInto(out *FailoverPolicyStatus) {
-	p := proto.Clone(in).(*FailoverPolicyStatus)
+	var p *FailoverPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FailoverPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*FailoverPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the OutlierDetectionPolicy.Spec
 func (in *OutlierDetectionPolicySpec) DeepCopyInto(out *OutlierDetectionPolicySpec) {
-	p := proto.Clone(in).(*OutlierDetectionPolicySpec)
+	var p *OutlierDetectionPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*OutlierDetectionPolicySpec)
+	} else {
+		p = proto.Clone(in).(*OutlierDetectionPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the OutlierDetectionPolicy.Status
 func (in *OutlierDetectionPolicyStatus) DeepCopyInto(out *OutlierDetectionPolicyStatus) {
-	p := proto.Clone(in).(*OutlierDetectionPolicyStatus)
+	var p *OutlierDetectionPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*OutlierDetectionPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*OutlierDetectionPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the FaultInjectionPolicy.Spec
 func (in *FaultInjectionPolicySpec) DeepCopyInto(out *FaultInjectionPolicySpec) {
-	p := proto.Clone(in).(*FaultInjectionPolicySpec)
+	var p *FaultInjectionPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FaultInjectionPolicySpec)
+	} else {
+		p = proto.Clone(in).(*FaultInjectionPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the FaultInjectionPolicy.Status
 func (in *FaultInjectionPolicyStatus) DeepCopyInto(out *FaultInjectionPolicyStatus) {
-	p := proto.Clone(in).(*FaultInjectionPolicyStatus)
+	var p *FaultInjectionPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FaultInjectionPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*FaultInjectionPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RetryTimeoutPolicy.Spec
 func (in *RetryTimeoutPolicySpec) DeepCopyInto(out *RetryTimeoutPolicySpec) {
-	p := proto.Clone(in).(*RetryTimeoutPolicySpec)
+	var p *RetryTimeoutPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RetryTimeoutPolicySpec)
+	} else {
+		p = proto.Clone(in).(*RetryTimeoutPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RetryTimeoutPolicy.Status
 func (in *RetryTimeoutPolicyStatus) DeepCopyInto(out *RetryTimeoutPolicyStatus) {
-	p := proto.Clone(in).(*RetryTimeoutPolicyStatus)
+	var p *RetryTimeoutPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RetryTimeoutPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*RetryTimeoutPolicyStatus)
+	}
 	*out = *p
 }

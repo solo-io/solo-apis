@@ -6,112 +6,203 @@ package v2
 
 import (
 	proto "github.com/golang/protobuf/proto"
+	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 )
 
 // DeepCopyInto for the Workspace.Spec
 func (in *WorkspaceSpec) DeepCopyInto(out *WorkspaceSpec) {
-	p := proto.Clone(in).(*WorkspaceSpec)
+	var p *WorkspaceSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*WorkspaceSpec)
+	} else {
+		p = proto.Clone(in).(*WorkspaceSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the Workspace.Status
 func (in *WorkspaceStatus) DeepCopyInto(out *WorkspaceStatus) {
-	p := proto.Clone(in).(*WorkspaceStatus)
+	var p *WorkspaceStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*WorkspaceStatus)
+	} else {
+		p = proto.Clone(in).(*WorkspaceStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the WorkspaceSettings.Spec
 func (in *WorkspaceSettingsSpec) DeepCopyInto(out *WorkspaceSettingsSpec) {
-	p := proto.Clone(in).(*WorkspaceSettingsSpec)
+	var p *WorkspaceSettingsSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*WorkspaceSettingsSpec)
+	} else {
+		p = proto.Clone(in).(*WorkspaceSettingsSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the WorkspaceSettings.Status
 func (in *WorkspaceSettingsStatus) DeepCopyInto(out *WorkspaceSettingsStatus) {
-	p := proto.Clone(in).(*WorkspaceSettingsStatus)
+	var p *WorkspaceSettingsStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*WorkspaceSettingsStatus)
+	} else {
+		p = proto.Clone(in).(*WorkspaceSettingsStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the KubernetesCluster.Spec
 func (in *KubernetesClusterSpec) DeepCopyInto(out *KubernetesClusterSpec) {
-	p := proto.Clone(in).(*KubernetesClusterSpec)
+	var p *KubernetesClusterSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*KubernetesClusterSpec)
+	} else {
+		p = proto.Clone(in).(*KubernetesClusterSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the KubernetesCluster.Status
 func (in *KubernetesClusterStatus) DeepCopyInto(out *KubernetesClusterStatus) {
-	p := proto.Clone(in).(*KubernetesClusterStatus)
+	var p *KubernetesClusterStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*KubernetesClusterStatus)
+	} else {
+		p = proto.Clone(in).(*KubernetesClusterStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RootTrustPolicy.Spec
 func (in *RootTrustPolicySpec) DeepCopyInto(out *RootTrustPolicySpec) {
-	p := proto.Clone(in).(*RootTrustPolicySpec)
+	var p *RootTrustPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RootTrustPolicySpec)
+	} else {
+		p = proto.Clone(in).(*RootTrustPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RootTrustPolicy.Status
 func (in *RootTrustPolicyStatus) DeepCopyInto(out *RootTrustPolicyStatus) {
-	p := proto.Clone(in).(*RootTrustPolicyStatus)
+	var p *RootTrustPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RootTrustPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*RootTrustPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the ExtAuthServer.Spec
 func (in *ExtAuthServerSpec) DeepCopyInto(out *ExtAuthServerSpec) {
-	p := proto.Clone(in).(*ExtAuthServerSpec)
+	var p *ExtAuthServerSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ExtAuthServerSpec)
+	} else {
+		p = proto.Clone(in).(*ExtAuthServerSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the ExtAuthServer.Status
 func (in *ExtAuthServerStatus) DeepCopyInto(out *ExtAuthServerStatus) {
-	p := proto.Clone(in).(*ExtAuthServerStatus)
+	var p *ExtAuthServerStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ExtAuthServerStatus)
+	} else {
+		p = proto.Clone(in).(*ExtAuthServerStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RateLimitServerSettings.Spec
 func (in *RateLimitServerSettingsSpec) DeepCopyInto(out *RateLimitServerSettingsSpec) {
-	p := proto.Clone(in).(*RateLimitServerSettingsSpec)
+	var p *RateLimitServerSettingsSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RateLimitServerSettingsSpec)
+	} else {
+		p = proto.Clone(in).(*RateLimitServerSettingsSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RateLimitServerSettings.Status
 func (in *RateLimitServerSettingsStatus) DeepCopyInto(out *RateLimitServerSettingsStatus) {
-	p := proto.Clone(in).(*RateLimitServerSettingsStatus)
+	var p *RateLimitServerSettingsStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RateLimitServerSettingsStatus)
+	} else {
+		p = proto.Clone(in).(*RateLimitServerSettingsStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RateLimitServerConfig.Spec
 func (in *RateLimitServerConfigSpec) DeepCopyInto(out *RateLimitServerConfigSpec) {
-	p := proto.Clone(in).(*RateLimitServerConfigSpec)
+	var p *RateLimitServerConfigSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RateLimitServerConfigSpec)
+	} else {
+		p = proto.Clone(in).(*RateLimitServerConfigSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RateLimitServerConfig.Status
 func (in *RateLimitServerConfigStatus) DeepCopyInto(out *RateLimitServerConfigStatus) {
-	p := proto.Clone(in).(*RateLimitServerConfigStatus)
+	var p *RateLimitServerConfigStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RateLimitServerConfigStatus)
+	} else {
+		p = proto.Clone(in).(*RateLimitServerConfigStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the Dashboard.Spec
 func (in *DashboardSpec) DeepCopyInto(out *DashboardSpec) {
-	p := proto.Clone(in).(*DashboardSpec)
+	var p *DashboardSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*DashboardSpec)
+	} else {
+		p = proto.Clone(in).(*DashboardSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the Dashboard.Status
 func (in *DashboardStatus) DeepCopyInto(out *DashboardStatus) {
-	p := proto.Clone(in).(*DashboardStatus)
+	var p *DashboardStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*DashboardStatus)
+	} else {
+		p = proto.Clone(in).(*DashboardStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the IstioLifecycleManager.Spec
 func (in *IstioLifecycleManagerSpec) DeepCopyInto(out *IstioLifecycleManagerSpec) {
-	p := proto.Clone(in).(*IstioLifecycleManagerSpec)
+	var p *IstioLifecycleManagerSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*IstioLifecycleManagerSpec)
+	} else {
+		p = proto.Clone(in).(*IstioLifecycleManagerSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the IstioLifecycleManager.Status
 func (in *IstioLifecycleManagerStatus) DeepCopyInto(out *IstioLifecycleManagerStatus) {
-	p := proto.Clone(in).(*IstioLifecycleManagerStatus)
+	var p *IstioLifecycleManagerStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*IstioLifecycleManagerStatus)
+	} else {
+		p = proto.Clone(in).(*IstioLifecycleManagerStatus)
+	}
 	*out = *p
 }

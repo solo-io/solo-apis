@@ -85,6 +85,7 @@ func (s *accessLogPolicySet) List(filterResource ...func(*observability_policy_g
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*observability_policy_gloo_solo_io_v2.AccessLogPolicy))
 		})
@@ -104,6 +105,7 @@ func (s *accessLogPolicySet) UnsortedList(filterResource ...func(*observability_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*observability_policy_gloo_solo_io_v2.AccessLogPolicy))
 		})

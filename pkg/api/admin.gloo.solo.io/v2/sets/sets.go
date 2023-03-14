@@ -85,6 +85,7 @@ func (s *workspaceSet) List(filterResource ...func(*admin_gloo_solo_io_v2.Worksp
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.Workspace))
 		})
@@ -104,6 +105,7 @@ func (s *workspaceSet) UnsortedList(filterResource ...func(*admin_gloo_solo_io_v
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.Workspace))
 		})
@@ -304,6 +306,7 @@ func (s *workspaceSettingsSet) List(filterResource ...func(*admin_gloo_solo_io_v
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.WorkspaceSettings))
 		})
@@ -323,6 +326,7 @@ func (s *workspaceSettingsSet) UnsortedList(filterResource ...func(*admin_gloo_s
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.WorkspaceSettings))
 		})
@@ -523,6 +527,7 @@ func (s *kubernetesClusterSet) List(filterResource ...func(*admin_gloo_solo_io_v
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.KubernetesCluster))
 		})
@@ -542,6 +547,7 @@ func (s *kubernetesClusterSet) UnsortedList(filterResource ...func(*admin_gloo_s
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.KubernetesCluster))
 		})
@@ -742,6 +748,7 @@ func (s *rootTrustPolicySet) List(filterResource ...func(*admin_gloo_solo_io_v2.
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.RootTrustPolicy))
 		})
@@ -761,6 +768,7 @@ func (s *rootTrustPolicySet) UnsortedList(filterResource ...func(*admin_gloo_sol
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.RootTrustPolicy))
 		})
@@ -961,6 +969,7 @@ func (s *extAuthServerSet) List(filterResource ...func(*admin_gloo_solo_io_v2.Ex
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.ExtAuthServer))
 		})
@@ -980,6 +989,7 @@ func (s *extAuthServerSet) UnsortedList(filterResource ...func(*admin_gloo_solo_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.ExtAuthServer))
 		})
@@ -1180,6 +1190,7 @@ func (s *rateLimitServerSettingsSet) List(filterResource ...func(*admin_gloo_sol
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.RateLimitServerSettings))
 		})
@@ -1199,6 +1210,7 @@ func (s *rateLimitServerSettingsSet) UnsortedList(filterResource ...func(*admin_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.RateLimitServerSettings))
 		})
@@ -1399,6 +1411,7 @@ func (s *rateLimitServerConfigSet) List(filterResource ...func(*admin_gloo_solo_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.RateLimitServerConfig))
 		})
@@ -1418,6 +1431,7 @@ func (s *rateLimitServerConfigSet) UnsortedList(filterResource ...func(*admin_gl
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.RateLimitServerConfig))
 		})
@@ -1618,6 +1632,7 @@ func (s *dashboardSet) List(filterResource ...func(*admin_gloo_solo_io_v2.Dashbo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.Dashboard))
 		})
@@ -1637,6 +1652,7 @@ func (s *dashboardSet) UnsortedList(filterResource ...func(*admin_gloo_solo_io_v
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.Dashboard))
 		})
@@ -1837,6 +1853,7 @@ func (s *istioLifecycleManagerSet) List(filterResource ...func(*admin_gloo_solo_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.IstioLifecycleManager))
 		})
@@ -1856,6 +1873,7 @@ func (s *istioLifecycleManagerSet) UnsortedList(filterResource ...func(*admin_gl
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*admin_gloo_solo_io_v2.IstioLifecycleManager))
 		})

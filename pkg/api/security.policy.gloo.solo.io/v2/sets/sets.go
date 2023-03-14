@@ -85,6 +85,7 @@ func (s *accessPolicySet) List(filterResource ...func(*security_policy_gloo_solo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.AccessPolicy))
 		})
@@ -104,6 +105,7 @@ func (s *accessPolicySet) UnsortedList(filterResource ...func(*security_policy_g
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.AccessPolicy))
 		})
@@ -304,6 +306,7 @@ func (s *cORSPolicySet) List(filterResource ...func(*security_policy_gloo_solo_i
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.CORSPolicy))
 		})
@@ -323,6 +326,7 @@ func (s *cORSPolicySet) UnsortedList(filterResource ...func(*security_policy_glo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.CORSPolicy))
 		})
@@ -523,6 +527,7 @@ func (s *cSRFPolicySet) List(filterResource ...func(*security_policy_gloo_solo_i
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.CSRFPolicy))
 		})
@@ -542,6 +547,7 @@ func (s *cSRFPolicySet) UnsortedList(filterResource ...func(*security_policy_glo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.CSRFPolicy))
 		})
@@ -742,6 +748,7 @@ func (s *extAuthPolicySet) List(filterResource ...func(*security_policy_gloo_sol
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.ExtAuthPolicy))
 		})
@@ -761,6 +768,7 @@ func (s *extAuthPolicySet) UnsortedList(filterResource ...func(*security_policy_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.ExtAuthPolicy))
 		})
@@ -961,6 +969,7 @@ func (s *wAFPolicySet) List(filterResource ...func(*security_policy_gloo_solo_io
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.WAFPolicy))
 		})
@@ -980,6 +989,7 @@ func (s *wAFPolicySet) UnsortedList(filterResource ...func(*security_policy_gloo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.WAFPolicy))
 		})
@@ -1180,6 +1190,7 @@ func (s *jWTPolicySet) List(filterResource ...func(*security_policy_gloo_solo_io
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.JWTPolicy))
 		})
@@ -1199,6 +1210,7 @@ func (s *jWTPolicySet) UnsortedList(filterResource ...func(*security_policy_gloo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*security_policy_gloo_solo_io_v2.JWTPolicy))
 		})

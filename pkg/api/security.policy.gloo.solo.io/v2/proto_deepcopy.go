@@ -6,76 +6,137 @@ package v2
 
 import (
 	proto "github.com/golang/protobuf/proto"
+	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 )
 
 // DeepCopyInto for the AccessPolicy.Spec
 func (in *AccessPolicySpec) DeepCopyInto(out *AccessPolicySpec) {
-	p := proto.Clone(in).(*AccessPolicySpec)
+	var p *AccessPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*AccessPolicySpec)
+	} else {
+		p = proto.Clone(in).(*AccessPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the AccessPolicy.Status
 func (in *AccessPolicyStatus) DeepCopyInto(out *AccessPolicyStatus) {
-	p := proto.Clone(in).(*AccessPolicyStatus)
+	var p *AccessPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*AccessPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*AccessPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the CORSPolicy.Spec
 func (in *CORSPolicySpec) DeepCopyInto(out *CORSPolicySpec) {
-	p := proto.Clone(in).(*CORSPolicySpec)
+	var p *CORSPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*CORSPolicySpec)
+	} else {
+		p = proto.Clone(in).(*CORSPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the CORSPolicy.Status
 func (in *CORSPolicyStatus) DeepCopyInto(out *CORSPolicyStatus) {
-	p := proto.Clone(in).(*CORSPolicyStatus)
+	var p *CORSPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*CORSPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*CORSPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the CSRFPolicy.Spec
 func (in *CSRFPolicySpec) DeepCopyInto(out *CSRFPolicySpec) {
-	p := proto.Clone(in).(*CSRFPolicySpec)
+	var p *CSRFPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*CSRFPolicySpec)
+	} else {
+		p = proto.Clone(in).(*CSRFPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the CSRFPolicy.Status
 func (in *CSRFPolicyStatus) DeepCopyInto(out *CSRFPolicyStatus) {
-	p := proto.Clone(in).(*CSRFPolicyStatus)
+	var p *CSRFPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*CSRFPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*CSRFPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the ExtAuthPolicy.Spec
 func (in *ExtAuthPolicySpec) DeepCopyInto(out *ExtAuthPolicySpec) {
-	p := proto.Clone(in).(*ExtAuthPolicySpec)
+	var p *ExtAuthPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ExtAuthPolicySpec)
+	} else {
+		p = proto.Clone(in).(*ExtAuthPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the ExtAuthPolicy.Status
 func (in *ExtAuthPolicyStatus) DeepCopyInto(out *ExtAuthPolicyStatus) {
-	p := proto.Clone(in).(*ExtAuthPolicyStatus)
+	var p *ExtAuthPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ExtAuthPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*ExtAuthPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the WAFPolicy.Spec
 func (in *WAFPolicySpec) DeepCopyInto(out *WAFPolicySpec) {
-	p := proto.Clone(in).(*WAFPolicySpec)
+	var p *WAFPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*WAFPolicySpec)
+	} else {
+		p = proto.Clone(in).(*WAFPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the WAFPolicy.Status
 func (in *WAFPolicyStatus) DeepCopyInto(out *WAFPolicyStatus) {
-	p := proto.Clone(in).(*WAFPolicyStatus)
+	var p *WAFPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*WAFPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*WAFPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the JWTPolicy.Spec
 func (in *JWTPolicySpec) DeepCopyInto(out *JWTPolicySpec) {
-	p := proto.Clone(in).(*JWTPolicySpec)
+	var p *JWTPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*JWTPolicySpec)
+	} else {
+		p = proto.Clone(in).(*JWTPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the JWTPolicy.Status
 func (in *JWTPolicyStatus) DeepCopyInto(out *JWTPolicyStatus) {
-	p := proto.Clone(in).(*JWTPolicyStatus)
+	var p *JWTPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*JWTPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*JWTPolicyStatus)
+	}
 	*out = *p
 }

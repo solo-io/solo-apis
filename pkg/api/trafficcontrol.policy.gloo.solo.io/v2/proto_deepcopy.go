@@ -6,76 +6,137 @@ package v2
 
 import (
 	proto "github.com/golang/protobuf/proto"
+	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 )
 
 // DeepCopyInto for the MirrorPolicy.Spec
 func (in *MirrorPolicySpec) DeepCopyInto(out *MirrorPolicySpec) {
-	p := proto.Clone(in).(*MirrorPolicySpec)
+	var p *MirrorPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*MirrorPolicySpec)
+	} else {
+		p = proto.Clone(in).(*MirrorPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the MirrorPolicy.Status
 func (in *MirrorPolicyStatus) DeepCopyInto(out *MirrorPolicyStatus) {
-	p := proto.Clone(in).(*MirrorPolicyStatus)
+	var p *MirrorPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*MirrorPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*MirrorPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RateLimitPolicy.Spec
 func (in *RateLimitPolicySpec) DeepCopyInto(out *RateLimitPolicySpec) {
-	p := proto.Clone(in).(*RateLimitPolicySpec)
+	var p *RateLimitPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RateLimitPolicySpec)
+	} else {
+		p = proto.Clone(in).(*RateLimitPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RateLimitPolicy.Status
 func (in *RateLimitPolicyStatus) DeepCopyInto(out *RateLimitPolicyStatus) {
-	p := proto.Clone(in).(*RateLimitPolicyStatus)
+	var p *RateLimitPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RateLimitPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*RateLimitPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RateLimitClientConfig.Spec
 func (in *RateLimitClientConfigSpec) DeepCopyInto(out *RateLimitClientConfigSpec) {
-	p := proto.Clone(in).(*RateLimitClientConfigSpec)
+	var p *RateLimitClientConfigSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RateLimitClientConfigSpec)
+	} else {
+		p = proto.Clone(in).(*RateLimitClientConfigSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RateLimitClientConfig.Status
 func (in *RateLimitClientConfigStatus) DeepCopyInto(out *RateLimitClientConfigStatus) {
-	p := proto.Clone(in).(*RateLimitClientConfigStatus)
+	var p *RateLimitClientConfigStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RateLimitClientConfigStatus)
+	} else {
+		p = proto.Clone(in).(*RateLimitClientConfigStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the HeaderManipulationPolicy.Spec
 func (in *HeaderManipulationPolicySpec) DeepCopyInto(out *HeaderManipulationPolicySpec) {
-	p := proto.Clone(in).(*HeaderManipulationPolicySpec)
+	var p *HeaderManipulationPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*HeaderManipulationPolicySpec)
+	} else {
+		p = proto.Clone(in).(*HeaderManipulationPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the HeaderManipulationPolicy.Status
 func (in *HeaderManipulationPolicyStatus) DeepCopyInto(out *HeaderManipulationPolicyStatus) {
-	p := proto.Clone(in).(*HeaderManipulationPolicyStatus)
+	var p *HeaderManipulationPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*HeaderManipulationPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*HeaderManipulationPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the TransformationPolicy.Spec
 func (in *TransformationPolicySpec) DeepCopyInto(out *TransformationPolicySpec) {
-	p := proto.Clone(in).(*TransformationPolicySpec)
+	var p *TransformationPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*TransformationPolicySpec)
+	} else {
+		p = proto.Clone(in).(*TransformationPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the TransformationPolicy.Status
 func (in *TransformationPolicyStatus) DeepCopyInto(out *TransformationPolicyStatus) {
-	p := proto.Clone(in).(*TransformationPolicyStatus)
+	var p *TransformationPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*TransformationPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*TransformationPolicyStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the ProxyProtocolPolicy.Spec
 func (in *ProxyProtocolPolicySpec) DeepCopyInto(out *ProxyProtocolPolicySpec) {
-	p := proto.Clone(in).(*ProxyProtocolPolicySpec)
+	var p *ProxyProtocolPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ProxyProtocolPolicySpec)
+	} else {
+		p = proto.Clone(in).(*ProxyProtocolPolicySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the ProxyProtocolPolicy.Status
 func (in *ProxyProtocolPolicyStatus) DeepCopyInto(out *ProxyProtocolPolicyStatus) {
-	p := proto.Clone(in).(*ProxyProtocolPolicyStatus)
+	var p *ProxyProtocolPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ProxyProtocolPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*ProxyProtocolPolicyStatus)
+	}
 	*out = *p
 }

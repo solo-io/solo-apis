@@ -85,6 +85,7 @@ func (s *wasmDeploymentPolicySet) List(filterResource ...func(*extensions_policy
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*extensions_policy_gloo_solo_io_v2.WasmDeploymentPolicy))
 		})
@@ -104,6 +105,7 @@ func (s *wasmDeploymentPolicySet) UnsortedList(filterResource ...func(*extension
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*extensions_policy_gloo_solo_io_v2.WasmDeploymentPolicy))
 		})
