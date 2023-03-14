@@ -24,3 +24,12 @@ message WorkloadReference {
     REPLICA_SET = 4;
   }
 }
+
+// ListenerPortReference identifies a single listener in a VirtualGateway by port number
+message ListenerPortReference {
+  // The gateway containing the listener.
+  ObjectReference gateway_ref = 1;
+
+  // The port of the listener on the gateway.
+  uint32 port = 2;
+}

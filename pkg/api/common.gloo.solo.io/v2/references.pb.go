@@ -139,6 +139,64 @@ func (x *WorkloadReference) GetKind() WorkloadReference_WorkloadKind {
 	return WorkloadReference_UNRECOGNIZED_WORKLOAD
 }
 
+// ListenerPortReference identifies a single listener in a VirtualGateway by port number
+type ListenerPortReference struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The gateway containing the listener.
+	GatewayRef *ObjectReference `protobuf:"bytes,1,opt,name=gateway_ref,json=gatewayRef,proto3" json:"gateway_ref,omitempty"`
+	// The port of the listener on the gateway.
+	Port uint32 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"`
+}
+
+func (x *ListenerPortReference) Reset() {
+	*x = ListenerPortReference{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListenerPortReference) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListenerPortReference) ProtoMessage() {}
+
+func (x *ListenerPortReference) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListenerPortReference.ProtoReflect.Descriptor instead.
+func (*ListenerPortReference) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *ListenerPortReference) GetGatewayRef() *ObjectReference {
+	if x != nil {
+		return x.GatewayRef
+	}
+	return nil
+}
+
+func (x *ListenerPortReference) GetPort() uint32 {
+	if x != nil {
+		return x.Port
+	}
+	return 0
+}
+
 var File_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto protoreflect.FileDescriptor
 
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_rawDesc = []byte{
@@ -171,12 +229,19 @@ var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_refer
 	0x10, 0x01, 0x12, 0x0e, 0x0a, 0x0a, 0x44, 0x41, 0x45, 0x4d, 0x4f, 0x4e, 0x5f, 0x53, 0x45, 0x54,
 	0x10, 0x02, 0x12, 0x10, 0x0a, 0x0c, 0x53, 0x54, 0x41, 0x54, 0x45, 0x46, 0x55, 0x4c, 0x5f, 0x53,
 	0x45, 0x54, 0x10, 0x03, 0x12, 0x0f, 0x0a, 0x0b, 0x52, 0x45, 0x50, 0x4c, 0x49, 0x43, 0x41, 0x5f,
-	0x53, 0x45, 0x54, 0x10, 0x04, 0x42, 0x49, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
-	0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x6c, 0x6f,
-	0x2d, 0x61, 0x70, 0x69, 0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f,
-	0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69,
-	0x6f, 0x2f, 0x76, 0x32, 0xc0, 0xf5, 0x04, 0x01, 0xd0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x53, 0x45, 0x54, 0x10, 0x04, 0x22, 0x72, 0x0a, 0x15, 0x4c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65,
+	0x72, 0x50, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x12, 0x45,
+	0x0a, 0x0b, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x5f, 0x72, 0x65, 0x66, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x24, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f,
+	0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74,
+	0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x0a, 0x67, 0x61, 0x74, 0x65, 0x77,
+	0x61, 0x79, 0x52, 0x65, 0x66, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0d, 0x52, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x42, 0x49, 0x5a, 0x3b, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f,
+	0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x61, 0x70, 0x69, 0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f,
+	0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x32, 0xc0, 0xf5, 0x04, 0x01, 0xd0, 0xf5, 0x04, 0x01,
+	0xb8, 0xf5, 0x04, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -192,20 +257,22 @@ func file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_refe
 }
 
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_goTypes = []interface{}{
 	(WorkloadReference_WorkloadKind)(0), // 0: common.gloo.solo.io.WorkloadReference.WorkloadKind
 	(*WorkloadReference)(nil),           // 1: common.gloo.solo.io.WorkloadReference
-	(*ObjectReference)(nil),             // 2: common.gloo.solo.io.ObjectReference
+	(*ListenerPortReference)(nil),       // 2: common.gloo.solo.io.ListenerPortReference
+	(*ObjectReference)(nil),             // 3: common.gloo.solo.io.ObjectReference
 }
 var file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_depIdxs = []int32{
-	2, // 0: common.gloo.solo.io.WorkloadReference.ref:type_name -> common.gloo.solo.io.ObjectReference
+	3, // 0: common.gloo.solo.io.WorkloadReference.ref:type_name -> common.gloo.solo.io.ObjectReference
 	0, // 1: common.gloo.solo.io.WorkloadReference.kind:type_name -> common.gloo.solo.io.WorkloadReference.WorkloadKind
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 2: common.gloo.solo.io.ListenerPortReference.gateway_ref:type_name -> common.gloo.solo.io.ObjectReference
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() {
@@ -229,6 +296,18 @@ func file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_refe
 				return nil
 			}
 		}
+		file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListenerPortReference); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -236,7 +315,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_refe
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_solo_apis_api_gloo_mesh_gloo_solo_io_common_v2_references_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

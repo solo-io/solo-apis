@@ -165,7 +165,7 @@ type TransformationPolicySpec_Config struct {
 	Phase *v2.PrioritizedPhase `protobuf:"bytes,1,opt,name=phase,proto3" json:"phase,omitempty"`
 	// Transformation to be applied before the request is sent to the upstream service.
 	Request *TransformationPolicySpec_Config_RequestTransformation `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
-	// Transform the response received from the upstream servidce before returning it to the client.
+	// Transform the response received from the upstream service before returning it to the client.
 	Response *TransformationPolicySpec_Config_ResponseTransformation `protobuf:"bytes,3,opt,name=response,proto3" json:"response,omitempty"`
 }
 
