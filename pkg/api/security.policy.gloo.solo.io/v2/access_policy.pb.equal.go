@@ -63,6 +63,23 @@ func (m *AccessPolicySpec) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetApplyToWorkloads()) != len(target.GetApplyToWorkloads()) {
+		return false
+	}
+	for idx, v := range m.GetApplyToWorkloads() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApplyToWorkloads()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetApplyToWorkloads()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	if h, ok := interface{}(m.GetConfig()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetConfig()) {
 			return false

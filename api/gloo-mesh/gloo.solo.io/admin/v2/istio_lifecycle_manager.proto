@@ -29,6 +29,11 @@ message IstioClusterSelector {
     // Resources with the istio-injection=true label entry will use this revision. Updating this can be useful for switching over Canary deployments.
     bool default_revision = 2;
   
+    // [Optional] The trust domain value that should be set for this cluster's
+    // Istio installations. This value will be set in the installation's mesh
+    // config. (See https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
+    // Defaults to the cluster's name.
+    string trust_domain = 5;
 }
 
 message IstioInstallation {

@@ -63,6 +63,8 @@ func (m *GatewayClusterSelector) Clone() proto.Message {
 
 	target.ActiveGateway = m.GetActiveGateway()
 
+	target.TrustDomain = m.GetTrustDomain()
+
 	return target
 }
 
