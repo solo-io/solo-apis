@@ -192,8 +192,10 @@ type CommonCertOptions struct {
 	RsaKeySizeBytes uint32 `protobuf:"varint,2,opt,name=rsa_key_size_bytes,json=rsaKeySizeBytes,proto3" json:"rsa_key_size_bytes,omitempty"`
 	// Root cert organization name. Defaults to "gloo-mesh".
 	OrgName string `protobuf:"bytes,3,opt,name=org_name,json=orgName,proto3" json:"org_name,omitempty"`
-	// The ratio of cert lifetime to refresh a cert. For example, at 0.10 and 1 hour TTL,
-	// we would refresh 6 minutes before expiration
+	// The ratio of the certificate lifetime to when Gloo starts the certificate rotation process.
+	// The ratio must be between 0 and 1 (exclusive). For example, if a certificate is valid for
+	// 1 day (or 24 hours), and you specify a ratio of 0.1, Gloo starts the certificate rotation
+	// process 2.4 hours before it expires (24x0.1).
 	SecretRotationGracePeriodRatio float32 `protobuf:"fixed32,4,opt,name=secret_rotation_grace_period_ratio,json=secretRotationGracePeriodRatio,proto3" json:"secret_rotation_grace_period_ratio,omitempty"`
 }
 
