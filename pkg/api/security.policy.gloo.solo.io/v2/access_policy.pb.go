@@ -480,8 +480,8 @@ type AccessPolicySpec_Config_Authorization struct {
 	//gRPC methods must be presented as fully-qualified name in the form of
 	//"/packageName.serviceName/methodName" and are case sensitive.
 	//Exact match, prefix match, and suffix match are supported for paths.
-	//For example, the path "/books/review" matches
-	//"/books/review" (exact match), "*books/" (suffix match), or "/books*" (prefix match).
+	//For example, the path `/books/review` matches
+	//`/books/review` (exact match), `*books/` (suffix match), or `/books*` (prefix match).
 	//
 	//If not specified, allow any path.
 	AllowedPaths []string `protobuf:"bytes,2,rep,name=allowed_paths,json=allowedPaths,proto3" json:"allowed_paths,omitempty"`
@@ -686,22 +686,14 @@ type AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues st
 	unknownFields protoimpl.UnknownFields
 
 	// Optional. A list of match values for the header - request must match at least one value.
-	// Supports wildcards. The following example values would cause the Authorization Policy to
-	// match a request with header values containing `exact-books` OR `partial-matched-books`.
-	// ```yaml
-	//   values:
-	//   - exact-books
-	//   - partial-*-books
-	// ```
+	// Supports wildcards. For example, to cause the Authorization Policy to
+	// match a request with header values containing `exact-books` OR `partial-matched-books`,
+	// set `values` to `exact-books` and `partial-*-books`.
 	Values []string `protobuf:"bytes,1,rep,name=values,proto3" json:"values,omitempty"`
 	// Optional. A list of negative match values for the header - request must not match any values.
-	// Supports wildcards. The following example notValues would cause the Authorization Policy to
-	// not match a request with header values containing `ignore-books` or `partial-ignored-books`
-	// ```yaml
-	//   notValues:
-	//   - ignore-books
-	//   - partial-ig*-books
-	// ```
+	// Supports wildcards. For example, cause the Authorization Policy to
+	// _not_ match a request with header values containing `ignore-books` or `partial-ignored-books`,
+	// set `notValues` to `ignore-books` and `partial-ig*-books`.
 	NotValues []string `protobuf:"bytes,2,rep,name=not_values,json=notValues,proto3" json:"not_values,omitempty"`
 }
 

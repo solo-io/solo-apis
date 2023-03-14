@@ -192,8 +192,10 @@ type CommonCertOptions struct {
 	RsaKeySizeBytes uint32 `protobuf:"varint,2,opt,name=rsa_key_size_bytes,json=rsaKeySizeBytes,proto3" json:"rsa_key_size_bytes,omitempty"`
 	// Root cert organization name. Defaults to "gloo-mesh".
 	OrgName string `protobuf:"bytes,3,opt,name=org_name,json=orgName,proto3" json:"org_name,omitempty"`
-	// The ratio of cert lifetime to refresh a cert. For example, at 0.10 and 1 hour TTL,
-	// we would refresh 6 minutes before expiration
+	// The ratio of the certificate lifetime to when Gloo starts the certificate rotation process.
+	// The ratio must be between 0 and 1 (exclusive). For example, if a certificate is valid for
+	// 1 day (or 24 hours), and you specify a ratio of 0.1, Gloo starts the certificate rotation
+	// process 2.4 hours before it expires (24x0.1).
 	SecretRotationGracePeriodRatio float32 `protobuf:"fixed32,4,opt,name=secret_rotation_grace_period_ratio,json=secretRotationGracePeriodRatio,proto3" json:"secret_rotation_grace_period_ratio,omitempty"`
 }
 
@@ -398,12 +400,14 @@ type isCertificateRotationVerificationMethod_Method interface {
 type CertificateRotationVerificationMethod_None struct {
 	// Verification not enabled. NOTE: This setting is only recommended for testing.
 	// When enabled rotation will continue from step to step without any kind of verification.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
 	None *empty.Empty `protobuf:"bytes,1,opt,name=none,proto3,oneof"`
 }
 
 type CertificateRotationVerificationMethod_Manual struct {
 	// Verification must be completed manually. This involves using our certificate verification
 	// endpoint when the certificates are in a VERIFYING state
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
 	Manual *empty.Empty `protobuf:"bytes,2,opt,name=manual,proto3,oneof"`
 }
 

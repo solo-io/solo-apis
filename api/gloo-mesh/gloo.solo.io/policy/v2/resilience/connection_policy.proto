@@ -35,6 +35,7 @@ message ConnectionPolicySpec {
       int32 max_connections = 2;
 
       // Sets the TCP connection timeout. It must be greater than or equal to 1ms.
+      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
       google.protobuf.Duration connect_timeout = 3;
     }
   }

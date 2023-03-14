@@ -52,15 +52,15 @@ message WasmDeploymentPolicySpec {
                 // to the workload proxy. Note that Gloo Mesh cannot verify
                 // whether the target workload proxy containers contain the given path.
                 // If filters do not load, please inspect the sidecar proxy logs.
-                // TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status
+                // @exclude TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status
                 string local_path_source = 1;
 
                 // Select `http_uri_source` to deploy the filter from an HTTP/S URI accessible
                 // to the workload proxy. Note that Gloo Mesh cannot verify
                 // whether the target workload proxy containers have HTTP access the given URI.
                 // If filters do not load, please inspect the sidecar proxy logs.
-                // TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status
-                // TODO(ilackarms): we may need to provide options for customizing the Cluster given to envoy along with the HTTP Fetch URI. currently Gloo Mesh will create a simple plaintext HTTP cluster from the Host/Port specified in the URI.
+                // @exclude TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status
+                // @exclude TODO(ilackarms): we may need to provide options for customizing the Cluster given to envoy along with the HTTP Fetch URI. currently Gloo Mesh will create a simple plaintext HTTP cluster from the Host/Port specified in the URI.
                 UriSource http_uri_source = 2;
 
                 // fetch the image from a [WASM OCI Registry](https://webassemblyhub.io/)
@@ -77,6 +77,7 @@ message WasmDeploymentPolicySpec {
                 // `google.protobuf.Struct` is serialized as JSON before
                 // passing it to the plugin. `google.protobuf.BytesValue` and
                 // `google.protobuf.StringValue` are passed directly without the wrapper.
+                // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/any).
                 .google.protobuf.Any static_filter_config = 4;
 
                 // Provide configuration from a dynamic configuration source.
@@ -85,7 +86,7 @@ message WasmDeploymentPolicySpec {
                 // NOTE: Not currently implemented. This field serves as a placeholder.
                 // passing it to the plugin. `google.protobuf.BytesValue` and
                 // `google.protobuf.StringValue` are passed directly without the wrapper.
-                // TODO(ilackarms): implement with dynamic filter config source (FCDS) https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/issues/7867
+                // @exclude TODO(ilackarms): implement with dynamic filter config source (FCDS) https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoyproxy/envoy/issues/7867
                 string dynamic_filter_config = 8;
             }
 
@@ -144,9 +145,9 @@ message WasmDeploymentPolicyStatus {
     // The status of the resource in each workspace that it exists in.
     map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
 
-    // Workloads selected by the policy
     // DEPRECATED: Use selected_workload_refs instead
     repeated .common.gloo.solo.io.ObjectReference selected_workloads = 3 [deprecated=true];
 
+    // Workloads selected by the policy
     repeated .common.gloo.solo.io.WorkloadReference selected_workload_refs = 4;
 }

@@ -173,6 +173,7 @@ type CSRFPolicySpec_Config struct {
 	// Envoy will lookup the runtime key to get the percentage of requests to filter.
 	//
 	// .. note:: This field defaults to 100
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
 	Percentage *wrappers.DoubleValue `protobuf:"bytes,3,opt,name=percentage,proto3" json:"percentage,omitempty"`
 	// Specifies additional source origins that will be allowed in addition to
 	// the destination origin.

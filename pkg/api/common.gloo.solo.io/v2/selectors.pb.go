@@ -728,7 +728,7 @@ type IdentitySelector struct {
 
 	// Select kubernetes service accounts as identities.
 	// When selecting a service account that will be created in the future for use in a AuthorizationPolicy, ONLY provide the name, namespace and cluster where the service account will exist in the selector.
-	// Providing labels and/or the workspace for a service account that does not exist in the selector will not result in that service account being added to the resulting AuthorizationPolicy.
+	// Providing labels and/or the workspace, or omitting the name, namespace or cluster for a service account that does not exist in the selector will not result in that service account being added to the resulting AuthorizationPolicy.
 	ServiceAccountSelector *ObjectSelector `protobuf:"bytes,1,opt,name=service_account_selector,json=serviceAccountSelector,proto3" json:"service_account_selector,omitempty"`
 	// Select identities based on properties of the request. If multiple fields are set, they are ANDed together.
 	// More information about the individual values can be found here: https://istio.io/latest/docs/reference/config/security/authorization-policy/#Source
@@ -860,12 +860,8 @@ type WorkspaceSelector struct {
 	// Optional: Name of the workspace to select.
 	// Use * to match name patterns in multiple workspace names.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Optional: Select workspaces based on their labels
-	// The example below select workspaces based on the label `team: backend`:
-	// ```yaml
-	//  - selector:
-	//      team: backend
-	// ```
+	// Optional: Select workspaces based on their labels,
+	// such as setting `selector` to `team: backend`.
 	Selector map[string]string `protobuf:"bytes,2,rep,name=selector,proto3" json:"selector,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 

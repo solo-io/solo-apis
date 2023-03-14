@@ -74,5 +74,5 @@ message RootTrustPolicyStatus {
     // Whether the resource has been accepted as valid and processed in the Gloo Mesh config translation.
     .common.gloo.solo.io.ApprovalState state = 2;
 
-    // TODO(ilackarms): should we also show other qualities of the policy? e.g. where it is applied?
+    // @exclude TODO(ilackarms): should we also show other qualities of the policy? e.g. where it is applied?
 }

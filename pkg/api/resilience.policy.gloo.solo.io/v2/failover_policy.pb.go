@@ -355,6 +355,7 @@ type FailoverPolicySpec_Config_LocalityMappings_DestinationLocality struct {
 	// (Optional) Weight for destination locality. All weights must add up to 100.
 	// If not provided, we will determine the weight based on other
 	// destination locality weights.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
 	Weight *wrappers.UInt32Value `protobuf:"bytes,4,opt,name=weight,proto3" json:"weight,omitempty"`
 }
 

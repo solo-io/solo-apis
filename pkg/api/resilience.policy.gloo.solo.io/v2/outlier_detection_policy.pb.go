@@ -171,10 +171,12 @@ type OutlierDetectionPolicySpec_Config struct {
 	Interval *duration.Duration `protobuf:"bytes,2,opt,name=interval,proto3" json:"interval,omitempty"`
 	// The minimum time duration for ejection, or the time when a destination is considered unhealthy and not used for load balancing.
 	// Set this value as an integer plus a unit of time, in the format `1h`, `1m`, `1s`, or `1ms`. The value must be at least `1ms`, and defaults to `30s`.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	BaseEjectionTime *duration.Duration `protobuf:"bytes,3,opt,name=base_ejection_time,json=baseEjectionTime,proto3" json:"base_ejection_time,omitempty"`
 	// The maximum percentage of destinations that can be removed from the healthy connection pool at a time.
 	// For example, if you have 10 total destinations that the policy selects, and set this value to 50 percent, 5 destinations can be removed at once.
 	// At least 1 destination can always be removed, regardless of the value you set. You can set this value between `0` and `100`, with a default of `100`.
+	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	MaxEjectionPercent uint32 `protobuf:"varint,4,opt,name=max_ejection_percent,json=maxEjectionPercent,proto3" json:"max_ejection_percent,omitempty"`
 }
 
