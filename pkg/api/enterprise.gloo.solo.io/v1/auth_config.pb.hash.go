@@ -592,22 +592,22 @@ func (m *HmacAuth) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
-	switch m.MessageType.(type) {
+	switch m.HmacImplementation.(type) {
 
-	case *HmacAuth_Headers:
+	case *HmacAuth_ParametersInHeaders:
 
-		if h, ok := interface{}(m.GetHeaders()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Headers")); err != nil {
+		if h, ok := interface{}(m.GetParametersInHeaders()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ParametersInHeaders")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetHeaders(), nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetParametersInHeaders(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Headers")); err != nil {
+				if _, err = hasher.Write([]byte("ParametersInHeaders")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -622,7 +622,7 @@ func (m *HmacAuth) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *HmacHeadersType) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *HmacParametersInHeaders) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -630,7 +630,7 @@ func (m *HmacHeadersType) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.HmacHeadersType")); err != nil {
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.HmacParametersInHeaders")); err != nil {
 		return 0, err
 	}
 
