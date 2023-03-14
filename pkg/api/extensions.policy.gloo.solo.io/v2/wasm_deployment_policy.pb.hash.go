@@ -45,20 +45,14 @@ func (m *WasmDeploymentPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetApplyToWorkloads() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -67,20 +61,14 @@ func (m *WasmDeploymentPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Config")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Config")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -103,20 +91,14 @@ func (m *WasmDeploymentPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetGlobal()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Global")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Global")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -129,20 +111,14 @@ func (m *WasmDeploymentPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -164,20 +140,14 @@ func (m *WasmDeploymentPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetSelectedWorkloads() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -188,20 +158,14 @@ func (m *WasmDeploymentPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetSelectedWorkloadRefs() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -228,20 +192,14 @@ func (m *WasmDeploymentPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, erro
 	for _, v := range m.GetFilters() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -298,20 +256,14 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter) Hash(hasher hash.Hash64) (u
 	case *WasmDeploymentPolicySpec_Config_WasmFilter_HttpUriSource:
 
 		if h, ok := interface{}(m.GetHttpUriSource()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("HttpUriSource")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetHttpUriSource(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetHttpUriSource(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("HttpUriSource")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -320,20 +272,14 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter) Hash(hasher hash.Hash64) (u
 	case *WasmDeploymentPolicySpec_Config_WasmFilter_WasmImageSource_:
 
 		if h, ok := interface{}(m.GetWasmImageSource()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("WasmImageSource")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetWasmImageSource(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetWasmImageSource(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("WasmImageSource")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -346,20 +292,14 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter) Hash(hasher hash.Hash64) (u
 	case *WasmDeploymentPolicySpec_Config_WasmFilter_StaticFilterConfig:
 
 		if h, ok := interface{}(m.GetStaticFilterConfig()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("StaticFilterConfig")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetStaticFilterConfig(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetStaticFilterConfig(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("StaticFilterConfig")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}

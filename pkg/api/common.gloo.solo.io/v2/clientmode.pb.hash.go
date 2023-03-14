@@ -43,20 +43,14 @@ func (m *ClientMode) Hash(hasher hash.Hash64) (uint64, error) {
 	case *ClientMode_Auto:
 
 		if h, ok := interface{}(m.GetAuto()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Auto")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetAuto(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetAuto(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Auto")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -65,20 +59,14 @@ func (m *ClientMode) Hash(hasher hash.Hash64) (uint64, error) {
 	case *ClientMode_SniRouting:
 
 		if h, ok := interface{}(m.GetSniRouting()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("SniRouting")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetSniRouting(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetSniRouting(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("SniRouting")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -87,20 +75,14 @@ func (m *ClientMode) Hash(hasher hash.Hash64) (uint64, error) {
 	case *ClientMode_TlsTermination:
 
 		if h, ok := interface{}(m.GetTlsTermination()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("TlsTermination")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetTlsTermination(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetTlsTermination(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("TlsTermination")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}

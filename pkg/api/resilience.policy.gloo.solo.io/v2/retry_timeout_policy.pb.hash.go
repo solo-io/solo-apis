@@ -41,20 +41,14 @@ func (m *RetryTimeoutPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetApplyToRoutes() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -63,20 +57,14 @@ func (m *RetryTimeoutPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Config")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Config")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -99,20 +87,14 @@ func (m *RetryTimeoutPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetGlobal()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Global")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Global")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -125,20 +107,14 @@ func (m *RetryTimeoutPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -160,20 +136,14 @@ func (m *RetryTimeoutPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetSelectedRoutes() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -198,40 +168,28 @@ func (m *RetryTimeoutPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error)
 	}
 
 	if h, ok := interface{}(m.GetRetries()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Retries")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRetries(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRetries(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Retries")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetRequestTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("RequestTimeout")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRequestTimeout(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRequestTimeout(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("RequestTimeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -254,40 +212,28 @@ func (m *RetryTimeoutPolicySpec_Config_RetryPolicy) Hash(hasher hash.Hash64) (ui
 	}
 
 	if h, ok := interface{}(m.GetAttempts()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Attempts")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetAttempts(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetAttempts(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Attempts")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetPerTryTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("PerTryTimeout")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPerTryTimeout(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPerTryTimeout(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("PerTryTimeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -298,20 +244,14 @@ func (m *RetryTimeoutPolicySpec_Config_RetryPolicy) Hash(hasher hash.Hash64) (ui
 	}
 
 	if h, ok := interface{}(m.GetRetryRemoteLocalities()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("RetryRemoteLocalities")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRetryRemoteLocalities(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRetryRemoteLocalities(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("RetryRemoteLocalities")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

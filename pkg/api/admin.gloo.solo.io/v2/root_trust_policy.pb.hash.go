@@ -41,20 +41,14 @@ func (m *RootTrustPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetApplyToMeshes() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -63,20 +57,14 @@ func (m *RootTrustPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Config")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Config")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -125,20 +113,14 @@ func (m *RootTrustPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetIntermediateCertOptions()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("IntermediateCertOptions")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetIntermediateCertOptions(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetIntermediateCertOptions(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("IntermediateCertOptions")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -154,20 +136,14 @@ func (m *RootTrustPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	case *RootTrustPolicySpec_Config_MgmtServerCa:
 
 		if h, ok := interface{}(m.GetMgmtServerCa()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("MgmtServerCa")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetMgmtServerCa(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetMgmtServerCa(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("MgmtServerCa")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -176,20 +152,14 @@ func (m *RootTrustPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	case *RootTrustPolicySpec_Config_AgentCa:
 
 		if h, ok := interface{}(m.GetAgentCa()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("AgentCa")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetAgentCa(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetAgentCa(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("AgentCa")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -218,20 +188,14 @@ func (m *RootTrustPolicySpec_Config_MgmtServerCertificateAuthority) Hash(hasher 
 	case *RootTrustPolicySpec_Config_MgmtServerCertificateAuthority_Generated:
 
 		if h, ok := interface{}(m.GetGenerated()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Generated")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetGenerated(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetGenerated(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Generated")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -240,20 +204,14 @@ func (m *RootTrustPolicySpec_Config_MgmtServerCertificateAuthority) Hash(hasher 
 	case *RootTrustPolicySpec_Config_MgmtServerCertificateAuthority_SecretRef:
 
 		if h, ok := interface{}(m.GetSecretRef()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("SecretRef")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetSecretRef(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetSecretRef(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("SecretRef")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}

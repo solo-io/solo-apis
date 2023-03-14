@@ -13,30 +13,30 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// MockMulticlusterClientset is a mock of MulticlusterClientset interface
+// MockMulticlusterClientset is a mock of MulticlusterClientset interface.
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
 }
 
-// MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset
+// MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
 type MockMulticlusterClientsetMockRecorder struct {
 	mock *MockMulticlusterClientset
 }
 
-// NewMockMulticlusterClientset creates a new mock instance
+// NewMockMulticlusterClientset creates a new mock instance.
 func NewMockMulticlusterClientset(ctrl *gomock.Controller) *MockMulticlusterClientset {
 	mock := &MockMulticlusterClientset{ctrl: ctrl}
 	mock.recorder = &MockMulticlusterClientsetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockMulticlusterClientset) EXPECT() *MockMulticlusterClientsetMockRecorder {
 	return m.recorder
 }
 
-// Cluster mocks base method
+// Cluster mocks base method.
 func (m *MockMulticlusterClientset) Cluster(cluster string) (v2.Clientset, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Cluster", cluster)
@@ -45,36 +45,36 @@ func (m *MockMulticlusterClientset) Cluster(cluster string) (v2.Clientset, error
 	return ret0, ret1
 }
 
-// Cluster indicates an expected call of Cluster
+// Cluster indicates an expected call of Cluster.
 func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterClientset)(nil).Cluster), cluster)
 }
 
-// MockClientset is a mock of Clientset interface
+// MockClientset is a mock of Clientset interface.
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
 }
 
-// MockClientsetMockRecorder is the mock recorder for MockClientset
+// MockClientsetMockRecorder is the mock recorder for MockClientset.
 type MockClientsetMockRecorder struct {
 	mock *MockClientset
 }
 
-// NewMockClientset creates a new mock instance
+// NewMockClientset creates a new mock instance.
 func NewMockClientset(ctrl *gomock.Controller) *MockClientset {
 	mock := &MockClientset{ctrl: ctrl}
 	mock.recorder = &MockClientsetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockClientset) EXPECT() *MockClientsetMockRecorder {
 	return m.recorder
 }
 
-// FailoverPolicies mocks base method
+// FailoverPolicies mocks base method.
 func (m *MockClientset) FailoverPolicies() v2.FailoverPolicyClient {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FailoverPolicies")
@@ -82,27 +82,13 @@ func (m *MockClientset) FailoverPolicies() v2.FailoverPolicyClient {
 	return ret0
 }
 
-// FailoverPolicies indicates an expected call of FailoverPolicies
+// FailoverPolicies indicates an expected call of FailoverPolicies.
 func (mr *MockClientsetMockRecorder) FailoverPolicies() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FailoverPolicies", reflect.TypeOf((*MockClientset)(nil).FailoverPolicies))
 }
 
-// OutlierDetectionPolicies mocks base method
-func (m *MockClientset) OutlierDetectionPolicies() v2.OutlierDetectionPolicyClient {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OutlierDetectionPolicies")
-	ret0, _ := ret[0].(v2.OutlierDetectionPolicyClient)
-	return ret0
-}
-
-// OutlierDetectionPolicies indicates an expected call of OutlierDetectionPolicies
-func (mr *MockClientsetMockRecorder) OutlierDetectionPolicies() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OutlierDetectionPolicies", reflect.TypeOf((*MockClientset)(nil).OutlierDetectionPolicies))
-}
-
-// FaultInjectionPolicies mocks base method
+// FaultInjectionPolicies mocks base method.
 func (m *MockClientset) FaultInjectionPolicies() v2.FaultInjectionPolicyClient {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FaultInjectionPolicies")
@@ -110,13 +96,27 @@ func (m *MockClientset) FaultInjectionPolicies() v2.FaultInjectionPolicyClient {
 	return ret0
 }
 
-// FaultInjectionPolicies indicates an expected call of FaultInjectionPolicies
+// FaultInjectionPolicies indicates an expected call of FaultInjectionPolicies.
 func (mr *MockClientsetMockRecorder) FaultInjectionPolicies() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FaultInjectionPolicies", reflect.TypeOf((*MockClientset)(nil).FaultInjectionPolicies))
 }
 
-// RetryTimeoutPolicies mocks base method
+// OutlierDetectionPolicies mocks base method.
+func (m *MockClientset) OutlierDetectionPolicies() v2.OutlierDetectionPolicyClient {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "OutlierDetectionPolicies")
+	ret0, _ := ret[0].(v2.OutlierDetectionPolicyClient)
+	return ret0
+}
+
+// OutlierDetectionPolicies indicates an expected call of OutlierDetectionPolicies.
+func (mr *MockClientsetMockRecorder) OutlierDetectionPolicies() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OutlierDetectionPolicies", reflect.TypeOf((*MockClientset)(nil).OutlierDetectionPolicies))
+}
+
+// RetryTimeoutPolicies mocks base method.
 func (m *MockClientset) RetryTimeoutPolicies() v2.RetryTimeoutPolicyClient {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RetryTimeoutPolicies")
@@ -124,36 +124,36 @@ func (m *MockClientset) RetryTimeoutPolicies() v2.RetryTimeoutPolicyClient {
 	return ret0
 }
 
-// RetryTimeoutPolicies indicates an expected call of RetryTimeoutPolicies
+// RetryTimeoutPolicies indicates an expected call of RetryTimeoutPolicies.
 func (mr *MockClientsetMockRecorder) RetryTimeoutPolicies() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RetryTimeoutPolicies", reflect.TypeOf((*MockClientset)(nil).RetryTimeoutPolicies))
 }
 
-// MockFailoverPolicyReader is a mock of FailoverPolicyReader interface
+// MockFailoverPolicyReader is a mock of FailoverPolicyReader interface.
 type MockFailoverPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockFailoverPolicyReaderMockRecorder
 }
 
-// MockFailoverPolicyReaderMockRecorder is the mock recorder for MockFailoverPolicyReader
+// MockFailoverPolicyReaderMockRecorder is the mock recorder for MockFailoverPolicyReader.
 type MockFailoverPolicyReaderMockRecorder struct {
 	mock *MockFailoverPolicyReader
 }
 
-// NewMockFailoverPolicyReader creates a new mock instance
+// NewMockFailoverPolicyReader creates a new mock instance.
 func NewMockFailoverPolicyReader(ctrl *gomock.Controller) *MockFailoverPolicyReader {
 	mock := &MockFailoverPolicyReader{ctrl: ctrl}
 	mock.recorder = &MockFailoverPolicyReaderMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFailoverPolicyReader) EXPECT() *MockFailoverPolicyReaderMockRecorder {
 	return m.recorder
 }
 
-// GetFailoverPolicy mocks base method
+// GetFailoverPolicy mocks base method.
 func (m *MockFailoverPolicyReader) GetFailoverPolicy(ctx context.Context, key client.ObjectKey) (*v2.FailoverPolicy, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetFailoverPolicy", ctx, key)
@@ -162,13 +162,13 @@ func (m *MockFailoverPolicyReader) GetFailoverPolicy(ctx context.Context, key cl
 	return ret0, ret1
 }
 
-// GetFailoverPolicy indicates an expected call of GetFailoverPolicy
+// GetFailoverPolicy indicates an expected call of GetFailoverPolicy.
 func (mr *MockFailoverPolicyReaderMockRecorder) GetFailoverPolicy(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyReader)(nil).GetFailoverPolicy), ctx, key)
 }
 
-// ListFailoverPolicy mocks base method
+// ListFailoverPolicy mocks base method.
 func (m *MockFailoverPolicyReader) ListFailoverPolicy(ctx context.Context, opts ...client.ListOption) (*v2.FailoverPolicyList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -181,37 +181,37 @@ func (m *MockFailoverPolicyReader) ListFailoverPolicy(ctx context.Context, opts 
 	return ret0, ret1
 }
 
-// ListFailoverPolicy indicates an expected call of ListFailoverPolicy
+// ListFailoverPolicy indicates an expected call of ListFailoverPolicy.
 func (mr *MockFailoverPolicyReaderMockRecorder) ListFailoverPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyReader)(nil).ListFailoverPolicy), varargs...)
 }
 
-// MockFailoverPolicyWriter is a mock of FailoverPolicyWriter interface
+// MockFailoverPolicyWriter is a mock of FailoverPolicyWriter interface.
 type MockFailoverPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockFailoverPolicyWriterMockRecorder
 }
 
-// MockFailoverPolicyWriterMockRecorder is the mock recorder for MockFailoverPolicyWriter
+// MockFailoverPolicyWriterMockRecorder is the mock recorder for MockFailoverPolicyWriter.
 type MockFailoverPolicyWriterMockRecorder struct {
 	mock *MockFailoverPolicyWriter
 }
 
-// NewMockFailoverPolicyWriter creates a new mock instance
+// NewMockFailoverPolicyWriter creates a new mock instance.
 func NewMockFailoverPolicyWriter(ctrl *gomock.Controller) *MockFailoverPolicyWriter {
 	mock := &MockFailoverPolicyWriter{ctrl: ctrl}
 	mock.recorder = &MockFailoverPolicyWriterMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFailoverPolicyWriter) EXPECT() *MockFailoverPolicyWriterMockRecorder {
 	return m.recorder
 }
 
-// CreateFailoverPolicy mocks base method
+// CreateFailoverPolicy mocks base method.
 func (m *MockFailoverPolicyWriter) CreateFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.CreateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
@@ -223,71 +223,14 @@ func (m *MockFailoverPolicyWriter) CreateFailoverPolicy(ctx context.Context, obj
 	return ret0
 }
 
-// CreateFailoverPolicy indicates an expected call of CreateFailoverPolicy
+// CreateFailoverPolicy indicates an expected call of CreateFailoverPolicy.
 func (mr *MockFailoverPolicyWriterMockRecorder) CreateFailoverPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyWriter)(nil).CreateFailoverPolicy), varargs...)
 }
 
-// DeleteFailoverPolicy mocks base method
-func (m *MockFailoverPolicyWriter) DeleteFailoverPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteFailoverPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteFailoverPolicy indicates an expected call of DeleteFailoverPolicy
-func (mr *MockFailoverPolicyWriterMockRecorder) DeleteFailoverPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyWriter)(nil).DeleteFailoverPolicy), varargs...)
-}
-
-// UpdateFailoverPolicy mocks base method
-func (m *MockFailoverPolicyWriter) UpdateFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateFailoverPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateFailoverPolicy indicates an expected call of UpdateFailoverPolicy
-func (mr *MockFailoverPolicyWriterMockRecorder) UpdateFailoverPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyWriter)(nil).UpdateFailoverPolicy), varargs...)
-}
-
-// PatchFailoverPolicy mocks base method
-func (m *MockFailoverPolicyWriter) PatchFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, patch client.Patch, opts ...client.PatchOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj, patch}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PatchFailoverPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// PatchFailoverPolicy indicates an expected call of PatchFailoverPolicy
-func (mr *MockFailoverPolicyWriterMockRecorder) PatchFailoverPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyWriter)(nil).PatchFailoverPolicy), varargs...)
-}
-
-// DeleteAllOfFailoverPolicy mocks base method
+// DeleteAllOfFailoverPolicy mocks base method.
 func (m *MockFailoverPolicyWriter) DeleteAllOfFailoverPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -299,14 +242,71 @@ func (m *MockFailoverPolicyWriter) DeleteAllOfFailoverPolicy(ctx context.Context
 	return ret0
 }
 
-// DeleteAllOfFailoverPolicy indicates an expected call of DeleteAllOfFailoverPolicy
+// DeleteAllOfFailoverPolicy indicates an expected call of DeleteAllOfFailoverPolicy.
 func (mr *MockFailoverPolicyWriterMockRecorder) DeleteAllOfFailoverPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyWriter)(nil).DeleteAllOfFailoverPolicy), varargs...)
 }
 
-// UpsertFailoverPolicy mocks base method
+// DeleteFailoverPolicy mocks base method.
+func (m *MockFailoverPolicyWriter) DeleteFailoverPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteFailoverPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteFailoverPolicy indicates an expected call of DeleteFailoverPolicy.
+func (mr *MockFailoverPolicyWriterMockRecorder) DeleteFailoverPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyWriter)(nil).DeleteFailoverPolicy), varargs...)
+}
+
+// PatchFailoverPolicy mocks base method.
+func (m *MockFailoverPolicyWriter) PatchFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchFailoverPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchFailoverPolicy indicates an expected call of PatchFailoverPolicy.
+func (mr *MockFailoverPolicyWriterMockRecorder) PatchFailoverPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyWriter)(nil).PatchFailoverPolicy), varargs...)
+}
+
+// UpdateFailoverPolicy mocks base method.
+func (m *MockFailoverPolicyWriter) UpdateFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateFailoverPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFailoverPolicy indicates an expected call of UpdateFailoverPolicy.
+func (mr *MockFailoverPolicyWriterMockRecorder) UpdateFailoverPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyWriter)(nil).UpdateFailoverPolicy), varargs...)
+}
+
+// UpsertFailoverPolicy mocks base method.
 func (m *MockFailoverPolicyWriter) UpsertFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, transitionFuncs ...v2.FailoverPolicyTransitionFunction) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
@@ -318,56 +318,37 @@ func (m *MockFailoverPolicyWriter) UpsertFailoverPolicy(ctx context.Context, obj
 	return ret0
 }
 
-// UpsertFailoverPolicy indicates an expected call of UpsertFailoverPolicy
+// UpsertFailoverPolicy indicates an expected call of UpsertFailoverPolicy.
 func (mr *MockFailoverPolicyWriterMockRecorder) UpsertFailoverPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyWriter)(nil).UpsertFailoverPolicy), varargs...)
 }
 
-// MockFailoverPolicyStatusWriter is a mock of FailoverPolicyStatusWriter interface
+// MockFailoverPolicyStatusWriter is a mock of FailoverPolicyStatusWriter interface.
 type MockFailoverPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockFailoverPolicyStatusWriterMockRecorder
 }
 
-// MockFailoverPolicyStatusWriterMockRecorder is the mock recorder for MockFailoverPolicyStatusWriter
+// MockFailoverPolicyStatusWriterMockRecorder is the mock recorder for MockFailoverPolicyStatusWriter.
 type MockFailoverPolicyStatusWriterMockRecorder struct {
 	mock *MockFailoverPolicyStatusWriter
 }
 
-// NewMockFailoverPolicyStatusWriter creates a new mock instance
+// NewMockFailoverPolicyStatusWriter creates a new mock instance.
 func NewMockFailoverPolicyStatusWriter(ctrl *gomock.Controller) *MockFailoverPolicyStatusWriter {
 	mock := &MockFailoverPolicyStatusWriter{ctrl: ctrl}
 	mock.recorder = &MockFailoverPolicyStatusWriterMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFailoverPolicyStatusWriter) EXPECT() *MockFailoverPolicyStatusWriterMockRecorder {
 	return m.recorder
 }
 
-// UpdateFailoverPolicyStatus mocks base method
-func (m *MockFailoverPolicyStatusWriter) UpdateFailoverPolicyStatus(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateFailoverPolicyStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateFailoverPolicyStatus indicates an expected call of UpdateFailoverPolicyStatus
-func (mr *MockFailoverPolicyStatusWriterMockRecorder) UpdateFailoverPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFailoverPolicyStatus", reflect.TypeOf((*MockFailoverPolicyStatusWriter)(nil).UpdateFailoverPolicyStatus), varargs...)
-}
-
-// PatchFailoverPolicyStatus mocks base method
+// PatchFailoverPolicyStatus mocks base method.
 func (m *MockFailoverPolicyStatusWriter) PatchFailoverPolicyStatus(ctx context.Context, obj *v2.FailoverPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -379,37 +360,113 @@ func (m *MockFailoverPolicyStatusWriter) PatchFailoverPolicyStatus(ctx context.C
 	return ret0
 }
 
-// PatchFailoverPolicyStatus indicates an expected call of PatchFailoverPolicyStatus
+// PatchFailoverPolicyStatus indicates an expected call of PatchFailoverPolicyStatus.
 func (mr *MockFailoverPolicyStatusWriterMockRecorder) PatchFailoverPolicyStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFailoverPolicyStatus", reflect.TypeOf((*MockFailoverPolicyStatusWriter)(nil).PatchFailoverPolicyStatus), varargs...)
 }
 
-// MockFailoverPolicyClient is a mock of FailoverPolicyClient interface
+// UpdateFailoverPolicyStatus mocks base method.
+func (m *MockFailoverPolicyStatusWriter) UpdateFailoverPolicyStatus(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateFailoverPolicyStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFailoverPolicyStatus indicates an expected call of UpdateFailoverPolicyStatus.
+func (mr *MockFailoverPolicyStatusWriterMockRecorder) UpdateFailoverPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFailoverPolicyStatus", reflect.TypeOf((*MockFailoverPolicyStatusWriter)(nil).UpdateFailoverPolicyStatus), varargs...)
+}
+
+// MockFailoverPolicyClient is a mock of FailoverPolicyClient interface.
 type MockFailoverPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockFailoverPolicyClientMockRecorder
 }
 
-// MockFailoverPolicyClientMockRecorder is the mock recorder for MockFailoverPolicyClient
+// MockFailoverPolicyClientMockRecorder is the mock recorder for MockFailoverPolicyClient.
 type MockFailoverPolicyClientMockRecorder struct {
 	mock *MockFailoverPolicyClient
 }
 
-// NewMockFailoverPolicyClient creates a new mock instance
+// NewMockFailoverPolicyClient creates a new mock instance.
 func NewMockFailoverPolicyClient(ctrl *gomock.Controller) *MockFailoverPolicyClient {
 	mock := &MockFailoverPolicyClient{ctrl: ctrl}
 	mock.recorder = &MockFailoverPolicyClientMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFailoverPolicyClient) EXPECT() *MockFailoverPolicyClientMockRecorder {
 	return m.recorder
 }
 
-// GetFailoverPolicy mocks base method
+// CreateFailoverPolicy mocks base method.
+func (m *MockFailoverPolicyClient) CreateFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateFailoverPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateFailoverPolicy indicates an expected call of CreateFailoverPolicy.
+func (mr *MockFailoverPolicyClientMockRecorder) CreateFailoverPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).CreateFailoverPolicy), varargs...)
+}
+
+// DeleteAllOfFailoverPolicy mocks base method.
+func (m *MockFailoverPolicyClient) DeleteAllOfFailoverPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfFailoverPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfFailoverPolicy indicates an expected call of DeleteAllOfFailoverPolicy.
+func (mr *MockFailoverPolicyClientMockRecorder) DeleteAllOfFailoverPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).DeleteAllOfFailoverPolicy), varargs...)
+}
+
+// DeleteFailoverPolicy mocks base method.
+func (m *MockFailoverPolicyClient) DeleteFailoverPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteFailoverPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteFailoverPolicy indicates an expected call of DeleteFailoverPolicy.
+func (mr *MockFailoverPolicyClientMockRecorder) DeleteFailoverPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).DeleteFailoverPolicy), varargs...)
+}
+
+// GetFailoverPolicy mocks base method.
 func (m *MockFailoverPolicyClient) GetFailoverPolicy(ctx context.Context, key client.ObjectKey) (*v2.FailoverPolicy, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetFailoverPolicy", ctx, key)
@@ -418,13 +475,13 @@ func (m *MockFailoverPolicyClient) GetFailoverPolicy(ctx context.Context, key cl
 	return ret0, ret1
 }
 
-// GetFailoverPolicy indicates an expected call of GetFailoverPolicy
+// GetFailoverPolicy indicates an expected call of GetFailoverPolicy.
 func (mr *MockFailoverPolicyClientMockRecorder) GetFailoverPolicy(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).GetFailoverPolicy), ctx, key)
 }
 
-// ListFailoverPolicy mocks base method
+// ListFailoverPolicy mocks base method.
 func (m *MockFailoverPolicyClient) ListFailoverPolicy(ctx context.Context, opts ...client.ListOption) (*v2.FailoverPolicyList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -437,71 +494,14 @@ func (m *MockFailoverPolicyClient) ListFailoverPolicy(ctx context.Context, opts 
 	return ret0, ret1
 }
 
-// ListFailoverPolicy indicates an expected call of ListFailoverPolicy
+// ListFailoverPolicy indicates an expected call of ListFailoverPolicy.
 func (mr *MockFailoverPolicyClientMockRecorder) ListFailoverPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).ListFailoverPolicy), varargs...)
 }
 
-// CreateFailoverPolicy mocks base method
-func (m *MockFailoverPolicyClient) CreateFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.CreateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "CreateFailoverPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// CreateFailoverPolicy indicates an expected call of CreateFailoverPolicy
-func (mr *MockFailoverPolicyClientMockRecorder) CreateFailoverPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).CreateFailoverPolicy), varargs...)
-}
-
-// DeleteFailoverPolicy mocks base method
-func (m *MockFailoverPolicyClient) DeleteFailoverPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteFailoverPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteFailoverPolicy indicates an expected call of DeleteFailoverPolicy
-func (mr *MockFailoverPolicyClientMockRecorder) DeleteFailoverPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).DeleteFailoverPolicy), varargs...)
-}
-
-// UpdateFailoverPolicy mocks base method
-func (m *MockFailoverPolicyClient) UpdateFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateFailoverPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateFailoverPolicy indicates an expected call of UpdateFailoverPolicy
-func (mr *MockFailoverPolicyClientMockRecorder) UpdateFailoverPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).UpdateFailoverPolicy), varargs...)
-}
-
-// PatchFailoverPolicy mocks base method
+// PatchFailoverPolicy mocks base method.
 func (m *MockFailoverPolicyClient) PatchFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -513,71 +513,14 @@ func (m *MockFailoverPolicyClient) PatchFailoverPolicy(ctx context.Context, obj 
 	return ret0
 }
 
-// PatchFailoverPolicy indicates an expected call of PatchFailoverPolicy
+// PatchFailoverPolicy indicates an expected call of PatchFailoverPolicy.
 func (mr *MockFailoverPolicyClientMockRecorder) PatchFailoverPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).PatchFailoverPolicy), varargs...)
 }
 
-// DeleteAllOfFailoverPolicy mocks base method
-func (m *MockFailoverPolicyClient) DeleteAllOfFailoverPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteAllOfFailoverPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteAllOfFailoverPolicy indicates an expected call of DeleteAllOfFailoverPolicy
-func (mr *MockFailoverPolicyClientMockRecorder) DeleteAllOfFailoverPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).DeleteAllOfFailoverPolicy), varargs...)
-}
-
-// UpsertFailoverPolicy mocks base method
-func (m *MockFailoverPolicyClient) UpsertFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, transitionFuncs ...v2.FailoverPolicyTransitionFunction) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range transitionFuncs {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpsertFailoverPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpsertFailoverPolicy indicates an expected call of UpsertFailoverPolicy
-func (mr *MockFailoverPolicyClientMockRecorder) UpsertFailoverPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).UpsertFailoverPolicy), varargs...)
-}
-
-// UpdateFailoverPolicyStatus mocks base method
-func (m *MockFailoverPolicyClient) UpdateFailoverPolicyStatus(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateFailoverPolicyStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateFailoverPolicyStatus indicates an expected call of UpdateFailoverPolicyStatus
-func (mr *MockFailoverPolicyClientMockRecorder) UpdateFailoverPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFailoverPolicyStatus", reflect.TypeOf((*MockFailoverPolicyClient)(nil).UpdateFailoverPolicyStatus), varargs...)
-}
-
-// PatchFailoverPolicyStatus mocks base method
+// PatchFailoverPolicyStatus mocks base method.
 func (m *MockFailoverPolicyClient) PatchFailoverPolicyStatus(ctx context.Context, obj *v2.FailoverPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -589,37 +532,94 @@ func (m *MockFailoverPolicyClient) PatchFailoverPolicyStatus(ctx context.Context
 	return ret0
 }
 
-// PatchFailoverPolicyStatus indicates an expected call of PatchFailoverPolicyStatus
+// PatchFailoverPolicyStatus indicates an expected call of PatchFailoverPolicyStatus.
 func (mr *MockFailoverPolicyClientMockRecorder) PatchFailoverPolicyStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFailoverPolicyStatus", reflect.TypeOf((*MockFailoverPolicyClient)(nil).PatchFailoverPolicyStatus), varargs...)
 }
 
-// MockMulticlusterFailoverPolicyClient is a mock of MulticlusterFailoverPolicyClient interface
+// UpdateFailoverPolicy mocks base method.
+func (m *MockFailoverPolicyClient) UpdateFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateFailoverPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFailoverPolicy indicates an expected call of UpdateFailoverPolicy.
+func (mr *MockFailoverPolicyClientMockRecorder) UpdateFailoverPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).UpdateFailoverPolicy), varargs...)
+}
+
+// UpdateFailoverPolicyStatus mocks base method.
+func (m *MockFailoverPolicyClient) UpdateFailoverPolicyStatus(ctx context.Context, obj *v2.FailoverPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateFailoverPolicyStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFailoverPolicyStatus indicates an expected call of UpdateFailoverPolicyStatus.
+func (mr *MockFailoverPolicyClientMockRecorder) UpdateFailoverPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFailoverPolicyStatus", reflect.TypeOf((*MockFailoverPolicyClient)(nil).UpdateFailoverPolicyStatus), varargs...)
+}
+
+// UpsertFailoverPolicy mocks base method.
+func (m *MockFailoverPolicyClient) UpsertFailoverPolicy(ctx context.Context, obj *v2.FailoverPolicy, transitionFuncs ...v2.FailoverPolicyTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertFailoverPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertFailoverPolicy indicates an expected call of UpsertFailoverPolicy.
+func (mr *MockFailoverPolicyClientMockRecorder) UpsertFailoverPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertFailoverPolicy", reflect.TypeOf((*MockFailoverPolicyClient)(nil).UpsertFailoverPolicy), varargs...)
+}
+
+// MockMulticlusterFailoverPolicyClient is a mock of MulticlusterFailoverPolicyClient interface.
 type MockMulticlusterFailoverPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterFailoverPolicyClientMockRecorder
 }
 
-// MockMulticlusterFailoverPolicyClientMockRecorder is the mock recorder for MockMulticlusterFailoverPolicyClient
+// MockMulticlusterFailoverPolicyClientMockRecorder is the mock recorder for MockMulticlusterFailoverPolicyClient.
 type MockMulticlusterFailoverPolicyClientMockRecorder struct {
 	mock *MockMulticlusterFailoverPolicyClient
 }
 
-// NewMockMulticlusterFailoverPolicyClient creates a new mock instance
+// NewMockMulticlusterFailoverPolicyClient creates a new mock instance.
 func NewMockMulticlusterFailoverPolicyClient(ctrl *gomock.Controller) *MockMulticlusterFailoverPolicyClient {
 	mock := &MockMulticlusterFailoverPolicyClient{ctrl: ctrl}
 	mock.recorder = &MockMulticlusterFailoverPolicyClientMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockMulticlusterFailoverPolicyClient) EXPECT() *MockMulticlusterFailoverPolicyClientMockRecorder {
 	return m.recorder
 }
 
-// Cluster mocks base method
+// Cluster mocks base method.
 func (m *MockMulticlusterFailoverPolicyClient) Cluster(cluster string) (v2.FailoverPolicyClient, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Cluster", cluster)
@@ -628,36 +628,36 @@ func (m *MockMulticlusterFailoverPolicyClient) Cluster(cluster string) (v2.Failo
 	return ret0, ret1
 }
 
-// Cluster indicates an expected call of Cluster
+// Cluster indicates an expected call of Cluster.
 func (mr *MockMulticlusterFailoverPolicyClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterFailoverPolicyClient)(nil).Cluster), cluster)
 }
 
-// MockOutlierDetectionPolicyReader is a mock of OutlierDetectionPolicyReader interface
+// MockOutlierDetectionPolicyReader is a mock of OutlierDetectionPolicyReader interface.
 type MockOutlierDetectionPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockOutlierDetectionPolicyReaderMockRecorder
 }
 
-// MockOutlierDetectionPolicyReaderMockRecorder is the mock recorder for MockOutlierDetectionPolicyReader
+// MockOutlierDetectionPolicyReaderMockRecorder is the mock recorder for MockOutlierDetectionPolicyReader.
 type MockOutlierDetectionPolicyReaderMockRecorder struct {
 	mock *MockOutlierDetectionPolicyReader
 }
 
-// NewMockOutlierDetectionPolicyReader creates a new mock instance
+// NewMockOutlierDetectionPolicyReader creates a new mock instance.
 func NewMockOutlierDetectionPolicyReader(ctrl *gomock.Controller) *MockOutlierDetectionPolicyReader {
 	mock := &MockOutlierDetectionPolicyReader{ctrl: ctrl}
 	mock.recorder = &MockOutlierDetectionPolicyReaderMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockOutlierDetectionPolicyReader) EXPECT() *MockOutlierDetectionPolicyReaderMockRecorder {
 	return m.recorder
 }
 
-// GetOutlierDetectionPolicy mocks base method
+// GetOutlierDetectionPolicy mocks base method.
 func (m *MockOutlierDetectionPolicyReader) GetOutlierDetectionPolicy(ctx context.Context, key client.ObjectKey) (*v2.OutlierDetectionPolicy, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetOutlierDetectionPolicy", ctx, key)
@@ -666,13 +666,13 @@ func (m *MockOutlierDetectionPolicyReader) GetOutlierDetectionPolicy(ctx context
 	return ret0, ret1
 }
 
-// GetOutlierDetectionPolicy indicates an expected call of GetOutlierDetectionPolicy
+// GetOutlierDetectionPolicy indicates an expected call of GetOutlierDetectionPolicy.
 func (mr *MockOutlierDetectionPolicyReaderMockRecorder) GetOutlierDetectionPolicy(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyReader)(nil).GetOutlierDetectionPolicy), ctx, key)
 }
 
-// ListOutlierDetectionPolicy mocks base method
+// ListOutlierDetectionPolicy mocks base method.
 func (m *MockOutlierDetectionPolicyReader) ListOutlierDetectionPolicy(ctx context.Context, opts ...client.ListOption) (*v2.OutlierDetectionPolicyList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -685,37 +685,37 @@ func (m *MockOutlierDetectionPolicyReader) ListOutlierDetectionPolicy(ctx contex
 	return ret0, ret1
 }
 
-// ListOutlierDetectionPolicy indicates an expected call of ListOutlierDetectionPolicy
+// ListOutlierDetectionPolicy indicates an expected call of ListOutlierDetectionPolicy.
 func (mr *MockOutlierDetectionPolicyReaderMockRecorder) ListOutlierDetectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyReader)(nil).ListOutlierDetectionPolicy), varargs...)
 }
 
-// MockOutlierDetectionPolicyWriter is a mock of OutlierDetectionPolicyWriter interface
+// MockOutlierDetectionPolicyWriter is a mock of OutlierDetectionPolicyWriter interface.
 type MockOutlierDetectionPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockOutlierDetectionPolicyWriterMockRecorder
 }
 
-// MockOutlierDetectionPolicyWriterMockRecorder is the mock recorder for MockOutlierDetectionPolicyWriter
+// MockOutlierDetectionPolicyWriterMockRecorder is the mock recorder for MockOutlierDetectionPolicyWriter.
 type MockOutlierDetectionPolicyWriterMockRecorder struct {
 	mock *MockOutlierDetectionPolicyWriter
 }
 
-// NewMockOutlierDetectionPolicyWriter creates a new mock instance
+// NewMockOutlierDetectionPolicyWriter creates a new mock instance.
 func NewMockOutlierDetectionPolicyWriter(ctrl *gomock.Controller) *MockOutlierDetectionPolicyWriter {
 	mock := &MockOutlierDetectionPolicyWriter{ctrl: ctrl}
 	mock.recorder = &MockOutlierDetectionPolicyWriterMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockOutlierDetectionPolicyWriter) EXPECT() *MockOutlierDetectionPolicyWriterMockRecorder {
 	return m.recorder
 }
 
-// CreateOutlierDetectionPolicy mocks base method
+// CreateOutlierDetectionPolicy mocks base method.
 func (m *MockOutlierDetectionPolicyWriter) CreateOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.CreateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
@@ -727,71 +727,14 @@ func (m *MockOutlierDetectionPolicyWriter) CreateOutlierDetectionPolicy(ctx cont
 	return ret0
 }
 
-// CreateOutlierDetectionPolicy indicates an expected call of CreateOutlierDetectionPolicy
+// CreateOutlierDetectionPolicy indicates an expected call of CreateOutlierDetectionPolicy.
 func (mr *MockOutlierDetectionPolicyWriterMockRecorder) CreateOutlierDetectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyWriter)(nil).CreateOutlierDetectionPolicy), varargs...)
 }
 
-// DeleteOutlierDetectionPolicy mocks base method
-func (m *MockOutlierDetectionPolicyWriter) DeleteOutlierDetectionPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteOutlierDetectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteOutlierDetectionPolicy indicates an expected call of DeleteOutlierDetectionPolicy
-func (mr *MockOutlierDetectionPolicyWriterMockRecorder) DeleteOutlierDetectionPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyWriter)(nil).DeleteOutlierDetectionPolicy), varargs...)
-}
-
-// UpdateOutlierDetectionPolicy mocks base method
-func (m *MockOutlierDetectionPolicyWriter) UpdateOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateOutlierDetectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateOutlierDetectionPolicy indicates an expected call of UpdateOutlierDetectionPolicy
-func (mr *MockOutlierDetectionPolicyWriterMockRecorder) UpdateOutlierDetectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyWriter)(nil).UpdateOutlierDetectionPolicy), varargs...)
-}
-
-// PatchOutlierDetectionPolicy mocks base method
-func (m *MockOutlierDetectionPolicyWriter) PatchOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj, patch}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PatchOutlierDetectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// PatchOutlierDetectionPolicy indicates an expected call of PatchOutlierDetectionPolicy
-func (mr *MockOutlierDetectionPolicyWriterMockRecorder) PatchOutlierDetectionPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyWriter)(nil).PatchOutlierDetectionPolicy), varargs...)
-}
-
-// DeleteAllOfOutlierDetectionPolicy mocks base method
+// DeleteAllOfOutlierDetectionPolicy mocks base method.
 func (m *MockOutlierDetectionPolicyWriter) DeleteAllOfOutlierDetectionPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -803,14 +746,71 @@ func (m *MockOutlierDetectionPolicyWriter) DeleteAllOfOutlierDetectionPolicy(ctx
 	return ret0
 }
 
-// DeleteAllOfOutlierDetectionPolicy indicates an expected call of DeleteAllOfOutlierDetectionPolicy
+// DeleteAllOfOutlierDetectionPolicy indicates an expected call of DeleteAllOfOutlierDetectionPolicy.
 func (mr *MockOutlierDetectionPolicyWriterMockRecorder) DeleteAllOfOutlierDetectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyWriter)(nil).DeleteAllOfOutlierDetectionPolicy), varargs...)
 }
 
-// UpsertOutlierDetectionPolicy mocks base method
+// DeleteOutlierDetectionPolicy mocks base method.
+func (m *MockOutlierDetectionPolicyWriter) DeleteOutlierDetectionPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteOutlierDetectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteOutlierDetectionPolicy indicates an expected call of DeleteOutlierDetectionPolicy.
+func (mr *MockOutlierDetectionPolicyWriterMockRecorder) DeleteOutlierDetectionPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyWriter)(nil).DeleteOutlierDetectionPolicy), varargs...)
+}
+
+// PatchOutlierDetectionPolicy mocks base method.
+func (m *MockOutlierDetectionPolicyWriter) PatchOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchOutlierDetectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchOutlierDetectionPolicy indicates an expected call of PatchOutlierDetectionPolicy.
+func (mr *MockOutlierDetectionPolicyWriterMockRecorder) PatchOutlierDetectionPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyWriter)(nil).PatchOutlierDetectionPolicy), varargs...)
+}
+
+// UpdateOutlierDetectionPolicy mocks base method.
+func (m *MockOutlierDetectionPolicyWriter) UpdateOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateOutlierDetectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateOutlierDetectionPolicy indicates an expected call of UpdateOutlierDetectionPolicy.
+func (mr *MockOutlierDetectionPolicyWriterMockRecorder) UpdateOutlierDetectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyWriter)(nil).UpdateOutlierDetectionPolicy), varargs...)
+}
+
+// UpsertOutlierDetectionPolicy mocks base method.
 func (m *MockOutlierDetectionPolicyWriter) UpsertOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, transitionFuncs ...v2.OutlierDetectionPolicyTransitionFunction) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
@@ -822,56 +822,37 @@ func (m *MockOutlierDetectionPolicyWriter) UpsertOutlierDetectionPolicy(ctx cont
 	return ret0
 }
 
-// UpsertOutlierDetectionPolicy indicates an expected call of UpsertOutlierDetectionPolicy
+// UpsertOutlierDetectionPolicy indicates an expected call of UpsertOutlierDetectionPolicy.
 func (mr *MockOutlierDetectionPolicyWriterMockRecorder) UpsertOutlierDetectionPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyWriter)(nil).UpsertOutlierDetectionPolicy), varargs...)
 }
 
-// MockOutlierDetectionPolicyStatusWriter is a mock of OutlierDetectionPolicyStatusWriter interface
+// MockOutlierDetectionPolicyStatusWriter is a mock of OutlierDetectionPolicyStatusWriter interface.
 type MockOutlierDetectionPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockOutlierDetectionPolicyStatusWriterMockRecorder
 }
 
-// MockOutlierDetectionPolicyStatusWriterMockRecorder is the mock recorder for MockOutlierDetectionPolicyStatusWriter
+// MockOutlierDetectionPolicyStatusWriterMockRecorder is the mock recorder for MockOutlierDetectionPolicyStatusWriter.
 type MockOutlierDetectionPolicyStatusWriterMockRecorder struct {
 	mock *MockOutlierDetectionPolicyStatusWriter
 }
 
-// NewMockOutlierDetectionPolicyStatusWriter creates a new mock instance
+// NewMockOutlierDetectionPolicyStatusWriter creates a new mock instance.
 func NewMockOutlierDetectionPolicyStatusWriter(ctrl *gomock.Controller) *MockOutlierDetectionPolicyStatusWriter {
 	mock := &MockOutlierDetectionPolicyStatusWriter{ctrl: ctrl}
 	mock.recorder = &MockOutlierDetectionPolicyStatusWriterMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockOutlierDetectionPolicyStatusWriter) EXPECT() *MockOutlierDetectionPolicyStatusWriterMockRecorder {
 	return m.recorder
 }
 
-// UpdateOutlierDetectionPolicyStatus mocks base method
-func (m *MockOutlierDetectionPolicyStatusWriter) UpdateOutlierDetectionPolicyStatus(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateOutlierDetectionPolicyStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateOutlierDetectionPolicyStatus indicates an expected call of UpdateOutlierDetectionPolicyStatus
-func (mr *MockOutlierDetectionPolicyStatusWriterMockRecorder) UpdateOutlierDetectionPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOutlierDetectionPolicyStatus", reflect.TypeOf((*MockOutlierDetectionPolicyStatusWriter)(nil).UpdateOutlierDetectionPolicyStatus), varargs...)
-}
-
-// PatchOutlierDetectionPolicyStatus mocks base method
+// PatchOutlierDetectionPolicyStatus mocks base method.
 func (m *MockOutlierDetectionPolicyStatusWriter) PatchOutlierDetectionPolicyStatus(ctx context.Context, obj *v2.OutlierDetectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -883,37 +864,113 @@ func (m *MockOutlierDetectionPolicyStatusWriter) PatchOutlierDetectionPolicyStat
 	return ret0
 }
 
-// PatchOutlierDetectionPolicyStatus indicates an expected call of PatchOutlierDetectionPolicyStatus
+// PatchOutlierDetectionPolicyStatus indicates an expected call of PatchOutlierDetectionPolicyStatus.
 func (mr *MockOutlierDetectionPolicyStatusWriterMockRecorder) PatchOutlierDetectionPolicyStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchOutlierDetectionPolicyStatus", reflect.TypeOf((*MockOutlierDetectionPolicyStatusWriter)(nil).PatchOutlierDetectionPolicyStatus), varargs...)
 }
 
-// MockOutlierDetectionPolicyClient is a mock of OutlierDetectionPolicyClient interface
+// UpdateOutlierDetectionPolicyStatus mocks base method.
+func (m *MockOutlierDetectionPolicyStatusWriter) UpdateOutlierDetectionPolicyStatus(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateOutlierDetectionPolicyStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateOutlierDetectionPolicyStatus indicates an expected call of UpdateOutlierDetectionPolicyStatus.
+func (mr *MockOutlierDetectionPolicyStatusWriterMockRecorder) UpdateOutlierDetectionPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOutlierDetectionPolicyStatus", reflect.TypeOf((*MockOutlierDetectionPolicyStatusWriter)(nil).UpdateOutlierDetectionPolicyStatus), varargs...)
+}
+
+// MockOutlierDetectionPolicyClient is a mock of OutlierDetectionPolicyClient interface.
 type MockOutlierDetectionPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockOutlierDetectionPolicyClientMockRecorder
 }
 
-// MockOutlierDetectionPolicyClientMockRecorder is the mock recorder for MockOutlierDetectionPolicyClient
+// MockOutlierDetectionPolicyClientMockRecorder is the mock recorder for MockOutlierDetectionPolicyClient.
 type MockOutlierDetectionPolicyClientMockRecorder struct {
 	mock *MockOutlierDetectionPolicyClient
 }
 
-// NewMockOutlierDetectionPolicyClient creates a new mock instance
+// NewMockOutlierDetectionPolicyClient creates a new mock instance.
 func NewMockOutlierDetectionPolicyClient(ctrl *gomock.Controller) *MockOutlierDetectionPolicyClient {
 	mock := &MockOutlierDetectionPolicyClient{ctrl: ctrl}
 	mock.recorder = &MockOutlierDetectionPolicyClientMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockOutlierDetectionPolicyClient) EXPECT() *MockOutlierDetectionPolicyClientMockRecorder {
 	return m.recorder
 }
 
-// GetOutlierDetectionPolicy mocks base method
+// CreateOutlierDetectionPolicy mocks base method.
+func (m *MockOutlierDetectionPolicyClient) CreateOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateOutlierDetectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateOutlierDetectionPolicy indicates an expected call of CreateOutlierDetectionPolicy.
+func (mr *MockOutlierDetectionPolicyClientMockRecorder) CreateOutlierDetectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).CreateOutlierDetectionPolicy), varargs...)
+}
+
+// DeleteAllOfOutlierDetectionPolicy mocks base method.
+func (m *MockOutlierDetectionPolicyClient) DeleteAllOfOutlierDetectionPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfOutlierDetectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfOutlierDetectionPolicy indicates an expected call of DeleteAllOfOutlierDetectionPolicy.
+func (mr *MockOutlierDetectionPolicyClientMockRecorder) DeleteAllOfOutlierDetectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).DeleteAllOfOutlierDetectionPolicy), varargs...)
+}
+
+// DeleteOutlierDetectionPolicy mocks base method.
+func (m *MockOutlierDetectionPolicyClient) DeleteOutlierDetectionPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteOutlierDetectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteOutlierDetectionPolicy indicates an expected call of DeleteOutlierDetectionPolicy.
+func (mr *MockOutlierDetectionPolicyClientMockRecorder) DeleteOutlierDetectionPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).DeleteOutlierDetectionPolicy), varargs...)
+}
+
+// GetOutlierDetectionPolicy mocks base method.
 func (m *MockOutlierDetectionPolicyClient) GetOutlierDetectionPolicy(ctx context.Context, key client.ObjectKey) (*v2.OutlierDetectionPolicy, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetOutlierDetectionPolicy", ctx, key)
@@ -922,13 +979,13 @@ func (m *MockOutlierDetectionPolicyClient) GetOutlierDetectionPolicy(ctx context
 	return ret0, ret1
 }
 
-// GetOutlierDetectionPolicy indicates an expected call of GetOutlierDetectionPolicy
+// GetOutlierDetectionPolicy indicates an expected call of GetOutlierDetectionPolicy.
 func (mr *MockOutlierDetectionPolicyClientMockRecorder) GetOutlierDetectionPolicy(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).GetOutlierDetectionPolicy), ctx, key)
 }
 
-// ListOutlierDetectionPolicy mocks base method
+// ListOutlierDetectionPolicy mocks base method.
 func (m *MockOutlierDetectionPolicyClient) ListOutlierDetectionPolicy(ctx context.Context, opts ...client.ListOption) (*v2.OutlierDetectionPolicyList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -941,71 +998,14 @@ func (m *MockOutlierDetectionPolicyClient) ListOutlierDetectionPolicy(ctx contex
 	return ret0, ret1
 }
 
-// ListOutlierDetectionPolicy indicates an expected call of ListOutlierDetectionPolicy
+// ListOutlierDetectionPolicy indicates an expected call of ListOutlierDetectionPolicy.
 func (mr *MockOutlierDetectionPolicyClientMockRecorder) ListOutlierDetectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).ListOutlierDetectionPolicy), varargs...)
 }
 
-// CreateOutlierDetectionPolicy mocks base method
-func (m *MockOutlierDetectionPolicyClient) CreateOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.CreateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "CreateOutlierDetectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// CreateOutlierDetectionPolicy indicates an expected call of CreateOutlierDetectionPolicy
-func (mr *MockOutlierDetectionPolicyClientMockRecorder) CreateOutlierDetectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).CreateOutlierDetectionPolicy), varargs...)
-}
-
-// DeleteOutlierDetectionPolicy mocks base method
-func (m *MockOutlierDetectionPolicyClient) DeleteOutlierDetectionPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteOutlierDetectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteOutlierDetectionPolicy indicates an expected call of DeleteOutlierDetectionPolicy
-func (mr *MockOutlierDetectionPolicyClientMockRecorder) DeleteOutlierDetectionPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).DeleteOutlierDetectionPolicy), varargs...)
-}
-
-// UpdateOutlierDetectionPolicy mocks base method
-func (m *MockOutlierDetectionPolicyClient) UpdateOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateOutlierDetectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateOutlierDetectionPolicy indicates an expected call of UpdateOutlierDetectionPolicy
-func (mr *MockOutlierDetectionPolicyClientMockRecorder) UpdateOutlierDetectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).UpdateOutlierDetectionPolicy), varargs...)
-}
-
-// PatchOutlierDetectionPolicy mocks base method
+// PatchOutlierDetectionPolicy mocks base method.
 func (m *MockOutlierDetectionPolicyClient) PatchOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -1017,71 +1017,14 @@ func (m *MockOutlierDetectionPolicyClient) PatchOutlierDetectionPolicy(ctx conte
 	return ret0
 }
 
-// PatchOutlierDetectionPolicy indicates an expected call of PatchOutlierDetectionPolicy
+// PatchOutlierDetectionPolicy indicates an expected call of PatchOutlierDetectionPolicy.
 func (mr *MockOutlierDetectionPolicyClientMockRecorder) PatchOutlierDetectionPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).PatchOutlierDetectionPolicy), varargs...)
 }
 
-// DeleteAllOfOutlierDetectionPolicy mocks base method
-func (m *MockOutlierDetectionPolicyClient) DeleteAllOfOutlierDetectionPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteAllOfOutlierDetectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteAllOfOutlierDetectionPolicy indicates an expected call of DeleteAllOfOutlierDetectionPolicy
-func (mr *MockOutlierDetectionPolicyClientMockRecorder) DeleteAllOfOutlierDetectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).DeleteAllOfOutlierDetectionPolicy), varargs...)
-}
-
-// UpsertOutlierDetectionPolicy mocks base method
-func (m *MockOutlierDetectionPolicyClient) UpsertOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, transitionFuncs ...v2.OutlierDetectionPolicyTransitionFunction) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range transitionFuncs {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpsertOutlierDetectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpsertOutlierDetectionPolicy indicates an expected call of UpsertOutlierDetectionPolicy
-func (mr *MockOutlierDetectionPolicyClientMockRecorder) UpsertOutlierDetectionPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).UpsertOutlierDetectionPolicy), varargs...)
-}
-
-// UpdateOutlierDetectionPolicyStatus mocks base method
-func (m *MockOutlierDetectionPolicyClient) UpdateOutlierDetectionPolicyStatus(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateOutlierDetectionPolicyStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateOutlierDetectionPolicyStatus indicates an expected call of UpdateOutlierDetectionPolicyStatus
-func (mr *MockOutlierDetectionPolicyClientMockRecorder) UpdateOutlierDetectionPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOutlierDetectionPolicyStatus", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).UpdateOutlierDetectionPolicyStatus), varargs...)
-}
-
-// PatchOutlierDetectionPolicyStatus mocks base method
+// PatchOutlierDetectionPolicyStatus mocks base method.
 func (m *MockOutlierDetectionPolicyClient) PatchOutlierDetectionPolicyStatus(ctx context.Context, obj *v2.OutlierDetectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -1093,37 +1036,94 @@ func (m *MockOutlierDetectionPolicyClient) PatchOutlierDetectionPolicyStatus(ctx
 	return ret0
 }
 
-// PatchOutlierDetectionPolicyStatus indicates an expected call of PatchOutlierDetectionPolicyStatus
+// PatchOutlierDetectionPolicyStatus indicates an expected call of PatchOutlierDetectionPolicyStatus.
 func (mr *MockOutlierDetectionPolicyClientMockRecorder) PatchOutlierDetectionPolicyStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchOutlierDetectionPolicyStatus", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).PatchOutlierDetectionPolicyStatus), varargs...)
 }
 
-// MockMulticlusterOutlierDetectionPolicyClient is a mock of MulticlusterOutlierDetectionPolicyClient interface
+// UpdateOutlierDetectionPolicy mocks base method.
+func (m *MockOutlierDetectionPolicyClient) UpdateOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateOutlierDetectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateOutlierDetectionPolicy indicates an expected call of UpdateOutlierDetectionPolicy.
+func (mr *MockOutlierDetectionPolicyClientMockRecorder) UpdateOutlierDetectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).UpdateOutlierDetectionPolicy), varargs...)
+}
+
+// UpdateOutlierDetectionPolicyStatus mocks base method.
+func (m *MockOutlierDetectionPolicyClient) UpdateOutlierDetectionPolicyStatus(ctx context.Context, obj *v2.OutlierDetectionPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateOutlierDetectionPolicyStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateOutlierDetectionPolicyStatus indicates an expected call of UpdateOutlierDetectionPolicyStatus.
+func (mr *MockOutlierDetectionPolicyClientMockRecorder) UpdateOutlierDetectionPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOutlierDetectionPolicyStatus", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).UpdateOutlierDetectionPolicyStatus), varargs...)
+}
+
+// UpsertOutlierDetectionPolicy mocks base method.
+func (m *MockOutlierDetectionPolicyClient) UpsertOutlierDetectionPolicy(ctx context.Context, obj *v2.OutlierDetectionPolicy, transitionFuncs ...v2.OutlierDetectionPolicyTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertOutlierDetectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertOutlierDetectionPolicy indicates an expected call of UpsertOutlierDetectionPolicy.
+func (mr *MockOutlierDetectionPolicyClientMockRecorder) UpsertOutlierDetectionPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertOutlierDetectionPolicy", reflect.TypeOf((*MockOutlierDetectionPolicyClient)(nil).UpsertOutlierDetectionPolicy), varargs...)
+}
+
+// MockMulticlusterOutlierDetectionPolicyClient is a mock of MulticlusterOutlierDetectionPolicyClient interface.
 type MockMulticlusterOutlierDetectionPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterOutlierDetectionPolicyClientMockRecorder
 }
 
-// MockMulticlusterOutlierDetectionPolicyClientMockRecorder is the mock recorder for MockMulticlusterOutlierDetectionPolicyClient
+// MockMulticlusterOutlierDetectionPolicyClientMockRecorder is the mock recorder for MockMulticlusterOutlierDetectionPolicyClient.
 type MockMulticlusterOutlierDetectionPolicyClientMockRecorder struct {
 	mock *MockMulticlusterOutlierDetectionPolicyClient
 }
 
-// NewMockMulticlusterOutlierDetectionPolicyClient creates a new mock instance
+// NewMockMulticlusterOutlierDetectionPolicyClient creates a new mock instance.
 func NewMockMulticlusterOutlierDetectionPolicyClient(ctrl *gomock.Controller) *MockMulticlusterOutlierDetectionPolicyClient {
 	mock := &MockMulticlusterOutlierDetectionPolicyClient{ctrl: ctrl}
 	mock.recorder = &MockMulticlusterOutlierDetectionPolicyClientMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockMulticlusterOutlierDetectionPolicyClient) EXPECT() *MockMulticlusterOutlierDetectionPolicyClientMockRecorder {
 	return m.recorder
 }
 
-// Cluster mocks base method
+// Cluster mocks base method.
 func (m *MockMulticlusterOutlierDetectionPolicyClient) Cluster(cluster string) (v2.OutlierDetectionPolicyClient, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Cluster", cluster)
@@ -1132,36 +1132,36 @@ func (m *MockMulticlusterOutlierDetectionPolicyClient) Cluster(cluster string) (
 	return ret0, ret1
 }
 
-// Cluster indicates an expected call of Cluster
+// Cluster indicates an expected call of Cluster.
 func (mr *MockMulticlusterOutlierDetectionPolicyClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterOutlierDetectionPolicyClient)(nil).Cluster), cluster)
 }
 
-// MockFaultInjectionPolicyReader is a mock of FaultInjectionPolicyReader interface
+// MockFaultInjectionPolicyReader is a mock of FaultInjectionPolicyReader interface.
 type MockFaultInjectionPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockFaultInjectionPolicyReaderMockRecorder
 }
 
-// MockFaultInjectionPolicyReaderMockRecorder is the mock recorder for MockFaultInjectionPolicyReader
+// MockFaultInjectionPolicyReaderMockRecorder is the mock recorder for MockFaultInjectionPolicyReader.
 type MockFaultInjectionPolicyReaderMockRecorder struct {
 	mock *MockFaultInjectionPolicyReader
 }
 
-// NewMockFaultInjectionPolicyReader creates a new mock instance
+// NewMockFaultInjectionPolicyReader creates a new mock instance.
 func NewMockFaultInjectionPolicyReader(ctrl *gomock.Controller) *MockFaultInjectionPolicyReader {
 	mock := &MockFaultInjectionPolicyReader{ctrl: ctrl}
 	mock.recorder = &MockFaultInjectionPolicyReaderMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFaultInjectionPolicyReader) EXPECT() *MockFaultInjectionPolicyReaderMockRecorder {
 	return m.recorder
 }
 
-// GetFaultInjectionPolicy mocks base method
+// GetFaultInjectionPolicy mocks base method.
 func (m *MockFaultInjectionPolicyReader) GetFaultInjectionPolicy(ctx context.Context, key client.ObjectKey) (*v2.FaultInjectionPolicy, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetFaultInjectionPolicy", ctx, key)
@@ -1170,13 +1170,13 @@ func (m *MockFaultInjectionPolicyReader) GetFaultInjectionPolicy(ctx context.Con
 	return ret0, ret1
 }
 
-// GetFaultInjectionPolicy indicates an expected call of GetFaultInjectionPolicy
+// GetFaultInjectionPolicy indicates an expected call of GetFaultInjectionPolicy.
 func (mr *MockFaultInjectionPolicyReaderMockRecorder) GetFaultInjectionPolicy(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyReader)(nil).GetFaultInjectionPolicy), ctx, key)
 }
 
-// ListFaultInjectionPolicy mocks base method
+// ListFaultInjectionPolicy mocks base method.
 func (m *MockFaultInjectionPolicyReader) ListFaultInjectionPolicy(ctx context.Context, opts ...client.ListOption) (*v2.FaultInjectionPolicyList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -1189,37 +1189,37 @@ func (m *MockFaultInjectionPolicyReader) ListFaultInjectionPolicy(ctx context.Co
 	return ret0, ret1
 }
 
-// ListFaultInjectionPolicy indicates an expected call of ListFaultInjectionPolicy
+// ListFaultInjectionPolicy indicates an expected call of ListFaultInjectionPolicy.
 func (mr *MockFaultInjectionPolicyReaderMockRecorder) ListFaultInjectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyReader)(nil).ListFaultInjectionPolicy), varargs...)
 }
 
-// MockFaultInjectionPolicyWriter is a mock of FaultInjectionPolicyWriter interface
+// MockFaultInjectionPolicyWriter is a mock of FaultInjectionPolicyWriter interface.
 type MockFaultInjectionPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockFaultInjectionPolicyWriterMockRecorder
 }
 
-// MockFaultInjectionPolicyWriterMockRecorder is the mock recorder for MockFaultInjectionPolicyWriter
+// MockFaultInjectionPolicyWriterMockRecorder is the mock recorder for MockFaultInjectionPolicyWriter.
 type MockFaultInjectionPolicyWriterMockRecorder struct {
 	mock *MockFaultInjectionPolicyWriter
 }
 
-// NewMockFaultInjectionPolicyWriter creates a new mock instance
+// NewMockFaultInjectionPolicyWriter creates a new mock instance.
 func NewMockFaultInjectionPolicyWriter(ctrl *gomock.Controller) *MockFaultInjectionPolicyWriter {
 	mock := &MockFaultInjectionPolicyWriter{ctrl: ctrl}
 	mock.recorder = &MockFaultInjectionPolicyWriterMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFaultInjectionPolicyWriter) EXPECT() *MockFaultInjectionPolicyWriterMockRecorder {
 	return m.recorder
 }
 
-// CreateFaultInjectionPolicy mocks base method
+// CreateFaultInjectionPolicy mocks base method.
 func (m *MockFaultInjectionPolicyWriter) CreateFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.CreateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
@@ -1231,71 +1231,14 @@ func (m *MockFaultInjectionPolicyWriter) CreateFaultInjectionPolicy(ctx context.
 	return ret0
 }
 
-// CreateFaultInjectionPolicy indicates an expected call of CreateFaultInjectionPolicy
+// CreateFaultInjectionPolicy indicates an expected call of CreateFaultInjectionPolicy.
 func (mr *MockFaultInjectionPolicyWriterMockRecorder) CreateFaultInjectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyWriter)(nil).CreateFaultInjectionPolicy), varargs...)
 }
 
-// DeleteFaultInjectionPolicy mocks base method
-func (m *MockFaultInjectionPolicyWriter) DeleteFaultInjectionPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteFaultInjectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteFaultInjectionPolicy indicates an expected call of DeleteFaultInjectionPolicy
-func (mr *MockFaultInjectionPolicyWriterMockRecorder) DeleteFaultInjectionPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyWriter)(nil).DeleteFaultInjectionPolicy), varargs...)
-}
-
-// UpdateFaultInjectionPolicy mocks base method
-func (m *MockFaultInjectionPolicyWriter) UpdateFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateFaultInjectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateFaultInjectionPolicy indicates an expected call of UpdateFaultInjectionPolicy
-func (mr *MockFaultInjectionPolicyWriterMockRecorder) UpdateFaultInjectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyWriter)(nil).UpdateFaultInjectionPolicy), varargs...)
-}
-
-// PatchFaultInjectionPolicy mocks base method
-func (m *MockFaultInjectionPolicyWriter) PatchFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj, patch}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PatchFaultInjectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// PatchFaultInjectionPolicy indicates an expected call of PatchFaultInjectionPolicy
-func (mr *MockFaultInjectionPolicyWriterMockRecorder) PatchFaultInjectionPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyWriter)(nil).PatchFaultInjectionPolicy), varargs...)
-}
-
-// DeleteAllOfFaultInjectionPolicy mocks base method
+// DeleteAllOfFaultInjectionPolicy mocks base method.
 func (m *MockFaultInjectionPolicyWriter) DeleteAllOfFaultInjectionPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -1307,14 +1250,71 @@ func (m *MockFaultInjectionPolicyWriter) DeleteAllOfFaultInjectionPolicy(ctx con
 	return ret0
 }
 
-// DeleteAllOfFaultInjectionPolicy indicates an expected call of DeleteAllOfFaultInjectionPolicy
+// DeleteAllOfFaultInjectionPolicy indicates an expected call of DeleteAllOfFaultInjectionPolicy.
 func (mr *MockFaultInjectionPolicyWriterMockRecorder) DeleteAllOfFaultInjectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyWriter)(nil).DeleteAllOfFaultInjectionPolicy), varargs...)
 }
 
-// UpsertFaultInjectionPolicy mocks base method
+// DeleteFaultInjectionPolicy mocks base method.
+func (m *MockFaultInjectionPolicyWriter) DeleteFaultInjectionPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteFaultInjectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteFaultInjectionPolicy indicates an expected call of DeleteFaultInjectionPolicy.
+func (mr *MockFaultInjectionPolicyWriterMockRecorder) DeleteFaultInjectionPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyWriter)(nil).DeleteFaultInjectionPolicy), varargs...)
+}
+
+// PatchFaultInjectionPolicy mocks base method.
+func (m *MockFaultInjectionPolicyWriter) PatchFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchFaultInjectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchFaultInjectionPolicy indicates an expected call of PatchFaultInjectionPolicy.
+func (mr *MockFaultInjectionPolicyWriterMockRecorder) PatchFaultInjectionPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyWriter)(nil).PatchFaultInjectionPolicy), varargs...)
+}
+
+// UpdateFaultInjectionPolicy mocks base method.
+func (m *MockFaultInjectionPolicyWriter) UpdateFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateFaultInjectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFaultInjectionPolicy indicates an expected call of UpdateFaultInjectionPolicy.
+func (mr *MockFaultInjectionPolicyWriterMockRecorder) UpdateFaultInjectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyWriter)(nil).UpdateFaultInjectionPolicy), varargs...)
+}
+
+// UpsertFaultInjectionPolicy mocks base method.
 func (m *MockFaultInjectionPolicyWriter) UpsertFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, transitionFuncs ...v2.FaultInjectionPolicyTransitionFunction) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
@@ -1326,56 +1326,37 @@ func (m *MockFaultInjectionPolicyWriter) UpsertFaultInjectionPolicy(ctx context.
 	return ret0
 }
 
-// UpsertFaultInjectionPolicy indicates an expected call of UpsertFaultInjectionPolicy
+// UpsertFaultInjectionPolicy indicates an expected call of UpsertFaultInjectionPolicy.
 func (mr *MockFaultInjectionPolicyWriterMockRecorder) UpsertFaultInjectionPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyWriter)(nil).UpsertFaultInjectionPolicy), varargs...)
 }
 
-// MockFaultInjectionPolicyStatusWriter is a mock of FaultInjectionPolicyStatusWriter interface
+// MockFaultInjectionPolicyStatusWriter is a mock of FaultInjectionPolicyStatusWriter interface.
 type MockFaultInjectionPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockFaultInjectionPolicyStatusWriterMockRecorder
 }
 
-// MockFaultInjectionPolicyStatusWriterMockRecorder is the mock recorder for MockFaultInjectionPolicyStatusWriter
+// MockFaultInjectionPolicyStatusWriterMockRecorder is the mock recorder for MockFaultInjectionPolicyStatusWriter.
 type MockFaultInjectionPolicyStatusWriterMockRecorder struct {
 	mock *MockFaultInjectionPolicyStatusWriter
 }
 
-// NewMockFaultInjectionPolicyStatusWriter creates a new mock instance
+// NewMockFaultInjectionPolicyStatusWriter creates a new mock instance.
 func NewMockFaultInjectionPolicyStatusWriter(ctrl *gomock.Controller) *MockFaultInjectionPolicyStatusWriter {
 	mock := &MockFaultInjectionPolicyStatusWriter{ctrl: ctrl}
 	mock.recorder = &MockFaultInjectionPolicyStatusWriterMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFaultInjectionPolicyStatusWriter) EXPECT() *MockFaultInjectionPolicyStatusWriterMockRecorder {
 	return m.recorder
 }
 
-// UpdateFaultInjectionPolicyStatus mocks base method
-func (m *MockFaultInjectionPolicyStatusWriter) UpdateFaultInjectionPolicyStatus(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateFaultInjectionPolicyStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateFaultInjectionPolicyStatus indicates an expected call of UpdateFaultInjectionPolicyStatus
-func (mr *MockFaultInjectionPolicyStatusWriterMockRecorder) UpdateFaultInjectionPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFaultInjectionPolicyStatus", reflect.TypeOf((*MockFaultInjectionPolicyStatusWriter)(nil).UpdateFaultInjectionPolicyStatus), varargs...)
-}
-
-// PatchFaultInjectionPolicyStatus mocks base method
+// PatchFaultInjectionPolicyStatus mocks base method.
 func (m *MockFaultInjectionPolicyStatusWriter) PatchFaultInjectionPolicyStatus(ctx context.Context, obj *v2.FaultInjectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -1387,37 +1368,113 @@ func (m *MockFaultInjectionPolicyStatusWriter) PatchFaultInjectionPolicyStatus(c
 	return ret0
 }
 
-// PatchFaultInjectionPolicyStatus indicates an expected call of PatchFaultInjectionPolicyStatus
+// PatchFaultInjectionPolicyStatus indicates an expected call of PatchFaultInjectionPolicyStatus.
 func (mr *MockFaultInjectionPolicyStatusWriterMockRecorder) PatchFaultInjectionPolicyStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFaultInjectionPolicyStatus", reflect.TypeOf((*MockFaultInjectionPolicyStatusWriter)(nil).PatchFaultInjectionPolicyStatus), varargs...)
 }
 
-// MockFaultInjectionPolicyClient is a mock of FaultInjectionPolicyClient interface
+// UpdateFaultInjectionPolicyStatus mocks base method.
+func (m *MockFaultInjectionPolicyStatusWriter) UpdateFaultInjectionPolicyStatus(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateFaultInjectionPolicyStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFaultInjectionPolicyStatus indicates an expected call of UpdateFaultInjectionPolicyStatus.
+func (mr *MockFaultInjectionPolicyStatusWriterMockRecorder) UpdateFaultInjectionPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFaultInjectionPolicyStatus", reflect.TypeOf((*MockFaultInjectionPolicyStatusWriter)(nil).UpdateFaultInjectionPolicyStatus), varargs...)
+}
+
+// MockFaultInjectionPolicyClient is a mock of FaultInjectionPolicyClient interface.
 type MockFaultInjectionPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockFaultInjectionPolicyClientMockRecorder
 }
 
-// MockFaultInjectionPolicyClientMockRecorder is the mock recorder for MockFaultInjectionPolicyClient
+// MockFaultInjectionPolicyClientMockRecorder is the mock recorder for MockFaultInjectionPolicyClient.
 type MockFaultInjectionPolicyClientMockRecorder struct {
 	mock *MockFaultInjectionPolicyClient
 }
 
-// NewMockFaultInjectionPolicyClient creates a new mock instance
+// NewMockFaultInjectionPolicyClient creates a new mock instance.
 func NewMockFaultInjectionPolicyClient(ctrl *gomock.Controller) *MockFaultInjectionPolicyClient {
 	mock := &MockFaultInjectionPolicyClient{ctrl: ctrl}
 	mock.recorder = &MockFaultInjectionPolicyClientMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFaultInjectionPolicyClient) EXPECT() *MockFaultInjectionPolicyClientMockRecorder {
 	return m.recorder
 }
 
-// GetFaultInjectionPolicy mocks base method
+// CreateFaultInjectionPolicy mocks base method.
+func (m *MockFaultInjectionPolicyClient) CreateFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateFaultInjectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateFaultInjectionPolicy indicates an expected call of CreateFaultInjectionPolicy.
+func (mr *MockFaultInjectionPolicyClientMockRecorder) CreateFaultInjectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).CreateFaultInjectionPolicy), varargs...)
+}
+
+// DeleteAllOfFaultInjectionPolicy mocks base method.
+func (m *MockFaultInjectionPolicyClient) DeleteAllOfFaultInjectionPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfFaultInjectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfFaultInjectionPolicy indicates an expected call of DeleteAllOfFaultInjectionPolicy.
+func (mr *MockFaultInjectionPolicyClientMockRecorder) DeleteAllOfFaultInjectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).DeleteAllOfFaultInjectionPolicy), varargs...)
+}
+
+// DeleteFaultInjectionPolicy mocks base method.
+func (m *MockFaultInjectionPolicyClient) DeleteFaultInjectionPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteFaultInjectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteFaultInjectionPolicy indicates an expected call of DeleteFaultInjectionPolicy.
+func (mr *MockFaultInjectionPolicyClientMockRecorder) DeleteFaultInjectionPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).DeleteFaultInjectionPolicy), varargs...)
+}
+
+// GetFaultInjectionPolicy mocks base method.
 func (m *MockFaultInjectionPolicyClient) GetFaultInjectionPolicy(ctx context.Context, key client.ObjectKey) (*v2.FaultInjectionPolicy, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetFaultInjectionPolicy", ctx, key)
@@ -1426,13 +1483,13 @@ func (m *MockFaultInjectionPolicyClient) GetFaultInjectionPolicy(ctx context.Con
 	return ret0, ret1
 }
 
-// GetFaultInjectionPolicy indicates an expected call of GetFaultInjectionPolicy
+// GetFaultInjectionPolicy indicates an expected call of GetFaultInjectionPolicy.
 func (mr *MockFaultInjectionPolicyClientMockRecorder) GetFaultInjectionPolicy(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).GetFaultInjectionPolicy), ctx, key)
 }
 
-// ListFaultInjectionPolicy mocks base method
+// ListFaultInjectionPolicy mocks base method.
 func (m *MockFaultInjectionPolicyClient) ListFaultInjectionPolicy(ctx context.Context, opts ...client.ListOption) (*v2.FaultInjectionPolicyList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -1445,71 +1502,14 @@ func (m *MockFaultInjectionPolicyClient) ListFaultInjectionPolicy(ctx context.Co
 	return ret0, ret1
 }
 
-// ListFaultInjectionPolicy indicates an expected call of ListFaultInjectionPolicy
+// ListFaultInjectionPolicy indicates an expected call of ListFaultInjectionPolicy.
 func (mr *MockFaultInjectionPolicyClientMockRecorder) ListFaultInjectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).ListFaultInjectionPolicy), varargs...)
 }
 
-// CreateFaultInjectionPolicy mocks base method
-func (m *MockFaultInjectionPolicyClient) CreateFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.CreateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "CreateFaultInjectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// CreateFaultInjectionPolicy indicates an expected call of CreateFaultInjectionPolicy
-func (mr *MockFaultInjectionPolicyClientMockRecorder) CreateFaultInjectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).CreateFaultInjectionPolicy), varargs...)
-}
-
-// DeleteFaultInjectionPolicy mocks base method
-func (m *MockFaultInjectionPolicyClient) DeleteFaultInjectionPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteFaultInjectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteFaultInjectionPolicy indicates an expected call of DeleteFaultInjectionPolicy
-func (mr *MockFaultInjectionPolicyClientMockRecorder) DeleteFaultInjectionPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).DeleteFaultInjectionPolicy), varargs...)
-}
-
-// UpdateFaultInjectionPolicy mocks base method
-func (m *MockFaultInjectionPolicyClient) UpdateFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateFaultInjectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateFaultInjectionPolicy indicates an expected call of UpdateFaultInjectionPolicy
-func (mr *MockFaultInjectionPolicyClientMockRecorder) UpdateFaultInjectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).UpdateFaultInjectionPolicy), varargs...)
-}
-
-// PatchFaultInjectionPolicy mocks base method
+// PatchFaultInjectionPolicy mocks base method.
 func (m *MockFaultInjectionPolicyClient) PatchFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -1521,71 +1521,14 @@ func (m *MockFaultInjectionPolicyClient) PatchFaultInjectionPolicy(ctx context.C
 	return ret0
 }
 
-// PatchFaultInjectionPolicy indicates an expected call of PatchFaultInjectionPolicy
+// PatchFaultInjectionPolicy indicates an expected call of PatchFaultInjectionPolicy.
 func (mr *MockFaultInjectionPolicyClientMockRecorder) PatchFaultInjectionPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).PatchFaultInjectionPolicy), varargs...)
 }
 
-// DeleteAllOfFaultInjectionPolicy mocks base method
-func (m *MockFaultInjectionPolicyClient) DeleteAllOfFaultInjectionPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteAllOfFaultInjectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteAllOfFaultInjectionPolicy indicates an expected call of DeleteAllOfFaultInjectionPolicy
-func (mr *MockFaultInjectionPolicyClientMockRecorder) DeleteAllOfFaultInjectionPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).DeleteAllOfFaultInjectionPolicy), varargs...)
-}
-
-// UpsertFaultInjectionPolicy mocks base method
-func (m *MockFaultInjectionPolicyClient) UpsertFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, transitionFuncs ...v2.FaultInjectionPolicyTransitionFunction) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range transitionFuncs {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpsertFaultInjectionPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpsertFaultInjectionPolicy indicates an expected call of UpsertFaultInjectionPolicy
-func (mr *MockFaultInjectionPolicyClientMockRecorder) UpsertFaultInjectionPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).UpsertFaultInjectionPolicy), varargs...)
-}
-
-// UpdateFaultInjectionPolicyStatus mocks base method
-func (m *MockFaultInjectionPolicyClient) UpdateFaultInjectionPolicyStatus(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateFaultInjectionPolicyStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateFaultInjectionPolicyStatus indicates an expected call of UpdateFaultInjectionPolicyStatus
-func (mr *MockFaultInjectionPolicyClientMockRecorder) UpdateFaultInjectionPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFaultInjectionPolicyStatus", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).UpdateFaultInjectionPolicyStatus), varargs...)
-}
-
-// PatchFaultInjectionPolicyStatus mocks base method
+// PatchFaultInjectionPolicyStatus mocks base method.
 func (m *MockFaultInjectionPolicyClient) PatchFaultInjectionPolicyStatus(ctx context.Context, obj *v2.FaultInjectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -1597,37 +1540,94 @@ func (m *MockFaultInjectionPolicyClient) PatchFaultInjectionPolicyStatus(ctx con
 	return ret0
 }
 
-// PatchFaultInjectionPolicyStatus indicates an expected call of PatchFaultInjectionPolicyStatus
+// PatchFaultInjectionPolicyStatus indicates an expected call of PatchFaultInjectionPolicyStatus.
 func (mr *MockFaultInjectionPolicyClientMockRecorder) PatchFaultInjectionPolicyStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchFaultInjectionPolicyStatus", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).PatchFaultInjectionPolicyStatus), varargs...)
 }
 
-// MockMulticlusterFaultInjectionPolicyClient is a mock of MulticlusterFaultInjectionPolicyClient interface
+// UpdateFaultInjectionPolicy mocks base method.
+func (m *MockFaultInjectionPolicyClient) UpdateFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateFaultInjectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFaultInjectionPolicy indicates an expected call of UpdateFaultInjectionPolicy.
+func (mr *MockFaultInjectionPolicyClientMockRecorder) UpdateFaultInjectionPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).UpdateFaultInjectionPolicy), varargs...)
+}
+
+// UpdateFaultInjectionPolicyStatus mocks base method.
+func (m *MockFaultInjectionPolicyClient) UpdateFaultInjectionPolicyStatus(ctx context.Context, obj *v2.FaultInjectionPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateFaultInjectionPolicyStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateFaultInjectionPolicyStatus indicates an expected call of UpdateFaultInjectionPolicyStatus.
+func (mr *MockFaultInjectionPolicyClientMockRecorder) UpdateFaultInjectionPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFaultInjectionPolicyStatus", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).UpdateFaultInjectionPolicyStatus), varargs...)
+}
+
+// UpsertFaultInjectionPolicy mocks base method.
+func (m *MockFaultInjectionPolicyClient) UpsertFaultInjectionPolicy(ctx context.Context, obj *v2.FaultInjectionPolicy, transitionFuncs ...v2.FaultInjectionPolicyTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertFaultInjectionPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertFaultInjectionPolicy indicates an expected call of UpsertFaultInjectionPolicy.
+func (mr *MockFaultInjectionPolicyClientMockRecorder) UpsertFaultInjectionPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertFaultInjectionPolicy", reflect.TypeOf((*MockFaultInjectionPolicyClient)(nil).UpsertFaultInjectionPolicy), varargs...)
+}
+
+// MockMulticlusterFaultInjectionPolicyClient is a mock of MulticlusterFaultInjectionPolicyClient interface.
 type MockMulticlusterFaultInjectionPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterFaultInjectionPolicyClientMockRecorder
 }
 
-// MockMulticlusterFaultInjectionPolicyClientMockRecorder is the mock recorder for MockMulticlusterFaultInjectionPolicyClient
+// MockMulticlusterFaultInjectionPolicyClientMockRecorder is the mock recorder for MockMulticlusterFaultInjectionPolicyClient.
 type MockMulticlusterFaultInjectionPolicyClientMockRecorder struct {
 	mock *MockMulticlusterFaultInjectionPolicyClient
 }
 
-// NewMockMulticlusterFaultInjectionPolicyClient creates a new mock instance
+// NewMockMulticlusterFaultInjectionPolicyClient creates a new mock instance.
 func NewMockMulticlusterFaultInjectionPolicyClient(ctrl *gomock.Controller) *MockMulticlusterFaultInjectionPolicyClient {
 	mock := &MockMulticlusterFaultInjectionPolicyClient{ctrl: ctrl}
 	mock.recorder = &MockMulticlusterFaultInjectionPolicyClientMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockMulticlusterFaultInjectionPolicyClient) EXPECT() *MockMulticlusterFaultInjectionPolicyClientMockRecorder {
 	return m.recorder
 }
 
-// Cluster mocks base method
+// Cluster mocks base method.
 func (m *MockMulticlusterFaultInjectionPolicyClient) Cluster(cluster string) (v2.FaultInjectionPolicyClient, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Cluster", cluster)
@@ -1636,36 +1636,36 @@ func (m *MockMulticlusterFaultInjectionPolicyClient) Cluster(cluster string) (v2
 	return ret0, ret1
 }
 
-// Cluster indicates an expected call of Cluster
+// Cluster indicates an expected call of Cluster.
 func (mr *MockMulticlusterFaultInjectionPolicyClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterFaultInjectionPolicyClient)(nil).Cluster), cluster)
 }
 
-// MockRetryTimeoutPolicyReader is a mock of RetryTimeoutPolicyReader interface
+// MockRetryTimeoutPolicyReader is a mock of RetryTimeoutPolicyReader interface.
 type MockRetryTimeoutPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockRetryTimeoutPolicyReaderMockRecorder
 }
 
-// MockRetryTimeoutPolicyReaderMockRecorder is the mock recorder for MockRetryTimeoutPolicyReader
+// MockRetryTimeoutPolicyReaderMockRecorder is the mock recorder for MockRetryTimeoutPolicyReader.
 type MockRetryTimeoutPolicyReaderMockRecorder struct {
 	mock *MockRetryTimeoutPolicyReader
 }
 
-// NewMockRetryTimeoutPolicyReader creates a new mock instance
+// NewMockRetryTimeoutPolicyReader creates a new mock instance.
 func NewMockRetryTimeoutPolicyReader(ctrl *gomock.Controller) *MockRetryTimeoutPolicyReader {
 	mock := &MockRetryTimeoutPolicyReader{ctrl: ctrl}
 	mock.recorder = &MockRetryTimeoutPolicyReaderMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockRetryTimeoutPolicyReader) EXPECT() *MockRetryTimeoutPolicyReaderMockRecorder {
 	return m.recorder
 }
 
-// GetRetryTimeoutPolicy mocks base method
+// GetRetryTimeoutPolicy mocks base method.
 func (m *MockRetryTimeoutPolicyReader) GetRetryTimeoutPolicy(ctx context.Context, key client.ObjectKey) (*v2.RetryTimeoutPolicy, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetRetryTimeoutPolicy", ctx, key)
@@ -1674,13 +1674,13 @@ func (m *MockRetryTimeoutPolicyReader) GetRetryTimeoutPolicy(ctx context.Context
 	return ret0, ret1
 }
 
-// GetRetryTimeoutPolicy indicates an expected call of GetRetryTimeoutPolicy
+// GetRetryTimeoutPolicy indicates an expected call of GetRetryTimeoutPolicy.
 func (mr *MockRetryTimeoutPolicyReaderMockRecorder) GetRetryTimeoutPolicy(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyReader)(nil).GetRetryTimeoutPolicy), ctx, key)
 }
 
-// ListRetryTimeoutPolicy mocks base method
+// ListRetryTimeoutPolicy mocks base method.
 func (m *MockRetryTimeoutPolicyReader) ListRetryTimeoutPolicy(ctx context.Context, opts ...client.ListOption) (*v2.RetryTimeoutPolicyList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -1693,37 +1693,37 @@ func (m *MockRetryTimeoutPolicyReader) ListRetryTimeoutPolicy(ctx context.Contex
 	return ret0, ret1
 }
 
-// ListRetryTimeoutPolicy indicates an expected call of ListRetryTimeoutPolicy
+// ListRetryTimeoutPolicy indicates an expected call of ListRetryTimeoutPolicy.
 func (mr *MockRetryTimeoutPolicyReaderMockRecorder) ListRetryTimeoutPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyReader)(nil).ListRetryTimeoutPolicy), varargs...)
 }
 
-// MockRetryTimeoutPolicyWriter is a mock of RetryTimeoutPolicyWriter interface
+// MockRetryTimeoutPolicyWriter is a mock of RetryTimeoutPolicyWriter interface.
 type MockRetryTimeoutPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockRetryTimeoutPolicyWriterMockRecorder
 }
 
-// MockRetryTimeoutPolicyWriterMockRecorder is the mock recorder for MockRetryTimeoutPolicyWriter
+// MockRetryTimeoutPolicyWriterMockRecorder is the mock recorder for MockRetryTimeoutPolicyWriter.
 type MockRetryTimeoutPolicyWriterMockRecorder struct {
 	mock *MockRetryTimeoutPolicyWriter
 }
 
-// NewMockRetryTimeoutPolicyWriter creates a new mock instance
+// NewMockRetryTimeoutPolicyWriter creates a new mock instance.
 func NewMockRetryTimeoutPolicyWriter(ctrl *gomock.Controller) *MockRetryTimeoutPolicyWriter {
 	mock := &MockRetryTimeoutPolicyWriter{ctrl: ctrl}
 	mock.recorder = &MockRetryTimeoutPolicyWriterMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockRetryTimeoutPolicyWriter) EXPECT() *MockRetryTimeoutPolicyWriterMockRecorder {
 	return m.recorder
 }
 
-// CreateRetryTimeoutPolicy mocks base method
+// CreateRetryTimeoutPolicy mocks base method.
 func (m *MockRetryTimeoutPolicyWriter) CreateRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.CreateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
@@ -1735,71 +1735,14 @@ func (m *MockRetryTimeoutPolicyWriter) CreateRetryTimeoutPolicy(ctx context.Cont
 	return ret0
 }
 
-// CreateRetryTimeoutPolicy indicates an expected call of CreateRetryTimeoutPolicy
+// CreateRetryTimeoutPolicy indicates an expected call of CreateRetryTimeoutPolicy.
 func (mr *MockRetryTimeoutPolicyWriterMockRecorder) CreateRetryTimeoutPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyWriter)(nil).CreateRetryTimeoutPolicy), varargs...)
 }
 
-// DeleteRetryTimeoutPolicy mocks base method
-func (m *MockRetryTimeoutPolicyWriter) DeleteRetryTimeoutPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteRetryTimeoutPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteRetryTimeoutPolicy indicates an expected call of DeleteRetryTimeoutPolicy
-func (mr *MockRetryTimeoutPolicyWriterMockRecorder) DeleteRetryTimeoutPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyWriter)(nil).DeleteRetryTimeoutPolicy), varargs...)
-}
-
-// UpdateRetryTimeoutPolicy mocks base method
-func (m *MockRetryTimeoutPolicyWriter) UpdateRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateRetryTimeoutPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRetryTimeoutPolicy indicates an expected call of UpdateRetryTimeoutPolicy
-func (mr *MockRetryTimeoutPolicyWriterMockRecorder) UpdateRetryTimeoutPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyWriter)(nil).UpdateRetryTimeoutPolicy), varargs...)
-}
-
-// PatchRetryTimeoutPolicy mocks base method
-func (m *MockRetryTimeoutPolicyWriter) PatchRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, patch client.Patch, opts ...client.PatchOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj, patch}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PatchRetryTimeoutPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// PatchRetryTimeoutPolicy indicates an expected call of PatchRetryTimeoutPolicy
-func (mr *MockRetryTimeoutPolicyWriterMockRecorder) PatchRetryTimeoutPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyWriter)(nil).PatchRetryTimeoutPolicy), varargs...)
-}
-
-// DeleteAllOfRetryTimeoutPolicy mocks base method
+// DeleteAllOfRetryTimeoutPolicy mocks base method.
 func (m *MockRetryTimeoutPolicyWriter) DeleteAllOfRetryTimeoutPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -1811,14 +1754,71 @@ func (m *MockRetryTimeoutPolicyWriter) DeleteAllOfRetryTimeoutPolicy(ctx context
 	return ret0
 }
 
-// DeleteAllOfRetryTimeoutPolicy indicates an expected call of DeleteAllOfRetryTimeoutPolicy
+// DeleteAllOfRetryTimeoutPolicy indicates an expected call of DeleteAllOfRetryTimeoutPolicy.
 func (mr *MockRetryTimeoutPolicyWriterMockRecorder) DeleteAllOfRetryTimeoutPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyWriter)(nil).DeleteAllOfRetryTimeoutPolicy), varargs...)
 }
 
-// UpsertRetryTimeoutPolicy mocks base method
+// DeleteRetryTimeoutPolicy mocks base method.
+func (m *MockRetryTimeoutPolicyWriter) DeleteRetryTimeoutPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteRetryTimeoutPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteRetryTimeoutPolicy indicates an expected call of DeleteRetryTimeoutPolicy.
+func (mr *MockRetryTimeoutPolicyWriterMockRecorder) DeleteRetryTimeoutPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyWriter)(nil).DeleteRetryTimeoutPolicy), varargs...)
+}
+
+// PatchRetryTimeoutPolicy mocks base method.
+func (m *MockRetryTimeoutPolicyWriter) PatchRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchRetryTimeoutPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchRetryTimeoutPolicy indicates an expected call of PatchRetryTimeoutPolicy.
+func (mr *MockRetryTimeoutPolicyWriterMockRecorder) PatchRetryTimeoutPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyWriter)(nil).PatchRetryTimeoutPolicy), varargs...)
+}
+
+// UpdateRetryTimeoutPolicy mocks base method.
+func (m *MockRetryTimeoutPolicyWriter) UpdateRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateRetryTimeoutPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRetryTimeoutPolicy indicates an expected call of UpdateRetryTimeoutPolicy.
+func (mr *MockRetryTimeoutPolicyWriterMockRecorder) UpdateRetryTimeoutPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyWriter)(nil).UpdateRetryTimeoutPolicy), varargs...)
+}
+
+// UpsertRetryTimeoutPolicy mocks base method.
 func (m *MockRetryTimeoutPolicyWriter) UpsertRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, transitionFuncs ...v2.RetryTimeoutPolicyTransitionFunction) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
@@ -1830,56 +1830,37 @@ func (m *MockRetryTimeoutPolicyWriter) UpsertRetryTimeoutPolicy(ctx context.Cont
 	return ret0
 }
 
-// UpsertRetryTimeoutPolicy indicates an expected call of UpsertRetryTimeoutPolicy
+// UpsertRetryTimeoutPolicy indicates an expected call of UpsertRetryTimeoutPolicy.
 func (mr *MockRetryTimeoutPolicyWriterMockRecorder) UpsertRetryTimeoutPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyWriter)(nil).UpsertRetryTimeoutPolicy), varargs...)
 }
 
-// MockRetryTimeoutPolicyStatusWriter is a mock of RetryTimeoutPolicyStatusWriter interface
+// MockRetryTimeoutPolicyStatusWriter is a mock of RetryTimeoutPolicyStatusWriter interface.
 type MockRetryTimeoutPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockRetryTimeoutPolicyStatusWriterMockRecorder
 }
 
-// MockRetryTimeoutPolicyStatusWriterMockRecorder is the mock recorder for MockRetryTimeoutPolicyStatusWriter
+// MockRetryTimeoutPolicyStatusWriterMockRecorder is the mock recorder for MockRetryTimeoutPolicyStatusWriter.
 type MockRetryTimeoutPolicyStatusWriterMockRecorder struct {
 	mock *MockRetryTimeoutPolicyStatusWriter
 }
 
-// NewMockRetryTimeoutPolicyStatusWriter creates a new mock instance
+// NewMockRetryTimeoutPolicyStatusWriter creates a new mock instance.
 func NewMockRetryTimeoutPolicyStatusWriter(ctrl *gomock.Controller) *MockRetryTimeoutPolicyStatusWriter {
 	mock := &MockRetryTimeoutPolicyStatusWriter{ctrl: ctrl}
 	mock.recorder = &MockRetryTimeoutPolicyStatusWriterMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockRetryTimeoutPolicyStatusWriter) EXPECT() *MockRetryTimeoutPolicyStatusWriterMockRecorder {
 	return m.recorder
 }
 
-// UpdateRetryTimeoutPolicyStatus mocks base method
-func (m *MockRetryTimeoutPolicyStatusWriter) UpdateRetryTimeoutPolicyStatus(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateRetryTimeoutPolicyStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRetryTimeoutPolicyStatus indicates an expected call of UpdateRetryTimeoutPolicyStatus
-func (mr *MockRetryTimeoutPolicyStatusWriterMockRecorder) UpdateRetryTimeoutPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRetryTimeoutPolicyStatus", reflect.TypeOf((*MockRetryTimeoutPolicyStatusWriter)(nil).UpdateRetryTimeoutPolicyStatus), varargs...)
-}
-
-// PatchRetryTimeoutPolicyStatus mocks base method
+// PatchRetryTimeoutPolicyStatus mocks base method.
 func (m *MockRetryTimeoutPolicyStatusWriter) PatchRetryTimeoutPolicyStatus(ctx context.Context, obj *v2.RetryTimeoutPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -1891,37 +1872,113 @@ func (m *MockRetryTimeoutPolicyStatusWriter) PatchRetryTimeoutPolicyStatus(ctx c
 	return ret0
 }
 
-// PatchRetryTimeoutPolicyStatus indicates an expected call of PatchRetryTimeoutPolicyStatus
+// PatchRetryTimeoutPolicyStatus indicates an expected call of PatchRetryTimeoutPolicyStatus.
 func (mr *MockRetryTimeoutPolicyStatusWriterMockRecorder) PatchRetryTimeoutPolicyStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRetryTimeoutPolicyStatus", reflect.TypeOf((*MockRetryTimeoutPolicyStatusWriter)(nil).PatchRetryTimeoutPolicyStatus), varargs...)
 }
 
-// MockRetryTimeoutPolicyClient is a mock of RetryTimeoutPolicyClient interface
+// UpdateRetryTimeoutPolicyStatus mocks base method.
+func (m *MockRetryTimeoutPolicyStatusWriter) UpdateRetryTimeoutPolicyStatus(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateRetryTimeoutPolicyStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRetryTimeoutPolicyStatus indicates an expected call of UpdateRetryTimeoutPolicyStatus.
+func (mr *MockRetryTimeoutPolicyStatusWriterMockRecorder) UpdateRetryTimeoutPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRetryTimeoutPolicyStatus", reflect.TypeOf((*MockRetryTimeoutPolicyStatusWriter)(nil).UpdateRetryTimeoutPolicyStatus), varargs...)
+}
+
+// MockRetryTimeoutPolicyClient is a mock of RetryTimeoutPolicyClient interface.
 type MockRetryTimeoutPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockRetryTimeoutPolicyClientMockRecorder
 }
 
-// MockRetryTimeoutPolicyClientMockRecorder is the mock recorder for MockRetryTimeoutPolicyClient
+// MockRetryTimeoutPolicyClientMockRecorder is the mock recorder for MockRetryTimeoutPolicyClient.
 type MockRetryTimeoutPolicyClientMockRecorder struct {
 	mock *MockRetryTimeoutPolicyClient
 }
 
-// NewMockRetryTimeoutPolicyClient creates a new mock instance
+// NewMockRetryTimeoutPolicyClient creates a new mock instance.
 func NewMockRetryTimeoutPolicyClient(ctrl *gomock.Controller) *MockRetryTimeoutPolicyClient {
 	mock := &MockRetryTimeoutPolicyClient{ctrl: ctrl}
 	mock.recorder = &MockRetryTimeoutPolicyClientMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockRetryTimeoutPolicyClient) EXPECT() *MockRetryTimeoutPolicyClientMockRecorder {
 	return m.recorder
 }
 
-// GetRetryTimeoutPolicy mocks base method
+// CreateRetryTimeoutPolicy mocks base method.
+func (m *MockRetryTimeoutPolicyClient) CreateRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateRetryTimeoutPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateRetryTimeoutPolicy indicates an expected call of CreateRetryTimeoutPolicy.
+func (mr *MockRetryTimeoutPolicyClientMockRecorder) CreateRetryTimeoutPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).CreateRetryTimeoutPolicy), varargs...)
+}
+
+// DeleteAllOfRetryTimeoutPolicy mocks base method.
+func (m *MockRetryTimeoutPolicyClient) DeleteAllOfRetryTimeoutPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfRetryTimeoutPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfRetryTimeoutPolicy indicates an expected call of DeleteAllOfRetryTimeoutPolicy.
+func (mr *MockRetryTimeoutPolicyClientMockRecorder) DeleteAllOfRetryTimeoutPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).DeleteAllOfRetryTimeoutPolicy), varargs...)
+}
+
+// DeleteRetryTimeoutPolicy mocks base method.
+func (m *MockRetryTimeoutPolicyClient) DeleteRetryTimeoutPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteRetryTimeoutPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteRetryTimeoutPolicy indicates an expected call of DeleteRetryTimeoutPolicy.
+func (mr *MockRetryTimeoutPolicyClientMockRecorder) DeleteRetryTimeoutPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).DeleteRetryTimeoutPolicy), varargs...)
+}
+
+// GetRetryTimeoutPolicy mocks base method.
 func (m *MockRetryTimeoutPolicyClient) GetRetryTimeoutPolicy(ctx context.Context, key client.ObjectKey) (*v2.RetryTimeoutPolicy, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetRetryTimeoutPolicy", ctx, key)
@@ -1930,13 +1987,13 @@ func (m *MockRetryTimeoutPolicyClient) GetRetryTimeoutPolicy(ctx context.Context
 	return ret0, ret1
 }
 
-// GetRetryTimeoutPolicy indicates an expected call of GetRetryTimeoutPolicy
+// GetRetryTimeoutPolicy indicates an expected call of GetRetryTimeoutPolicy.
 func (mr *MockRetryTimeoutPolicyClientMockRecorder) GetRetryTimeoutPolicy(ctx, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).GetRetryTimeoutPolicy), ctx, key)
 }
 
-// ListRetryTimeoutPolicy mocks base method
+// ListRetryTimeoutPolicy mocks base method.
 func (m *MockRetryTimeoutPolicyClient) ListRetryTimeoutPolicy(ctx context.Context, opts ...client.ListOption) (*v2.RetryTimeoutPolicyList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx}
@@ -1949,71 +2006,14 @@ func (m *MockRetryTimeoutPolicyClient) ListRetryTimeoutPolicy(ctx context.Contex
 	return ret0, ret1
 }
 
-// ListRetryTimeoutPolicy indicates an expected call of ListRetryTimeoutPolicy
+// ListRetryTimeoutPolicy indicates an expected call of ListRetryTimeoutPolicy.
 func (mr *MockRetryTimeoutPolicyClientMockRecorder) ListRetryTimeoutPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).ListRetryTimeoutPolicy), varargs...)
 }
 
-// CreateRetryTimeoutPolicy mocks base method
-func (m *MockRetryTimeoutPolicyClient) CreateRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.CreateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "CreateRetryTimeoutPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// CreateRetryTimeoutPolicy indicates an expected call of CreateRetryTimeoutPolicy
-func (mr *MockRetryTimeoutPolicyClientMockRecorder) CreateRetryTimeoutPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).CreateRetryTimeoutPolicy), varargs...)
-}
-
-// DeleteRetryTimeoutPolicy mocks base method
-func (m *MockRetryTimeoutPolicyClient) DeleteRetryTimeoutPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteRetryTimeoutPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteRetryTimeoutPolicy indicates an expected call of DeleteRetryTimeoutPolicy
-func (mr *MockRetryTimeoutPolicyClientMockRecorder) DeleteRetryTimeoutPolicy(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).DeleteRetryTimeoutPolicy), varargs...)
-}
-
-// UpdateRetryTimeoutPolicy mocks base method
-func (m *MockRetryTimeoutPolicyClient) UpdateRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateRetryTimeoutPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRetryTimeoutPolicy indicates an expected call of UpdateRetryTimeoutPolicy
-func (mr *MockRetryTimeoutPolicyClientMockRecorder) UpdateRetryTimeoutPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).UpdateRetryTimeoutPolicy), varargs...)
-}
-
-// PatchRetryTimeoutPolicy mocks base method
+// PatchRetryTimeoutPolicy mocks base method.
 func (m *MockRetryTimeoutPolicyClient) PatchRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -2025,71 +2025,14 @@ func (m *MockRetryTimeoutPolicyClient) PatchRetryTimeoutPolicy(ctx context.Conte
 	return ret0
 }
 
-// PatchRetryTimeoutPolicy indicates an expected call of PatchRetryTimeoutPolicy
+// PatchRetryTimeoutPolicy indicates an expected call of PatchRetryTimeoutPolicy.
 func (mr *MockRetryTimeoutPolicyClientMockRecorder) PatchRetryTimeoutPolicy(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).PatchRetryTimeoutPolicy), varargs...)
 }
 
-// DeleteAllOfRetryTimeoutPolicy mocks base method
-func (m *MockRetryTimeoutPolicyClient) DeleteAllOfRetryTimeoutPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteAllOfRetryTimeoutPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteAllOfRetryTimeoutPolicy indicates an expected call of DeleteAllOfRetryTimeoutPolicy
-func (mr *MockRetryTimeoutPolicyClientMockRecorder) DeleteAllOfRetryTimeoutPolicy(ctx interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).DeleteAllOfRetryTimeoutPolicy), varargs...)
-}
-
-// UpsertRetryTimeoutPolicy mocks base method
-func (m *MockRetryTimeoutPolicyClient) UpsertRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, transitionFuncs ...v2.RetryTimeoutPolicyTransitionFunction) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range transitionFuncs {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpsertRetryTimeoutPolicy", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpsertRetryTimeoutPolicy indicates an expected call of UpsertRetryTimeoutPolicy
-func (mr *MockRetryTimeoutPolicyClientMockRecorder) UpsertRetryTimeoutPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).UpsertRetryTimeoutPolicy), varargs...)
-}
-
-// UpdateRetryTimeoutPolicyStatus mocks base method
-func (m *MockRetryTimeoutPolicyClient) UpdateRetryTimeoutPolicyStatus(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateRetryTimeoutPolicyStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRetryTimeoutPolicyStatus indicates an expected call of UpdateRetryTimeoutPolicyStatus
-func (mr *MockRetryTimeoutPolicyClientMockRecorder) UpdateRetryTimeoutPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRetryTimeoutPolicyStatus", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).UpdateRetryTimeoutPolicyStatus), varargs...)
-}
-
-// PatchRetryTimeoutPolicyStatus mocks base method
+// PatchRetryTimeoutPolicyStatus mocks base method.
 func (m *MockRetryTimeoutPolicyClient) PatchRetryTimeoutPolicyStatus(ctx context.Context, obj *v2.RetryTimeoutPolicy, patch client.Patch, opts ...client.PatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
@@ -2101,37 +2044,94 @@ func (m *MockRetryTimeoutPolicyClient) PatchRetryTimeoutPolicyStatus(ctx context
 	return ret0
 }
 
-// PatchRetryTimeoutPolicyStatus indicates an expected call of PatchRetryTimeoutPolicyStatus
+// PatchRetryTimeoutPolicyStatus indicates an expected call of PatchRetryTimeoutPolicyStatus.
 func (mr *MockRetryTimeoutPolicyClientMockRecorder) PatchRetryTimeoutPolicyStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, obj, patch}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRetryTimeoutPolicyStatus", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).PatchRetryTimeoutPolicyStatus), varargs...)
 }
 
-// MockMulticlusterRetryTimeoutPolicyClient is a mock of MulticlusterRetryTimeoutPolicyClient interface
+// UpdateRetryTimeoutPolicy mocks base method.
+func (m *MockRetryTimeoutPolicyClient) UpdateRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateRetryTimeoutPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRetryTimeoutPolicy indicates an expected call of UpdateRetryTimeoutPolicy.
+func (mr *MockRetryTimeoutPolicyClientMockRecorder) UpdateRetryTimeoutPolicy(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).UpdateRetryTimeoutPolicy), varargs...)
+}
+
+// UpdateRetryTimeoutPolicyStatus mocks base method.
+func (m *MockRetryTimeoutPolicyClient) UpdateRetryTimeoutPolicyStatus(ctx context.Context, obj *v2.RetryTimeoutPolicy, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateRetryTimeoutPolicyStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRetryTimeoutPolicyStatus indicates an expected call of UpdateRetryTimeoutPolicyStatus.
+func (mr *MockRetryTimeoutPolicyClientMockRecorder) UpdateRetryTimeoutPolicyStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRetryTimeoutPolicyStatus", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).UpdateRetryTimeoutPolicyStatus), varargs...)
+}
+
+// UpsertRetryTimeoutPolicy mocks base method.
+func (m *MockRetryTimeoutPolicyClient) UpsertRetryTimeoutPolicy(ctx context.Context, obj *v2.RetryTimeoutPolicy, transitionFuncs ...v2.RetryTimeoutPolicyTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertRetryTimeoutPolicy", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertRetryTimeoutPolicy indicates an expected call of UpsertRetryTimeoutPolicy.
+func (mr *MockRetryTimeoutPolicyClientMockRecorder) UpsertRetryTimeoutPolicy(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRetryTimeoutPolicy", reflect.TypeOf((*MockRetryTimeoutPolicyClient)(nil).UpsertRetryTimeoutPolicy), varargs...)
+}
+
+// MockMulticlusterRetryTimeoutPolicyClient is a mock of MulticlusterRetryTimeoutPolicyClient interface.
 type MockMulticlusterRetryTimeoutPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRetryTimeoutPolicyClientMockRecorder
 }
 
-// MockMulticlusterRetryTimeoutPolicyClientMockRecorder is the mock recorder for MockMulticlusterRetryTimeoutPolicyClient
+// MockMulticlusterRetryTimeoutPolicyClientMockRecorder is the mock recorder for MockMulticlusterRetryTimeoutPolicyClient.
 type MockMulticlusterRetryTimeoutPolicyClientMockRecorder struct {
 	mock *MockMulticlusterRetryTimeoutPolicyClient
 }
 
-// NewMockMulticlusterRetryTimeoutPolicyClient creates a new mock instance
+// NewMockMulticlusterRetryTimeoutPolicyClient creates a new mock instance.
 func NewMockMulticlusterRetryTimeoutPolicyClient(ctrl *gomock.Controller) *MockMulticlusterRetryTimeoutPolicyClient {
 	mock := &MockMulticlusterRetryTimeoutPolicyClient{ctrl: ctrl}
 	mock.recorder = &MockMulticlusterRetryTimeoutPolicyClientMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockMulticlusterRetryTimeoutPolicyClient) EXPECT() *MockMulticlusterRetryTimeoutPolicyClientMockRecorder {
 	return m.recorder
 }
 
-// Cluster mocks base method
+// Cluster mocks base method.
 func (m *MockMulticlusterRetryTimeoutPolicyClient) Cluster(cluster string) (v2.RetryTimeoutPolicyClient, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Cluster", cluster)
@@ -2140,7 +2140,7 @@ func (m *MockMulticlusterRetryTimeoutPolicyClient) Cluster(cluster string) (v2.R
 	return ret0, ret1
 }
 
-// Cluster indicates an expected call of Cluster
+// Cluster indicates an expected call of Cluster.
 func (mr *MockMulticlusterRetryTimeoutPolicyClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterRetryTimeoutPolicyClient)(nil).Cluster), cluster)

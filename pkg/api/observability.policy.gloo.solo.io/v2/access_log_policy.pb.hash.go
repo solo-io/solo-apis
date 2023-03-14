@@ -41,20 +41,14 @@ func (m *AccessLogPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetApplyToWorkloads() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -63,20 +57,14 @@ func (m *AccessLogPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Config")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Config")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -99,20 +87,14 @@ func (m *AccessLogPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetGlobal()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Global")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Global")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -125,20 +107,14 @@ func (m *AccessLogPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -160,20 +136,14 @@ func (m *AccessLogPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetSelectedWorkloads() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -184,20 +154,14 @@ func (m *AccessLogPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetSelectedWorkloadRefs() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -224,20 +188,14 @@ func (m *AccessLogPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetFilters() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -298,20 +256,14 @@ func (m *AccessLogPolicySpec_Config_Filter) Hash(hasher hash.Hash64) (uint64, er
 	case *AccessLogPolicySpec_Config_Filter_StatusCodeMatcher:
 
 		if h, ok := interface{}(m.GetStatusCodeMatcher()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("StatusCodeMatcher")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetStatusCodeMatcher(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetStatusCodeMatcher(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("StatusCodeMatcher")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -320,20 +272,14 @@ func (m *AccessLogPolicySpec_Config_Filter) Hash(hasher hash.Hash64) (uint64, er
 	case *AccessLogPolicySpec_Config_Filter_HeaderMatcher:
 
 		if h, ok := interface{}(m.GetHeaderMatcher()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("HeaderMatcher")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetHeaderMatcher(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetHeaderMatcher(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("HeaderMatcher")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}

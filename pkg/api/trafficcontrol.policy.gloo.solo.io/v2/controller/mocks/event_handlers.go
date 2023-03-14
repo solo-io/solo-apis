@@ -14,30 +14,30 @@ import (
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
-// MockMirrorPolicyEventHandler is a mock of MirrorPolicyEventHandler interface
+// MockMirrorPolicyEventHandler is a mock of MirrorPolicyEventHandler interface.
 type MockMirrorPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMirrorPolicyEventHandlerMockRecorder
 }
 
-// MockMirrorPolicyEventHandlerMockRecorder is the mock recorder for MockMirrorPolicyEventHandler
+// MockMirrorPolicyEventHandlerMockRecorder is the mock recorder for MockMirrorPolicyEventHandler.
 type MockMirrorPolicyEventHandlerMockRecorder struct {
 	mock *MockMirrorPolicyEventHandler
 }
 
-// NewMockMirrorPolicyEventHandler creates a new mock instance
+// NewMockMirrorPolicyEventHandler creates a new mock instance.
 func NewMockMirrorPolicyEventHandler(ctrl *gomock.Controller) *MockMirrorPolicyEventHandler {
 	mock := &MockMirrorPolicyEventHandler{ctrl: ctrl}
 	mock.recorder = &MockMirrorPolicyEventHandlerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockMirrorPolicyEventHandler) EXPECT() *MockMirrorPolicyEventHandlerMockRecorder {
 	return m.recorder
 }
 
-// CreateMirrorPolicy mocks base method
+// CreateMirrorPolicy mocks base method.
 func (m *MockMirrorPolicyEventHandler) CreateMirrorPolicy(obj *v2.MirrorPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateMirrorPolicy", obj)
@@ -45,27 +45,13 @@ func (m *MockMirrorPolicyEventHandler) CreateMirrorPolicy(obj *v2.MirrorPolicy) 
 	return ret0
 }
 
-// CreateMirrorPolicy indicates an expected call of CreateMirrorPolicy
+// CreateMirrorPolicy indicates an expected call of CreateMirrorPolicy.
 func (mr *MockMirrorPolicyEventHandlerMockRecorder) CreateMirrorPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMirrorPolicy", reflect.TypeOf((*MockMirrorPolicyEventHandler)(nil).CreateMirrorPolicy), obj)
 }
 
-// UpdateMirrorPolicy mocks base method
-func (m *MockMirrorPolicyEventHandler) UpdateMirrorPolicy(old, new *v2.MirrorPolicy) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateMirrorPolicy", old, new)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateMirrorPolicy indicates an expected call of UpdateMirrorPolicy
-func (mr *MockMirrorPolicyEventHandlerMockRecorder) UpdateMirrorPolicy(old, new interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMirrorPolicy", reflect.TypeOf((*MockMirrorPolicyEventHandler)(nil).UpdateMirrorPolicy), old, new)
-}
-
-// DeleteMirrorPolicy mocks base method
+// DeleteMirrorPolicy mocks base method.
 func (m *MockMirrorPolicyEventHandler) DeleteMirrorPolicy(obj *v2.MirrorPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteMirrorPolicy", obj)
@@ -73,13 +59,13 @@ func (m *MockMirrorPolicyEventHandler) DeleteMirrorPolicy(obj *v2.MirrorPolicy) 
 	return ret0
 }
 
-// DeleteMirrorPolicy indicates an expected call of DeleteMirrorPolicy
+// DeleteMirrorPolicy indicates an expected call of DeleteMirrorPolicy.
 func (mr *MockMirrorPolicyEventHandlerMockRecorder) DeleteMirrorPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMirrorPolicy", reflect.TypeOf((*MockMirrorPolicyEventHandler)(nil).DeleteMirrorPolicy), obj)
 }
 
-// GenericMirrorPolicy mocks base method
+// GenericMirrorPolicy mocks base method.
 func (m *MockMirrorPolicyEventHandler) GenericMirrorPolicy(obj *v2.MirrorPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GenericMirrorPolicy", obj)
@@ -87,36 +73,50 @@ func (m *MockMirrorPolicyEventHandler) GenericMirrorPolicy(obj *v2.MirrorPolicy)
 	return ret0
 }
 
-// GenericMirrorPolicy indicates an expected call of GenericMirrorPolicy
+// GenericMirrorPolicy indicates an expected call of GenericMirrorPolicy.
 func (mr *MockMirrorPolicyEventHandlerMockRecorder) GenericMirrorPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericMirrorPolicy", reflect.TypeOf((*MockMirrorPolicyEventHandler)(nil).GenericMirrorPolicy), obj)
 }
 
-// MockMirrorPolicyEventWatcher is a mock of MirrorPolicyEventWatcher interface
+// UpdateMirrorPolicy mocks base method.
+func (m *MockMirrorPolicyEventHandler) UpdateMirrorPolicy(old, new *v2.MirrorPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateMirrorPolicy", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateMirrorPolicy indicates an expected call of UpdateMirrorPolicy.
+func (mr *MockMirrorPolicyEventHandlerMockRecorder) UpdateMirrorPolicy(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMirrorPolicy", reflect.TypeOf((*MockMirrorPolicyEventHandler)(nil).UpdateMirrorPolicy), old, new)
+}
+
+// MockMirrorPolicyEventWatcher is a mock of MirrorPolicyEventWatcher interface.
 type MockMirrorPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockMirrorPolicyEventWatcherMockRecorder
 }
 
-// MockMirrorPolicyEventWatcherMockRecorder is the mock recorder for MockMirrorPolicyEventWatcher
+// MockMirrorPolicyEventWatcherMockRecorder is the mock recorder for MockMirrorPolicyEventWatcher.
 type MockMirrorPolicyEventWatcherMockRecorder struct {
 	mock *MockMirrorPolicyEventWatcher
 }
 
-// NewMockMirrorPolicyEventWatcher creates a new mock instance
+// NewMockMirrorPolicyEventWatcher creates a new mock instance.
 func NewMockMirrorPolicyEventWatcher(ctrl *gomock.Controller) *MockMirrorPolicyEventWatcher {
 	mock := &MockMirrorPolicyEventWatcher{ctrl: ctrl}
 	mock.recorder = &MockMirrorPolicyEventWatcherMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockMirrorPolicyEventWatcher) EXPECT() *MockMirrorPolicyEventWatcherMockRecorder {
 	return m.recorder
 }
 
-// AddEventHandler mocks base method
+// AddEventHandler mocks base method.
 func (m *MockMirrorPolicyEventWatcher) AddEventHandler(ctx context.Context, h controller.MirrorPolicyEventHandler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, h}
@@ -128,37 +128,37 @@ func (m *MockMirrorPolicyEventWatcher) AddEventHandler(ctx context.Context, h co
 	return ret0
 }
 
-// AddEventHandler indicates an expected call of AddEventHandler
+// AddEventHandler indicates an expected call of AddEventHandler.
 func (mr *MockMirrorPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockMirrorPolicyEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
-// MockRateLimitPolicyEventHandler is a mock of RateLimitPolicyEventHandler interface
+// MockRateLimitPolicyEventHandler is a mock of RateLimitPolicyEventHandler interface.
 type MockRateLimitPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitPolicyEventHandlerMockRecorder
 }
 
-// MockRateLimitPolicyEventHandlerMockRecorder is the mock recorder for MockRateLimitPolicyEventHandler
+// MockRateLimitPolicyEventHandlerMockRecorder is the mock recorder for MockRateLimitPolicyEventHandler.
 type MockRateLimitPolicyEventHandlerMockRecorder struct {
 	mock *MockRateLimitPolicyEventHandler
 }
 
-// NewMockRateLimitPolicyEventHandler creates a new mock instance
+// NewMockRateLimitPolicyEventHandler creates a new mock instance.
 func NewMockRateLimitPolicyEventHandler(ctrl *gomock.Controller) *MockRateLimitPolicyEventHandler {
 	mock := &MockRateLimitPolicyEventHandler{ctrl: ctrl}
 	mock.recorder = &MockRateLimitPolicyEventHandlerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockRateLimitPolicyEventHandler) EXPECT() *MockRateLimitPolicyEventHandlerMockRecorder {
 	return m.recorder
 }
 
-// CreateRateLimitPolicy mocks base method
+// CreateRateLimitPolicy mocks base method.
 func (m *MockRateLimitPolicyEventHandler) CreateRateLimitPolicy(obj *v2.RateLimitPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateRateLimitPolicy", obj)
@@ -166,27 +166,13 @@ func (m *MockRateLimitPolicyEventHandler) CreateRateLimitPolicy(obj *v2.RateLimi
 	return ret0
 }
 
-// CreateRateLimitPolicy indicates an expected call of CreateRateLimitPolicy
+// CreateRateLimitPolicy indicates an expected call of CreateRateLimitPolicy.
 func (mr *MockRateLimitPolicyEventHandlerMockRecorder) CreateRateLimitPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRateLimitPolicy", reflect.TypeOf((*MockRateLimitPolicyEventHandler)(nil).CreateRateLimitPolicy), obj)
 }
 
-// UpdateRateLimitPolicy mocks base method
-func (m *MockRateLimitPolicyEventHandler) UpdateRateLimitPolicy(old, new *v2.RateLimitPolicy) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateRateLimitPolicy", old, new)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRateLimitPolicy indicates an expected call of UpdateRateLimitPolicy
-func (mr *MockRateLimitPolicyEventHandlerMockRecorder) UpdateRateLimitPolicy(old, new interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRateLimitPolicy", reflect.TypeOf((*MockRateLimitPolicyEventHandler)(nil).UpdateRateLimitPolicy), old, new)
-}
-
-// DeleteRateLimitPolicy mocks base method
+// DeleteRateLimitPolicy mocks base method.
 func (m *MockRateLimitPolicyEventHandler) DeleteRateLimitPolicy(obj *v2.RateLimitPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteRateLimitPolicy", obj)
@@ -194,13 +180,13 @@ func (m *MockRateLimitPolicyEventHandler) DeleteRateLimitPolicy(obj *v2.RateLimi
 	return ret0
 }
 
-// DeleteRateLimitPolicy indicates an expected call of DeleteRateLimitPolicy
+// DeleteRateLimitPolicy indicates an expected call of DeleteRateLimitPolicy.
 func (mr *MockRateLimitPolicyEventHandlerMockRecorder) DeleteRateLimitPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRateLimitPolicy", reflect.TypeOf((*MockRateLimitPolicyEventHandler)(nil).DeleteRateLimitPolicy), obj)
 }
 
-// GenericRateLimitPolicy mocks base method
+// GenericRateLimitPolicy mocks base method.
 func (m *MockRateLimitPolicyEventHandler) GenericRateLimitPolicy(obj *v2.RateLimitPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GenericRateLimitPolicy", obj)
@@ -208,36 +194,50 @@ func (m *MockRateLimitPolicyEventHandler) GenericRateLimitPolicy(obj *v2.RateLim
 	return ret0
 }
 
-// GenericRateLimitPolicy indicates an expected call of GenericRateLimitPolicy
+// GenericRateLimitPolicy indicates an expected call of GenericRateLimitPolicy.
 func (mr *MockRateLimitPolicyEventHandlerMockRecorder) GenericRateLimitPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericRateLimitPolicy", reflect.TypeOf((*MockRateLimitPolicyEventHandler)(nil).GenericRateLimitPolicy), obj)
 }
 
-// MockRateLimitPolicyEventWatcher is a mock of RateLimitPolicyEventWatcher interface
+// UpdateRateLimitPolicy mocks base method.
+func (m *MockRateLimitPolicyEventHandler) UpdateRateLimitPolicy(old, new *v2.RateLimitPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateRateLimitPolicy", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRateLimitPolicy indicates an expected call of UpdateRateLimitPolicy.
+func (mr *MockRateLimitPolicyEventHandlerMockRecorder) UpdateRateLimitPolicy(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRateLimitPolicy", reflect.TypeOf((*MockRateLimitPolicyEventHandler)(nil).UpdateRateLimitPolicy), old, new)
+}
+
+// MockRateLimitPolicyEventWatcher is a mock of RateLimitPolicyEventWatcher interface.
 type MockRateLimitPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitPolicyEventWatcherMockRecorder
 }
 
-// MockRateLimitPolicyEventWatcherMockRecorder is the mock recorder for MockRateLimitPolicyEventWatcher
+// MockRateLimitPolicyEventWatcherMockRecorder is the mock recorder for MockRateLimitPolicyEventWatcher.
 type MockRateLimitPolicyEventWatcherMockRecorder struct {
 	mock *MockRateLimitPolicyEventWatcher
 }
 
-// NewMockRateLimitPolicyEventWatcher creates a new mock instance
+// NewMockRateLimitPolicyEventWatcher creates a new mock instance.
 func NewMockRateLimitPolicyEventWatcher(ctrl *gomock.Controller) *MockRateLimitPolicyEventWatcher {
 	mock := &MockRateLimitPolicyEventWatcher{ctrl: ctrl}
 	mock.recorder = &MockRateLimitPolicyEventWatcherMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockRateLimitPolicyEventWatcher) EXPECT() *MockRateLimitPolicyEventWatcherMockRecorder {
 	return m.recorder
 }
 
-// AddEventHandler mocks base method
+// AddEventHandler mocks base method.
 func (m *MockRateLimitPolicyEventWatcher) AddEventHandler(ctx context.Context, h controller.RateLimitPolicyEventHandler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, h}
@@ -249,37 +249,37 @@ func (m *MockRateLimitPolicyEventWatcher) AddEventHandler(ctx context.Context, h
 	return ret0
 }
 
-// AddEventHandler indicates an expected call of AddEventHandler
+// AddEventHandler indicates an expected call of AddEventHandler.
 func (mr *MockRateLimitPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockRateLimitPolicyEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
-// MockRateLimitClientConfigEventHandler is a mock of RateLimitClientConfigEventHandler interface
+// MockRateLimitClientConfigEventHandler is a mock of RateLimitClientConfigEventHandler interface.
 type MockRateLimitClientConfigEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitClientConfigEventHandlerMockRecorder
 }
 
-// MockRateLimitClientConfigEventHandlerMockRecorder is the mock recorder for MockRateLimitClientConfigEventHandler
+// MockRateLimitClientConfigEventHandlerMockRecorder is the mock recorder for MockRateLimitClientConfigEventHandler.
 type MockRateLimitClientConfigEventHandlerMockRecorder struct {
 	mock *MockRateLimitClientConfigEventHandler
 }
 
-// NewMockRateLimitClientConfigEventHandler creates a new mock instance
+// NewMockRateLimitClientConfigEventHandler creates a new mock instance.
 func NewMockRateLimitClientConfigEventHandler(ctrl *gomock.Controller) *MockRateLimitClientConfigEventHandler {
 	mock := &MockRateLimitClientConfigEventHandler{ctrl: ctrl}
 	mock.recorder = &MockRateLimitClientConfigEventHandlerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockRateLimitClientConfigEventHandler) EXPECT() *MockRateLimitClientConfigEventHandlerMockRecorder {
 	return m.recorder
 }
 
-// CreateRateLimitClientConfig mocks base method
+// CreateRateLimitClientConfig mocks base method.
 func (m *MockRateLimitClientConfigEventHandler) CreateRateLimitClientConfig(obj *v2.RateLimitClientConfig) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateRateLimitClientConfig", obj)
@@ -287,27 +287,13 @@ func (m *MockRateLimitClientConfigEventHandler) CreateRateLimitClientConfig(obj 
 	return ret0
 }
 
-// CreateRateLimitClientConfig indicates an expected call of CreateRateLimitClientConfig
+// CreateRateLimitClientConfig indicates an expected call of CreateRateLimitClientConfig.
 func (mr *MockRateLimitClientConfigEventHandlerMockRecorder) CreateRateLimitClientConfig(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRateLimitClientConfig", reflect.TypeOf((*MockRateLimitClientConfigEventHandler)(nil).CreateRateLimitClientConfig), obj)
 }
 
-// UpdateRateLimitClientConfig mocks base method
-func (m *MockRateLimitClientConfigEventHandler) UpdateRateLimitClientConfig(old, new *v2.RateLimitClientConfig) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateRateLimitClientConfig", old, new)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRateLimitClientConfig indicates an expected call of UpdateRateLimitClientConfig
-func (mr *MockRateLimitClientConfigEventHandlerMockRecorder) UpdateRateLimitClientConfig(old, new interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRateLimitClientConfig", reflect.TypeOf((*MockRateLimitClientConfigEventHandler)(nil).UpdateRateLimitClientConfig), old, new)
-}
-
-// DeleteRateLimitClientConfig mocks base method
+// DeleteRateLimitClientConfig mocks base method.
 func (m *MockRateLimitClientConfigEventHandler) DeleteRateLimitClientConfig(obj *v2.RateLimitClientConfig) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteRateLimitClientConfig", obj)
@@ -315,13 +301,13 @@ func (m *MockRateLimitClientConfigEventHandler) DeleteRateLimitClientConfig(obj 
 	return ret0
 }
 
-// DeleteRateLimitClientConfig indicates an expected call of DeleteRateLimitClientConfig
+// DeleteRateLimitClientConfig indicates an expected call of DeleteRateLimitClientConfig.
 func (mr *MockRateLimitClientConfigEventHandlerMockRecorder) DeleteRateLimitClientConfig(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRateLimitClientConfig", reflect.TypeOf((*MockRateLimitClientConfigEventHandler)(nil).DeleteRateLimitClientConfig), obj)
 }
 
-// GenericRateLimitClientConfig mocks base method
+// GenericRateLimitClientConfig mocks base method.
 func (m *MockRateLimitClientConfigEventHandler) GenericRateLimitClientConfig(obj *v2.RateLimitClientConfig) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GenericRateLimitClientConfig", obj)
@@ -329,36 +315,50 @@ func (m *MockRateLimitClientConfigEventHandler) GenericRateLimitClientConfig(obj
 	return ret0
 }
 
-// GenericRateLimitClientConfig indicates an expected call of GenericRateLimitClientConfig
+// GenericRateLimitClientConfig indicates an expected call of GenericRateLimitClientConfig.
 func (mr *MockRateLimitClientConfigEventHandlerMockRecorder) GenericRateLimitClientConfig(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericRateLimitClientConfig", reflect.TypeOf((*MockRateLimitClientConfigEventHandler)(nil).GenericRateLimitClientConfig), obj)
 }
 
-// MockRateLimitClientConfigEventWatcher is a mock of RateLimitClientConfigEventWatcher interface
+// UpdateRateLimitClientConfig mocks base method.
+func (m *MockRateLimitClientConfigEventHandler) UpdateRateLimitClientConfig(old, new *v2.RateLimitClientConfig) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateRateLimitClientConfig", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRateLimitClientConfig indicates an expected call of UpdateRateLimitClientConfig.
+func (mr *MockRateLimitClientConfigEventHandlerMockRecorder) UpdateRateLimitClientConfig(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRateLimitClientConfig", reflect.TypeOf((*MockRateLimitClientConfigEventHandler)(nil).UpdateRateLimitClientConfig), old, new)
+}
+
+// MockRateLimitClientConfigEventWatcher is a mock of RateLimitClientConfigEventWatcher interface.
 type MockRateLimitClientConfigEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitClientConfigEventWatcherMockRecorder
 }
 
-// MockRateLimitClientConfigEventWatcherMockRecorder is the mock recorder for MockRateLimitClientConfigEventWatcher
+// MockRateLimitClientConfigEventWatcherMockRecorder is the mock recorder for MockRateLimitClientConfigEventWatcher.
 type MockRateLimitClientConfigEventWatcherMockRecorder struct {
 	mock *MockRateLimitClientConfigEventWatcher
 }
 
-// NewMockRateLimitClientConfigEventWatcher creates a new mock instance
+// NewMockRateLimitClientConfigEventWatcher creates a new mock instance.
 func NewMockRateLimitClientConfigEventWatcher(ctrl *gomock.Controller) *MockRateLimitClientConfigEventWatcher {
 	mock := &MockRateLimitClientConfigEventWatcher{ctrl: ctrl}
 	mock.recorder = &MockRateLimitClientConfigEventWatcherMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockRateLimitClientConfigEventWatcher) EXPECT() *MockRateLimitClientConfigEventWatcherMockRecorder {
 	return m.recorder
 }
 
-// AddEventHandler mocks base method
+// AddEventHandler mocks base method.
 func (m *MockRateLimitClientConfigEventWatcher) AddEventHandler(ctx context.Context, h controller.RateLimitClientConfigEventHandler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, h}
@@ -370,37 +370,37 @@ func (m *MockRateLimitClientConfigEventWatcher) AddEventHandler(ctx context.Cont
 	return ret0
 }
 
-// AddEventHandler indicates an expected call of AddEventHandler
+// AddEventHandler indicates an expected call of AddEventHandler.
 func (mr *MockRateLimitClientConfigEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockRateLimitClientConfigEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
-// MockHeaderManipulationPolicyEventHandler is a mock of HeaderManipulationPolicyEventHandler interface
+// MockHeaderManipulationPolicyEventHandler is a mock of HeaderManipulationPolicyEventHandler interface.
 type MockHeaderManipulationPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockHeaderManipulationPolicyEventHandlerMockRecorder
 }
 
-// MockHeaderManipulationPolicyEventHandlerMockRecorder is the mock recorder for MockHeaderManipulationPolicyEventHandler
+// MockHeaderManipulationPolicyEventHandlerMockRecorder is the mock recorder for MockHeaderManipulationPolicyEventHandler.
 type MockHeaderManipulationPolicyEventHandlerMockRecorder struct {
 	mock *MockHeaderManipulationPolicyEventHandler
 }
 
-// NewMockHeaderManipulationPolicyEventHandler creates a new mock instance
+// NewMockHeaderManipulationPolicyEventHandler creates a new mock instance.
 func NewMockHeaderManipulationPolicyEventHandler(ctrl *gomock.Controller) *MockHeaderManipulationPolicyEventHandler {
 	mock := &MockHeaderManipulationPolicyEventHandler{ctrl: ctrl}
 	mock.recorder = &MockHeaderManipulationPolicyEventHandlerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockHeaderManipulationPolicyEventHandler) EXPECT() *MockHeaderManipulationPolicyEventHandlerMockRecorder {
 	return m.recorder
 }
 
-// CreateHeaderManipulationPolicy mocks base method
+// CreateHeaderManipulationPolicy mocks base method.
 func (m *MockHeaderManipulationPolicyEventHandler) CreateHeaderManipulationPolicy(obj *v2.HeaderManipulationPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateHeaderManipulationPolicy", obj)
@@ -408,27 +408,13 @@ func (m *MockHeaderManipulationPolicyEventHandler) CreateHeaderManipulationPolic
 	return ret0
 }
 
-// CreateHeaderManipulationPolicy indicates an expected call of CreateHeaderManipulationPolicy
+// CreateHeaderManipulationPolicy indicates an expected call of CreateHeaderManipulationPolicy.
 func (mr *MockHeaderManipulationPolicyEventHandlerMockRecorder) CreateHeaderManipulationPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateHeaderManipulationPolicy", reflect.TypeOf((*MockHeaderManipulationPolicyEventHandler)(nil).CreateHeaderManipulationPolicy), obj)
 }
 
-// UpdateHeaderManipulationPolicy mocks base method
-func (m *MockHeaderManipulationPolicyEventHandler) UpdateHeaderManipulationPolicy(old, new *v2.HeaderManipulationPolicy) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateHeaderManipulationPolicy", old, new)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateHeaderManipulationPolicy indicates an expected call of UpdateHeaderManipulationPolicy
-func (mr *MockHeaderManipulationPolicyEventHandlerMockRecorder) UpdateHeaderManipulationPolicy(old, new interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateHeaderManipulationPolicy", reflect.TypeOf((*MockHeaderManipulationPolicyEventHandler)(nil).UpdateHeaderManipulationPolicy), old, new)
-}
-
-// DeleteHeaderManipulationPolicy mocks base method
+// DeleteHeaderManipulationPolicy mocks base method.
 func (m *MockHeaderManipulationPolicyEventHandler) DeleteHeaderManipulationPolicy(obj *v2.HeaderManipulationPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteHeaderManipulationPolicy", obj)
@@ -436,13 +422,13 @@ func (m *MockHeaderManipulationPolicyEventHandler) DeleteHeaderManipulationPolic
 	return ret0
 }
 
-// DeleteHeaderManipulationPolicy indicates an expected call of DeleteHeaderManipulationPolicy
+// DeleteHeaderManipulationPolicy indicates an expected call of DeleteHeaderManipulationPolicy.
 func (mr *MockHeaderManipulationPolicyEventHandlerMockRecorder) DeleteHeaderManipulationPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteHeaderManipulationPolicy", reflect.TypeOf((*MockHeaderManipulationPolicyEventHandler)(nil).DeleteHeaderManipulationPolicy), obj)
 }
 
-// GenericHeaderManipulationPolicy mocks base method
+// GenericHeaderManipulationPolicy mocks base method.
 func (m *MockHeaderManipulationPolicyEventHandler) GenericHeaderManipulationPolicy(obj *v2.HeaderManipulationPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GenericHeaderManipulationPolicy", obj)
@@ -450,36 +436,50 @@ func (m *MockHeaderManipulationPolicyEventHandler) GenericHeaderManipulationPoli
 	return ret0
 }
 
-// GenericHeaderManipulationPolicy indicates an expected call of GenericHeaderManipulationPolicy
+// GenericHeaderManipulationPolicy indicates an expected call of GenericHeaderManipulationPolicy.
 func (mr *MockHeaderManipulationPolicyEventHandlerMockRecorder) GenericHeaderManipulationPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericHeaderManipulationPolicy", reflect.TypeOf((*MockHeaderManipulationPolicyEventHandler)(nil).GenericHeaderManipulationPolicy), obj)
 }
 
-// MockHeaderManipulationPolicyEventWatcher is a mock of HeaderManipulationPolicyEventWatcher interface
+// UpdateHeaderManipulationPolicy mocks base method.
+func (m *MockHeaderManipulationPolicyEventHandler) UpdateHeaderManipulationPolicy(old, new *v2.HeaderManipulationPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateHeaderManipulationPolicy", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateHeaderManipulationPolicy indicates an expected call of UpdateHeaderManipulationPolicy.
+func (mr *MockHeaderManipulationPolicyEventHandlerMockRecorder) UpdateHeaderManipulationPolicy(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateHeaderManipulationPolicy", reflect.TypeOf((*MockHeaderManipulationPolicyEventHandler)(nil).UpdateHeaderManipulationPolicy), old, new)
+}
+
+// MockHeaderManipulationPolicyEventWatcher is a mock of HeaderManipulationPolicyEventWatcher interface.
 type MockHeaderManipulationPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockHeaderManipulationPolicyEventWatcherMockRecorder
 }
 
-// MockHeaderManipulationPolicyEventWatcherMockRecorder is the mock recorder for MockHeaderManipulationPolicyEventWatcher
+// MockHeaderManipulationPolicyEventWatcherMockRecorder is the mock recorder for MockHeaderManipulationPolicyEventWatcher.
 type MockHeaderManipulationPolicyEventWatcherMockRecorder struct {
 	mock *MockHeaderManipulationPolicyEventWatcher
 }
 
-// NewMockHeaderManipulationPolicyEventWatcher creates a new mock instance
+// NewMockHeaderManipulationPolicyEventWatcher creates a new mock instance.
 func NewMockHeaderManipulationPolicyEventWatcher(ctrl *gomock.Controller) *MockHeaderManipulationPolicyEventWatcher {
 	mock := &MockHeaderManipulationPolicyEventWatcher{ctrl: ctrl}
 	mock.recorder = &MockHeaderManipulationPolicyEventWatcherMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockHeaderManipulationPolicyEventWatcher) EXPECT() *MockHeaderManipulationPolicyEventWatcherMockRecorder {
 	return m.recorder
 }
 
-// AddEventHandler mocks base method
+// AddEventHandler mocks base method.
 func (m *MockHeaderManipulationPolicyEventWatcher) AddEventHandler(ctx context.Context, h controller.HeaderManipulationPolicyEventHandler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, h}
@@ -491,37 +491,37 @@ func (m *MockHeaderManipulationPolicyEventWatcher) AddEventHandler(ctx context.C
 	return ret0
 }
 
-// AddEventHandler indicates an expected call of AddEventHandler
+// AddEventHandler indicates an expected call of AddEventHandler.
 func (mr *MockHeaderManipulationPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockHeaderManipulationPolicyEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
-// MockTransformationPolicyEventHandler is a mock of TransformationPolicyEventHandler interface
+// MockTransformationPolicyEventHandler is a mock of TransformationPolicyEventHandler interface.
 type MockTransformationPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockTransformationPolicyEventHandlerMockRecorder
 }
 
-// MockTransformationPolicyEventHandlerMockRecorder is the mock recorder for MockTransformationPolicyEventHandler
+// MockTransformationPolicyEventHandlerMockRecorder is the mock recorder for MockTransformationPolicyEventHandler.
 type MockTransformationPolicyEventHandlerMockRecorder struct {
 	mock *MockTransformationPolicyEventHandler
 }
 
-// NewMockTransformationPolicyEventHandler creates a new mock instance
+// NewMockTransformationPolicyEventHandler creates a new mock instance.
 func NewMockTransformationPolicyEventHandler(ctrl *gomock.Controller) *MockTransformationPolicyEventHandler {
 	mock := &MockTransformationPolicyEventHandler{ctrl: ctrl}
 	mock.recorder = &MockTransformationPolicyEventHandlerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockTransformationPolicyEventHandler) EXPECT() *MockTransformationPolicyEventHandlerMockRecorder {
 	return m.recorder
 }
 
-// CreateTransformationPolicy mocks base method
+// CreateTransformationPolicy mocks base method.
 func (m *MockTransformationPolicyEventHandler) CreateTransformationPolicy(obj *v2.TransformationPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateTransformationPolicy", obj)
@@ -529,27 +529,13 @@ func (m *MockTransformationPolicyEventHandler) CreateTransformationPolicy(obj *v
 	return ret0
 }
 
-// CreateTransformationPolicy indicates an expected call of CreateTransformationPolicy
+// CreateTransformationPolicy indicates an expected call of CreateTransformationPolicy.
 func (mr *MockTransformationPolicyEventHandlerMockRecorder) CreateTransformationPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTransformationPolicy", reflect.TypeOf((*MockTransformationPolicyEventHandler)(nil).CreateTransformationPolicy), obj)
 }
 
-// UpdateTransformationPolicy mocks base method
-func (m *MockTransformationPolicyEventHandler) UpdateTransformationPolicy(old, new *v2.TransformationPolicy) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateTransformationPolicy", old, new)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateTransformationPolicy indicates an expected call of UpdateTransformationPolicy
-func (mr *MockTransformationPolicyEventHandlerMockRecorder) UpdateTransformationPolicy(old, new interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTransformationPolicy", reflect.TypeOf((*MockTransformationPolicyEventHandler)(nil).UpdateTransformationPolicy), old, new)
-}
-
-// DeleteTransformationPolicy mocks base method
+// DeleteTransformationPolicy mocks base method.
 func (m *MockTransformationPolicyEventHandler) DeleteTransformationPolicy(obj *v2.TransformationPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteTransformationPolicy", obj)
@@ -557,13 +543,13 @@ func (m *MockTransformationPolicyEventHandler) DeleteTransformationPolicy(obj *v
 	return ret0
 }
 
-// DeleteTransformationPolicy indicates an expected call of DeleteTransformationPolicy
+// DeleteTransformationPolicy indicates an expected call of DeleteTransformationPolicy.
 func (mr *MockTransformationPolicyEventHandlerMockRecorder) DeleteTransformationPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTransformationPolicy", reflect.TypeOf((*MockTransformationPolicyEventHandler)(nil).DeleteTransformationPolicy), obj)
 }
 
-// GenericTransformationPolicy mocks base method
+// GenericTransformationPolicy mocks base method.
 func (m *MockTransformationPolicyEventHandler) GenericTransformationPolicy(obj *v2.TransformationPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GenericTransformationPolicy", obj)
@@ -571,36 +557,50 @@ func (m *MockTransformationPolicyEventHandler) GenericTransformationPolicy(obj *
 	return ret0
 }
 
-// GenericTransformationPolicy indicates an expected call of GenericTransformationPolicy
+// GenericTransformationPolicy indicates an expected call of GenericTransformationPolicy.
 func (mr *MockTransformationPolicyEventHandlerMockRecorder) GenericTransformationPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericTransformationPolicy", reflect.TypeOf((*MockTransformationPolicyEventHandler)(nil).GenericTransformationPolicy), obj)
 }
 
-// MockTransformationPolicyEventWatcher is a mock of TransformationPolicyEventWatcher interface
+// UpdateTransformationPolicy mocks base method.
+func (m *MockTransformationPolicyEventHandler) UpdateTransformationPolicy(old, new *v2.TransformationPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTransformationPolicy", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTransformationPolicy indicates an expected call of UpdateTransformationPolicy.
+func (mr *MockTransformationPolicyEventHandlerMockRecorder) UpdateTransformationPolicy(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTransformationPolicy", reflect.TypeOf((*MockTransformationPolicyEventHandler)(nil).UpdateTransformationPolicy), old, new)
+}
+
+// MockTransformationPolicyEventWatcher is a mock of TransformationPolicyEventWatcher interface.
 type MockTransformationPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockTransformationPolicyEventWatcherMockRecorder
 }
 
-// MockTransformationPolicyEventWatcherMockRecorder is the mock recorder for MockTransformationPolicyEventWatcher
+// MockTransformationPolicyEventWatcherMockRecorder is the mock recorder for MockTransformationPolicyEventWatcher.
 type MockTransformationPolicyEventWatcherMockRecorder struct {
 	mock *MockTransformationPolicyEventWatcher
 }
 
-// NewMockTransformationPolicyEventWatcher creates a new mock instance
+// NewMockTransformationPolicyEventWatcher creates a new mock instance.
 func NewMockTransformationPolicyEventWatcher(ctrl *gomock.Controller) *MockTransformationPolicyEventWatcher {
 	mock := &MockTransformationPolicyEventWatcher{ctrl: ctrl}
 	mock.recorder = &MockTransformationPolicyEventWatcherMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockTransformationPolicyEventWatcher) EXPECT() *MockTransformationPolicyEventWatcherMockRecorder {
 	return m.recorder
 }
 
-// AddEventHandler mocks base method
+// AddEventHandler mocks base method.
 func (m *MockTransformationPolicyEventWatcher) AddEventHandler(ctx context.Context, h controller.TransformationPolicyEventHandler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, h}
@@ -612,37 +612,37 @@ func (m *MockTransformationPolicyEventWatcher) AddEventHandler(ctx context.Conte
 	return ret0
 }
 
-// AddEventHandler indicates an expected call of AddEventHandler
+// AddEventHandler indicates an expected call of AddEventHandler.
 func (mr *MockTransformationPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockTransformationPolicyEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
-// MockProxyProtocolPolicyEventHandler is a mock of ProxyProtocolPolicyEventHandler interface
+// MockProxyProtocolPolicyEventHandler is a mock of ProxyProtocolPolicyEventHandler interface.
 type MockProxyProtocolPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxyProtocolPolicyEventHandlerMockRecorder
 }
 
-// MockProxyProtocolPolicyEventHandlerMockRecorder is the mock recorder for MockProxyProtocolPolicyEventHandler
+// MockProxyProtocolPolicyEventHandlerMockRecorder is the mock recorder for MockProxyProtocolPolicyEventHandler.
 type MockProxyProtocolPolicyEventHandlerMockRecorder struct {
 	mock *MockProxyProtocolPolicyEventHandler
 }
 
-// NewMockProxyProtocolPolicyEventHandler creates a new mock instance
+// NewMockProxyProtocolPolicyEventHandler creates a new mock instance.
 func NewMockProxyProtocolPolicyEventHandler(ctrl *gomock.Controller) *MockProxyProtocolPolicyEventHandler {
 	mock := &MockProxyProtocolPolicyEventHandler{ctrl: ctrl}
 	mock.recorder = &MockProxyProtocolPolicyEventHandlerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockProxyProtocolPolicyEventHandler) EXPECT() *MockProxyProtocolPolicyEventHandlerMockRecorder {
 	return m.recorder
 }
 
-// CreateProxyProtocolPolicy mocks base method
+// CreateProxyProtocolPolicy mocks base method.
 func (m *MockProxyProtocolPolicyEventHandler) CreateProxyProtocolPolicy(obj *v2.ProxyProtocolPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateProxyProtocolPolicy", obj)
@@ -650,27 +650,13 @@ func (m *MockProxyProtocolPolicyEventHandler) CreateProxyProtocolPolicy(obj *v2.
 	return ret0
 }
 
-// CreateProxyProtocolPolicy indicates an expected call of CreateProxyProtocolPolicy
+// CreateProxyProtocolPolicy indicates an expected call of CreateProxyProtocolPolicy.
 func (mr *MockProxyProtocolPolicyEventHandlerMockRecorder) CreateProxyProtocolPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProxyProtocolPolicy", reflect.TypeOf((*MockProxyProtocolPolicyEventHandler)(nil).CreateProxyProtocolPolicy), obj)
 }
 
-// UpdateProxyProtocolPolicy mocks base method
-func (m *MockProxyProtocolPolicyEventHandler) UpdateProxyProtocolPolicy(old, new *v2.ProxyProtocolPolicy) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateProxyProtocolPolicy", old, new)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateProxyProtocolPolicy indicates an expected call of UpdateProxyProtocolPolicy
-func (mr *MockProxyProtocolPolicyEventHandlerMockRecorder) UpdateProxyProtocolPolicy(old, new interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProxyProtocolPolicy", reflect.TypeOf((*MockProxyProtocolPolicyEventHandler)(nil).UpdateProxyProtocolPolicy), old, new)
-}
-
-// DeleteProxyProtocolPolicy mocks base method
+// DeleteProxyProtocolPolicy mocks base method.
 func (m *MockProxyProtocolPolicyEventHandler) DeleteProxyProtocolPolicy(obj *v2.ProxyProtocolPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteProxyProtocolPolicy", obj)
@@ -678,13 +664,13 @@ func (m *MockProxyProtocolPolicyEventHandler) DeleteProxyProtocolPolicy(obj *v2.
 	return ret0
 }
 
-// DeleteProxyProtocolPolicy indicates an expected call of DeleteProxyProtocolPolicy
+// DeleteProxyProtocolPolicy indicates an expected call of DeleteProxyProtocolPolicy.
 func (mr *MockProxyProtocolPolicyEventHandlerMockRecorder) DeleteProxyProtocolPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProxyProtocolPolicy", reflect.TypeOf((*MockProxyProtocolPolicyEventHandler)(nil).DeleteProxyProtocolPolicy), obj)
 }
 
-// GenericProxyProtocolPolicy mocks base method
+// GenericProxyProtocolPolicy mocks base method.
 func (m *MockProxyProtocolPolicyEventHandler) GenericProxyProtocolPolicy(obj *v2.ProxyProtocolPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GenericProxyProtocolPolicy", obj)
@@ -692,36 +678,50 @@ func (m *MockProxyProtocolPolicyEventHandler) GenericProxyProtocolPolicy(obj *v2
 	return ret0
 }
 
-// GenericProxyProtocolPolicy indicates an expected call of GenericProxyProtocolPolicy
+// GenericProxyProtocolPolicy indicates an expected call of GenericProxyProtocolPolicy.
 func (mr *MockProxyProtocolPolicyEventHandlerMockRecorder) GenericProxyProtocolPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericProxyProtocolPolicy", reflect.TypeOf((*MockProxyProtocolPolicyEventHandler)(nil).GenericProxyProtocolPolicy), obj)
 }
 
-// MockProxyProtocolPolicyEventWatcher is a mock of ProxyProtocolPolicyEventWatcher interface
+// UpdateProxyProtocolPolicy mocks base method.
+func (m *MockProxyProtocolPolicyEventHandler) UpdateProxyProtocolPolicy(old, new *v2.ProxyProtocolPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateProxyProtocolPolicy", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateProxyProtocolPolicy indicates an expected call of UpdateProxyProtocolPolicy.
+func (mr *MockProxyProtocolPolicyEventHandlerMockRecorder) UpdateProxyProtocolPolicy(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProxyProtocolPolicy", reflect.TypeOf((*MockProxyProtocolPolicyEventHandler)(nil).UpdateProxyProtocolPolicy), old, new)
+}
+
+// MockProxyProtocolPolicyEventWatcher is a mock of ProxyProtocolPolicyEventWatcher interface.
 type MockProxyProtocolPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxyProtocolPolicyEventWatcherMockRecorder
 }
 
-// MockProxyProtocolPolicyEventWatcherMockRecorder is the mock recorder for MockProxyProtocolPolicyEventWatcher
+// MockProxyProtocolPolicyEventWatcherMockRecorder is the mock recorder for MockProxyProtocolPolicyEventWatcher.
 type MockProxyProtocolPolicyEventWatcherMockRecorder struct {
 	mock *MockProxyProtocolPolicyEventWatcher
 }
 
-// NewMockProxyProtocolPolicyEventWatcher creates a new mock instance
+// NewMockProxyProtocolPolicyEventWatcher creates a new mock instance.
 func NewMockProxyProtocolPolicyEventWatcher(ctrl *gomock.Controller) *MockProxyProtocolPolicyEventWatcher {
 	mock := &MockProxyProtocolPolicyEventWatcher{ctrl: ctrl}
 	mock.recorder = &MockProxyProtocolPolicyEventWatcherMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockProxyProtocolPolicyEventWatcher) EXPECT() *MockProxyProtocolPolicyEventWatcherMockRecorder {
 	return m.recorder
 }
 
-// AddEventHandler mocks base method
+// AddEventHandler mocks base method.
 func (m *MockProxyProtocolPolicyEventWatcher) AddEventHandler(ctx context.Context, h controller.ProxyProtocolPolicyEventHandler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, h}
@@ -733,7 +733,7 @@ func (m *MockProxyProtocolPolicyEventWatcher) AddEventHandler(ctx context.Contex
 	return ret0
 }
 
-// AddEventHandler indicates an expected call of AddEventHandler
+// AddEventHandler indicates an expected call of AddEventHandler.
 func (mr *MockProxyProtocolPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)

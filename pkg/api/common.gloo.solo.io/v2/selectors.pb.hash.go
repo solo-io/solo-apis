@@ -69,20 +69,14 @@ func (m *ObjectReferenceList) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetRefs() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -162,20 +156,14 @@ func (m *DestinationReference) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Ref")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRef(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRef(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Ref")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -187,20 +175,14 @@ func (m *DestinationReference) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetPort()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Port")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Port")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -251,20 +233,14 @@ func (m *DestinationSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetSelector()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Selector")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSelector(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetSelector(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Selector")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -276,20 +252,14 @@ func (m *DestinationSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetPort()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Port")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Port")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -312,20 +282,14 @@ func (m *RouteDestinationSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetRoute()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Route")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRoute(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRoute(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Route")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -334,20 +298,14 @@ func (m *RouteDestinationSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetOnDestinations() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -376,20 +334,14 @@ func (m *RouteSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	case *RouteSelector_Route:
 
 		if h, ok := interface{}(m.GetRoute()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Route")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetRoute(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetRoute(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Route")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -398,20 +350,14 @@ func (m *RouteSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	case *RouteSelector_WithDestinations:
 
 		if h, ok := interface{}(m.GetWithDestinations()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("WithDestinations")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetWithDestinations(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetWithDestinations(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("WithDestinations")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -436,20 +382,14 @@ func (m *WorkloadSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetSelector()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Selector")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSelector(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetSelector(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Selector")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -461,20 +401,14 @@ func (m *WorkloadSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetPort()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Port")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Port")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -497,40 +431,28 @@ func (m *IdentitySelector) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetServiceAccountSelector()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ServiceAccountSelector")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetServiceAccountSelector(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetServiceAccountSelector(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("ServiceAccountSelector")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetRequestIdentityMatcher()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("RequestIdentityMatcher")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRequestIdentityMatcher(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRequestIdentityMatcher(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("RequestIdentityMatcher")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -557,20 +479,14 @@ func (m *MeshSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	case *MeshSelector_Istio_:
 
 		if h, ok := interface{}(m.GetIstio()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Istio")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetIstio(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetIstio(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Istio")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}

@@ -39,60 +39,42 @@ func (m *ExtAuthServerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetDestinationServer()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DestinationServer")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDestinationServer(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDestinationServer(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DestinationServer")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetHttpService()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("HttpService")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetHttpService(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetHttpService(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("HttpService")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetRequestTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("RequestTimeout")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRequestTimeout(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRequestTimeout(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("RequestTimeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -104,20 +86,14 @@ func (m *ExtAuthServerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetRequestBody()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("RequestBody")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRequestBody(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRequestBody(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("RequestBody")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -189,40 +165,28 @@ func (m *ExtAuthServerSpec_HttpService) Hash(hasher hash.Hash64) (uint64, error)
 	}
 
 	if h, ok := interface{}(m.GetRequest()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Request")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRequest(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRequest(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Request")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetResponse()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Response")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetResponse(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetResponse(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Response")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

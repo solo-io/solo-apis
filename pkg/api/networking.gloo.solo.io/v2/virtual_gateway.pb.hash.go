@@ -41,20 +41,14 @@ func (m *VirtualGatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetWorkloads() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -65,20 +59,14 @@ func (m *VirtualGatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetListeners() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -111,20 +99,14 @@ func (m *TLSConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetParameters()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Parameters")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetParameters(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetParameters(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Parameters")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -146,20 +128,14 @@ func (m *TLSConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	case *TLSConfig_Files_:
 
 		if h, ok := interface{}(m.GetFiles()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Files")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetFiles(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetFiles(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Files")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -184,20 +160,14 @@ func (m *VirtualGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetGlobal()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Global")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Global")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -210,20 +180,14 @@ func (m *VirtualGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -245,20 +209,14 @@ func (m *VirtualGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetAllowedRouteTables() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -269,20 +227,14 @@ func (m *VirtualGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetWorkloads() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -307,20 +259,14 @@ func (m *VirtualGatewaySpec_Listener) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetPort()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Port")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Port")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -329,20 +275,14 @@ func (m *VirtualGatewaySpec_Listener) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetAllowedRouteTables() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -359,20 +299,14 @@ func (m *VirtualGatewaySpec_Listener) Hash(hasher hash.Hash64) (uint64, error) {
 	case *VirtualGatewaySpec_Listener_Tls:
 
 		if h, ok := interface{}(m.GetTls()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Tls")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetTls(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetTls(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Tls")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -392,20 +326,14 @@ func (m *VirtualGatewaySpec_Listener) Hash(hasher hash.Hash64) (uint64, error) {
 	case *VirtualGatewaySpec_Listener_Http:
 
 		if h, ok := interface{}(m.GetHttp()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Http")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetHttp(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetHttp(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Http")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -414,20 +342,14 @@ func (m *VirtualGatewaySpec_Listener) Hash(hasher hash.Hash64) (uint64, error) {
 	case *VirtualGatewaySpec_Listener_Tcp:
 
 		if h, ok := interface{}(m.GetTcp()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Tcp")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetTcp(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetTcp(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Tcp")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -488,20 +410,14 @@ func (m *VirtualGatewaySpec_Listener_RouteTableFilter) Hash(hasher hash.Hash64) 
 	}
 
 	if h, ok := interface{}(m.GetSelector()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Selector")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSelector(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetSelector(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Selector")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

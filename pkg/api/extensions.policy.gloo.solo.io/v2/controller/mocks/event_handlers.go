@@ -14,30 +14,30 @@ import (
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
-// MockWasmDeploymentPolicyEventHandler is a mock of WasmDeploymentPolicyEventHandler interface
+// MockWasmDeploymentPolicyEventHandler is a mock of WasmDeploymentPolicyEventHandler interface.
 type MockWasmDeploymentPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyEventHandlerMockRecorder
 }
 
-// MockWasmDeploymentPolicyEventHandlerMockRecorder is the mock recorder for MockWasmDeploymentPolicyEventHandler
+// MockWasmDeploymentPolicyEventHandlerMockRecorder is the mock recorder for MockWasmDeploymentPolicyEventHandler.
 type MockWasmDeploymentPolicyEventHandlerMockRecorder struct {
 	mock *MockWasmDeploymentPolicyEventHandler
 }
 
-// NewMockWasmDeploymentPolicyEventHandler creates a new mock instance
+// NewMockWasmDeploymentPolicyEventHandler creates a new mock instance.
 func NewMockWasmDeploymentPolicyEventHandler(ctrl *gomock.Controller) *MockWasmDeploymentPolicyEventHandler {
 	mock := &MockWasmDeploymentPolicyEventHandler{ctrl: ctrl}
 	mock.recorder = &MockWasmDeploymentPolicyEventHandlerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockWasmDeploymentPolicyEventHandler) EXPECT() *MockWasmDeploymentPolicyEventHandlerMockRecorder {
 	return m.recorder
 }
 
-// CreateWasmDeploymentPolicy mocks base method
+// CreateWasmDeploymentPolicy mocks base method.
 func (m *MockWasmDeploymentPolicyEventHandler) CreateWasmDeploymentPolicy(obj *v2.WasmDeploymentPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateWasmDeploymentPolicy", obj)
@@ -45,27 +45,13 @@ func (m *MockWasmDeploymentPolicyEventHandler) CreateWasmDeploymentPolicy(obj *v
 	return ret0
 }
 
-// CreateWasmDeploymentPolicy indicates an expected call of CreateWasmDeploymentPolicy
+// CreateWasmDeploymentPolicy indicates an expected call of CreateWasmDeploymentPolicy.
 func (mr *MockWasmDeploymentPolicyEventHandlerMockRecorder) CreateWasmDeploymentPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateWasmDeploymentPolicy", reflect.TypeOf((*MockWasmDeploymentPolicyEventHandler)(nil).CreateWasmDeploymentPolicy), obj)
 }
 
-// UpdateWasmDeploymentPolicy mocks base method
-func (m *MockWasmDeploymentPolicyEventHandler) UpdateWasmDeploymentPolicy(old, new *v2.WasmDeploymentPolicy) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateWasmDeploymentPolicy", old, new)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateWasmDeploymentPolicy indicates an expected call of UpdateWasmDeploymentPolicy
-func (mr *MockWasmDeploymentPolicyEventHandlerMockRecorder) UpdateWasmDeploymentPolicy(old, new interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWasmDeploymentPolicy", reflect.TypeOf((*MockWasmDeploymentPolicyEventHandler)(nil).UpdateWasmDeploymentPolicy), old, new)
-}
-
-// DeleteWasmDeploymentPolicy mocks base method
+// DeleteWasmDeploymentPolicy mocks base method.
 func (m *MockWasmDeploymentPolicyEventHandler) DeleteWasmDeploymentPolicy(obj *v2.WasmDeploymentPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteWasmDeploymentPolicy", obj)
@@ -73,13 +59,13 @@ func (m *MockWasmDeploymentPolicyEventHandler) DeleteWasmDeploymentPolicy(obj *v
 	return ret0
 }
 
-// DeleteWasmDeploymentPolicy indicates an expected call of DeleteWasmDeploymentPolicy
+// DeleteWasmDeploymentPolicy indicates an expected call of DeleteWasmDeploymentPolicy.
 func (mr *MockWasmDeploymentPolicyEventHandlerMockRecorder) DeleteWasmDeploymentPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteWasmDeploymentPolicy", reflect.TypeOf((*MockWasmDeploymentPolicyEventHandler)(nil).DeleteWasmDeploymentPolicy), obj)
 }
 
-// GenericWasmDeploymentPolicy mocks base method
+// GenericWasmDeploymentPolicy mocks base method.
 func (m *MockWasmDeploymentPolicyEventHandler) GenericWasmDeploymentPolicy(obj *v2.WasmDeploymentPolicy) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GenericWasmDeploymentPolicy", obj)
@@ -87,36 +73,50 @@ func (m *MockWasmDeploymentPolicyEventHandler) GenericWasmDeploymentPolicy(obj *
 	return ret0
 }
 
-// GenericWasmDeploymentPolicy indicates an expected call of GenericWasmDeploymentPolicy
+// GenericWasmDeploymentPolicy indicates an expected call of GenericWasmDeploymentPolicy.
 func (mr *MockWasmDeploymentPolicyEventHandlerMockRecorder) GenericWasmDeploymentPolicy(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericWasmDeploymentPolicy", reflect.TypeOf((*MockWasmDeploymentPolicyEventHandler)(nil).GenericWasmDeploymentPolicy), obj)
 }
 
-// MockWasmDeploymentPolicyEventWatcher is a mock of WasmDeploymentPolicyEventWatcher interface
+// UpdateWasmDeploymentPolicy mocks base method.
+func (m *MockWasmDeploymentPolicyEventHandler) UpdateWasmDeploymentPolicy(old, new *v2.WasmDeploymentPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateWasmDeploymentPolicy", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateWasmDeploymentPolicy indicates an expected call of UpdateWasmDeploymentPolicy.
+func (mr *MockWasmDeploymentPolicyEventHandlerMockRecorder) UpdateWasmDeploymentPolicy(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWasmDeploymentPolicy", reflect.TypeOf((*MockWasmDeploymentPolicyEventHandler)(nil).UpdateWasmDeploymentPolicy), old, new)
+}
+
+// MockWasmDeploymentPolicyEventWatcher is a mock of WasmDeploymentPolicyEventWatcher interface.
 type MockWasmDeploymentPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyEventWatcherMockRecorder
 }
 
-// MockWasmDeploymentPolicyEventWatcherMockRecorder is the mock recorder for MockWasmDeploymentPolicyEventWatcher
+// MockWasmDeploymentPolicyEventWatcherMockRecorder is the mock recorder for MockWasmDeploymentPolicyEventWatcher.
 type MockWasmDeploymentPolicyEventWatcherMockRecorder struct {
 	mock *MockWasmDeploymentPolicyEventWatcher
 }
 
-// NewMockWasmDeploymentPolicyEventWatcher creates a new mock instance
+// NewMockWasmDeploymentPolicyEventWatcher creates a new mock instance.
 func NewMockWasmDeploymentPolicyEventWatcher(ctrl *gomock.Controller) *MockWasmDeploymentPolicyEventWatcher {
 	mock := &MockWasmDeploymentPolicyEventWatcher{ctrl: ctrl}
 	mock.recorder = &MockWasmDeploymentPolicyEventWatcherMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockWasmDeploymentPolicyEventWatcher) EXPECT() *MockWasmDeploymentPolicyEventWatcherMockRecorder {
 	return m.recorder
 }
 
-// AddEventHandler mocks base method
+// AddEventHandler mocks base method.
 func (m *MockWasmDeploymentPolicyEventWatcher) AddEventHandler(ctx context.Context, h controller.WasmDeploymentPolicyEventHandler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, h}
@@ -128,7 +128,7 @@ func (m *MockWasmDeploymentPolicyEventWatcher) AddEventHandler(ctx context.Conte
 	return ret0
 }
 
-// AddEventHandler indicates an expected call of AddEventHandler
+// AddEventHandler indicates an expected call of AddEventHandler.
 func (mr *MockWasmDeploymentPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)

@@ -15,30 +15,171 @@ import (
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
 )
 
-// MockAccessPolicySet is a mock of AccessPolicySet interface
+// MockAccessPolicySet is a mock of AccessPolicySet interface.
 type MockAccessPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessPolicySetMockRecorder
 }
 
-// MockAccessPolicySetMockRecorder is the mock recorder for MockAccessPolicySet
+// MockAccessPolicySetMockRecorder is the mock recorder for MockAccessPolicySet.
 type MockAccessPolicySetMockRecorder struct {
 	mock *MockAccessPolicySet
 }
 
-// NewMockAccessPolicySet creates a new mock instance
+// NewMockAccessPolicySet creates a new mock instance.
 func NewMockAccessPolicySet(ctrl *gomock.Controller) *MockAccessPolicySet {
 	mock := &MockAccessPolicySet{ctrl: ctrl}
 	mock.recorder = &MockAccessPolicySetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockAccessPolicySet) EXPECT() *MockAccessPolicySetMockRecorder {
 	return m.recorder
 }
 
-// Keys mocks base method
+// Clone mocks base method.
+func (m *MockAccessPolicySet) Clone() v2sets.AccessPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2sets.AccessPolicySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockAccessPolicySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockAccessPolicySet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockAccessPolicySet) Delete(accessPolicy ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", accessPolicy)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockAccessPolicySetMockRecorder) Delete(accessPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockAccessPolicySet)(nil).Delete), accessPolicy)
+}
+
+// Delta mocks base method.
+func (m *MockAccessPolicySet) Delta(newSet v2sets.AccessPolicySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockAccessPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockAccessPolicySet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockAccessPolicySet) Difference(set v2sets.AccessPolicySet) v2sets.AccessPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2sets.AccessPolicySet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockAccessPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockAccessPolicySet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockAccessPolicySet) Equal(accessPolicySet v2sets.AccessPolicySet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", accessPolicySet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockAccessPolicySetMockRecorder) Equal(accessPolicySet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockAccessPolicySet)(nil).Equal), accessPolicySet)
+}
+
+// Find mocks base method.
+func (m *MockAccessPolicySet) Find(id ezkube.ResourceId) (*v2.AccessPolicy, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2.AccessPolicy)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockAccessPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockAccessPolicySet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockAccessPolicySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockAccessPolicySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockAccessPolicySet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockAccessPolicySet) Has(accessPolicy ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", accessPolicy)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockAccessPolicySetMockRecorder) Has(accessPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockAccessPolicySet)(nil).Has), accessPolicy)
+}
+
+// Insert mocks base method.
+func (m *MockAccessPolicySet) Insert(accessPolicy ...*v2.AccessPolicy) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range accessPolicy {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockAccessPolicySetMockRecorder) Insert(accessPolicy ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockAccessPolicySet)(nil).Insert), accessPolicy...)
+}
+
+// Intersection mocks base method.
+func (m *MockAccessPolicySet) Intersection(set v2sets.AccessPolicySet) v2sets.AccessPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2sets.AccessPolicySet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockAccessPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockAccessPolicySet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
 func (m *MockAccessPolicySet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -46,13 +187,27 @@ func (m *MockAccessPolicySet) Keys() sets0.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys
+// Keys indicates an expected call of Keys.
 func (mr *MockAccessPolicySetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockAccessPolicySet)(nil).Keys))
 }
 
-// List mocks base method
+// Length mocks base method.
+func (m *MockAccessPolicySet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockAccessPolicySetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockAccessPolicySet)(nil).Length))
+}
+
+// List mocks base method.
 func (m *MockAccessPolicySet) List(filterResource ...func(*v2.AccessPolicy) bool) []*v2.AccessPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -64,13 +219,41 @@ func (m *MockAccessPolicySet) List(filterResource ...func(*v2.AccessPolicy) bool
 	return ret0
 }
 
-// List indicates an expected call of List
+// List indicates an expected call of List.
 func (mr *MockAccessPolicySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockAccessPolicySet)(nil).List), filterResource...)
 }
 
-// UnsortedList mocks base method
+// Map mocks base method.
+func (m *MockAccessPolicySet) Map() map[string]*v2.AccessPolicy {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2.AccessPolicy)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockAccessPolicySetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockAccessPolicySet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockAccessPolicySet) Union(set v2sets.AccessPolicySet) v2sets.AccessPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2sets.AccessPolicySet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockAccessPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockAccessPolicySet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
 func (m *MockAccessPolicySet) UnsortedList(filterResource ...func(*v2.AccessPolicy) bool) []*v2.AccessPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -82,219 +265,177 @@ func (m *MockAccessPolicySet) UnsortedList(filterResource ...func(*v2.AccessPoli
 	return ret0
 }
 
-// UnsortedList indicates an expected call of UnsortedList
+// UnsortedList indicates an expected call of UnsortedList.
 func (mr *MockAccessPolicySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockAccessPolicySet)(nil).UnsortedList), filterResource...)
 }
 
-// Map mocks base method
-func (m *MockAccessPolicySet) Map() map[string]*v2.AccessPolicy {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v2.AccessPolicy)
-	return ret0
-}
-
-// Map indicates an expected call of Map
-func (mr *MockAccessPolicySetMockRecorder) Map() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockAccessPolicySet)(nil).Map))
-}
-
-// Insert mocks base method
-func (m *MockAccessPolicySet) Insert(accessPolicy ...*v2.AccessPolicy) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{}
-	for _, a := range accessPolicy {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Insert", varargs...)
-}
-
-// Insert indicates an expected call of Insert
-func (mr *MockAccessPolicySetMockRecorder) Insert(accessPolicy ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockAccessPolicySet)(nil).Insert), accessPolicy...)
-}
-
-// Equal mocks base method
-func (m *MockAccessPolicySet) Equal(accessPolicySet v2sets.AccessPolicySet) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", accessPolicySet)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Equal indicates an expected call of Equal
-func (mr *MockAccessPolicySetMockRecorder) Equal(accessPolicySet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockAccessPolicySet)(nil).Equal), accessPolicySet)
-}
-
-// Has mocks base method
-func (m *MockAccessPolicySet) Has(accessPolicy ezkube.ResourceId) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", accessPolicy)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Has indicates an expected call of Has
-func (mr *MockAccessPolicySetMockRecorder) Has(accessPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockAccessPolicySet)(nil).Has), accessPolicy)
-}
-
-// Delete mocks base method
-func (m *MockAccessPolicySet) Delete(accessPolicy ezkube.ResourceId) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", accessPolicy)
-}
-
-// Delete indicates an expected call of Delete
-func (mr *MockAccessPolicySetMockRecorder) Delete(accessPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockAccessPolicySet)(nil).Delete), accessPolicy)
-}
-
-// Union mocks base method
-func (m *MockAccessPolicySet) Union(set v2sets.AccessPolicySet) v2sets.AccessPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v2sets.AccessPolicySet)
-	return ret0
-}
-
-// Union indicates an expected call of Union
-func (mr *MockAccessPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockAccessPolicySet)(nil).Union), set)
-}
-
-// Difference mocks base method
-func (m *MockAccessPolicySet) Difference(set v2sets.AccessPolicySet) v2sets.AccessPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v2sets.AccessPolicySet)
-	return ret0
-}
-
-// Difference indicates an expected call of Difference
-func (mr *MockAccessPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockAccessPolicySet)(nil).Difference), set)
-}
-
-// Intersection mocks base method
-func (m *MockAccessPolicySet) Intersection(set v2sets.AccessPolicySet) v2sets.AccessPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v2sets.AccessPolicySet)
-	return ret0
-}
-
-// Intersection indicates an expected call of Intersection
-func (mr *MockAccessPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockAccessPolicySet)(nil).Intersection), set)
-}
-
-// Find mocks base method
-func (m *MockAccessPolicySet) Find(id ezkube.ResourceId) (*v2.AccessPolicy, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v2.AccessPolicy)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Find indicates an expected call of Find
-func (mr *MockAccessPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockAccessPolicySet)(nil).Find), id)
-}
-
-// Length mocks base method
-func (m *MockAccessPolicySet) Length() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Length")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// Length indicates an expected call of Length
-func (mr *MockAccessPolicySetMockRecorder) Length() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockAccessPolicySet)(nil).Length))
-}
-
-// Generic mocks base method
-func (m *MockAccessPolicySet) Generic() sets.ResourceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generic")
-	ret0, _ := ret[0].(sets.ResourceSet)
-	return ret0
-}
-
-// Generic indicates an expected call of Generic
-func (mr *MockAccessPolicySetMockRecorder) Generic() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockAccessPolicySet)(nil).Generic))
-}
-
-// Delta mocks base method
-func (m *MockAccessPolicySet) Delta(newSet v2sets.AccessPolicySet) sets.ResourceDelta {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delta", newSet)
-	ret0, _ := ret[0].(sets.ResourceDelta)
-	return ret0
-}
-
-// Delta indicates an expected call of Delta
-func (mr *MockAccessPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockAccessPolicySet)(nil).Delta), newSet)
-}
-
-// Clone mocks base method
-func (m *MockAccessPolicySet) Clone() v2sets.AccessPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v2sets.AccessPolicySet)
-	return ret0
-}
-
-// Clone indicates an expected call of Clone
-func (mr *MockAccessPolicySetMockRecorder) Clone() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockAccessPolicySet)(nil).Clone))
-}
-
-// MockCORSPolicySet is a mock of CORSPolicySet interface
+// MockCORSPolicySet is a mock of CORSPolicySet interface.
 type MockCORSPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockCORSPolicySetMockRecorder
 }
 
-// MockCORSPolicySetMockRecorder is the mock recorder for MockCORSPolicySet
+// MockCORSPolicySetMockRecorder is the mock recorder for MockCORSPolicySet.
 type MockCORSPolicySetMockRecorder struct {
 	mock *MockCORSPolicySet
 }
 
-// NewMockCORSPolicySet creates a new mock instance
+// NewMockCORSPolicySet creates a new mock instance.
 func NewMockCORSPolicySet(ctrl *gomock.Controller) *MockCORSPolicySet {
 	mock := &MockCORSPolicySet{ctrl: ctrl}
 	mock.recorder = &MockCORSPolicySetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockCORSPolicySet) EXPECT() *MockCORSPolicySetMockRecorder {
 	return m.recorder
 }
 
-// Keys mocks base method
+// Clone mocks base method.
+func (m *MockCORSPolicySet) Clone() v2sets.CORSPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2sets.CORSPolicySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockCORSPolicySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockCORSPolicySet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockCORSPolicySet) Delete(cORSPolicy ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", cORSPolicy)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockCORSPolicySetMockRecorder) Delete(cORSPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockCORSPolicySet)(nil).Delete), cORSPolicy)
+}
+
+// Delta mocks base method.
+func (m *MockCORSPolicySet) Delta(newSet v2sets.CORSPolicySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockCORSPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockCORSPolicySet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockCORSPolicySet) Difference(set v2sets.CORSPolicySet) v2sets.CORSPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2sets.CORSPolicySet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockCORSPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockCORSPolicySet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockCORSPolicySet) Equal(cORSPolicySet v2sets.CORSPolicySet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", cORSPolicySet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockCORSPolicySetMockRecorder) Equal(cORSPolicySet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockCORSPolicySet)(nil).Equal), cORSPolicySet)
+}
+
+// Find mocks base method.
+func (m *MockCORSPolicySet) Find(id ezkube.ResourceId) (*v2.CORSPolicy, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2.CORSPolicy)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockCORSPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCORSPolicySet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockCORSPolicySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockCORSPolicySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockCORSPolicySet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockCORSPolicySet) Has(cORSPolicy ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", cORSPolicy)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockCORSPolicySetMockRecorder) Has(cORSPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockCORSPolicySet)(nil).Has), cORSPolicy)
+}
+
+// Insert mocks base method.
+func (m *MockCORSPolicySet) Insert(cORSPolicy ...*v2.CORSPolicy) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range cORSPolicy {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockCORSPolicySetMockRecorder) Insert(cORSPolicy ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockCORSPolicySet)(nil).Insert), cORSPolicy...)
+}
+
+// Intersection mocks base method.
+func (m *MockCORSPolicySet) Intersection(set v2sets.CORSPolicySet) v2sets.CORSPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2sets.CORSPolicySet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockCORSPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockCORSPolicySet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
 func (m *MockCORSPolicySet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -302,13 +443,27 @@ func (m *MockCORSPolicySet) Keys() sets0.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys
+// Keys indicates an expected call of Keys.
 func (mr *MockCORSPolicySetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockCORSPolicySet)(nil).Keys))
 }
 
-// List mocks base method
+// Length mocks base method.
+func (m *MockCORSPolicySet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockCORSPolicySetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockCORSPolicySet)(nil).Length))
+}
+
+// List mocks base method.
 func (m *MockCORSPolicySet) List(filterResource ...func(*v2.CORSPolicy) bool) []*v2.CORSPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -320,13 +475,41 @@ func (m *MockCORSPolicySet) List(filterResource ...func(*v2.CORSPolicy) bool) []
 	return ret0
 }
 
-// List indicates an expected call of List
+// List indicates an expected call of List.
 func (mr *MockCORSPolicySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockCORSPolicySet)(nil).List), filterResource...)
 }
 
-// UnsortedList mocks base method
+// Map mocks base method.
+func (m *MockCORSPolicySet) Map() map[string]*v2.CORSPolicy {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2.CORSPolicy)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockCORSPolicySetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockCORSPolicySet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockCORSPolicySet) Union(set v2sets.CORSPolicySet) v2sets.CORSPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2sets.CORSPolicySet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockCORSPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockCORSPolicySet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
 func (m *MockCORSPolicySet) UnsortedList(filterResource ...func(*v2.CORSPolicy) bool) []*v2.CORSPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -338,219 +521,177 @@ func (m *MockCORSPolicySet) UnsortedList(filterResource ...func(*v2.CORSPolicy) 
 	return ret0
 }
 
-// UnsortedList indicates an expected call of UnsortedList
+// UnsortedList indicates an expected call of UnsortedList.
 func (mr *MockCORSPolicySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockCORSPolicySet)(nil).UnsortedList), filterResource...)
 }
 
-// Map mocks base method
-func (m *MockCORSPolicySet) Map() map[string]*v2.CORSPolicy {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v2.CORSPolicy)
-	return ret0
-}
-
-// Map indicates an expected call of Map
-func (mr *MockCORSPolicySetMockRecorder) Map() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockCORSPolicySet)(nil).Map))
-}
-
-// Insert mocks base method
-func (m *MockCORSPolicySet) Insert(cORSPolicy ...*v2.CORSPolicy) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{}
-	for _, a := range cORSPolicy {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Insert", varargs...)
-}
-
-// Insert indicates an expected call of Insert
-func (mr *MockCORSPolicySetMockRecorder) Insert(cORSPolicy ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockCORSPolicySet)(nil).Insert), cORSPolicy...)
-}
-
-// Equal mocks base method
-func (m *MockCORSPolicySet) Equal(cORSPolicySet v2sets.CORSPolicySet) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", cORSPolicySet)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Equal indicates an expected call of Equal
-func (mr *MockCORSPolicySetMockRecorder) Equal(cORSPolicySet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockCORSPolicySet)(nil).Equal), cORSPolicySet)
-}
-
-// Has mocks base method
-func (m *MockCORSPolicySet) Has(cORSPolicy ezkube.ResourceId) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", cORSPolicy)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Has indicates an expected call of Has
-func (mr *MockCORSPolicySetMockRecorder) Has(cORSPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockCORSPolicySet)(nil).Has), cORSPolicy)
-}
-
-// Delete mocks base method
-func (m *MockCORSPolicySet) Delete(cORSPolicy ezkube.ResourceId) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", cORSPolicy)
-}
-
-// Delete indicates an expected call of Delete
-func (mr *MockCORSPolicySetMockRecorder) Delete(cORSPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockCORSPolicySet)(nil).Delete), cORSPolicy)
-}
-
-// Union mocks base method
-func (m *MockCORSPolicySet) Union(set v2sets.CORSPolicySet) v2sets.CORSPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v2sets.CORSPolicySet)
-	return ret0
-}
-
-// Union indicates an expected call of Union
-func (mr *MockCORSPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockCORSPolicySet)(nil).Union), set)
-}
-
-// Difference mocks base method
-func (m *MockCORSPolicySet) Difference(set v2sets.CORSPolicySet) v2sets.CORSPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v2sets.CORSPolicySet)
-	return ret0
-}
-
-// Difference indicates an expected call of Difference
-func (mr *MockCORSPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockCORSPolicySet)(nil).Difference), set)
-}
-
-// Intersection mocks base method
-func (m *MockCORSPolicySet) Intersection(set v2sets.CORSPolicySet) v2sets.CORSPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v2sets.CORSPolicySet)
-	return ret0
-}
-
-// Intersection indicates an expected call of Intersection
-func (mr *MockCORSPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockCORSPolicySet)(nil).Intersection), set)
-}
-
-// Find mocks base method
-func (m *MockCORSPolicySet) Find(id ezkube.ResourceId) (*v2.CORSPolicy, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v2.CORSPolicy)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Find indicates an expected call of Find
-func (mr *MockCORSPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCORSPolicySet)(nil).Find), id)
-}
-
-// Length mocks base method
-func (m *MockCORSPolicySet) Length() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Length")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// Length indicates an expected call of Length
-func (mr *MockCORSPolicySetMockRecorder) Length() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockCORSPolicySet)(nil).Length))
-}
-
-// Generic mocks base method
-func (m *MockCORSPolicySet) Generic() sets.ResourceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generic")
-	ret0, _ := ret[0].(sets.ResourceSet)
-	return ret0
-}
-
-// Generic indicates an expected call of Generic
-func (mr *MockCORSPolicySetMockRecorder) Generic() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockCORSPolicySet)(nil).Generic))
-}
-
-// Delta mocks base method
-func (m *MockCORSPolicySet) Delta(newSet v2sets.CORSPolicySet) sets.ResourceDelta {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delta", newSet)
-	ret0, _ := ret[0].(sets.ResourceDelta)
-	return ret0
-}
-
-// Delta indicates an expected call of Delta
-func (mr *MockCORSPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockCORSPolicySet)(nil).Delta), newSet)
-}
-
-// Clone mocks base method
-func (m *MockCORSPolicySet) Clone() v2sets.CORSPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v2sets.CORSPolicySet)
-	return ret0
-}
-
-// Clone indicates an expected call of Clone
-func (mr *MockCORSPolicySetMockRecorder) Clone() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockCORSPolicySet)(nil).Clone))
-}
-
-// MockCSRFPolicySet is a mock of CSRFPolicySet interface
+// MockCSRFPolicySet is a mock of CSRFPolicySet interface.
 type MockCSRFPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockCSRFPolicySetMockRecorder
 }
 
-// MockCSRFPolicySetMockRecorder is the mock recorder for MockCSRFPolicySet
+// MockCSRFPolicySetMockRecorder is the mock recorder for MockCSRFPolicySet.
 type MockCSRFPolicySetMockRecorder struct {
 	mock *MockCSRFPolicySet
 }
 
-// NewMockCSRFPolicySet creates a new mock instance
+// NewMockCSRFPolicySet creates a new mock instance.
 func NewMockCSRFPolicySet(ctrl *gomock.Controller) *MockCSRFPolicySet {
 	mock := &MockCSRFPolicySet{ctrl: ctrl}
 	mock.recorder = &MockCSRFPolicySetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockCSRFPolicySet) EXPECT() *MockCSRFPolicySetMockRecorder {
 	return m.recorder
 }
 
-// Keys mocks base method
+// Clone mocks base method.
+func (m *MockCSRFPolicySet) Clone() v2sets.CSRFPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2sets.CSRFPolicySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockCSRFPolicySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockCSRFPolicySet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockCSRFPolicySet) Delete(cSRFPolicy ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", cSRFPolicy)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockCSRFPolicySetMockRecorder) Delete(cSRFPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockCSRFPolicySet)(nil).Delete), cSRFPolicy)
+}
+
+// Delta mocks base method.
+func (m *MockCSRFPolicySet) Delta(newSet v2sets.CSRFPolicySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockCSRFPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockCSRFPolicySet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockCSRFPolicySet) Difference(set v2sets.CSRFPolicySet) v2sets.CSRFPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2sets.CSRFPolicySet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockCSRFPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockCSRFPolicySet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockCSRFPolicySet) Equal(cSRFPolicySet v2sets.CSRFPolicySet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", cSRFPolicySet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockCSRFPolicySetMockRecorder) Equal(cSRFPolicySet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockCSRFPolicySet)(nil).Equal), cSRFPolicySet)
+}
+
+// Find mocks base method.
+func (m *MockCSRFPolicySet) Find(id ezkube.ResourceId) (*v2.CSRFPolicy, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2.CSRFPolicy)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockCSRFPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCSRFPolicySet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockCSRFPolicySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockCSRFPolicySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockCSRFPolicySet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockCSRFPolicySet) Has(cSRFPolicy ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", cSRFPolicy)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockCSRFPolicySetMockRecorder) Has(cSRFPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockCSRFPolicySet)(nil).Has), cSRFPolicy)
+}
+
+// Insert mocks base method.
+func (m *MockCSRFPolicySet) Insert(cSRFPolicy ...*v2.CSRFPolicy) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range cSRFPolicy {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockCSRFPolicySetMockRecorder) Insert(cSRFPolicy ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockCSRFPolicySet)(nil).Insert), cSRFPolicy...)
+}
+
+// Intersection mocks base method.
+func (m *MockCSRFPolicySet) Intersection(set v2sets.CSRFPolicySet) v2sets.CSRFPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2sets.CSRFPolicySet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockCSRFPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockCSRFPolicySet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
 func (m *MockCSRFPolicySet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -558,13 +699,27 @@ func (m *MockCSRFPolicySet) Keys() sets0.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys
+// Keys indicates an expected call of Keys.
 func (mr *MockCSRFPolicySetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockCSRFPolicySet)(nil).Keys))
 }
 
-// List mocks base method
+// Length mocks base method.
+func (m *MockCSRFPolicySet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockCSRFPolicySetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockCSRFPolicySet)(nil).Length))
+}
+
+// List mocks base method.
 func (m *MockCSRFPolicySet) List(filterResource ...func(*v2.CSRFPolicy) bool) []*v2.CSRFPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -576,13 +731,41 @@ func (m *MockCSRFPolicySet) List(filterResource ...func(*v2.CSRFPolicy) bool) []
 	return ret0
 }
 
-// List indicates an expected call of List
+// List indicates an expected call of List.
 func (mr *MockCSRFPolicySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockCSRFPolicySet)(nil).List), filterResource...)
 }
 
-// UnsortedList mocks base method
+// Map mocks base method.
+func (m *MockCSRFPolicySet) Map() map[string]*v2.CSRFPolicy {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2.CSRFPolicy)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockCSRFPolicySetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockCSRFPolicySet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockCSRFPolicySet) Union(set v2sets.CSRFPolicySet) v2sets.CSRFPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2sets.CSRFPolicySet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockCSRFPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockCSRFPolicySet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
 func (m *MockCSRFPolicySet) UnsortedList(filterResource ...func(*v2.CSRFPolicy) bool) []*v2.CSRFPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -594,219 +777,177 @@ func (m *MockCSRFPolicySet) UnsortedList(filterResource ...func(*v2.CSRFPolicy) 
 	return ret0
 }
 
-// UnsortedList indicates an expected call of UnsortedList
+// UnsortedList indicates an expected call of UnsortedList.
 func (mr *MockCSRFPolicySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockCSRFPolicySet)(nil).UnsortedList), filterResource...)
 }
 
-// Map mocks base method
-func (m *MockCSRFPolicySet) Map() map[string]*v2.CSRFPolicy {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v2.CSRFPolicy)
-	return ret0
-}
-
-// Map indicates an expected call of Map
-func (mr *MockCSRFPolicySetMockRecorder) Map() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockCSRFPolicySet)(nil).Map))
-}
-
-// Insert mocks base method
-func (m *MockCSRFPolicySet) Insert(cSRFPolicy ...*v2.CSRFPolicy) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{}
-	for _, a := range cSRFPolicy {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Insert", varargs...)
-}
-
-// Insert indicates an expected call of Insert
-func (mr *MockCSRFPolicySetMockRecorder) Insert(cSRFPolicy ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockCSRFPolicySet)(nil).Insert), cSRFPolicy...)
-}
-
-// Equal mocks base method
-func (m *MockCSRFPolicySet) Equal(cSRFPolicySet v2sets.CSRFPolicySet) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", cSRFPolicySet)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Equal indicates an expected call of Equal
-func (mr *MockCSRFPolicySetMockRecorder) Equal(cSRFPolicySet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockCSRFPolicySet)(nil).Equal), cSRFPolicySet)
-}
-
-// Has mocks base method
-func (m *MockCSRFPolicySet) Has(cSRFPolicy ezkube.ResourceId) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", cSRFPolicy)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Has indicates an expected call of Has
-func (mr *MockCSRFPolicySetMockRecorder) Has(cSRFPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockCSRFPolicySet)(nil).Has), cSRFPolicy)
-}
-
-// Delete mocks base method
-func (m *MockCSRFPolicySet) Delete(cSRFPolicy ezkube.ResourceId) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", cSRFPolicy)
-}
-
-// Delete indicates an expected call of Delete
-func (mr *MockCSRFPolicySetMockRecorder) Delete(cSRFPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockCSRFPolicySet)(nil).Delete), cSRFPolicy)
-}
-
-// Union mocks base method
-func (m *MockCSRFPolicySet) Union(set v2sets.CSRFPolicySet) v2sets.CSRFPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v2sets.CSRFPolicySet)
-	return ret0
-}
-
-// Union indicates an expected call of Union
-func (mr *MockCSRFPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockCSRFPolicySet)(nil).Union), set)
-}
-
-// Difference mocks base method
-func (m *MockCSRFPolicySet) Difference(set v2sets.CSRFPolicySet) v2sets.CSRFPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v2sets.CSRFPolicySet)
-	return ret0
-}
-
-// Difference indicates an expected call of Difference
-func (mr *MockCSRFPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockCSRFPolicySet)(nil).Difference), set)
-}
-
-// Intersection mocks base method
-func (m *MockCSRFPolicySet) Intersection(set v2sets.CSRFPolicySet) v2sets.CSRFPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v2sets.CSRFPolicySet)
-	return ret0
-}
-
-// Intersection indicates an expected call of Intersection
-func (mr *MockCSRFPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockCSRFPolicySet)(nil).Intersection), set)
-}
-
-// Find mocks base method
-func (m *MockCSRFPolicySet) Find(id ezkube.ResourceId) (*v2.CSRFPolicy, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v2.CSRFPolicy)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Find indicates an expected call of Find
-func (mr *MockCSRFPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCSRFPolicySet)(nil).Find), id)
-}
-
-// Length mocks base method
-func (m *MockCSRFPolicySet) Length() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Length")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// Length indicates an expected call of Length
-func (mr *MockCSRFPolicySetMockRecorder) Length() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockCSRFPolicySet)(nil).Length))
-}
-
-// Generic mocks base method
-func (m *MockCSRFPolicySet) Generic() sets.ResourceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generic")
-	ret0, _ := ret[0].(sets.ResourceSet)
-	return ret0
-}
-
-// Generic indicates an expected call of Generic
-func (mr *MockCSRFPolicySetMockRecorder) Generic() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockCSRFPolicySet)(nil).Generic))
-}
-
-// Delta mocks base method
-func (m *MockCSRFPolicySet) Delta(newSet v2sets.CSRFPolicySet) sets.ResourceDelta {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delta", newSet)
-	ret0, _ := ret[0].(sets.ResourceDelta)
-	return ret0
-}
-
-// Delta indicates an expected call of Delta
-func (mr *MockCSRFPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockCSRFPolicySet)(nil).Delta), newSet)
-}
-
-// Clone mocks base method
-func (m *MockCSRFPolicySet) Clone() v2sets.CSRFPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v2sets.CSRFPolicySet)
-	return ret0
-}
-
-// Clone indicates an expected call of Clone
-func (mr *MockCSRFPolicySetMockRecorder) Clone() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockCSRFPolicySet)(nil).Clone))
-}
-
-// MockExtAuthPolicySet is a mock of ExtAuthPolicySet interface
+// MockExtAuthPolicySet is a mock of ExtAuthPolicySet interface.
 type MockExtAuthPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtAuthPolicySetMockRecorder
 }
 
-// MockExtAuthPolicySetMockRecorder is the mock recorder for MockExtAuthPolicySet
+// MockExtAuthPolicySetMockRecorder is the mock recorder for MockExtAuthPolicySet.
 type MockExtAuthPolicySetMockRecorder struct {
 	mock *MockExtAuthPolicySet
 }
 
-// NewMockExtAuthPolicySet creates a new mock instance
+// NewMockExtAuthPolicySet creates a new mock instance.
 func NewMockExtAuthPolicySet(ctrl *gomock.Controller) *MockExtAuthPolicySet {
 	mock := &MockExtAuthPolicySet{ctrl: ctrl}
 	mock.recorder = &MockExtAuthPolicySetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockExtAuthPolicySet) EXPECT() *MockExtAuthPolicySetMockRecorder {
 	return m.recorder
 }
 
-// Keys mocks base method
+// Clone mocks base method.
+func (m *MockExtAuthPolicySet) Clone() v2sets.ExtAuthPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2sets.ExtAuthPolicySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockExtAuthPolicySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockExtAuthPolicySet) Delete(extAuthPolicy ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", extAuthPolicy)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockExtAuthPolicySetMockRecorder) Delete(extAuthPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Delete), extAuthPolicy)
+}
+
+// Delta mocks base method.
+func (m *MockExtAuthPolicySet) Delta(newSet v2sets.ExtAuthPolicySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockExtAuthPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockExtAuthPolicySet) Difference(set v2sets.ExtAuthPolicySet) v2sets.ExtAuthPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2sets.ExtAuthPolicySet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockExtAuthPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockExtAuthPolicySet) Equal(extAuthPolicySet v2sets.ExtAuthPolicySet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", extAuthPolicySet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockExtAuthPolicySetMockRecorder) Equal(extAuthPolicySet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Equal), extAuthPolicySet)
+}
+
+// Find mocks base method.
+func (m *MockExtAuthPolicySet) Find(id ezkube.ResourceId) (*v2.ExtAuthPolicy, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2.ExtAuthPolicy)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockExtAuthPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockExtAuthPolicySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockExtAuthPolicySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockExtAuthPolicySet) Has(extAuthPolicy ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", extAuthPolicy)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockExtAuthPolicySetMockRecorder) Has(extAuthPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Has), extAuthPolicy)
+}
+
+// Insert mocks base method.
+func (m *MockExtAuthPolicySet) Insert(extAuthPolicy ...*v2.ExtAuthPolicy) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range extAuthPolicy {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockExtAuthPolicySetMockRecorder) Insert(extAuthPolicy ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Insert), extAuthPolicy...)
+}
+
+// Intersection mocks base method.
+func (m *MockExtAuthPolicySet) Intersection(set v2sets.ExtAuthPolicySet) v2sets.ExtAuthPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2sets.ExtAuthPolicySet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockExtAuthPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
 func (m *MockExtAuthPolicySet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -814,13 +955,27 @@ func (m *MockExtAuthPolicySet) Keys() sets0.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys
+// Keys indicates an expected call of Keys.
 func (mr *MockExtAuthPolicySetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Keys))
 }
 
-// List mocks base method
+// Length mocks base method.
+func (m *MockExtAuthPolicySet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockExtAuthPolicySetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Length))
+}
+
+// List mocks base method.
 func (m *MockExtAuthPolicySet) List(filterResource ...func(*v2.ExtAuthPolicy) bool) []*v2.ExtAuthPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -832,13 +987,41 @@ func (m *MockExtAuthPolicySet) List(filterResource ...func(*v2.ExtAuthPolicy) bo
 	return ret0
 }
 
-// List indicates an expected call of List
+// List indicates an expected call of List.
 func (mr *MockExtAuthPolicySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockExtAuthPolicySet)(nil).List), filterResource...)
 }
 
-// UnsortedList mocks base method
+// Map mocks base method.
+func (m *MockExtAuthPolicySet) Map() map[string]*v2.ExtAuthPolicy {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2.ExtAuthPolicy)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockExtAuthPolicySetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockExtAuthPolicySet) Union(set v2sets.ExtAuthPolicySet) v2sets.ExtAuthPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2sets.ExtAuthPolicySet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockExtAuthPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
 func (m *MockExtAuthPolicySet) UnsortedList(filterResource ...func(*v2.ExtAuthPolicy) bool) []*v2.ExtAuthPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -850,219 +1033,177 @@ func (m *MockExtAuthPolicySet) UnsortedList(filterResource ...func(*v2.ExtAuthPo
 	return ret0
 }
 
-// UnsortedList indicates an expected call of UnsortedList
+// UnsortedList indicates an expected call of UnsortedList.
 func (mr *MockExtAuthPolicySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockExtAuthPolicySet)(nil).UnsortedList), filterResource...)
 }
 
-// Map mocks base method
-func (m *MockExtAuthPolicySet) Map() map[string]*v2.ExtAuthPolicy {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v2.ExtAuthPolicy)
-	return ret0
-}
-
-// Map indicates an expected call of Map
-func (mr *MockExtAuthPolicySetMockRecorder) Map() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Map))
-}
-
-// Insert mocks base method
-func (m *MockExtAuthPolicySet) Insert(extAuthPolicy ...*v2.ExtAuthPolicy) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{}
-	for _, a := range extAuthPolicy {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Insert", varargs...)
-}
-
-// Insert indicates an expected call of Insert
-func (mr *MockExtAuthPolicySetMockRecorder) Insert(extAuthPolicy ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Insert), extAuthPolicy...)
-}
-
-// Equal mocks base method
-func (m *MockExtAuthPolicySet) Equal(extAuthPolicySet v2sets.ExtAuthPolicySet) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", extAuthPolicySet)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Equal indicates an expected call of Equal
-func (mr *MockExtAuthPolicySetMockRecorder) Equal(extAuthPolicySet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Equal), extAuthPolicySet)
-}
-
-// Has mocks base method
-func (m *MockExtAuthPolicySet) Has(extAuthPolicy ezkube.ResourceId) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", extAuthPolicy)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Has indicates an expected call of Has
-func (mr *MockExtAuthPolicySetMockRecorder) Has(extAuthPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Has), extAuthPolicy)
-}
-
-// Delete mocks base method
-func (m *MockExtAuthPolicySet) Delete(extAuthPolicy ezkube.ResourceId) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", extAuthPolicy)
-}
-
-// Delete indicates an expected call of Delete
-func (mr *MockExtAuthPolicySetMockRecorder) Delete(extAuthPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Delete), extAuthPolicy)
-}
-
-// Union mocks base method
-func (m *MockExtAuthPolicySet) Union(set v2sets.ExtAuthPolicySet) v2sets.ExtAuthPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v2sets.ExtAuthPolicySet)
-	return ret0
-}
-
-// Union indicates an expected call of Union
-func (mr *MockExtAuthPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Union), set)
-}
-
-// Difference mocks base method
-func (m *MockExtAuthPolicySet) Difference(set v2sets.ExtAuthPolicySet) v2sets.ExtAuthPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v2sets.ExtAuthPolicySet)
-	return ret0
-}
-
-// Difference indicates an expected call of Difference
-func (mr *MockExtAuthPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Difference), set)
-}
-
-// Intersection mocks base method
-func (m *MockExtAuthPolicySet) Intersection(set v2sets.ExtAuthPolicySet) v2sets.ExtAuthPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v2sets.ExtAuthPolicySet)
-	return ret0
-}
-
-// Intersection indicates an expected call of Intersection
-func (mr *MockExtAuthPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Intersection), set)
-}
-
-// Find mocks base method
-func (m *MockExtAuthPolicySet) Find(id ezkube.ResourceId) (*v2.ExtAuthPolicy, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v2.ExtAuthPolicy)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Find indicates an expected call of Find
-func (mr *MockExtAuthPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Find), id)
-}
-
-// Length mocks base method
-func (m *MockExtAuthPolicySet) Length() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Length")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// Length indicates an expected call of Length
-func (mr *MockExtAuthPolicySetMockRecorder) Length() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Length))
-}
-
-// Generic mocks base method
-func (m *MockExtAuthPolicySet) Generic() sets.ResourceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generic")
-	ret0, _ := ret[0].(sets.ResourceSet)
-	return ret0
-}
-
-// Generic indicates an expected call of Generic
-func (mr *MockExtAuthPolicySetMockRecorder) Generic() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Generic))
-}
-
-// Delta mocks base method
-func (m *MockExtAuthPolicySet) Delta(newSet v2sets.ExtAuthPolicySet) sets.ResourceDelta {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delta", newSet)
-	ret0, _ := ret[0].(sets.ResourceDelta)
-	return ret0
-}
-
-// Delta indicates an expected call of Delta
-func (mr *MockExtAuthPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Delta), newSet)
-}
-
-// Clone mocks base method
-func (m *MockExtAuthPolicySet) Clone() v2sets.ExtAuthPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v2sets.ExtAuthPolicySet)
-	return ret0
-}
-
-// Clone indicates an expected call of Clone
-func (mr *MockExtAuthPolicySetMockRecorder) Clone() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockExtAuthPolicySet)(nil).Clone))
-}
-
-// MockWAFPolicySet is a mock of WAFPolicySet interface
+// MockWAFPolicySet is a mock of WAFPolicySet interface.
 type MockWAFPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockWAFPolicySetMockRecorder
 }
 
-// MockWAFPolicySetMockRecorder is the mock recorder for MockWAFPolicySet
+// MockWAFPolicySetMockRecorder is the mock recorder for MockWAFPolicySet.
 type MockWAFPolicySetMockRecorder struct {
 	mock *MockWAFPolicySet
 }
 
-// NewMockWAFPolicySet creates a new mock instance
+// NewMockWAFPolicySet creates a new mock instance.
 func NewMockWAFPolicySet(ctrl *gomock.Controller) *MockWAFPolicySet {
 	mock := &MockWAFPolicySet{ctrl: ctrl}
 	mock.recorder = &MockWAFPolicySetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockWAFPolicySet) EXPECT() *MockWAFPolicySetMockRecorder {
 	return m.recorder
 }
 
-// Keys mocks base method
+// Clone mocks base method.
+func (m *MockWAFPolicySet) Clone() v2sets.WAFPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2sets.WAFPolicySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockWAFPolicySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockWAFPolicySet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockWAFPolicySet) Delete(wAFPolicy ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", wAFPolicy)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockWAFPolicySetMockRecorder) Delete(wAFPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockWAFPolicySet)(nil).Delete), wAFPolicy)
+}
+
+// Delta mocks base method.
+func (m *MockWAFPolicySet) Delta(newSet v2sets.WAFPolicySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockWAFPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockWAFPolicySet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockWAFPolicySet) Difference(set v2sets.WAFPolicySet) v2sets.WAFPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2sets.WAFPolicySet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockWAFPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockWAFPolicySet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockWAFPolicySet) Equal(wAFPolicySet v2sets.WAFPolicySet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", wAFPolicySet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockWAFPolicySetMockRecorder) Equal(wAFPolicySet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockWAFPolicySet)(nil).Equal), wAFPolicySet)
+}
+
+// Find mocks base method.
+func (m *MockWAFPolicySet) Find(id ezkube.ResourceId) (*v2.WAFPolicy, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2.WAFPolicy)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockWAFPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockWAFPolicySet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockWAFPolicySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockWAFPolicySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockWAFPolicySet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockWAFPolicySet) Has(wAFPolicy ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", wAFPolicy)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockWAFPolicySetMockRecorder) Has(wAFPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockWAFPolicySet)(nil).Has), wAFPolicy)
+}
+
+// Insert mocks base method.
+func (m *MockWAFPolicySet) Insert(wAFPolicy ...*v2.WAFPolicy) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range wAFPolicy {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockWAFPolicySetMockRecorder) Insert(wAFPolicy ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockWAFPolicySet)(nil).Insert), wAFPolicy...)
+}
+
+// Intersection mocks base method.
+func (m *MockWAFPolicySet) Intersection(set v2sets.WAFPolicySet) v2sets.WAFPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2sets.WAFPolicySet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockWAFPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockWAFPolicySet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
 func (m *MockWAFPolicySet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -1070,13 +1211,27 @@ func (m *MockWAFPolicySet) Keys() sets0.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys
+// Keys indicates an expected call of Keys.
 func (mr *MockWAFPolicySetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockWAFPolicySet)(nil).Keys))
 }
 
-// List mocks base method
+// Length mocks base method.
+func (m *MockWAFPolicySet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockWAFPolicySetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockWAFPolicySet)(nil).Length))
+}
+
+// List mocks base method.
 func (m *MockWAFPolicySet) List(filterResource ...func(*v2.WAFPolicy) bool) []*v2.WAFPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -1088,13 +1243,41 @@ func (m *MockWAFPolicySet) List(filterResource ...func(*v2.WAFPolicy) bool) []*v
 	return ret0
 }
 
-// List indicates an expected call of List
+// List indicates an expected call of List.
 func (mr *MockWAFPolicySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockWAFPolicySet)(nil).List), filterResource...)
 }
 
-// UnsortedList mocks base method
+// Map mocks base method.
+func (m *MockWAFPolicySet) Map() map[string]*v2.WAFPolicy {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2.WAFPolicy)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockWAFPolicySetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockWAFPolicySet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockWAFPolicySet) Union(set v2sets.WAFPolicySet) v2sets.WAFPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2sets.WAFPolicySet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockWAFPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockWAFPolicySet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
 func (m *MockWAFPolicySet) UnsortedList(filterResource ...func(*v2.WAFPolicy) bool) []*v2.WAFPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -1106,219 +1289,177 @@ func (m *MockWAFPolicySet) UnsortedList(filterResource ...func(*v2.WAFPolicy) bo
 	return ret0
 }
 
-// UnsortedList indicates an expected call of UnsortedList
+// UnsortedList indicates an expected call of UnsortedList.
 func (mr *MockWAFPolicySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockWAFPolicySet)(nil).UnsortedList), filterResource...)
 }
 
-// Map mocks base method
-func (m *MockWAFPolicySet) Map() map[string]*v2.WAFPolicy {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v2.WAFPolicy)
-	return ret0
-}
-
-// Map indicates an expected call of Map
-func (mr *MockWAFPolicySetMockRecorder) Map() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockWAFPolicySet)(nil).Map))
-}
-
-// Insert mocks base method
-func (m *MockWAFPolicySet) Insert(wAFPolicy ...*v2.WAFPolicy) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{}
-	for _, a := range wAFPolicy {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Insert", varargs...)
-}
-
-// Insert indicates an expected call of Insert
-func (mr *MockWAFPolicySetMockRecorder) Insert(wAFPolicy ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockWAFPolicySet)(nil).Insert), wAFPolicy...)
-}
-
-// Equal mocks base method
-func (m *MockWAFPolicySet) Equal(wAFPolicySet v2sets.WAFPolicySet) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", wAFPolicySet)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Equal indicates an expected call of Equal
-func (mr *MockWAFPolicySetMockRecorder) Equal(wAFPolicySet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockWAFPolicySet)(nil).Equal), wAFPolicySet)
-}
-
-// Has mocks base method
-func (m *MockWAFPolicySet) Has(wAFPolicy ezkube.ResourceId) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", wAFPolicy)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Has indicates an expected call of Has
-func (mr *MockWAFPolicySetMockRecorder) Has(wAFPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockWAFPolicySet)(nil).Has), wAFPolicy)
-}
-
-// Delete mocks base method
-func (m *MockWAFPolicySet) Delete(wAFPolicy ezkube.ResourceId) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", wAFPolicy)
-}
-
-// Delete indicates an expected call of Delete
-func (mr *MockWAFPolicySetMockRecorder) Delete(wAFPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockWAFPolicySet)(nil).Delete), wAFPolicy)
-}
-
-// Union mocks base method
-func (m *MockWAFPolicySet) Union(set v2sets.WAFPolicySet) v2sets.WAFPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v2sets.WAFPolicySet)
-	return ret0
-}
-
-// Union indicates an expected call of Union
-func (mr *MockWAFPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockWAFPolicySet)(nil).Union), set)
-}
-
-// Difference mocks base method
-func (m *MockWAFPolicySet) Difference(set v2sets.WAFPolicySet) v2sets.WAFPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v2sets.WAFPolicySet)
-	return ret0
-}
-
-// Difference indicates an expected call of Difference
-func (mr *MockWAFPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockWAFPolicySet)(nil).Difference), set)
-}
-
-// Intersection mocks base method
-func (m *MockWAFPolicySet) Intersection(set v2sets.WAFPolicySet) v2sets.WAFPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v2sets.WAFPolicySet)
-	return ret0
-}
-
-// Intersection indicates an expected call of Intersection
-func (mr *MockWAFPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockWAFPolicySet)(nil).Intersection), set)
-}
-
-// Find mocks base method
-func (m *MockWAFPolicySet) Find(id ezkube.ResourceId) (*v2.WAFPolicy, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v2.WAFPolicy)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Find indicates an expected call of Find
-func (mr *MockWAFPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockWAFPolicySet)(nil).Find), id)
-}
-
-// Length mocks base method
-func (m *MockWAFPolicySet) Length() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Length")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// Length indicates an expected call of Length
-func (mr *MockWAFPolicySetMockRecorder) Length() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockWAFPolicySet)(nil).Length))
-}
-
-// Generic mocks base method
-func (m *MockWAFPolicySet) Generic() sets.ResourceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generic")
-	ret0, _ := ret[0].(sets.ResourceSet)
-	return ret0
-}
-
-// Generic indicates an expected call of Generic
-func (mr *MockWAFPolicySetMockRecorder) Generic() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockWAFPolicySet)(nil).Generic))
-}
-
-// Delta mocks base method
-func (m *MockWAFPolicySet) Delta(newSet v2sets.WAFPolicySet) sets.ResourceDelta {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delta", newSet)
-	ret0, _ := ret[0].(sets.ResourceDelta)
-	return ret0
-}
-
-// Delta indicates an expected call of Delta
-func (mr *MockWAFPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockWAFPolicySet)(nil).Delta), newSet)
-}
-
-// Clone mocks base method
-func (m *MockWAFPolicySet) Clone() v2sets.WAFPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v2sets.WAFPolicySet)
-	return ret0
-}
-
-// Clone indicates an expected call of Clone
-func (mr *MockWAFPolicySetMockRecorder) Clone() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockWAFPolicySet)(nil).Clone))
-}
-
-// MockJWTPolicySet is a mock of JWTPolicySet interface
+// MockJWTPolicySet is a mock of JWTPolicySet interface.
 type MockJWTPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockJWTPolicySetMockRecorder
 }
 
-// MockJWTPolicySetMockRecorder is the mock recorder for MockJWTPolicySet
+// MockJWTPolicySetMockRecorder is the mock recorder for MockJWTPolicySet.
 type MockJWTPolicySetMockRecorder struct {
 	mock *MockJWTPolicySet
 }
 
-// NewMockJWTPolicySet creates a new mock instance
+// NewMockJWTPolicySet creates a new mock instance.
 func NewMockJWTPolicySet(ctrl *gomock.Controller) *MockJWTPolicySet {
 	mock := &MockJWTPolicySet{ctrl: ctrl}
 	mock.recorder = &MockJWTPolicySetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use
+// EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockJWTPolicySet) EXPECT() *MockJWTPolicySetMockRecorder {
 	return m.recorder
 }
 
-// Keys mocks base method
+// Clone mocks base method.
+func (m *MockJWTPolicySet) Clone() v2sets.JWTPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2sets.JWTPolicySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockJWTPolicySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockJWTPolicySet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockJWTPolicySet) Delete(jWTPolicy ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", jWTPolicy)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockJWTPolicySetMockRecorder) Delete(jWTPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockJWTPolicySet)(nil).Delete), jWTPolicy)
+}
+
+// Delta mocks base method.
+func (m *MockJWTPolicySet) Delta(newSet v2sets.JWTPolicySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockJWTPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockJWTPolicySet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockJWTPolicySet) Difference(set v2sets.JWTPolicySet) v2sets.JWTPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2sets.JWTPolicySet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockJWTPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockJWTPolicySet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockJWTPolicySet) Equal(jWTPolicySet v2sets.JWTPolicySet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", jWTPolicySet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockJWTPolicySetMockRecorder) Equal(jWTPolicySet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockJWTPolicySet)(nil).Equal), jWTPolicySet)
+}
+
+// Find mocks base method.
+func (m *MockJWTPolicySet) Find(id ezkube.ResourceId) (*v2.JWTPolicy, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2.JWTPolicy)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockJWTPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockJWTPolicySet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockJWTPolicySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockJWTPolicySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockJWTPolicySet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockJWTPolicySet) Has(jWTPolicy ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", jWTPolicy)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockJWTPolicySetMockRecorder) Has(jWTPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockJWTPolicySet)(nil).Has), jWTPolicy)
+}
+
+// Insert mocks base method.
+func (m *MockJWTPolicySet) Insert(jWTPolicy ...*v2.JWTPolicy) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range jWTPolicy {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockJWTPolicySetMockRecorder) Insert(jWTPolicy ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockJWTPolicySet)(nil).Insert), jWTPolicy...)
+}
+
+// Intersection mocks base method.
+func (m *MockJWTPolicySet) Intersection(set v2sets.JWTPolicySet) v2sets.JWTPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2sets.JWTPolicySet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockJWTPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockJWTPolicySet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
 func (m *MockJWTPolicySet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -1326,13 +1467,27 @@ func (m *MockJWTPolicySet) Keys() sets0.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys
+// Keys indicates an expected call of Keys.
 func (mr *MockJWTPolicySetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockJWTPolicySet)(nil).Keys))
 }
 
-// List mocks base method
+// Length mocks base method.
+func (m *MockJWTPolicySet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockJWTPolicySetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockJWTPolicySet)(nil).Length))
+}
+
+// List mocks base method.
 func (m *MockJWTPolicySet) List(filterResource ...func(*v2.JWTPolicy) bool) []*v2.JWTPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -1344,13 +1499,41 @@ func (m *MockJWTPolicySet) List(filterResource ...func(*v2.JWTPolicy) bool) []*v
 	return ret0
 }
 
-// List indicates an expected call of List
+// List indicates an expected call of List.
 func (mr *MockJWTPolicySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockJWTPolicySet)(nil).List), filterResource...)
 }
 
-// UnsortedList mocks base method
+// Map mocks base method.
+func (m *MockJWTPolicySet) Map() map[string]*v2.JWTPolicy {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2.JWTPolicy)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockJWTPolicySetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockJWTPolicySet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockJWTPolicySet) Union(set v2sets.JWTPolicySet) v2sets.JWTPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2sets.JWTPolicySet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockJWTPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockJWTPolicySet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
 func (m *MockJWTPolicySet) UnsortedList(filterResource ...func(*v2.JWTPolicy) bool) []*v2.JWTPolicy {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -1362,191 +1545,8 @@ func (m *MockJWTPolicySet) UnsortedList(filterResource ...func(*v2.JWTPolicy) bo
 	return ret0
 }
 
-// UnsortedList indicates an expected call of UnsortedList
+// UnsortedList indicates an expected call of UnsortedList.
 func (mr *MockJWTPolicySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockJWTPolicySet)(nil).UnsortedList), filterResource...)
-}
-
-// Map mocks base method
-func (m *MockJWTPolicySet) Map() map[string]*v2.JWTPolicy {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v2.JWTPolicy)
-	return ret0
-}
-
-// Map indicates an expected call of Map
-func (mr *MockJWTPolicySetMockRecorder) Map() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockJWTPolicySet)(nil).Map))
-}
-
-// Insert mocks base method
-func (m *MockJWTPolicySet) Insert(jWTPolicy ...*v2.JWTPolicy) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{}
-	for _, a := range jWTPolicy {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Insert", varargs...)
-}
-
-// Insert indicates an expected call of Insert
-func (mr *MockJWTPolicySetMockRecorder) Insert(jWTPolicy ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockJWTPolicySet)(nil).Insert), jWTPolicy...)
-}
-
-// Equal mocks base method
-func (m *MockJWTPolicySet) Equal(jWTPolicySet v2sets.JWTPolicySet) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", jWTPolicySet)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Equal indicates an expected call of Equal
-func (mr *MockJWTPolicySetMockRecorder) Equal(jWTPolicySet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockJWTPolicySet)(nil).Equal), jWTPolicySet)
-}
-
-// Has mocks base method
-func (m *MockJWTPolicySet) Has(jWTPolicy ezkube.ResourceId) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", jWTPolicy)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Has indicates an expected call of Has
-func (mr *MockJWTPolicySetMockRecorder) Has(jWTPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockJWTPolicySet)(nil).Has), jWTPolicy)
-}
-
-// Delete mocks base method
-func (m *MockJWTPolicySet) Delete(jWTPolicy ezkube.ResourceId) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", jWTPolicy)
-}
-
-// Delete indicates an expected call of Delete
-func (mr *MockJWTPolicySetMockRecorder) Delete(jWTPolicy interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockJWTPolicySet)(nil).Delete), jWTPolicy)
-}
-
-// Union mocks base method
-func (m *MockJWTPolicySet) Union(set v2sets.JWTPolicySet) v2sets.JWTPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v2sets.JWTPolicySet)
-	return ret0
-}
-
-// Union indicates an expected call of Union
-func (mr *MockJWTPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockJWTPolicySet)(nil).Union), set)
-}
-
-// Difference mocks base method
-func (m *MockJWTPolicySet) Difference(set v2sets.JWTPolicySet) v2sets.JWTPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v2sets.JWTPolicySet)
-	return ret0
-}
-
-// Difference indicates an expected call of Difference
-func (mr *MockJWTPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockJWTPolicySet)(nil).Difference), set)
-}
-
-// Intersection mocks base method
-func (m *MockJWTPolicySet) Intersection(set v2sets.JWTPolicySet) v2sets.JWTPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v2sets.JWTPolicySet)
-	return ret0
-}
-
-// Intersection indicates an expected call of Intersection
-func (mr *MockJWTPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockJWTPolicySet)(nil).Intersection), set)
-}
-
-// Find mocks base method
-func (m *MockJWTPolicySet) Find(id ezkube.ResourceId) (*v2.JWTPolicy, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v2.JWTPolicy)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Find indicates an expected call of Find
-func (mr *MockJWTPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockJWTPolicySet)(nil).Find), id)
-}
-
-// Length mocks base method
-func (m *MockJWTPolicySet) Length() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Length")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// Length indicates an expected call of Length
-func (mr *MockJWTPolicySetMockRecorder) Length() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockJWTPolicySet)(nil).Length))
-}
-
-// Generic mocks base method
-func (m *MockJWTPolicySet) Generic() sets.ResourceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generic")
-	ret0, _ := ret[0].(sets.ResourceSet)
-	return ret0
-}
-
-// Generic indicates an expected call of Generic
-func (mr *MockJWTPolicySetMockRecorder) Generic() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockJWTPolicySet)(nil).Generic))
-}
-
-// Delta mocks base method
-func (m *MockJWTPolicySet) Delta(newSet v2sets.JWTPolicySet) sets.ResourceDelta {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delta", newSet)
-	ret0, _ := ret[0].(sets.ResourceDelta)
-	return ret0
-}
-
-// Delta indicates an expected call of Delta
-func (mr *MockJWTPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockJWTPolicySet)(nil).Delta), newSet)
-}
-
-// Clone mocks base method
-func (m *MockJWTPolicySet) Clone() v2sets.JWTPolicySet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v2sets.JWTPolicySet)
-	return ret0
-}
-
-// Clone indicates an expected call of Clone
-func (mr *MockJWTPolicySetMockRecorder) Clone() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockJWTPolicySet)(nil).Clone))
 }

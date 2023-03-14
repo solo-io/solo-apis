@@ -43,20 +43,14 @@ func (m *PrioritizedPhase) Hash(hasher hash.Hash64) (uint64, error) {
 	case *PrioritizedPhase_PreAuthz:
 
 		if h, ok := interface{}(m.GetPreAuthz()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("PreAuthz")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetPreAuthz(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetPreAuthz(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("PreAuthz")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -65,20 +59,14 @@ func (m *PrioritizedPhase) Hash(hasher hash.Hash64) (uint64, error) {
 	case *PrioritizedPhase_PostAuthz:
 
 		if h, ok := interface{}(m.GetPostAuthz()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("PostAuthz")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetPostAuthz(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetPostAuthz(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("PostAuthz")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -103,20 +91,14 @@ func (m *PrioritizedPhase_Phase) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetPriority()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Priority")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPriority(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPriority(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Priority")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

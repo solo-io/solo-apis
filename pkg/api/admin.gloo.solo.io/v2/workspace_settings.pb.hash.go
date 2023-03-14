@@ -41,20 +41,14 @@ func (m *WorkspaceSettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetImportFrom() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -65,20 +59,14 @@ func (m *WorkspaceSettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetExportTo() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -87,20 +75,14 @@ func (m *WorkspaceSettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetOptions()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Options")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Options")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -123,40 +105,28 @@ func (m *WorkspaceSettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetGeneric()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Generic")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGeneric(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetGeneric(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Generic")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetWorkspace()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Workspace")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetWorkspace(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetWorkspace(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Workspace")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -165,20 +135,14 @@ func (m *WorkspaceSettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetSelectedEastWestGateways() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -189,20 +153,14 @@ func (m *WorkspaceSettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetFederatedServices() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -229,20 +187,14 @@ func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector) Hash(hasher hash.Hash64)
 	for _, v := range m.GetWorkspaces() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -253,20 +205,14 @@ func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector) Hash(hasher hash.Hash64)
 	for _, v := range m.GetResources() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -291,40 +237,28 @@ func (m *WorkspaceSettingsSpec_Options) Hash(hasher hash.Hash64) (uint64, error)
 	}
 
 	if h, ok := interface{}(m.GetServiceIsolation()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ServiceIsolation")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetServiceIsolation(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetServiceIsolation(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("ServiceIsolation")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetFederation()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Federation")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetFederation(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetFederation(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Federation")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -333,20 +267,14 @@ func (m *WorkspaceSettingsSpec_Options) Hash(hasher hash.Hash64) (uint64, error)
 	for _, v := range m.GetEastWestGateways() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -355,20 +283,14 @@ func (m *WorkspaceSettingsSpec_Options) Hash(hasher hash.Hash64) (uint64, error)
 	}
 
 	if h, ok := interface{}(m.GetVirtualDestClientMode()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("VirtualDestClientMode")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetVirtualDestClientMode(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetVirtualDestClientMode(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("VirtualDestClientMode")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -452,20 +374,14 @@ func (m *WorkspaceSettingsSpec_Options_ServiceIsolation) Hash(hasher hash.Hash64
 	}
 
 	if h, ok := interface{}(m.GetTrimProxyConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("TrimProxyConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTrimProxyConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetTrimProxyConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("TrimProxyConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -499,20 +415,14 @@ func (m *WorkspaceSettingsSpec_Options_Federation) Hash(hasher hash.Hash64) (uin
 	for _, v := range m.GetServiceSelector() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -523,20 +433,14 @@ func (m *WorkspaceSettingsSpec_Options_Federation) Hash(hasher hash.Hash64) (uin
 	for _, v := range m.GetPorts() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -561,40 +465,28 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Hash(hasher hash
 	}
 
 	if h, ok := interface{}(m.GetSelector()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Selector")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSelector(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetSelector(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Selector")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetPort()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Port")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Port")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -603,20 +495,14 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Hash(hasher hash
 	for _, v := range m.GetHostInfoOverrides() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}

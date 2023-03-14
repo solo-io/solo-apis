@@ -41,20 +41,14 @@ func (m *JWTPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetApplyToRoutes() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -63,20 +57,14 @@ func (m *JWTPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Config")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Config")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -99,20 +87,14 @@ func (m *JWTPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetGlobal()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Global")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Global")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -125,20 +107,14 @@ func (m *JWTPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -160,20 +136,14 @@ func (m *JWTPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetSelectedRoutes() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -204,20 +174,14 @@ func (m *JWTPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -237,20 +201,14 @@ func (m *JWTPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetPhase()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Phase")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPhase(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPhase(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Phase")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -290,20 +248,14 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 	}
 
 	if h, ok := interface{}(m.GetTokenSource()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("TokenSource")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTokenSource(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetTokenSource(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("TokenSource")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -312,20 +264,14 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 	for _, v := range m.GetClaimsToHeaders() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -339,20 +285,14 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 	}
 
 	if h, ok := interface{}(m.GetClockSkewSeconds()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ClockSkewSeconds")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetClockSkewSeconds(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetClockSkewSeconds(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("ClockSkewSeconds")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -363,20 +303,14 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 	case *JWTPolicySpec_Config_Provider_Local:
 
 		if h, ok := interface{}(m.GetLocal()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Local")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetLocal(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetLocal(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Local")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -385,20 +319,14 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 	case *JWTPolicySpec_Config_Provider_Remote:
 
 		if h, ok := interface{}(m.GetRemote()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Remote")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetRemote(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetRemote(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Remote")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -425,20 +353,14 @@ func (m *JWTPolicySpec_Config_Provider_TokenSource) Hash(hasher hash.Hash64) (ui
 	for _, v := range m.GetHeaders() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -475,20 +397,14 @@ func (m *JWTPolicySpec_Config_Provider_LocalJWKS) Hash(hasher hash.Hash64) (uint
 	case *JWTPolicySpec_Config_Provider_LocalJWKS_SecretRef_:
 
 		if h, ok := interface{}(m.GetSecretRef()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("SecretRef")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetSecretRef(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetSecretRef(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("SecretRef")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -523,60 +439,42 @@ func (m *JWTPolicySpec_Config_Provider_RemoteJWKS) Hash(hasher hash.Hash64) (uin
 	}
 
 	if h, ok := interface{}(m.GetDestinationRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DestinationRef")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDestinationRef(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDestinationRef(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DestinationRef")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetCacheDuration()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("CacheDuration")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetCacheDuration(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetCacheDuration(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("CacheDuration")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Timeout")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTimeout(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetTimeout(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Timeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -657,20 +555,14 @@ func (m *JWTPolicySpec_Config_Provider_LocalJWKS_SecretRef) Hash(hasher hash.Has
 	}
 
 	if h, ok := interface{}(m.GetObjectRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ObjectRef")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetObjectRef(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetObjectRef(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("ObjectRef")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
