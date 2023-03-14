@@ -102,8 +102,40 @@ const (
 	// After processing all routes, including additional route tables delegated to, the resulting routes are sorted
 	// by specificity to reduce the chance that a more specific route will be short-circuited by a general route.
 	// Matchers with exact path matchers are considered more specific than regex path patchers, which are more
-	// specific than prefix path matchers. Matchers of the same type are sorted by length of the path in descending
-	// order. Only the most specific matcher on each route is used.
+	// specific than prefix path matchers. For prefix and exact, matchers of the same type are sorted by length of the path in descending
+	// order. For regex matchers they are all treated equal when sorted. For sort ties, table weights are used across tables &
+	// within tables user specified order is preserved. Only the most specific matcher on each route is used.
+	//
+	// For example, consider the following two sub-tables that are sorted by specificity and the resulting route list.
+	//
+	// Sub-table A, with a table weight of `1` in case of sort ties:<ul>
+	// <li>`prefix: /foo`</li>
+	// <li>`prefix: /foo/more/specific`</li>
+	// <li>`prefix: /foo/even/more/specific`</li>
+	// <li>`exact: /foo/exact`</li>
+	// <li>`exact: /foo/another/exact`</li>
+	// <li>`regex: /foo/*`</li>
+	// <li>`regex: /fooo/*`</li></ul>
+	// Sub-table B, with a table weight of `2` in case of sort ties:<ul>
+	// <li>`prefix: /bar`</li>
+	// <li>`prefix: /bar/more/specific`</li>
+	// <li>`prefix: /bar/even/more/specific`</li>
+	// <li>`exact: /bar/exact`</li>
+	// <li>`regex: /bar/*`</li></ul>
+	// The resulting routes are sorted in this order:<ul>
+	// <li>`exact: /foo/another/exact`</li>
+	// <li>`exact: /bar/exact`</li>
+	// <li>`exact: /foo/exact`</li>
+	// <li>`regex: /bar/*`</li>
+	// <li>`regex: /foo/*`</li>
+	// <li>`regex: /fooo/*`</li>
+	// <li>`prefix: /bar/even/more/specific`</li>
+	// <li>`prefix: /foo/even/more/specific`</li>
+	// <li>`prefix: /bar/more/specific`</li>
+	// <li>`prefix: /foo/more/specific`</li>
+	// <li>`prefix: /bar`</li>
+	// <li>`prefix: /foo`</li></ul>
+	//
 	DelegateAction_ROUTE_SPECIFICITY DelegateAction_SortMethod = 1
 )
 
