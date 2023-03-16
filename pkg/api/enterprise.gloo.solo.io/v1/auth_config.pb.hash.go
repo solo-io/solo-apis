@@ -568,20 +568,22 @@ func (m *HmacAuth) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
-	for _, v := range m.GetClientSecretRef() {
+	switch m.SecretStorage.(type) {
 
-		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
+	case *HmacAuth_SecretRefs:
+
+		if h, ok := interface{}(m.GetSecretRefs()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("SecretRefs")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetSecretRefs(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
+				if _, err = hasher.Write([]byte("SecretRefs")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -608,6 +610,46 @@ func (m *HmacAuth) Hash(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			} else {
 				if _, err = hasher.Write([]byte("ParametersInHeaders")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *SecretRefList) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.SecretRefList")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetSecretRefs() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -5352,25 +5394,28 @@ func (m *ExtAuthConfig_HmacAuthConfig) Hash(hasher hash.Hash64) (uint64, error) 
 		return 0, err
 	}
 
-	{
-		var result uint64
-		innerHash := fnv.New64()
-		for k, v := range m.GetHmacPasswords() {
-			innerHash.Reset()
+	switch m.SecretStorage.(type) {
 
-			if _, err = innerHash.Write([]byte(v)); err != nil {
+	case *ExtAuthConfig_HmacAuthConfig_SecretList:
+
+		if h, ok := interface{}(m.GetSecretList()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("SecretList")); err != nil {
 				return 0, err
 			}
-
-			if _, err = innerHash.Write([]byte(k)); err != nil {
+			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
-
-			result = result ^ innerHash.Sum64()
-		}
-		err = binary.Write(hasher, binary.LittleEndian, result)
-		if err != nil {
-			return 0, err
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetSecretList(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("SecretList")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
 		}
 
 	}
@@ -5397,6 +5442,45 @@ func (m *ExtAuthConfig_HmacAuthConfig) Hash(hasher hash.Hash64) (uint64, error) 
 					return 0, err
 				}
 			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *ExtAuthConfig_InMemorySecretList) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ExtAuthConfig_InMemorySecretList")); err != nil {
+		return 0, err
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetSecretList() {
+			innerHash.Reset()
+
+			if _, err = innerHash.Write([]byte(v)); err != nil {
+				return 0, err
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
 		}
 
 	}
