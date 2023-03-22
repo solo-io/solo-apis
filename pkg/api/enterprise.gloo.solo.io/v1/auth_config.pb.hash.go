@@ -594,7 +594,7 @@ func (m *HmacAuth) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
-	switch m.HmacImplementation.(type) {
+	switch m.ImplementationType.(type) {
 
 	case *HmacAuth_ParametersInHeaders:
 
@@ -2324,6 +2324,10 @@ func (m *ApiKey) Hash(hasher hash.Hash64) (uint64, error) {
 			return 0, err
 		}
 
+	}
+
+	if _, err = hasher.Write([]byte(m.GetUuid())); err != nil {
+		return 0, err
 	}
 
 	return hasher.Sum64(), nil
@@ -5420,7 +5424,7 @@ func (m *ExtAuthConfig_HmacAuthConfig) Hash(hasher hash.Hash64) (uint64, error) 
 
 	}
 
-	switch m.HmacImplementation.(type) {
+	switch m.ImplementationType.(type) {
 
 	case *ExtAuthConfig_HmacAuthConfig_ParametersInHeaders:
 

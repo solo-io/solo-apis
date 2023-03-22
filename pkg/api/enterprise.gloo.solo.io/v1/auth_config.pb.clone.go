@@ -324,16 +324,16 @@ func (m *HmacAuth) Clone() proto.Message {
 
 	}
 
-	switch m.HmacImplementation.(type) {
+	switch m.ImplementationType.(type) {
 
 	case *HmacAuth_ParametersInHeaders:
 
 		if h, ok := interface{}(m.GetParametersInHeaders()).(clone.Cloner); ok {
-			target.HmacImplementation = &HmacAuth_ParametersInHeaders{
+			target.ImplementationType = &HmacAuth_ParametersInHeaders{
 				ParametersInHeaders: h.Clone().(*HmacParametersInHeaders),
 			}
 		} else {
-			target.HmacImplementation = &HmacAuth_ParametersInHeaders{
+			target.ImplementationType = &HmacAuth_ParametersInHeaders{
 				ParametersInHeaders: proto.Clone(m.GetParametersInHeaders()).(*HmacParametersInHeaders),
 			}
 		}
@@ -1244,6 +1244,8 @@ func (m *ApiKey) Clone() proto.Message {
 
 		}
 	}
+
+	target.Uuid = m.GetUuid()
 
 	return target
 }
@@ -2920,16 +2922,16 @@ func (m *ExtAuthConfig_HmacAuthConfig) Clone() proto.Message {
 
 	}
 
-	switch m.HmacImplementation.(type) {
+	switch m.ImplementationType.(type) {
 
 	case *ExtAuthConfig_HmacAuthConfig_ParametersInHeaders:
 
 		if h, ok := interface{}(m.GetParametersInHeaders()).(clone.Cloner); ok {
-			target.HmacImplementation = &ExtAuthConfig_HmacAuthConfig_ParametersInHeaders{
+			target.ImplementationType = &ExtAuthConfig_HmacAuthConfig_ParametersInHeaders{
 				ParametersInHeaders: h.Clone().(*HmacParametersInHeaders),
 			}
 		} else {
-			target.HmacImplementation = &ExtAuthConfig_HmacAuthConfig_ParametersInHeaders{
+			target.ImplementationType = &ExtAuthConfig_HmacAuthConfig_ParametersInHeaders{
 				ParametersInHeaders: proto.Clone(m.GetParametersInHeaders()).(*HmacParametersInHeaders),
 			}
 		}

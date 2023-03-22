@@ -549,10 +549,10 @@ func (m *HmacAuth) Equal(that interface{}) bool {
 		}
 	}
 
-	switch m.HmacImplementation.(type) {
+	switch m.ImplementationType.(type) {
 
 	case *HmacAuth_ParametersInHeaders:
-		if _, ok := target.HmacImplementation.(*HmacAuth_ParametersInHeaders); !ok {
+		if _, ok := target.ImplementationType.(*HmacAuth_ParametersInHeaders); !ok {
 			return false
 		}
 
@@ -568,7 +568,7 @@ func (m *HmacAuth) Equal(that interface{}) bool {
 
 	default:
 		// m is nil but target is not nil
-		if m.HmacImplementation != target.HmacImplementation {
+		if m.ImplementationType != target.ImplementationType {
 			return false
 		}
 	}
@@ -2079,6 +2079,10 @@ func (m *ApiKey) Equal(that interface{}) bool {
 			return false
 		}
 
+	}
+
+	if strings.Compare(m.GetUuid(), target.GetUuid()) != 0 {
+		return false
 	}
 
 	return true
@@ -4931,10 +4935,10 @@ func (m *ExtAuthConfig_HmacAuthConfig) Equal(that interface{}) bool {
 		}
 	}
 
-	switch m.HmacImplementation.(type) {
+	switch m.ImplementationType.(type) {
 
 	case *ExtAuthConfig_HmacAuthConfig_ParametersInHeaders:
-		if _, ok := target.HmacImplementation.(*ExtAuthConfig_HmacAuthConfig_ParametersInHeaders); !ok {
+		if _, ok := target.ImplementationType.(*ExtAuthConfig_HmacAuthConfig_ParametersInHeaders); !ok {
 			return false
 		}
 
@@ -4950,7 +4954,7 @@ func (m *ExtAuthConfig_HmacAuthConfig) Equal(that interface{}) bool {
 
 	default:
 		// m is nil but target is not nil
-		if m.HmacImplementation != target.HmacImplementation {
+		if m.ImplementationType != target.ImplementationType {
 			return false
 		}
 	}
