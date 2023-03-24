@@ -26,83 +26,6 @@ var (
 )
 
 // Equal function
-func (m *ObjectReference) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ObjectReference)
-	if !ok {
-		that2, ok := that.(ObjectReference)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetName(), target.GetName()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetNamespace(), target.GetNamespace()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetCluster(), target.GetCluster()) != 0 {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *ObjectReferenceList) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ObjectReferenceList)
-	if !ok {
-		that2, ok := that.(ObjectReferenceList)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if len(m.GetRefs()) != len(target.GetRefs()) {
-		return false
-	}
-	for idx, v := range m.GetRefs() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetRefs()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetRefs()[idx]) {
-				return false
-			}
-		}
-
-	}
-
-	return true
-}
-
-// Equal function
 func (m *ObjectSelector) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -147,69 +70,6 @@ func (m *ObjectSelector) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetWorkspace(), target.GetWorkspace()) != 0 {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *DestinationReference) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*DestinationReference)
-	if !ok {
-		that2, ok := that.(DestinationReference)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetRef()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetRef()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetRef(), target.GetRef()) {
-			return false
-		}
-	}
-
-	if m.GetKind() != target.GetKind() {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetPort()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetPort()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetPort(), target.GetPort()) {
-			return false
-		}
-	}
-
-	if len(m.GetSubset()) != len(target.GetSubset()) {
-		return false
-	}
-	for k, v := range m.GetSubset() {
-
-		if strings.Compare(v, target.GetSubset()[k]) != 0 {
-			return false
-		}
-
-	}
-
-	if m.GetWeight() != target.GetWeight() {
 		return false
 	}
 
@@ -316,6 +176,57 @@ func (m *RouteDestinationSelector) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *RouteLabelSelector) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*RouteLabelSelector)
+	if !ok {
+		that2, ok := that.(RouteLabelSelector)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetLabels()) != len(target.GetLabels()) {
+		return false
+	}
+	for k, v := range m.GetLabels() {
+
+		if strings.Compare(v, target.GetLabels()[k]) != 0 {
+			return false
+		}
+
+	}
+
+	if strings.Compare(m.GetName(), target.GetName()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetNamespace(), target.GetNamespace()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetCluster(), target.GetCluster()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetWorkspace(), target.GetWorkspace()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
 func (m *RouteSelector) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -371,6 +282,40 @@ func (m *RouteSelector) Equal(that interface{}) bool {
 	default:
 		// m is nil but target is not nil
 		if m.SelectorType != target.SelectorType {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *RouteFilter) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*RouteFilter)
+	if !ok {
+		that2, ok := that.(RouteFilter)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCloudProvider()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCloudProvider()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCloudProvider(), target.GetCloudProvider()) {
 			return false
 		}
 	}

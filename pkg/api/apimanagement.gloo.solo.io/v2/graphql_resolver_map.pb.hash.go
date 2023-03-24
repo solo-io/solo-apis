@@ -77,88 +77,24 @@ func (m *GraphQLResolverMapSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *ExecutableSchema) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.ExecutableSchema")); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetSchemaRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("SchemaRef")); err != nil {
+	if h, ok := interface{}(m.GetExtensions()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Extensions")); err != nil {
 			return 0, err
 		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSchemaRef(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetExtensions(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("SchemaRef")); err != nil {
+			if _, err = hasher.Write([]byte("Extensions")); err != nil {
 				return 0, err
 			}
 			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
-	}
-
-	switch m.ExecutableSchema.(type) {
-
-	case *ExecutableSchema_Server:
-
-		if h, ok := interface{}(m.GetServer()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Server")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetServer(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("Server")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	case *ExecutableSchema_Local_:
-
-		if h, ok := interface{}(m.GetLocal()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Local")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetLocal(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("Local")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
 	}
 
 	return hasher.Sum64(), nil
@@ -513,6 +449,42 @@ func (m *GraphQLResolverMapSpec_Resolution) Hash(hasher hash.Hash64) (uint64, er
 }
 
 // Hash function
+func (m *GraphQLResolverMapSpec_ResolverMapExtensions) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_ResolverMapExtensions")); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetGrpcSchemaSelector()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("GrpcSchemaSelector")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetGrpcSchemaSelector(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("GrpcSchemaSelector")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -668,6 +640,50 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver) Hash(hasher hash.
 			}
 		}
 
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_:
+
+		if h, ok := interface{}(m.GetGrpcResolver()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("GrpcResolver")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetGrpcResolver(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("GrpcResolver")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_:
+
+		if h, ok := interface{}(m.GetMockResolver()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("MockResolver")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetMockResolver(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("MockResolver")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
 	}
 
 	return hasher.Sum64(), nil
@@ -807,6 +823,176 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) Hash
 				return 0, err
 			}
 		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetDestinations() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetRequest()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Request")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetRequest(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Request")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if h, ok := interface{}(m.GetSpanName()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("SpanName")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetSpanName(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("SpanName")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if h, ok := interface{}(m.GetTimeout()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Timeout")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetTimeout(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Timeout")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver")); err != nil {
+		return 0, err
+	}
+
+	switch m.Response.(type) {
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_SyncResponse:
+
+		if h, ok := interface{}(m.GetSyncResponse()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("SyncResponse")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetSyncResponse(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("SyncResponse")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse_:
+
+		if h, ok := interface{}(m.GetAsyncResponse()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("AsyncResponse")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetAsyncResponse(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("AsyncResponse")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_ErrorResponse:
+
+		if _, err = hasher.Write([]byte(m.GetErrorResponse())); err != nil {
+			return 0, err
+		}
+
 	}
 
 	return hasher.Sum64(), nil
@@ -953,7 +1139,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 }
 
 // Hash function
-func (m *ExecutableSchema_Local) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -961,46 +1147,73 @@ func (m *ExecutableSchema_Local) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.ExecutableSchema_Local")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate")); err != nil {
 		return 0, err
 	}
 
-	for _, v := range m.GetResolverMapRefs() {
-
-		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
+	if _, err = hasher.Write([]byte(m.GetService())); err != nil {
+		return 0, err
 	}
 
-	if h, ok := interface{}(m.GetOptions()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Options")); err != nil {
+	if _, err = hasher.Write([]byte(m.GetMethod())); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetOutgoingMessage()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("OutgoingMessage")); err != nil {
 			return 0, err
 		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetOutgoingMessage(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Options")); err != nil {
+			if _, err = hasher.Write([]byte("OutgoingMessage")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetRequestMetadata() {
+			innerHash.Reset()
+
+			if _, err = innerHash.Write([]byte(v)); err != nil {
+				return 0, err
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetAuthority()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Authority")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetAuthority(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Authority")); err != nil {
 				return 0, err
 			}
 			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -1013,7 +1226,7 @@ func (m *ExecutableSchema_Local) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *ExecutableSchema_GraphQLServer) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -1021,183 +1234,22 @@ func (m *ExecutableSchema_GraphQLServer) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.ExecutableSchema_GraphQLServer")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse")); err != nil {
 		return 0, err
 	}
 
-	for _, v := range m.GetGraphqlServers() {
-
-		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	}
-
-	{
-		var result uint64
-		innerHash := fnv.New64()
-		for k, v := range m.GetVariables() {
-			innerHash.Reset()
-
-			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if _, err = h.Hash(innerHash); err != nil {
-					return 0, err
-				}
-			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
-					return 0, err
-				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
-						return 0, err
-					}
-				}
-			}
-
-			if _, err = innerHash.Write([]byte(k)); err != nil {
-				return 0, err
-			}
-
-			result = result ^ innerHash.Sum64()
-		}
-		err = binary.Write(hasher, binary.LittleEndian, result)
-		if err != nil {
-			return 0, err
-		}
-
-	}
-
-	{
-		var result uint64
-		innerHash := fnv.New64()
-		for k, v := range m.GetHeaders() {
-			innerHash.Reset()
-
-			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if _, err = h.Hash(innerHash); err != nil {
-					return 0, err
-				}
-			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
-					return 0, err
-				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
-						return 0, err
-					}
-				}
-			}
-
-			if _, err = innerHash.Write([]byte(k)); err != nil {
-				return 0, err
-			}
-
-			result = result ^ innerHash.Sum64()
-		}
-		err = binary.Write(hasher, binary.LittleEndian, result)
-		if err != nil {
-			return 0, err
-		}
-
-	}
-
-	{
-		var result uint64
-		innerHash := fnv.New64()
-		for k, v := range m.GetQueryParams() {
-			innerHash.Reset()
-
-			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if _, err = h.Hash(innerHash); err != nil {
-					return 0, err
-				}
-			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
-					return 0, err
-				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
-						return 0, err
-					}
-				}
-			}
-
-			if _, err = innerHash.Write([]byte(k)); err != nil {
-				return 0, err
-			}
-
-			result = result ^ innerHash.Sum64()
-		}
-		err = binary.Write(hasher, binary.LittleEndian, result)
-		if err != nil {
-			return 0, err
-		}
-
-	}
-
-	if _, err = hasher.Write([]byte(m.GetSpanName())); err != nil {
-		return 0, err
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *ExecutableSchema_Local_Options) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.ExecutableSchema_Local_Options")); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetMaxDepth()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MaxDepth")); err != nil {
+	if h, ok := interface{}(m.GetDelay()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Delay")); err != nil {
 			return 0, err
 		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMaxDepth(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetDelay(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MaxDepth")); err != nil {
+			if _, err = hasher.Write([]byte("Delay")); err != nil {
 				return 0, err
 			}
 			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -1206,79 +1258,24 @@ func (m *ExecutableSchema_Local_Options) Hash(hasher hash.Hash64) (uint64, error
 		}
 	}
 
-	err = binary.Write(hasher, binary.LittleEndian, m.GetEnableIntrospection())
-	if err != nil {
-		return 0, err
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *ExecutableSchema_GraphQLServer_RequestExtraction) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2.ExecutableSchema_GraphQLServer_RequestExtraction")); err != nil {
-		return 0, err
-	}
-
-	switch m.Extraction.(type) {
-
-	case *ExecutableSchema_GraphQLServer_RequestExtraction_DynamicMetadata:
-
-		if h, ok := interface{}(m.GetDynamicMetadata()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("DynamicMetadata")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetDynamicMetadata(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("DynamicMetadata")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	case *ExecutableSchema_GraphQLServer_RequestExtraction_RequestHeader:
-
-		if _, err = hasher.Write([]byte(m.GetRequestHeader())); err != nil {
+	if h, ok := interface{}(m.GetResponse()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Response")); err != nil {
 			return 0, err
 		}
-
-	case *ExecutableSchema_GraphQLServer_RequestExtraction_Json:
-
-		if h, ok := interface{}(m.GetJson()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Json")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetResponse(), nil); err != nil {
+			return 0, err
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetJson(), nil); err != nil {
+			if _, err = hasher.Write([]byte("Response")); err != nil {
 				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("Json")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
 			}
 		}
-
 	}
 
 	return hasher.Sum64(), nil

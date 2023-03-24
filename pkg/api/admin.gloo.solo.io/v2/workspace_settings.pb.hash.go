@@ -600,6 +600,26 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Hash(hasher hash
 		}
 	}
 
+	if h, ok := interface{}(m.GetTlsTerminationPort()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("TlsTerminationPort")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetTlsTerminationPort(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("TlsTerminationPort")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	for _, v := range m.GetHostInfoOverrides() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {

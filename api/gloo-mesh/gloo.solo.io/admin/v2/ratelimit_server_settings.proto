@@ -1,14 +1,16 @@
 syntax = "proto3";
+
 package admin.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
 
 import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
-
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "google/protobuf/duration.proto";
 
-import "extproto/ext.proto";
+option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -16,34 +18,34 @@ option (extproto.clone_all) = true;
 // RateLimitServerSettings is an optional resource used to configure how a client (i.e. a sidecar or gateway proxy) connects to a rate limit server.
 // If no RateLimitServerSetting is selected in a RatelimitPolicy, a default configuration will be used.
 message RateLimitServerSettingsSpec {
-	// The ratelimit service to ask about ratelimit decisions.
-	// The provided reference will be used to search for a service of the given name/namespace on the cluster
-	// the traffic policy is applied on
-	//
-	// If omitted, Gloo Mesh will search for a service with the name rate-limiter in the gloo-mesh namespace.
-	.common.gloo.solo.io.DestinationReference destination_server = 1;
+  // The ratelimit service to ask about ratelimit decisions.
+  // The provided reference will be used to search for a service of the given name/namespace on the cluster
+  // the traffic policy is applied on
+  //
+  // If omitted, Gloo Mesh will search for a service with the name rate-limiter in the gloo-mesh namespace.
+  .common.gloo.solo.io.DestinationReference destination_server = 1;
 
-	// The timeout in milliseconds for the rate limit service RPC. Defaults to 100ms.
-	// Behaviour after request timeout is reached is set by `deny_on_fail`.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
-	google.protobuf.Duration request_timeout = 2;
+  // The timeout in milliseconds for the rate limit service RPC. Defaults to 100ms.
+  // Behaviour after request timeout is reached is set by `deny_on_fail`.
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+  google.protobuf.Duration request_timeout = 2;
 
-	// Behaviour in case the rate limiting service does not respond back.
-	// When it is set to true, Envoy will not allow traffic in case of communication failure between rate limiting service and the proxy.
-	// Defaults to false
-	bool deny_on_fail = 3;
+  // Behaviour in case the rate limiting service does not respond back.
+  // When it is set to true, Envoy will not allow traffic in case of communication failure between rate limiting service and the proxy.
+  // Defaults to false
+  bool deny_on_fail = 3;
 
 }
 
 // The current status of the `RateLimitServerSettings`.
 message RateLimitServerSettingsStatus {
 
-	// The most recent generation observed in the the RateLimitServerSettings metadata.
-	// If the `observedGeneration` does not match `metadata.generation`,
-	// Gloo Mesh has not processed the most recent version of this resource.
-	int64 observed_generation = 1;
+  // The most recent generation observed in the the RateLimitServerSettings metadata.
+  // If the `observedGeneration` does not match `metadata.generation`,
+  // Gloo Mesh has not processed the most recent version of this resource.
+  int64 observed_generation = 1;
 
-	// Whether the resource has been accepted as valid and processed in the Gloo Mesh config translation.
-	.common.gloo.solo.io.ApprovalState state = 2;
+  // Whether the resource has been accepted as valid and processed in the Gloo Mesh config translation.
+  .common.gloo.solo.io.ApprovalState state = 2;
 
 }

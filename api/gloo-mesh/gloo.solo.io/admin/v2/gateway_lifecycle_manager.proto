@@ -1,13 +1,12 @@
 syntax = "proto3";
+
 package admin.gloo.solo.io;
 
-option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
-
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/istio_operator.proto";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
-
-import "extproto/ext.proto";
+option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
 
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
@@ -15,100 +14,105 @@ option (extproto.clone_all) = true;
 
 message GatewayLifecycleManagerSpec {
 
-    // List of Istio gateway installations. 
-    // Any components that are NOT related to the gateway will be ignored
-    // Only 1 installation is allowed per revision per cluster
-    repeated GatewayInstallation installations = 1;
+  // List of Istio gateway installations.
+  // Any components that are NOT related to the gateway are ignored.
+  // Only one installation is allowed per revision per cluster.
+  repeated GatewayInstallation installations = 1;
 }
 
 message GatewayClusterSelector {
 
-    // The name of the cluster that Istio should be installed in. This should
-    // match the registered cluster name.
-    string name = 1;
-    
-    // Optional: defaults to false
-    // When true this installation will be the Active gateway that primary service traffic will be routed through for the selected cluster(s)
-    // If the GatewayLifecycleManagerSpec defines a service, this field will switch over service selectors based off the gatewayRevsion. Updating this can be useful for switching over Canary deployments.
-    bool active_gateway = 2;
+  // Name of the cluster to install Istio into.
+  // Must match the registered cluster name.
+  string name = 1;
 
-    // [Optional] The trust domain value that should be set for this cluster's
-    // Istio installations. This value will be set in the installation's mesh
-    // config. (See https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
-    // Defaults to the cluster's name.
-    string trust_domain = 5; 
+  // Optional: Defaults to false.
+  // When set to true, the installation for this revision is applied as the active gateway through which primary service traffic is routed in the cluster.
+  // If the `istioOperatorSpec` defines a service, this field switches the service selectors to the revision specified in the `gatewayRevsion`.
+  // You might change this setting for gateway installations during a canary upgrade.
+  // For more info, see the [upgrade docs](https://docs.solo.io/gloo-gateway/main/setup/legacy/managed_upgrade/).
+  bool active_gateway = 2;
+
+  // Optional: By default, the `trustDomain` value is automatically set in the meshConfig by the installer to the name of each workload cluster.
+  // To override the `trustDomain` for each cluster, you can instead specify the override value in the `trustDomain` field,
+  // and include the value in the list of cluster names. For example, if you specify `trustDomain: cluster1-trust-override` in the operator spec,
+  // you then specify the cluster name (`cluster1`) and the trust domain (`cluster1-trust-override`) in the list of cluster names.
+  // Additionally, because Gloo requires multiple trust domains for east-west routing, the `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` field is set to `"true"` by default. 
+  // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1).
+  string trust_domain = 5;
 }
 
 message GatewayInstallation {
-    // Optional: default to the gatewayRevision; Selects the control plane revision to be used by the gateway. If not found no gateway will be created.
-    string control_plane_revision = 1;
+  // Optional: The revision of an Istio control plane in the cluster that this gateway should also use.
+  // If a control plane installation of this revisions is not found, no gateway is created.
+  string control_plane_revision = 1;
 
-    // gatewayRevision that will be used to represent this installation.
-    string gateway_revision = 2;
+  // Istio revision for this installation, such as '1-17'.
+  string gateway_revision = 2;
 
-    // The clusters where the Istio should be installed.
-    repeated GatewayClusterSelector clusters = 3;
+  // Clusters to install the Istio gateways in.
+  repeated GatewayClusterSelector clusters = 3;
 
-    // Specs for the IstioOperators that should be applied.
-    // See https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/
-    .common.gloo.solo.io.IstioOperatorSpec  istio_operator_spec = 4;
+  // IstioOperator specification for the control plane.
+  // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
+  .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 4;
 }
 
 message GatewayLifecycleManagerStatus {
 
-    // The status of each Istio gateway installation that is being managed by Gloo Mesh, where
-    // the key is the cluster name of the installation.
-    map<string, ClusterStatuses>  clusters = 1;
+  // The status of each Istio gateway installation that is being managed by Gloo Mesh, where
+  // the key is the cluster name of the installation.
+  map<string, ClusterStatuses> clusters = 1;
 
-    message ClusterStatuses {
-        // The Istio installations by revision.
-        map<string, InstallationStatus>  installations = 1;
+  message ClusterStatuses {
+    // The Istio installations by revision.
+    map<string, InstallationStatus> installations = 1;
 
-        message InstallationStatus {
-            // State of the Istio installation
-            State state = 1;
+    message InstallationStatus {
+      // State of the Istio installation
+      State state = 1;
 
-            // A human readable message about the current state of the GatewayInstallationInstance.
-            string message = 2;
+      // A human readable message about the current state of the GatewayInstallationInstance.
+      string message = 2;
 
-            // operator that is currently deployed for this revision
-            .common.gloo.solo.io.IstioOperatorSpec observed_operator = 4;
+      // operator that is currently deployed for this revision
+      .common.gloo.solo.io.IstioOperatorSpec observed_operator = 4;
 
-            // The state of an Istio installation.
-            enum State {
-                // Waiting for resources to be installed or updated.
-                PENDING = 0;
+      // The state of an Istio installation.
+      enum State {
+        // Waiting for resources to be installed or updated.
+        PENDING = 0;
 
-                // Gloo Mesh server encountered a problem while attempting
-                // to install Istio Gateway.
-                FAILED = 1;
+        // Gloo Mesh server encountered a problem while attempting
+        // to install Istio Gateway.
+        FAILED = 1;
 
-                // Could not select a control plane
-                NO_CONTROL_PLANE_AVAILABLE = 2;
+        // Could not select a control plane
+        NO_CONTROL_PLANE_AVAILABLE = 2;
 
-                // In the process of installing Istio gateway.
-                INSTALLING_GATEWAY = 3;
+        // In the process of installing Istio gateway.
+        INSTALLING_GATEWAY = 3;
 
-                // All Istio components are successfully installed and healthy.
-                HEALTHY = 4;
+        // All Istio components are successfully installed and healthy.
+        HEALTHY = 4;
 
-                // The Istio installation is no longer healthy.
-                UNHEALTHY = 5;
+        // The Istio installation is no longer healthy.
+        UNHEALTHY = 5;
 
-                // The gateway IstioOperator CR is in an 'ACTION_REQUIRED' state, please check logs of IstioOperator deployment for more info.
-                ACTION_REQUIRED = 6;
+        // The gateway IstioOperator CR is in an 'ACTION_REQUIRED' state, please check logs of IstioOperator deployment for more info.
+        ACTION_REQUIRED = 6;
 
-                // The gateway IstioOperator CR is in an 'UPDATING' state
-                UPDATING_GATEWAY  = 7;
+        // The gateway IstioOperator CR is in an 'UPDATING' state
+        UPDATING_GATEWAY = 7;
 
-                // The gateway IstioOperator CR is in an 'RECONCILING' state
-                RECONCILING_GATEWAY  = 8;
+        // The gateway IstioOperator CR is in an 'RECONCILING' state
+        RECONCILING_GATEWAY = 8;
 
-                // The gateway installation state could not be determined
-                UNKNOWN = 9;
+        // The gateway installation state could not be determined
+        UNKNOWN = 9;
 
-            }
-        }
+      }
     }
+  }
 }
 

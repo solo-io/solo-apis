@@ -67,6 +67,189 @@ func (m *WorkloadReference) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *ObjectReference) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2.ObjectReference")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetName())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetNamespace())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetCluster())); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *ObjectReferenceList) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2.ObjectReferenceList")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetRefs() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *DestinationReference) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2.DestinationReference")); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetRef()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Ref")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetRef(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Ref")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetKind())
+	if err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetPort()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Port")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetPort(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Port")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetSubset() {
+			innerHash.Reset()
+
+			if _, err = innerHash.Write([]byte(v)); err != nil {
+				return 0, err
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetWeight())
+	if err != nil {
+		return 0, err
+	}
+
+	switch m.DestinationSpec.(type) {
+
+	case *DestinationReference_Function:
+
+		if h, ok := interface{}(m.GetFunction()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Function")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetFunction(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("Function")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *ListenerPortReference) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil

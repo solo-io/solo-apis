@@ -1,13 +1,16 @@
 syntax = "proto3";
-package resilience.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/resilience.policy.gloo.solo.io/v2";
 
+package resilience.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/keepalive.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/keepalive.proto";
-
 import "google/protobuf/duration.proto";
-import "extproto/ext.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/resilience.policy.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;

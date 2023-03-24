@@ -1,14 +1,15 @@
 syntax = "proto3";
+
 package security.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
-
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/string_match.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-
-import "google/protobuf/wrappers.proto";
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/string_match.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -17,38 +18,38 @@ option (extproto.clone_all) = true;
 // CSRFPolicies are applied at the *Route* level.
 message CSRFPolicySpec {
 
-    // select the routes where the policy will be applied
-    // if left empty, will apply to all routes in the workspace.
-    repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+  // select the routes where the policy will be applied
+  // if left empty, will apply to all routes in the workspace.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
-    // The details of the CSRF policy to apply to the selected routes.
-    Config config = 2;
+  // The details of the CSRF policy to apply to the selected routes.
+  Config config = 2;
 
-    message Config {
+  message Config {
 
-        // Specifies that CSRF policies will be evaluated, tracked and enforced.
-        bool filter_enabled = 1;
+    // Specifies that CSRF policies will be evaluated, tracked and enforced.
+    bool filter_enabled = 1;
 
-        // Specifies that CSRF policies will be evaluated and tracked, but not enforced.
-        //
-        // This is intended to be used when ``filter_enabled`` is false and will be ignored otherwise.
-        bool shadow_enabled = 2;
+    // Specifies that CSRF policies will be evaluated and tracked, but not enforced.
+    //
+    // This is intended to be used when ``filter_enabled`` is false and will be ignored otherwise.
+    bool shadow_enabled = 2;
 
-        // Specifies the % of requests for which the CSRF filter is enabled or when shadow mode is enabled the % of requests
-        // evaluated and tracked, but not enforced.
-        //
-        // If filter_enabled or shadow_enabled is true.
-        // Envoy will lookup the runtime key to get the percentage of requests to filter.
-        //
-        // .. note:: This field defaults to 100
-        // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
-        google.protobuf.DoubleValue percentage = 3;
+    // Specifies the % of requests for which the CSRF filter is enabled or when shadow mode is enabled the % of requests
+    // evaluated and tracked, but not enforced.
+    //
+    // If filter_enabled or shadow_enabled is true.
+    // Envoy will lookup the runtime key to get the percentage of requests to filter.
+    //
+    // .. note:: This field defaults to 100
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
+    google.protobuf.DoubleValue percentage = 3;
 
-        // Specifies additional source origins that will be allowed in addition to
-        // the destination origin.
-        repeated .common.gloo.solo.io.StringMatch additional_origins = 4;
+    // Specifies additional source origins that will be allowed in addition to
+    // the destination origin.
+    repeated .common.gloo.solo.io.StringMatch additional_origins = 4;
 
-    }
+  }
 }
 
 // reflects the status of the CSRFPolicy
