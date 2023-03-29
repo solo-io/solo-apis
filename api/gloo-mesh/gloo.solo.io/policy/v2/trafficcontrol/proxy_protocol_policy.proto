@@ -1,14 +1,17 @@
 syntax = "proto3";
-package trafficcontrol.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/trafficcontrol.policy.gloo.solo.io/v2";
 
+package trafficcontrol.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
 
-import "extproto/ext.proto";
+option go_package = "github.com/solo-io/solo-apis/pkg/api/trafficcontrol.policy.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -42,7 +45,7 @@ message ProxyProtocolPolicySpec {
     .common.gloo.solo.io.PortSelector port = 2;
   }
 
-  message Config { bool enable_proxy_protocol = 1; }
+  message Config {bool enable_proxy_protocol = 1;}
 
   // Required: The VirtualGateway(s) and Port(s) to which this policy applies.
   repeated ListenerSelector apply_to_listeners = 1;
@@ -54,10 +57,10 @@ message ProxyProtocolPolicySpec {
 // reflects the status of the ProxyProtocolPolicy
 message ProxyProtocolPolicyStatus {
   // DEPRECATED: Use global instead
-  int64 observed_generation = 1  [deprecated=true];
+  int64 observed_generation = 1 [deprecated = true];
 
   // DEPRECATED: Use workspaces instead
-  .common.gloo.solo.io.ApprovalState state = 2 [deprecated=true];
+  .common.gloo.solo.io.ApprovalState state = 2 [deprecated = true];
 
   // The most recent generation observed in the the object's metadata.
   // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh
@@ -69,6 +72,23 @@ message ProxyProtocolPolicyStatus {
   // The status of the resource in each workspace that it exists in.
   map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 4;
 
-  // Virtual Gateway listeners selected by the policy.
+  // A list of virtual gateway listeners selected by the policy.
   repeated .common.gloo.solo.io.ListenerPortReference selected_listeners = 5;
+}
+
+// $hide_from_docs
+message ProxyProtocolPolicyNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of virtual gateway listeners selected by the policy.
+  uint64 selected_listeners = 2;
+}
+
+// $hide_from_docs
+message ProxyProtocolPolicyReport {
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of virtual gateway listeners selected by the policy.
+  repeated .common.gloo.solo.io.ListenerPortReference selected_listeners = 2;
 }

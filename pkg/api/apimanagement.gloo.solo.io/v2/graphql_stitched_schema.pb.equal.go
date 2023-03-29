@@ -63,6 +63,16 @@ func (m *GraphQLStitchedSchemaSpec) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptions(), target.GetOptions()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -128,6 +138,89 @@ func (m *GraphQLStitchedSchemaStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *GraphQLStitchedSchemaNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GraphQLStitchedSchemaNewStatus)
+	if !ok {
+		that2, ok := that.(GraphQLStitchedSchemaNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if strings.Compare(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GraphQLStitchedSchemaReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GraphQLStitchedSchemaReport)
+	if !ok {
+		that2, ok := that.(GraphQLStitchedSchemaReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if strings.Compare(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
 func (m *GraphQLStitchedSchemaSpec_Subschema) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -148,16 +241,6 @@ func (m *GraphQLStitchedSchemaSpec_Subschema) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetExecutableSubschema()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetExecutableSubschema()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetExecutableSubschema(), target.GetExecutableSubschema()) {
-			return false
-		}
-	}
-
 	if len(m.GetTypeMerge()) != len(target.GetTypeMerge()) {
 		return false
 	}
@@ -173,6 +256,73 @@ func (m *GraphQLStitchedSchemaSpec_Subschema) Equal(that interface{}) bool {
 			}
 		}
 
+	}
+
+	switch m.GraphqlSchema.(type) {
+
+	case *GraphQLStitchedSchemaSpec_Subschema_Schema:
+		if _, ok := target.GraphqlSchema.(*GraphQLStitchedSchemaSpec_Subschema_Schema); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSchema()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetSchema(), target.GetSchema()) {
+				return false
+			}
+		}
+
+	case *GraphQLStitchedSchemaSpec_Subschema_StitchedSchema:
+		if _, ok := target.GraphqlSchema.(*GraphQLStitchedSchemaSpec_Subschema_StitchedSchema); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetStitchedSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStitchedSchema()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetStitchedSchema(), target.GetStitchedSchema()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.GraphqlSchema != target.GraphqlSchema {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GraphQLStitchedSchemaSpec_Options) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GraphQLStitchedSchemaSpec_Options)
+	if !ok {
+		that2, ok := that.(GraphQLStitchedSchemaSpec_Options)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetEnableIntrospection() != target.GetEnableIntrospection() {
+		return false
 	}
 
 	return true

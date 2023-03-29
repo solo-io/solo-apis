@@ -127,6 +127,28 @@ func (m *GatewayLifecycleManagerStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *GatewayLifecycleManagerNewStatus) Clone() proto.Message {
+	var target *GatewayLifecycleManagerNewStatus
+	if m == nil {
+		return target
+	}
+	target = &GatewayLifecycleManagerNewStatus{}
+
+	return target
+}
+
+// Clone function
+func (m *GatewayLifecycleManagerReport) Clone() proto.Message {
+	var target *GatewayLifecycleManagerReport
+	if m == nil {
+		return target
+	}
+	target = &GatewayLifecycleManagerReport{}
+
+	return target
+}
+
+// Clone function
 func (m *GatewayLifecycleManagerStatus_ClusterStatuses) Clone() proto.Message {
 	var target *GatewayLifecycleManagerStatus_ClusterStatuses
 	if m == nil {
@@ -161,6 +183,8 @@ func (m *GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Clone
 	target.State = m.GetState()
 
 	target.Message = m.GetMessage()
+
+	target.ObservedRevision = m.GetObservedRevision()
 
 	if h, ok := interface{}(m.GetObservedOperator()).(clone.Cloner); ok {
 		target.ObservedOperator = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.IstioOperatorSpec)

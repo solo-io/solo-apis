@@ -78,8 +78,9 @@ message ResponseMatch {
   // Treats the body as raw text if omitted.
   JsonKey json_key = 1;
 
-  // If set to true, Envoy will not throw an exception in case the json body
-  // parsing fails.
+  // DEPRECATED: this field no longer has any effect. All JSON responses are
+  // checked for errors and if parsing fails, the ResponseMatcher block will
+  // match to the value of whatever 'no_match_health' is set to
   bool ignore_error_on_parse = 2;
 
   // The source of the extraction

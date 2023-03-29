@@ -153,6 +153,102 @@ func (m *ProxyProtocolPolicyStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *ProxyProtocolPolicyNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ProxyProtocolPolicyNewStatus)
+	if !ok {
+		that2, ok := that.(ProxyProtocolPolicyNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if m.GetSelectedListeners() != target.GetSelectedListeners() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ProxyProtocolPolicyReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ProxyProtocolPolicyReport)
+	if !ok {
+		that2, ok := that.(ProxyProtocolPolicyReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedListeners()) != len(target.GetSelectedListeners()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedListeners() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedListeners()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedListeners()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ProxyProtocolPolicySpec_ListenerSelector) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil

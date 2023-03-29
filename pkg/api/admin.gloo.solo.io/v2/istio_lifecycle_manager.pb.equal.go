@@ -199,6 +199,54 @@ func (m *IstioLifecycleManagerStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *IstioLifecycleManagerNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*IstioLifecycleManagerNewStatus)
+	if !ok {
+		that2, ok := that.(IstioLifecycleManagerNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *IstioLifecycleManagerReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*IstioLifecycleManagerReport)
+	if !ok {
+		that2, ok := that.(IstioLifecycleManagerReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
 func (m *IstioLifecycleManagerStatus_ClusterStatuses) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -265,6 +313,10 @@ func (m *IstioLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Equal(t
 	}
 
 	if strings.Compare(m.GetMessage(), target.GetMessage()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetObservedRevision(), target.GetObservedRevision()) != 0 {
 		return false
 	}
 

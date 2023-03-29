@@ -1,13 +1,12 @@
 syntax = "proto3";
+
 package rpc.solo.io;
 
-option go_package = "github.com/solo-io/solo-apis/pkg/api/rpc.solo.io/v2";
-
-import "github.com/solo-io/skv2/api/core/v1/core.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "google/protobuf/timestamp.proto";
-import "google/protobuf/duration.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/rpc.solo.io/v2";
 
 service MetricsSource {
   rpc GetNodeMetrics (NodeMetricsRequest) returns (NodeMetricsResponse) {
@@ -37,14 +36,14 @@ message NodeMetricsRequest {
 
   // The duration over which the metrics are computed, floored to the minute.
   // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
-  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   // Defaults to 5 minutes.
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   .google.protobuf.Duration window = 3;
 
   // The duration for each sample in the range, floored to the minute.
   // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
-  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   // If omitted, defaults to the value of `window`, which represents a request for a single sample.
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   .google.protobuf.Duration step = 4;
 
   // Return Istio metrics, false by default
@@ -84,7 +83,7 @@ message NodeMetricsResponse {
     // Caused by reviews-v1, reviews-v2, or both.
     // This is not included in the metrics struct because it is not temporal - active ejections either exist,
     // or they aren't active anymore. Also this data is node-only.
-    map<string, int32>  active_ejection_counts = 6;
+    map<string, int32> active_ejection_counts = 6;
   }
 }
 
@@ -107,8 +106,8 @@ message EdgeMetricsRequest {
 
   // The duration for each sample in the range, floored to the minute.
   // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
-  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   // Defaults to 2 minutes.
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   .google.protobuf.Duration step = 4;
 
   // Return Istio metrics, false by default
@@ -158,6 +157,7 @@ message EdgeSelector {
 
 // HTTP Metrics sampled over time.
 message HttpMetrics {
+
   // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
   repeated .google.protobuf.Timestamp timestamps = 1;
 

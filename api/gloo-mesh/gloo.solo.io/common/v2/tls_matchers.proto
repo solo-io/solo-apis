@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package common.gloo.solo.io;
+
+import "extproto/ext.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+// Specify TLS request matchers. Must provide an SNI host to match with an incoming request.
+message TLSRequestMatcher {
+
+  // Required: SNI (server name indicator) to match on. Wildcard prefixes can be used in the SNI value.
+  // For example, '*.com' matches 'foo.example.com' as well as 'example.com'. 
+  // The SNI value must be a subset of the corresponding virtual service’s hosts.
+  repeated string sni_hosts = 1; 
+
+  // Optional: Port on the host to match against.
+  uint32 port = 2;
+}

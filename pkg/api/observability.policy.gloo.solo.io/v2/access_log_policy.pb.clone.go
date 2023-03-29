@@ -114,6 +114,62 @@ func (m *AccessLogPolicyStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *AccessLogPolicyNewStatus) Clone() proto.Message {
+	var target *AccessLogPolicyNewStatus
+	if m == nil {
+		return target
+	}
+	target = &AccessLogPolicyNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.SelectedWorkloads = m.GetSelectedWorkloads()
+
+	return target
+}
+
+// Clone function
+func (m *AccessLogPolicyReport) Clone() proto.Message {
+	var target *AccessLogPolicyReport
+	if m == nil {
+		return target
+	}
+	target = &AccessLogPolicyReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetSelectedWorkloads() != nil {
+		target.SelectedWorkloads = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkloadReference, len(m.GetSelectedWorkloads()))
+		for idx, v := range m.GetSelectedWorkloads() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedWorkloads[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkloadReference)
+			} else {
+				target.SelectedWorkloads[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkloadReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *AccessLogPolicySpec_Config) Clone() proto.Message {
 	var target *AccessLogPolicySpec_Config
 	if m == nil {

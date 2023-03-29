@@ -48,10 +48,27 @@ func (m *KubernetesClusterStatus) Clone() proto.Message {
 	}
 	target = &KubernetesClusterStatus{}
 
-	if h, ok := interface{}(m.GetGeneric()).(clone.Cloner); ok {
-		target.Generic = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericContextStatus)
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	} else {
-		target.Generic = proto.Clone(m.GetGeneric()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericContextStatus)
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *KubernetesClusterReport) Clone() proto.Message {
+	var target *KubernetesClusterReport
+	if m == nil {
+		return target
+	}
+	target = &KubernetesClusterReport{}
+
+	if h, ok := interface{}(m.GetState()).(clone.Cloner); ok {
+		target.State = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.State)
+	} else {
+		target.State = proto.Clone(m.GetState()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.State)
 	}
 
 	return target

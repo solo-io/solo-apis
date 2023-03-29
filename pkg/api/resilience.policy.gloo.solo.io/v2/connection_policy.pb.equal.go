@@ -145,6 +145,102 @@ func (m *ConnectionPolicyStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *ConnectionPolicyNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ConnectionPolicyNewStatus)
+	if !ok {
+		that2, ok := that.(ConnectionPolicyNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if m.GetSelectedDestinationPorts() != target.GetSelectedDestinationPorts() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ConnectionPolicyReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ConnectionPolicyReport)
+	if !ok {
+		that2, ok := that.(ConnectionPolicyReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedDestinationPorts()) != len(target.GetSelectedDestinationPorts()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedDestinationPorts() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedDestinationPorts()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedDestinationPorts()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ConnectionPolicySpec_Config) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -171,6 +267,16 @@ func (m *ConnectionPolicySpec_Config) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetTcp(), target.GetTcp()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetHttp()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetHttp()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetHttp(), target.GetHttp()) {
 			return false
 		}
 	}
@@ -219,6 +325,48 @@ func (m *ConnectionPolicySpec_Config_TCPConfig) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetConnectTimeout(), target.GetConnectTimeout()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ConnectionPolicySpec_Config_HTTPConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ConnectionPolicySpec_Config_HTTPConfig)
+	if !ok {
+		that2, ok := that.(ConnectionPolicySpec_Config_HTTPConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetMaxRequestsPerConnection() != target.GetMaxRequestsPerConnection() {
+		return false
+	}
+
+	if m.GetMaxRetries() != target.GetMaxRetries() {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetIdleTimeout()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetIdleTimeout()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetIdleTimeout(), target.GetIdleTimeout()) {
 			return false
 		}
 	}

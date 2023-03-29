@@ -1,14 +1,14 @@
 syntax = "proto3";
+
 package common.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
-
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
-
-import "google/protobuf/timestamp.proto";
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -34,14 +34,14 @@ message K8sWorkloadStatus {
 
   GenericGlobalStatus global = 1;
 
-  // The status of the kubernetes resource in each workspace that it exists in.
+  // The status of the Kubernetes resource in each workspace that it exists in.
   map<string, WorkspaceStatus> workspaces = 2;
 
-  // Map of policy GVK to policy references for all policies applied on this
-  //resource.
+  // A map of policy GVK to policy references for all the policies that are
+  // applied on this resource.
   map<string, AppliedWorkloadPolicies> applied_workload_policies = 3;
 
-  // Name of Workspace that owns K8s Workload
+  // The name of the workspace that owns the Kubernetes workload.
   OwnerWorkspace owner_workspace = 4;
 
 }
@@ -52,14 +52,14 @@ message K8sServiceStatus {
 
   GenericGlobalStatus global = 1;
 
-  // The status of the kubernetes resource in each workspace that it exists in.
+  // The status of the Kubernetes resource in each workspace that it exists in.
   map<string, WorkspaceStatus> workspaces = 2;
 
-  // Map of policy GVK to policy references for all policies applied on this
-  // resource.
+  // A map of policy GVK to policy references for all the policies that are 
+  // applied on this resource.
   map<string, AppliedDestinationPortPolicies> applied_destination_policies = 3;
 
-  // Name of Workspace that owns K8s Service
+  // The name of the workspace that owns Kubernetes service.
   OwnerWorkspace owner_workspace = 4;
 
 }

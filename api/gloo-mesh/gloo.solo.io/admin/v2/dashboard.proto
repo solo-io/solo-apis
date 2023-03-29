@@ -1,14 +1,14 @@
 syntax = "proto3";
 package admin.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
-
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
-import "github.com/solo-io/skv2/api/core/v1/core.proto";
-import "google/protobuf/wrappers.proto";
-import "google/protobuf/duration.proto";
-import "google/protobuf/empty.proto";
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
+
 option (extproto.hash_all) = true;
 option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;

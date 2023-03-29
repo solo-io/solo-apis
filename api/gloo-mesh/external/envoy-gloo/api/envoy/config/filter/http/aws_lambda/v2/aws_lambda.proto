@@ -31,17 +31,22 @@ message AWSLambdaPerRoute {
   // body is used if the body empty, and an empty body will be sent upstream.
   google.protobuf.StringValue empty_body_override = 4;
 
+  // Deprecated. Use transformer_config to specify an AWS Lambda response transformer instead.
   // Unwrap responses as AWS ALB does.
   // Expects json lambda responses to construct response.
   // Intended to ease migration when previously using alb to invoke Lambdas.
   // When set on a route the filter will not stream data on the encoding step. 
   // Defaults to false.
-  bool unwrap_as_alb = 5;
+  bool unwrap_as_alb = 5 [deprecated=true];
 
   // This is a transformer config, as defined in api.envoy.config.filter.http.transformation.v2
   // used to process response data.
   // This config cannot be configured simultaneously with unwrap_as_alb
   envoy.config.core.v3.TypedExtensionConfig transformer_config = 6;
+  
+  // This is a transformer config, as defined in api.envoy.config.filter.http.transformation.v2
+  // used to process request data.
+  envoy.config.core.v3.TypedExtensionConfig request_transformer_config = 7;
 }
 
 message AWSLambdaProtocolExtension {
@@ -57,6 +62,8 @@ message AWSLambdaProtocolExtension {
   string session_token = 5;
   // The role_arn to use when generating credentials for the mounted projected SA token
   string role_arn = 6;
+  // Optional override to disable role chaining;
+  bool disable_role_chaining = 7;
 }
 
 message AWSLambdaConfig {
@@ -73,9 +80,8 @@ message AWSLambdaConfig {
 
     // Use projected service account token, and role arn to create reate temporary
     // credentials with which to authenticate lambda requests.
-    // This functionality is meant to work along side EKS service account to IAM
-    // binding functionality as outlined here:
-    // https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.htmll
+    // This functionality is meant to work alongside EKS service account to IAM
+    // binding functionality as described in the [AWS docs](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html).
     //
     // If the following environment values are not present, this option cannot be used.
     //   1. AWS_WEB_IDENTITY_TOKEN_FILE

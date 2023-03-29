@@ -1,24 +1,34 @@
 syntax = "proto3";
+
 package apimanagement.gloo.solo.io;
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+
 option go_package = "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
-
-import "google/protobuf/wrappers.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/cue/encoding/protobuf/cue/cue.proto";
-
-import "extproto/ext.proto";
 option (extproto.equal_all) = true;
-option (extproto.hash_all)  = true;
+option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
 message GraphQLStitchedSchemaSpec {
   // List of GraphQL Subschemas that compose this GraphQL stitched schema.
   repeated Subschema subschemas = 1;
 
+  Options options = 2;
+
   message Subschema {
-    .apimanagement.gloo.solo.io.ExecutableSchema executable_subschema = 1;
+    oneof graphql_schema {
+      // Reference to a GraphQLSchema resource that contains the configuration for this subschema.
+      core.skv2.solo.io.ClusterObjectRef schema = 1;
+
+      // Reference to a GraphQLStitchedSchema resource that contains the configuration for this subschema.
+      core.skv2.solo.io.ClusterObjectRef stitched_schema = 2;
+    }
 
     /*
       Type merge configuration for this subschema. Let's say this subschema is a Users service schema
@@ -55,9 +65,9 @@ message GraphQLStitchedSchemaSpec {
       ```
       the stitched schema will now be able to provide the full user type to all types that require it. In this case,
       we can now get the first name of an author from the Review.author field even though the Reviews schema doesn't
-      provide the full User type.
+      provide the full User type. Note: Type merging can be used for all GraphQL types except Mutations and Subscriptions.
      */
-    map<string,TypeMergeConfig> type_merge = 3;
+    map<string, TypeMergeConfig> type_merge = 3;
 
     message TypeMergeConfig {
       // This specifies one or more key fields required from other services to perform this query.
@@ -92,6 +102,14 @@ message GraphQLStitchedSchemaSpec {
       map<string, string> args = 3;
     }
   }
+
+  message Options {
+    // Enable introspection queries on this GraphQL Stitched API.
+    // Introspection queries are used by GraphQL developers to understand the schema of the GraphQL API and create
+    // queries that are valid against the schema. Introspection is disabled by default, and should be disabled for
+    // production environments.
+    bool enable_introspection = 1;
+  }
 }
 
 message GraphQLStitchedSchemaStatus {
@@ -100,6 +118,22 @@ message GraphQLStitchedSchemaStatus {
   // The status of the resource in each workspace that it exists in.
   map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
 
-  // Name of Workspace that owns the route table
+  // The name of the workspace that owns the GraphQL stitched schema. 
   .common.gloo.solo.io.OwnerWorkspace owner_workspace = 3;
+}
+
+// $hide_from_docs
+message GraphQLStitchedSchemaNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // The name of the workspace that owns the GraphQL stitched schema. 
+  string owner_workspace = 2;
+}
+
+// $hide_from_docs
+message GraphQLStitchedSchemaReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // The name of the workspace that owns the GraphQL stitched schema. 
+  string owner_workspace = 2;
 }

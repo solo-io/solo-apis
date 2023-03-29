@@ -96,10 +96,10 @@ func (m *WorkspaceStatus) Clone() proto.Message {
 	}
 	target = &WorkspaceStatus{}
 
-	if h, ok := interface{}(m.GetGeneric()).(clone.Cloner); ok {
-		target.Generic = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericContextStatus)
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	} else {
-		target.Generic = proto.Clone(m.GetGeneric()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericContextStatus)
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	}
 
 	if h, ok := interface{}(m.GetWorkspaceSettings()).(clone.Cloner); ok {
@@ -108,34 +108,25 @@ func (m *WorkspaceStatus) Clone() proto.Message {
 		target.WorkspaceSettings = proto.Clone(m.GetWorkspaceSettings()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
 	}
 
-	if m.GetClusters() != nil {
-		target.Clusters = make([]*WorkspaceStatus_SelectedCluster, len(m.GetClusters()))
-		for idx, v := range m.GetClusters() {
+	target.NumSelectedClusters = m.GetNumSelectedClusters()
+
+	target.NumSelectedNamespaces = m.GetNumSelectedNamespaces()
+
+	if m.GetNumResources() != nil {
+		target.NumResources = make(map[string]*WorkspaceStatus_SourceType, len(m.GetNumResources()))
+		for k, v := range m.GetNumResources() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Clusters[idx] = h.Clone().(*WorkspaceStatus_SelectedCluster)
+				target.NumResources[k] = h.Clone().(*WorkspaceStatus_SourceType)
 			} else {
-				target.Clusters[idx] = proto.Clone(v).(*WorkspaceStatus_SelectedCluster)
-			}
-
-		}
-	}
-
-	if m.GetResources() != nil {
-		target.Resources = make(map[string]*WorkspaceStatus_SourceType, len(m.GetResources()))
-		for k, v := range m.GetResources() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Resources[k] = h.Clone().(*WorkspaceStatus_SourceType)
-			} else {
-				target.Resources[k] = proto.Clone(v).(*WorkspaceStatus_SourceType)
+				target.NumResources[k] = proto.Clone(v).(*WorkspaceStatus_SourceType)
 			}
 
 		}
 	}
 
 	if m.GetPolicyCounts() != nil {
-		target.PolicyCounts = make(map[string]int32, len(m.GetPolicyCounts()))
+		target.PolicyCounts = make(map[string]uint32, len(m.GetPolicyCounts()))
 		for k, v := range m.GetPolicyCounts() {
 
 			target.PolicyCounts[k] = v
@@ -144,10 +135,87 @@ func (m *WorkspaceStatus) Clone() proto.Message {
 	}
 
 	if m.GetDestinationCounts() != nil {
-		target.DestinationCounts = make(map[string]int32, len(m.GetDestinationCounts()))
+		target.DestinationCounts = make(map[string]uint32, len(m.GetDestinationCounts()))
 		for k, v := range m.GetDestinationCounts() {
 
 			target.DestinationCounts[k] = v
+
+		}
+	}
+
+	target.NumImportedWorkspaces = m.GetNumImportedWorkspaces()
+
+	return target
+}
+
+// Clone function
+func (m *WorkspaceReport) Clone() proto.Message {
+	var target *WorkspaceReport
+	if m == nil {
+		return target
+	}
+	target = &WorkspaceReport{}
+
+	if h, ok := interface{}(m.GetReport()).(clone.Cloner); ok {
+		target.Report = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+	} else {
+		target.Report = proto.Clone(m.GetReport()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+	}
+
+	if h, ok := interface{}(m.GetWorkspaceSettings()).(clone.Cloner); ok {
+		target.WorkspaceSettings = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+	} else {
+		target.WorkspaceSettings = proto.Clone(m.GetWorkspaceSettings()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+	}
+
+	if m.GetSelectedClusters() != nil {
+		target.SelectedClusters = make([]*WorkspaceReport_SelectedCluster, len(m.GetSelectedClusters()))
+		for idx, v := range m.GetSelectedClusters() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedClusters[idx] = h.Clone().(*WorkspaceReport_SelectedCluster)
+			} else {
+				target.SelectedClusters[idx] = proto.Clone(v).(*WorkspaceReport_SelectedCluster)
+			}
+
+		}
+	}
+
+	if m.GetResources() != nil {
+		target.Resources = make(map[string]*WorkspaceReport_SourceType, len(m.GetResources()))
+		for k, v := range m.GetResources() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Resources[k] = h.Clone().(*WorkspaceReport_SourceType)
+			} else {
+				target.Resources[k] = proto.Clone(v).(*WorkspaceReport_SourceType)
+			}
+
+		}
+	}
+
+	if m.GetPolicyCounts() != nil {
+		target.PolicyCounts = make(map[string]*WorkspaceReport_ObjectReferences, len(m.GetPolicyCounts()))
+		for k, v := range m.GetPolicyCounts() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.PolicyCounts[k] = h.Clone().(*WorkspaceReport_ObjectReferences)
+			} else {
+				target.PolicyCounts[k] = proto.Clone(v).(*WorkspaceReport_ObjectReferences)
+			}
+
+		}
+	}
+
+	if m.GetDestinationCounts() != nil {
+		target.DestinationCounts = make(map[string]*WorkspaceReport_ObjectReferences, len(m.GetDestinationCounts()))
+		for k, v := range m.GetDestinationCounts() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.DestinationCounts[k] = h.Clone().(*WorkspaceReport_ObjectReferences)
+			} else {
+				target.DestinationCounts[k] = proto.Clone(v).(*WorkspaceReport_ObjectReferences)
+			}
 
 		}
 	}
@@ -189,12 +257,29 @@ func (m *ClusterSelector_NamespaceSelector) Clone() proto.Message {
 }
 
 // Clone function
-func (m *WorkspaceStatus_SelectedCluster) Clone() proto.Message {
-	var target *WorkspaceStatus_SelectedCluster
+func (m *WorkspaceStatus_SourceType) Clone() proto.Message {
+	var target *WorkspaceStatus_SourceType
 	if m == nil {
 		return target
 	}
-	target = &WorkspaceStatus_SelectedCluster{}
+	target = &WorkspaceStatus_SourceType{}
+
+	target.Imported = m.GetImported()
+
+	target.Exported = m.GetExported()
+
+	target.Private = m.GetPrivate()
+
+	return target
+}
+
+// Clone function
+func (m *WorkspaceReport_SelectedCluster) Clone() proto.Message {
+	var target *WorkspaceReport_SelectedCluster
+	if m == nil {
+		return target
+	}
+	target = &WorkspaceReport_SelectedCluster{}
 
 	target.Name = m.GetName()
 
@@ -211,89 +296,41 @@ func (m *WorkspaceStatus_SelectedCluster) Clone() proto.Message {
 }
 
 // Clone function
-func (m *WorkspaceStatus_SourceType) Clone() proto.Message {
-	var target *WorkspaceStatus_SourceType
+func (m *WorkspaceReport_SourceType) Clone() proto.Message {
+	var target *WorkspaceReport_SourceType
 	if m == nil {
 		return target
 	}
-	target = &WorkspaceStatus_SourceType{}
+	target = &WorkspaceReport_SourceType{}
 
 	if h, ok := interface{}(m.GetImported()).(clone.Cloner); ok {
-		target.Imported = h.Clone().(*WorkspaceStatus_Imported)
+		target.Imported = h.Clone().(*WorkspaceReport_ObjectReferences)
 	} else {
-		target.Imported = proto.Clone(m.GetImported()).(*WorkspaceStatus_Imported)
+		target.Imported = proto.Clone(m.GetImported()).(*WorkspaceReport_ObjectReferences)
 	}
 
 	if h, ok := interface{}(m.GetExported()).(clone.Cloner); ok {
-		target.Exported = h.Clone().(*WorkspaceStatus_Exported)
+		target.Exported = h.Clone().(*WorkspaceReport_ObjectReferences)
 	} else {
-		target.Exported = proto.Clone(m.GetExported()).(*WorkspaceStatus_Exported)
+		target.Exported = proto.Clone(m.GetExported()).(*WorkspaceReport_ObjectReferences)
 	}
 
 	if h, ok := interface{}(m.GetPrivate()).(clone.Cloner); ok {
-		target.Private = h.Clone().(*WorkspaceStatus_Private)
+		target.Private = h.Clone().(*WorkspaceReport_ObjectReferences)
 	} else {
-		target.Private = proto.Clone(m.GetPrivate()).(*WorkspaceStatus_Private)
+		target.Private = proto.Clone(m.GetPrivate()).(*WorkspaceReport_ObjectReferences)
 	}
 
 	return target
 }
 
 // Clone function
-func (m *WorkspaceStatus_Imported) Clone() proto.Message {
-	var target *WorkspaceStatus_Imported
+func (m *WorkspaceReport_ObjectReferences) Clone() proto.Message {
+	var target *WorkspaceReport_ObjectReferences
 	if m == nil {
 		return target
 	}
-	target = &WorkspaceStatus_Imported{}
-
-	if m.GetObjectReferences() != nil {
-		target.ObjectReferences = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference, len(m.GetObjectReferences()))
-		for idx, v := range m.GetObjectReferences() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.ObjectReferences[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
-			} else {
-				target.ObjectReferences[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
-			}
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *WorkspaceStatus_Exported) Clone() proto.Message {
-	var target *WorkspaceStatus_Exported
-	if m == nil {
-		return target
-	}
-	target = &WorkspaceStatus_Exported{}
-
-	if m.GetObjectReferences() != nil {
-		target.ObjectReferences = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference, len(m.GetObjectReferences()))
-		for idx, v := range m.GetObjectReferences() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.ObjectReferences[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
-			} else {
-				target.ObjectReferences[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
-			}
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *WorkspaceStatus_Private) Clone() proto.Message {
-	var target *WorkspaceStatus_Private
-	if m == nil {
-		return target
-	}
-	target = &WorkspaceStatus_Private{}
+	target = &WorkspaceReport_ObjectReferences{}
 
 	if m.GetObjectReferences() != nil {
 		target.ObjectReferences = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference, len(m.GetObjectReferences()))

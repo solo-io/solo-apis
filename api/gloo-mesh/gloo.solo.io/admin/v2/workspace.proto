@@ -1,11 +1,15 @@
 syntax = "proto3";
-package admin.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+package admin.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -87,95 +91,122 @@ option (extproto.clone_all) = true;
 //
 message WorkspaceSpec {
 
-    // Optional: Select workload clusters and namespaces for the workload clusters that are part of the workspace.
-    // When this is not specified, the workspace contains no workload clusters.
-    repeated ClusterSelector workload_clusters = 2;
+  // Optional: Select workload clusters and namespaces for the workload clusters that are part of the workspace.
+  // When this is not specified, the workspace contains no workload clusters.
+  repeated ClusterSelector workload_clusters = 2;
 }
 
 // Select clusters and namespaces for a workspace
 message ClusterSelector {
-    // Optional: Name of the cluster to select.
-    // Use * to match name patterns in multiple clusters name.
+  // Optional: Name of the cluster to select.
+  // Use * to match name patterns in multiple clusters name.
+  string name = 1;
+
+  // Optional: Include workload clusters in the workspace by using a selector.
+  // The selector matches the selector values in the KubernetesCluster resource on the management cluster.
+  // Selector is a map of {key,value} pairs. A single {key,value} in the selector
+  // map is equivalent to an element of labelRequirements, whose key field is "key", the
+  // operator is "In", and the values array contains only "value". The requirements are ANDed.
+  map<string, string> selector = 2;
+
+  // Select the namespaces in the cluster(s) to include in the workspace. If you do not select any namespaces, the workspace is empty and results in an error.
+  repeated NamespaceSelector namespaces = 4;
+
+
+  // Optional: Enable configuration from this workload cluster. (default: true unless explicitly enabled for any selected clusters or namespaces)
+  bool config_enabled = 5;
+
+  // Select namespaces for the selected cluster(s)
+  message NamespaceSelector {
+    // Name of the namespace to select.
+    // Can use * to match name patterns in multiple namespaces.
+    // Note: When this field is used in conjunction with "labels", both conditions are ANDed together.
     string name = 1;
 
-    // Optional: Include workload clusters in the workspace by using a selector.
-    // The selector matches the selector values in the KubernetesCluster resource on the management cluster.
-    // Selector is a map of {key,value} pairs. A single {key,value} in the selector
-    // map is equivalent to an element of labelRequirements, whose key field is "key", the
-    // operator is "In", and the values array contains only "value". The requirements are ANDed.
-    map<string, string> selector = 2;
+    // Optional: Enable configuration from this namespace. (default: true unless explicitly enabled for any selected clusters or namespaces)
+    bool config_enabled = 2;
 
-    // Select the namespaces in the cluster(s) to include in the workspace. If you do not select any namespaces, the workspace is empty and results in an error.
-    repeated NamespaceSelector namespaces = 4;
-
-    
-    // Optional: Enable configuration from this workload cluster. (default: true unless explicitly enabled for any selected clusters or namespaces)
-    bool config_enabled = 5;
-
-    // Select namespaces for the selected cluster(s)
-    message NamespaceSelector {
-        // Name of the namespace to select.
-        // Can use * to match name patterns in multiple namespaces.
-        // Note: When this field is used in conjunction with "labels", both conditions are ANDed together.
-        string name = 1;
-
-        // Optional: Enable configuration from this namespace. (default: true unless explicitly enabled for any selected clusters or namespaces)
-        bool config_enabled = 2;
-
-        // Optional: Select groups of namespaces via labels.
-        // Leaving this field empty will NOT select all namespaces, but rather be ignored.
-        // Note: When this field is used in conjunction with "name", both conditions are ANDed together.
-        map<string, string> labels = 3;
-    }
+    // Optional: Select groups of namespaces via labels.
+    // Leaving this field empty will NOT select all namespaces, but rather be ignored.
+    // Note: When this field is used in conjunction with "name", both conditions are ANDed together.
+    map<string, string> labels = 3;
+  }
 }
 
-// reflects the status of the workspace
 message WorkspaceStatus {
 
-    .common.gloo.solo.io.GenericContextStatus generic = 1;
+    .common.gloo.solo.io.Status common = 1;
 
     // The workspacesettings object configuring this workspace.
     .common.gloo.solo.io.ObjectReference workspace_settings = 2;
 
-    // Clusters that this workspace selects. These cluster objects contain the namespaces that the workspace owns within them.
-    repeated SelectedCluster clusters = 3;
+    // The number of selected Kubernetes clusters.
+    uint32 num_selected_clusters = 3;
 
-    // Represents a cluster that gloo mesh successfully associates to a workspace based on the WorkspaceSpec.
+    // The number of selected namespaces.
+    uint32 num_selected_namespaces = 4;
+
+    // The number of resources that the workspace imports and exports, sorted by type (imported, exported, private). 
+    map<string, SourceType> num_resources = 5;
+
+    // The number of policy resources in this workspace, sorted by type (security, trafficcontrol, resilience, observability). 
+    map<string, uint32> policy_counts = 6;
+
+    // The number of destination resources in this workspace, sorted by type (Kubernetes service, virtual destination, external service).
+    map<string, uint32> destination_counts = 7;
+
+    // The number of workspaces imported into this workspace.
+    uint32 num_imported_workspaces = 8;
+
+    // $hide_from_docs
+    message SourceType {
+        uint32 imported = 1;
+        uint32 exported = 2;
+        uint32 private = 3;
+    }
+}
+
+// $hide_from_docs
+message WorkspaceReport {
+    .common.gloo.solo.io.Report report = 1;
+
+    // The workspacesettings object configuring this workspace.
+    .common.gloo.solo.io.ObjectReference workspace_settings = 2;
+
+    // A list of clusters that this workspace selects. These cluster objects contain the namespaces that the workspace owns within them.
+    repeated SelectedCluster selected_clusters = 3;
+
+    // Represents a cluster that was successfully associated to a workspace based on the WorkspaceSpec.
+    // $hide_from_docs
     message SelectedCluster {
-        // Name of a cluster that this workspace selects
+        // Name of a cluster that this workspace selects.
         string name = 1;
 
         // Namespaces inside the cluster that this workspace owns.
         repeated string namespaces = 2;
     }
 
-    // gvk -> private/export/import reference
+    // A list of resources that the workspace imports and exports, sorted by type (imported, exported, private). 
     map<string, SourceType> resources = 4;
 
-    // policy resource counts in this workspace by type (security, trafficcontrol, resilience, observability)
-    map<string, int32> policy_counts = 5;
+    // A reference of policy resources in this workspace, sorted by type (security, trafficcontrol, resilience, observability). 
+    map<string, ObjectReferences> policy_counts = 5;
 
-    // destination resource counts in this workspace by type (k8s service, virtual destination, external service)
-    map<string, int32> destination_counts = 6;
+    // A refernce of destination resources in this workspace, sorted by type (Kubernetes service, virtual destination, external service)
+    map<string, ObjectReferences> destination_counts = 6;
 
-    // list of workspaces imported into this workspace
+    // A list of workspaces from which resources are imported into this workspace.
     repeated string imported_workspaces = 7;
 
+    // $hide_from_docs
     message SourceType {
-        Imported imported = 1;
-        Exported exported = 2;
-        Private private = 3;
+        ObjectReferences imported = 1;
+        ObjectReferences exported = 2;
+        ObjectReferences private = 3;
     }
 
-    message Imported {
-        repeated .common.gloo.solo.io.ObjectReference object_references = 1;
-    }
-
-    message Exported {
-        repeated .common.gloo.solo.io.ObjectReference object_references = 1;
-    }
-
-    message Private {
+    // $hide_from_docs
+    message ObjectReferences {
         repeated .common.gloo.solo.io.ObjectReference object_references = 1;
     }
 }

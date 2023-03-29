@@ -1,10 +1,14 @@
 syntax = "proto3";
-package admin.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+package admin.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/admin.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -44,13 +48,16 @@ option (extproto.clone_all) = true;
 // ```
 //
 message KubernetesClusterSpec {
-    // Optional: The cluster domain suffix this Cluster is configured with. Defaults to 'cluster.local'.
-    string cluster_domain = 1;
+  // Optional: The cluster domain suffix this Cluster is configured with. Defaults to 'cluster.local'.
+  string cluster_domain = 1;
 }
 
 // Reflects the status of the Kubernetes cluster
 message KubernetesClusterStatus {
+  // Indicates the state of the Gloo agent that is connected to the Gloo management server.
+  .common.gloo.solo.io.Status common = 1;
+}
 
-    // Indicates the state of the Gloo Mesh agent connected to the Gloo Mesh Server.
-    .common.gloo.solo.io.GenericContextStatus generic = 1;
+message KubernetesClusterReport {
+  .common.gloo.solo.io.State state = 1;
 }

@@ -1,9 +1,13 @@
 syntax = "proto3";
+
 package common.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/port.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/cloud_provider_options.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
 
 option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;
@@ -16,12 +20,70 @@ message WorkloadReference {
 
   // References the supported types for the Workload interface in pkg/utils/workloadutils/workload_types.go
   enum WorkloadKind {
-    // Default value for unsupported workload kind
-    UNRECOGNIZED_WORKLOAD = 0;
-    DEPLOYMENT = 1;
-    DAEMON_SET = 2;
-    STATEFUL_SET = 3;
-    REPLICA_SET = 4;
+    DEPLOYMENT = 0;
+    DAEMON_SET = 1;
+    STATEFUL_SET = 2;
+    REPLICA_SET = 3;
+  }
+}
+
+// reference to a Kubernetes API object.
+// Kube API objects are referenced explicitly by the namespace and cluster containing them.
+message ObjectReference {
+  // the name of the object
+  string name = 1;
+
+  // the namespace of the object. if the field is omitted, Gloo Mesh will use the same namespace as the parent object containing this reference.
+  string namespace = 2;
+
+  // the cluster of the object. if the field is omitted, Gloo Mesh will use the same cluster as the parent object containing this reference.
+  string cluster = 3;
+}
+
+message ObjectReferenceList {
+  repeated ObjectReference refs = 1;
+}
+
+// Destinations point to the upstream services that fulfill client requests on matching routes that you set up, such as in a route table. Each destination must resolve to one and only one hostname.
+//
+// Destinations can refer to a variety of resources. The behavior of the route action
+// varies depending on the kind of destination.
+//
+// Currently supported destination types are:
+// - Kubernetes `Service`, the default destination.
+// - Gloo `VirtualDestination` to route traffic to one of the VirtualDestination's backing Kubernetes services.
+// - Gloo `ExternalService` to route traffic to a static set of service endpoints that are external to your mesh setup.
+// - Gloo `CloudProvider` to route traffic to a cloud provider function such as AWS Lambdas, selected by using the `functionCall` field.
+//
+// HTTP routes support all destinations. TCP routes support only Kubernetes `Service` and Gloo `VirtualDestination` destinations.
+message DestinationReference {
+
+  // reference to the destination object by its metadata
+  ObjectReference ref = 1;
+
+  // the kind of destination being selected. defaults to Kubernetes Service.
+  DestinationKind kind = 2;
+
+  // the port on the destination object being targeted. required if the object provides more than one port.
+  .common.gloo.solo.io.PortSelector port = 3;
+
+  // select a subset of the destination's endpoints for routing based on their labels.
+  // Not applicable for a CloudProvider destination.
+  map<string, string> subset = 4;
+
+  // Specify the proportion of traffic to be forwarded to this destination.
+  // Weights across all of the `destinations` must sum to 100.
+  // Weight is only relevant when used in the context of a route with multiple destinations.
+  uint32 weight = 5;
+
+  // Specify how the destinations should be configured, for configuring:
+  //   Serverless functions
+  // Some destinations utilize options which require or permit additional configuration on routes targeting them.
+  // aws lambda functions, for example, allow you to call a serverless lambda functions on aws. If the destination
+  // config is required for the destination and not provided by the user, Gloo will invalidate the destination and its
+  // parent resources.
+  oneof destination_spec {
+    FunctionDestinationSpec function = 6;
   }
 }
 

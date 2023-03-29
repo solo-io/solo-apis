@@ -17,8 +17,6 @@ import (
 
 	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 
-	github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/apimanagement.gloo.solo.io/v2"
-
 	github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2"
 )
 
@@ -95,7 +93,39 @@ func (m *RouteTableSpec) Clone() proto.Message {
 		}
 	}
 
+	if m.GetTcp() != nil {
+		target.Tcp = make([]*TCPRoute, len(m.GetTcp()))
+		for idx, v := range m.GetTcp() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Tcp[idx] = h.Clone().(*TCPRoute)
+			} else {
+				target.Tcp[idx] = proto.Clone(v).(*TCPRoute)
+			}
+
+		}
+	}
+
+	if m.GetTls() != nil {
+		target.Tls = make([]*TLSRoute, len(m.GetTls()))
+		for idx, v := range m.GetTls() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Tls[idx] = h.Clone().(*TLSRoute)
+			} else {
+				target.Tls[idx] = proto.Clone(v).(*TLSRoute)
+			}
+
+		}
+	}
+
 	target.Weight = m.GetWeight()
+
+	if h, ok := interface{}(m.GetPortalMetadata()).(clone.Cloner); ok {
+		target.PortalMetadata = h.Clone().(*PortalMetadata)
+	} else {
+		target.PortalMetadata = proto.Clone(m.GetPortalMetadata()).(*PortalMetadata)
+	}
 
 	return target
 }
@@ -200,6 +230,86 @@ func (m *HTTPRoute) Clone() proto.Message {
 }
 
 // Clone function
+func (m *TCPRoute) Clone() proto.Message {
+	var target *TCPRoute
+	if m == nil {
+		return target
+	}
+	target = &TCPRoute{}
+
+	if m.GetMatchers() != nil {
+		target.Matchers = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.TCPRequestMatcher, len(m.GetMatchers()))
+		for idx, v := range m.GetMatchers() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Matchers[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.TCPRequestMatcher)
+			} else {
+				target.Matchers[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.TCPRequestMatcher)
+			}
+
+		}
+	}
+
+	switch m.ActionType.(type) {
+
+	case *TCPRoute_ForwardTo:
+
+		if h, ok := interface{}(m.GetForwardTo()).(clone.Cloner); ok {
+			target.ActionType = &TCPRoute_ForwardTo{
+				ForwardTo: h.Clone().(*ForwardToAction),
+			}
+		} else {
+			target.ActionType = &TCPRoute_ForwardTo{
+				ForwardTo: proto.Clone(m.GetForwardTo()).(*ForwardToAction),
+			}
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
+func (m *TLSRoute) Clone() proto.Message {
+	var target *TLSRoute
+	if m == nil {
+		return target
+	}
+	target = &TLSRoute{}
+
+	if m.GetMatchers() != nil {
+		target.Matchers = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.TLSRequestMatcher, len(m.GetMatchers()))
+		for idx, v := range m.GetMatchers() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Matchers[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.TLSRequestMatcher)
+			} else {
+				target.Matchers[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.TLSRequestMatcher)
+			}
+
+		}
+	}
+
+	switch m.ActionType.(type) {
+
+	case *TLSRoute_ForwardTo:
+
+		if h, ok := interface{}(m.GetForwardTo()).(clone.Cloner); ok {
+			target.ActionType = &TLSRoute_ForwardTo{
+				ForwardTo: h.Clone().(*TLSRoute_TLSForwardToAction),
+			}
+		} else {
+			target.ActionType = &TLSRoute_ForwardTo{
+				ForwardTo: proto.Clone(m.GetForwardTo()).(*TLSRoute_TLSForwardToAction),
+			}
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
 func (m *GraphQLAction) Clone() proto.Message {
 	var target *GraphQLAction
 	if m == nil {
@@ -213,29 +323,29 @@ func (m *GraphQLAction) Clone() proto.Message {
 		target.Options = proto.Clone(m.GetOptions()).(*GraphQLAction_Options)
 	}
 
-	switch m.Graphql.(type) {
+	switch m.GraphqlSchema.(type) {
 
-	case *GraphQLAction_StitchedSchemaRef:
+	case *GraphQLAction_Schema:
 
-		if h, ok := interface{}(m.GetStitchedSchemaRef()).(clone.Cloner); ok {
-			target.Graphql = &GraphQLAction_StitchedSchemaRef{
-				StitchedSchemaRef: h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
+		if h, ok := interface{}(m.GetSchema()).(clone.Cloner); ok {
+			target.GraphqlSchema = &GraphQLAction_Schema{
+				Schema: h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		} else {
-			target.Graphql = &GraphQLAction_StitchedSchemaRef{
-				StitchedSchemaRef: proto.Clone(m.GetStitchedSchemaRef()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
+			target.GraphqlSchema = &GraphQLAction_Schema{
+				Schema: proto.Clone(m.GetSchema()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		}
 
-	case *GraphQLAction_ExecutableSchema:
+	case *GraphQLAction_StitchedSchema:
 
-		if h, ok := interface{}(m.GetExecutableSchema()).(clone.Cloner); ok {
-			target.Graphql = &GraphQLAction_ExecutableSchema{
-				ExecutableSchema: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2.ExecutableSchema),
+		if h, ok := interface{}(m.GetStitchedSchema()).(clone.Cloner); ok {
+			target.GraphqlSchema = &GraphQLAction_StitchedSchema{
+				StitchedSchema: h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		} else {
-			target.Graphql = &GraphQLAction_ExecutableSchema{
-				ExecutableSchema: proto.Clone(m.GetExecutableSchema()).(*github_com_solo_io_solo_apis_pkg_api_apimanagement_gloo_solo_io_v2.ExecutableSchema),
+			target.GraphqlSchema = &GraphQLAction_StitchedSchema{
+				StitchedSchema: proto.Clone(m.GetStitchedSchema()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef),
 			}
 		}
 
@@ -333,7 +443,41 @@ func (m *DelegateAction) Clone() proto.Message {
 		}
 	}
 
+	if m.GetAllowedRoutes() != nil {
+		target.AllowedRoutes = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter, len(m.GetAllowedRoutes()))
+		for idx, v := range m.GetAllowedRoutes() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AllowedRoutes[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter)
+			} else {
+				target.AllowedRoutes[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.RouteFilter)
+			}
+
+		}
+	}
+
 	target.SortMethod = m.GetSortMethod()
+
+	return target
+}
+
+// Clone function
+func (m *PortalMetadata) Clone() proto.Message {
+	var target *PortalMetadata
+	if m == nil {
+		return target
+	}
+	target = &PortalMetadata{}
+
+	target.Title = m.GetTitle()
+
+	target.Description = m.GetDescription()
+
+	target.TermsOfService = m.GetTermsOfService()
+
+	target.Contact = m.GetContact()
+
+	target.License = m.GetLicense()
 
 	return target
 }
@@ -346,20 +490,46 @@ func (m *RouteTableStatus) Clone() proto.Message {
 	}
 	target = &RouteTableStatus{}
 
-	if h, ok := interface{}(m.GetGlobal()).(clone.Cloner); ok {
-		target.Global = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericGlobalStatus)
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	} else {
-		target.Global = proto.Clone(m.GetGlobal()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericGlobalStatus)
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	}
 
+	if m.GetNumAppliedRoutePolicies() != nil {
+		target.NumAppliedRoutePolicies = make(map[string]uint32, len(m.GetNumAppliedRoutePolicies()))
+		for k, v := range m.GetNumAppliedRoutePolicies() {
+
+			target.NumAppliedRoutePolicies[k] = v
+
+		}
+	}
+
+	target.NumParentRouteTables = m.GetNumParentRouteTables()
+
+	target.OwnedByWorkspace = m.GetOwnedByWorkspace()
+
+	target.NumAllowedVirtualGateways = m.GetNumAllowedVirtualGateways()
+
+	return target
+}
+
+// Clone function
+func (m *RouteTableReport) Clone() proto.Message {
+	var target *RouteTableReport
+	if m == nil {
+		return target
+	}
+	target = &RouteTableReport{}
+
 	if m.GetWorkspaces() != nil {
-		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus, len(m.GetWorkspaces()))
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
 		for k, v := range m.GetWorkspaces() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus)
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
 			} else {
-				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus)
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
 			}
 
 		}
@@ -391,11 +561,7 @@ func (m *RouteTableStatus) Clone() proto.Message {
 		}
 	}
 
-	if h, ok := interface{}(m.GetOwnerWorkspace()).(clone.Cloner); ok {
-		target.OwnerWorkspace = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.OwnerWorkspace)
-	} else {
-		target.OwnerWorkspace = proto.Clone(m.GetOwnerWorkspace()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.OwnerWorkspace)
-	}
+	target.OwnerWorkspace = m.GetOwnerWorkspace()
 
 	if m.GetAllowedVirtualGateways() != nil {
 		target.AllowedVirtualGateways = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference, len(m.GetAllowedVirtualGateways()))
@@ -405,6 +571,30 @@ func (m *RouteTableStatus) Clone() proto.Message {
 				target.AllowedVirtualGateways[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
 			} else {
 				target.AllowedVirtualGateways[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *TLSRoute_TLSForwardToAction) Clone() proto.Message {
+	var target *TLSRoute_TLSForwardToAction
+	if m == nil {
+		return target
+	}
+	target = &TLSRoute_TLSForwardToAction{}
+
+	if m.GetDestinations() != nil {
+		target.Destinations = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference, len(m.GetDestinations()))
+		for idx, v := range m.GetDestinations() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Destinations[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			} else {
+				target.Destinations[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
 			}
 
 		}

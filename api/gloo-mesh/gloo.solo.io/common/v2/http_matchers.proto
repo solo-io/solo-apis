@@ -1,10 +1,12 @@
 syntax = "proto3";
-package common.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/string_match.proto";
+package common.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/string_match.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;
 option (extproto.hash_all) = true;
@@ -13,81 +15,81 @@ option (extproto.hash_all) = true;
 // Specify HTTP request level match criteria. All specified conditions must be satisfied for a match to occur.
 message HTTPRequestMatcher {
 
-    // Optional: The name assigned to a match. The match's name will be
-    // concatenated with the parent route's name and will be logged in
-    // the access logs for requests matching this route.
+  // Optional: The name assigned to a match. The match's name will be
+  // concatenated with the parent route's name and will be logged in
+  // the access logs for requests matching this route.
+  string name = 1;
+
+  // Optional: Specify match criteria against the targeted path.
+  .common.gloo.solo.io.StringMatch uri = 2;
+
+  // Optional: Specify a set of headers which requests must match in entirety (all headers must match).
+  repeated HeaderMatcher headers = 5;
+
+  // Optional: Specify a set of URL query parameters which requests must match in entirety (all query params must match).
+  repeated QueryParameterMatcher query_parameters = 6;
+
+  // Optional: Specify an HTTP method to match against.
+  string method = 7;
+
+  // Optional: Specifies ports on the host to match against.
+  uint32 port = 8;
+
+  // Specify match criteria against the target URL's query parameters.
+  message QueryParameterMatcher {
+
+    // Specify the name of a key that must be present in the requested path's query string.
     string name = 1;
 
-    // Optional: Specify match criteria against the targeted path.
-    .common.gloo.solo.io.StringMatch uri = 2;
+    // Specify the value of the query parameter keyed on `name`.
+    string value = 2;
 
-    // Optional: Specify a set of headers which requests must match in entirety (all headers must match).
-    repeated HeaderMatcher headers = 5;
-
-    // Optional: Specify a set of URL query parameters which requests must match in entirety (all query params must match).
-    repeated QueryParameterMatcher query_parameters = 6;
-
-    // Optional: Specify an HTTP method to match against.
-    string method = 7;
-
-    // Optional: Specifies ports on the host to match against.
-    uint32 port = 8;
-
-    // Specify match criteria against the target URL's query parameters.
-    message QueryParameterMatcher {
-
-        // Specify the name of a key that must be present in the requested path's query string.
-        string name = 1;
-
-        // Specify the value of the query parameter keyed on `name`.
-        string value = 2;
-
-        // If true, treat `value` as a regular expression.
-        bool regex = 3;
-    }
+    // If true, treat `value` as a regular expression.
+    bool regex = 3;
+  }
 }
 
 // Describes a matcher against HTTP request headers.
 message HeaderMatcher {
-    // Specify the name of the header in the request.
-    string name = 1;
+  // Specify the name of the header in the request.
+  string name = 1;
 
-    // Specify the value of the header. If the value is absent a request that
-    // has the name header will match, regardless of the header’s value.
-    string value = 2;
+  // Specify the value of the header. If the value is absent a request that
+  // has the name header will match, regardless of the header’s value.
+  string value = 2;
 
-    // Specify whether the header value should be treated as regex.
-    bool regex = 3;
+  // Specify whether the header value should be treated as regex.
+  bool regex = 3;
 
-    /*
-    If set to true, the result of the match will be inverted. Defaults to false.
+  /*
+  If set to true, the result of the match will be inverted. Defaults to false.
 
-    Examples:
+  Examples:
 
-        - name=foo, invert_match=true: matches if no header named `foo` is present
-        - name=foo, value=bar, invert_match=true: matches if no header named `foo` with value `bar` is present
-        - name=foo, value=``\d{3}``, regex=true, invert_match=true: matches if no header named `foo` with a value consisting of three integers is present.
-    */
-    bool invert_match = 4;
+      - name=foo, invert_match=true: matches if no header named `foo` is present
+      - name=foo, value=bar, invert_match=true: matches if no header named `foo` with value `bar` is present
+      - name=foo, value=``\d{3}``, regex=true, invert_match=true: matches if no header named `foo` with a value consisting of three integers is present.
+  */
+  bool invert_match = 4;
 }
 
 // Describes a matcher against HTTP response status codes.
 message StatusCodeMatcher {
 
-    // The status code value to match against.
-    uint32 value = 1;
+  // The status code value to match against.
+  uint32 value = 1;
 
-    // The comparison type used for matching.
-    Comparator comparator = 2;
+  // The comparison type used for matching.
+  Comparator comparator = 2;
 
-    enum Comparator {
-        // Strict equality.
-        EQ = 0;
+  enum Comparator {
+    // Strict equality.
+    EQ = 0;
 
-        // Greater than or equal to.
-        GE = 1;
+    // Greater than or equal to.
+    GE = 1;
 
-        // Less than or equal to.
-        LE = 2;
-    }
+    // Less than or equal to.
+    LE = 2;
+  }
 }

@@ -80,10 +80,44 @@ func (m *WorkspaceSettingsStatus) Clone() proto.Message {
 	}
 	target = &WorkspaceSettingsStatus{}
 
-	if h, ok := interface{}(m.GetGeneric()).(clone.Cloner); ok {
-		target.Generic = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericContextStatus)
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	} else {
-		target.Generic = proto.Clone(m.GetGeneric()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericContextStatus)
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	if h, ok := interface{}(m.GetWorkspace()).(clone.Cloner); ok {
+		target.Workspace = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+	} else {
+		target.Workspace = proto.Clone(m.GetWorkspace()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectReference)
+	}
+
+	target.NumSelectedEastWestGateways = m.GetNumSelectedEastWestGateways()
+
+	target.NumFederatedServices = m.GetNumFederatedServices()
+
+	return target
+}
+
+// Clone function
+func (m *WorkspaceSettingsReport) Clone() proto.Message {
+	var target *WorkspaceSettingsReport
+	if m == nil {
+		return target
+	}
+	target = &WorkspaceSettingsReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
 	}
 
 	if h, ok := interface{}(m.GetWorkspace()).(clone.Cloner); ok {
@@ -197,6 +231,8 @@ func (m *WorkspaceSettingsSpec_Options) Clone() proto.Message {
 		target.VirtualDestClientMode = proto.Clone(m.GetVirtualDestClientMode()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ClientMode)
 	}
 
+	target.TrimAllProxyConfig = m.GetTrimAllProxyConfig()
+
 	return target
 }
 
@@ -242,6 +278,12 @@ func (m *WorkspaceSettingsSpec_Options_ServiceIsolation) Clone() proto.Message {
 		target.TrimProxyConfig = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
 		target.TrimProxyConfig = proto.Clone(m.GetTrimProxyConfig()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	if h, ok := interface{}(m.GetEnforcementLayers()).(clone.Cloner); ok {
+		target.EnforcementLayers = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.EnforcementLayers)
+	} else {
+		target.EnforcementLayers = proto.Clone(m.GetEnforcementLayers()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.EnforcementLayers)
 	}
 
 	return target
@@ -306,6 +348,12 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Clone() proto.Me
 		target.Port = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
 	} else {
 		target.Port = proto.Clone(m.GetPort()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
+	}
+
+	if h, ok := interface{}(m.GetTlsTerminationPort()).(clone.Cloner); ok {
+		target.TlsTerminationPort = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
+	} else {
+		target.TlsTerminationPort = proto.Clone(m.GetTlsTerminationPort()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.PortSelector)
 	}
 
 	if m.GetHostInfoOverrides() != nil {

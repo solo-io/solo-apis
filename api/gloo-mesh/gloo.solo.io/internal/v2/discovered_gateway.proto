@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package internal.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/locality.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/internal.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+/*
+    A DiscoveredGateway is an internal representation of an Istio Gateway workload.
+    DiscoveredGateways are automatically detected from Istio Gateway deployments and services.
+*/
+message DiscoveredGatewaySpec {
+
+  // Reference to the Kubernetes service that exposes the gateway workloads.
+  .core.skv2.solo.io.ClusterObjectRef service = 1;
+
+  // The labels used by the Kubernetes service to select the gateway workloads.
+  map<string, string> workload_labels = 2;
+
+  // The externally-reachable addresses on which the gateway is listening for connections.
+  repeated ExternalAddress external_addresses = 3;
+
+  // gateway resource type
+  ServiceType service_type = 4;
+
+  // References to any service accounts selected by the service that exposes the gateway workloads.
+  repeated .core.skv2.solo.io.ClusterObjectRef service_account_refs = 5;
+
+  message ExternalAddress {
+
+    // The externally-reachable address on which the gateway is listening for connections.
+    // Depending on the gateway service type and its properties, this can be a LoadBalancer address
+    // reported by Kubernetes, an externally-reachable Node address, and a user-defined external IP set on the service.
+    string address = 1;
+
+    // The externally-reachable ports on which the gateway is listening for connections.
+    repeated Port ports = 2;
+
+    // The locality in which the node serving this address resides, typically representing a large geographic area.
+    .common.gloo.solo.io.Locality locality = 3;
+  }
+
+  enum ServiceType {
+    // ServiceTypeClusterIP means a service will only be accessible inside the
+    // cluster, via the cluster IP.
+    CLUSTER_IP = 0;
+
+    // ServiceTypeNodePort means a service will be exposed on one port of
+    // every node, in addition to 'ClusterIP' type.
+    NODE_PORT = 1;
+
+    // ServiceTypeLoadBalancer means a service will be exposed via an
+    // external load balancer (if the cloud provider supports it), in addition
+    // to 'NodePort' type.
+    LOAD_BALANCER = 2;
+
+    // ServiceTypeExternalName means a service consists of only a reference to
+    // an external name that kubedns or equivalent will return as a CNAME
+    // record, with no exposing or proxying of any pods involved.
+    EXTERNAL_NAME = 3;
+  }
+
+  // Port describes a port accessible on a DiscoveredGateway.
+  message Port {
+
+    // The port number exposed on the underlying gateway k8s Service.
+    uint32 number = 1;
+
+    // A label for the port, eg "http".
+    // This will match the port name from the underlying gateway k8s Service.
+    string name = 2;
+
+    // The protocol used in communication with this destination
+    // MUST be one of the following: HTTP, HTTPS, GRPC, HTTP2, MONGO, TCP, TLS.
+    string protocol = 3;
+  }
+}
+
+message DiscoveredGatewayStatus {
+
+  .common.gloo.solo.io.GenericContextStatus generic = 1;
+
+  // A list of virtual gateways that select this discovered gateway.
+  repeated .common.gloo.solo.io.ObjectReference virtual_gateways = 2;
+}

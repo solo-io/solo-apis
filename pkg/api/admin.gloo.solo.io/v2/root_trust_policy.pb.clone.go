@@ -92,6 +92,19 @@ func (m *RootTrustPolicySpec_Config) Clone() proto.Message {
 
 	target.AutoRestartPods = m.GetAutoRestartPods()
 
+	if m.GetPassiveCertificateAuthorities() != nil {
+		target.PassiveCertificateAuthorities = make([]*RootTrustPolicySpec_Config_MgmtServerCertificateAuthority, len(m.GetPassiveCertificateAuthorities()))
+		for idx, v := range m.GetPassiveCertificateAuthorities() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.PassiveCertificateAuthorities[idx] = h.Clone().(*RootTrustPolicySpec_Config_MgmtServerCertificateAuthority)
+			} else {
+				target.PassiveCertificateAuthorities[idx] = proto.Clone(v).(*RootTrustPolicySpec_Config_MgmtServerCertificateAuthority)
+			}
+
+		}
+	}
+
 	switch m.CertificateAuthorityType.(type) {
 
 	case *RootTrustPolicySpec_Config_MgmtServerCa:

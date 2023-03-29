@@ -1,14 +1,16 @@
 syntax = "proto3";
-package trafficcontrol.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/trafficcontrol.policy.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/http_matchers.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/phase.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto";
+package trafficcontrol.policy.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/phase.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/trafficcontrol.policy.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -41,7 +43,7 @@ message TransformationPolicySpec {
 
       // transform HTTP body and headers using Inja templates.
       // For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
-      envoy.api.v2.filter.http.TransformationTemplate injaTemplate = 2;
+      envoy.api.v2.filter.http.TransformationTemplate inja_template = 2;
 
       reserved 3; // Reserved for xslt
     }
@@ -52,24 +54,26 @@ message TransformationPolicySpec {
     // Configure response transformations for a selected route
     message ResponseTransformation {
 
-      // transform response body and headers using Inja templates
+      // transform response body and headers using Inja templates.
       // For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
-      envoy.api.v2.filter.http.TransformationTemplate injaTemplate = 1;
+      envoy.api.v2.filter.http.TransformationTemplate inja_template = 1;
 
       reserved 2; // Reserved for xslt
     }
   }
 }
 
-// reflects the status of the TransformationPolicy
 message TransformationPolicyStatus {
+  .common.gloo.solo.io.Status common = 1;
 
-  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+  // The number of routes selected by the policy.
+  uint32 num_selected_routes = 2;
+}
 
+message TransformationPolicyReport {
   // The status of the resource in each workspace that it exists in.
-  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
-  // Routes selected by the policy
-  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
-
+  // A list of references to all routes selected by the policy.
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
 }

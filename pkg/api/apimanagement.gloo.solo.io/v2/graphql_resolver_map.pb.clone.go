@@ -21,8 +21,6 @@ import (
 
 	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
 
-	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
-
 	github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/pkg/api/common.gloo.solo.io/v2"
 )
 
@@ -58,49 +56,10 @@ func (m *GraphQLResolverMapSpec) Clone() proto.Message {
 		}
 	}
 
-	return target
-}
-
-// Clone function
-func (m *ExecutableSchema) Clone() proto.Message {
-	var target *ExecutableSchema
-	if m == nil {
-		return target
-	}
-	target = &ExecutableSchema{}
-
-	if h, ok := interface{}(m.GetSchemaRef()).(clone.Cloner); ok {
-		target.SchemaRef = h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef)
+	if h, ok := interface{}(m.GetExtensions()).(clone.Cloner); ok {
+		target.Extensions = h.Clone().(*GraphQLResolverMapSpec_ResolverMapExtensions)
 	} else {
-		target.SchemaRef = proto.Clone(m.GetSchemaRef()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef)
-	}
-
-	switch m.ExecutableSchema.(type) {
-
-	case *ExecutableSchema_Server:
-
-		if h, ok := interface{}(m.GetServer()).(clone.Cloner); ok {
-			target.ExecutableSchema = &ExecutableSchema_Server{
-				Server: h.Clone().(*ExecutableSchema_GraphQLServer),
-			}
-		} else {
-			target.ExecutableSchema = &ExecutableSchema_Server{
-				Server: proto.Clone(m.GetServer()).(*ExecutableSchema_GraphQLServer),
-			}
-		}
-
-	case *ExecutableSchema_Local_:
-
-		if h, ok := interface{}(m.GetLocal()).(clone.Cloner); ok {
-			target.ExecutableSchema = &ExecutableSchema_Local_{
-				Local: h.Clone().(*ExecutableSchema_Local),
-			}
-		} else {
-			target.ExecutableSchema = &ExecutableSchema_Local_{
-				Local: proto.Clone(m.GetLocal()).(*ExecutableSchema_Local),
-			}
-		}
-
+		target.Extensions = proto.Clone(m.GetExtensions()).(*GraphQLResolverMapSpec_ResolverMapExtensions)
 	}
 
 	return target
@@ -272,6 +231,51 @@ func (m *GraphQLResolverMapStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *GraphQLResolverMapNewStatus) Clone() proto.Message {
+	var target *GraphQLResolverMapNewStatus
+	if m == nil {
+		return target
+	}
+	target = &GraphQLResolverMapNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.OwnerWorkspace = m.GetOwnerWorkspace()
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLResolverMapReport) Clone() proto.Message {
+	var target *GraphQLResolverMapReport
+	if m == nil {
+		return target
+	}
+	target = &GraphQLResolverMapReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	target.OwnerWorkspace = m.GetOwnerWorkspace()
+
+	return target
+}
+
+// Clone function
 func (m *GraphQLResolverMapSpec_Resolution) Clone() proto.Message {
 	var target *GraphQLResolverMapSpec_Resolution
 	if m == nil {
@@ -290,6 +294,23 @@ func (m *GraphQLResolverMapSpec_Resolution) Clone() proto.Message {
 			}
 
 		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLResolverMapSpec_ResolverMapExtensions) Clone() proto.Message {
+	var target *GraphQLResolverMapSpec_ResolverMapExtensions
+	if m == nil {
+		return target
+	}
+	target = &GraphQLResolverMapSpec_ResolverMapExtensions{}
+
+	if h, ok := interface{}(m.GetGrpcSchemaSelector()).(clone.Cloner); ok {
+		target.GrpcSchemaSelector = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectSelector)
+	} else {
+		target.GrpcSchemaSelector = proto.Clone(m.GetGrpcSchemaSelector()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ObjectSelector)
 	}
 
 	return target
@@ -366,6 +387,30 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver) Clone() proto.Mes
 			}
 		}
 
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_:
+
+		if h, ok := interface{}(m.GetGrpcResolver()).(clone.Cloner); ok {
+			target.Resolver = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_{
+				GrpcResolver: h.Clone().(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver),
+			}
+		} else {
+			target.Resolver = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_{
+				GrpcResolver: proto.Clone(m.GetGrpcResolver()).(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver),
+			}
+		}
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_:
+
+		if h, ok := interface{}(m.GetMockResolver()).(clone.Cloner); ok {
+			target.Resolver = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_{
+				MockResolver: h.Clone().(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver),
+			}
+		} else {
+			target.Resolver = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_{
+				MockResolver: proto.Clone(m.GetMockResolver()).(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver),
+			}
+		}
+
 	}
 
 	return target
@@ -421,6 +466,93 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) Clon
 		target.Timeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
 		target.Timeout = proto.Clone(m.GetTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) Clone() proto.Message {
+	var target *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver
+	if m == nil {
+		return target
+	}
+	target = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver{}
+
+	if m.GetDestinations() != nil {
+		target.Destinations = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference, len(m.GetDestinations()))
+		for idx, v := range m.GetDestinations() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Destinations[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			} else {
+				target.Destinations[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			}
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetRequest()).(clone.Cloner); ok {
+		target.Request = h.Clone().(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate)
+	} else {
+		target.Request = proto.Clone(m.GetRequest()).(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate)
+	}
+
+	if h, ok := interface{}(m.GetSpanName()).(clone.Cloner); ok {
+		target.SpanName = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+	} else {
+		target.SpanName = proto.Clone(m.GetSpanName()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+	}
+
+	if h, ok := interface{}(m.GetTimeout()).(clone.Cloner); ok {
+		target.Timeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+	} else {
+		target.Timeout = proto.Clone(m.GetTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver) Clone() proto.Message {
+	var target *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver
+	if m == nil {
+		return target
+	}
+	target = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver{}
+
+	switch m.Response.(type) {
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_SyncResponse:
+
+		if h, ok := interface{}(m.GetSyncResponse()).(clone.Cloner); ok {
+			target.Response = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_SyncResponse{
+				SyncResponse: h.Clone().(*VariableTransformation),
+			}
+		} else {
+			target.Response = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_SyncResponse{
+				SyncResponse: proto.Clone(m.GetSyncResponse()).(*VariableTransformation),
+			}
+		}
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse_:
+
+		if h, ok := interface{}(m.GetAsyncResponse()).(clone.Cloner); ok {
+			target.Response = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse_{
+				AsyncResponse: h.Clone().(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse),
+			}
+		} else {
+			target.Response = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse_{
+				AsyncResponse: proto.Clone(m.GetAsyncResponse()).(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse),
+			}
+		}
+
+	case *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_ErrorResponse:
+
+		target.Response = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_ErrorResponse{
+			ErrorResponse: m.GetErrorResponse(),
+		}
+
 	}
 
 	return target
@@ -491,159 +623,59 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 }
 
 // Clone function
-func (m *ExecutableSchema_Local) Clone() proto.Message {
-	var target *ExecutableSchema_Local
+func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate) Clone() proto.Message {
+	var target *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate
 	if m == nil {
 		return target
 	}
-	target = &ExecutableSchema_Local{}
+	target = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate{}
 
-	if m.GetResolverMapRefs() != nil {
-		target.ResolverMapRefs = make([]*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef, len(m.GetResolverMapRefs()))
-		for idx, v := range m.GetResolverMapRefs() {
+	target.Service = m.GetService()
 
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.ResolverMapRefs[idx] = h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef)
-			} else {
-				target.ResolverMapRefs[idx] = proto.Clone(v).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ClusterObjectRef)
-			}
+	target.Method = m.GetMethod()
 
-		}
-	}
-
-	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
-		target.Options = h.Clone().(*ExecutableSchema_Local_Options)
+	if h, ok := interface{}(m.GetOutgoingMessage()).(clone.Cloner); ok {
+		target.OutgoingMessage = h.Clone().(*VariableTransformation)
 	} else {
-		target.Options = proto.Clone(m.GetOptions()).(*ExecutableSchema_Local_Options)
+		target.OutgoingMessage = proto.Clone(m.GetOutgoingMessage()).(*VariableTransformation)
 	}
 
-	return target
-}
+	if m.GetRequestMetadata() != nil {
+		target.RequestMetadata = make(map[string]string, len(m.GetRequestMetadata()))
+		for k, v := range m.GetRequestMetadata() {
 
-// Clone function
-func (m *ExecutableSchema_GraphQLServer) Clone() proto.Message {
-	var target *ExecutableSchema_GraphQLServer
-	if m == nil {
-		return target
-	}
-	target = &ExecutableSchema_GraphQLServer{}
-
-	if m.GetGraphqlServers() != nil {
-		target.GraphqlServers = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference, len(m.GetGraphqlServers()))
-		for idx, v := range m.GetGraphqlServers() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.GraphqlServers[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
-			} else {
-				target.GraphqlServers[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
-			}
+			target.RequestMetadata[k] = v
 
 		}
 	}
 
-	if m.GetVariables() != nil {
-		target.Variables = make(map[string]*ExecutableSchema_GraphQLServer_RequestExtraction, len(m.GetVariables()))
-		for k, v := range m.GetVariables() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Variables[k] = h.Clone().(*ExecutableSchema_GraphQLServer_RequestExtraction)
-			} else {
-				target.Variables[k] = proto.Clone(v).(*ExecutableSchema_GraphQLServer_RequestExtraction)
-			}
-
-		}
-	}
-
-	if m.GetHeaders() != nil {
-		target.Headers = make(map[string]*VariableTransformation, len(m.GetHeaders()))
-		for k, v := range m.GetHeaders() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Headers[k] = h.Clone().(*VariableTransformation)
-			} else {
-				target.Headers[k] = proto.Clone(v).(*VariableTransformation)
-			}
-
-		}
-	}
-
-	if m.GetQueryParams() != nil {
-		target.QueryParams = make(map[string]*VariableTransformation, len(m.GetQueryParams()))
-		for k, v := range m.GetQueryParams() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.QueryParams[k] = h.Clone().(*VariableTransformation)
-			} else {
-				target.QueryParams[k] = proto.Clone(v).(*VariableTransformation)
-			}
-
-		}
-	}
-
-	target.SpanName = m.GetSpanName()
-
-	return target
-}
-
-// Clone function
-func (m *ExecutableSchema_Local_Options) Clone() proto.Message {
-	var target *ExecutableSchema_Local_Options
-	if m == nil {
-		return target
-	}
-	target = &ExecutableSchema_Local_Options{}
-
-	if h, ok := interface{}(m.GetMaxDepth()).(clone.Cloner); ok {
-		target.MaxDepth = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	if h, ok := interface{}(m.GetAuthority()).(clone.Cloner); ok {
+		target.Authority = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	} else {
-		target.MaxDepth = proto.Clone(m.GetMaxDepth()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+		target.Authority = proto.Clone(m.GetAuthority()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	}
-
-	target.EnableIntrospection = m.GetEnableIntrospection()
 
 	return target
 }
 
 // Clone function
-func (m *ExecutableSchema_GraphQLServer_RequestExtraction) Clone() proto.Message {
-	var target *ExecutableSchema_GraphQLServer_RequestExtraction
+func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse) Clone() proto.Message {
+	var target *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse
 	if m == nil {
 		return target
 	}
-	target = &ExecutableSchema_GraphQLServer_RequestExtraction{}
+	target = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse{}
 
-	switch m.Extraction.(type) {
+	if h, ok := interface{}(m.GetDelay()).(clone.Cloner); ok {
+		target.Delay = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+	} else {
+		target.Delay = proto.Clone(m.GetDelay()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+	}
 
-	case *ExecutableSchema_GraphQLServer_RequestExtraction_DynamicMetadata:
-
-		if h, ok := interface{}(m.GetDynamicMetadata()).(clone.Cloner); ok {
-			target.Extraction = &ExecutableSchema_GraphQLServer_RequestExtraction_DynamicMetadata{
-				DynamicMetadata: h.Clone().(*DynamicMetadataExtraction),
-			}
-		} else {
-			target.Extraction = &ExecutableSchema_GraphQLServer_RequestExtraction_DynamicMetadata{
-				DynamicMetadata: proto.Clone(m.GetDynamicMetadata()).(*DynamicMetadataExtraction),
-			}
-		}
-
-	case *ExecutableSchema_GraphQLServer_RequestExtraction_RequestHeader:
-
-		target.Extraction = &ExecutableSchema_GraphQLServer_RequestExtraction_RequestHeader{
-			RequestHeader: m.GetRequestHeader(),
-		}
-
-	case *ExecutableSchema_GraphQLServer_RequestExtraction_Json:
-
-		if h, ok := interface{}(m.GetJson()).(clone.Cloner); ok {
-			target.Extraction = &ExecutableSchema_GraphQLServer_RequestExtraction_Json{
-				Json: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
-			}
-		} else {
-			target.Extraction = &ExecutableSchema_GraphQLServer_RequestExtraction_Json{
-				Json: proto.Clone(m.GetJson()).(*github_com_golang_protobuf_ptypes_struct.Value),
-			}
-		}
-
+	if h, ok := interface{}(m.GetResponse()).(clone.Cloner); ok {
+		target.Response = h.Clone().(*VariableTransformation)
+	} else {
+		target.Response = proto.Clone(m.GetResponse()).(*VariableTransformation)
 	}
 
 	return target

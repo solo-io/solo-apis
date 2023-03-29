@@ -145,6 +145,102 @@ func (m *FaultInjectionPolicyStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *FaultInjectionPolicyNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*FaultInjectionPolicyNewStatus)
+	if !ok {
+		that2, ok := that.(FaultInjectionPolicyNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if m.GetSelectedRoutes() != target.GetSelectedRoutes() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *FaultInjectionPolicyReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*FaultInjectionPolicyReport)
+	if !ok {
+		that2, ok := that.(FaultInjectionPolicyReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedRoutes()) != len(target.GetSelectedRoutes()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedRoutes() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedRoutes()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedRoutes()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *FaultInjectionPolicySpec_Config) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil

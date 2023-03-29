@@ -78,20 +78,33 @@ func (m *AccessPolicyStatus) Clone() proto.Message {
 	}
 	target = &AccessPolicyStatus{}
 
-	if h, ok := interface{}(m.GetGlobal()).(clone.Cloner); ok {
-		target.Global = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericGlobalStatus)
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	} else {
-		target.Global = proto.Clone(m.GetGlobal()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericGlobalStatus)
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	}
 
+	target.NumSelectedDestinationPorts = m.GetNumSelectedDestinationPorts()
+
+	return target
+}
+
+// Clone function
+func (m *AccessPolicyReport) Clone() proto.Message {
+	var target *AccessPolicyReport
+	if m == nil {
+		return target
+	}
+	target = &AccessPolicyReport{}
+
 	if m.GetWorkspaces() != nil {
-		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus, len(m.GetWorkspaces()))
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
 		for k, v := range m.GetWorkspaces() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus)
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
 			} else {
-				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus)
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
 			}
 
 		}
@@ -148,6 +161,12 @@ func (m *AccessPolicySpec_Config) Clone() proto.Message {
 		target.Authz = h.Clone().(*AccessPolicySpec_Config_Authorization)
 	} else {
 		target.Authz = proto.Clone(m.GetAuthz()).(*AccessPolicySpec_Config_Authorization)
+	}
+
+	if h, ok := interface{}(m.GetEnforcementLayers()).(clone.Cloner); ok {
+		target.EnforcementLayers = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.EnforcementLayers)
+	} else {
+		target.EnforcementLayers = proto.Clone(m.GetEnforcementLayers()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.EnforcementLayers)
 	}
 
 	return target

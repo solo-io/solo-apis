@@ -114,14 +114,73 @@ func (m *WorkspaceSettingsStatus) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetGeneric()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetGeneric()) {
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
 			return false
 		}
 	} else {
-		if !proto.Equal(m.GetGeneric(), target.GetGeneric()) {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
 			return false
 		}
+	}
+
+	if h, ok := interface{}(m.GetWorkspace()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetWorkspace()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetWorkspace(), target.GetWorkspace()) {
+			return false
+		}
+	}
+
+	if m.GetNumSelectedEastWestGateways() != target.GetNumSelectedEastWestGateways() {
+		return false
+	}
+
+	if m.GetNumFederatedServices() != target.GetNumFederatedServices() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *WorkspaceSettingsReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*WorkspaceSettingsReport)
+	if !ok {
+		that2, ok := that.(WorkspaceSettingsReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
 	}
 
 	if h, ok := interface{}(m.GetWorkspace()).(equality.Equalizer); ok {
@@ -297,6 +356,10 @@ func (m *WorkspaceSettingsSpec_Options) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetTrimAllProxyConfig() != target.GetTrimAllProxyConfig() {
+		return false
+	}
+
 	return true
 }
 
@@ -382,6 +445,16 @@ func (m *WorkspaceSettingsSpec_Options_ServiceIsolation) Equal(that interface{})
 		}
 	} else {
 		if !proto.Equal(m.GetTrimProxyConfig(), target.GetTrimProxyConfig()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetEnforcementLayers()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetEnforcementLayers()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetEnforcementLayers(), target.GetEnforcementLayers()) {
 			return false
 		}
 	}
@@ -492,6 +565,16 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Equal(that inter
 		}
 	} else {
 		if !proto.Equal(m.GetPort(), target.GetPort()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetTlsTerminationPort()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetTlsTerminationPort()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetTlsTerminationPort(), target.GetTlsTerminationPort()) {
 			return false
 		}
 	}

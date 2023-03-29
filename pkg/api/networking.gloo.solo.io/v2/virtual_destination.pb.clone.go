@@ -100,20 +100,44 @@ func (m *VirtualDestinationStatus) Clone() proto.Message {
 	}
 	target = &VirtualDestinationStatus{}
 
-	if h, ok := interface{}(m.GetGlobal()).(clone.Cloner); ok {
-		target.Global = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericGlobalStatus)
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	} else {
-		target.Global = proto.Clone(m.GetGlobal()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.GenericGlobalStatus)
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
 	}
 
+	if m.GetNumAppliedDestinationPolicies() != nil {
+		target.NumAppliedDestinationPolicies = make(map[string]uint32, len(m.GetNumAppliedDestinationPolicies()))
+		for k, v := range m.GetNumAppliedDestinationPolicies() {
+
+			target.NumAppliedDestinationPolicies[k] = v
+
+		}
+	}
+
+	target.NumSelectedBackingServices = m.GetNumSelectedBackingServices()
+
+	target.OwnedByWorkspace = m.GetOwnedByWorkspace()
+
+	return target
+}
+
+// Clone function
+func (m *VirtualDestinationReport) Clone() proto.Message {
+	var target *VirtualDestinationReport
+	if m == nil {
+		return target
+	}
+	target = &VirtualDestinationReport{}
+
 	if m.GetWorkspaces() != nil {
-		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus, len(m.GetWorkspaces()))
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
 		for k, v := range m.GetWorkspaces() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus)
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
 			} else {
-				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.WorkspaceStatus)
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
 			}
 
 		}
@@ -145,11 +169,7 @@ func (m *VirtualDestinationStatus) Clone() proto.Message {
 		}
 	}
 
-	if h, ok := interface{}(m.GetOwnerWorkspace()).(clone.Cloner); ok {
-		target.OwnerWorkspace = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.OwnerWorkspace)
-	} else {
-		target.OwnerWorkspace = proto.Clone(m.GetOwnerWorkspace()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.OwnerWorkspace)
-	}
+	target.OwnerWorkspace = m.GetOwnerWorkspace()
 
 	return target
 }

@@ -223,7 +223,11 @@ message GrpcRequestTemplate {
     // in the future, we may want to make this a map<string, ValueProvider>
     // once we know better what the use cases are
     map<string, string> request_metadata = 4;
-
+    
+    // The `:authority` header in the gRPC request. If this field is not set or is empty,
+    // the authority header value will be the envoy cluster name.
+    string authority = 6;
+    
     // GraphQL Mesh fields not supported in our datplane API today and reasons:
 
     // think about graphql subscriptions we may need a new resolver for grpc streaming
@@ -257,7 +261,7 @@ message GrpcResolver {
     string span_name = 4;
 }
 
-// Only meant for integration testing
+// A resolver which mocks graphql responses for a field.
 message StaticResolver {
   message AsyncResponse {
     oneof response_type {
@@ -492,9 +496,12 @@ message Executor {
         string header = 2;
         // Set the extraction type to use a dynamic metadata value.
         DynamicMetadataExtraction dynamic_metadata = 3;
+        // Static json value to use for value
+        google.protobuf.Value json_value = 4;
       }
     }
     
+    // [Deprecated] - use TemplatedGraphQLRequest instead
     message RemoteSchemaRequest {
       // Map of headers to header value which will be included in the request to the remote graphql server.
       map<string, Extraction> headers = 2;
@@ -502,12 +509,34 @@ message Executor {
       // Query params to set on the request to the remote graphql server.
       map<string, Extraction> query_params = 3;
     }
+    
+    message TemplatedGraphQLRequest {
+      // Map of headers to header value which will be included in the request to the remote graphql server.
+      map<string, VariableTransformation> headers = 1;
+      
+      // Query params to set on the request to the remote graphql server.
+      map<string, VariableTransformation> query_params = 2;
+    }
+    
     // Server URI of the remote graphql cluster.
     config.core.v3.HttpUri server_uri = 1;
     
+    // [Deprecated] - use templated_request and variables instead
+    // if templated_request is defined, this field is ignored
     RemoteSchemaRequest request = 2;
     
+    // Construct the outgoing request to the remote graphql server using variable transformations.
+    TemplatedGraphQLRequest templated_request = 4;
+    
+    // Variables that are declared from the downstream GraphQL request.
+    // These variables can only be used in the templatedRequest field to configure the upstream graphql request.
+    map<string, Extraction> variables = 5;
+    
     string span_name = 3 ;
+    
+    // Allows for introspection queries to be sent to the remote graphql server.
+    // By default this is false, and the graphql filter will return an error if an introspection query is sent.
+    bool allow_introspection = 6;
 
   }
   

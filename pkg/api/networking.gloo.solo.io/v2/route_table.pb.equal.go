@@ -118,8 +118,52 @@ func (m *RouteTableSpec) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetTcp()) != len(target.GetTcp()) {
+		return false
+	}
+	for idx, v := range m.GetTcp() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetTcp()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetTcp()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetTls()) != len(target.GetTls()) {
+		return false
+	}
+	for idx, v := range m.GetTls() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetTls()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetTls()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	if m.GetWeight() != target.GetWeight() {
 		return false
+	}
+
+	if h, ok := interface{}(m.GetPortalMetadata()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetPortalMetadata()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetPortalMetadata(), target.GetPortalMetadata()) {
+			return false
+		}
 	}
 
 	return true
@@ -266,6 +310,136 @@ func (m *HTTPRoute) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *TCPRoute) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*TCPRoute)
+	if !ok {
+		that2, ok := that.(TCPRoute)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetMatchers()) != len(target.GetMatchers()) {
+		return false
+	}
+	for idx, v := range m.GetMatchers() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetMatchers()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetMatchers()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	switch m.ActionType.(type) {
+
+	case *TCPRoute_ForwardTo:
+		if _, ok := target.ActionType.(*TCPRoute_ForwardTo); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetForwardTo()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetForwardTo()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetForwardTo(), target.GetForwardTo()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.ActionType != target.ActionType {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *TLSRoute) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*TLSRoute)
+	if !ok {
+		that2, ok := that.(TLSRoute)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetMatchers()) != len(target.GetMatchers()) {
+		return false
+	}
+	for idx, v := range m.GetMatchers() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetMatchers()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetMatchers()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	switch m.ActionType.(type) {
+
+	case *TLSRoute_ForwardTo:
+		if _, ok := target.ActionType.(*TLSRoute_ForwardTo); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetForwardTo()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetForwardTo()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetForwardTo(), target.GetForwardTo()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.ActionType != target.ActionType {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *GraphQLAction) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -296,41 +470,41 @@ func (m *GraphQLAction) Equal(that interface{}) bool {
 		}
 	}
 
-	switch m.Graphql.(type) {
+	switch m.GraphqlSchema.(type) {
 
-	case *GraphQLAction_StitchedSchemaRef:
-		if _, ok := target.Graphql.(*GraphQLAction_StitchedSchemaRef); !ok {
+	case *GraphQLAction_Schema:
+		if _, ok := target.GraphqlSchema.(*GraphQLAction_Schema); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetStitchedSchemaRef()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetStitchedSchemaRef()) {
+		if h, ok := interface{}(m.GetSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSchema()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetStitchedSchemaRef(), target.GetStitchedSchemaRef()) {
+			if !proto.Equal(m.GetSchema(), target.GetSchema()) {
 				return false
 			}
 		}
 
-	case *GraphQLAction_ExecutableSchema:
-		if _, ok := target.Graphql.(*GraphQLAction_ExecutableSchema); !ok {
+	case *GraphQLAction_StitchedSchema:
+		if _, ok := target.GraphqlSchema.(*GraphQLAction_StitchedSchema); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetExecutableSchema()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetExecutableSchema()) {
+		if h, ok := interface{}(m.GetStitchedSchema()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStitchedSchema()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetExecutableSchema(), target.GetExecutableSchema()) {
+			if !proto.Equal(m.GetStitchedSchema(), target.GetStitchedSchema()) {
 				return false
 			}
 		}
 
 	default:
 		// m is nil but target is not nil
-		if m.Graphql != target.Graphql {
+		if m.GraphqlSchema != target.GraphqlSchema {
 			return false
 		}
 	}
@@ -507,7 +681,68 @@ func (m *DelegateAction) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetAllowedRoutes()) != len(target.GetAllowedRoutes()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedRoutes() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAllowedRoutes()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetAllowedRoutes()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	if m.GetSortMethod() != target.GetSortMethod() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *PortalMetadata) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PortalMetadata)
+	if !ok {
+		that2, ok := that.(PortalMetadata)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetTitle(), target.GetTitle()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetDescription(), target.GetDescription()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetTermsOfService(), target.GetTermsOfService()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetContact(), target.GetContact()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetLicense(), target.GetLicense()) != 0 {
 		return false
 	}
 
@@ -535,14 +770,61 @@ func (m *RouteTableStatus) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetGlobal()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetGlobal()) {
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
 			return false
 		}
 	} else {
-		if !proto.Equal(m.GetGlobal(), target.GetGlobal()) {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
 			return false
 		}
+	}
+
+	if len(m.GetNumAppliedRoutePolicies()) != len(target.GetNumAppliedRoutePolicies()) {
+		return false
+	}
+	for k, v := range m.GetNumAppliedRoutePolicies() {
+
+		if v != target.GetNumAppliedRoutePolicies()[k] {
+			return false
+		}
+
+	}
+
+	if m.GetNumParentRouteTables() != target.GetNumParentRouteTables() {
+		return false
+	}
+
+	if strings.Compare(m.GetOwnedByWorkspace(), target.GetOwnedByWorkspace()) != 0 {
+		return false
+	}
+
+	if m.GetNumAllowedVirtualGateways() != target.GetNumAllowedVirtualGateways() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *RouteTableReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*RouteTableReport)
+	if !ok {
+		that2, ok := that.(RouteTableReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
@@ -596,14 +878,8 @@ func (m *RouteTableStatus) Equal(that interface{}) bool {
 
 	}
 
-	if h, ok := interface{}(m.GetOwnerWorkspace()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetOwnerWorkspace()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) {
-			return false
-		}
+	if strings.Compare(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) != 0 {
+		return false
 	}
 
 	if len(m.GetAllowedVirtualGateways()) != len(target.GetAllowedVirtualGateways()) {
@@ -617,6 +893,47 @@ func (m *RouteTableStatus) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(v, target.GetAllowedVirtualGateways()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *TLSRoute_TLSForwardToAction) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*TLSRoute_TLSForwardToAction)
+	if !ok {
+		that2, ok := that.(TLSRoute_TLSForwardToAction)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetDestinations()) != len(target.GetDestinations()) {
+		return false
+	}
+	for idx, v := range m.GetDestinations() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetDestinations()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetDestinations()[idx]) {
 				return false
 			}
 		}

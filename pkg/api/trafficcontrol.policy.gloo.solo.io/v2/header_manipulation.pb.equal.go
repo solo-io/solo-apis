@@ -114,14 +114,42 @@ func (m *HeaderManipulationPolicyStatus) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetGlobal()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetGlobal()) {
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
 			return false
 		}
 	} else {
-		if !proto.Equal(m.GetGlobal(), target.GetGlobal()) {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
 			return false
 		}
+	}
+
+	if m.GetNumSelectedRoutes() != target.GetNumSelectedRoutes() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *HeaderManipulationPolicyReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*HeaderManipulationPolicyReport)
+	if !ok {
+		that2, ok := that.(HeaderManipulationPolicyReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {

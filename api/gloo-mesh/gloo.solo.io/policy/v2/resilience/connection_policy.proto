@@ -1,13 +1,17 @@
 syntax = "proto3";
-package resilience.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/resilience.policy.gloo.solo.io/v2";
 
+package resilience.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/keepalive.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/keepalive.proto";
-
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
 import "google/protobuf/duration.proto";
-import "extproto/ext.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/resilience.policy.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -27,6 +31,9 @@ message ConnectionPolicySpec {
     // The low-level TCP connection settings to apply to the destinations selected.
     TCPConfig tcp = 1;
 
+    // The low-level HTTP connection settings to apply to the destination selected.
+    HTTPConfig http = 2;
+
     message TCPConfig {
       // Sets the TCP keep-alive settings to apply to selected destinations.
       .common.gloo.solo.io.TCPKeepalive tcp_keepalive = 1;
@@ -38,6 +45,21 @@ message ConnectionPolicySpec {
       // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
       google.protobuf.Duration connect_timeout = 3;
     }
+
+    message HTTPConfig {
+      // Maximum number of requests per connection to a backend. Setting this parameter to 1 disables keep alive. Default 0, meaning “unlimited”, up to 2^29.
+      int32 max_requests_per_connection = 1;
+
+      // Maximum number of retries that can be outstanding to all hosts in a cluster at a given time. Defaults to 2^32-1.
+      int32 max_retries = 2;
+
+      // The idle timeout for upstream connection pool connections. The idle timeout is defined as the period in which there are no active requests.
+      // If not set, the default is 1 hour. When the idle timeout is reached, the connection will be closed. If the connection is an HTTP/2 connection
+      // a drain sequence will occur prior to closing the connection. Note that request based timeouts mean that HTTP/2 PINGs will not keep the connection alive.
+      // Applies to both HTTP1.1 and HTTP2 connections.
+      // For more information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+      google.protobuf.Duration idle_timeout = 3;
+    }
   }
 }
 
@@ -48,6 +70,22 @@ message ConnectionPolicyStatus {
   // The status of the resource in each workspace that it exists in.
   map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
 
-  // Destination ports selected by the policy
+  // A list of destination ports selected by the policy.
   repeated .common.gloo.solo.io.DestinationReference selected_destiantion_ports = 3;
+}
+
+// $hide_from_docs
+message ConnectionPolicyNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of destination ports selected by this policy.
+  uint32 selected_destination_ports = 2;
+}
+
+// $hide_from_docs
+message ConnectionPolicyReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of destination ports selected by this policy.
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
 }

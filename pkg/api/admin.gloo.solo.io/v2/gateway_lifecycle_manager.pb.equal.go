@@ -203,6 +203,54 @@ func (m *GatewayLifecycleManagerStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *GatewayLifecycleManagerNewStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GatewayLifecycleManagerNewStatus)
+	if !ok {
+		that2, ok := that.(GatewayLifecycleManagerNewStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *GatewayLifecycleManagerReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*GatewayLifecycleManagerReport)
+	if !ok {
+		that2, ok := that.(GatewayLifecycleManagerReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
 func (m *GatewayLifecycleManagerStatus_ClusterStatuses) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -269,6 +317,10 @@ func (m *GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Equal
 	}
 
 	if strings.Compare(m.GetMessage(), target.GetMessage()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetObservedRevision(), target.GetObservedRevision()) != 0 {
 		return false
 	}
 

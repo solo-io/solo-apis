@@ -114,14 +114,42 @@ func (m *AccessPolicyStatus) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetGlobal()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetGlobal()) {
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
 			return false
 		}
 	} else {
-		if !proto.Equal(m.GetGlobal(), target.GetGlobal()) {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
 			return false
 		}
+	}
+
+	if m.GetNumSelectedDestinationPorts() != target.GetNumSelectedDestinationPorts() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessPolicyReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessPolicyReport)
+	if !ok {
+		that2, ok := that.(AccessPolicyReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
@@ -232,6 +260,16 @@ func (m *AccessPolicySpec_Config) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetAuthz(), target.GetAuthz()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetEnforcementLayers()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetEnforcementLayers()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetEnforcementLayers(), target.GetEnforcementLayers()) {
 			return false
 		}
 	}

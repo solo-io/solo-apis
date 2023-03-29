@@ -138,9 +138,77 @@ func (m *RouteTableSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	for _, v := range m.GetTcp() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	for _, v := range m.GetTls() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
 	err = binary.Write(hasher, binary.LittleEndian, m.GetWeight())
 	if err != nil {
 		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetPortalMetadata()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("PortalMetadata")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetPortalMetadata(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("PortalMetadata")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
 	}
 
 	return hasher.Sum64(), nil
@@ -328,6 +396,138 @@ func (m *HTTPRoute) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *TCPRoute) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2.TCPRoute")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetMatchers() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	switch m.ActionType.(type) {
+
+	case *TCPRoute_ForwardTo:
+
+		if h, ok := interface{}(m.GetForwardTo()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ForwardTo")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetForwardTo(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ForwardTo")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *TLSRoute) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2.TLSRoute")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetMatchers() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	switch m.ActionType.(type) {
+
+	case *TLSRoute_ForwardTo:
+
+		if h, ok := interface{}(m.GetForwardTo()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ForwardTo")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetForwardTo(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ForwardTo")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *GraphQLAction) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -360,22 +560,22 @@ func (m *GraphQLAction) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
-	switch m.Graphql.(type) {
+	switch m.GraphqlSchema.(type) {
 
-	case *GraphQLAction_StitchedSchemaRef:
+	case *GraphQLAction_Schema:
 
-		if h, ok := interface{}(m.GetStitchedSchemaRef()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("StitchedSchemaRef")); err != nil {
+		if h, ok := interface{}(m.GetSchema()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Schema")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetStitchedSchemaRef(), nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetSchema(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("StitchedSchemaRef")); err != nil {
+				if _, err = hasher.Write([]byte("Schema")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -384,20 +584,20 @@ func (m *GraphQLAction) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *GraphQLAction_ExecutableSchema:
+	case *GraphQLAction_StitchedSchema:
 
-		if h, ok := interface{}(m.GetExecutableSchema()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
+		if h, ok := interface{}(m.GetStitchedSchema()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetExecutableSchema(), nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetStitchedSchema(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
+				if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -556,8 +756,68 @@ func (m *DelegateAction) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	for _, v := range m.GetAllowedRoutes() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
 	err = binary.Write(hasher, binary.LittleEndian, m.GetSortMethod())
 	if err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *PortalMetadata) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2.PortalMetadata")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetTitle())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetDescription())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetTermsOfService())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetContact())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetLicense())); err != nil {
 		return 0, err
 	}
 
@@ -577,24 +837,78 @@ func (m *RouteTableStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
-	if h, ok := interface{}(m.GetGlobal()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Global")); err != nil {
+	if h, ok := interface{}(m.GetCommon()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Common")); err != nil {
 			return 0, err
 		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetCommon(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Global")); err != nil {
+			if _, err = hasher.Write([]byte("Common")); err != nil {
 				return 0, err
 			}
 			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetNumAppliedRoutePolicies() {
+			innerHash.Reset()
+
+			err = binary.Write(innerHash, binary.LittleEndian, v)
+			if err != nil {
+				return 0, err
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetNumParentRouteTables())
+	if err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetOwnedByWorkspace())); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetNumAllowedVirtualGateways())
+	if err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *RouteTableReport) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2.RouteTableReport")); err != nil {
+		return 0, err
 	}
 
 	{
@@ -699,27 +1013,51 @@ func (m *RouteTableStatus) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
-	if h, ok := interface{}(m.GetOwnerWorkspace()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("OwnerWorkspace")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOwnerWorkspace(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("OwnerWorkspace")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
+	if _, err = hasher.Write([]byte(m.GetOwnerWorkspace())); err != nil {
+		return 0, err
 	}
 
 	for _, v := range m.GetAllowedVirtualGateways() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *TLSRoute_TLSForwardToAction) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2.TLSRoute_TLSForwardToAction")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetDestinations() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
 			if _, err = hasher.Write([]byte("")); err != nil {

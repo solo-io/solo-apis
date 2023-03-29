@@ -105,6 +105,62 @@ func (m *ProxyProtocolPolicyStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ProxyProtocolPolicyNewStatus) Clone() proto.Message {
+	var target *ProxyProtocolPolicyNewStatus
+	if m == nil {
+		return target
+	}
+	target = &ProxyProtocolPolicyNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.SelectedListeners = m.GetSelectedListeners()
+
+	return target
+}
+
+// Clone function
+func (m *ProxyProtocolPolicyReport) Clone() proto.Message {
+	var target *ProxyProtocolPolicyReport
+	if m == nil {
+		return target
+	}
+	target = &ProxyProtocolPolicyReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetSelectedListeners() != nil {
+		target.SelectedListeners = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ListenerPortReference, len(m.GetSelectedListeners()))
+		for idx, v := range m.GetSelectedListeners() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedListeners[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ListenerPortReference)
+			} else {
+				target.SelectedListeners[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.ListenerPortReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *ProxyProtocolPolicySpec_ListenerSelector) Clone() proto.Message {
 	var target *ProxyProtocolPolicySpec_ListenerSelector
 	if m == nil {

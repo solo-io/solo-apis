@@ -1,0 +1,53 @@
+syntax = "proto3";
+package networking.gloo.solo.io;
+
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/networking.gloo.solo.io/v2";
+
+// $hide_from_docs
+message K8sWorkloadNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // A map of policy GVK to the number of policies that are applied on this resource.
+  map<string, uint32> applied_workload_policy = 2;
+
+  // The name of the workspace that owns the Kubernetes workload. 
+  string owner_workspace = 3;
+}
+
+// $hide_from_docs
+message K8sWorkloadReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A map of policy GVK to policy references for all policies that are 
+  // applied on this resource.
+  map<string, .common.gloo.solo.io.AppliedWorkloadPolicies> applied_workload_policies = 2;
+
+  // The name of the workspace that owns the Kubernetes workload.
+  string owner_workspace = 3;
+}
+
+// $hide_from_docs
+message K8sServiceNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // A map of policy GVK to the number of policies that are applied on this resource.
+  map<string, uint32> applied_destination_policies = 2;
+
+  // The name of the workspace that owns this Kubernetes service.
+  string owner_workspace = 3;
+}
+
+// $hide_from_docs
+message K8sServiceReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A map of policy GVK to policy references for all policies that are 
+  // applied on this resource.
+  map<string, .common.gloo.solo.io.AppliedDestinationPortPolicies> applied_destination_policies = 2;
+
+  // The name of the workspace that owns this Kubernetes service.
+  string owner_workspace = 3;
+}

@@ -142,14 +142,57 @@ func (m *VirtualDestinationStatus) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetGlobal()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetGlobal()) {
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
 			return false
 		}
 	} else {
-		if !proto.Equal(m.GetGlobal(), target.GetGlobal()) {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
 			return false
 		}
+	}
+
+	if len(m.GetNumAppliedDestinationPolicies()) != len(target.GetNumAppliedDestinationPolicies()) {
+		return false
+	}
+	for k, v := range m.GetNumAppliedDestinationPolicies() {
+
+		if v != target.GetNumAppliedDestinationPolicies()[k] {
+			return false
+		}
+
+	}
+
+	if m.GetNumSelectedBackingServices() != target.GetNumSelectedBackingServices() {
+		return false
+	}
+
+	if strings.Compare(m.GetOwnedByWorkspace(), target.GetOwnedByWorkspace()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *VirtualDestinationReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*VirtualDestinationReport)
+	if !ok {
+		that2, ok := that.(VirtualDestinationReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
@@ -203,14 +246,8 @@ func (m *VirtualDestinationStatus) Equal(that interface{}) bool {
 
 	}
 
-	if h, ok := interface{}(m.GetOwnerWorkspace()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetOwnerWorkspace()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) {
-			return false
-		}
+	if strings.Compare(m.GetOwnerWorkspace(), target.GetOwnerWorkspace()) != 0 {
+		return false
 	}
 
 	return true

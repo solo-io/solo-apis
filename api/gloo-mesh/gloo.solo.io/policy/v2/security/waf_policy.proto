@@ -1,15 +1,16 @@
 syntax = "proto3";
+
 package security.policy.gloo.solo.io;
-option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
-
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/string_match.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo-ee/api/envoy/config/filter/http/modsecurity/v2/modsecurity.proto";
-
-import "google/protobuf/wrappers.proto";
 
 import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/external/envoy-gloo-ee/api/envoy/config/filter/http/modsecurity/v2/modsecurity.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo-mesh/gloo.solo.io/common/v2/status_new.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/pkg/api/security.policy.gloo.solo.io/v2";
+
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
@@ -66,6 +67,23 @@ message WAFPolicyStatus {
   // The status of the resource in each workspace that it exists in.
   map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
 
-  // Routes selected by the policy
+  // A list of references to all routes selected by the policy.
   repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+}
+
+// $hide_from_docs
+message WAFPolicyNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of routes selected by the policy.
+  uint32 selected_routes = 2;
+}
+
+// $hide_from_docs
+message WAFPolicyReport {
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of references to all routes selected by the policy.
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
 }

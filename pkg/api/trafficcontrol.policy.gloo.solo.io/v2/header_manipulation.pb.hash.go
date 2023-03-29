@@ -122,24 +122,45 @@ func (m *HeaderManipulationPolicyStatus) Hash(hasher hash.Hash64) (uint64, error
 		return 0, err
 	}
 
-	if h, ok := interface{}(m.GetGlobal()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Global")); err != nil {
+	if h, ok := interface{}(m.GetCommon()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Common")); err != nil {
 			return 0, err
 		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGlobal(), nil); err != nil {
+		if fieldValue, err := hashstructure.Hash(m.GetCommon(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Global")); err != nil {
+			if _, err = hasher.Write([]byte("Common")); err != nil {
 				return 0, err
 			}
 			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
 			}
 		}
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetNumSelectedRoutes())
+	if err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *HeaderManipulationPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.HeaderManipulationPolicyReport")); err != nil {
+		return 0, err
 	}
 
 	{

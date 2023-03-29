@@ -103,6 +103,62 @@ func (m *ConnectionPolicyStatus) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ConnectionPolicyNewStatus) Clone() proto.Message {
+	var target *ConnectionPolicyNewStatus
+	if m == nil {
+		return target
+	}
+	target = &ConnectionPolicyNewStatus{}
+
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Status)
+	}
+
+	target.SelectedDestinationPorts = m.GetSelectedDestinationPorts()
+
+	return target
+}
+
+// Clone function
+func (m *ConnectionPolicyReport) Clone() proto.Message {
+	var target *ConnectionPolicyReport
+	if m == nil {
+		return target
+	}
+	target = &ConnectionPolicyReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetSelectedDestinationPorts() != nil {
+		target.SelectedDestinationPorts = make([]*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference, len(m.GetSelectedDestinationPorts()))
+		for idx, v := range m.GetSelectedDestinationPorts() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedDestinationPorts[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			} else {
+				target.SelectedDestinationPorts[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_common_gloo_solo_io_v2.DestinationReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *ConnectionPolicySpec_Config) Clone() proto.Message {
 	var target *ConnectionPolicySpec_Config
 	if m == nil {
@@ -114,6 +170,12 @@ func (m *ConnectionPolicySpec_Config) Clone() proto.Message {
 		target.Tcp = h.Clone().(*ConnectionPolicySpec_Config_TCPConfig)
 	} else {
 		target.Tcp = proto.Clone(m.GetTcp()).(*ConnectionPolicySpec_Config_TCPConfig)
+	}
+
+	if h, ok := interface{}(m.GetHttp()).(clone.Cloner); ok {
+		target.Http = h.Clone().(*ConnectionPolicySpec_Config_HTTPConfig)
+	} else {
+		target.Http = proto.Clone(m.GetHttp()).(*ConnectionPolicySpec_Config_HTTPConfig)
 	}
 
 	return target
@@ -139,6 +201,27 @@ func (m *ConnectionPolicySpec_Config_TCPConfig) Clone() proto.Message {
 		target.ConnectTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
 		target.ConnectTimeout = proto.Clone(m.GetConnectTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ConnectionPolicySpec_Config_HTTPConfig) Clone() proto.Message {
+	var target *ConnectionPolicySpec_Config_HTTPConfig
+	if m == nil {
+		return target
+	}
+	target = &ConnectionPolicySpec_Config_HTTPConfig{}
+
+	target.MaxRequestsPerConnection = m.GetMaxRequestsPerConnection()
+
+	target.MaxRetries = m.GetMaxRetries()
+
+	if h, ok := interface{}(m.GetIdleTimeout()).(clone.Cloner); ok {
+		target.IdleTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+	} else {
+		target.IdleTimeout = proto.Clone(m.GetIdleTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	return target

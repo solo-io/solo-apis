@@ -186,14 +186,46 @@ func (m *VirtualGatewayStatus) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetGlobal()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetGlobal()) {
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
 			return false
 		}
 	} else {
-		if !proto.Equal(m.GetGlobal(), target.GetGlobal()) {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
 			return false
 		}
+	}
+
+	if m.GetRouteTablesCount() != target.GetRouteTablesCount() {
+		return false
+	}
+
+	if m.GetSelectedWorkloadsCount() != target.GetSelectedWorkloadsCount() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *VirtualGatewayReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*VirtualGatewayReport)
+	if !ok {
+		that2, ok := that.(VirtualGatewayReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
@@ -230,17 +262,17 @@ func (m *VirtualGatewayStatus) Equal(that interface{}) bool {
 
 	}
 
-	if len(m.GetWorkloads()) != len(target.GetWorkloads()) {
+	if len(m.GetSelectedWorkloads()) != len(target.GetSelectedWorkloads()) {
 		return false
 	}
-	for idx, v := range m.GetWorkloads() {
+	for idx, v := range m.GetSelectedWorkloads() {
 
 		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetWorkloads()[idx]) {
+			if !h.Equal(target.GetSelectedWorkloads()[idx]) {
 				return false
 			}
 		} else {
-			if !proto.Equal(v, target.GetWorkloads()[idx]) {
+			if !proto.Equal(v, target.GetSelectedWorkloads()[idx]) {
 				return false
 			}
 		}
@@ -458,6 +490,23 @@ func (m *VirtualGatewaySpec_Listener_RouteTableFilter) Equal(that interface{}) b
 		if !proto.Equal(m.GetSelector(), target.GetSelector()) {
 			return false
 		}
+	}
+
+	if len(m.GetAllowedRoutes()) != len(target.GetAllowedRoutes()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedRoutes() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAllowedRoutes()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetAllowedRoutes()[idx]) {
+				return false
+			}
+		}
+
 	}
 
 	return true
