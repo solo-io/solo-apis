@@ -2167,41 +2167,18 @@ func (m *UserSession_CipherConfig) Clone() proto.Message {
 	}
 	target = &UserSession_CipherConfig{}
 
-	if h, ok := interface{}(m.GetKey()).(clone.Cloner); ok {
-		target.Key = h.Clone().(*UserSession_CipherConfig_CipherKey)
-	} else {
-		target.Key = proto.Clone(m.GetKey()).(*UserSession_CipherConfig_CipherKey)
-	}
-
-	return target
-}
-
-// Clone function
-func (m *UserSession_CipherConfig_CipherKey) Clone() proto.Message {
-	var target *UserSession_CipherConfig_CipherKey
-	if m == nil {
-		return target
-	}
-	target = &UserSession_CipherConfig_CipherKey{}
-
 	switch m.Key.(type) {
 
-	case *UserSession_CipherConfig_CipherKey_KeyRef:
+	case *UserSession_CipherConfig_KeyRef:
 
 		if h, ok := interface{}(m.GetKeyRef()).(clone.Cloner); ok {
-			target.Key = &UserSession_CipherConfig_CipherKey_KeyRef{
+			target.Key = &UserSession_CipherConfig_KeyRef{
 				KeyRef: h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef),
 			}
 		} else {
-			target.Key = &UserSession_CipherConfig_CipherKey_KeyRef{
+			target.Key = &UserSession_CipherConfig_KeyRef{
 				KeyRef: proto.Clone(m.GetKeyRef()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef),
 			}
-		}
-
-	case *UserSession_CipherConfig_CipherKey_KeyValue:
-
-		target.Key = &UserSession_CipherConfig_CipherKey_KeyValue{
-			KeyValue: m.GetKeyValue(),
 		}
 
 	}
@@ -2525,6 +2502,59 @@ func (m *ExtAuthConfig_OAuthConfig) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ExtAuthConfig_UserSessionConfig) Clone() proto.Message {
+	var target *ExtAuthConfig_UserSessionConfig
+	if m == nil {
+		return target
+	}
+	target = &ExtAuthConfig_UserSessionConfig{}
+
+	target.FailOnFetchFailure = m.GetFailOnFetchFailure()
+
+	if h, ok := interface{}(m.GetCookieOptions()).(clone.Cloner); ok {
+		target.CookieOptions = h.Clone().(*UserSession_CookieOptions)
+	} else {
+		target.CookieOptions = proto.Clone(m.GetCookieOptions()).(*UserSession_CookieOptions)
+	}
+
+	if h, ok := interface{}(m.GetCipherConfig()).(clone.Cloner); ok {
+		target.CipherConfig = h.Clone().(*ExtAuthConfig_UserSessionConfig_CipherConfig)
+	} else {
+		target.CipherConfig = proto.Clone(m.GetCipherConfig()).(*ExtAuthConfig_UserSessionConfig_CipherConfig)
+	}
+
+	switch m.Session.(type) {
+
+	case *ExtAuthConfig_UserSessionConfig_Cookie:
+
+		if h, ok := interface{}(m.GetCookie()).(clone.Cloner); ok {
+			target.Session = &ExtAuthConfig_UserSessionConfig_Cookie{
+				Cookie: h.Clone().(*UserSession_InternalSession),
+			}
+		} else {
+			target.Session = &ExtAuthConfig_UserSessionConfig_Cookie{
+				Cookie: proto.Clone(m.GetCookie()).(*UserSession_InternalSession),
+			}
+		}
+
+	case *ExtAuthConfig_UserSessionConfig_Redis:
+
+		if h, ok := interface{}(m.GetRedis()).(clone.Cloner); ok {
+			target.Session = &ExtAuthConfig_UserSessionConfig_Redis{
+				Redis: h.Clone().(*UserSession_RedisSession),
+			}
+		} else {
+			target.Session = &ExtAuthConfig_UserSessionConfig_Redis{
+				Redis: proto.Clone(m.GetRedis()).(*UserSession_RedisSession),
+			}
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
 func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Clone() proto.Message {
 	var target *ExtAuthConfig_OidcAuthorizationCodeConfig
 	if m == nil {
@@ -2617,6 +2647,12 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Clone() proto.Message {
 		target.EndSessionProperties = h.Clone().(*EndSessionProperties)
 	} else {
 		target.EndSessionProperties = proto.Clone(m.GetEndSessionProperties()).(*EndSessionProperties)
+	}
+
+	if h, ok := interface{}(m.GetUserSession()).(clone.Cloner); ok {
+		target.UserSession = h.Clone().(*ExtAuthConfig_UserSessionConfig)
+	} else {
+		target.UserSession = proto.Clone(m.GetUserSession()).(*ExtAuthConfig_UserSessionConfig)
 	}
 
 	return target
@@ -2749,6 +2785,12 @@ func (m *ExtAuthConfig_PlainOAuth2Config) Clone() proto.Message {
 	target.TokenEndpoint = m.GetTokenEndpoint()
 
 	target.RevocationEndpoint = m.GetRevocationEndpoint()
+
+	if h, ok := interface{}(m.GetUserSession()).(clone.Cloner); ok {
+		target.UserSession = h.Clone().(*ExtAuthConfig_UserSessionConfig)
+	} else {
+		target.UserSession = proto.Clone(m.GetUserSession()).(*ExtAuthConfig_UserSessionConfig)
+	}
 
 	return target
 }
@@ -3166,6 +3208,19 @@ func (m *ExtAuthConfig_Config) Clone() proto.Message {
 		}
 
 	}
+
+	return target
+}
+
+// Clone function
+func (m *ExtAuthConfig_UserSessionConfig_CipherConfig) Clone() proto.Message {
+	var target *ExtAuthConfig_UserSessionConfig_CipherConfig
+	if m == nil {
+		return target
+	}
+	target = &ExtAuthConfig_UserSessionConfig_CipherConfig{}
+
+	target.KeyValue = m.GetKeyValue()
 
 	return target
 }
