@@ -8,8 +8,6 @@ replace (
 	cuelang.org/go => github.com/solo-io/cue v0.4.1-0.20210623143425-308aee4ff092
 
 	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
-	k8s.io/apimachinery => k8s.io/apimachinery v0.26.4
-	k8s.io/client-go => k8s.io/client-go v0.26.4
 )
 
 require (
@@ -33,7 +31,7 @@ require (
 	google.golang.org/protobuf v1.28.1
 	istio.io/tools v0.0.0-20200918020118-6d0a0e49b5d3
 	k8s.io/apimachinery v0.26.4
-	k8s.io/client-go v8.0.0+incompatible
+	k8s.io/client-go v0.26.4
 	k8s.io/code-generator v0.26.1
 	sigs.k8s.io/controller-runtime v0.14.6
 )
