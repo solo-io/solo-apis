@@ -85,6 +85,7 @@ func (s *multiClusterRoleSet) List(filterResource ...func(*multicluster_solo_io_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
 		})
@@ -104,6 +105,7 @@ func (s *multiClusterRoleSet) UnsortedList(filterResource ...func(*multicluster_
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
 		})

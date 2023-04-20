@@ -6,40 +6,71 @@ package v1
 
 import (
 	proto "github.com/golang/protobuf/proto"
+	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 )
 
 // DeepCopyInto for the Gateway.Spec
 func (in *GatewaySpec) DeepCopyInto(out *GatewaySpec) {
-	p := proto.Clone(in).(*GatewaySpec)
+	var p *GatewaySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*GatewaySpec)
+	} else {
+		p = proto.Clone(in).(*GatewaySpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the Gateway.Status
 func (in *GatewayStatus) DeepCopyInto(out *GatewayStatus) {
-	p := proto.Clone(in).(*GatewayStatus)
+	var p *GatewayStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*GatewayStatus)
+	} else {
+		p = proto.Clone(in).(*GatewayStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RouteTable.Spec
 func (in *RouteTableSpec) DeepCopyInto(out *RouteTableSpec) {
-	p := proto.Clone(in).(*RouteTableSpec)
+	var p *RouteTableSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RouteTableSpec)
+	} else {
+		p = proto.Clone(in).(*RouteTableSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the RouteTable.Status
 func (in *RouteTableStatus) DeepCopyInto(out *RouteTableStatus) {
-	p := proto.Clone(in).(*RouteTableStatus)
+	var p *RouteTableStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RouteTableStatus)
+	} else {
+		p = proto.Clone(in).(*RouteTableStatus)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the VirtualService.Spec
 func (in *VirtualServiceSpec) DeepCopyInto(out *VirtualServiceSpec) {
-	p := proto.Clone(in).(*VirtualServiceSpec)
+	var p *VirtualServiceSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*VirtualServiceSpec)
+	} else {
+		p = proto.Clone(in).(*VirtualServiceSpec)
+	}
 	*out = *p
 }
 
 // DeepCopyInto for the VirtualService.Status
 func (in *VirtualServiceStatus) DeepCopyInto(out *VirtualServiceStatus) {
-	p := proto.Clone(in).(*VirtualServiceStatus)
+	var p *VirtualServiceStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*VirtualServiceStatus)
+	} else {
+		p = proto.Clone(in).(*VirtualServiceStatus)
+	}
 	*out = *p
 }

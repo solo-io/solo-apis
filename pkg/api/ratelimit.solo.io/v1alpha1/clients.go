@@ -49,7 +49,7 @@ type clientSet struct {
 
 func NewClientsetFromConfig(cfg *rest.Config) (Clientset, error) {
 	scheme := scheme.Scheme
-	if err := AddToScheme(scheme); err != nil {
+	if err := SchemeBuilder.AddToScheme(scheme); err != nil {
 		return nil, err
 	}
 	client, err := client.New(cfg, client.Options{
@@ -108,10 +108,10 @@ type RateLimitConfigWriter interface {
 type RateLimitConfigStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given RateLimitConfig object.
-	UpdateRateLimitConfigStatus(ctx context.Context, obj *RateLimitConfig, opts ...client.UpdateOption) error
+	UpdateRateLimitConfigStatus(ctx context.Context, obj *RateLimitConfig, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given RateLimitConfig object's subresource.
-	PatchRateLimitConfigStatus(ctx context.Context, obj *RateLimitConfig, patch client.Patch, opts ...client.PatchOption) error
+	PatchRateLimitConfigStatus(ctx context.Context, obj *RateLimitConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on RateLimitConfigs.
@@ -182,11 +182,11 @@ func (c *rateLimitConfigClient) UpsertRateLimitConfig(ctx context.Context, obj *
 	return err
 }
 
-func (c *rateLimitConfigClient) UpdateRateLimitConfigStatus(ctx context.Context, obj *RateLimitConfig, opts ...client.UpdateOption) error {
+func (c *rateLimitConfigClient) UpdateRateLimitConfigStatus(ctx context.Context, obj *RateLimitConfig, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *rateLimitConfigClient) PatchRateLimitConfigStatus(ctx context.Context, obj *RateLimitConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (c *rateLimitConfigClient) PatchRateLimitConfigStatus(ctx context.Context, obj *RateLimitConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

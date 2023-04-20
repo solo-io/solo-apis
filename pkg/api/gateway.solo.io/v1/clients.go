@@ -53,7 +53,7 @@ type clientSet struct {
 
 func NewClientsetFromConfig(cfg *rest.Config) (Clientset, error) {
 	scheme := scheme.Scheme
-	if err := AddToScheme(scheme); err != nil {
+	if err := SchemeBuilder.AddToScheme(scheme); err != nil {
 		return nil, err
 	}
 	client, err := client.New(cfg, client.Options{
@@ -122,10 +122,10 @@ type GatewayWriter interface {
 type GatewayStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given Gateway object.
-	UpdateGatewayStatus(ctx context.Context, obj *Gateway, opts ...client.UpdateOption) error
+	UpdateGatewayStatus(ctx context.Context, obj *Gateway, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given Gateway object's subresource.
-	PatchGatewayStatus(ctx context.Context, obj *Gateway, patch client.Patch, opts ...client.PatchOption) error
+	PatchGatewayStatus(ctx context.Context, obj *Gateway, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on Gateways.
@@ -196,11 +196,11 @@ func (c *gatewayClient) UpsertGateway(ctx context.Context, obj *Gateway, transit
 	return err
 }
 
-func (c *gatewayClient) UpdateGatewayStatus(ctx context.Context, obj *Gateway, opts ...client.UpdateOption) error {
+func (c *gatewayClient) UpdateGatewayStatus(ctx context.Context, obj *Gateway, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *gatewayClient) PatchGatewayStatus(ctx context.Context, obj *Gateway, patch client.Patch, opts ...client.PatchOption) error {
+func (c *gatewayClient) PatchGatewayStatus(ctx context.Context, obj *Gateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -264,10 +264,10 @@ type RouteTableWriter interface {
 type RouteTableStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given RouteTable object.
-	UpdateRouteTableStatus(ctx context.Context, obj *RouteTable, opts ...client.UpdateOption) error
+	UpdateRouteTableStatus(ctx context.Context, obj *RouteTable, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given RouteTable object's subresource.
-	PatchRouteTableStatus(ctx context.Context, obj *RouteTable, patch client.Patch, opts ...client.PatchOption) error
+	PatchRouteTableStatus(ctx context.Context, obj *RouteTable, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on RouteTables.
@@ -338,11 +338,11 @@ func (c *routeTableClient) UpsertRouteTable(ctx context.Context, obj *RouteTable
 	return err
 }
 
-func (c *routeTableClient) UpdateRouteTableStatus(ctx context.Context, obj *RouteTable, opts ...client.UpdateOption) error {
+func (c *routeTableClient) UpdateRouteTableStatus(ctx context.Context, obj *RouteTable, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *routeTableClient) PatchRouteTableStatus(ctx context.Context, obj *RouteTable, patch client.Patch, opts ...client.PatchOption) error {
+func (c *routeTableClient) PatchRouteTableStatus(ctx context.Context, obj *RouteTable, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -406,10 +406,10 @@ type VirtualServiceWriter interface {
 type VirtualServiceStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given VirtualService object.
-	UpdateVirtualServiceStatus(ctx context.Context, obj *VirtualService, opts ...client.UpdateOption) error
+	UpdateVirtualServiceStatus(ctx context.Context, obj *VirtualService, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given VirtualService object's subresource.
-	PatchVirtualServiceStatus(ctx context.Context, obj *VirtualService, patch client.Patch, opts ...client.PatchOption) error
+	PatchVirtualServiceStatus(ctx context.Context, obj *VirtualService, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on VirtualServices.
@@ -480,11 +480,11 @@ func (c *virtualServiceClient) UpsertVirtualService(ctx context.Context, obj *Vi
 	return err
 }
 
-func (c *virtualServiceClient) UpdateVirtualServiceStatus(ctx context.Context, obj *VirtualService, opts ...client.UpdateOption) error {
+func (c *virtualServiceClient) UpdateVirtualServiceStatus(ctx context.Context, obj *VirtualService, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *virtualServiceClient) PatchVirtualServiceStatus(ctx context.Context, obj *VirtualService, patch client.Patch, opts ...client.PatchOption) error {
+func (c *virtualServiceClient) PatchVirtualServiceStatus(ctx context.Context, obj *VirtualService, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

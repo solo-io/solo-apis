@@ -21,7 +21,10 @@ var _ = math.Inf
 
 var (
 	marshaller   = &skv2jsonpb.Marshaler{EnumsAsInts: true}
-	unmarshaller = &jsonpb.Unmarshaler{}
+	unmarshaller = &jsonpb.Unmarshaler{
+		AllowUnknownFields: true,
+	}
+	strictUnmarshaller = &jsonpb.Unmarshaler{}
 )
 
 // MarshalJSON is a custom marshaler for GatewaySpec

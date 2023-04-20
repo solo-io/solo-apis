@@ -85,6 +85,7 @@ func (s *gatewaySet) List(filterResource ...func(*gateway_solo_io_v1.Gateway) bo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gateway_solo_io_v1.Gateway))
 		})
@@ -104,6 +105,7 @@ func (s *gatewaySet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.Gat
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gateway_solo_io_v1.Gateway))
 		})
@@ -304,6 +306,7 @@ func (s *routeTableSet) List(filterResource ...func(*gateway_solo_io_v1.RouteTab
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gateway_solo_io_v1.RouteTable))
 		})
@@ -323,6 +326,7 @@ func (s *routeTableSet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gateway_solo_io_v1.RouteTable))
 		})
@@ -523,6 +527,7 @@ func (s *virtualServiceSet) List(filterResource ...func(*gateway_solo_io_v1.Virt
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gateway_solo_io_v1.VirtualService))
 		})
@@ -542,6 +547,7 @@ func (s *virtualServiceSet) UnsortedList(filterResource ...func(*gateway_solo_io
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gateway_solo_io_v1.VirtualService))
 		})
