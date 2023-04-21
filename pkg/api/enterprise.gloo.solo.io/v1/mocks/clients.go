@@ -307,7 +307,7 @@ func (m *MockAuthConfigStatusWriter) EXPECT() *MockAuthConfigStatusWriterMockRec
 }
 
 // PatchAuthConfigStatus mocks base method.
-func (m *MockAuthConfigStatusWriter) PatchAuthConfigStatus(ctx context.Context, obj *v1.AuthConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockAuthConfigStatusWriter) PatchAuthConfigStatus(ctx context.Context, obj *v1.AuthConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -326,7 +326,7 @@ func (mr *MockAuthConfigStatusWriterMockRecorder) PatchAuthConfigStatus(ctx, obj
 }
 
 // UpdateAuthConfigStatus mocks base method.
-func (m *MockAuthConfigStatusWriter) UpdateAuthConfigStatus(ctx context.Context, obj *v1.AuthConfig, opts ...client.UpdateOption) error {
+func (m *MockAuthConfigStatusWriter) UpdateAuthConfigStatus(ctx context.Context, obj *v1.AuthConfig, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -479,7 +479,7 @@ func (mr *MockAuthConfigClientMockRecorder) PatchAuthConfig(ctx, obj, patch inte
 }
 
 // PatchAuthConfigStatus mocks base method.
-func (m *MockAuthConfigClient) PatchAuthConfigStatus(ctx context.Context, obj *v1.AuthConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockAuthConfigClient) PatchAuthConfigStatus(ctx context.Context, obj *v1.AuthConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -517,7 +517,7 @@ func (mr *MockAuthConfigClientMockRecorder) UpdateAuthConfig(ctx, obj interface{
 }
 
 // UpdateAuthConfigStatus mocks base method.
-func (m *MockAuthConfigClient) UpdateAuthConfigStatus(ctx context.Context, obj *v1.AuthConfig, opts ...client.UpdateOption) error {
+func (m *MockAuthConfigClient) UpdateAuthConfigStatus(ctx context.Context, obj *v1.AuthConfig, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

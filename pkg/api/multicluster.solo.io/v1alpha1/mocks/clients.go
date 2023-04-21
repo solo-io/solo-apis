@@ -307,7 +307,7 @@ func (m *MockMultiClusterRoleStatusWriter) EXPECT() *MockMultiClusterRoleStatusW
 }
 
 // PatchMultiClusterRoleStatus mocks base method.
-func (m *MockMultiClusterRoleStatusWriter) PatchMultiClusterRoleStatus(ctx context.Context, obj *v1alpha1.MultiClusterRole, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockMultiClusterRoleStatusWriter) PatchMultiClusterRoleStatus(ctx context.Context, obj *v1alpha1.MultiClusterRole, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -326,7 +326,7 @@ func (mr *MockMultiClusterRoleStatusWriterMockRecorder) PatchMultiClusterRoleSta
 }
 
 // UpdateMultiClusterRoleStatus mocks base method.
-func (m *MockMultiClusterRoleStatusWriter) UpdateMultiClusterRoleStatus(ctx context.Context, obj *v1alpha1.MultiClusterRole, opts ...client.UpdateOption) error {
+func (m *MockMultiClusterRoleStatusWriter) UpdateMultiClusterRoleStatus(ctx context.Context, obj *v1alpha1.MultiClusterRole, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -479,7 +479,7 @@ func (mr *MockMultiClusterRoleClientMockRecorder) PatchMultiClusterRole(ctx, obj
 }
 
 // PatchMultiClusterRoleStatus mocks base method.
-func (m *MockMultiClusterRoleClient) PatchMultiClusterRoleStatus(ctx context.Context, obj *v1alpha1.MultiClusterRole, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockMultiClusterRoleClient) PatchMultiClusterRoleStatus(ctx context.Context, obj *v1alpha1.MultiClusterRole, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -517,7 +517,7 @@ func (mr *MockMultiClusterRoleClientMockRecorder) UpdateMultiClusterRole(ctx, ob
 }
 
 // UpdateMultiClusterRoleStatus mocks base method.
-func (m *MockMultiClusterRoleClient) UpdateMultiClusterRoleStatus(ctx context.Context, obj *v1alpha1.MultiClusterRole, opts ...client.UpdateOption) error {
+func (m *MockMultiClusterRoleClient) UpdateMultiClusterRoleStatus(ctx context.Context, obj *v1alpha1.MultiClusterRole, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

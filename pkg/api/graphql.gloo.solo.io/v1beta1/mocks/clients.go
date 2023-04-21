@@ -307,7 +307,7 @@ func (m *MockGraphQLApiStatusWriter) EXPECT() *MockGraphQLApiStatusWriterMockRec
 }
 
 // PatchGraphQLApiStatus mocks base method.
-func (m *MockGraphQLApiStatusWriter) PatchGraphQLApiStatus(ctx context.Context, obj *v1beta1.GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGraphQLApiStatusWriter) PatchGraphQLApiStatus(ctx context.Context, obj *v1beta1.GraphQLApi, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -326,7 +326,7 @@ func (mr *MockGraphQLApiStatusWriterMockRecorder) PatchGraphQLApiStatus(ctx, obj
 }
 
 // UpdateGraphQLApiStatus mocks base method.
-func (m *MockGraphQLApiStatusWriter) UpdateGraphQLApiStatus(ctx context.Context, obj *v1beta1.GraphQLApi, opts ...client.UpdateOption) error {
+func (m *MockGraphQLApiStatusWriter) UpdateGraphQLApiStatus(ctx context.Context, obj *v1beta1.GraphQLApi, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -479,7 +479,7 @@ func (mr *MockGraphQLApiClientMockRecorder) PatchGraphQLApi(ctx, obj, patch inte
 }
 
 // PatchGraphQLApiStatus mocks base method.
-func (m *MockGraphQLApiClient) PatchGraphQLApiStatus(ctx context.Context, obj *v1beta1.GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGraphQLApiClient) PatchGraphQLApiStatus(ctx context.Context, obj *v1beta1.GraphQLApi, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -517,7 +517,7 @@ func (mr *MockGraphQLApiClientMockRecorder) UpdateGraphQLApi(ctx, obj interface{
 }
 
 // UpdateGraphQLApiStatus mocks base method.
-func (m *MockGraphQLApiClient) UpdateGraphQLApiStatus(ctx context.Context, obj *v1beta1.GraphQLApi, opts ...client.UpdateOption) error {
+func (m *MockGraphQLApiClient) UpdateGraphQLApiStatus(ctx context.Context, obj *v1beta1.GraphQLApi, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
