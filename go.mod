@@ -28,7 +28,6 @@ require (
 	github.com/rotisserie/eris v0.4.0
 	github.com/solo-io/go-utils v0.24.0
 	github.com/solo-io/protoc-gen-ext v0.0.18
-	github.com/solo-io/skv2 v0.29.3-0.20230322181416-98c3ab6b87b6
 	github.com/solo-io/solo-kit v0.31.0
 	golang.org/x/tools v0.6.0
 	google.golang.org/genproto v0.0.0-20221201164419-0e50fba7f41c
@@ -101,7 +100,8 @@ require (
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/solo-io/anyvendor v0.0.4 // indirect
-	github.com/solo-io/cue v0.4.6 // indirect
+	github.com/solo-io/cue v0.4.7 // indirect
+	github.com/solo-io/skv2 v0.29.7-0.20230421193338-ff4b71e3a12f // indirect
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
@@ -126,7 +126,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/api v0.26.4 // indirect
-	k8s.io/apiextensions-apiserver v0.26.1 // indirect
+	k8s.io/apiextensions-apiserver v0.26.4 // indirect
 	k8s.io/component-base v0.26.4 // indirect
 	k8s.io/gengo v0.0.0-20220902162205-c0856e24416d // indirect
 	k8s.io/klog/v2 v2.80.1 // indirect

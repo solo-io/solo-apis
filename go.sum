@@ -698,6 +698,7 @@ github.com/solo-io/anyvendor v0.0.4 h1:9nI7o7Srml2uaOpT5HJSru06IHUZpzSCU/dEkseiG
 github.com/solo-io/anyvendor v0.0.4/go.mod h1:+TTkDGd11u8ugXccqtukBEWvkZkODaBbeWgdH/F/IWY=
 github.com/solo-io/cue v0.4.6 h1:xfZN+SKo+WNOlGup6G2vMYl5MxgEuJ9r+NFFpo2SXm0=
 github.com/solo-io/cue v0.4.6/go.mod h1:P1tN9y6nBPAMoEK5aJxI8kn0VUcjVcRc+8esieRzQ7M=
+github.com/solo-io/cue v0.4.7/go.mod h1:P1tN9y6nBPAMoEK5aJxI8kn0VUcjVcRc+8esieRzQ7M=
 github.com/solo-io/go-utils v0.24.0 h1:zrcIjfVtW2bcJH0Juy4Q0qEZtQ67tqVr0aeq6btwBV0=
 github.com/solo-io/go-utils v0.24.0/go.mod h1:2ds5++iv1FGox0/aWz/DAiRYTIb6r4yiM+VSF7sAyL4=
 github.com/solo-io/k8s-utils v0.3.0 h1:K27Gb/gTEexHK27VMOJ1tSW4PBo18PClo9w/L89UNvw=
@@ -705,6 +706,8 @@ github.com/solo-io/protoc-gen-ext v0.0.18 h1:zSAL8NzWpJUGYoA5IyjHiKASNyHjR0uxBQ7
 github.com/solo-io/protoc-gen-ext v0.0.18/go.mod h1:iGyCvmKmhJNXs5MgBcYFBF0om7LDnCVD2WwhOZGnqeA=
 github.com/solo-io/skv2 v0.29.3-0.20230322181416-98c3ab6b87b6 h1:xCjOAbITECl4yC+cYzUJVMCYO8+t8uo3n5ZMeCt2pFY=
 github.com/solo-io/skv2 v0.29.3-0.20230322181416-98c3ab6b87b6/go.mod h1:Vw2J3/k+eLY5ciKpcdYYs2qDF0JhaFWQyesGcCshIfA=
+github.com/solo-io/skv2 v0.29.7-0.20230421193338-ff4b71e3a12f h1:twkf6D5JkOdk/U2uKq0RtcSpeq+CwgOa0+UF6f8xGxc=
+github.com/solo-io/skv2 v0.29.7-0.20230421193338-ff4b71e3a12f/go.mod h1:2+ySJOxcW5gn8XlJ96eihI9s7WKHVY+stxhRqS07TH0=
 github.com/solo-io/solo-kit v0.31.0 h1:s61jP17ul7WNgOvKIsM7UYysaaKE3ZomXt4OG5WhIJk=
 github.com/solo-io/solo-kit v0.31.0/go.mod h1:L+DuD0vSZ6IlgoYVC3Ji0jHlI7pzvUotLBVfEM1RbQI=
 github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=
