@@ -1,0 +1,86 @@
+syntax = "proto3";
+package gateway.solo.io;
+option go_package = "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1";
+
+import "google/protobuf/struct.proto";
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+import "github.com/solo-io/solo-kit/api/v1/ref.proto";
+import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
+
+import "github.com/solo-io/solo-apis/api/gloo/gateway/v1/gateway.proto";
+
+import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl/ssl.proto";
+
+import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/core/v3/address.proto";
+
+
+/*
+A MatchableTcpGateway ...
+
+A Gateway CR may select one or more MatchableTcpGateways on a single listener.
+This enables separate teams to own Listener configuration (Gateway CR)
+and FilterChain configuration (MatchableTcpGateway CR)
+*/
+message MatchableTcpGatewaySpec {
+
+
+
+
+  message Matcher {
+    // CidrRange specifies an IP Address and a prefix length to construct the subnet mask for a CIDR range.
+    // See https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/address.proto#envoy-v3-api-msg-config-core-v3-cidrrange
+    repeated .solo.io.envoy.config.core.v3.CidrRange source_prefix_ranges = 1;
+
+    // Ssl configuration applied to the FilterChain:
+    //  - FilterChainMatch: https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener_components.proto#config-listener-v3-filterchainmatch)
+    //  - TransportSocket: https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/base.proto#envoy-v3-api-msg-config-core-v3-transportsocket
+    gloo.solo.io.SslConfig ssl_config = 2;
+
+    repeated string passthrough_cipher_suites = 3;
+  }
+
+  // Matcher creates a FilterChainMatch and TransportSocket for a FilterChain
+  // For each MatchableTcpGateway on a Gateway CR, the matcher must be unique.
+  // If there are any identical matchers, the Gateway will be rejected.
+  // An empty matcher will produce an empty FilterChainMatch (https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener_components.proto#envoy-v3-api-msg-config-listener-v3-filterchainmatch)
+  // effectively matching all incoming connections
+  Matcher matcher = 3;
+
+  TcpGateway tcp_gateway = 4;
+}
+
+message MatchableTcpGatewayStatus {
+	enum State {
+			// Pending status indicates the resource has not yet been validated
+			Pending = 0;
+			// Accepted indicates the resource has been validated
+			Accepted = 1;
+			// Rejected indicates an invalid configuration by the user
+			// Rejected resources may be propagated to the xDS server depending on their severity
+			Rejected = 2;
+			// Warning indicates a partially invalid configuration by the user
+			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+			Warning = 3;
+	}
+	// State is the enum indicating the state of the resource
+	State state = 1;
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	string reason = 2;
+	// Reference to the reporter who wrote this status
+	string reported_by = 3;
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	map<string, MatchableTcpGatewayStatus> subresource_statuses = 4;
+
+	// Opaque details about status results
+	google.protobuf.Struct details = 5;
+}
+
+
+
+message MatchableTcpGatewayNamespacedStatuses {
+	map<string, MatchableTcpGatewayStatus> statuses = 1;
+}

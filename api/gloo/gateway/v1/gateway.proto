@@ -94,21 +94,24 @@ message TcpGateway {
     repeated gloo.solo.io.TcpHost tcp_hosts = 1;
     // TCP Gateway configuration
     gloo.solo.io.TcpListenerOptions options = 8;
-
 }
 
 message HybridGateway {
     // MatchedGateways can be used to define both HttpGateways and TcpGateways directly on the Gateway resource.
-    // Only one of `MatchedGateways` or `DelegatedHttpGateways` should be provided.
-    // If more than one is provided only one will be checked with priority MatchedGateways, DelegatedHttpGateways
+    // If `MatchedGateways` is provided, then `DelegatedHttpGateways` and `DelegatedTcpGateways` are ignored.
     repeated MatchedGateway matched_gateways = 1;
 
     // DelegatedHttpGateways can be used to configure multiple HttpGateways
     // using the MatchableHttpGateway CR and select them on this Gateway
-    // using a resourceRef or label selection
-    // Only one of `MatchedGateways` or `DelegatedHttpGateways` should be provided.
-    // If more than one is provided only one will be checked with priority MatchedGateways, DelegatedHttpGateways
+    // using a resourceRef or label selection.
+    // If `MatchedGateways` is provided, then `DelegatedHttpGateways` is ignored.
     DelegatedHttpGateway delegated_http_gateways = 2;
+
+    // DelegatedTcpGateways can be used to configure multiple TcpGateways
+    // using the MatchableTcpGateway CR and select them on this Gateway
+    // using a resourceRef or label selection.
+    // If `MatchedGateways` is provided, then `DelegatedTcpGateways` is ignored.
+    DelegatedTcpGateway delegated_tcp_gateways = 3;
 }
 
 message DelegatedHttpGateway {
@@ -118,7 +121,7 @@ message DelegatedHttpGateway {
         // Delegate to the resource with the given `name` and `namespace.
         core.solo.io.ResourceRef ref = 3;
 
-        // Delegate to the MatchableHttpGateway that match the given selector.
+        // Delegate to the MatchableHttpGateways that match the given selector.
         selectors.core.gloo.solo.io.Selector selector = 4;
     }
 
@@ -136,6 +139,18 @@ message DelegatedHttpGateway {
 
     // Anscestry-level TLS/SSL traffic configuration.  Options specified here will be passed down to each `MatchableHttpGateway` that is matched via `selector` or `ref`.  From there, they are passed to all VirtualServices associated with said `MatchableHttpGateway`s.
     gloo.solo.io.SslConfig ssl_config = 2;
+}
+
+message DelegatedTcpGateway {
+
+    // How to select MatchableTcpGateways
+    oneof selection_type {
+        // Delegate to the resource with the given `name` and `namespace.
+        core.solo.io.ResourceRef ref = 1;
+
+        // Delegate to the MatchableTcpGateways that match the given selector.
+        selectors.core.gloo.solo.io.Selector selector = 2;
+    }
 }
 
 message MatchedGateway {
@@ -160,6 +175,8 @@ message Matcher {
     // CidrRange specifies an IP Address and a prefix length to construct the subnet mask for a CIDR range.
     // See https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/address.proto#envoy-v3-api-msg-config-core-v3-cidrrange
     repeated .solo.io.envoy.config.core.v3.CidrRange source_prefix_ranges = 2;
+
+    repeated string passthrough_cipher_suites = 3;
 }
 
 
