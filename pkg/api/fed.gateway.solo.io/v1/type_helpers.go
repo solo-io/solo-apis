@@ -9,6 +9,9 @@ type FederatedGatewaySlice []*FederatedGateway
 // FederatedMatchableHttpGatewaySlice represents a slice of *FederatedMatchableHttpGateway
 type FederatedMatchableHttpGatewaySlice []*FederatedMatchableHttpGateway
 
+// FederatedMatchableTcpGatewaySlice represents a slice of *FederatedMatchableTcpGateway
+type FederatedMatchableTcpGatewaySlice []*FederatedMatchableTcpGateway
+
 // FederatedRouteTableSlice represents a slice of *FederatedRouteTable
 type FederatedRouteTableSlice []*FederatedRouteTable
 
