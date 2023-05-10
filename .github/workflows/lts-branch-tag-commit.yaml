@@ -13,7 +13,7 @@ jobs:
       COMMIT_REGEX: "^.*(Sync APIs.)+.*$"
     steps:
       - name: Cancel Previous Actions
-        uses: styfle/cancel-workflow-action@0.4.1
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
       - uses: actions/checkout@v3
@@ -25,7 +25,7 @@ jobs:
           if [[ $(git log -1 --oneline) =~ ${{ env.COMMIT_REGEX }} ]]; then
             TAG_NAME=$(git log -1 --oneline | awk -F'@tag-name=' '{print $2}' | awk -F' ' '{print $1}')
           fi
-          echo "::set-output name=tag_name::$(echo $TAG_NAME)"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
       - name: Bump version and push tag
         if: steps.tag_version.outputs.tag_name != ''
         uses: anothrNick/github-tag-action@1.39.0
