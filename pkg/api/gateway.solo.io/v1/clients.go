@@ -44,6 +44,8 @@ type Clientset interface {
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	MatchableHttpGateways() MatchableHttpGatewayClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
+	MatchableTcpGateways() MatchableTcpGatewayClient
+	// clienset for the gateway.solo.io/v1/v1 APIs
 	RouteTables() RouteTableClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	VirtualServices() VirtualServiceClient
@@ -83,6 +85,11 @@ func (c *clientSet) Gateways() GatewayClient {
 // clienset for the gateway.solo.io/v1/v1 APIs
 func (c *clientSet) MatchableHttpGateways() MatchableHttpGatewayClient {
 	return NewMatchableHttpGatewayClient(c.client)
+}
+
+// clienset for the gateway.solo.io/v1/v1 APIs
+func (c *clientSet) MatchableTcpGateways() MatchableTcpGatewayClient {
+	return NewMatchableTcpGatewayClient(c.client)
 }
 
 // clienset for the gateway.solo.io/v1/v1 APIs
@@ -387,6 +394,148 @@ func (m *multiclusterMatchableHttpGatewayClient) Cluster(cluster string) (Matcha
 		return nil, err
 	}
 	return NewMatchableHttpGatewayClient(client), nil
+}
+
+// Reader knows how to read and list MatchableTcpGateways.
+type MatchableTcpGatewayReader interface {
+	// Get retrieves a MatchableTcpGateway for the given object key
+	GetMatchableTcpGateway(ctx context.Context, key client.ObjectKey) (*MatchableTcpGateway, error)
+
+	// List retrieves list of MatchableTcpGateways for a given namespace and list options.
+	ListMatchableTcpGateway(ctx context.Context, opts ...client.ListOption) (*MatchableTcpGatewayList, error)
+}
+
+// MatchableTcpGatewayTransitionFunction instructs the MatchableTcpGatewayWriter how to transition between an existing
+// MatchableTcpGateway object and a desired on an Upsert
+type MatchableTcpGatewayTransitionFunction func(existing, desired *MatchableTcpGateway) error
+
+// Writer knows how to create, delete, and update MatchableTcpGateways.
+type MatchableTcpGatewayWriter interface {
+	// Create saves the MatchableTcpGateway object.
+	CreateMatchableTcpGateway(ctx context.Context, obj *MatchableTcpGateway, opts ...client.CreateOption) error
+
+	// Delete deletes the MatchableTcpGateway object.
+	DeleteMatchableTcpGateway(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given MatchableTcpGateway object.
+	UpdateMatchableTcpGateway(ctx context.Context, obj *MatchableTcpGateway, opts ...client.UpdateOption) error
+
+	// Patch patches the given MatchableTcpGateway object.
+	PatchMatchableTcpGateway(ctx context.Context, obj *MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all MatchableTcpGateway objects matching the given options.
+	DeleteAllOfMatchableTcpGateway(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the MatchableTcpGateway object.
+	UpsertMatchableTcpGateway(ctx context.Context, obj *MatchableTcpGateway, transitionFuncs ...MatchableTcpGatewayTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a MatchableTcpGateway object.
+type MatchableTcpGatewayStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given MatchableTcpGateway object.
+	UpdateMatchableTcpGatewayStatus(ctx context.Context, obj *MatchableTcpGateway, opts ...client.UpdateOption) error
+
+	// Patch patches the given MatchableTcpGateway object's subresource.
+	PatchMatchableTcpGatewayStatus(ctx context.Context, obj *MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error
+}
+
+// Client knows how to perform CRUD operations on MatchableTcpGateways.
+type MatchableTcpGatewayClient interface {
+	MatchableTcpGatewayReader
+	MatchableTcpGatewayWriter
+	MatchableTcpGatewayStatusWriter
+}
+
+type matchableTcpGatewayClient struct {
+	client client.Client
+}
+
+func NewMatchableTcpGatewayClient(client client.Client) *matchableTcpGatewayClient {
+	return &matchableTcpGatewayClient{client: client}
+}
+
+func (c *matchableTcpGatewayClient) GetMatchableTcpGateway(ctx context.Context, key client.ObjectKey) (*MatchableTcpGateway, error) {
+	obj := &MatchableTcpGateway{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *matchableTcpGatewayClient) ListMatchableTcpGateway(ctx context.Context, opts ...client.ListOption) (*MatchableTcpGatewayList, error) {
+	list := &MatchableTcpGatewayList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *matchableTcpGatewayClient) CreateMatchableTcpGateway(ctx context.Context, obj *MatchableTcpGateway, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *matchableTcpGatewayClient) DeleteMatchableTcpGateway(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &MatchableTcpGateway{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *matchableTcpGatewayClient) UpdateMatchableTcpGateway(ctx context.Context, obj *MatchableTcpGateway, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *matchableTcpGatewayClient) PatchMatchableTcpGateway(ctx context.Context, obj *MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *matchableTcpGatewayClient) DeleteAllOfMatchableTcpGateway(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &MatchableTcpGateway{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *matchableTcpGatewayClient) UpsertMatchableTcpGateway(ctx context.Context, obj *MatchableTcpGateway, transitionFuncs ...MatchableTcpGatewayTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*MatchableTcpGateway), desired.(*MatchableTcpGateway)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *matchableTcpGatewayClient) UpdateMatchableTcpGatewayStatus(ctx context.Context, obj *MatchableTcpGateway, opts ...client.UpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *matchableTcpGatewayClient) PatchMatchableTcpGatewayStatus(ctx context.Context, obj *MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides MatchableTcpGatewayClients for multiple clusters.
+type MulticlusterMatchableTcpGatewayClient interface {
+	// Cluster returns a MatchableTcpGatewayClient for the given cluster
+	Cluster(cluster string) (MatchableTcpGatewayClient, error)
+}
+
+type multiclusterMatchableTcpGatewayClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterMatchableTcpGatewayClient(client multicluster.Client) MulticlusterMatchableTcpGatewayClient {
+	return &multiclusterMatchableTcpGatewayClient{client: client}
+}
+
+func (m *multiclusterMatchableTcpGatewayClient) Cluster(cluster string) (MatchableTcpGatewayClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewMatchableTcpGatewayClient(client), nil
 }
 
 // Reader knows how to read and list RouteTables.

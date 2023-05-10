@@ -160,6 +160,77 @@ func (g genericMatchableHttpGatewayMulticlusterReconciler) Reconcile(cluster str
 	return g.reconciler.ReconcileMatchableHttpGateway(cluster, obj)
 }
 
+// Reconcile Upsert events for the MatchableTcpGateway Resource across clusters.
+// implemented by the user
+type MulticlusterMatchableTcpGatewayReconciler interface {
+	ReconcileMatchableTcpGateway(clusterName string, obj *gateway_solo_io_v1.MatchableTcpGateway) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the MatchableTcpGateway Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterMatchableTcpGatewayDeletionReconciler interface {
+	ReconcileMatchableTcpGatewayDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterMatchableTcpGatewayReconcilerFuncs struct {
+	OnReconcileMatchableTcpGateway         func(clusterName string, obj *gateway_solo_io_v1.MatchableTcpGateway) (reconcile.Result, error)
+	OnReconcileMatchableTcpGatewayDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterMatchableTcpGatewayReconcilerFuncs) ReconcileMatchableTcpGateway(clusterName string, obj *gateway_solo_io_v1.MatchableTcpGateway) (reconcile.Result, error) {
+	if f.OnReconcileMatchableTcpGateway == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileMatchableTcpGateway(clusterName, obj)
+}
+
+func (f *MulticlusterMatchableTcpGatewayReconcilerFuncs) ReconcileMatchableTcpGatewayDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileMatchableTcpGatewayDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileMatchableTcpGatewayDeletion(clusterName, req)
+}
+
+type MulticlusterMatchableTcpGatewayReconcileLoop interface {
+	// AddMulticlusterMatchableTcpGatewayReconciler adds a MulticlusterMatchableTcpGatewayReconciler to the MulticlusterMatchableTcpGatewayReconcileLoop.
+	AddMulticlusterMatchableTcpGatewayReconciler(ctx context.Context, rec MulticlusterMatchableTcpGatewayReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterMatchableTcpGatewayReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterMatchableTcpGatewayReconcileLoop) AddMulticlusterMatchableTcpGatewayReconciler(ctx context.Context, rec MulticlusterMatchableTcpGatewayReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericMatchableTcpGatewayMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterMatchableTcpGatewayReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterMatchableTcpGatewayReconcileLoop {
+	return &multiclusterMatchableTcpGatewayReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &gateway_solo_io_v1.MatchableTcpGateway{}, options)}
+}
+
+type genericMatchableTcpGatewayMulticlusterReconciler struct {
+	reconciler MulticlusterMatchableTcpGatewayReconciler
+}
+
+func (g genericMatchableTcpGatewayMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterMatchableTcpGatewayDeletionReconciler); ok {
+		return deletionReconciler.ReconcileMatchableTcpGatewayDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericMatchableTcpGatewayMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableTcpGateway)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: MatchableTcpGateway handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileMatchableTcpGateway(cluster, obj)
+}
+
 // Reconcile Upsert events for the RouteTable Resource across clusters.
 // implemented by the user
 type MulticlusterRouteTableReconciler interface {
