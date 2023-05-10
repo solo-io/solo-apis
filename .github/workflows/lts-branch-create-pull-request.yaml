@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Cancel Previous Actions
-        uses: styfle/cancel-workflow-action@0.4.1
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
       - name: Checkout Branch
@@ -31,8 +31,8 @@ jobs:
           DESTINATION_BRANCH=$(echo $GITHUB_BRANCH_NAME | cut -f $DEST_BRANCH_FIELD_NUMBER -d $DELIMITER )
           TAG_NAME=$(echo $GITHUB_BRANCH_NAME | cut -f $TAG_NAME_FIELD_NUMBER -d $DELIMITER )
 
-          echo "::set-output name=destination_branch::$(echo $DESTINATION_BRANCH )"
-          echo "::set-output name=tag_name::$(echo $TAG_NAME )"
+          echo "destination_branch=$DESTINATION_BRANCH" >> $GITHUB_OUTPUT
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
       - name: Setup Git
         env:
           GIT_USER_NAME: soloio-bot
