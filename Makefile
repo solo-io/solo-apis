@@ -10,7 +10,7 @@ generate-code:
 	PATH=$(DEPSGOBIN):$$PATH ./hack/post-generate.sh
 
 .PHONY: generate-mocks
-generate-mocks:
+generate-mocks: tidy
 	PATH=$(DEPSGOBIN):$$PATH go generate ./...
 
 .PHONY: tidy
