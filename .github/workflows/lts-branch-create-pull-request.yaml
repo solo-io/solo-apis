@@ -13,7 +13,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: Checkout Branch
-        uses: actions/checkout@v2.4.1
+        uses: actions/checkout@v3
       - name: Parse GitHub Ref
         id: parse_github_ref
         env:
