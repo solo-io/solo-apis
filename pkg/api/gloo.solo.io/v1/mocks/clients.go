@@ -349,7 +349,7 @@ func (m *MockSettingsStatusWriter) EXPECT() *MockSettingsStatusWriterMockRecorde
 }
 
 // PatchSettingsStatus mocks base method.
-func (m *MockSettingsStatusWriter) PatchSettingsStatus(ctx context.Context, obj *v1.Settings, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockSettingsStatusWriter) PatchSettingsStatus(ctx context.Context, obj *v1.Settings, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -368,7 +368,7 @@ func (mr *MockSettingsStatusWriterMockRecorder) PatchSettingsStatus(ctx, obj, pa
 }
 
 // UpdateSettingsStatus mocks base method.
-func (m *MockSettingsStatusWriter) UpdateSettingsStatus(ctx context.Context, obj *v1.Settings, opts ...client.UpdateOption) error {
+func (m *MockSettingsStatusWriter) UpdateSettingsStatus(ctx context.Context, obj *v1.Settings, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -521,7 +521,7 @@ func (mr *MockSettingsClientMockRecorder) PatchSettings(ctx, obj, patch interfac
 }
 
 // PatchSettingsStatus mocks base method.
-func (m *MockSettingsClient) PatchSettingsStatus(ctx context.Context, obj *v1.Settings, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockSettingsClient) PatchSettingsStatus(ctx context.Context, obj *v1.Settings, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -559,7 +559,7 @@ func (mr *MockSettingsClientMockRecorder) UpdateSettings(ctx, obj interface{}, o
 }
 
 // UpdateSettingsStatus mocks base method.
-func (m *MockSettingsClient) UpdateSettingsStatus(ctx context.Context, obj *v1.Settings, opts ...client.UpdateOption) error {
+func (m *MockSettingsClient) UpdateSettingsStatus(ctx context.Context, obj *v1.Settings, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -853,7 +853,7 @@ func (m *MockUpstreamStatusWriter) EXPECT() *MockUpstreamStatusWriterMockRecorde
 }
 
 // PatchUpstreamStatus mocks base method.
-func (m *MockUpstreamStatusWriter) PatchUpstreamStatus(ctx context.Context, obj *v1.Upstream, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockUpstreamStatusWriter) PatchUpstreamStatus(ctx context.Context, obj *v1.Upstream, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -872,7 +872,7 @@ func (mr *MockUpstreamStatusWriterMockRecorder) PatchUpstreamStatus(ctx, obj, pa
 }
 
 // UpdateUpstreamStatus mocks base method.
-func (m *MockUpstreamStatusWriter) UpdateUpstreamStatus(ctx context.Context, obj *v1.Upstream, opts ...client.UpdateOption) error {
+func (m *MockUpstreamStatusWriter) UpdateUpstreamStatus(ctx context.Context, obj *v1.Upstream, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1025,7 +1025,7 @@ func (mr *MockUpstreamClientMockRecorder) PatchUpstream(ctx, obj, patch interfac
 }
 
 // PatchUpstreamStatus mocks base method.
-func (m *MockUpstreamClient) PatchUpstreamStatus(ctx context.Context, obj *v1.Upstream, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockUpstreamClient) PatchUpstreamStatus(ctx context.Context, obj *v1.Upstream, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1063,7 +1063,7 @@ func (mr *MockUpstreamClientMockRecorder) UpdateUpstream(ctx, obj interface{}, o
 }
 
 // UpdateUpstreamStatus mocks base method.
-func (m *MockUpstreamClient) UpdateUpstreamStatus(ctx context.Context, obj *v1.Upstream, opts ...client.UpdateOption) error {
+func (m *MockUpstreamClient) UpdateUpstreamStatus(ctx context.Context, obj *v1.Upstream, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1357,7 +1357,7 @@ func (m *MockUpstreamGroupStatusWriter) EXPECT() *MockUpstreamGroupStatusWriterM
 }
 
 // PatchUpstreamGroupStatus mocks base method.
-func (m *MockUpstreamGroupStatusWriter) PatchUpstreamGroupStatus(ctx context.Context, obj *v1.UpstreamGroup, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockUpstreamGroupStatusWriter) PatchUpstreamGroupStatus(ctx context.Context, obj *v1.UpstreamGroup, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1376,7 +1376,7 @@ func (mr *MockUpstreamGroupStatusWriterMockRecorder) PatchUpstreamGroupStatus(ct
 }
 
 // UpdateUpstreamGroupStatus mocks base method.
-func (m *MockUpstreamGroupStatusWriter) UpdateUpstreamGroupStatus(ctx context.Context, obj *v1.UpstreamGroup, opts ...client.UpdateOption) error {
+func (m *MockUpstreamGroupStatusWriter) UpdateUpstreamGroupStatus(ctx context.Context, obj *v1.UpstreamGroup, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1529,7 +1529,7 @@ func (mr *MockUpstreamGroupClientMockRecorder) PatchUpstreamGroup(ctx, obj, patc
 }
 
 // PatchUpstreamGroupStatus mocks base method.
-func (m *MockUpstreamGroupClient) PatchUpstreamGroupStatus(ctx context.Context, obj *v1.UpstreamGroup, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockUpstreamGroupClient) PatchUpstreamGroupStatus(ctx context.Context, obj *v1.UpstreamGroup, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1567,7 +1567,7 @@ func (mr *MockUpstreamGroupClientMockRecorder) UpdateUpstreamGroup(ctx, obj inte
 }
 
 // UpdateUpstreamGroupStatus mocks base method.
-func (m *MockUpstreamGroupClient) UpdateUpstreamGroupStatus(ctx context.Context, obj *v1.UpstreamGroup, opts ...client.UpdateOption) error {
+func (m *MockUpstreamGroupClient) UpdateUpstreamGroupStatus(ctx context.Context, obj *v1.UpstreamGroup, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1861,7 +1861,7 @@ func (m *MockProxyStatusWriter) EXPECT() *MockProxyStatusWriterMockRecorder {
 }
 
 // PatchProxyStatus mocks base method.
-func (m *MockProxyStatusWriter) PatchProxyStatus(ctx context.Context, obj *v1.Proxy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockProxyStatusWriter) PatchProxyStatus(ctx context.Context, obj *v1.Proxy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1880,7 +1880,7 @@ func (mr *MockProxyStatusWriterMockRecorder) PatchProxyStatus(ctx, obj, patch in
 }
 
 // UpdateProxyStatus mocks base method.
-func (m *MockProxyStatusWriter) UpdateProxyStatus(ctx context.Context, obj *v1.Proxy, opts ...client.UpdateOption) error {
+func (m *MockProxyStatusWriter) UpdateProxyStatus(ctx context.Context, obj *v1.Proxy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2033,7 +2033,7 @@ func (mr *MockProxyClientMockRecorder) PatchProxy(ctx, obj, patch interface{}, o
 }
 
 // PatchProxyStatus mocks base method.
-func (m *MockProxyClient) PatchProxyStatus(ctx context.Context, obj *v1.Proxy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockProxyClient) PatchProxyStatus(ctx context.Context, obj *v1.Proxy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2071,7 +2071,7 @@ func (mr *MockProxyClientMockRecorder) UpdateProxy(ctx, obj interface{}, opts ..
 }
 
 // UpdateProxyStatus mocks base method.
-func (m *MockProxyClient) UpdateProxyStatus(ctx context.Context, obj *v1.Proxy, opts ...client.UpdateOption) error {
+func (m *MockProxyClient) UpdateProxyStatus(ctx context.Context, obj *v1.Proxy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

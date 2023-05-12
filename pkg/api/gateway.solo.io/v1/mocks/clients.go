@@ -377,7 +377,7 @@ func (m *MockGatewayStatusWriter) EXPECT() *MockGatewayStatusWriterMockRecorder 
 }
 
 // PatchGatewayStatus mocks base method.
-func (m *MockGatewayStatusWriter) PatchGatewayStatus(ctx context.Context, obj *v1.Gateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGatewayStatusWriter) PatchGatewayStatus(ctx context.Context, obj *v1.Gateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -396,7 +396,7 @@ func (mr *MockGatewayStatusWriterMockRecorder) PatchGatewayStatus(ctx, obj, patc
 }
 
 // UpdateGatewayStatus mocks base method.
-func (m *MockGatewayStatusWriter) UpdateGatewayStatus(ctx context.Context, obj *v1.Gateway, opts ...client.UpdateOption) error {
+func (m *MockGatewayStatusWriter) UpdateGatewayStatus(ctx context.Context, obj *v1.Gateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -549,7 +549,7 @@ func (mr *MockGatewayClientMockRecorder) PatchGateway(ctx, obj, patch interface{
 }
 
 // PatchGatewayStatus mocks base method.
-func (m *MockGatewayClient) PatchGatewayStatus(ctx context.Context, obj *v1.Gateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGatewayClient) PatchGatewayStatus(ctx context.Context, obj *v1.Gateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -587,7 +587,7 @@ func (mr *MockGatewayClientMockRecorder) UpdateGateway(ctx, obj interface{}, opt
 }
 
 // UpdateGatewayStatus mocks base method.
-func (m *MockGatewayClient) UpdateGatewayStatus(ctx context.Context, obj *v1.Gateway, opts ...client.UpdateOption) error {
+func (m *MockGatewayClient) UpdateGatewayStatus(ctx context.Context, obj *v1.Gateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -881,7 +881,7 @@ func (m *MockMatchableHttpGatewayStatusWriter) EXPECT() *MockMatchableHttpGatewa
 }
 
 // PatchMatchableHttpGatewayStatus mocks base method.
-func (m *MockMatchableHttpGatewayStatusWriter) PatchMatchableHttpGatewayStatus(ctx context.Context, obj *v1.MatchableHttpGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockMatchableHttpGatewayStatusWriter) PatchMatchableHttpGatewayStatus(ctx context.Context, obj *v1.MatchableHttpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -900,7 +900,7 @@ func (mr *MockMatchableHttpGatewayStatusWriterMockRecorder) PatchMatchableHttpGa
 }
 
 // UpdateMatchableHttpGatewayStatus mocks base method.
-func (m *MockMatchableHttpGatewayStatusWriter) UpdateMatchableHttpGatewayStatus(ctx context.Context, obj *v1.MatchableHttpGateway, opts ...client.UpdateOption) error {
+func (m *MockMatchableHttpGatewayStatusWriter) UpdateMatchableHttpGatewayStatus(ctx context.Context, obj *v1.MatchableHttpGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1053,7 +1053,7 @@ func (mr *MockMatchableHttpGatewayClientMockRecorder) PatchMatchableHttpGateway(
 }
 
 // PatchMatchableHttpGatewayStatus mocks base method.
-func (m *MockMatchableHttpGatewayClient) PatchMatchableHttpGatewayStatus(ctx context.Context, obj *v1.MatchableHttpGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockMatchableHttpGatewayClient) PatchMatchableHttpGatewayStatus(ctx context.Context, obj *v1.MatchableHttpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1091,7 +1091,7 @@ func (mr *MockMatchableHttpGatewayClientMockRecorder) UpdateMatchableHttpGateway
 }
 
 // UpdateMatchableHttpGatewayStatus mocks base method.
-func (m *MockMatchableHttpGatewayClient) UpdateMatchableHttpGatewayStatus(ctx context.Context, obj *v1.MatchableHttpGateway, opts ...client.UpdateOption) error {
+func (m *MockMatchableHttpGatewayClient) UpdateMatchableHttpGatewayStatus(ctx context.Context, obj *v1.MatchableHttpGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1385,7 +1385,7 @@ func (m *MockRouteTableStatusWriter) EXPECT() *MockRouteTableStatusWriterMockRec
 }
 
 // PatchRouteTableStatus mocks base method.
-func (m *MockRouteTableStatusWriter) PatchRouteTableStatus(ctx context.Context, obj *v1.RouteTable, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRouteTableStatusWriter) PatchRouteTableStatus(ctx context.Context, obj *v1.RouteTable, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1404,7 +1404,7 @@ func (mr *MockRouteTableStatusWriterMockRecorder) PatchRouteTableStatus(ctx, obj
 }
 
 // UpdateRouteTableStatus mocks base method.
-func (m *MockRouteTableStatusWriter) UpdateRouteTableStatus(ctx context.Context, obj *v1.RouteTable, opts ...client.UpdateOption) error {
+func (m *MockRouteTableStatusWriter) UpdateRouteTableStatus(ctx context.Context, obj *v1.RouteTable, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1557,7 +1557,7 @@ func (mr *MockRouteTableClientMockRecorder) PatchRouteTable(ctx, obj, patch inte
 }
 
 // PatchRouteTableStatus mocks base method.
-func (m *MockRouteTableClient) PatchRouteTableStatus(ctx context.Context, obj *v1.RouteTable, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRouteTableClient) PatchRouteTableStatus(ctx context.Context, obj *v1.RouteTable, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1595,7 +1595,7 @@ func (mr *MockRouteTableClientMockRecorder) UpdateRouteTable(ctx, obj interface{
 }
 
 // UpdateRouteTableStatus mocks base method.
-func (m *MockRouteTableClient) UpdateRouteTableStatus(ctx context.Context, obj *v1.RouteTable, opts ...client.UpdateOption) error {
+func (m *MockRouteTableClient) UpdateRouteTableStatus(ctx context.Context, obj *v1.RouteTable, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1889,7 +1889,7 @@ func (m *MockVirtualServiceStatusWriter) EXPECT() *MockVirtualServiceStatusWrite
 }
 
 // PatchVirtualServiceStatus mocks base method.
-func (m *MockVirtualServiceStatusWriter) PatchVirtualServiceStatus(ctx context.Context, obj *v1.VirtualService, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockVirtualServiceStatusWriter) PatchVirtualServiceStatus(ctx context.Context, obj *v1.VirtualService, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1908,7 +1908,7 @@ func (mr *MockVirtualServiceStatusWriterMockRecorder) PatchVirtualServiceStatus(
 }
 
 // UpdateVirtualServiceStatus mocks base method.
-func (m *MockVirtualServiceStatusWriter) UpdateVirtualServiceStatus(ctx context.Context, obj *v1.VirtualService, opts ...client.UpdateOption) error {
+func (m *MockVirtualServiceStatusWriter) UpdateVirtualServiceStatus(ctx context.Context, obj *v1.VirtualService, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2061,7 +2061,7 @@ func (mr *MockVirtualServiceClientMockRecorder) PatchVirtualService(ctx, obj, pa
 }
 
 // PatchVirtualServiceStatus mocks base method.
-func (m *MockVirtualServiceClient) PatchVirtualServiceStatus(ctx context.Context, obj *v1.VirtualService, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockVirtualServiceClient) PatchVirtualServiceStatus(ctx context.Context, obj *v1.VirtualService, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2099,7 +2099,7 @@ func (mr *MockVirtualServiceClientMockRecorder) UpdateVirtualService(ctx, obj in
 }
 
 // UpdateVirtualServiceStatus mocks base method.
-func (m *MockVirtualServiceClient) UpdateVirtualServiceStatus(ctx context.Context, obj *v1.VirtualService, opts ...client.UpdateOption) error {
+func (m *MockVirtualServiceClient) UpdateVirtualServiceStatus(ctx context.Context, obj *v1.VirtualService, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2393,7 +2393,7 @@ func (m *MockVirtualHostOptionStatusWriter) EXPECT() *MockVirtualHostOptionStatu
 }
 
 // PatchVirtualHostOptionStatus mocks base method.
-func (m *MockVirtualHostOptionStatusWriter) PatchVirtualHostOptionStatus(ctx context.Context, obj *v1.VirtualHostOption, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockVirtualHostOptionStatusWriter) PatchVirtualHostOptionStatus(ctx context.Context, obj *v1.VirtualHostOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2412,7 +2412,7 @@ func (mr *MockVirtualHostOptionStatusWriterMockRecorder) PatchVirtualHostOptionS
 }
 
 // UpdateVirtualHostOptionStatus mocks base method.
-func (m *MockVirtualHostOptionStatusWriter) UpdateVirtualHostOptionStatus(ctx context.Context, obj *v1.VirtualHostOption, opts ...client.UpdateOption) error {
+func (m *MockVirtualHostOptionStatusWriter) UpdateVirtualHostOptionStatus(ctx context.Context, obj *v1.VirtualHostOption, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2565,7 +2565,7 @@ func (mr *MockVirtualHostOptionClientMockRecorder) PatchVirtualHostOption(ctx, o
 }
 
 // PatchVirtualHostOptionStatus mocks base method.
-func (m *MockVirtualHostOptionClient) PatchVirtualHostOptionStatus(ctx context.Context, obj *v1.VirtualHostOption, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockVirtualHostOptionClient) PatchVirtualHostOptionStatus(ctx context.Context, obj *v1.VirtualHostOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2603,7 +2603,7 @@ func (mr *MockVirtualHostOptionClientMockRecorder) UpdateVirtualHostOption(ctx, 
 }
 
 // UpdateVirtualHostOptionStatus mocks base method.
-func (m *MockVirtualHostOptionClient) UpdateVirtualHostOptionStatus(ctx context.Context, obj *v1.VirtualHostOption, opts ...client.UpdateOption) error {
+func (m *MockVirtualHostOptionClient) UpdateVirtualHostOptionStatus(ctx context.Context, obj *v1.VirtualHostOption, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2897,7 +2897,7 @@ func (m *MockRouteOptionStatusWriter) EXPECT() *MockRouteOptionStatusWriterMockR
 }
 
 // PatchRouteOptionStatus mocks base method.
-func (m *MockRouteOptionStatusWriter) PatchRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRouteOptionStatusWriter) PatchRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2916,7 +2916,7 @@ func (mr *MockRouteOptionStatusWriterMockRecorder) PatchRouteOptionStatus(ctx, o
 }
 
 // UpdateRouteOptionStatus mocks base method.
-func (m *MockRouteOptionStatusWriter) UpdateRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, opts ...client.UpdateOption) error {
+func (m *MockRouteOptionStatusWriter) UpdateRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -3069,7 +3069,7 @@ func (mr *MockRouteOptionClientMockRecorder) PatchRouteOption(ctx, obj, patch in
 }
 
 // PatchRouteOptionStatus mocks base method.
-func (m *MockRouteOptionClient) PatchRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRouteOptionClient) PatchRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -3107,7 +3107,7 @@ func (mr *MockRouteOptionClientMockRecorder) UpdateRouteOption(ctx, obj interfac
 }
 
 // UpdateRouteOptionStatus mocks base method.
-func (m *MockRouteOptionClient) UpdateRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, opts ...client.UpdateOption) error {
+func (m *MockRouteOptionClient) UpdateRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
