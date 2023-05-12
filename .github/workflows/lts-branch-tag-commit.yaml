@@ -2,8 +2,8 @@ name: Tag Commit on LTS Branch
 on:
   push:
     branches:
-      - master
-      - 'gloo-master'
+      - main
+      - 'gloo-main'
       - 'gloo-v**.**.x'
 jobs:
   tag-version:
