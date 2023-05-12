@@ -21,7 +21,7 @@ As noted above, the automated process is typically triggered by a Gloo Edge rele
 
 In the [Gloo workflow to push API changes to solo-apis](https://github.com/solo-io/gloo/actions/workflows/push-solo-apis-branch.yaml) there is an option to `Run Workflow`.
 
-1. Keep the branch set to master
+1. Keep the branch set to main
 1. Set `Release Tag Name` to the Gloo release tag (ie `v1.8.4`)
 1. Set `Release Branch` to the Gloo branch used for that release (ie `v1.8.x`)
 1. Select `Run Workflow`. When the workflow completes, a PR should be opened in solo-apis. This PR will need to be approved by a developer, but once it merges will be tagged automatically.
