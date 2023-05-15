@@ -22,10 +22,3 @@ The second step is more challenging since after the PR merges, the GitHub event 
 
 
 *Note: This workflow opens a PR, but expects manual intervention by an engineer to approve the PR*
-
-## Tag Commit on LTS Branch
-
-After PRs are merged into LTS branches, we:
-1. Extract the latest commit message (which the above workflow provided)
-1. Determine the tag name from the commit message
-1. Push a tag name for that commit
