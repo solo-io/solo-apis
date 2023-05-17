@@ -17,6 +17,7 @@ replace (
 )
 
 require (
+	github.com/cncf/xds/go v0.0.0-20211011173535-cb28da3451f1
 	github.com/envoyproxy/protoc-gen-validate v0.6.1
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/mock v1.6.0
