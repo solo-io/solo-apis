@@ -129,10 +129,10 @@ type SettingsWriter interface {
 type SettingsStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given Settings object.
-	UpdateSettingsStatus(ctx context.Context, obj *Settings, opts ...client.UpdateOption) error
+	UpdateSettingsStatus(ctx context.Context, obj *Settings, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given Settings object's subresource.
-	PatchSettingsStatus(ctx context.Context, obj *Settings, patch client.Patch, opts ...client.PatchOption) error
+	PatchSettingsStatus(ctx context.Context, obj *Settings, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on Settingss.
@@ -203,11 +203,11 @@ func (c *settingsClient) UpsertSettings(ctx context.Context, obj *Settings, tran
 	return err
 }
 
-func (c *settingsClient) UpdateSettingsStatus(ctx context.Context, obj *Settings, opts ...client.UpdateOption) error {
+func (c *settingsClient) UpdateSettingsStatus(ctx context.Context, obj *Settings, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *settingsClient) PatchSettingsStatus(ctx context.Context, obj *Settings, patch client.Patch, opts ...client.PatchOption) error {
+func (c *settingsClient) PatchSettingsStatus(ctx context.Context, obj *Settings, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -271,10 +271,10 @@ type UpstreamWriter interface {
 type UpstreamStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given Upstream object.
-	UpdateUpstreamStatus(ctx context.Context, obj *Upstream, opts ...client.UpdateOption) error
+	UpdateUpstreamStatus(ctx context.Context, obj *Upstream, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given Upstream object's subresource.
-	PatchUpstreamStatus(ctx context.Context, obj *Upstream, patch client.Patch, opts ...client.PatchOption) error
+	PatchUpstreamStatus(ctx context.Context, obj *Upstream, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on Upstreams.
@@ -345,11 +345,11 @@ func (c *upstreamClient) UpsertUpstream(ctx context.Context, obj *Upstream, tran
 	return err
 }
 
-func (c *upstreamClient) UpdateUpstreamStatus(ctx context.Context, obj *Upstream, opts ...client.UpdateOption) error {
+func (c *upstreamClient) UpdateUpstreamStatus(ctx context.Context, obj *Upstream, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *upstreamClient) PatchUpstreamStatus(ctx context.Context, obj *Upstream, patch client.Patch, opts ...client.PatchOption) error {
+func (c *upstreamClient) PatchUpstreamStatus(ctx context.Context, obj *Upstream, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -413,10 +413,10 @@ type UpstreamGroupWriter interface {
 type UpstreamGroupStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given UpstreamGroup object.
-	UpdateUpstreamGroupStatus(ctx context.Context, obj *UpstreamGroup, opts ...client.UpdateOption) error
+	UpdateUpstreamGroupStatus(ctx context.Context, obj *UpstreamGroup, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given UpstreamGroup object's subresource.
-	PatchUpstreamGroupStatus(ctx context.Context, obj *UpstreamGroup, patch client.Patch, opts ...client.PatchOption) error
+	PatchUpstreamGroupStatus(ctx context.Context, obj *UpstreamGroup, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on UpstreamGroups.
@@ -487,11 +487,11 @@ func (c *upstreamGroupClient) UpsertUpstreamGroup(ctx context.Context, obj *Upst
 	return err
 }
 
-func (c *upstreamGroupClient) UpdateUpstreamGroupStatus(ctx context.Context, obj *UpstreamGroup, opts ...client.UpdateOption) error {
+func (c *upstreamGroupClient) UpdateUpstreamGroupStatus(ctx context.Context, obj *UpstreamGroup, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *upstreamGroupClient) PatchUpstreamGroupStatus(ctx context.Context, obj *UpstreamGroup, patch client.Patch, opts ...client.PatchOption) error {
+func (c *upstreamGroupClient) PatchUpstreamGroupStatus(ctx context.Context, obj *UpstreamGroup, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -555,10 +555,10 @@ type ProxyWriter interface {
 type ProxyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given Proxy object.
-	UpdateProxyStatus(ctx context.Context, obj *Proxy, opts ...client.UpdateOption) error
+	UpdateProxyStatus(ctx context.Context, obj *Proxy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given Proxy object's subresource.
-	PatchProxyStatus(ctx context.Context, obj *Proxy, patch client.Patch, opts ...client.PatchOption) error
+	PatchProxyStatus(ctx context.Context, obj *Proxy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on Proxys.
@@ -629,11 +629,11 @@ func (c *proxyClient) UpsertProxy(ctx context.Context, obj *Proxy, transitionFun
 	return err
 }
 
-func (c *proxyClient) UpdateProxyStatus(ctx context.Context, obj *Proxy, opts ...client.UpdateOption) error {
+func (c *proxyClient) UpdateProxyStatus(ctx context.Context, obj *Proxy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *proxyClient) PatchProxyStatus(ctx context.Context, obj *Proxy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *proxyClient) PatchProxyStatus(ctx context.Context, obj *Proxy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

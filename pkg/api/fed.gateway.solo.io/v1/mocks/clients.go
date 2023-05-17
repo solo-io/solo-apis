@@ -363,7 +363,7 @@ func (m *MockFederatedGatewayStatusWriter) EXPECT() *MockFederatedGatewayStatusW
 }
 
 // PatchFederatedGatewayStatus mocks base method.
-func (m *MockFederatedGatewayStatusWriter) PatchFederatedGatewayStatus(ctx context.Context, obj *v1.FederatedGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedGatewayStatusWriter) PatchFederatedGatewayStatus(ctx context.Context, obj *v1.FederatedGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -382,7 +382,7 @@ func (mr *MockFederatedGatewayStatusWriterMockRecorder) PatchFederatedGatewaySta
 }
 
 // UpdateFederatedGatewayStatus mocks base method.
-func (m *MockFederatedGatewayStatusWriter) UpdateFederatedGatewayStatus(ctx context.Context, obj *v1.FederatedGateway, opts ...client.UpdateOption) error {
+func (m *MockFederatedGatewayStatusWriter) UpdateFederatedGatewayStatus(ctx context.Context, obj *v1.FederatedGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -535,7 +535,7 @@ func (mr *MockFederatedGatewayClientMockRecorder) PatchFederatedGateway(ctx, obj
 }
 
 // PatchFederatedGatewayStatus mocks base method.
-func (m *MockFederatedGatewayClient) PatchFederatedGatewayStatus(ctx context.Context, obj *v1.FederatedGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedGatewayClient) PatchFederatedGatewayStatus(ctx context.Context, obj *v1.FederatedGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -573,7 +573,7 @@ func (mr *MockFederatedGatewayClientMockRecorder) UpdateFederatedGateway(ctx, ob
 }
 
 // UpdateFederatedGatewayStatus mocks base method.
-func (m *MockFederatedGatewayClient) UpdateFederatedGatewayStatus(ctx context.Context, obj *v1.FederatedGateway, opts ...client.UpdateOption) error {
+func (m *MockFederatedGatewayClient) UpdateFederatedGatewayStatus(ctx context.Context, obj *v1.FederatedGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -867,7 +867,7 @@ func (m *MockFederatedMatchableHttpGatewayStatusWriter) EXPECT() *MockFederatedM
 }
 
 // PatchFederatedMatchableHttpGatewayStatus mocks base method.
-func (m *MockFederatedMatchableHttpGatewayStatusWriter) PatchFederatedMatchableHttpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableHttpGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedMatchableHttpGatewayStatusWriter) PatchFederatedMatchableHttpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableHttpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -886,7 +886,7 @@ func (mr *MockFederatedMatchableHttpGatewayStatusWriterMockRecorder) PatchFedera
 }
 
 // UpdateFederatedMatchableHttpGatewayStatus mocks base method.
-func (m *MockFederatedMatchableHttpGatewayStatusWriter) UpdateFederatedMatchableHttpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableHttpGateway, opts ...client.UpdateOption) error {
+func (m *MockFederatedMatchableHttpGatewayStatusWriter) UpdateFederatedMatchableHttpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableHttpGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1039,7 +1039,7 @@ func (mr *MockFederatedMatchableHttpGatewayClientMockRecorder) PatchFederatedMat
 }
 
 // PatchFederatedMatchableHttpGatewayStatus mocks base method.
-func (m *MockFederatedMatchableHttpGatewayClient) PatchFederatedMatchableHttpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableHttpGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedMatchableHttpGatewayClient) PatchFederatedMatchableHttpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableHttpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1077,7 +1077,7 @@ func (mr *MockFederatedMatchableHttpGatewayClientMockRecorder) UpdateFederatedMa
 }
 
 // UpdateFederatedMatchableHttpGatewayStatus mocks base method.
-func (m *MockFederatedMatchableHttpGatewayClient) UpdateFederatedMatchableHttpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableHttpGateway, opts ...client.UpdateOption) error {
+func (m *MockFederatedMatchableHttpGatewayClient) UpdateFederatedMatchableHttpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableHttpGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1875,7 +1875,7 @@ func (m *MockFederatedRouteTableStatusWriter) EXPECT() *MockFederatedRouteTableS
 }
 
 // PatchFederatedRouteTableStatus mocks base method.
-func (m *MockFederatedRouteTableStatusWriter) PatchFederatedRouteTableStatus(ctx context.Context, obj *v1.FederatedRouteTable, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedRouteTableStatusWriter) PatchFederatedRouteTableStatus(ctx context.Context, obj *v1.FederatedRouteTable, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1894,7 +1894,7 @@ func (mr *MockFederatedRouteTableStatusWriterMockRecorder) PatchFederatedRouteTa
 }
 
 // UpdateFederatedRouteTableStatus mocks base method.
-func (m *MockFederatedRouteTableStatusWriter) UpdateFederatedRouteTableStatus(ctx context.Context, obj *v1.FederatedRouteTable, opts ...client.UpdateOption) error {
+func (m *MockFederatedRouteTableStatusWriter) UpdateFederatedRouteTableStatus(ctx context.Context, obj *v1.FederatedRouteTable, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2047,7 +2047,7 @@ func (mr *MockFederatedRouteTableClientMockRecorder) PatchFederatedRouteTable(ct
 }
 
 // PatchFederatedRouteTableStatus mocks base method.
-func (m *MockFederatedRouteTableClient) PatchFederatedRouteTableStatus(ctx context.Context, obj *v1.FederatedRouteTable, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedRouteTableClient) PatchFederatedRouteTableStatus(ctx context.Context, obj *v1.FederatedRouteTable, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2085,7 +2085,7 @@ func (mr *MockFederatedRouteTableClientMockRecorder) UpdateFederatedRouteTable(c
 }
 
 // UpdateFederatedRouteTableStatus mocks base method.
-func (m *MockFederatedRouteTableClient) UpdateFederatedRouteTableStatus(ctx context.Context, obj *v1.FederatedRouteTable, opts ...client.UpdateOption) error {
+func (m *MockFederatedRouteTableClient) UpdateFederatedRouteTableStatus(ctx context.Context, obj *v1.FederatedRouteTable, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2379,7 +2379,7 @@ func (m *MockFederatedVirtualServiceStatusWriter) EXPECT() *MockFederatedVirtual
 }
 
 // PatchFederatedVirtualServiceStatus mocks base method.
-func (m *MockFederatedVirtualServiceStatusWriter) PatchFederatedVirtualServiceStatus(ctx context.Context, obj *v1.FederatedVirtualService, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedVirtualServiceStatusWriter) PatchFederatedVirtualServiceStatus(ctx context.Context, obj *v1.FederatedVirtualService, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2398,7 +2398,7 @@ func (mr *MockFederatedVirtualServiceStatusWriterMockRecorder) PatchFederatedVir
 }
 
 // UpdateFederatedVirtualServiceStatus mocks base method.
-func (m *MockFederatedVirtualServiceStatusWriter) UpdateFederatedVirtualServiceStatus(ctx context.Context, obj *v1.FederatedVirtualService, opts ...client.UpdateOption) error {
+func (m *MockFederatedVirtualServiceStatusWriter) UpdateFederatedVirtualServiceStatus(ctx context.Context, obj *v1.FederatedVirtualService, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2551,7 +2551,7 @@ func (mr *MockFederatedVirtualServiceClientMockRecorder) PatchFederatedVirtualSe
 }
 
 // PatchFederatedVirtualServiceStatus mocks base method.
-func (m *MockFederatedVirtualServiceClient) PatchFederatedVirtualServiceStatus(ctx context.Context, obj *v1.FederatedVirtualService, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedVirtualServiceClient) PatchFederatedVirtualServiceStatus(ctx context.Context, obj *v1.FederatedVirtualService, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2589,7 +2589,7 @@ func (mr *MockFederatedVirtualServiceClientMockRecorder) UpdateFederatedVirtualS
 }
 
 // UpdateFederatedVirtualServiceStatus mocks base method.
-func (m *MockFederatedVirtualServiceClient) UpdateFederatedVirtualServiceStatus(ctx context.Context, obj *v1.FederatedVirtualService, opts ...client.UpdateOption) error {
+func (m *MockFederatedVirtualServiceClient) UpdateFederatedVirtualServiceStatus(ctx context.Context, obj *v1.FederatedVirtualService, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

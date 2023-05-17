@@ -307,7 +307,7 @@ func (m *MockRateLimitConfigStatusWriter) EXPECT() *MockRateLimitConfigStatusWri
 }
 
 // PatchRateLimitConfigStatus mocks base method.
-func (m *MockRateLimitConfigStatusWriter) PatchRateLimitConfigStatus(ctx context.Context, obj *v1alpha1.RateLimitConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRateLimitConfigStatusWriter) PatchRateLimitConfigStatus(ctx context.Context, obj *v1alpha1.RateLimitConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -326,7 +326,7 @@ func (mr *MockRateLimitConfigStatusWriterMockRecorder) PatchRateLimitConfigStatu
 }
 
 // UpdateRateLimitConfigStatus mocks base method.
-func (m *MockRateLimitConfigStatusWriter) UpdateRateLimitConfigStatus(ctx context.Context, obj *v1alpha1.RateLimitConfig, opts ...client.UpdateOption) error {
+func (m *MockRateLimitConfigStatusWriter) UpdateRateLimitConfigStatus(ctx context.Context, obj *v1alpha1.RateLimitConfig, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -479,7 +479,7 @@ func (mr *MockRateLimitConfigClientMockRecorder) PatchRateLimitConfig(ctx, obj, 
 }
 
 // PatchRateLimitConfigStatus mocks base method.
-func (m *MockRateLimitConfigClient) PatchRateLimitConfigStatus(ctx context.Context, obj *v1alpha1.RateLimitConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRateLimitConfigClient) PatchRateLimitConfigStatus(ctx context.Context, obj *v1alpha1.RateLimitConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -517,7 +517,7 @@ func (mr *MockRateLimitConfigClientMockRecorder) UpdateRateLimitConfig(ctx, obj 
 }
 
 // UpdateRateLimitConfigStatus mocks base method.
-func (m *MockRateLimitConfigClient) UpdateRateLimitConfigStatus(ctx context.Context, obj *v1alpha1.RateLimitConfig, opts ...client.UpdateOption) error {
+func (m *MockRateLimitConfigClient) UpdateRateLimitConfigStatus(ctx context.Context, obj *v1alpha1.RateLimitConfig, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

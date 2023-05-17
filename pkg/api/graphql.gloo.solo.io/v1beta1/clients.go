@@ -108,10 +108,10 @@ type GraphQLApiWriter interface {
 type GraphQLApiStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given GraphQLApi object.
-	UpdateGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, opts ...client.UpdateOption) error
+	UpdateGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given GraphQLApi object's subresource.
-	PatchGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.PatchOption) error
+	PatchGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on GraphQLApis.
@@ -182,11 +182,11 @@ func (c *graphQLApiClient) UpsertGraphQLApi(ctx context.Context, obj *GraphQLApi
 	return err
 }
 
-func (c *graphQLApiClient) UpdateGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, opts ...client.UpdateOption) error {
+func (c *graphQLApiClient) UpdateGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *graphQLApiClient) PatchGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
+func (c *graphQLApiClient) PatchGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
