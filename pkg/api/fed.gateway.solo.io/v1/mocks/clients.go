@@ -1371,7 +1371,7 @@ func (m *MockFederatedMatchableTcpGatewayStatusWriter) EXPECT() *MockFederatedMa
 }
 
 // PatchFederatedMatchableTcpGatewayStatus mocks base method.
-func (m *MockFederatedMatchableTcpGatewayStatusWriter) PatchFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedMatchableTcpGatewayStatusWriter) PatchFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableTcpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1390,7 +1390,7 @@ func (mr *MockFederatedMatchableTcpGatewayStatusWriterMockRecorder) PatchFederat
 }
 
 // UpdateFederatedMatchableTcpGatewayStatus mocks base method.
-func (m *MockFederatedMatchableTcpGatewayStatusWriter) UpdateFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableTcpGateway, opts ...client.UpdateOption) error {
+func (m *MockFederatedMatchableTcpGatewayStatusWriter) UpdateFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableTcpGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1543,7 +1543,7 @@ func (mr *MockFederatedMatchableTcpGatewayClientMockRecorder) PatchFederatedMatc
 }
 
 // PatchFederatedMatchableTcpGatewayStatus mocks base method.
-func (m *MockFederatedMatchableTcpGatewayClient) PatchFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockFederatedMatchableTcpGatewayClient) PatchFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableTcpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1581,7 +1581,7 @@ func (mr *MockFederatedMatchableTcpGatewayClientMockRecorder) UpdateFederatedMat
 }
 
 // UpdateFederatedMatchableTcpGatewayStatus mocks base method.
-func (m *MockFederatedMatchableTcpGatewayClient) UpdateFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableTcpGateway, opts ...client.UpdateOption) error {
+func (m *MockFederatedMatchableTcpGatewayClient) UpdateFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *v1.FederatedMatchableTcpGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

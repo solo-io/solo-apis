@@ -19,11 +19,11 @@ import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/core/v3
 
 
 /*
-A MatchableTcpGateway ...
+A MatchableTcpGateway describes a single FilterChain configured with the TcpProxy network filter and a matcher.
 
 A Gateway CR may select one or more MatchableTcpGateways on a single listener.
 This enables separate teams to own Listener configuration (Gateway CR)
-and FilterChain configuration (MatchableTcpGateway CR)
+and FilterChain configuration (MatchableTcpGateway CR).
 */
 message MatchableTcpGatewaySpec {
 
@@ -35,11 +35,14 @@ message MatchableTcpGatewaySpec {
     // See https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/address.proto#envoy-v3-api-msg-config-core-v3-cidrrange
     repeated .solo.io.envoy.config.core.v3.CidrRange source_prefix_ranges = 1;
 
-    // Ssl configuration applied to the FilterChain:
+    // Ssl configuration applied to the FilterChain, if using passthrough should not include secrets :
     //  - FilterChainMatch: https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener_components.proto#config-listener-v3-filterchainmatch)
     //  - TransportSocket: https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/base.proto#envoy-v3-api-msg-config-core-v3-transportsocket
     gloo.solo.io.SslConfig ssl_config = 2;
 
+    // Enterprise-only: Passthrough cipher suites is an allow-list of OpenSSL cipher suite names for which TLS passthrough will be enabled.
+    // If a client does not support any ciphers that are natively supported by Envoy, but does support one of the ciphers in the passthrough list,
+    // then traffic will be routed via TCP Proxy to a destination specified by the TcpGateway, where TLS can then be terminated.
     repeated string passthrough_cipher_suites = 3;
   }
 
@@ -50,6 +53,7 @@ message MatchableTcpGatewaySpec {
   // effectively matching all incoming connections
   Matcher matcher = 3;
 
+  // TcpGateway creates a FilterChain with a TcpProxy.
   TcpGateway tcp_gateway = 4;
 }
 

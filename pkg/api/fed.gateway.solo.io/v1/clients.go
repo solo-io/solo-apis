@@ -420,10 +420,10 @@ type FederatedMatchableTcpGatewayWriter interface {
 type FederatedMatchableTcpGatewayStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given FederatedMatchableTcpGateway object.
-	UpdateFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *FederatedMatchableTcpGateway, opts ...client.UpdateOption) error
+	UpdateFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *FederatedMatchableTcpGateway, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given FederatedMatchableTcpGateway object's subresource.
-	PatchFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *FederatedMatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error
+	PatchFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *FederatedMatchableTcpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on FederatedMatchableTcpGateways.
@@ -494,11 +494,11 @@ func (c *federatedMatchableTcpGatewayClient) UpsertFederatedMatchableTcpGateway(
 	return err
 }
 
-func (c *federatedMatchableTcpGatewayClient) UpdateFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *FederatedMatchableTcpGateway, opts ...client.UpdateOption) error {
+func (c *federatedMatchableTcpGatewayClient) UpdateFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *FederatedMatchableTcpGateway, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *federatedMatchableTcpGatewayClient) PatchFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *FederatedMatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (c *federatedMatchableTcpGatewayClient) PatchFederatedMatchableTcpGatewayStatus(ctx context.Context, obj *FederatedMatchableTcpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

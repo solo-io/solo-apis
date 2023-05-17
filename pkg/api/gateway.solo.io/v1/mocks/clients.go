@@ -1399,7 +1399,7 @@ func (m *MockMatchableTcpGatewayStatusWriter) EXPECT() *MockMatchableTcpGatewayS
 }
 
 // PatchMatchableTcpGatewayStatus mocks base method.
-func (m *MockMatchableTcpGatewayStatusWriter) PatchMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockMatchableTcpGatewayStatusWriter) PatchMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1418,7 +1418,7 @@ func (mr *MockMatchableTcpGatewayStatusWriterMockRecorder) PatchMatchableTcpGate
 }
 
 // UpdateMatchableTcpGatewayStatus mocks base method.
-func (m *MockMatchableTcpGatewayStatusWriter) UpdateMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.UpdateOption) error {
+func (m *MockMatchableTcpGatewayStatusWriter) UpdateMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1571,7 +1571,7 @@ func (mr *MockMatchableTcpGatewayClientMockRecorder) PatchMatchableTcpGateway(ct
 }
 
 // PatchMatchableTcpGatewayStatus mocks base method.
-func (m *MockMatchableTcpGatewayClient) PatchMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockMatchableTcpGatewayClient) PatchMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1609,7 +1609,7 @@ func (mr *MockMatchableTcpGatewayClientMockRecorder) UpdateMatchableTcpGateway(c
 }
 
 // UpdateMatchableTcpGatewayStatus mocks base method.
-func (m *MockMatchableTcpGatewayClient) UpdateMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.UpdateOption) error {
+func (m *MockMatchableTcpGatewayClient) UpdateMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
