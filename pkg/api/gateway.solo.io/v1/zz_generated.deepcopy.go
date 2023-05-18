@@ -128,6 +128,66 @@ func (in *MatchableHttpGatewayList) DeepCopyObject() runtime.Object {
 	return nil
 }
 
+// Generated Deepcopy methods for MatchableTcpGateway
+
+func (in *MatchableTcpGateway) DeepCopyInto(out *MatchableTcpGateway) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *MatchableTcpGateway) DeepCopy() *MatchableTcpGateway {
+	if in == nil {
+		return nil
+	}
+	out := new(MatchableTcpGateway)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *MatchableTcpGateway) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *MatchableTcpGatewayList) DeepCopyInto(out *MatchableTcpGatewayList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]MatchableTcpGateway, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *MatchableTcpGatewayList) DeepCopy() *MatchableTcpGatewayList {
+	if in == nil {
+		return nil
+	}
+	out := new(MatchableTcpGatewayList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *MatchableTcpGatewayList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
 // Generated Deepcopy methods for RouteTable
 
 func (in *RouteTable) DeepCopyInto(out *RouteTable) {

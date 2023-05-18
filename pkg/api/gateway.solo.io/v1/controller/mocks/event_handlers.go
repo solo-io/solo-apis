@@ -256,6 +256,127 @@ func (mr *MockMatchableHttpGatewayEventWatcherMockRecorder) AddEventHandler(ctx,
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockMatchableHttpGatewayEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
+// MockMatchableTcpGatewayEventHandler is a mock of MatchableTcpGatewayEventHandler interface.
+type MockMatchableTcpGatewayEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMatchableTcpGatewayEventHandlerMockRecorder
+}
+
+// MockMatchableTcpGatewayEventHandlerMockRecorder is the mock recorder for MockMatchableTcpGatewayEventHandler.
+type MockMatchableTcpGatewayEventHandlerMockRecorder struct {
+	mock *MockMatchableTcpGatewayEventHandler
+}
+
+// NewMockMatchableTcpGatewayEventHandler creates a new mock instance.
+func NewMockMatchableTcpGatewayEventHandler(ctrl *gomock.Controller) *MockMatchableTcpGatewayEventHandler {
+	mock := &MockMatchableTcpGatewayEventHandler{ctrl: ctrl}
+	mock.recorder = &MockMatchableTcpGatewayEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMatchableTcpGatewayEventHandler) EXPECT() *MockMatchableTcpGatewayEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayEventHandler) CreateMatchableTcpGateway(obj *v1.MatchableTcpGateway) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateMatchableTcpGateway", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateMatchableTcpGateway indicates an expected call of CreateMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayEventHandlerMockRecorder) CreateMatchableTcpGateway(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayEventHandler)(nil).CreateMatchableTcpGateway), obj)
+}
+
+// DeleteMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayEventHandler) DeleteMatchableTcpGateway(obj *v1.MatchableTcpGateway) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteMatchableTcpGateway", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteMatchableTcpGateway indicates an expected call of DeleteMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayEventHandlerMockRecorder) DeleteMatchableTcpGateway(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayEventHandler)(nil).DeleteMatchableTcpGateway), obj)
+}
+
+// GenericMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayEventHandler) GenericMatchableTcpGateway(obj *v1.MatchableTcpGateway) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericMatchableTcpGateway", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericMatchableTcpGateway indicates an expected call of GenericMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayEventHandlerMockRecorder) GenericMatchableTcpGateway(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayEventHandler)(nil).GenericMatchableTcpGateway), obj)
+}
+
+// UpdateMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayEventHandler) UpdateMatchableTcpGateway(old, new *v1.MatchableTcpGateway) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateMatchableTcpGateway", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateMatchableTcpGateway indicates an expected call of UpdateMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayEventHandlerMockRecorder) UpdateMatchableTcpGateway(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayEventHandler)(nil).UpdateMatchableTcpGateway), old, new)
+}
+
+// MockMatchableTcpGatewayEventWatcher is a mock of MatchableTcpGatewayEventWatcher interface.
+type MockMatchableTcpGatewayEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockMatchableTcpGatewayEventWatcherMockRecorder
+}
+
+// MockMatchableTcpGatewayEventWatcherMockRecorder is the mock recorder for MockMatchableTcpGatewayEventWatcher.
+type MockMatchableTcpGatewayEventWatcherMockRecorder struct {
+	mock *MockMatchableTcpGatewayEventWatcher
+}
+
+// NewMockMatchableTcpGatewayEventWatcher creates a new mock instance.
+func NewMockMatchableTcpGatewayEventWatcher(ctrl *gomock.Controller) *MockMatchableTcpGatewayEventWatcher {
+	mock := &MockMatchableTcpGatewayEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockMatchableTcpGatewayEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMatchableTcpGatewayEventWatcher) EXPECT() *MockMatchableTcpGatewayEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockMatchableTcpGatewayEventWatcher) AddEventHandler(ctx context.Context, h controller.MatchableTcpGatewayEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockMatchableTcpGatewayEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockMatchableTcpGatewayEventWatcher)(nil).AddEventHandler), varargs...)
+}
+
 // MockRouteTableEventHandler is a mock of RouteTableEventHandler interface.
 type MockRouteTableEventHandler struct {
 	ctrl     *gomock.Controller

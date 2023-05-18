@@ -189,6 +189,12 @@ func (m *UpstreamSpec) Clone() proto.Message {
 		target.DnsRefreshRate = proto.Clone(m.GetDnsRefreshRate()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
+	if h, ok := interface{}(m.GetProxyProtocolVersion()).(clone.Cloner); ok {
+		target.ProxyProtocolVersion = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+	} else {
+		target.ProxyProtocolVersion = proto.Clone(m.GetProxyProtocolVersion()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+	}
+
 	switch m.UpstreamType.(type) {
 
 	case *UpstreamSpec_Kube:
