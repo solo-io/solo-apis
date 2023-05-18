@@ -4,7 +4,7 @@
 package v1
 
 import (
-	. "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types"
+	ib9c5c757c84e62a6bd22e526df9722e3 "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -26,8 +26,8 @@ type GlooInstance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   GlooInstanceSpec   `json:"spec,omitempty"`
-	Status GlooInstanceStatus `json:"status,omitempty"`
+	Spec   ib9c5c757c84e62a6bd22e526df9722e3.GlooInstanceSpec   `json:"spec,omitempty"`
+	Status ib9c5c757c84e62a6bd22e526df9722e3.GlooInstanceStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.

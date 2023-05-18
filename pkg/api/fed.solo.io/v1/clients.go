@@ -47,7 +47,7 @@ type clientSet struct {
 
 func NewClientsetFromConfig(cfg *rest.Config) (Clientset, error) {
 	scheme := scheme.Scheme
-	if err := AddToScheme(scheme); err != nil {
+	if err := SchemeBuilder.AddToScheme(scheme); err != nil {
 		return nil, err
 	}
 	client, err := client.New(cfg, client.Options{
@@ -106,10 +106,10 @@ type GlooInstanceWriter interface {
 type GlooInstanceStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given GlooInstance object.
-	UpdateGlooInstanceStatus(ctx context.Context, obj *GlooInstance, opts ...client.UpdateOption) error
+	UpdateGlooInstanceStatus(ctx context.Context, obj *GlooInstance, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given GlooInstance object's subresource.
-	PatchGlooInstanceStatus(ctx context.Context, obj *GlooInstance, patch client.Patch, opts ...client.PatchOption) error
+	PatchGlooInstanceStatus(ctx context.Context, obj *GlooInstance, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on GlooInstances.
@@ -180,11 +180,11 @@ func (c *glooInstanceClient) UpsertGlooInstance(ctx context.Context, obj *GlooIn
 	return err
 }
 
-func (c *glooInstanceClient) UpdateGlooInstanceStatus(ctx context.Context, obj *GlooInstance, opts ...client.UpdateOption) error {
+func (c *glooInstanceClient) UpdateGlooInstanceStatus(ctx context.Context, obj *GlooInstance, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *glooInstanceClient) PatchGlooInstanceStatus(ctx context.Context, obj *GlooInstance, patch client.Patch, opts ...client.PatchOption) error {
+func (c *glooInstanceClient) PatchGlooInstanceStatus(ctx context.Context, obj *GlooInstance, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
