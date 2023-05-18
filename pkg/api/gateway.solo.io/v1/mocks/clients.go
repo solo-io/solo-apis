@@ -102,6 +102,20 @@ func (mr *MockClientsetMockRecorder) MatchableHttpGateways() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MatchableHttpGateways", reflect.TypeOf((*MockClientset)(nil).MatchableHttpGateways))
 }
 
+// MatchableTcpGateways mocks base method.
+func (m *MockClientset) MatchableTcpGateways() v1.MatchableTcpGatewayClient {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "MatchableTcpGateways")
+	ret0, _ := ret[0].(v1.MatchableTcpGatewayClient)
+	return ret0
+}
+
+// MatchableTcpGateways indicates an expected call of MatchableTcpGateways.
+func (mr *MockClientsetMockRecorder) MatchableTcpGateways() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MatchableTcpGateways", reflect.TypeOf((*MockClientset)(nil).MatchableTcpGateways))
+}
+
 // RouteOptions mocks base method.
 func (m *MockClientset) RouteOptions() v1.RouteOptionClient {
 	m.ctrl.T.Helper()
@@ -1164,6 +1178,510 @@ func (m *MockMulticlusterMatchableHttpGatewayClient) Cluster(cluster string) (v1
 func (mr *MockMulticlusterMatchableHttpGatewayClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterMatchableHttpGatewayClient)(nil).Cluster), cluster)
+}
+
+// MockMatchableTcpGatewayReader is a mock of MatchableTcpGatewayReader interface.
+type MockMatchableTcpGatewayReader struct {
+	ctrl     *gomock.Controller
+	recorder *MockMatchableTcpGatewayReaderMockRecorder
+}
+
+// MockMatchableTcpGatewayReaderMockRecorder is the mock recorder for MockMatchableTcpGatewayReader.
+type MockMatchableTcpGatewayReaderMockRecorder struct {
+	mock *MockMatchableTcpGatewayReader
+}
+
+// NewMockMatchableTcpGatewayReader creates a new mock instance.
+func NewMockMatchableTcpGatewayReader(ctrl *gomock.Controller) *MockMatchableTcpGatewayReader {
+	mock := &MockMatchableTcpGatewayReader{ctrl: ctrl}
+	mock.recorder = &MockMatchableTcpGatewayReaderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMatchableTcpGatewayReader) EXPECT() *MockMatchableTcpGatewayReaderMockRecorder {
+	return m.recorder
+}
+
+// GetMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayReader) GetMatchableTcpGateway(ctx context.Context, key client.ObjectKey) (*v1.MatchableTcpGateway, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetMatchableTcpGateway", ctx, key)
+	ret0, _ := ret[0].(*v1.MatchableTcpGateway)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetMatchableTcpGateway indicates an expected call of GetMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayReaderMockRecorder) GetMatchableTcpGateway(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayReader)(nil).GetMatchableTcpGateway), ctx, key)
+}
+
+// ListMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayReader) ListMatchableTcpGateway(ctx context.Context, opts ...client.ListOption) (*v1.MatchableTcpGatewayList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(*v1.MatchableTcpGatewayList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListMatchableTcpGateway indicates an expected call of ListMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayReaderMockRecorder) ListMatchableTcpGateway(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayReader)(nil).ListMatchableTcpGateway), varargs...)
+}
+
+// MockMatchableTcpGatewayWriter is a mock of MatchableTcpGatewayWriter interface.
+type MockMatchableTcpGatewayWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockMatchableTcpGatewayWriterMockRecorder
+}
+
+// MockMatchableTcpGatewayWriterMockRecorder is the mock recorder for MockMatchableTcpGatewayWriter.
+type MockMatchableTcpGatewayWriterMockRecorder struct {
+	mock *MockMatchableTcpGatewayWriter
+}
+
+// NewMockMatchableTcpGatewayWriter creates a new mock instance.
+func NewMockMatchableTcpGatewayWriter(ctrl *gomock.Controller) *MockMatchableTcpGatewayWriter {
+	mock := &MockMatchableTcpGatewayWriter{ctrl: ctrl}
+	mock.recorder = &MockMatchableTcpGatewayWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMatchableTcpGatewayWriter) EXPECT() *MockMatchableTcpGatewayWriterMockRecorder {
+	return m.recorder
+}
+
+// CreateMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayWriter) CreateMatchableTcpGateway(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateMatchableTcpGateway indicates an expected call of CreateMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayWriterMockRecorder) CreateMatchableTcpGateway(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayWriter)(nil).CreateMatchableTcpGateway), varargs...)
+}
+
+// DeleteAllOfMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayWriter) DeleteAllOfMatchableTcpGateway(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfMatchableTcpGateway indicates an expected call of DeleteAllOfMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayWriterMockRecorder) DeleteAllOfMatchableTcpGateway(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayWriter)(nil).DeleteAllOfMatchableTcpGateway), varargs...)
+}
+
+// DeleteMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayWriter) DeleteMatchableTcpGateway(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteMatchableTcpGateway indicates an expected call of DeleteMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayWriterMockRecorder) DeleteMatchableTcpGateway(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayWriter)(nil).DeleteMatchableTcpGateway), varargs...)
+}
+
+// PatchMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayWriter) PatchMatchableTcpGateway(ctx context.Context, obj *v1.MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchMatchableTcpGateway indicates an expected call of PatchMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayWriterMockRecorder) PatchMatchableTcpGateway(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayWriter)(nil).PatchMatchableTcpGateway), varargs...)
+}
+
+// UpdateMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayWriter) UpdateMatchableTcpGateway(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateMatchableTcpGateway indicates an expected call of UpdateMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayWriterMockRecorder) UpdateMatchableTcpGateway(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayWriter)(nil).UpdateMatchableTcpGateway), varargs...)
+}
+
+// UpsertMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayWriter) UpsertMatchableTcpGateway(ctx context.Context, obj *v1.MatchableTcpGateway, transitionFuncs ...v1.MatchableTcpGatewayTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertMatchableTcpGateway indicates an expected call of UpsertMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayWriterMockRecorder) UpsertMatchableTcpGateway(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayWriter)(nil).UpsertMatchableTcpGateway), varargs...)
+}
+
+// MockMatchableTcpGatewayStatusWriter is a mock of MatchableTcpGatewayStatusWriter interface.
+type MockMatchableTcpGatewayStatusWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockMatchableTcpGatewayStatusWriterMockRecorder
+}
+
+// MockMatchableTcpGatewayStatusWriterMockRecorder is the mock recorder for MockMatchableTcpGatewayStatusWriter.
+type MockMatchableTcpGatewayStatusWriterMockRecorder struct {
+	mock *MockMatchableTcpGatewayStatusWriter
+}
+
+// NewMockMatchableTcpGatewayStatusWriter creates a new mock instance.
+func NewMockMatchableTcpGatewayStatusWriter(ctrl *gomock.Controller) *MockMatchableTcpGatewayStatusWriter {
+	mock := &MockMatchableTcpGatewayStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockMatchableTcpGatewayStatusWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMatchableTcpGatewayStatusWriter) EXPECT() *MockMatchableTcpGatewayStatusWriterMockRecorder {
+	return m.recorder
+}
+
+// PatchMatchableTcpGatewayStatus mocks base method.
+func (m *MockMatchableTcpGatewayStatusWriter) PatchMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchMatchableTcpGatewayStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchMatchableTcpGatewayStatus indicates an expected call of PatchMatchableTcpGatewayStatus.
+func (mr *MockMatchableTcpGatewayStatusWriterMockRecorder) PatchMatchableTcpGatewayStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchMatchableTcpGatewayStatus", reflect.TypeOf((*MockMatchableTcpGatewayStatusWriter)(nil).PatchMatchableTcpGatewayStatus), varargs...)
+}
+
+// UpdateMatchableTcpGatewayStatus mocks base method.
+func (m *MockMatchableTcpGatewayStatusWriter) UpdateMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateMatchableTcpGatewayStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateMatchableTcpGatewayStatus indicates an expected call of UpdateMatchableTcpGatewayStatus.
+func (mr *MockMatchableTcpGatewayStatusWriterMockRecorder) UpdateMatchableTcpGatewayStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMatchableTcpGatewayStatus", reflect.TypeOf((*MockMatchableTcpGatewayStatusWriter)(nil).UpdateMatchableTcpGatewayStatus), varargs...)
+}
+
+// MockMatchableTcpGatewayClient is a mock of MatchableTcpGatewayClient interface.
+type MockMatchableTcpGatewayClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMatchableTcpGatewayClientMockRecorder
+}
+
+// MockMatchableTcpGatewayClientMockRecorder is the mock recorder for MockMatchableTcpGatewayClient.
+type MockMatchableTcpGatewayClientMockRecorder struct {
+	mock *MockMatchableTcpGatewayClient
+}
+
+// NewMockMatchableTcpGatewayClient creates a new mock instance.
+func NewMockMatchableTcpGatewayClient(ctrl *gomock.Controller) *MockMatchableTcpGatewayClient {
+	mock := &MockMatchableTcpGatewayClient{ctrl: ctrl}
+	mock.recorder = &MockMatchableTcpGatewayClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMatchableTcpGatewayClient) EXPECT() *MockMatchableTcpGatewayClientMockRecorder {
+	return m.recorder
+}
+
+// CreateMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayClient) CreateMatchableTcpGateway(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateMatchableTcpGateway indicates an expected call of CreateMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) CreateMatchableTcpGateway(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).CreateMatchableTcpGateway), varargs...)
+}
+
+// DeleteAllOfMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayClient) DeleteAllOfMatchableTcpGateway(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfMatchableTcpGateway indicates an expected call of DeleteAllOfMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) DeleteAllOfMatchableTcpGateway(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).DeleteAllOfMatchableTcpGateway), varargs...)
+}
+
+// DeleteMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayClient) DeleteMatchableTcpGateway(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteMatchableTcpGateway indicates an expected call of DeleteMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) DeleteMatchableTcpGateway(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).DeleteMatchableTcpGateway), varargs...)
+}
+
+// GetMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayClient) GetMatchableTcpGateway(ctx context.Context, key client.ObjectKey) (*v1.MatchableTcpGateway, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetMatchableTcpGateway", ctx, key)
+	ret0, _ := ret[0].(*v1.MatchableTcpGateway)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetMatchableTcpGateway indicates an expected call of GetMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) GetMatchableTcpGateway(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).GetMatchableTcpGateway), ctx, key)
+}
+
+// ListMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayClient) ListMatchableTcpGateway(ctx context.Context, opts ...client.ListOption) (*v1.MatchableTcpGatewayList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(*v1.MatchableTcpGatewayList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListMatchableTcpGateway indicates an expected call of ListMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) ListMatchableTcpGateway(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).ListMatchableTcpGateway), varargs...)
+}
+
+// PatchMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayClient) PatchMatchableTcpGateway(ctx context.Context, obj *v1.MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchMatchableTcpGateway indicates an expected call of PatchMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) PatchMatchableTcpGateway(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).PatchMatchableTcpGateway), varargs...)
+}
+
+// PatchMatchableTcpGatewayStatus mocks base method.
+func (m *MockMatchableTcpGatewayClient) PatchMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchMatchableTcpGatewayStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchMatchableTcpGatewayStatus indicates an expected call of PatchMatchableTcpGatewayStatus.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) PatchMatchableTcpGatewayStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchMatchableTcpGatewayStatus", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).PatchMatchableTcpGatewayStatus), varargs...)
+}
+
+// UpdateMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayClient) UpdateMatchableTcpGateway(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateMatchableTcpGateway indicates an expected call of UpdateMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) UpdateMatchableTcpGateway(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).UpdateMatchableTcpGateway), varargs...)
+}
+
+// UpdateMatchableTcpGatewayStatus mocks base method.
+func (m *MockMatchableTcpGatewayClient) UpdateMatchableTcpGatewayStatus(ctx context.Context, obj *v1.MatchableTcpGateway, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateMatchableTcpGatewayStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateMatchableTcpGatewayStatus indicates an expected call of UpdateMatchableTcpGatewayStatus.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) UpdateMatchableTcpGatewayStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMatchableTcpGatewayStatus", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).UpdateMatchableTcpGatewayStatus), varargs...)
+}
+
+// UpsertMatchableTcpGateway mocks base method.
+func (m *MockMatchableTcpGatewayClient) UpsertMatchableTcpGateway(ctx context.Context, obj *v1.MatchableTcpGateway, transitionFuncs ...v1.MatchableTcpGatewayTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertMatchableTcpGateway", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertMatchableTcpGateway indicates an expected call of UpsertMatchableTcpGateway.
+func (mr *MockMatchableTcpGatewayClientMockRecorder) UpsertMatchableTcpGateway(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertMatchableTcpGateway", reflect.TypeOf((*MockMatchableTcpGatewayClient)(nil).UpsertMatchableTcpGateway), varargs...)
+}
+
+// MockMulticlusterMatchableTcpGatewayClient is a mock of MulticlusterMatchableTcpGatewayClient interface.
+type MockMulticlusterMatchableTcpGatewayClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterMatchableTcpGatewayClientMockRecorder
+}
+
+// MockMulticlusterMatchableTcpGatewayClientMockRecorder is the mock recorder for MockMulticlusterMatchableTcpGatewayClient.
+type MockMulticlusterMatchableTcpGatewayClientMockRecorder struct {
+	mock *MockMulticlusterMatchableTcpGatewayClient
+}
+
+// NewMockMulticlusterMatchableTcpGatewayClient creates a new mock instance.
+func NewMockMulticlusterMatchableTcpGatewayClient(ctrl *gomock.Controller) *MockMulticlusterMatchableTcpGatewayClient {
+	mock := &MockMulticlusterMatchableTcpGatewayClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterMatchableTcpGatewayClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterMatchableTcpGatewayClient) EXPECT() *MockMulticlusterMatchableTcpGatewayClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterMatchableTcpGatewayClient) Cluster(cluster string) (v1.MatchableTcpGatewayClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v1.MatchableTcpGatewayClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterMatchableTcpGatewayClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterMatchableTcpGatewayClient)(nil).Cluster), cluster)
 }
 
 // MockRouteTableReader is a mock of RouteTableReader interface.

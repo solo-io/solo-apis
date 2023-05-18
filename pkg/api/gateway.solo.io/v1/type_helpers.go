@@ -9,6 +9,9 @@ type GatewaySlice []*Gateway
 // MatchableHttpGatewaySlice represents a slice of *MatchableHttpGateway
 type MatchableHttpGatewaySlice []*MatchableHttpGateway
 
+// MatchableTcpGatewaySlice represents a slice of *MatchableTcpGateway
+type MatchableTcpGatewaySlice []*MatchableTcpGateway
+
 // RouteTableSlice represents a slice of *RouteTable
 type RouteTableSlice []*RouteTable
 

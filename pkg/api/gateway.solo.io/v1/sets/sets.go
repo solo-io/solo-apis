@@ -455,6 +455,227 @@ func (s *matchableHttpGatewaySet) Clone() MatchableHttpGatewaySet {
 	return &matchableHttpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
+type MatchableTcpGatewaySet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	List(filterResource ...func(*gateway_solo_io_v1.MatchableTcpGateway) bool) []*gateway_solo_io_v1.MatchableTcpGateway
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	UnsortedList(filterResource ...func(*gateway_solo_io_v1.MatchableTcpGateway) bool) []*gateway_solo_io_v1.MatchableTcpGateway
+	// Return the Set as a map of key to resource.
+	Map() map[string]*gateway_solo_io_v1.MatchableTcpGateway
+	// Insert a resource into the set.
+	Insert(matchableTcpGateway ...*gateway_solo_io_v1.MatchableTcpGateway)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(matchableTcpGatewaySet MatchableTcpGatewaySet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(matchableTcpGateway ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(matchableTcpGateway ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set MatchableTcpGatewaySet) MatchableTcpGatewaySet
+	// Return the difference with the provided set
+	Difference(set MatchableTcpGatewaySet) MatchableTcpGatewaySet
+	// Return the intersection with the provided set
+	Intersection(set MatchableTcpGatewaySet) MatchableTcpGatewaySet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.MatchableTcpGateway, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another MatchableTcpGatewaySet
+	Delta(newSet MatchableTcpGatewaySet) sksets.ResourceDelta
+	// Create a deep copy of the current MatchableTcpGatewaySet
+	Clone() MatchableTcpGatewaySet
+}
+
+func makeGenericMatchableTcpGatewaySet(matchableTcpGatewayList []*gateway_solo_io_v1.MatchableTcpGateway) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range matchableTcpGatewayList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type matchableTcpGatewaySet struct {
+	set sksets.ResourceSet
+}
+
+func NewMatchableTcpGatewaySet(matchableTcpGatewayList ...*gateway_solo_io_v1.MatchableTcpGateway) MatchableTcpGatewaySet {
+	return &matchableTcpGatewaySet{set: makeGenericMatchableTcpGatewaySet(matchableTcpGatewayList)}
+}
+
+func NewMatchableTcpGatewaySetFromList(matchableTcpGatewayList *gateway_solo_io_v1.MatchableTcpGatewayList) MatchableTcpGatewaySet {
+	list := make([]*gateway_solo_io_v1.MatchableTcpGateway, 0, len(matchableTcpGatewayList.Items))
+	for idx := range matchableTcpGatewayList.Items {
+		list = append(list, &matchableTcpGatewayList.Items[idx])
+	}
+	return &matchableTcpGatewaySet{set: makeGenericMatchableTcpGatewaySet(list)}
+}
+
+func (s *matchableTcpGatewaySet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *matchableTcpGatewaySet) List(filterResource ...func(*gateway_solo_io_v1.MatchableTcpGateway) bool) []*gateway_solo_io_v1.MatchableTcpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.MatchableTcpGateway))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	matchableTcpGatewayList := make([]*gateway_solo_io_v1.MatchableTcpGateway, 0, len(objs))
+	for _, obj := range objs {
+		matchableTcpGatewayList = append(matchableTcpGatewayList, obj.(*gateway_solo_io_v1.MatchableTcpGateway))
+	}
+	return matchableTcpGatewayList
+}
+
+func (s *matchableTcpGatewaySet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.MatchableTcpGateway) bool) []*gateway_solo_io_v1.MatchableTcpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.MatchableTcpGateway))
+		})
+	}
+
+	var matchableTcpGatewayList []*gateway_solo_io_v1.MatchableTcpGateway
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		matchableTcpGatewayList = append(matchableTcpGatewayList, obj.(*gateway_solo_io_v1.MatchableTcpGateway))
+	}
+	return matchableTcpGatewayList
+}
+
+func (s *matchableTcpGatewaySet) Map() map[string]*gateway_solo_io_v1.MatchableTcpGateway {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*gateway_solo_io_v1.MatchableTcpGateway{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*gateway_solo_io_v1.MatchableTcpGateway)
+	}
+	return newMap
+}
+
+func (s *matchableTcpGatewaySet) Insert(
+	matchableTcpGatewayList ...*gateway_solo_io_v1.MatchableTcpGateway,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range matchableTcpGatewayList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *matchableTcpGatewaySet) Has(matchableTcpGateway ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(matchableTcpGateway)
+}
+
+func (s *matchableTcpGatewaySet) Equal(
+	matchableTcpGatewaySet MatchableTcpGatewaySet,
+) bool {
+	if s == nil {
+		return matchableTcpGatewaySet == nil
+	}
+	return s.Generic().Equal(matchableTcpGatewaySet.Generic())
+}
+
+func (s *matchableTcpGatewaySet) Delete(MatchableTcpGateway ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(MatchableTcpGateway)
+}
+
+func (s *matchableTcpGatewaySet) Union(set MatchableTcpGatewaySet) MatchableTcpGatewaySet {
+	if s == nil {
+		return set
+	}
+	return NewMatchableTcpGatewaySet(append(s.List(), set.List()...)...)
+}
+
+func (s *matchableTcpGatewaySet) Difference(set MatchableTcpGatewaySet) MatchableTcpGatewaySet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &matchableTcpGatewaySet{set: newSet}
+}
+
+func (s *matchableTcpGatewaySet) Intersection(set MatchableTcpGatewaySet) MatchableTcpGatewaySet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var matchableTcpGatewayList []*gateway_solo_io_v1.MatchableTcpGateway
+	for _, obj := range newSet.List() {
+		matchableTcpGatewayList = append(matchableTcpGatewayList, obj.(*gateway_solo_io_v1.MatchableTcpGateway))
+	}
+	return NewMatchableTcpGatewaySet(matchableTcpGatewayList...)
+}
+
+func (s *matchableTcpGatewaySet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.MatchableTcpGateway, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find MatchableTcpGateway %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&gateway_solo_io_v1.MatchableTcpGateway{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*gateway_solo_io_v1.MatchableTcpGateway), nil
+}
+
+func (s *matchableTcpGatewaySet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *matchableTcpGatewaySet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *matchableTcpGatewaySet) Delta(newSet MatchableTcpGatewaySet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *matchableTcpGatewaySet) Clone() MatchableTcpGatewaySet {
+	if s == nil {
+		return nil
+	}
+	return &matchableTcpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
 type RouteTableSet interface {
 	// Get the set stored keys
 	Keys() sets.String

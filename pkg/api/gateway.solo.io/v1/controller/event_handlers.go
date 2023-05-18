@@ -231,6 +231,113 @@ func (h genericMatchableHttpGatewayHandler) Generic(object client.Object) error 
 	return h.handler.GenericMatchableHttpGateway(obj)
 }
 
+// Handle events for the MatchableTcpGateway Resource
+// DEPRECATED: Prefer reconciler pattern.
+type MatchableTcpGatewayEventHandler interface {
+	CreateMatchableTcpGateway(obj *gateway_solo_io_v1.MatchableTcpGateway) error
+	UpdateMatchableTcpGateway(old, new *gateway_solo_io_v1.MatchableTcpGateway) error
+	DeleteMatchableTcpGateway(obj *gateway_solo_io_v1.MatchableTcpGateway) error
+	GenericMatchableTcpGateway(obj *gateway_solo_io_v1.MatchableTcpGateway) error
+}
+
+type MatchableTcpGatewayEventHandlerFuncs struct {
+	OnCreate  func(obj *gateway_solo_io_v1.MatchableTcpGateway) error
+	OnUpdate  func(old, new *gateway_solo_io_v1.MatchableTcpGateway) error
+	OnDelete  func(obj *gateway_solo_io_v1.MatchableTcpGateway) error
+	OnGeneric func(obj *gateway_solo_io_v1.MatchableTcpGateway) error
+}
+
+func (f *MatchableTcpGatewayEventHandlerFuncs) CreateMatchableTcpGateway(obj *gateway_solo_io_v1.MatchableTcpGateway) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *MatchableTcpGatewayEventHandlerFuncs) DeleteMatchableTcpGateway(obj *gateway_solo_io_v1.MatchableTcpGateway) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *MatchableTcpGatewayEventHandlerFuncs) UpdateMatchableTcpGateway(objOld, objNew *gateway_solo_io_v1.MatchableTcpGateway) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *MatchableTcpGatewayEventHandlerFuncs) GenericMatchableTcpGateway(obj *gateway_solo_io_v1.MatchableTcpGateway) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type MatchableTcpGatewayEventWatcher interface {
+	AddEventHandler(ctx context.Context, h MatchableTcpGatewayEventHandler, predicates ...predicate.Predicate) error
+}
+
+type matchableTcpGatewayEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewMatchableTcpGatewayEventWatcher(name string, mgr manager.Manager) MatchableTcpGatewayEventWatcher {
+	return &matchableTcpGatewayEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &gateway_solo_io_v1.MatchableTcpGateway{}),
+	}
+}
+
+func (c *matchableTcpGatewayEventWatcher) AddEventHandler(ctx context.Context, h MatchableTcpGatewayEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericMatchableTcpGatewayHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericMatchableTcpGatewayHandler implements a generic events.EventHandler
+type genericMatchableTcpGatewayHandler struct {
+	handler MatchableTcpGatewayEventHandler
+}
+
+func (h genericMatchableTcpGatewayHandler) Create(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableTcpGateway)
+	if !ok {
+		return errors.Errorf("internal error: MatchableTcpGateway handler received event for %T", object)
+	}
+	return h.handler.CreateMatchableTcpGateway(obj)
+}
+
+func (h genericMatchableTcpGatewayHandler) Delete(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableTcpGateway)
+	if !ok {
+		return errors.Errorf("internal error: MatchableTcpGateway handler received event for %T", object)
+	}
+	return h.handler.DeleteMatchableTcpGateway(obj)
+}
+
+func (h genericMatchableTcpGatewayHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*gateway_solo_io_v1.MatchableTcpGateway)
+	if !ok {
+		return errors.Errorf("internal error: MatchableTcpGateway handler received event for %T", old)
+	}
+	objNew, ok := new.(*gateway_solo_io_v1.MatchableTcpGateway)
+	if !ok {
+		return errors.Errorf("internal error: MatchableTcpGateway handler received event for %T", new)
+	}
+	return h.handler.UpdateMatchableTcpGateway(objOld, objNew)
+}
+
+func (h genericMatchableTcpGatewayHandler) Generic(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.MatchableTcpGateway)
+	if !ok {
+		return errors.Errorf("internal error: MatchableTcpGateway handler received event for %T", object)
+	}
+	return h.handler.GenericMatchableTcpGateway(obj)
+}
+
 // Handle events for the RouteTable Resource
 // DEPRECATED: Prefer reconciler pattern.
 type RouteTableEventHandler interface {
