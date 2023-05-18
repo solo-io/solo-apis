@@ -60,6 +60,33 @@ metadata:
   labels:
     app: ""
     app.kubernetes.io/name: ""
+  name: federatedmatchabletcpgateways.fed.gateway.solo.io
+spec:
+  group: fed.gateway.solo.io
+  names:
+    kind: FederatedMatchableTcpGateway
+    listKind: FederatedMatchableTcpGatewayList
+    plural: federatedmatchabletcpgateways
+    singular: federatedmatchabletcpgateway
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        type: object
+        x-kubernetes-preserve-unknown-fields: true
+    served: true
+    storage: true
+    subresources:
+      status: {}
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    app: ""
+    app.kubernetes.io/name: ""
   name: federatedroutetables.fed.gateway.solo.io
 spec:
   group: fed.gateway.solo.io
