@@ -14,4 +14,4 @@ So for example, the Gloo Edge 1.14.x APIs, are maintained in the `gloo-v1.14.x` 
 
 
 ### Main Branch
-As a result of the above API tracking approach, the `main` branch in this repository is just responsible for maintaining some necessary automation.
+As a result of the above API tracking approach, the `main` branch in this repository has no functionality.
