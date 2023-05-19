@@ -12,6 +12,7 @@ jobs:
       uses: styfle/cancel-workflow-action@0.4.0
       with:
         access_token: ${{ github.token }}
+    - uses: actions/checkout@v3
     - name: Set up Go (derived from go.mod)
       uses: actions/setup-go@v4
       with:
@@ -51,6 +52,7 @@ jobs:
           TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           git config --global url."https://${TOKEN}@github.com/solo-io/".insteadOf "https://github.com/solo-io/"
+      - uses: actions/checkout@v3
       - name: Set up Go (derived from go.mod)
         uses: actions/setup-go@v4
         with:
