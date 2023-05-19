@@ -6,16 +6,16 @@ on:
 jobs:
   gen:
     name: Code Gen
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
     - name: Cancel Previous Runs
       uses: styfle/cancel-workflow-action@0.4.0
       with:
         access_token: ${{ github.token }}
-    - name: Set up Go 1.16.3
-      uses: actions/setup-go@v1
+    - name: Set up Go (derived from go.mod)
+      uses: actions/setup-go@v4
       with:
-        go-version: 1.16.3
+        go-version-file: go.mod
       id: go
     - name: Install Protoc
       uses: solo-io/setup-protoc@master
@@ -37,7 +37,7 @@ jobs:
 
   test:
     name: Tests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.4.0
@@ -51,10 +51,10 @@ jobs:
           TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           git config --global url."https://${TOKEN}@github.com/solo-io/".insteadOf "https://github.com/solo-io/"
-      - name: Set up Go 1.16.3
-        uses: actions/setup-go@v1
+      - name: Set up Go (derived from go.mod)
+        uses: actions/setup-go@v4
         with:
-          go-version: 1.16.3
+          go-version-file: go.mod
       - uses: actions/cache@v1
         with:
           path: ~/go/pkg/mod
