@@ -25,8 +25,7 @@ require (
 	github.com/solo-io/go-utils v0.21.6
 	github.com/solo-io/protoc-gen-ext v0.0.18
 	github.com/solo-io/skv2 v0.30.0
-	// todo (fabian) update solokit, then bring it here?
-	github.com/solo-io/solo-kit v0.23.0
+	github.com/solo-io/solo-kit v0.32.0
 	golang.org/x/tools v0.6.0
 	google.golang.org/genproto v0.0.0-20220502173005-c8bf987b8c21
 	google.golang.org/grpc v1.49.0
