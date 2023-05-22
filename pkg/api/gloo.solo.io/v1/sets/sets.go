@@ -44,6 +44,8 @@ type SettingsSet interface {
 	Generic() sksets.ResourceSet
 	// returns the delta between this and and another SettingsSet
 	Delta(newSet SettingsSet) sksets.ResourceDelta
+	// Create a deep copy of the current SettingsSet
+	Clone() SettingsSet
 }
 
 func makeGenericSettingsSet(settingsList []*gloo_solo_io_v1.Settings) sksets.ResourceSet {
@@ -83,6 +85,7 @@ func (s *settingsSet) List(filterResource ...func(*gloo_solo_io_v1.Settings) boo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Settings))
 		})
@@ -102,6 +105,7 @@ func (s *settingsSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Setti
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Settings))
 		})
@@ -223,6 +227,13 @@ func (s *settingsSet) Delta(newSet SettingsSet) sksets.ResourceDelta {
 	return s.Generic().Delta(newSet.Generic())
 }
 
+func (s *settingsSet) Clone() SettingsSet {
+	if s == nil {
+		return nil
+	}
+	return &settingsSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
 type UpstreamSet interface {
 	// Get the set stored keys
 	Keys() sets.String
@@ -254,6 +265,8 @@ type UpstreamSet interface {
 	Generic() sksets.ResourceSet
 	// returns the delta between this and and another UpstreamSet
 	Delta(newSet UpstreamSet) sksets.ResourceDelta
+	// Create a deep copy of the current UpstreamSet
+	Clone() UpstreamSet
 }
 
 func makeGenericUpstreamSet(upstreamList []*gloo_solo_io_v1.Upstream) sksets.ResourceSet {
@@ -293,6 +306,7 @@ func (s *upstreamSet) List(filterResource ...func(*gloo_solo_io_v1.Upstream) boo
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Upstream))
 		})
@@ -312,6 +326,7 @@ func (s *upstreamSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Upstr
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Upstream))
 		})
@@ -433,6 +448,13 @@ func (s *upstreamSet) Delta(newSet UpstreamSet) sksets.ResourceDelta {
 	return s.Generic().Delta(newSet.Generic())
 }
 
+func (s *upstreamSet) Clone() UpstreamSet {
+	if s == nil {
+		return nil
+	}
+	return &upstreamSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
 type UpstreamGroupSet interface {
 	// Get the set stored keys
 	Keys() sets.String
@@ -464,6 +486,8 @@ type UpstreamGroupSet interface {
 	Generic() sksets.ResourceSet
 	// returns the delta between this and and another UpstreamGroupSet
 	Delta(newSet UpstreamGroupSet) sksets.ResourceDelta
+	// Create a deep copy of the current UpstreamGroupSet
+	Clone() UpstreamGroupSet
 }
 
 func makeGenericUpstreamGroupSet(upstreamGroupList []*gloo_solo_io_v1.UpstreamGroup) sksets.ResourceSet {
@@ -503,6 +527,7 @@ func (s *upstreamGroupSet) List(filterResource ...func(*gloo_solo_io_v1.Upstream
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.UpstreamGroup))
 		})
@@ -522,6 +547,7 @@ func (s *upstreamGroupSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.UpstreamGroup))
 		})
@@ -643,6 +669,13 @@ func (s *upstreamGroupSet) Delta(newSet UpstreamGroupSet) sksets.ResourceDelta {
 	return s.Generic().Delta(newSet.Generic())
 }
 
+func (s *upstreamGroupSet) Clone() UpstreamGroupSet {
+	if s == nil {
+		return nil
+	}
+	return &upstreamGroupSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
 type ProxySet interface {
 	// Get the set stored keys
 	Keys() sets.String
@@ -674,6 +707,8 @@ type ProxySet interface {
 	Generic() sksets.ResourceSet
 	// returns the delta between this and and another ProxySet
 	Delta(newSet ProxySet) sksets.ResourceDelta
+	// Create a deep copy of the current ProxySet
+	Clone() ProxySet
 }
 
 func makeGenericProxySet(proxyList []*gloo_solo_io_v1.Proxy) sksets.ResourceSet {
@@ -713,6 +748,7 @@ func (s *proxySet) List(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Proxy))
 		})
@@ -732,6 +768,7 @@ func (s *proxySet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Proxy) b
 	}
 	var genericFilters []func(ezkube.ResourceId) bool
 	for _, filter := range filterResource {
+		filter := filter
 		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
 			return filter(obj.(*gloo_solo_io_v1.Proxy))
 		})
@@ -851,4 +888,11 @@ func (s *proxySet) Delta(newSet ProxySet) sksets.ResourceDelta {
 		}
 	}
 	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *proxySet) Clone() ProxySet {
+	if s == nil {
+		return nil
+	}
+	return &proxySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
