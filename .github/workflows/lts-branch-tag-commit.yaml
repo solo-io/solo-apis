@@ -2,15 +2,13 @@ name: Tag Commit on LTS Branch
 on:
   push:
     branches:
-      - master
-      - 'gloo-master'
-      - 'gloo-v**.**.x'
+      - gloo-repo-branch
 jobs:
   tag-version:
     runs-on: ubuntu-latest
     env:
       # The regex of a commit produced by the soloio-bot
-      COMMIT_REGEX: "^.*(Sync APIs.)+.*$"
+      COMMIT_REGEX: "^.*(Solo APIs.)+.*$"
     steps:
       - name: Cancel Previous Actions
         uses: styfle/cancel-workflow-action@0.4.1
@@ -31,5 +29,4 @@ jobs:
         uses: anothrNick/github-tag-action@1.26.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CUSTOM_TAG: ${{ steps.tag_version.outputs.tag_name }}
-          RELEASE_BRANCHES: '.*master$,gloo-v[0-9]+\.[0-9]+\.x$'
+          CUSTOM_TAG: solo-apis-${{ steps.tag_version.outputs.tag_name }}
