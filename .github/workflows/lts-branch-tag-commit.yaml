@@ -1,4 +1,4 @@
-name: Tag Commit on LTS Branch
+name: Tag Commit on gloo-repo-branch Branch
 on:
   push:
     branches:
@@ -30,3 +30,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CUSTOM_TAG: solo-apis-${{ steps.tag_version.outputs.tag_name }}
+          RELEASE_BRANCHES: gloo-repo-branch
