@@ -813,14 +813,10 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 	}
 
 	if m.GetClaimsToMetadata() != nil {
-		target.ClaimsToMetadata = make([]*ClaimsToMetadata, len(m.GetClaimsToMetadata()))
-		for idx, v := range m.GetClaimsToMetadata() {
+		target.ClaimsToMetadata = make(map[string]string, len(m.GetClaimsToMetadata()))
+		for k, v := range m.GetClaimsToMetadata() {
 
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.ClaimsToMetadata[idx] = h.Clone().(*ClaimsToMetadata)
-			} else {
-				target.ClaimsToMetadata[idx] = proto.Clone(v).(*ClaimsToMetadata)
-			}
+			target.ClaimsToMetadata[k] = v
 
 		}
 	}
@@ -975,14 +971,10 @@ func (m *AccessTokenValidation) Clone() proto.Message {
 	}
 
 	if m.GetClaimsToMetadata() != nil {
-		target.ClaimsToMetadata = make([]*ClaimsToMetadata, len(m.GetClaimsToMetadata()))
-		for idx, v := range m.GetClaimsToMetadata() {
+		target.ClaimsToMetadata = make(map[string]string, len(m.GetClaimsToMetadata()))
+		for k, v := range m.GetClaimsToMetadata() {
 
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.ClaimsToMetadata[idx] = h.Clone().(*ClaimsToMetadata)
-			} else {
-				target.ClaimsToMetadata[idx] = proto.Clone(v).(*ClaimsToMetadata)
-			}
+			target.ClaimsToMetadata[k] = v
 
 		}
 	}
@@ -1049,21 +1041,6 @@ func (m *OauthSecret) Clone() proto.Message {
 	target = &OauthSecret{}
 
 	target.ClientSecret = m.GetClientSecret()
-
-	return target
-}
-
-// Clone function
-func (m *ClaimsToMetadata) Clone() proto.Message {
-	var target *ClaimsToMetadata
-	if m == nil {
-		return target
-	}
-	target = &ClaimsToMetadata{}
-
-	target.Claim = m.GetClaim()
-
-	target.MetadataKey = m.GetMetadataKey()
 
 	return target
 }
