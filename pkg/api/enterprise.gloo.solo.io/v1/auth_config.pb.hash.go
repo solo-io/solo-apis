@@ -1499,7 +1499,7 @@ func (m *OidcAuthorizationCode) Hash(hasher hash.Hash64) (uint64, error) {
 	{
 		var result uint64
 		innerHash := fnv.New64()
-		for k, v := range m.GetClaimsToMetadata() {
+		for k, v := range m.GetMetadataKeyToClaim() {
 			innerHash.Reset()
 
 			if _, err = innerHash.Write([]byte(v)); err != nil {
@@ -1820,7 +1820,7 @@ func (m *AccessTokenValidation) Hash(hasher hash.Hash64) (uint64, error) {
 	{
 		var result uint64
 		innerHash := fnv.New64()
-		for k, v := range m.GetClaimsToMetadata() {
+		for k, v := range m.GetMetadataKeyToClaim() {
 			innerHash.Reset()
 
 			if _, err = innerHash.Write([]byte(v)); err != nil {
