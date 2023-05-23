@@ -2164,7 +2164,7 @@ type OidcAuthorizationCode struct {
 	// claims_to_metadata:
 	//   iss: issuer
 	//   email: email
-	// claim values can be a bool, string, list, or object and can contain special characters.
+	// claim values can be a bool, string, or list and can contain special characters.
 	// When specified, the matching claims from the ID token will be emitted as dynamic metadata.
 	// The metadata will live in a namespace specified by the canonical name of the ext auth filter (in our case `envoy.filters.http.ext_authz`).
 	ClaimsToMetadata map[string]string `protobuf:"bytes,20,rep,name=claims_to_metadata,json=claimsToMetadata,proto3" json:"claims_to_metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
@@ -2738,7 +2738,7 @@ type AccessTokenValidation struct {
 	// claims_to_metadata:
 	//   iss: issuer
 	//   email: email
-	// claim values can be a bool, string, list, or object and can contain special characters.
+	// claim values can be a bool, string, or list and can contain special characters.
 	// When specified, the matching claims from the access token will be emitted as dynamic metadata. This works for both opaque and JWT tokens.
 	// The metadata will live in a namespace specified by the canonical name of the ext auth filter (in our case `envoy.filters.http.ext_authz`).
 	ClaimsToMetadata map[string]string `protobuf:"bytes,7,rep,name=claims_to_metadata,json=claimsToMetadata,proto3" json:"claims_to_metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
