@@ -11,10 +11,10 @@ jobs:
       COMMIT_REGEX: "^.*(Solo APIs.)+.*$"
     steps:
       - name: Cancel Previous Actions
-        uses: styfle/cancel-workflow-action@0.4.1
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: '0'
       - name: Parse out tag name from commit message
@@ -26,8 +26,8 @@ jobs:
           echo "::set-output name=tag_name::$(echo $TAG_NAME)"
       - name: Bump version and push tag
         if: steps.tag_version.outputs.tag_name != ''
-        uses: anothrNick/github-tag-action@1.26.0
+        uses: anothrNick/github-tag-action@1.39.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CUSTOM_TAG: solo-apis-${{ steps.tag_version.outputs.tag_name }}
+          CUSTOM_TAG: sa-${{ steps.tag_version.outputs.tag_name }}
           RELEASE_BRANCHES: gloo-repo-branch
