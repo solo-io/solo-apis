@@ -812,11 +812,11 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 		target.EndSessionProperties = proto.Clone(m.GetEndSessionProperties()).(*EndSessionProperties)
 	}
 
-	if m.GetMetadataKeyToClaim() != nil {
-		target.MetadataKeyToClaim = make(map[string]string, len(m.GetMetadataKeyToClaim()))
-		for k, v := range m.GetMetadataKeyToClaim() {
+	if m.GetMetadataKeysToClaim() != nil {
+		target.MetadataKeysToClaim = make(map[string]string, len(m.GetMetadataKeysToClaim()))
+		for k, v := range m.GetMetadataKeysToClaim() {
 
-			target.MetadataKeyToClaim[k] = v
+			target.MetadataKeysToClaim[k] = v
 
 		}
 	}
@@ -970,11 +970,11 @@ func (m *AccessTokenValidation) Clone() proto.Message {
 		target.CacheTimeout = proto.Clone(m.GetCacheTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
-	if m.GetMetadataKeyToClaim() != nil {
-		target.MetadataKeyToClaim = make(map[string]string, len(m.GetMetadataKeyToClaim()))
-		for k, v := range m.GetMetadataKeyToClaim() {
+	if m.GetMetadataKeysToClaim() != nil {
+		target.MetadataKeysToClaim = make(map[string]string, len(m.GetMetadataKeysToClaim()))
+		for k, v := range m.GetMetadataKeysToClaim() {
 
-			target.MetadataKeyToClaim[k] = v
+			target.MetadataKeysToClaim[k] = v
 
 		}
 	}
