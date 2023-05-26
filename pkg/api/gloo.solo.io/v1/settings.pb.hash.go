@@ -54,6 +54,26 @@ func (m *SettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	if h, ok := interface{}(m.GetSecretOptions()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("SecretOptions")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetSecretOptions(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("SecretOptions")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	if h, ok := interface{}(m.GetRefreshRate()).(safe_hasher.SafeHasher); ok {
 		if _, err = hasher.Write([]byte("RefreshRate")); err != nil {
 			return 0, err
@@ -1379,6 +1399,46 @@ func (m *SettingsNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *SettingsSpec_SecretOptions) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_SecretOptions")); err != nil {
+		return 0, err
+	}
+
+	for _, v := range m.GetSources() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *SettingsSpec_KubernetesCrds) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -2126,6 +2186,92 @@ func (m *SettingsSpec_ObservabilityOptions) Hash(hasher hash.Hash64) (uint64, er
 		err = binary.Write(hasher, binary.LittleEndian, result)
 		if err != nil {
 			return 0, err
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *SettingsSpec_SecretOptions_Source) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1.SettingsSpec_SecretOptions_Source")); err != nil {
+		return 0, err
+	}
+
+	switch m.Source.(type) {
+
+	case *SettingsSpec_SecretOptions_Source_Kubernetes:
+
+		if h, ok := interface{}(m.GetKubernetes()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Kubernetes")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetKubernetes(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("Kubernetes")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *SettingsSpec_SecretOptions_Source_Vault:
+
+		if h, ok := interface{}(m.GetVault()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Vault")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetVault(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("Vault")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *SettingsSpec_SecretOptions_Source_Directory:
+
+		if h, ok := interface{}(m.GetDirectory()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Directory")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetDirectory(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("Directory")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
 		}
 
 	}
