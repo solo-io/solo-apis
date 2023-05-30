@@ -5,6 +5,46 @@ the source of truth for the APIs are the projects that own them. The goal of thi
 ## Gloo Mesh APIs
 For each release of Gloo Mesh, we want to freeze the solo-apis dependency by creating a unique tag tied to the dependent release. For example, when Gloo Mesh Enterprise `vX.Y.Z` is released, a corresponding `vX.Y.Z` tag is created in the Gloo Mesh Enterprise repository. We create a `gloo-mesh-vX.Y.Z` tag in solo-apis with a read-only mirror of the API.
 
+## Consuming Gloo Mesh APIs
+In order to use this repo in your own code, you'll need to pin the following dependencies to specific versions:
+
+- github.com/solo-io/solo-apis
+- k8s.io/api
+- k8s.io/apimachinery
+- k8s.io/client-go
+- sigs.k8s.io/controller-runtime
+- k8s.io/kube-openapi
+
+Get the appropriate version for the `github.com/solo-io/solo-apis` module by running the following command:
+
+```
+$ go get github.com/solo-io/solo-apis@gloo-mesh-v2.2.x
+$ go list -m -json github.com/solo-io/solo-apis@gloo-mesh-v2.2.x | jq -r '.Version'
+v1.6.32-0.20230606142039-ca73902145a8
+```
+
+A sample go.mod file includes the following:
+
+```
+module github.com/my-org/my-repository
+
+go 1.19
+
+require (
+	github.com/solo-io/solo-apis v1.6.32-0.20230606142039-ca73902145a8 // replace with go list output above
+)
+
+replace (
+	k8s.io/api => k8s.io/api v0.23.7
+	k8s.io/apimachinery => k8s.io/apimachinery v0.23.7
+	k8s.io/client-go => k8s.io/client-go v0.23.7
+	sigs.k8s.io/controller-runtime => sigs.k8s.io/controller-runtime v0.11.2
+	k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20211115234752-e816edb12b65
+)
+```
+
+Finally run `go mod tidy` to add any missing dependencies necessary to build your package.
+
 ## Examples
 The [examples directory](./examples) contains examples that cover various use cases and functionality for client-go for
 interacting with the Kubernetes API and Gloo Mesh objects.
