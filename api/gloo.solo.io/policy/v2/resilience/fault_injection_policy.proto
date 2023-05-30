@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package resilience.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// FaultInjectionPolicy is used to inject faults (latency and errors) into requests sent through the mesh.
+// Fault specification is part of a VirtualService rule. Faults include
+// aborting the Http request from downstream service, and/or delaying
+// proxying of requests. A fault rule MUST HAVE delay or abort or both.
+// FaultInjectionPolicies are applied at the *Route* level.
+message FaultInjectionPolicySpec {
+
+  // select the routes where the policy will be applied
+  // if left empty, will apply to all routes in the workspace.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // The details of the fault injection policy to apply to the selected routes.
+  Config config = 2;
+
+  // *Note:* Delay and abort faults are independent of one another, even if
+  // both are specified simultaneously.
+  message Config {
+
+    // Indicate the amount of delay in seconds.
+    // The optional _percentage_ field can be used to only delay a certain
+    // percentage of requests. If left unspecified, all request will be delayed.
+    Delay delay = 1;
+
+    // Abort the request and return the specified error code back to traffic source.
+    Abort abort = 2;
+
+    // Abort Http request attempts and return error codes back to downstream
+    // service, giving the impression that the upstream service is faulty.
+    message Abort {
+
+      // Required. HTTP status code to use to abort the request.
+      int32 http_status = 1;
+
+      // Percentage of requests to be aborted. Values range between 0 and 100. If omitted all requests will be aborted.
+      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
+      google.protobuf.DoubleValue percentage = 2;
+    }
+
+    // Delay requests before forwarding, emulating various failures such as
+    // network issues, overloaded upstream service, etc.
+    message Delay {
+      // Required. Add a delay of a fixed duration before sending the request. Format: `1h`/`1m`/`1s`/`1ms`. MUST be >=1ms.
+      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+      google.protobuf.Duration fixed_delay = 1;
+
+      // Percentage of requests on which the delay will be injected. Values range between 0 and 100. If omitted all requests will be delayed.
+      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
+      google.protobuf.DoubleValue percentage = 2;
+    }
+
+  }
+}
+
+// reflects the status of the FaultInjectionPolicy
+message FaultInjectionPolicyStatus {
+  // The common status of the object
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of routes selected by the policy.
+  uint32 num_selected_routes = 2;
+}
+
+message FaultInjectionPolicyReport {
+  // The state of the resource in each workspace that receives its configuration.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of references to all routes selected by the policy.
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
+}

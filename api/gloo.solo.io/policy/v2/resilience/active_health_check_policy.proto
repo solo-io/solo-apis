@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package resilience.policy.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "envoy/config/core/v3/health_check.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
+
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+
+
+// ActiveHealthCheckPolicySpec is used to configure [https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/health_checking]
+// on the selected destinations. 
+message ActiveHealthCheckPolicySpec {
+
+  // select the destinations which will be actively health checked.
+  // if left empty, no healthchecks will be performed.
+  repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
+
+  Config config = 2;
+
+  message Config {
+    .envoy.config.core.v3.HealthCheck health_check = 1 [(.solo.io.cue.opt).disable_openapi_validation = true];
+
+    // A list of references to virtual gateawys which should perform the healthchecks
+    repeated .common.gloo.solo.io.ObjectReference virtual_gateways = 5;
+  }
+
+}
+
+// reflects the status of the ActiveHealthCheckPolicy
+message ActiveHealthCheckPolicyStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of destination ports selected by the policy
+  uint32 num_selected_destination_ports = 2;
+}
+
+// Report on the state of the ActiveHealthCheckPolicy
+message ActiveHealthCheckPolicyReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // Destination ports selected by the policy
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
+}

@@ -1,0 +1,318 @@
+syntax = "proto3";
+
+package networking.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "google/protobuf/wrappers.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// $hide_from_docs
+//
+// ExternalWorkload defines a destination for routing to a set of workloads
+// that are part of the mesh but external to Kubernetes.
+// For example, this could represent a set of workloads running on similar
+// virtual machines or bare metal instances that have a managed proxy instance.
+// When an ExternalWorkload is defined for a given workspace, it can be used as a
+// destination in a VirtualDestination and RouteTable resource, and selected using
+// an IdentitySelector in an AccessPolicy.
+message ExternalWorkloadSpec {
+
+  // Ports associated with the external workload.
+  repeated Port ports = 1;
+
+  // Network segment the external workload belongs to. It determines how traffic
+  // is routed to an external workload. If the client app and the external workload
+  // are in the same network segment, traffic is directly routed to the workload,
+  // whereas an east-west gateway is used when the external workload belongs to
+  // a different network segment than the client app.
+  string network = 2;
+
+
+  // IdentitySelector define the conditions under which an external workload is selected and attested.
+  // The selector determines the workload identity issued to the external workload.
+  // Optional, if using a join token to attest the external workload.
+  // If multiple selectors are specified, the external workload will be selected as
+  // long as one of the selectors matches.
+  IdentitySelector identity_selector = 3;
+
+  // Optional: The hostname for which the external workload will serve traffic.
+  // Defaults to <external-workload-name>.<namespace>.ext.<trust-domain>.
+  string Host = 4;
+
+  // Optional: Readiness probe for the external workload.
+  Probe readiness_probe = 5;
+
+  // A port on the backing external workload.
+  message Port {
+    // A logical name assigned to the port.
+    string name = 1;
+
+    // The protocol of the port.
+    // MUST be one of the following: HTTP, HTTPS, GRPC, HTTP2, MONGO, TCP, TLS.
+    string protocol = 2;
+
+    // The port number, must be in the range 1 to 65535.
+    uint32 number = 3;
+  }
+
+  // $hide_from_docs
+  //
+  // Selector defines the conditions under which an external workload is selected and attested.
+  message IdentitySelector {
+
+    // Optional: Selector for external workloads running in AWS.
+    repeated AWS aws = 1;
+
+    // Optional: Selector for external workloads running in GCP.
+    repeated GCP gcp = 2;
+
+    // Optional: Selector for external workloads running in Azure.
+    repeated Azure azure = 3;
+
+    // Optional: Selector for external workloads using a join token.
+    // Specifies the SPIFFE ID associated with the join token.
+    repeated string join_token_spiffe_id = 4;
+
+    // $hide_from_docs
+    //
+    // AWS is a selector for external workloads running in AWS.
+    // If multiple fields are specified, they must all match.
+    message AWS {
+
+      // Optional: The IAM role within the instance profile of the external workload.
+      string iam_role = 1;
+
+      // Optional: The name of the security group associated with the external workload.
+      string security_group = 2;
+
+      // Optional: The ID of the AMI used to launch the external workload.
+      string image_id = 3;
+
+      // Optional: The ID of the external workload instance.
+      string instance_id = 4;
+
+      // Optional: The availability zone in which the external workload is running.
+      string zone = 5;
+
+      // Optional: The region where the external workload is running.
+      string region = 6;
+
+      // The tag applied as a key to the external workload.
+      Tag tag = 7;
+
+      // The tag applied as a key-value pair to the external workload.
+      message Tag {
+        // The key of the tag.
+        string key = 1;
+
+        // The value of the tag.
+        string value = 2;
+      }
+    }
+
+    // $hide_from_docs
+    //
+    // GCP is a selector for external workloads running in GCP.
+    // If multiple fields are specified, they must all match.
+    message GCP {
+
+      // Optional: The service account associated with the external workload.
+      string service_account = 1;
+
+      // Optional: Name of the external workload instance.
+      string name = 2;
+
+      // Optional: The tag applied as a key to the external workload.
+      string tag = 3;
+
+      // Optional: The ID of the project containing the external workload.
+      string project_id = 4;
+
+      // Optional: The availability zone in which the external workload is running.
+      string zone = 5;
+
+      // Optional: The label applied as a key=value pair to the external workload.
+      // The value for the key is optional.
+      Label label = 6;
+
+      // The label applied as a key=value pair to the external workload.
+      // The value for the key is optional.
+      message Label {
+        // The key of the label.
+        string key = 1;
+
+        // The value of the label.
+        string value = 2;
+      }
+    }
+
+    // $hide_from_docs
+    //
+    // Azure is a selector for external workloads running in Azure.
+    // If multiple fields are specified, they must all match.
+    message Azure {
+
+      // Optional: The subscription ID of the external workload.
+      string subscription_id = 1;
+
+      // Optional: The name of the security group associated with the external workload.
+      // If specified, the resource group field must also be specified.
+      string security_group = 2;
+
+      // Optional: The name of the virtual network the external workload belongs to.
+      // If specified, the resource group field must also be specified.
+      string virtual_network = 3;
+
+      // Optional: The name of the subnet in the virtual network the external workload belongs to.
+      // If specified, the resource group and virtual network fields must also be specified.
+      string subnet = 4;
+
+      // Optional: The name of the external workload instance.
+      // If specified, the resource group field must also be specified.
+      string name = 5;
+
+      // Optional: The resource group the external workload belongs to.
+      // The resource group in itself does not act as a selector, but is used in conjunction with
+      // the other fields.
+      // Must be specified if the security group, virtual network, subnet, or name fields are specified.
+      string resource_group = 6;
+    }
+  }
+
+  // $hide_from_docs
+  //
+  // Probe describes a health check to be performed against an external workload
+  // to determine whether it is alive or ready to receive traffic.
+  message Probe {
+
+    // Optional: Number of seconds after the external workload startup before the probes are initiated.
+    // Defaults to 0 seconds.
+    google.protobuf.UInt32Value initial_delay_seconds = 1;
+
+    // Optional: Number of seconds after which the probe times out.
+    // Defaults to 1 second. Minimum value is 1 second.
+    google.protobuf.UInt32Value timeout_seconds = 2;
+
+    // How often (in seconds) to perform the probe.
+    // Defaults to 10 seconds. Minimum value is 1 second.
+    google.protobuf.UInt32Value period_seconds = 3;
+
+    // Minimum consecutive successes for the probe to be considered successful after having failed.
+    // Defaults to 1.
+    google.protobuf.UInt32Value success_threshold = 4;
+
+    // Minimum consecutive failures for the probe to be considered failed after having succeeded.
+    // Defaults to 3.
+    google.protobuf.UInt32Value failure_threshold = 5;
+
+    // The handler corresponding to the probe, oneof: httpGet, tcpSocket, exec.
+    oneof handler {
+
+        // Describes the config for an HTTP probe request.
+        HTTPGetConfig http_get = 7;
+
+        // Describes the config for a TCP socket probe.
+        TCPSocketConfig tcp_socket = 8;
+
+        // Describes the config for an exec command probe.
+        ExecConfig exec = 9;
+    }
+
+    // $hide_from_docs
+    //
+    // Describes the config for an HTTP GET probe request.
+    message HTTPGetConfig {
+
+      // Number of the port to access, must be in the range 1 to 65535.
+      uint32 port = 1;
+
+      // Optional: Path to access on the HTTP server.
+      string path = 2;
+
+      // Optional: Scheme to use for connecting to the host.
+      // Defaults to HTTP.
+      Scheme scheme = 3;
+
+      // Optional: Custom headers to set in the request. HTTP allows repeated headers.
+      repeated HTTPHeader http_headers = 4;
+
+      // Scheme to use for connecting to the host.
+      enum Scheme {
+        // HTTP means that the scheme used will be http://.
+        HTTP = 0;
+
+        // HTTPS means that the scheme used will be https://.
+        HTTPS = 1;
+      }
+    }
+
+    // $hide_from_docs
+    //
+    // HTTPHeader describes a custom header to be used in HTTP probes.
+    message HTTPHeader {
+
+      // The header field name.
+      string name = 1;
+
+      // The header field value.
+      string value = 2;
+    }
+
+    // $hide_from_docs
+    //
+    // Describes the config for a TCP socket probe.
+    message TCPSocketConfig {
+
+      // Optional: Host to connect to, defaults to localhost
+      string host = 1;
+
+      // Number of the port to access, must be in the range 1 to 65535.
+      uint32 port = 2;
+    }
+
+    // $hide_from_docs
+    //
+    // Describes the config for an exec command probe.
+    message ExecConfig {
+
+      // Command to run. Exit status of 0 is treated as live/healthy and non-zero is unhealthy.
+      repeated string command = 1;
+    }
+  }
+}
+
+// $hide_from_docs
+//
+// Reflects the status of the ExternalWorkload.
+message ExternalWorkloadStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // A map of policy GVK to the number of policies that are applied on this resource,
+  // sorted by GVK.
+  map<string, uint32> num_applied_policies = 2;
+
+  // Name of the workspace that owns this ExternalWorkload
+  string owned_by_workspace = 3;
+}
+
+// $hide_from_docs
+//
+// Reflects the report of the ExternalWorkload.
+message ExternalWorkloadReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A map of policy GVK to policy references for all the policies that are
+  // applied on this resource.
+  map<string, .common.gloo.solo.io.AppliedDestinationPortPolicies> applied_destination_policies = 2;
+
+  // The name of the workspace that owns the ExternalService.
+  string owner_workspace = 3;
+}

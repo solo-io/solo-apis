@@ -1,0 +1,58 @@
+syntax = "proto3";
+package admin.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+import "github.com/solo-io/solo-apis/api/rate-limiter/v1alpha1/ratelimit.proto";
+import "google/api/field_behavior.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// RateLimitServerConfig is used to configure the ratelimit rules enforced by the server.
+// All RateLimitPolicy resources in a workspace require a RateLimitServerConfig to in order to configure ratelimit rules.
+// If no RateLimitServerConfig is provided, no ratelimit rules will be enforced.
+message RateLimitServerConfigSpec {
+
+  // This object used to specify rate limit policies using the raw configuration formats
+  // enforced by the ratelimit server. When using this configuration type, it is up to
+  // the user to ensure that server and client configurations match to implement the desired behavior.
+  message Raw {
+
+    // The descriptors that will be applied to the server.
+    // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
+    repeated .ratelimit.api.solo.io.Descriptor descriptors = 1 [(.solo.io.cue.opt).disable_openapi_validation = true];
+
+    // The set descriptors that will be applied to the server.
+    // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
+    repeated .ratelimit.api.solo.io.SetDescriptor set_descriptors = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
+
+  }
+
+  // Each `RateLimitServerConfig` is an instance of one specific configuration type.
+  // Currently, only raw configuration is supported, but going forward we are planning on adding
+  // more high-level configuration formats to support specific use cases.
+  oneof config_type {
+    // Define a policy using the raw configuration format used by the ratelimit server.
+    Raw raw = 1;
+  }
+
+  // Required field to specify the ratelimit servers that will enforce the defined descriptors.
+  repeated .common.gloo.solo.io.DestinationReference destination_servers = 4 [(google.api.field_behavior) = REQUIRED];
+
+}
+
+// The current status of the `RateLimitServerConfig`.
+message RateLimitServerConfigStatus {
+  .common.gloo.solo.io.Status common = 1;
+}
+
+message RateLimitServerConfigReport {
+  .common.gloo.solo.io.Report report = 1;
+}

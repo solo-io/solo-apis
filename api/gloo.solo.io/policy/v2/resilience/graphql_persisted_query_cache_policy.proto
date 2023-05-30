@@ -1,0 +1,72 @@
+syntax = "proto3";
+package resilience.policy.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
+
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// To improve network performance for large query strings, the GraphQL filter supports
+// automatic persisted queries. A persisted query is a query string that's cached on the server side,
+// along with it's hash. The client can then send the hash instead of the full query string, thus
+// reducing request sizes (responses are unaffected).
+// Persisted queries are especially effective when clients send queries as GET requests.
+// This enables clients to take advantage of the browser cache and integrate with a CDN.
+// If left empty, persisted query cache is not used.
+message GraphQLPersistedQueryCachePolicySpec {
+
+  // Select the graphql routes where the policy will be applied.
+  // If left empty, will apply to no graphql routes.
+  // selection via Destination selectors will not work for this policy, and only
+  // route selectors will work.
+  // If more than one GraphQLPersistedQueryCachePolicy applies to a GraphQLRoute, the oldest
+  // one will be applied.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // Persisted query cache configuration.
+  Config config = 2;
+
+  message Config {
+
+    // The number of queries to store in the persisted query cache, defaults to 1000.
+    uint32 cache_size = 1;
+  }
+}
+
+// reflects the status of the GraphQLPersistedQueryCachePolicy
+message GraphQLPersistedQueryCachePolicyStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // A list of references to all routes selected by the policy. 
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+}
+
+// $hide_from_docs
+message GraphQLPersistedQueryCachePolicyNewStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of routes selected by the policy. 
+  uint32 selected_routes = 2;
+}
+
+// $hide_from_docs
+message GraphQLPersistedQueryCachePolicyReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of references to all routes selected by the policy. 
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
+}

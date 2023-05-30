@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package internal.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "google/protobuf/any.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+// $hide_from_docs
+// This message is used to assembled a list of report shards into one object
+// to be persisted in redis.
+message Reports {
+  repeated google.protobuf.Any reports = 1;
+}
