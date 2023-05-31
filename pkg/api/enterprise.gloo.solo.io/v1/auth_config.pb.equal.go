@@ -870,6 +870,16 @@ func (m *UserSession) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetCipherConfig()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCipherConfig()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCipherConfig(), target.GetCipherConfig()) {
+			return false
+		}
+	}
+
 	switch m.Session.(type) {
 
 	case *UserSession_Cookie:
@@ -1358,6 +1368,10 @@ func (m *OidcAuthorizationCode) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetDisableClientSecret() != target.GetDisableClientSecret() {
+		return false
+	}
+
 	return true
 }
 
@@ -1464,6 +1478,10 @@ func (m *PlainOAuth2) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetRevocationEndpoint(), target.GetRevocationEndpoint()) != 0 {
+		return false
+	}
+
+	if m.GetDisableClientSecret() != target.GetDisableClientSecret() {
 		return false
 	}
 
@@ -1577,6 +1595,10 @@ func (m *IntrospectionValidation) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetUserIdAttributeName(), target.GetUserIdAttributeName()) != 0 {
+		return false
+	}
+
+	if m.GetDisableClientSecret() != target.GetDisableClientSecret() {
 		return false
 	}
 
@@ -3610,6 +3632,54 @@ func (m *UserSession_CookieOptions) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *UserSession_CipherConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*UserSession_CipherConfig)
+	if !ok {
+		that2, ok := that.(UserSession_CipherConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.Key.(type) {
+
+	case *UserSession_CipherConfig_KeyRef:
+		if _, ok := target.Key.(*UserSession_CipherConfig_KeyRef); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetKeyRef()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetKeyRef()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetKeyRef(), target.GetKeyRef()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Key != target.Key {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *JwtValidation_RemoteJwks) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -4182,6 +4252,93 @@ func (m *ExtAuthConfig_OAuthConfig) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *ExtAuthConfig_UserSessionConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_UserSessionConfig)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_UserSessionConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetFailOnFetchFailure() != target.GetFailOnFetchFailure() {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetCookieOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCookieOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCookieOptions(), target.GetCookieOptions()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetCipherConfig()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCipherConfig()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCipherConfig(), target.GetCipherConfig()) {
+			return false
+		}
+	}
+
+	switch m.Session.(type) {
+
+	case *ExtAuthConfig_UserSessionConfig_Cookie:
+		if _, ok := target.Session.(*ExtAuthConfig_UserSessionConfig_Cookie); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetCookie()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetCookie()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetCookie(), target.GetCookie()) {
+				return false
+			}
+		}
+
+	case *ExtAuthConfig_UserSessionConfig_Redis:
+		if _, ok := target.Session.(*ExtAuthConfig_UserSessionConfig_Redis); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetRedis()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetRedis()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetRedis(), target.GetRedis()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Session != target.Session {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -4339,6 +4496,20 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Equal(that interface{}) bool
 		if !proto.Equal(m.GetEndSessionProperties(), target.GetEndSessionProperties()) {
 			return false
 		}
+	}
+
+	if h, ok := interface{}(m.GetUserSession()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetUserSession()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetUserSession(), target.GetUserSession()) {
+			return false
+		}
+	}
+
+	if m.GetDisableClientSecret() != target.GetDisableClientSecret() {
+		return false
 	}
 
 	return true
@@ -4551,6 +4722,20 @@ func (m *ExtAuthConfig_PlainOAuth2Config) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetRevocationEndpoint(), target.GetRevocationEndpoint()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetUserSession()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetUserSession()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetUserSession(), target.GetUserSession()) {
+			return false
+		}
+	}
+
+	if m.GetDisableClientSecret() != target.GetDisableClientSecret() {
 		return false
 	}
 
@@ -5206,6 +5391,34 @@ func (m *ExtAuthConfig_Config) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *ExtAuthConfig_UserSessionConfig_CipherConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_UserSessionConfig_CipherConfig)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_UserSessionConfig_CipherConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetKey(), target.GetKey()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -5306,6 +5519,10 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig_IntrospectionValidation) Equa
 	}
 
 	if strings.Compare(m.GetUserIdAttributeName(), target.GetUserIdAttributeName()) != 0 {
+		return false
+	}
+
+	if m.GetDisableClientSecret() != target.GetDisableClientSecret() {
 		return false
 	}
 

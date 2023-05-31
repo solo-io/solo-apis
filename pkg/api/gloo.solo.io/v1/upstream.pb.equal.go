@@ -254,6 +254,16 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetProxyProtocolVersion()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetProxyProtocolVersion()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetProxyProtocolVersion(), target.GetProxyProtocolVersion()) {
+			return false
+		}
+	}
+
 	switch m.UpstreamType.(type) {
 
 	case *UpstreamSpec_Kube:

@@ -66,6 +66,12 @@ func (m *SettingsSpec) Clone() proto.Message {
 		}
 	}
 
+	if h, ok := interface{}(m.GetSecretOptions()).(clone.Cloner); ok {
+		target.SecretOptions = h.Clone().(*SettingsSpec_SecretOptions)
+	} else {
+		target.SecretOptions = proto.Clone(m.GetSecretOptions()).(*SettingsSpec_SecretOptions)
+	}
+
 	if h, ok := interface{}(m.GetRefreshRate()).(clone.Cloner); ok {
 		target.RefreshRate = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
@@ -588,6 +594,30 @@ func (m *SettingsNamespacedStatuses) Clone() proto.Message {
 }
 
 // Clone function
+func (m *SettingsSpec_SecretOptions) Clone() proto.Message {
+	var target *SettingsSpec_SecretOptions
+	if m == nil {
+		return target
+	}
+	target = &SettingsSpec_SecretOptions{}
+
+	if m.GetSources() != nil {
+		target.Sources = make([]*SettingsSpec_SecretOptions_Source, len(m.GetSources()))
+		for idx, v := range m.GetSources() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Sources[idx] = h.Clone().(*SettingsSpec_SecretOptions_Source)
+			} else {
+				target.Sources[idx] = proto.Clone(v).(*SettingsSpec_SecretOptions_Source)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *SettingsSpec_KubernetesCrds) Clone() proto.Message {
 	var target *SettingsSpec_KubernetesCrds
 	if m == nil {
@@ -948,6 +978,57 @@ func (m *SettingsSpec_ObservabilityOptions) Clone() proto.Message {
 			}
 
 		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *SettingsSpec_SecretOptions_Source) Clone() proto.Message {
+	var target *SettingsSpec_SecretOptions_Source
+	if m == nil {
+		return target
+	}
+	target = &SettingsSpec_SecretOptions_Source{}
+
+	switch m.Source.(type) {
+
+	case *SettingsSpec_SecretOptions_Source_Kubernetes:
+
+		if h, ok := interface{}(m.GetKubernetes()).(clone.Cloner); ok {
+			target.Source = &SettingsSpec_SecretOptions_Source_Kubernetes{
+				Kubernetes: h.Clone().(*SettingsSpec_KubernetesSecrets),
+			}
+		} else {
+			target.Source = &SettingsSpec_SecretOptions_Source_Kubernetes{
+				Kubernetes: proto.Clone(m.GetKubernetes()).(*SettingsSpec_KubernetesSecrets),
+			}
+		}
+
+	case *SettingsSpec_SecretOptions_Source_Vault:
+
+		if h, ok := interface{}(m.GetVault()).(clone.Cloner); ok {
+			target.Source = &SettingsSpec_SecretOptions_Source_Vault{
+				Vault: h.Clone().(*SettingsSpec_VaultSecrets),
+			}
+		} else {
+			target.Source = &SettingsSpec_SecretOptions_Source_Vault{
+				Vault: proto.Clone(m.GetVault()).(*SettingsSpec_VaultSecrets),
+			}
+		}
+
+	case *SettingsSpec_SecretOptions_Source_Directory:
+
+		if h, ok := interface{}(m.GetDirectory()).(clone.Cloner); ok {
+			target.Source = &SettingsSpec_SecretOptions_Source_Directory{
+				Directory: h.Clone().(*SettingsSpec_Directory),
+			}
+		} else {
+			target.Source = &SettingsSpec_SecretOptions_Source_Directory{
+				Directory: proto.Clone(m.GetDirectory()).(*SettingsSpec_Directory),
+			}
+		}
+
 	}
 
 	return target

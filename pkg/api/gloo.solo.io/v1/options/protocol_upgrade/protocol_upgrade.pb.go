@@ -29,7 +29,6 @@ type ProtocolUpgradeConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to UpgradeType:
-	//
 	//	*ProtocolUpgradeConfig_Websocket
 	//	*ProtocolUpgradeConfig_Connect
 	UpgradeType isProtocolUpgradeConfig_UpgradeType `protobuf_oneof:"upgrade_type"`

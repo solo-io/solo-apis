@@ -30,7 +30,6 @@ type Matcher struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to PathSpecifier:
-	//
 	//	*Matcher_Prefix
 	//	*Matcher_Exact
 	//	*Matcher_Regex
@@ -181,7 +180,7 @@ type Matcher_Regex struct {
 	//
 	// Note that the complexity of the regex is constrained by the regex engine's "program size" setting.
 	// If your regex is too complex, you may need to adjust the `regexMaxProgramSize` field
-	// in the `GlooOptions` section of your `Settings` resource
+	// in the `GlooOptions` section of your `Settings` resource (The gloo default is 1024)
 	Regex string `protobuf:"bytes,3,opt,name=regex,proto3,oneof"`
 }
 
@@ -224,7 +223,7 @@ type HeaderMatcher struct {
 	// Examples:
 	// * name=foo, invert_match=true: matches if no header named `foo` is present
 	// * name=foo, value=bar, invert_match=true: matches if no header named `foo` with value `bar` is present
-	// * name=foo, value=“\d{3}“, regex=true, invert_match=true: matches if no header named `foo` with a value consisting of three integers is present
+	// * name=foo, value=``\d{3}``, regex=true, invert_match=true: matches if no header named `foo` with a value consisting of three integers is present
 	InvertMatch bool `protobuf:"varint,4,opt,name=invert_match,json=invertMatch,proto3" json:"invert_match,omitempty"`
 }
 
