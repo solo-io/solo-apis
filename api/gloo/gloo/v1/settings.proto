@@ -48,7 +48,6 @@ message SettingsSpec {
     };
 
     // Determines where Gloo will read/write secrets from/to.
-    // When secretOptions API is fully implemented, this field will be deprecated.
     oneof secret_source {
         KubernetesSecrets kubernetes_secret_source = 6;
         VaultSecrets vault_secret_source = 7;
@@ -56,7 +55,7 @@ message SettingsSpec {
     };
 
     // Settings for secrets storage.
-    // NOTE: this API will be implemented in a follow-up PR
+    // This API is experimental and not suitable for production use
     SecretOptions secret_options = 38;
 
     message SecretOptions {
@@ -69,8 +68,8 @@ message SettingsSpec {
             };
         }
 
-        // List of configured secret sources. These clients will be initialized
-        // in parallel in indeterminate order.
+        // Required. List of configured secret sources. These clients will be sorted and
+        // initialized in a stable order kubernetes > directory > vault.
         repeated Source sources = 1;
     }
 
