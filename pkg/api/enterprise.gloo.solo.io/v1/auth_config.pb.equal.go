@@ -1598,10 +1598,6 @@ func (m *IntrospectionValidation) Equal(that interface{}) bool {
 		return false
 	}
 
-	if m.GetDisableClientSecret() != target.GetDisableClientSecret() {
-		return false
-	}
-
 	return true
 }
 
@@ -5519,10 +5515,6 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig_IntrospectionValidation) Equa
 	}
 
 	if strings.Compare(m.GetUserIdAttributeName(), target.GetUserIdAttributeName()) != 0 {
-		return false
-	}
-
-	if m.GetDisableClientSecret() != target.GetDisableClientSecret() {
 		return false
 	}
 
