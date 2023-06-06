@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package trafficcontrol.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// MirrorPolicy is used to mirror/shadow traffic to a another destination (traffic will be sent to its original destination in addition to the mirrored destinations).
+// MirrorPolicies are applied at the *Route* level.
+message MirrorPolicySpec {
+
+  // select the routes where the policy will be applied
+  // if left empty, will apply to all routes in the workspace.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // The details of the Mirror policy to apply to the selected routes
+  Config config = 2;
+
+  message Config {
+
+    // The destination to which to send mirrored traffic
+    .common.gloo.solo.io.DestinationReference destination = 1;
+
+    // Percentage of traffic to mirror. If omitted all traffic will be mirrored. Values must be between 0 and 100.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
+    google.protobuf.DoubleValue percentage = 2;
+
+  }
+}
+
+// reflects the status of the MirrorPolicy
+message MirrorPolicyStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Routes selected by the policy
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+
+}

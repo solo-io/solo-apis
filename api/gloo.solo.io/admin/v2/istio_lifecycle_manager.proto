@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package admin.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_operator.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+message IstioLifecycleManagerSpec {
+  // List of Istio control plane installations.
+  // Any components that are NOT related to the control plane are ignored.
+  repeated IstioInstallation installations = 1;
+}
+
+message IstioClusterSelector {
+
+  // Name of the cluster to install Istio into.
+  // Must match the registered cluster name.
+  string name = 1;
+
+  // Optional: Defaults to false.
+  // When set to true, the installation for this revision is applied as the active Istio installation in the cluster.
+  // Resources with the `istio-injection=true` label entry use this revision. You might change this setting for Istio installations
+  // during a canary upgrade. For more info, see the [upgrade docs](https://docs.solo.io/gloo-gateway/main/setup/legacy/managed_upgrade/).
+  bool default_revision = 2;
+
+  // Optional: By default, the `trustDomain` value is automatically set in the meshConfig by the installer to the name of each workload cluster.
+  // To override the `trustDomain` for each cluster, you can instead specify the override value in the `trustDomain` field,
+  // and include the value in the list of cluster names. For example, if you specify `trustDomain: cluster1-trust-override` in the operator spec,
+  // you then specify the cluster name (`cluster1`) and the trust domain (`cluster1-trust-override`) in the list of cluster names.
+  // Additionally, because Gloo requires multiple trust domains for east-west routing, the `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` field is set to `"true"` by default. 
+  // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1).
+  string trust_domain = 5;
+}
+
+message IstioInstallation {
+  // Istio revision for this installation, such as '1-17'. 
+  // Label workload resources with 'istio.io/rev=$REVISION' to use this installation.
+  string revision = 1;
+
+  // Clusters to install the Istio control planes in.
+  repeated IstioClusterSelector clusters = 2;
+
+  // IstioOperator specification for the control plane.
+  // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
+  .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 3;
+
+}
+
+message IstioLifecycleManagerStatus {
+
+  // The status of each Istio installation that is being managed by Gloo Mesh, where
+  // the key is the cluster name of the installation.
+  map<string, ClusterStatuses> clusters = 1;
+
+  message ClusterStatuses {
+    // The Istio installations by revision.
+    map<string, InstallationStatus> installations = 1;
+
+    message InstallationStatus {
+      // State of the Istio installation
+      State state = 1;
+
+      // A human readable message about the current state of the IstioInstallationInstance.
+      string message = 2;
+
+      // operator that is currently deployed for this revision
+      .common.gloo.solo.io.IstioOperatorSpec observed_operator = 4;
+
+      // The state of an Istio installation.
+      enum State {
+        // Waiting for resources to be installed or updated.
+        PENDING = 0;
+
+        // Gloo Mesh server encountered a problem while attempting
+        // to install Istio.
+        FAILED = 1;
+
+        // In the process of installing the controller.
+        INSTALLING_CONTROLLER = 2;
+
+        // Controller failed to install.
+        CONTROLLER_INSTALL_FAILED = 3;
+
+        // In the process of installing Istio control plane.
+        INSTALLING_CONTROL_PLANE = 4;
+
+        // Failed to install Istio control plane.
+        CONTROL_PLANE_INSTALL_FAILED = 5;
+
+        // All Istio components are successfully installed and healthy.
+        HEALTHY = 6;
+
+        // The Istio installation is no longer healthy.
+        UNHEALTHY = 7;
+
+        // The control plane IstioOperator CR is in an 'ACTION_REQUIRED' state, please check logs of IstioOperator deployment for more info.
+        ACTION_REQUIRED = 8;
+
+        // The control plane IstioOperator CR is in an 'UPDATING' state\
+        UPDATING_CONTROL_PLANE = 9;
+
+        // The control plane IstioOperator CR is in an 'RECONCILING' state
+        RECONCILING_CONTROL_PLANE = 10;
+
+        // The control plane installation state could not be determined
+        UNKNOWN = 11;
+      }
+    }
+  }
+}
+

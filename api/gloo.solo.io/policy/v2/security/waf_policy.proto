@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package security.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/envoy-gloo-ee/api/envoy/config/filter/http/modsecurity/v2/modsecurity.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// WAFPolicy is used to set safeguard your services with the functionality of Web ApplicationFirewall
+// WAFPolicies are applied at the *Route* level.
+message WAFPolicySpec {
+
+  // select the routes where the policy will be applied
+  // if left empty, will apply to all routes in the workspace.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // The details of the WAF policy to apply to the selected routes.
+  Config config = 2;
+
+  message Config {
+    // Disable the OWASP core rule set from being applied
+    bool disable_core_rule_set = 1;
+
+    // If core_rule_set is not disabled, this field MUST be present.
+    // This configures various aspects of the OWASP Core Rule Set.
+    // See here for more info on how to configure https://github.com/coreruleset/coreruleset
+    oneof core_rule_set_settings {
+      // An inline string of the core rule set settings
+      string core_rule_set_settings_string = 8;
+      // The path to the core rule set settings to use
+      string core_rule_set_settings_path = 9;
+    }
+    // Overwrite the global rules on this route
+    repeated .envoy.config.filter.http.modsecurity.v2.RuleSet custom_rule_sets = 2;
+    // Custom message to display when an intervention occurs
+    string custom_intervention_message = 3;
+    // This instructs the filter what to do with the transaction's audit log.
+    .envoy.config.filter.http.modsecurity.v2.AuditLogging audit_logging = 4;
+    // If set, the body will not be buffered and fed to ModSecurity. Only the
+    // headers will. This can help improve performance.
+    bool request_headers_only = 5;
+    bool response_headers_only = 6;
+    // Optional field that is used to determine the order in which rule sets
+    // between policies are applied. Modsec rulesets for each policy
+    // is applied from the lowest numerical priority to the highest numerical priority if it is provided.
+    // Use this field for all WAF policies applicable to a route or not at all. Defaults to nil if not provided,
+    // and WAF policies will be applied in order of ascending creation time.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
+    google.protobuf.UInt32Value priority = 7;
+  }
+}
+
+// reflects the status of the WAFPolicy
+message WAFPolicyStatus {
+
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Routes selected by the policy
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+}
