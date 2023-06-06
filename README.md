@@ -39,6 +39,8 @@ replace (
 )
 ```
 
+Finally run `go mod tidy` to add any missing dependencies necessary to build your package.
+
 ## Examples
 The [examples directory](./examples) contains examples that cover various use cases and functionality for client-go for
 interacting with the Kubernetes API and Gloo Mesh objects.
