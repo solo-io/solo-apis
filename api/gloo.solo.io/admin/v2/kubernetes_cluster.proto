@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package admin.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// `KubernetesCluster` defines a Kubernetes cluster that has been registered with Gloo Mesh for management.
+// A KubernetesCluster must be created in order to connect the Gloo Mesh Agent
+// with the Gloo Mesh Server.
+// KubernetesCluster must be deployed to the management cluster in the `gloo-mesh` namespace.
+// The name of the KubernetesCluster has to be unique among all managed workload clusters for a 
+// given Gloo Mesh management plane.
+// The name or/and labels of a KubernetesCluster resource can be used in a Workspace resource to determine
+// the workload clusters for a given workspace.
+//
+// The following example show a simple KubernetesCluster resource named `cluster1` with `cluster.local`
+// as its cluster domain:
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: KubernetesCluster
+// metadata:
+//   name: cluster1
+//   namespace: gloo-mesh
+// spec:
+//   clusterDomain: cluster.local
+// ```
+//
+// The following example adds the region label to the KubernetesCluster resource:
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: KubernetesCluster
+// metadata:
+//   name: cluster1
+//   namespace: gloo-mesh
+//   labels:
+//     region: us-east
+// spec:
+//   clusterDomain: cluster.local
+// ```
+//
+message KubernetesClusterSpec {
+  // Optional: The cluster domain suffix this Cluster is configured with. Defaults to 'cluster.local'.
+  string cluster_domain = 1;
+}
+
+// Reflects the status of the Kubernetes cluster
+message KubernetesClusterStatus {
+  // Indicates the state of the Gloo agent that is connected to the Gloo management server.
+  .common.gloo.solo.io.Status common = 1;
+}
+
+message KubernetesClusterReport {
+  .common.gloo.solo.io.State state = 1;
+}

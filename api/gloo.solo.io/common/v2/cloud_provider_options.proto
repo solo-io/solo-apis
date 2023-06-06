@@ -1,0 +1,62 @@
+syntax = "proto3";
+package common.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+message LambdaOptions {
+
+  RequestTransformation request_transformation = 1;
+
+  ResponseTransformation response_transformation = 2;
+
+  enum RequestTransformation {
+    // Default value. include headers, querystring, request path, and request method in the event payload sent to aws lambda.
+    REQUEST_DEFAULT = 0;
+    // Disable all transformations for the request to AWS Lambda.
+    REQUEST_DISABLE = 1;
+  }
+
+  enum ResponseTransformation {
+    // Default value. Unwrap the response as if the proxy was an AWS API Gateway. de-jsonify response bodies returned
+    // from aws lambda, sets response status code, and sets response headers from the JSON payload.
+    RESPONSE_DEFAULT = 0;
+    // Disable all transformations for the response from AWS Lambda.
+    RESPONSE_DISABLE = 1;
+  }
+
+  // Can be either Sync or Async. See [AWS Invoke](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html)
+  // for more details.
+  InvocationStyle invocation_style = 3;
+  enum InvocationStyle {
+    SYNC = 0;
+    ASYNC = 1;
+  }
+}
+
+message CloudProviderFilterOptions {
+  oneof provider_options {
+    // Optional: filter out route tables that use AWS functionality, if provided. Each evaluated route must match at
+    // at least one of every repeated field provided, if not empty.
+    AWSFilterOptions aws = 1;
+  }
+}
+
+message AWSFilterOptions {
+  // Optional: filter out route tables that use an AWS account ID which does not match the selector, if provided.
+  repeated string account_ids = 1;
+
+  // Optional: filter out route tables that use IAM invoke roles which do not match the selector, if provided.
+  // Regex supported.
+  repeated string iam_roles = 2;
+
+  // Optional: filter out route tables that use regions which do not match the selector, if provided.
+  repeated string regions = 3;
+
+  // Optional: filter out route tables that use backend Lambda functions that do no match the selector,
+  // if provided. Regex supported.
+  repeated string lambda_functions = 4;
+}

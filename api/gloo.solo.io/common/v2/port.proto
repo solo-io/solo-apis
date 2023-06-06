@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package common.gloo.solo.io;
+
+import "extproto/ext.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+// selects an individual port by number or name
+message PortSelector {
+  oneof specifier {
+    // the number of the port on the destination objects being targeted.
+    uint32 number = 4;
+
+    // the name of the port on the destination objects being targeted.
+    string name = 5;
+  }
+}
