@@ -1,0 +1,350 @@
+syntax = "proto3";
+
+package apimanagement.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// The GraphQLResolverMap Resource contains a mapping from types to fields to
+// resolutions. For example, for a schema with type `Query` and field `GetName`
+// ```graphql
+//  type Query {
+//    GetName: String
+//  }
+// ```
+// you can configure a resolver for the `GetName` field as follows:
+// ```yaml
+// types:
+//   Query:
+//     fields:
+//       GetName:
+//         <insert resolver config>
+// ```
+message GraphQLResolverMapSpec {
+
+  // Map of GraphQL types to field resolutions.
+  // The key must match the GraphQL type name and is case-sensitive.
+  // Every field under GraphQL root types (Query, Mutation) must have a resolver defined.
+  map<string, Resolution> types = 1;
+
+  // Extensions that apply to the resolvers in this ResolverMap.
+  ResolverMapExtensions extensions = 2;
+
+  message Resolution {
+    // Map of GraphQL fields for the type to resolutions.
+    // The key must match the GraphQL field name and is case-sensitive.
+    // Fields that don't have resolvers will use the GraphQL default resolver,
+    // which returns the field in the parent object with the same name as the GraphQL field.
+    map<string, Resolvers> fields = 1;
+
+    message Resolvers {
+      // List of resolvers.
+      // Currently, only one the first resolver configuration will be respected and a warning will be thrown
+      // if more than one resolver is in the list.
+      repeated Resolver resolvers = 1;
+
+      /*
+        (kdorosh) - In the future, the `variables` field could be part of a `oneof`, where we delegate to
+        an external GraphQLVariables resource. This may be a rare use case, but one we can potentially
+        implement given customer demand.
+       */
+
+      // Variables that can be used as a part of transformations for this field's resolution.
+      // The key is the name of the variable, which is directly used in the transformation.
+      // The value defines where the variable value is extracted from on the GraphQL request.
+      map<string, Extraction> variables = 2;
+
+      // The stats prefix which will be used for this resolver.
+      // If empty, will generate a stats prefix ${RESOLVER_NAME}
+      google.protobuf.StringValue stat_prefix = 4;
+
+      message Resolver {
+        // The resolver to use.
+        oneof resolver {
+          // Resolves values by making a HTTP/2 request to a HTTP/REST destination.
+          RestResolver rest_resolver = 3;
+
+
+          // Resolves fields by making a gRPC call to a gRPC destination.
+          GrpcResolver grpc_resolver = 2;
+
+          // Resolves fields via a mocked response that is configured.
+          MockResolver mock_resolver = 4;
+        }
+
+        // Use a transformation on extracted variables to transform the upstream REST response.
+        // By default, the transformation is empty and the destination response is left as is before
+        // being passed into the GraphQL execution engine.
+        VariableTransformation resolver_result_transform = 10;
+
+        message RestResolver {
+          // Required: list of destinations which point to destinations containing
+          // a RESTful service. Must provide at least one destination.
+          //
+          // (Note: only the first destination will be used)
+          repeated .common.gloo.solo.io.DestinationReference destinations = 1;
+
+          // Configuration to template a HTTP request to fetch JSON from a destination REST service.
+          // This includes configuration such as setting headers dynamically on the HTTP request, configuring query_params,
+          // and setting the body for the request to the destination.
+          RequestTemplate request = 2;
+
+          // Variables that can be used in this field's response transform.
+          // The key is the name of the variable, which is directly used in the transformation.
+          // The value defines where the variable value is extracted from on the GraphQL REST response.
+          map<string, RESTVariable> variables = 3;
+
+          // The span name for the upstream REST request, used for tracing.
+          // If left empty or not set, the request span name will be set to the upstream cluster name.
+          google.protobuf.StringValue span_name = 4;
+
+          // Set the timeout of the HTTP request to the REST service (default 5s)
+          // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+          google.protobuf.Duration timeout = 5;
+
+          message RequestTemplate {
+            // Sets the headers on the request to the REST destination.
+            // This includes setting HTTP :path header.
+            // This is a map of HTTP Header name to a transformation which determines the Header value.
+            // The transformation must result in a string value, or an error will be sent back to the client.
+            // By default, the :method header is set to GET. If `body` is set, then the :method is POST. This can be overridden
+            // by setting the :method header manually below.
+            map<string, VariableTransformation> headers = 1;
+
+            // Sets the query parameters on the request to the REST destination.
+            // The transformation must result in a string value, or an error will be sent back to the client.
+            map<string, VariableTransformation> query_params = 2;
+
+            // Sets the outgoing body to the upstream REST destination.
+            // By default, the body is empty.
+            VariableTransformation body = 3;
+          }
+
+          message RESTVariable {
+            oneof extraction {
+              // Only available on resolver result transformations
+              // Extract the value from the GraphQL HTTP response header. The extracted value is a string.
+              // If this Extraction is used in a place where response headers are not available, an error
+              // will be thrown during configuration time.
+              string response_header = 1;
+            }
+          }
+        }
+
+        message GrpcResolver {
+          // Required: list of destinations which point to destinations containing
+          // a gRPC service. Must provide at least one destination.
+          //
+          // (Note: only the first destination will be used)
+          repeated .common.gloo.solo.io.DestinationReference destinations = 1;
+
+          RequestTemplate request = 2;
+
+          // The span name for the upstream gRPC request, used for tracing.
+          // If left empty or not set, the request span name will be set to the upstream cluster name.
+          google.protobuf.StringValue span_name = 3;
+
+          // Set the timeout of the HTTP request to the gRPC service (default 5s)
+          // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+          google.protobuf.Duration timeout = 4;
+
+          message RequestTemplate {
+            // The gRPC service to call.
+            string service = 1;
+
+            // The gRPC method to call.
+            string method = 2;
+
+            // The gRPC request body.
+            // The request body is a JSON object that will be marshalled into the gRPC request.
+            // The request body can be templated using variables from the `variables` field.
+            VariableTransformation outgoing_message = 3;
+
+            // Static metadata to be added to the gRPC request.
+            // See https://grpc.io/docs/what-is-grpc/core-concepts/#metadata for more information.
+            map<string, string> request_metadata = 4;
+
+            // The :authority header to set on the gRPC request.
+            // If empty, the outgoing :authority header will be set to "envoy".
+            // This does not need to be set in most cases.
+            google.protobuf.StringValue authority = 5;
+          }
+
+        }
+
+        message MockResolver {
+
+          oneof response {
+            // The response to return for this field.
+            // The response is a JSON object that can be templated from the `variables` field.
+            // This response is immediately returned to the GraphQL execution engine.
+            VariableTransformation sync_response = 1;
+
+            // The response to return for this field.
+            // The response is a JSON object that can be templated from the `variables` field.
+            // This response is returned to the GraphQL execution engine after a delay.
+            AsyncResponse async_response = 2;
+
+            // An error response to return for this field.
+            string error_response = 3;
+          }
+
+
+          message AsyncResponse {
+            // The delay before the response is returned.
+            // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+            google.protobuf.Duration delay = 1;
+
+            // The response to return.
+            // The response is a JSON object that can be templated from the `variables` field.
+            VariableTransformation response = 2;
+          }
+        }
+      }
+    }
+  }
+  message ResolverMapExtensions {
+    // Selects API Schema objects that describe a gRPC service.
+    // This is used only in gRPC resolvers that are defined in this resolver map.
+    // The gRPC resolver uses the protobuf descriptor to create gRPC requests to the upstream gRPC service.
+    // Any non-gRPC API Schema that is selected here will be ignored.
+    // gRPC schemas will be checked for validity, as well as package/message conflicts at configuration time and will
+    // fail loudly if not valid.
+    .common.gloo.solo.io.ObjectSelector grpc_schema_selector = 1;
+  }
+}
+
+// Variable transformations are used to take variables that were declared
+// and transform them using a transformation. The simplest transformation is the `variable`
+// transform, which passes through the value of a single variable. For more complex transforms,
+// the `jq` transformation can be used to form more complicated JSON values.
+//
+// **Using variables**:
+//
+// Variables that are declared in the `variables` field are available at the top level of the input JSON object to the
+// jq filter.
+// For example, if the following variables have been declared:
+// ```yaml
+// variables:
+//   userIdHeader:
+//     request_header: x-user-id
+//   resolverResultVar:
+//     resolver_result: {}
+// ```
+// then the input object to the `jq` filter would be
+// ```json
+// {
+//  "userIdHeader": <x-user-id header value from GraphQL request>,
+//  "resolverResultVar": { .. the resolver result .. }
+// }
+// ```
+//
+// **Using a jq filter**:
+//
+// Given the following input object to the `jq` transformation, we can use a filter to transform the values.
+// ```json
+// {
+//  "userIdHeader": "john_doe123",
+//  "resolverResultVar": { "data": {"name": "John Doe"} }
+// }
+// ```
+// If the `jq` filter is defined as
+// ```
+// "User: " + .userIdHeader + ", Name: " + .resolverResultVar.data.name
+// ```
+// the result of the jq transformation would be
+// ```
+// "User john_doe123, Name: John Doe"
+// ```
+message VariableTransformation {
+
+  // Transformations on variable extractions.
+  oneof transformation {
+
+    // The name of a variable declared in the `variables` field. The value of the variable
+    // is returned with no transformation.
+    string variable = 1;
+
+    // The [jq](https://stedolan.github.io/jq/manual/) filter which is used to provide a value.
+    // variables defined in `variables` can be used in the jq filter via regular jq variable syntax.
+    // For example, a variable named "userIdHeader" can be used in a jq filter as `$userIdHeader`
+    // Jq filters must only result in one value, or an error will be sent back to the client.
+    // For example, for the input `[1,2,3]`, the jq filter '.[]' is not a valid jq filter as it results
+    // in multiple jq results. However, the jq filter '. &#124; join(",")' is valid as it results in one result: "1,2,3".
+    // Refer to the [jq manual](https://stedolan.github.io/jq/manual/) for jq syntax and tips.
+    string jq = 2;
+
+    // Static JSON value. 
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+    google.protobuf.Value json = 3 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
+  }
+}
+
+// Extractions are used to assign values to variables from various sources of data in the GraphQL
+// request or response. This includes HTTP headers, Envoy Dynamic Metadata, or GraphQL query-specific args.
+message Extraction {
+  oneof extraction_type {
+    // Extract the value from the GraphQL HTTP request header. The extracted value is a string.
+    // If the header doesn't exist, an empty string will be used.
+    string request_header = 1;
+    // Extract the value from envoy dynamic metadata. The extracted value is an object.
+    DynamicMetadataExtraction dynamic_metadata = 2;
+    // Assigns the variable to the parent object
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+    google.protobuf.Empty graphql_parent = 3;
+    // Assigns the variable to the GraphQL Argument with this name.
+    // If this name doesn't exist, the variable is `null`
+    string graphql_arg = 4;
+    // Assigns the variable to the GraphQL resolver result.
+    // If this Extraction is used in a place where the resolver result is not available, an error
+    // will be thrown during configuration time.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+    google.protobuf.Empty resolver_result = 5;
+    // Assigns the variable to a JSON value specified here
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+    google.protobuf.Value json = 6 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
+
+    // In the future, we may want to allow for nested extractions along with transformations.
+    // See https://github.com/solo-io/solo-apis/pull/4354#discussion_r919055587 for discussion
+    //          Extraction variables = 8;
+
+  }
+
+  // In the future, we may want to also include a Transformation here so we can declare the value of the variables
+  // to some transformed value. see https://github.com/solo-io/solo-apis/pull/4354#discussion_r919055587 for discussion.
+  // Transformation transformation = 9;
+
+}
+
+message DynamicMetadataExtraction {
+  // The envoy dynamic metadata namespace that the data lives in. If the namespace doesn't exist in the
+  // metadata, the extraction yields null
+  string metadata_namespace = 1;
+  // The key under the envoy dynamic metadata namespace that the data lives under.
+  // If the key doesn't exist in the namespace, the extraction yields null
+  string key = 2;
+}
+
+message GraphQLResolverMapStatus {
+  .common.gloo.solo.io.GenericGlobalStatus global = 1;
+
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
+
+  // Name of Workspace that owns the GraphQLResolverMap
+  .common.gloo.solo.io.OwnerWorkspace owner_workspace = 3;
+}

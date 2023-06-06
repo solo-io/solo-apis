@@ -1,0 +1,68 @@
+syntax = "proto3";
+package common.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// FunctionDestinationSpec specifies the name and options to use when calling a serverless function.
+message FunctionDestinationSpec {
+  // The logical name used to call the specified Cloud Provider.
+  string logical_name = 1;
+  // Provider-specific options that can be used when routing to cloud functions.
+  oneof provider_options {
+    LambdaOptions aws_lambda = 2;
+  }
+}
+
+message LambdaOptions {
+
+  // Unwrap the response as if the proxy was an ALB.
+  // Intended to ease migration when previously using alb to invoke Lambdas.
+  // For further information see below link for the expected format when true.
+  // https://docs.aws.amazon.com/elasticloadbalancing/latest/application/lambda-functions.html
+  // Only one of `unwrapAsAlb` or `unwrapAsApiGateway` should be provided.
+  // If more than one is provided only one will be checked with priority unwrapAsAlb, unwrapAsApiGateway
+  bool unwrapAsAlb = 1;
+
+  // Unwrap the response as if the proxy was an AWS API Gateway.
+  // Intended to ease migration when previously using API Gateway to invoke Lambdas.
+  // Only one of `unwrapAsAlb` or `unwrapAsApiGateway` should be provided.
+  // If more than one is provided only one will be checked with priority unwrapAsAlb, unwrapAsApiGateway
+  bool unwrapAsApiGateway = 3;
+
+
+  // Can be either Sync or Async. See [AWS Invoke](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html)
+  // for more details.
+  InvocationStyle invocation_style = 2;
+  enum InvocationStyle {
+    SYNC = 0;
+    ASYNC = 1;
+  }
+}
+
+message CloudProviderFilterOptions {
+  oneof provider_options {
+    // Optional: filter out route tables that use AWS functionality, if provided. Each evaluated route must match at
+    // at least one of every repeated field provided, if not empty.
+    AWSFilterOptions aws = 1;
+  }
+}
+
+message AWSFilterOptions {
+  // Optional: filter out route tables that use an AWS account ID which does not match the selector, if provided.
+  repeated string account_ids = 1;
+
+  // Optional: filter out route tables that use IAM invoke roles which do not match the selector, if provided.
+  // Regex supported.
+  repeated string iam_roles = 2;
+
+  // Optional: filter out route tables that use regions which do not match the selector, if provided.
+  repeated string regions = 3;
+
+  // Optional: filter out route tables that use backend Lambda functions that do no match the selector,
+  // if provided. Regex supported.
+  repeated string lambda_functions = 4;
+}
