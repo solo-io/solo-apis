@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package networking.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/locality.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// ExternalEndpoint defines a static IP for routing which exist outside the mesh. ExternalEndpoints provide a mechanism for direct resolution of the addresses backing ExternalServices.
+message ExternalEndpointSpec {
+  // Address associated with the network endpoint without the
+  // port.  Domain names can be used if and only if the resolution is set
+  // to DNS, and must be fully-qualified without wildcards. Use the form
+  // unix:///absolute/path/to/socket for Unix domain socket endpoints.
+  string address = 1;
+
+  // Set of ports on which the ExternalEndpoint's address receives traffic.
+  repeated Port ports = 2;
+
+  // The locality associated with the endpoint. A locality corresponds
+  // to a failure domain (e.g., country/region/zone). Arbitrary failure
+  // domain hierarchies can be represented by separating each
+  // encapsulating failure domain by /. For example, the locality of an
+  // an endpoint in US, in US-East-1 region, within availability zone
+  // az-1, in data center rack r11 can be represented as
+  // us/us-east-1/az-1/r11. Istio will configure the sidecar to route to
+  // endpoints within the same locality as the sidecar. If none of the
+  // endpoints in the locality are available, endpoints parent locality
+  // (but within the same network ID) will be chosen. For example, if
+  // there are two endpoints in same network (networkID "n1"), say e1
+  // with locality us/us-east-1/az-1/r11 and e2 with locality
+  // us/us-east-1/az-2/r12, a sidecar from us/us-east-1/az-1/r11 locality
+  // will prefer e1 from the same locality over e2 from a different
+  // locality. Endpoint e2 could be the IP associated with a gateway
+  // (that bridges networks n1 and n2), or the IP associated with a
+  // standard service endpoint.
+  .common.gloo.solo.io.Locality locality = 5;
+
+  // a port on an ExternalEndpoint
+  message Port {
+    // name of the port. required if more then one port is specified on the ExternalEndpoint
+    string name = 1;
+
+    // the port number.
+    uint32 number = 2;
+  }
+}
+
+// reflects the status of the ExternalEndpoint
+message ExternalEndpointStatus {
+  .common.gloo.solo.io.Status common = 1;
+}
+
+message ExternalEndpointReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+}

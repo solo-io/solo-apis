@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package security.policy.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// ExtAuthPolicy is used to enforce external authorization/authentication of traffic matching selected routes or arriving at selected destinations.
+// All ExtAuthPolicies in a workspace require an ExtAuthServer to in order to function.
+// If no ExtAuthServer is specified, a default configuration will be used.
+// ExtAuthRoutePolicies can be applied at both the *Route* and *Destination* levels.
+// Default is to apply policy to all destinations.
+message ExtAuthPolicySpec {
+
+  // Select the routes where the policy will be applied.
+  // If left empty, no extauth policy will be applied to any routes in the workspace.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // Select the destinations where the policy will be applied.
+  // Default behavior if no selectors are specified is to apply to all destinations in the workspace.
+  // If left empty and the route selector is set, no extauth policy on destinations will be applied.
+  repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 2;
+
+  // The details of the external auth policy to apply to the selected routes and destinations.
+  Config config = 3;
+
+  // Make sure to select the appropriate ExtAuthServer to use, which might be in a different cluster and namespace
+  // than the ExtAuthPolicy. For auth configurations that require a client secret from the identity provider issuer,
+  // the secret must be in the same cluster as the ExtAuthServer resource.
+  message Config {
+
+    oneof auth_type {
+      //  Set to true to disable auth on the route.
+      bool disable = 1;
+
+      // Configure the selected route or destination with auth options provided by the Gloo Mesh Ext Auth service. The Ext Auth Service can be specified  must be configured to use a Gloo Ext Auth service via a ExtAuthDestinationPolicy.
+      enterprise.gloo.solo.io.AuthConfigSpec gloo_auth = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
+
+      // Use this field if you are running your own custom extauth server. The destination service must be configured to use a custom ext auth service via a ExtAuthDestinationPolicy.
+      CustomAuth custom_auth = 3;
+    }
+
+    // Required: Reference to the ExtAuthServer to use for this policy.
+    // Currently routes on a single gateway must share a single ExtAuthServer.
+    // To create an ExtAuthServer resource, see [External auth server setup](https://docs.solo.io/gloo-mesh-enterprise/main/policies/external-auth/server/#setup).
+    .common.gloo.solo.io.ObjectReference server = 4;
+
+    // Gloo Mesh is not expected to configure the ext auth server in this case.
+    // This is used with custom auth servers.
+    message CustomAuth {
+      // When a request matches the route or on which this configuration is applied,
+      // Gloo Mesh will add the given context_extensions to the request that is sent to the external authorization server.
+      // This allows the server to base the auth decision on metadata that you define on the source of the request.
+      //
+      // This attribute is analogous to Envoy's config.filter.http.ext_authz.v2.CheckSettings. See the official
+      // [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/ext_authz_filter.html?highlight=extauthz#config-filter-http-ext-authz-v2-checksettings)
+      // for more details.
+      map<string, string> context_extensions = 1;
+    }
+  }
+}
+
+// reflects the status of the ExtAuthPolicy
+message ExtAuthPolicyStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of destination ports selected by the policy.
+  uint32 num_selected_destination_ports = 2;
+
+  // The number of routes selected by the policy.
+  uint32 num_selected_routes = 3;
+}
+
+message ExtAuthPolicyReport {
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of destination ports selected by the policy.
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
+
+  // A list of references to all route selected by the policy.
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+}

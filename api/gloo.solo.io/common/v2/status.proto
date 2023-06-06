@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package common.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Name of Workspace that owns resource
+message OwnerWorkspace {
+  string workspace = 1;
+}
+
+message WorkspaceStatus {
+  // The status of the resource in each cluster within the
+  // workspace.
+  map<string, ClusterStatus> clusters = 1;
+
+  message ClusterStatus {
+    GenericContextStatus generic = 1;
+  }
+}
+
+message GenericGlobalStatus {
+  // Whether the resource has been accepted as valid and processed in workspace
+  // clusters that it exists in.
+  ApprovalState state = 1;
+
+  // Additional information about the current state of the resource across all
+  // workspace clusters.
+  string message = 2;
+}
+
+message GenericContextStatus {
+  // The most recent generation observed in the the object's metadata.
+  // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh
+  // has not processed the most recent version of this object.
+  int64 observed_generation = 1;
+
+  // Whether the resource has been accepted as valid and processed in the Gloo
+  // Mesh config translation.
+  ApprovalState state = 2;
+
+  // Additional information about the current state of the resource.
+  string message = 3;
+}
+
+// Indicates selected routes on status messages.
+message RouteReference {
+  // The name of the route
+  string route_name = 1;
+
+  // The index of the route on the route table
+  int32 route_index = 2;
+
+  // The route table containing the route
+  ObjectReference route_table = 3;
+}
+
+message AppliedDestinationPortPolicies {
+  // List of applied destination port policies
+  repeated DestinationPolicyReference policies = 1;
+
+  message DestinationPolicyReference {
+    // the port on the destination object that the policy applies to
+    int32 destination_port = 1;
+
+    // the kind of destination object that the policy applies to
+    DestinationKind destination_kind = 2;
+
+    // The reference to the policy
+    ObjectReference policy = 3;
+  }
+}
+
+message AppliedRoutePolicies {
+  // List of applied route policies
+  repeated RoutePolicyReference policies = 1;
+
+  message RoutePolicyReference {
+    // The name of the route that the policy is applied to
+    string route_name = 1;
+
+    // The index of the route on the route table
+    int32 route_index = 2;
+
+    // The reference to the policy
+    ObjectReference policy = 3;
+  }
+}
+
+message AppliedWorkloadPolicies {
+  // Policies on the workload
+  repeated ObjectReference policies = 1;
+}
