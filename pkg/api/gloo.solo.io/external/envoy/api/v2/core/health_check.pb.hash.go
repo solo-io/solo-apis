@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 
 	v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/core/v3"
 )
