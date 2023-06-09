@@ -1402,10 +1402,6 @@ message ExtAuthConfig {
         // Configuration related to the user session.
         UserSessionConfig user_session = 20;
 
-        // If true, do not check for or use the client secret.
-        // Generally the client secret is required and AuthConfigs will be rejected if it isn't set.
-        // However certain implementations of the PKCE flow do not use a client secret (including Okta) so this setting allows configuring Oidc without a client secret.
-        bool disable_client_secret = 21;
     }
 
     message AccessTokenValidationConfig {
@@ -1588,11 +1584,6 @@ message ExtAuthConfig {
 
         // Configuration related to the user session.
         UserSessionConfig user_session = 14;
-
-        // If true, do not check for or use the client secret.
-        // Generally the client secret is required and AuthConfigs will be rejected if it isn't set.
-        // However certain implementations of the PKCE flow do not use a client secret (including Okta) so this setting allows configuring Oauth2 without a client secret.
-        bool disable_client_secret = 15;
     }
 
     message OAuth2Config {
