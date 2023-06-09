@@ -4518,6 +4518,17 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Equal(that interface{}) bool
 		}
 	}
 
+	if len(m.GetDynamicMetadataFromClaims()) != len(target.GetDynamicMetadataFromClaims()) {
+		return false
+	}
+	for k, v := range m.GetDynamicMetadataFromClaims() {
+
+		if strings.Compare(v, target.GetDynamicMetadataFromClaims()[k]) != 0 {
+			return false
+		}
+
+	}
+
 	return true
 }
 
@@ -4554,6 +4565,17 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig) Equal(that interface{}) bool
 		if !proto.Equal(m.GetCacheTimeout(), target.GetCacheTimeout()) {
 			return false
 		}
+	}
+
+	if len(m.GetDynamicMetadataFromClaims()) != len(target.GetDynamicMetadataFromClaims()) {
+		return false
+	}
+	for k, v := range m.GetDynamicMetadataFromClaims() {
+
+		if strings.Compare(v, target.GetDynamicMetadataFromClaims()[k]) != 0 {
+			return false
+		}
+
 	}
 
 	switch m.ValidationType.(type) {
