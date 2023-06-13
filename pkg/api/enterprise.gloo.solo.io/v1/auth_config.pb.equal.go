@@ -2228,10 +2228,6 @@ func (m *OpaAuthOptions) Equal(that interface{}) bool {
 		return false
 	}
 
-	if m.GetReturnDecisionReason() != target.GetReturnDecisionReason() {
-		return false
-	}
-
 	return true
 }
 
