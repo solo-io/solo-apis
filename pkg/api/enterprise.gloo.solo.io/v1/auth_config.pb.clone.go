@@ -1329,8 +1329,6 @@ func (m *OpaAuthOptions) Clone() proto.Message {
 
 	target.FastInputConversion = m.GetFastInputConversion()
 
-	target.ReturnDecisionReason = m.GetReturnDecisionReason()
-
 	return target
 }
 
