@@ -1598,6 +1598,10 @@ func (m *IntrospectionValidation) Equal(that interface{}) bool {
 		return false
 	}
 
+	if m.GetDisableClientSecret() != target.GetDisableClientSecret() {
+		return false
+	}
+
 	return true
 }
 
