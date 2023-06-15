@@ -2085,7 +2085,8 @@ type OidcAuthorizationCode struct {
 
 	// your client id as registered with the issuer
 	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	// your client secret as registered with the issuer
+	// your client secret as registered with the issuer.
+	// This is required unless `disable_client_secret` is true
 	ClientSecretRef *core.ResourceRef `protobuf:"bytes,2,opt,name=client_secret_ref,json=clientSecretRef,proto3" json:"client_secret_ref,omitempty"`
 	// The url of the issuer. We will look for OIDC information in issuerUrl+
 	// ".well-known/openid-configuration"
@@ -2168,6 +2169,10 @@ type OidcAuthorizationCode struct {
 	// specifications. Noted [here](https://openid.net/specs/openid-connect-rpinitiated-1_0.html)
 	// in the OIDC documentation.
 	EndSessionProperties *EndSessionProperties `protobuf:"bytes,19,opt,name=end_session_properties,json=endSessionProperties,proto3" json:"end_session_properties,omitempty"`
+	// If true, do not check for or use the client secret.
+	// Generally the client secret is required and AuthConfigs will be rejected if it isn't set.
+	// However certain implementations of the PKCE flow do not use a client secret (including Okta) so this setting allows configuring Oidc without a client secret.
+	DisableClientSecret *wrappers.BoolValue `protobuf:"bytes,21,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
 }
 
 func (x *OidcAuthorizationCode) Reset() {
@@ -2336,6 +2341,13 @@ func (x *OidcAuthorizationCode) GetEndSessionProperties() *EndSessionProperties 
 	return nil
 }
 
+func (x *OidcAuthorizationCode) GetDisableClientSecret() *wrappers.BoolValue {
+	if x != nil {
+		return x.DisableClientSecret
+	}
+	return nil
+}
+
 type PlainOAuth2 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2343,7 +2355,8 @@ type PlainOAuth2 struct {
 
 	// Your client ID as registered with the issuer
 	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	// Your client secret as registered with the issuer
+	// Your client secret as registered with the issuer.
+	// This is required unless `disable_client_secret` is set.
 	ClientSecretRef *core.ResourceRef `protobuf:"bytes,2,opt,name=client_secret_ref,json=clientSecretRef,proto3" json:"client_secret_ref,omitempty"`
 	// Extra query parameters to apply to the Ext-Auth service's authorization request to the identity provider.
 	// These parameters can be useful for flows such as [PKCE](https://www.oauth.com/oauth2-servers/pkce/authorization-request/)
@@ -2377,6 +2390,10 @@ type PlainOAuth2 struct {
 	// The URL of the provider token revocation endpoint.
 	// For more information, refer to https://www.rfc-editor.org/rfc/rfc7009.
 	RevocationEndpoint string `protobuf:"bytes,13,opt,name=revocation_endpoint,json=revocationEndpoint,proto3" json:"revocation_endpoint,omitempty"`
+	// If true, do not check for or use the client secret.
+	// Generally the client secret is required and AuthConfigs will be rejected if it isn't set.
+	// However certain implementations of the PKCE flow do not use a client secret (including Okta) so this setting allows configuring Oauth2 without a client secret.
+	DisableClientSecret *wrappers.BoolValue `protobuf:"bytes,14,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
 }
 
 func (x *PlainOAuth2) Reset() {
@@ -2502,6 +2519,13 @@ func (x *PlainOAuth2) GetRevocationEndpoint() string {
 	return ""
 }
 
+func (x *PlainOAuth2) GetDisableClientSecret() *wrappers.BoolValue {
+	if x != nil {
+		return x.DisableClientSecret
+	}
+	return nil
+}
+
 // Defines how JSON Web Token (JWT) access tokens are validated.
 //
 // Tokens are validated using a JSON Web Key Set (as defined in
@@ -2617,7 +2641,7 @@ func (*JwtValidation_LocalJwks_) isJwtValidation_JwksSourceSpecifier() {}
 // [OAuth2.0 Token Introspection](https://tools.ietf.org/html/rfc7662)
 //
 // If the token introspection url requires client authentication, both the client_id and client_secret
-// are required. If only one is provided, the config will be rejected.
+// are required. Unless disable_client_secret is set, when only one is provided, the config will be rejected.
 // These values will be encoded in a basic auth header in order to authenticate the client.
 type IntrospectionValidation struct {
 	state         protoimpl.MessageState
@@ -2641,6 +2665,8 @@ type IntrospectionValidation struct {
 	// server is configured); if the field is set and the attribute cannot be found, the request will be denied.
 	// This field is optional and by default the server will not try to derive the user ID.
 	UserIdAttributeName string `protobuf:"bytes,4,opt,name=user_id_attribute_name,json=userIdAttributeName,proto3" json:"user_id_attribute_name,omitempty"`
+	// Allows setting a client id but not a client secret.
+	DisableClientSecret *wrappers.BoolValue `protobuf:"bytes,5,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
 }
 
 func (x *IntrospectionValidation) Reset() {
@@ -2701,6 +2727,13 @@ func (x *IntrospectionValidation) GetUserIdAttributeName() string {
 		return x.UserIdAttributeName
 	}
 	return ""
+}
+
+func (x *IntrospectionValidation) GetDisableClientSecret() *wrappers.BoolValue {
+	if x != nil {
+		return x.DisableClientSecret
+	}
+	return nil
 }
 
 type AccessTokenValidation struct {
@@ -9026,7 +9059,7 @@ var file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_pr
 	0x65, 0x52, 0x0a, 0x6d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x54, 0x79, 0x70, 0x65, 0x22, 0x2b, 0x0a,
 	0x0a, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0d, 0x0a, 0x09, 0x47,
 	0x65, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x10, 0x00, 0x12, 0x0e, 0x0a, 0x0a, 0x50, 0x6f,
-	0x73, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x10, 0x01, 0x22, 0xd8, 0x0b, 0x0a, 0x15, 0x4f,
+	0x73, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x10, 0x01, 0x22, 0xa8, 0x0c, 0x0a, 0x15, 0x4f,
 	0x69, 0x64, 0x63, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x43, 0x6f, 0x64, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x69,
 	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x49,
@@ -9110,7 +9143,12 @@ var file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_pr
 	0x72, 0x69, 0x73, 0x65, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69,
 	0x6f, 0x2e, 0x45, 0x6e, 0x64, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x70,
 	0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x52, 0x14, 0x65, 0x6e, 0x64, 0x53, 0x65, 0x73, 0x73, 0x69,
-	0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x1a, 0x4a, 0x0a, 0x1c,
+	0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x12, 0x4e, 0x0a, 0x15,
+	0x64, 0x69, 0x73, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x73,
+	0x65, 0x63, 0x72, 0x65, 0x74, 0x18, 0x15, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f,
+	0x6f, 0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x13, 0x64, 0x69, 0x73, 0x61, 0x62, 0x6c, 0x65,
+	0x43, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x1a, 0x4a, 0x0a, 0x1c,
 	0x41, 0x75, 0x74, 0x68, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x51, 0x75, 0x65, 0x72,
 	0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03,
 	0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14,
@@ -9120,7 +9158,7 @@ var file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_pr
 	0x72, 0x61, 0x6d, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76,
 	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xec, 0x06, 0x0a, 0x0b, 0x50, 0x6c, 0x61, 0x69, 0x6e, 0x4f,
+	0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xbc, 0x07, 0x0a, 0x0b, 0x50, 0x6c, 0x61, 0x69, 0x6e, 0x4f,
 	0x41, 0x75, 0x74, 0x68, 0x32, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x5f,
 	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74,
 	0x49, 0x64, 0x12, 0x45, 0x0a, 0x11, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x73, 0x65, 0x63,
@@ -9165,7 +9203,12 @@ var file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_pr
 	0x65, 0x6e, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x12, 0x2f, 0x0a, 0x13, 0x72, 0x65,
 	0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e,
 	0x74, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x09, 0x52, 0x12, 0x72, 0x65, 0x76, 0x6f, 0x63, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x1a, 0x4a, 0x0a, 0x1c, 0x41,
+	0x69, 0x6f, 0x6e, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x12, 0x4e, 0x0a, 0x15, 0x64,
+	0x69, 0x73, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x73, 0x65,
+	0x63, 0x72, 0x65, 0x74, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f,
+	0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x13, 0x64, 0x69, 0x73, 0x61, 0x62, 0x6c, 0x65, 0x43,
+	0x6c, 0x69, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x1a, 0x4a, 0x0a, 0x1c, 0x41,
 	0x75, 0x74, 0x68, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x51, 0x75, 0x65, 0x72, 0x79,
 	0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b,
 	0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a,
@@ -9199,7 +9242,7 @@ var file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_pr
 	0x6c, 0x69, 0x6e, 0x65, 0x5f, 0x73, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x0c, 0x69, 0x6e, 0x6c, 0x69, 0x6e, 0x65, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x42,
 	0x17, 0x0a, 0x15, 0x6a, 0x77, 0x6b, 0x73, 0x5f, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x73,
-	0x70, 0x65, 0x63, 0x69, 0x66, 0x69, 0x65, 0x72, 0x22, 0xdf, 0x01, 0x0a, 0x17, 0x49, 0x6e, 0x74,
+	0x70, 0x65, 0x63, 0x69, 0x66, 0x69, 0x65, 0x72, 0x22, 0xaf, 0x02, 0x0a, 0x17, 0x49, 0x6e, 0x74,
 	0x72, 0x6f, 0x73, 0x70, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2b, 0x0a, 0x11, 0x69, 0x6e, 0x74, 0x72, 0x6f, 0x73, 0x70, 0x65,
 	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
@@ -9213,7 +9256,12 @@ var file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_pr
 	0x65, 0x74, 0x52, 0x65, 0x66, 0x12, 0x33, 0x0a, 0x16, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64,
 	0x5f, 0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18,
 	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x13, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x41, 0x74, 0x74,
-	0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0xf2, 0x03, 0x0a, 0x15, 0x41,
+	0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x4e, 0x0a, 0x15, 0x64, 0x69,
+	0x73, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x5f, 0x73, 0x65, 0x63,
+	0x72, 0x65, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f, 0x6c,
+	0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x13, 0x64, 0x69, 0x73, 0x61, 0x62, 0x6c, 0x65, 0x43, 0x6c,
+	0x69, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x22, 0xf2, 0x03, 0x0a, 0x15, 0x41,
 	0x63, 0x63, 0x65, 0x73, 0x73, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x31, 0x0a, 0x11, 0x69, 0x6e, 0x74, 0x72, 0x6f, 0x73, 0x70, 0x65,
 	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42,
@@ -10469,158 +10517,161 @@ var file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_pr
 	23,  // 39: enterprise.gloo.solo.io.OidcAuthorizationCode.jwks_cache_refresh_policy:type_name -> enterprise.gloo.solo.io.JwksOnDemandCacheRefreshPolicy
 	24,  // 40: enterprise.gloo.solo.io.OidcAuthorizationCode.auto_map_from_metadata:type_name -> enterprise.gloo.solo.io.AutoMapFromMetadata
 	25,  // 41: enterprise.gloo.solo.io.OidcAuthorizationCode.end_session_properties:type_name -> enterprise.gloo.solo.io.EndSessionProperties
-	124, // 42: enterprise.gloo.solo.io.PlainOAuth2.client_secret_ref:type_name -> core.solo.io.ResourceRef
-	71,  // 43: enterprise.gloo.solo.io.PlainOAuth2.auth_endpoint_query_params:type_name -> enterprise.gloo.solo.io.PlainOAuth2.AuthEndpointQueryParamsEntry
-	20,  // 44: enterprise.gloo.solo.io.PlainOAuth2.session:type_name -> enterprise.gloo.solo.io.UserSession
-	72,  // 45: enterprise.gloo.solo.io.PlainOAuth2.token_endpoint_query_params:type_name -> enterprise.gloo.solo.io.PlainOAuth2.TokenEndpointQueryParamsEntry
-	73,  // 46: enterprise.gloo.solo.io.JwtValidation.remote_jwks:type_name -> enterprise.gloo.solo.io.JwtValidation.RemoteJwks
-	74,  // 47: enterprise.gloo.solo.io.JwtValidation.local_jwks:type_name -> enterprise.gloo.solo.io.JwtValidation.LocalJwks
-	124, // 48: enterprise.gloo.solo.io.IntrospectionValidation.client_secret_ref:type_name -> core.solo.io.ResourceRef
-	28,  // 49: enterprise.gloo.solo.io.AccessTokenValidation.jwt:type_name -> enterprise.gloo.solo.io.JwtValidation
-	29,  // 50: enterprise.gloo.solo.io.AccessTokenValidation.introspection:type_name -> enterprise.gloo.solo.io.IntrospectionValidation
-	125, // 51: enterprise.gloo.solo.io.AccessTokenValidation.cache_timeout:type_name -> google.protobuf.Duration
-	75,  // 52: enterprise.gloo.solo.io.AccessTokenValidation.required_scopes:type_name -> enterprise.gloo.solo.io.AccessTokenValidation.ScopeList
-	76,  // 53: enterprise.gloo.solo.io.ApiKeyAuth.label_selector:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.LabelSelectorEntry
-	124, // 54: enterprise.gloo.solo.io.ApiKeyAuth.api_key_secret_refs:type_name -> core.solo.io.ResourceRef
-	77,  // 55: enterprise.gloo.solo.io.ApiKeyAuth.headers_from_metadata:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.HeadersFromMetadataEntry
-	78,  // 56: enterprise.gloo.solo.io.ApiKeyAuth.headers_from_metadata_entry:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.HeadersFromMetadataEntryEntry
-	33,  // 57: enterprise.gloo.solo.io.ApiKeyAuth.k8s_secret_apikey_storage:type_name -> enterprise.gloo.solo.io.K8sSecretApiKeyStorage
-	34,  // 58: enterprise.gloo.solo.io.ApiKeyAuth.aerospike_apikey_storage:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage
-	81,  // 59: enterprise.gloo.solo.io.K8sSecretApiKeyStorage.label_selector:type_name -> enterprise.gloo.solo.io.K8sSecretApiKeyStorage.LabelSelectorEntry
-	124, // 60: enterprise.gloo.solo.io.K8sSecretApiKeyStorage.api_key_secret_refs:type_name -> core.solo.io.ResourceRef
-	82,  // 61: enterprise.gloo.solo.io.AerospikeApiKeyStorage.read_mode_sc:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage.readModeSc
-	83,  // 62: enterprise.gloo.solo.io.AerospikeApiKeyStorage.read_mode_ap:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage.readModeAp
-	84,  // 63: enterprise.gloo.solo.io.AerospikeApiKeyStorage.tls_curve_groups:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage.tlsCurveID
-	85,  // 64: enterprise.gloo.solo.io.ApiKey.metadata:type_name -> enterprise.gloo.solo.io.ApiKey.MetadataEntry
-	86,  // 65: enterprise.gloo.solo.io.ApiKeySecret.metadata:type_name -> enterprise.gloo.solo.io.ApiKeySecret.MetadataEntry
-	124, // 66: enterprise.gloo.solo.io.OpaAuth.modules:type_name -> core.solo.io.ResourceRef
-	38,  // 67: enterprise.gloo.solo.io.OpaAuth.options:type_name -> enterprise.gloo.solo.io.OpaAuthOptions
-	87,  // 68: enterprise.gloo.solo.io.Ldap.pool:type_name -> enterprise.gloo.solo.io.Ldap.ConnectionPool
-	40,  // 69: enterprise.gloo.solo.io.Ldap.group_lookup_settings:type_name -> enterprise.gloo.solo.io.LdapServiceAccount
-	124, // 70: enterprise.gloo.solo.io.LdapServiceAccount.credentials_secret_ref:type_name -> core.solo.io.ResourceRef
-	42,  // 71: enterprise.gloo.solo.io.PassThroughAuth.grpc:type_name -> enterprise.gloo.solo.io.PassThroughGrpc
-	44,  // 72: enterprise.gloo.solo.io.PassThroughAuth.http:type_name -> enterprise.gloo.solo.io.PassThroughHttp
-	126, // 73: enterprise.gloo.solo.io.PassThroughAuth.config:type_name -> google.protobuf.Struct
-	125, // 74: enterprise.gloo.solo.io.PassThroughGrpc.connection_timeout:type_name -> google.protobuf.Duration
-	43,  // 75: enterprise.gloo.solo.io.PassThroughGrpc.tlsConfig:type_name -> enterprise.gloo.solo.io.PassThroughGrpcTLSConfig
-	88,  // 76: enterprise.gloo.solo.io.PassThroughHttp.request:type_name -> enterprise.gloo.solo.io.PassThroughHttp.Request
-	89,  // 77: enterprise.gloo.solo.io.PassThroughHttp.response:type_name -> enterprise.gloo.solo.io.PassThroughHttp.Response
-	125, // 78: enterprise.gloo.solo.io.PassThroughHttp.connection_timeout:type_name -> google.protobuf.Duration
-	103, // 79: enterprise.gloo.solo.io.ExtAuthConfig.configs:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.Config
-	123, // 80: enterprise.gloo.solo.io.ExtAuthConfig.boolean_expr:type_name -> google.protobuf.StringValue
-	35,  // 81: enterprise.gloo.solo.io.ApiKeyCreateRequest.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
-	35,  // 82: enterprise.gloo.solo.io.ApiKeyCreateResponse.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
-	35,  // 83: enterprise.gloo.solo.io.ApiKeyReadResponse.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
-	35,  // 84: enterprise.gloo.solo.io.ApiKeyUpdateRequest.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
-	35,  // 85: enterprise.gloo.solo.io.ApiKeyUpdateResponse.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
-	4,   // 86: enterprise.gloo.solo.io.AuthConfigStatus.state:type_name -> enterprise.gloo.solo.io.AuthConfigStatus.State
-	121, // 87: enterprise.gloo.solo.io.AuthConfigStatus.subresource_statuses:type_name -> enterprise.gloo.solo.io.AuthConfigStatus.SubresourceStatusesEntry
-	126, // 88: enterprise.gloo.solo.io.AuthConfigStatus.details:type_name -> google.protobuf.Struct
-	122, // 89: enterprise.gloo.solo.io.AuthConfigNamespacedStatuses.statuses:type_name -> enterprise.gloo.solo.io.AuthConfigNamespacedStatuses.StatusesEntry
-	123, // 90: enterprise.gloo.solo.io.AuthConfigSpec.Config.name:type_name -> google.protobuf.StringValue
-	13,  // 91: enterprise.gloo.solo.io.AuthConfigSpec.Config.basic_auth:type_name -> enterprise.gloo.solo.io.BasicAuth
-	17,  // 92: enterprise.gloo.solo.io.AuthConfigSpec.Config.oauth:type_name -> enterprise.gloo.solo.io.OAuth
-	18,  // 93: enterprise.gloo.solo.io.AuthConfigSpec.Config.oauth2:type_name -> enterprise.gloo.solo.io.OAuth2
-	32,  // 94: enterprise.gloo.solo.io.AuthConfigSpec.Config.api_key_auth:type_name -> enterprise.gloo.solo.io.ApiKeyAuth
-	12,  // 95: enterprise.gloo.solo.io.AuthConfigSpec.Config.plugin_auth:type_name -> enterprise.gloo.solo.io.AuthPlugin
-	37,  // 96: enterprise.gloo.solo.io.AuthConfigSpec.Config.opa_auth:type_name -> enterprise.gloo.solo.io.OpaAuth
-	39,  // 97: enterprise.gloo.solo.io.AuthConfigSpec.Config.ldap:type_name -> enterprise.gloo.solo.io.Ldap
-	128, // 98: enterprise.gloo.solo.io.AuthConfigSpec.Config.jwt:type_name -> google.protobuf.Empty
-	41,  // 99: enterprise.gloo.solo.io.AuthConfigSpec.Config.pass_through_auth:type_name -> enterprise.gloo.solo.io.PassThroughAuth
-	14,  // 100: enterprise.gloo.solo.io.AuthConfigSpec.Config.hmac_auth:type_name -> enterprise.gloo.solo.io.HmacAuth
-	59,  // 101: enterprise.gloo.solo.io.HttpService.Request.headers_to_add:type_name -> enterprise.gloo.solo.io.HttpService.Request.HeadersToAddEntry
-	63,  // 102: enterprise.gloo.solo.io.BasicAuth.Apr.users:type_name -> enterprise.gloo.solo.io.BasicAuth.Apr.UsersEntry
-	62,  // 103: enterprise.gloo.solo.io.BasicAuth.Apr.UsersEntry.value:type_name -> enterprise.gloo.solo.io.BasicAuth.Apr.SaltedHashedPassword
-	127, // 104: enterprise.gloo.solo.io.UserSession.InternalSession.allow_refreshing:type_name -> google.protobuf.BoolValue
-	19,  // 105: enterprise.gloo.solo.io.UserSession.RedisSession.options:type_name -> enterprise.gloo.solo.io.RedisOptions
-	127, // 106: enterprise.gloo.solo.io.UserSession.RedisSession.allow_refreshing:type_name -> google.protobuf.BoolValue
-	125, // 107: enterprise.gloo.solo.io.UserSession.RedisSession.pre_expiry_buffer:type_name -> google.protobuf.Duration
-	129, // 108: enterprise.gloo.solo.io.UserSession.CookieOptions.max_age:type_name -> google.protobuf.UInt32Value
-	127, // 109: enterprise.gloo.solo.io.UserSession.CookieOptions.http_only:type_name -> google.protobuf.BoolValue
-	123, // 110: enterprise.gloo.solo.io.UserSession.CookieOptions.path:type_name -> google.protobuf.StringValue
-	2,   // 111: enterprise.gloo.solo.io.UserSession.CookieOptions.same_site:type_name -> enterprise.gloo.solo.io.UserSession.CookieOptions.SameSite
-	124, // 112: enterprise.gloo.solo.io.UserSession.CipherConfig.key_ref:type_name -> core.solo.io.ResourceRef
-	125, // 113: enterprise.gloo.solo.io.JwtValidation.RemoteJwks.refresh_interval:type_name -> google.protobuf.Duration
-	79,  // 114: enterprise.gloo.solo.io.ApiKeyAuth.HeadersFromMetadataEntry.value:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.SecretKey
-	80,  // 115: enterprise.gloo.solo.io.ApiKeyAuth.HeadersFromMetadataEntryEntry.value:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.MetadataEntry
-	129, // 116: enterprise.gloo.solo.io.Ldap.ConnectionPool.maxSize:type_name -> google.protobuf.UInt32Value
-	129, // 117: enterprise.gloo.solo.io.Ldap.ConnectionPool.initialSize:type_name -> google.protobuf.UInt32Value
-	90,  // 118: enterprise.gloo.solo.io.PassThroughHttp.Request.headers_to_add:type_name -> enterprise.gloo.solo.io.PassThroughHttp.Request.HeadersToAddEntry
-	104, // 119: enterprise.gloo.solo.io.ExtAuthConfig.OAuthConfig.auth_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OAuthConfig.AuthEndpointQueryParamsEntry
-	67,  // 120: enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.cookie_options:type_name -> enterprise.gloo.solo.io.UserSession.CookieOptions
-	65,  // 121: enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.cookie:type_name -> enterprise.gloo.solo.io.UserSession.InternalSession
-	66,  // 122: enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.redis:type_name -> enterprise.gloo.solo.io.UserSession.RedisSession
-	105, // 123: enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.cipher_config:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.CipherConfig
-	106, // 124: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.auth_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.AuthEndpointQueryParamsEntry
-	107, // 125: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.token_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.TokenEndpointQueryParamsEntry
-	20,  // 126: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.session:type_name -> enterprise.gloo.solo.io.UserSession
-	21,  // 127: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.headers:type_name -> enterprise.gloo.solo.io.HeaderConfiguration
-	22,  // 128: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.discovery_override:type_name -> enterprise.gloo.solo.io.DiscoveryOverride
-	125, // 129: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.discovery_poll_interval:type_name -> google.protobuf.Duration
-	23,  // 130: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.jwks_cache_refresh_policy:type_name -> enterprise.gloo.solo.io.JwksOnDemandCacheRefreshPolicy
-	24,  // 131: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.auto_map_from_metadata:type_name -> enterprise.gloo.solo.io.AutoMapFromMetadata
-	25,  // 132: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.end_session_properties:type_name -> enterprise.gloo.solo.io.EndSessionProperties
-	92,  // 133: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.user_session:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig
-	108, // 134: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.jwt:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation
-	109, // 135: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.introspection:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.IntrospectionValidation
-	125, // 136: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.cache_timeout:type_name -> google.protobuf.Duration
-	110, // 137: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.required_scopes:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.ScopeList
-	113, // 138: enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.auth_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.AuthEndpointQueryParamsEntry
-	20,  // 139: enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.session:type_name -> enterprise.gloo.solo.io.UserSession
-	114, // 140: enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.token_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.TokenEndpointQueryParamsEntry
-	92,  // 141: enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.user_session:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig
-	93,  // 142: enterprise.gloo.solo.io.ExtAuthConfig.OAuth2Config.oidc_authorization_code:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig
-	94,  // 143: enterprise.gloo.solo.io.ExtAuthConfig.OAuth2Config.access_token_validation_config:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig
-	95,  // 144: enterprise.gloo.solo.io.ExtAuthConfig.OAuth2Config.oauth2_config:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config
-	116, // 145: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.valid_api_keys:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.ValidApiKeysEntry
-	117, // 146: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.headers_from_key_metadata:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.HeadersFromKeyMetadataEntry
-	33,  // 147: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.k8s_secret_apikey_storage:type_name -> enterprise.gloo.solo.io.K8sSecretApiKeyStorage
-	34,  // 148: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.aerospike_apikey_storage:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage
-	119, // 149: enterprise.gloo.solo.io.ExtAuthConfig.OpaAuthConfig.modules:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OpaAuthConfig.ModulesEntry
-	38,  // 150: enterprise.gloo.solo.io.ExtAuthConfig.OpaAuthConfig.options:type_name -> enterprise.gloo.solo.io.OpaAuthOptions
-	87,  // 151: enterprise.gloo.solo.io.ExtAuthConfig.LdapConfig.pool:type_name -> enterprise.gloo.solo.io.Ldap.ConnectionPool
-	100, // 152: enterprise.gloo.solo.io.ExtAuthConfig.LdapConfig.group_lookup_settings:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.LdapServiceAccountConfig
-	102, // 153: enterprise.gloo.solo.io.ExtAuthConfig.HmacAuthConfig.secret_list:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.InMemorySecretList
-	16,  // 154: enterprise.gloo.solo.io.ExtAuthConfig.HmacAuthConfig.parameters_in_headers:type_name -> enterprise.gloo.solo.io.HmacParametersInHeaders
-	120, // 155: enterprise.gloo.solo.io.ExtAuthConfig.InMemorySecretList.secret_list:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.InMemorySecretList.SecretListEntry
-	123, // 156: enterprise.gloo.solo.io.ExtAuthConfig.Config.name:type_name -> google.protobuf.StringValue
-	91,  // 157: enterprise.gloo.solo.io.ExtAuthConfig.Config.oauth:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OAuthConfig
-	96,  // 158: enterprise.gloo.solo.io.ExtAuthConfig.Config.oauth2:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OAuth2Config
-	13,  // 159: enterprise.gloo.solo.io.ExtAuthConfig.Config.basic_auth:type_name -> enterprise.gloo.solo.io.BasicAuth
-	97,  // 160: enterprise.gloo.solo.io.ExtAuthConfig.Config.api_key_auth:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig
-	12,  // 161: enterprise.gloo.solo.io.ExtAuthConfig.Config.plugin_auth:type_name -> enterprise.gloo.solo.io.AuthPlugin
-	98,  // 162: enterprise.gloo.solo.io.ExtAuthConfig.Config.opa_auth:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OpaAuthConfig
-	39,  // 163: enterprise.gloo.solo.io.ExtAuthConfig.Config.ldap:type_name -> enterprise.gloo.solo.io.Ldap
-	99,  // 164: enterprise.gloo.solo.io.ExtAuthConfig.Config.ldap_internal:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.LdapConfig
-	128, // 165: enterprise.gloo.solo.io.ExtAuthConfig.Config.jwt:type_name -> google.protobuf.Empty
-	41,  // 166: enterprise.gloo.solo.io.ExtAuthConfig.Config.pass_through_auth:type_name -> enterprise.gloo.solo.io.PassThroughAuth
-	101, // 167: enterprise.gloo.solo.io.ExtAuthConfig.Config.hmac_auth:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.HmacAuthConfig
-	111, // 168: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.remote_jwks:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.RemoteJwks
-	112, // 169: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.local_jwks:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.LocalJwks
-	125, // 170: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.RemoteJwks.refresh_interval:type_name -> google.protobuf.Duration
-	118, // 171: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.KeyMetadata.metadata:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.KeyMetadata.MetadataEntry
-	115, // 172: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.ValidApiKeysEntry.value:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.KeyMetadata
-	54,  // 173: enterprise.gloo.solo.io.AuthConfigStatus.SubresourceStatusesEntry.value:type_name -> enterprise.gloo.solo.io.AuthConfigStatus
-	54,  // 174: enterprise.gloo.solo.io.AuthConfigNamespacedStatuses.StatusesEntry.value:type_name -> enterprise.gloo.solo.io.AuthConfigStatus
-	130, // 175: enterprise.gloo.solo.io.ExtAuthDiscoveryService.StreamExtAuthConfig:input_type -> envoy.api.v2.DiscoveryRequest
-	131, // 176: enterprise.gloo.solo.io.ExtAuthDiscoveryService.DeltaExtAuthConfig:input_type -> envoy.api.v2.DeltaDiscoveryRequest
-	130, // 177: enterprise.gloo.solo.io.ExtAuthDiscoveryService.FetchExtAuthConfig:input_type -> envoy.api.v2.DiscoveryRequest
-	46,  // 178: enterprise.gloo.solo.io.ApiKeyService.Create:input_type -> enterprise.gloo.solo.io.ApiKeyCreateRequest
-	48,  // 179: enterprise.gloo.solo.io.ApiKeyService.Read:input_type -> enterprise.gloo.solo.io.ApiKeyReadRequest
-	50,  // 180: enterprise.gloo.solo.io.ApiKeyService.Update:input_type -> enterprise.gloo.solo.io.ApiKeyUpdateRequest
-	52,  // 181: enterprise.gloo.solo.io.ApiKeyService.Delete:input_type -> enterprise.gloo.solo.io.ApiKeyDeleteRequest
-	132, // 182: enterprise.gloo.solo.io.ExtAuthDiscoveryService.StreamExtAuthConfig:output_type -> envoy.api.v2.DiscoveryResponse
-	133, // 183: enterprise.gloo.solo.io.ExtAuthDiscoveryService.DeltaExtAuthConfig:output_type -> envoy.api.v2.DeltaDiscoveryResponse
-	132, // 184: enterprise.gloo.solo.io.ExtAuthDiscoveryService.FetchExtAuthConfig:output_type -> envoy.api.v2.DiscoveryResponse
-	47,  // 185: enterprise.gloo.solo.io.ApiKeyService.Create:output_type -> enterprise.gloo.solo.io.ApiKeyCreateResponse
-	49,  // 186: enterprise.gloo.solo.io.ApiKeyService.Read:output_type -> enterprise.gloo.solo.io.ApiKeyReadResponse
-	51,  // 187: enterprise.gloo.solo.io.ApiKeyService.Update:output_type -> enterprise.gloo.solo.io.ApiKeyUpdateResponse
-	53,  // 188: enterprise.gloo.solo.io.ApiKeyService.Delete:output_type -> enterprise.gloo.solo.io.ApiKeyDeleteResponse
-	182, // [182:189] is the sub-list for method output_type
-	175, // [175:182] is the sub-list for method input_type
-	175, // [175:175] is the sub-list for extension type_name
-	175, // [175:175] is the sub-list for extension extendee
-	0,   // [0:175] is the sub-list for field type_name
+	127, // 42: enterprise.gloo.solo.io.OidcAuthorizationCode.disable_client_secret:type_name -> google.protobuf.BoolValue
+	124, // 43: enterprise.gloo.solo.io.PlainOAuth2.client_secret_ref:type_name -> core.solo.io.ResourceRef
+	71,  // 44: enterprise.gloo.solo.io.PlainOAuth2.auth_endpoint_query_params:type_name -> enterprise.gloo.solo.io.PlainOAuth2.AuthEndpointQueryParamsEntry
+	20,  // 45: enterprise.gloo.solo.io.PlainOAuth2.session:type_name -> enterprise.gloo.solo.io.UserSession
+	72,  // 46: enterprise.gloo.solo.io.PlainOAuth2.token_endpoint_query_params:type_name -> enterprise.gloo.solo.io.PlainOAuth2.TokenEndpointQueryParamsEntry
+	127, // 47: enterprise.gloo.solo.io.PlainOAuth2.disable_client_secret:type_name -> google.protobuf.BoolValue
+	73,  // 48: enterprise.gloo.solo.io.JwtValidation.remote_jwks:type_name -> enterprise.gloo.solo.io.JwtValidation.RemoteJwks
+	74,  // 49: enterprise.gloo.solo.io.JwtValidation.local_jwks:type_name -> enterprise.gloo.solo.io.JwtValidation.LocalJwks
+	124, // 50: enterprise.gloo.solo.io.IntrospectionValidation.client_secret_ref:type_name -> core.solo.io.ResourceRef
+	127, // 51: enterprise.gloo.solo.io.IntrospectionValidation.disable_client_secret:type_name -> google.protobuf.BoolValue
+	28,  // 52: enterprise.gloo.solo.io.AccessTokenValidation.jwt:type_name -> enterprise.gloo.solo.io.JwtValidation
+	29,  // 53: enterprise.gloo.solo.io.AccessTokenValidation.introspection:type_name -> enterprise.gloo.solo.io.IntrospectionValidation
+	125, // 54: enterprise.gloo.solo.io.AccessTokenValidation.cache_timeout:type_name -> google.protobuf.Duration
+	75,  // 55: enterprise.gloo.solo.io.AccessTokenValidation.required_scopes:type_name -> enterprise.gloo.solo.io.AccessTokenValidation.ScopeList
+	76,  // 56: enterprise.gloo.solo.io.ApiKeyAuth.label_selector:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.LabelSelectorEntry
+	124, // 57: enterprise.gloo.solo.io.ApiKeyAuth.api_key_secret_refs:type_name -> core.solo.io.ResourceRef
+	77,  // 58: enterprise.gloo.solo.io.ApiKeyAuth.headers_from_metadata:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.HeadersFromMetadataEntry
+	78,  // 59: enterprise.gloo.solo.io.ApiKeyAuth.headers_from_metadata_entry:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.HeadersFromMetadataEntryEntry
+	33,  // 60: enterprise.gloo.solo.io.ApiKeyAuth.k8s_secret_apikey_storage:type_name -> enterprise.gloo.solo.io.K8sSecretApiKeyStorage
+	34,  // 61: enterprise.gloo.solo.io.ApiKeyAuth.aerospike_apikey_storage:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage
+	81,  // 62: enterprise.gloo.solo.io.K8sSecretApiKeyStorage.label_selector:type_name -> enterprise.gloo.solo.io.K8sSecretApiKeyStorage.LabelSelectorEntry
+	124, // 63: enterprise.gloo.solo.io.K8sSecretApiKeyStorage.api_key_secret_refs:type_name -> core.solo.io.ResourceRef
+	82,  // 64: enterprise.gloo.solo.io.AerospikeApiKeyStorage.read_mode_sc:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage.readModeSc
+	83,  // 65: enterprise.gloo.solo.io.AerospikeApiKeyStorage.read_mode_ap:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage.readModeAp
+	84,  // 66: enterprise.gloo.solo.io.AerospikeApiKeyStorage.tls_curve_groups:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage.tlsCurveID
+	85,  // 67: enterprise.gloo.solo.io.ApiKey.metadata:type_name -> enterprise.gloo.solo.io.ApiKey.MetadataEntry
+	86,  // 68: enterprise.gloo.solo.io.ApiKeySecret.metadata:type_name -> enterprise.gloo.solo.io.ApiKeySecret.MetadataEntry
+	124, // 69: enterprise.gloo.solo.io.OpaAuth.modules:type_name -> core.solo.io.ResourceRef
+	38,  // 70: enterprise.gloo.solo.io.OpaAuth.options:type_name -> enterprise.gloo.solo.io.OpaAuthOptions
+	87,  // 71: enterprise.gloo.solo.io.Ldap.pool:type_name -> enterprise.gloo.solo.io.Ldap.ConnectionPool
+	40,  // 72: enterprise.gloo.solo.io.Ldap.group_lookup_settings:type_name -> enterprise.gloo.solo.io.LdapServiceAccount
+	124, // 73: enterprise.gloo.solo.io.LdapServiceAccount.credentials_secret_ref:type_name -> core.solo.io.ResourceRef
+	42,  // 74: enterprise.gloo.solo.io.PassThroughAuth.grpc:type_name -> enterprise.gloo.solo.io.PassThroughGrpc
+	44,  // 75: enterprise.gloo.solo.io.PassThroughAuth.http:type_name -> enterprise.gloo.solo.io.PassThroughHttp
+	126, // 76: enterprise.gloo.solo.io.PassThroughAuth.config:type_name -> google.protobuf.Struct
+	125, // 77: enterprise.gloo.solo.io.PassThroughGrpc.connection_timeout:type_name -> google.protobuf.Duration
+	43,  // 78: enterprise.gloo.solo.io.PassThroughGrpc.tlsConfig:type_name -> enterprise.gloo.solo.io.PassThroughGrpcTLSConfig
+	88,  // 79: enterprise.gloo.solo.io.PassThroughHttp.request:type_name -> enterprise.gloo.solo.io.PassThroughHttp.Request
+	89,  // 80: enterprise.gloo.solo.io.PassThroughHttp.response:type_name -> enterprise.gloo.solo.io.PassThroughHttp.Response
+	125, // 81: enterprise.gloo.solo.io.PassThroughHttp.connection_timeout:type_name -> google.protobuf.Duration
+	103, // 82: enterprise.gloo.solo.io.ExtAuthConfig.configs:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.Config
+	123, // 83: enterprise.gloo.solo.io.ExtAuthConfig.boolean_expr:type_name -> google.protobuf.StringValue
+	35,  // 84: enterprise.gloo.solo.io.ApiKeyCreateRequest.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
+	35,  // 85: enterprise.gloo.solo.io.ApiKeyCreateResponse.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
+	35,  // 86: enterprise.gloo.solo.io.ApiKeyReadResponse.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
+	35,  // 87: enterprise.gloo.solo.io.ApiKeyUpdateRequest.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
+	35,  // 88: enterprise.gloo.solo.io.ApiKeyUpdateResponse.api_keys:type_name -> enterprise.gloo.solo.io.ApiKey
+	4,   // 89: enterprise.gloo.solo.io.AuthConfigStatus.state:type_name -> enterprise.gloo.solo.io.AuthConfigStatus.State
+	121, // 90: enterprise.gloo.solo.io.AuthConfigStatus.subresource_statuses:type_name -> enterprise.gloo.solo.io.AuthConfigStatus.SubresourceStatusesEntry
+	126, // 91: enterprise.gloo.solo.io.AuthConfigStatus.details:type_name -> google.protobuf.Struct
+	122, // 92: enterprise.gloo.solo.io.AuthConfigNamespacedStatuses.statuses:type_name -> enterprise.gloo.solo.io.AuthConfigNamespacedStatuses.StatusesEntry
+	123, // 93: enterprise.gloo.solo.io.AuthConfigSpec.Config.name:type_name -> google.protobuf.StringValue
+	13,  // 94: enterprise.gloo.solo.io.AuthConfigSpec.Config.basic_auth:type_name -> enterprise.gloo.solo.io.BasicAuth
+	17,  // 95: enterprise.gloo.solo.io.AuthConfigSpec.Config.oauth:type_name -> enterprise.gloo.solo.io.OAuth
+	18,  // 96: enterprise.gloo.solo.io.AuthConfigSpec.Config.oauth2:type_name -> enterprise.gloo.solo.io.OAuth2
+	32,  // 97: enterprise.gloo.solo.io.AuthConfigSpec.Config.api_key_auth:type_name -> enterprise.gloo.solo.io.ApiKeyAuth
+	12,  // 98: enterprise.gloo.solo.io.AuthConfigSpec.Config.plugin_auth:type_name -> enterprise.gloo.solo.io.AuthPlugin
+	37,  // 99: enterprise.gloo.solo.io.AuthConfigSpec.Config.opa_auth:type_name -> enterprise.gloo.solo.io.OpaAuth
+	39,  // 100: enterprise.gloo.solo.io.AuthConfigSpec.Config.ldap:type_name -> enterprise.gloo.solo.io.Ldap
+	128, // 101: enterprise.gloo.solo.io.AuthConfigSpec.Config.jwt:type_name -> google.protobuf.Empty
+	41,  // 102: enterprise.gloo.solo.io.AuthConfigSpec.Config.pass_through_auth:type_name -> enterprise.gloo.solo.io.PassThroughAuth
+	14,  // 103: enterprise.gloo.solo.io.AuthConfigSpec.Config.hmac_auth:type_name -> enterprise.gloo.solo.io.HmacAuth
+	59,  // 104: enterprise.gloo.solo.io.HttpService.Request.headers_to_add:type_name -> enterprise.gloo.solo.io.HttpService.Request.HeadersToAddEntry
+	63,  // 105: enterprise.gloo.solo.io.BasicAuth.Apr.users:type_name -> enterprise.gloo.solo.io.BasicAuth.Apr.UsersEntry
+	62,  // 106: enterprise.gloo.solo.io.BasicAuth.Apr.UsersEntry.value:type_name -> enterprise.gloo.solo.io.BasicAuth.Apr.SaltedHashedPassword
+	127, // 107: enterprise.gloo.solo.io.UserSession.InternalSession.allow_refreshing:type_name -> google.protobuf.BoolValue
+	19,  // 108: enterprise.gloo.solo.io.UserSession.RedisSession.options:type_name -> enterprise.gloo.solo.io.RedisOptions
+	127, // 109: enterprise.gloo.solo.io.UserSession.RedisSession.allow_refreshing:type_name -> google.protobuf.BoolValue
+	125, // 110: enterprise.gloo.solo.io.UserSession.RedisSession.pre_expiry_buffer:type_name -> google.protobuf.Duration
+	129, // 111: enterprise.gloo.solo.io.UserSession.CookieOptions.max_age:type_name -> google.protobuf.UInt32Value
+	127, // 112: enterprise.gloo.solo.io.UserSession.CookieOptions.http_only:type_name -> google.protobuf.BoolValue
+	123, // 113: enterprise.gloo.solo.io.UserSession.CookieOptions.path:type_name -> google.protobuf.StringValue
+	2,   // 114: enterprise.gloo.solo.io.UserSession.CookieOptions.same_site:type_name -> enterprise.gloo.solo.io.UserSession.CookieOptions.SameSite
+	124, // 115: enterprise.gloo.solo.io.UserSession.CipherConfig.key_ref:type_name -> core.solo.io.ResourceRef
+	125, // 116: enterprise.gloo.solo.io.JwtValidation.RemoteJwks.refresh_interval:type_name -> google.protobuf.Duration
+	79,  // 117: enterprise.gloo.solo.io.ApiKeyAuth.HeadersFromMetadataEntry.value:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.SecretKey
+	80,  // 118: enterprise.gloo.solo.io.ApiKeyAuth.HeadersFromMetadataEntryEntry.value:type_name -> enterprise.gloo.solo.io.ApiKeyAuth.MetadataEntry
+	129, // 119: enterprise.gloo.solo.io.Ldap.ConnectionPool.maxSize:type_name -> google.protobuf.UInt32Value
+	129, // 120: enterprise.gloo.solo.io.Ldap.ConnectionPool.initialSize:type_name -> google.protobuf.UInt32Value
+	90,  // 121: enterprise.gloo.solo.io.PassThroughHttp.Request.headers_to_add:type_name -> enterprise.gloo.solo.io.PassThroughHttp.Request.HeadersToAddEntry
+	104, // 122: enterprise.gloo.solo.io.ExtAuthConfig.OAuthConfig.auth_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OAuthConfig.AuthEndpointQueryParamsEntry
+	67,  // 123: enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.cookie_options:type_name -> enterprise.gloo.solo.io.UserSession.CookieOptions
+	65,  // 124: enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.cookie:type_name -> enterprise.gloo.solo.io.UserSession.InternalSession
+	66,  // 125: enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.redis:type_name -> enterprise.gloo.solo.io.UserSession.RedisSession
+	105, // 126: enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.cipher_config:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig.CipherConfig
+	106, // 127: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.auth_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.AuthEndpointQueryParamsEntry
+	107, // 128: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.token_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.TokenEndpointQueryParamsEntry
+	20,  // 129: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.session:type_name -> enterprise.gloo.solo.io.UserSession
+	21,  // 130: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.headers:type_name -> enterprise.gloo.solo.io.HeaderConfiguration
+	22,  // 131: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.discovery_override:type_name -> enterprise.gloo.solo.io.DiscoveryOverride
+	125, // 132: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.discovery_poll_interval:type_name -> google.protobuf.Duration
+	23,  // 133: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.jwks_cache_refresh_policy:type_name -> enterprise.gloo.solo.io.JwksOnDemandCacheRefreshPolicy
+	24,  // 134: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.auto_map_from_metadata:type_name -> enterprise.gloo.solo.io.AutoMapFromMetadata
+	25,  // 135: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.end_session_properties:type_name -> enterprise.gloo.solo.io.EndSessionProperties
+	92,  // 136: enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig.user_session:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig
+	108, // 137: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.jwt:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation
+	109, // 138: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.introspection:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.IntrospectionValidation
+	125, // 139: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.cache_timeout:type_name -> google.protobuf.Duration
+	110, // 140: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.required_scopes:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.ScopeList
+	113, // 141: enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.auth_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.AuthEndpointQueryParamsEntry
+	20,  // 142: enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.session:type_name -> enterprise.gloo.solo.io.UserSession
+	114, // 143: enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.token_endpoint_query_params:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.TokenEndpointQueryParamsEntry
+	92,  // 144: enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config.user_session:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.UserSessionConfig
+	93,  // 145: enterprise.gloo.solo.io.ExtAuthConfig.OAuth2Config.oidc_authorization_code:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OidcAuthorizationCodeConfig
+	94,  // 146: enterprise.gloo.solo.io.ExtAuthConfig.OAuth2Config.access_token_validation_config:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig
+	95,  // 147: enterprise.gloo.solo.io.ExtAuthConfig.OAuth2Config.oauth2_config:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.PlainOAuth2Config
+	116, // 148: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.valid_api_keys:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.ValidApiKeysEntry
+	117, // 149: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.headers_from_key_metadata:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.HeadersFromKeyMetadataEntry
+	33,  // 150: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.k8s_secret_apikey_storage:type_name -> enterprise.gloo.solo.io.K8sSecretApiKeyStorage
+	34,  // 151: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.aerospike_apikey_storage:type_name -> enterprise.gloo.solo.io.AerospikeApiKeyStorage
+	119, // 152: enterprise.gloo.solo.io.ExtAuthConfig.OpaAuthConfig.modules:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OpaAuthConfig.ModulesEntry
+	38,  // 153: enterprise.gloo.solo.io.ExtAuthConfig.OpaAuthConfig.options:type_name -> enterprise.gloo.solo.io.OpaAuthOptions
+	87,  // 154: enterprise.gloo.solo.io.ExtAuthConfig.LdapConfig.pool:type_name -> enterprise.gloo.solo.io.Ldap.ConnectionPool
+	100, // 155: enterprise.gloo.solo.io.ExtAuthConfig.LdapConfig.group_lookup_settings:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.LdapServiceAccountConfig
+	102, // 156: enterprise.gloo.solo.io.ExtAuthConfig.HmacAuthConfig.secret_list:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.InMemorySecretList
+	16,  // 157: enterprise.gloo.solo.io.ExtAuthConfig.HmacAuthConfig.parameters_in_headers:type_name -> enterprise.gloo.solo.io.HmacParametersInHeaders
+	120, // 158: enterprise.gloo.solo.io.ExtAuthConfig.InMemorySecretList.secret_list:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.InMemorySecretList.SecretListEntry
+	123, // 159: enterprise.gloo.solo.io.ExtAuthConfig.Config.name:type_name -> google.protobuf.StringValue
+	91,  // 160: enterprise.gloo.solo.io.ExtAuthConfig.Config.oauth:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OAuthConfig
+	96,  // 161: enterprise.gloo.solo.io.ExtAuthConfig.Config.oauth2:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OAuth2Config
+	13,  // 162: enterprise.gloo.solo.io.ExtAuthConfig.Config.basic_auth:type_name -> enterprise.gloo.solo.io.BasicAuth
+	97,  // 163: enterprise.gloo.solo.io.ExtAuthConfig.Config.api_key_auth:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig
+	12,  // 164: enterprise.gloo.solo.io.ExtAuthConfig.Config.plugin_auth:type_name -> enterprise.gloo.solo.io.AuthPlugin
+	98,  // 165: enterprise.gloo.solo.io.ExtAuthConfig.Config.opa_auth:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.OpaAuthConfig
+	39,  // 166: enterprise.gloo.solo.io.ExtAuthConfig.Config.ldap:type_name -> enterprise.gloo.solo.io.Ldap
+	99,  // 167: enterprise.gloo.solo.io.ExtAuthConfig.Config.ldap_internal:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.LdapConfig
+	128, // 168: enterprise.gloo.solo.io.ExtAuthConfig.Config.jwt:type_name -> google.protobuf.Empty
+	41,  // 169: enterprise.gloo.solo.io.ExtAuthConfig.Config.pass_through_auth:type_name -> enterprise.gloo.solo.io.PassThroughAuth
+	101, // 170: enterprise.gloo.solo.io.ExtAuthConfig.Config.hmac_auth:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.HmacAuthConfig
+	111, // 171: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.remote_jwks:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.RemoteJwks
+	112, // 172: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.local_jwks:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.LocalJwks
+	125, // 173: enterprise.gloo.solo.io.ExtAuthConfig.AccessTokenValidationConfig.JwtValidation.RemoteJwks.refresh_interval:type_name -> google.protobuf.Duration
+	118, // 174: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.KeyMetadata.metadata:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.KeyMetadata.MetadataEntry
+	115, // 175: enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.ValidApiKeysEntry.value:type_name -> enterprise.gloo.solo.io.ExtAuthConfig.ApiKeyAuthConfig.KeyMetadata
+	54,  // 176: enterprise.gloo.solo.io.AuthConfigStatus.SubresourceStatusesEntry.value:type_name -> enterprise.gloo.solo.io.AuthConfigStatus
+	54,  // 177: enterprise.gloo.solo.io.AuthConfigNamespacedStatuses.StatusesEntry.value:type_name -> enterprise.gloo.solo.io.AuthConfigStatus
+	130, // 178: enterprise.gloo.solo.io.ExtAuthDiscoveryService.StreamExtAuthConfig:input_type -> envoy.api.v2.DiscoveryRequest
+	131, // 179: enterprise.gloo.solo.io.ExtAuthDiscoveryService.DeltaExtAuthConfig:input_type -> envoy.api.v2.DeltaDiscoveryRequest
+	130, // 180: enterprise.gloo.solo.io.ExtAuthDiscoveryService.FetchExtAuthConfig:input_type -> envoy.api.v2.DiscoveryRequest
+	46,  // 181: enterprise.gloo.solo.io.ApiKeyService.Create:input_type -> enterprise.gloo.solo.io.ApiKeyCreateRequest
+	48,  // 182: enterprise.gloo.solo.io.ApiKeyService.Read:input_type -> enterprise.gloo.solo.io.ApiKeyReadRequest
+	50,  // 183: enterprise.gloo.solo.io.ApiKeyService.Update:input_type -> enterprise.gloo.solo.io.ApiKeyUpdateRequest
+	52,  // 184: enterprise.gloo.solo.io.ApiKeyService.Delete:input_type -> enterprise.gloo.solo.io.ApiKeyDeleteRequest
+	132, // 185: enterprise.gloo.solo.io.ExtAuthDiscoveryService.StreamExtAuthConfig:output_type -> envoy.api.v2.DiscoveryResponse
+	133, // 186: enterprise.gloo.solo.io.ExtAuthDiscoveryService.DeltaExtAuthConfig:output_type -> envoy.api.v2.DeltaDiscoveryResponse
+	132, // 187: enterprise.gloo.solo.io.ExtAuthDiscoveryService.FetchExtAuthConfig:output_type -> envoy.api.v2.DiscoveryResponse
+	47,  // 188: enterprise.gloo.solo.io.ApiKeyService.Create:output_type -> enterprise.gloo.solo.io.ApiKeyCreateResponse
+	49,  // 189: enterprise.gloo.solo.io.ApiKeyService.Read:output_type -> enterprise.gloo.solo.io.ApiKeyReadResponse
+	51,  // 190: enterprise.gloo.solo.io.ApiKeyService.Update:output_type -> enterprise.gloo.solo.io.ApiKeyUpdateResponse
+	53,  // 191: enterprise.gloo.solo.io.ApiKeyService.Delete:output_type -> enterprise.gloo.solo.io.ApiKeyDeleteResponse
+	185, // [185:192] is the sub-list for method output_type
+	178, // [178:185] is the sub-list for method input_type
+	178, // [178:178] is the sub-list for extension type_name
+	178, // [178:178] is the sub-list for extension extendee
+	0,   // [0:178] is the sub-list for field type_name
 }
 
 func init() { file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_proto_init() }
