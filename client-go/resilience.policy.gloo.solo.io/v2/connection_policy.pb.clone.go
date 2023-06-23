@@ -175,6 +175,10 @@ func (m *ConnectionPolicySpec_Config_HTTPConfig) Clone() proto.Message {
 
 	target.MaxRetries = m.GetMaxRetries()
 
+	target.MaxRequests = m.GetMaxRequests()
+
+	target.MaxPendingRequests = m.GetMaxPendingRequests()
+
 	if h, ok := interface{}(m.GetIdleTimeout()).(clone.Cloner); ok {
 		target.IdleTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {

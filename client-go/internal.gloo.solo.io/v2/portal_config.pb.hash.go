@@ -354,6 +354,22 @@ func (m *PortalConfigSpec_API) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
+	if _, err = hasher.Write([]byte(m.GetApiProductId())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetApiProductDisplayName())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetApiId())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetApiVersion())); err != nil {
+		return 0, err
+	}
+
 	if _, err = hasher.Write([]byte(m.GetTitle())); err != nil {
 		return 0, err
 	}

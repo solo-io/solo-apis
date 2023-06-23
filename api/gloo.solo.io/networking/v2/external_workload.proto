@@ -6,7 +6,6 @@ import "extproto/ext.proto";
 import "google/protobuf/wrappers.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2";
 
@@ -14,41 +13,34 @@ option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-// $hide_from_docs
-//
 // ExternalWorkload defines a destination for routing to a set of workloads
 // that are part of the mesh but external to Kubernetes.
 // For example, this could represent a set of workloads running on similar
 // virtual machines or bare metal instances that have a managed proxy instance.
-// When an ExternalWorkload is defined for a given workspace, it can be used as a
-// destination in a VirtualDestination and RouteTable resource, and selected using
-// an IdentitySelector in an AccessPolicy.
+// When an ExternalWorkload is defined for a given workspace, it can be referenced in:
+// - VirtualDestination resources as a backing destination
+// - AccessPolicy resources as an allowed client
+// - AccessPolicy resources targeting external workloads matching workload selectors
 message ExternalWorkloadSpec {
 
   // Ports associated with the external workload.
   repeated Port ports = 1;
 
-  // Network segment the external workload belongs to. It determines how traffic
-  // is routed to an external workload. If the client app and the external workload
-  // are in the same network segment, traffic is directly routed to the workload,
-  // whereas an east-west gateway is used when the external workload belongs to
-  // a different network segment than the client app.
-  string network = 2;
-
-
-  // IdentitySelector define the conditions under which an external workload is selected and attested.
+  // Identity selector defines the conditions under which an external workload is selected and attested.
   // The selector determines the workload identity issued to the external workload.
   // Optional, if using a join token to attest the external workload.
   // If multiple selectors are specified, the external workload will be selected as
   // long as one of the selectors matches.
-  IdentitySelector identity_selector = 3;
+  IdentitySelector identity_selector = 2;
 
-  // Optional: The hostname for which the external workload will serve traffic.
-  // Defaults to <external-workload-name>.<namespace>.ext.<trust-domain>.
-  string Host = 4;
+  // A map of cluster names to the namespace within the cluster the external workload
+  // is registered in. To scope the external workload to multiple clusters, multiple
+  // cluster-namespace pairs can be specified. However, within a cluster, only a single
+  // namespace can be used to register the external workload.
+  map<string,string> connectedClusters = 3;
 
   // Optional: Readiness probe for the external workload.
-  Probe readiness_probe = 5;
+  Probe readiness_probe = 4;
 
   // A port on the backing external workload.
   message Port {
@@ -63,8 +55,6 @@ message ExternalWorkloadSpec {
     uint32 number = 3;
   }
 
-  // $hide_from_docs
-  //
   // Selector defines the conditions under which an external workload is selected and attested.
   message IdentitySelector {
 
@@ -81,8 +71,6 @@ message ExternalWorkloadSpec {
     // Specifies the SPIFFE ID associated with the join token.
     repeated string join_token_spiffe_id = 4;
 
-    // $hide_from_docs
-    //
     // AWS is a selector for external workloads running in AWS.
     // If multiple fields are specified, they must all match.
     message AWS {
@@ -91,22 +79,25 @@ message ExternalWorkloadSpec {
       string iam_role = 1;
 
       // Optional: The name of the security group associated with the external workload.
-      string security_group = 2;
+      string security_group_name = 2;
+
+      // Optional: The ID of the security group associated with the external workload.
+      string security_group_id = 3;
 
       // Optional: The ID of the AMI used to launch the external workload.
-      string image_id = 3;
+      string image_id = 4;
 
       // Optional: The ID of the external workload instance.
-      string instance_id = 4;
+      string instance_id = 5;
 
       // Optional: The availability zone in which the external workload is running.
-      string zone = 5;
+      string zone = 6;
 
       // Optional: The region where the external workload is running.
-      string region = 6;
+      string region = 7;
 
       // The tag applied as a key to the external workload.
-      Tag tag = 7;
+      Tag tag = 8;
 
       // The tag applied as a key-value pair to the external workload.
       message Tag {
@@ -118,8 +109,6 @@ message ExternalWorkloadSpec {
       }
     }
 
-    // $hide_from_docs
-    //
     // GCP is a selector for external workloads running in GCP.
     // If multiple fields are specified, they must all match.
     message GCP {
@@ -154,8 +143,6 @@ message ExternalWorkloadSpec {
       }
     }
 
-    // $hide_from_docs
-    //
     // Azure is a selector for external workloads running in Azure.
     // If multiple fields are specified, they must all match.
     message Azure {
@@ -187,8 +174,6 @@ message ExternalWorkloadSpec {
     }
   }
 
-  // $hide_from_docs
-  //
   // Probe describes a health check to be performed against an external workload
   // to determine whether it is alive or ready to receive traffic.
   message Probe {
@@ -226,8 +211,6 @@ message ExternalWorkloadSpec {
         ExecConfig exec = 9;
     }
 
-    // $hide_from_docs
-    //
     // Describes the config for an HTTP GET probe request.
     message HTTPGetConfig {
 
@@ -254,8 +237,6 @@ message ExternalWorkloadSpec {
       }
     }
 
-    // $hide_from_docs
-    //
     // HTTPHeader describes a custom header to be used in HTTP probes.
     message HTTPHeader {
 
@@ -266,8 +247,6 @@ message ExternalWorkloadSpec {
       string value = 2;
     }
 
-    // $hide_from_docs
-    //
     // Describes the config for a TCP socket probe.
     message TCPSocketConfig {
 
@@ -278,8 +257,6 @@ message ExternalWorkloadSpec {
       uint32 port = 2;
     }
 
-    // $hide_from_docs
-    //
     // Describes the config for an exec command probe.
     message ExecConfig {
 
@@ -289,8 +266,6 @@ message ExternalWorkloadSpec {
   }
 }
 
-// $hide_from_docs
-//
 // Reflects the status of the ExternalWorkload.
 message ExternalWorkloadStatus {
   .common.gloo.solo.io.Status common = 1;
@@ -303,8 +278,6 @@ message ExternalWorkloadStatus {
   string owned_by_workspace = 3;
 }
 
-// $hide_from_docs
-//
 // Reflects the report of the ExternalWorkload.
 message ExternalWorkloadReport {
   map<string, .common.gloo.solo.io.Report> workspaces = 1;

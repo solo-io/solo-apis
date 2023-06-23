@@ -5,7 +5,7 @@ package extensions.policy.gloo.solo.io;
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 import "google/protobuf/any.proto";
 import "networking/v1alpha3/envoy_filter.proto";
 

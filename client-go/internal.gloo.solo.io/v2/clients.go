@@ -164,10 +164,10 @@ type IssuedCertificateWriter interface {
 type IssuedCertificateStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given IssuedCertificate object.
-	UpdateIssuedCertificateStatus(ctx context.Context, obj *IssuedCertificate, opts ...client.UpdateOption) error
+	UpdateIssuedCertificateStatus(ctx context.Context, obj *IssuedCertificate, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given IssuedCertificate object's subresource.
-	PatchIssuedCertificateStatus(ctx context.Context, obj *IssuedCertificate, patch client.Patch, opts ...client.PatchOption) error
+	PatchIssuedCertificateStatus(ctx context.Context, obj *IssuedCertificate, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on IssuedCertificates.
@@ -238,11 +238,11 @@ func (c *issuedCertificateClient) UpsertIssuedCertificate(ctx context.Context, o
 	return err
 }
 
-func (c *issuedCertificateClient) UpdateIssuedCertificateStatus(ctx context.Context, obj *IssuedCertificate, opts ...client.UpdateOption) error {
+func (c *issuedCertificateClient) UpdateIssuedCertificateStatus(ctx context.Context, obj *IssuedCertificate, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *issuedCertificateClient) PatchIssuedCertificateStatus(ctx context.Context, obj *IssuedCertificate, patch client.Patch, opts ...client.PatchOption) error {
+func (c *issuedCertificateClient) PatchIssuedCertificateStatus(ctx context.Context, obj *IssuedCertificate, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -306,10 +306,10 @@ type CertificateRequestWriter interface {
 type CertificateRequestStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given CertificateRequest object.
-	UpdateCertificateRequestStatus(ctx context.Context, obj *CertificateRequest, opts ...client.UpdateOption) error
+	UpdateCertificateRequestStatus(ctx context.Context, obj *CertificateRequest, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given CertificateRequest object's subresource.
-	PatchCertificateRequestStatus(ctx context.Context, obj *CertificateRequest, patch client.Patch, opts ...client.PatchOption) error
+	PatchCertificateRequestStatus(ctx context.Context, obj *CertificateRequest, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on CertificateRequests.
@@ -380,11 +380,11 @@ func (c *certificateRequestClient) UpsertCertificateRequest(ctx context.Context,
 	return err
 }
 
-func (c *certificateRequestClient) UpdateCertificateRequestStatus(ctx context.Context, obj *CertificateRequest, opts ...client.UpdateOption) error {
+func (c *certificateRequestClient) UpdateCertificateRequestStatus(ctx context.Context, obj *CertificateRequest, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *certificateRequestClient) PatchCertificateRequestStatus(ctx context.Context, obj *CertificateRequest, patch client.Patch, opts ...client.PatchOption) error {
+func (c *certificateRequestClient) PatchCertificateRequestStatus(ctx context.Context, obj *CertificateRequest, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -448,10 +448,10 @@ type PodBounceDirectiveWriter interface {
 type PodBounceDirectiveStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given PodBounceDirective object.
-	UpdatePodBounceDirectiveStatus(ctx context.Context, obj *PodBounceDirective, opts ...client.UpdateOption) error
+	UpdatePodBounceDirectiveStatus(ctx context.Context, obj *PodBounceDirective, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given PodBounceDirective object's subresource.
-	PatchPodBounceDirectiveStatus(ctx context.Context, obj *PodBounceDirective, patch client.Patch, opts ...client.PatchOption) error
+	PatchPodBounceDirectiveStatus(ctx context.Context, obj *PodBounceDirective, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on PodBounceDirectives.
@@ -522,11 +522,11 @@ func (c *podBounceDirectiveClient) UpsertPodBounceDirective(ctx context.Context,
 	return err
 }
 
-func (c *podBounceDirectiveClient) UpdatePodBounceDirectiveStatus(ctx context.Context, obj *PodBounceDirective, opts ...client.UpdateOption) error {
+func (c *podBounceDirectiveClient) UpdatePodBounceDirectiveStatus(ctx context.Context, obj *PodBounceDirective, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *podBounceDirectiveClient) PatchPodBounceDirectiveStatus(ctx context.Context, obj *PodBounceDirective, patch client.Patch, opts ...client.PatchOption) error {
+func (c *podBounceDirectiveClient) PatchPodBounceDirectiveStatus(ctx context.Context, obj *PodBounceDirective, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -590,10 +590,10 @@ type XdsConfigWriter interface {
 type XdsConfigStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given XdsConfig object.
-	UpdateXdsConfigStatus(ctx context.Context, obj *XdsConfig, opts ...client.UpdateOption) error
+	UpdateXdsConfigStatus(ctx context.Context, obj *XdsConfig, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given XdsConfig object's subresource.
-	PatchXdsConfigStatus(ctx context.Context, obj *XdsConfig, patch client.Patch, opts ...client.PatchOption) error
+	PatchXdsConfigStatus(ctx context.Context, obj *XdsConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on XdsConfigs.
@@ -664,11 +664,11 @@ func (c *xdsConfigClient) UpsertXdsConfig(ctx context.Context, obj *XdsConfig, t
 	return err
 }
 
-func (c *xdsConfigClient) UpdateXdsConfigStatus(ctx context.Context, obj *XdsConfig, opts ...client.UpdateOption) error {
+func (c *xdsConfigClient) UpdateXdsConfigStatus(ctx context.Context, obj *XdsConfig, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *xdsConfigClient) PatchXdsConfigStatus(ctx context.Context, obj *XdsConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (c *xdsConfigClient) PatchXdsConfigStatus(ctx context.Context, obj *XdsConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -732,10 +732,10 @@ type DiscoveredGatewayWriter interface {
 type DiscoveredGatewayStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given DiscoveredGateway object.
-	UpdateDiscoveredGatewayStatus(ctx context.Context, obj *DiscoveredGateway, opts ...client.UpdateOption) error
+	UpdateDiscoveredGatewayStatus(ctx context.Context, obj *DiscoveredGateway, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given DiscoveredGateway object's subresource.
-	PatchDiscoveredGatewayStatus(ctx context.Context, obj *DiscoveredGateway, patch client.Patch, opts ...client.PatchOption) error
+	PatchDiscoveredGatewayStatus(ctx context.Context, obj *DiscoveredGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on DiscoveredGateways.
@@ -806,11 +806,11 @@ func (c *discoveredGatewayClient) UpsertDiscoveredGateway(ctx context.Context, o
 	return err
 }
 
-func (c *discoveredGatewayClient) UpdateDiscoveredGatewayStatus(ctx context.Context, obj *DiscoveredGateway, opts ...client.UpdateOption) error {
+func (c *discoveredGatewayClient) UpdateDiscoveredGatewayStatus(ctx context.Context, obj *DiscoveredGateway, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *discoveredGatewayClient) PatchDiscoveredGatewayStatus(ctx context.Context, obj *DiscoveredGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (c *discoveredGatewayClient) PatchDiscoveredGatewayStatus(ctx context.Context, obj *DiscoveredGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -874,10 +874,10 @@ type MeshWriter interface {
 type MeshStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given Mesh object.
-	UpdateMeshStatus(ctx context.Context, obj *Mesh, opts ...client.UpdateOption) error
+	UpdateMeshStatus(ctx context.Context, obj *Mesh, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given Mesh object's subresource.
-	PatchMeshStatus(ctx context.Context, obj *Mesh, patch client.Patch, opts ...client.PatchOption) error
+	PatchMeshStatus(ctx context.Context, obj *Mesh, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on Meshs.
@@ -948,11 +948,11 @@ func (c *meshClient) UpsertMesh(ctx context.Context, obj *Mesh, transitionFuncs 
 	return err
 }
 
-func (c *meshClient) UpdateMeshStatus(ctx context.Context, obj *Mesh, opts ...client.UpdateOption) error {
+func (c *meshClient) UpdateMeshStatus(ctx context.Context, obj *Mesh, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *meshClient) PatchMeshStatus(ctx context.Context, obj *Mesh, patch client.Patch, opts ...client.PatchOption) error {
+func (c *meshClient) PatchMeshStatus(ctx context.Context, obj *Mesh, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1016,10 +1016,10 @@ type DiscoveredCNIWriter interface {
 type DiscoveredCNIStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given DiscoveredCNI object.
-	UpdateDiscoveredCNIStatus(ctx context.Context, obj *DiscoveredCNI, opts ...client.UpdateOption) error
+	UpdateDiscoveredCNIStatus(ctx context.Context, obj *DiscoveredCNI, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given DiscoveredCNI object's subresource.
-	PatchDiscoveredCNIStatus(ctx context.Context, obj *DiscoveredCNI, patch client.Patch, opts ...client.PatchOption) error
+	PatchDiscoveredCNIStatus(ctx context.Context, obj *DiscoveredCNI, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on DiscoveredCNIs.
@@ -1090,11 +1090,11 @@ func (c *discoveredCNIClient) UpsertDiscoveredCNI(ctx context.Context, obj *Disc
 	return err
 }
 
-func (c *discoveredCNIClient) UpdateDiscoveredCNIStatus(ctx context.Context, obj *DiscoveredCNI, opts ...client.UpdateOption) error {
+func (c *discoveredCNIClient) UpdateDiscoveredCNIStatus(ctx context.Context, obj *DiscoveredCNI, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *discoveredCNIClient) PatchDiscoveredCNIStatus(ctx context.Context, obj *DiscoveredCNI, patch client.Patch, opts ...client.PatchOption) error {
+func (c *discoveredCNIClient) PatchDiscoveredCNIStatus(ctx context.Context, obj *DiscoveredCNI, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1158,10 +1158,10 @@ type PortalConfigWriter interface {
 type PortalConfigStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given PortalConfig object.
-	UpdatePortalConfigStatus(ctx context.Context, obj *PortalConfig, opts ...client.UpdateOption) error
+	UpdatePortalConfigStatus(ctx context.Context, obj *PortalConfig, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given PortalConfig object's subresource.
-	PatchPortalConfigStatus(ctx context.Context, obj *PortalConfig, patch client.Patch, opts ...client.PatchOption) error
+	PatchPortalConfigStatus(ctx context.Context, obj *PortalConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on PortalConfigs.
@@ -1232,11 +1232,11 @@ func (c *portalConfigClient) UpsertPortalConfig(ctx context.Context, obj *Portal
 	return err
 }
 
-func (c *portalConfigClient) UpdatePortalConfigStatus(ctx context.Context, obj *PortalConfig, opts ...client.UpdateOption) error {
+func (c *portalConfigClient) UpdatePortalConfigStatus(ctx context.Context, obj *PortalConfig, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *portalConfigClient) PatchPortalConfigStatus(ctx context.Context, obj *PortalConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (c *portalConfigClient) PatchPortalConfigStatus(ctx context.Context, obj *PortalConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1300,10 +1300,10 @@ type SpireRegistrationEntryWriter interface {
 type SpireRegistrationEntryStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given SpireRegistrationEntry object.
-	UpdateSpireRegistrationEntryStatus(ctx context.Context, obj *SpireRegistrationEntry, opts ...client.UpdateOption) error
+	UpdateSpireRegistrationEntryStatus(ctx context.Context, obj *SpireRegistrationEntry, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given SpireRegistrationEntry object's subresource.
-	PatchSpireRegistrationEntryStatus(ctx context.Context, obj *SpireRegistrationEntry, patch client.Patch, opts ...client.PatchOption) error
+	PatchSpireRegistrationEntryStatus(ctx context.Context, obj *SpireRegistrationEntry, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on SpireRegistrationEntrys.
@@ -1374,11 +1374,11 @@ func (c *spireRegistrationEntryClient) UpsertSpireRegistrationEntry(ctx context.
 	return err
 }
 
-func (c *spireRegistrationEntryClient) UpdateSpireRegistrationEntryStatus(ctx context.Context, obj *SpireRegistrationEntry, opts ...client.UpdateOption) error {
+func (c *spireRegistrationEntryClient) UpdateSpireRegistrationEntryStatus(ctx context.Context, obj *SpireRegistrationEntry, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *spireRegistrationEntryClient) PatchSpireRegistrationEntryStatus(ctx context.Context, obj *SpireRegistrationEntry, patch client.Patch, opts ...client.PatchOption) error {
+func (c *spireRegistrationEntryClient) PatchSpireRegistrationEntryStatus(ctx context.Context, obj *SpireRegistrationEntry, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

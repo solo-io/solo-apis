@@ -62,10 +62,6 @@ func (m *ExternalWorkloadSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
-	if _, err = hasher.Write([]byte(m.GetNetwork())); err != nil {
-		return 0, err
-	}
-
 	if h, ok := interface{}(m.GetIdentitySelector()).(safe_hasher.SafeHasher); ok {
 		if _, err = hasher.Write([]byte("IdentitySelector")); err != nil {
 			return 0, err
@@ -86,8 +82,27 @@ func (m *ExternalWorkloadSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
-	if _, err = hasher.Write([]byte(m.GetHost())); err != nil {
-		return 0, err
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetConnectedClusters() {
+			innerHash.Reset()
+
+			if _, err = innerHash.Write([]byte(v)); err != nil {
+				return 0, err
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
 	}
 
 	if h, ok := interface{}(m.GetReadinessProbe()).(safe_hasher.SafeHasher); ok {
@@ -603,7 +618,11 @@ func (m *ExternalWorkloadSpec_IdentitySelector_AWS) Hash(hasher hash.Hash64) (ui
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetSecurityGroup())); err != nil {
+	if _, err = hasher.Write([]byte(m.GetSecurityGroupName())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetSecurityGroupId())); err != nil {
 		return 0, err
 	}
 

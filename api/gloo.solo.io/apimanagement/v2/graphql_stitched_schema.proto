@@ -6,7 +6,6 @@ import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "github.com/solo-io/skv2/api/core/v1/core.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2";

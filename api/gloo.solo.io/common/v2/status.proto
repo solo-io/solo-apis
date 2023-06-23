@@ -13,32 +13,16 @@ option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-// Name of Workspace that owns resource
-message OwnerWorkspace {
-  string workspace = 1;
+message Status {
+  State State = 1;
+
+  // A map of ApprovalState to the number of workspaces in this condition, e.g.,
+  // "Accepted" -> 2
+  // "Pending" -> 1
+  map<string, uint32> workspace_conditions = 2;
 }
 
-message WorkspaceStatus {
-  // The status of the resource in each cluster within the
-  // workspace.
-  map<string, ClusterStatus> clusters = 1;
-
-  message ClusterStatus {
-    GenericContextStatus generic = 1;
-  }
-}
-
-message GenericGlobalStatus {
-  // Whether the resource has been accepted as valid and processed in workspace
-  // clusters that it exists in.
-  ApprovalState state = 1;
-
-  // Additional information about the current state of the resource across all
-  // workspace clusters.
-  string message = 2;
-}
-
-message GenericContextStatus {
+message State {
   // The most recent generation observed in the the object's metadata.
   // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh
   // has not processed the most recent version of this object.
@@ -46,10 +30,16 @@ message GenericContextStatus {
 
   // Whether the resource has been accepted as valid and processed in the Gloo
   // Mesh config translation.
-  ApprovalState state = 2;
+  ApprovalState approval = 2;
 
   // Additional information about the current state of the resource.
   string message = 3;
+}
+
+// $hide_from_docs
+message Report {
+  // The state of the resource in each cluster that receives its configuration.
+  map<string, State> clusters = 1;
 }
 
 // Indicates selected routes on status messages.

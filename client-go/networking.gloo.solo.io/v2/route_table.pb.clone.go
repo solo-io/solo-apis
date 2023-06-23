@@ -505,6 +505,14 @@ func (m *PortalMetadata) Clone() proto.Message {
 	}
 	target = &PortalMetadata{}
 
+	target.ApiProductId = m.GetApiProductId()
+
+	target.ApiProductDisplayName = m.GetApiProductDisplayName()
+
+	target.ApiId = m.GetApiId()
+
+	target.ApiVersion = m.GetApiVersion()
+
 	target.Title = m.GetTitle()
 
 	target.Description = m.GetDescription()
@@ -621,6 +629,19 @@ func (m *RouteTableReport) Clone() proto.Message {
 		}
 	}
 
+	if m.GetDelegatedToRouteTables() != nil {
+		target.DelegatedToRouteTables = make([]*RouteTableReport_DelegatedRouteTableReference, len(m.GetDelegatedToRouteTables()))
+		for idx, v := range m.GetDelegatedToRouteTables() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.DelegatedToRouteTables[idx] = h.Clone().(*RouteTableReport_DelegatedRouteTableReference)
+			} else {
+				target.DelegatedToRouteTables[idx] = proto.Clone(v).(*RouteTableReport_DelegatedRouteTableReference)
+			}
+
+		}
+	}
+
 	return target
 }
 
@@ -660,6 +681,25 @@ func (m *GraphQLAction_Options) Clone() proto.Message {
 		target.LogSensitiveInfo = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
 		target.LogSensitiveInfo = proto.Clone(m.GetLogSensitiveInfo()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *RouteTableReport_DelegatedRouteTableReference) Clone() proto.Message {
+	var target *RouteTableReport_DelegatedRouteTableReference
+	if m == nil {
+		return target
+	}
+	target = &RouteTableReport_DelegatedRouteTableReference{}
+
+	target.RouteIndex = m.GetRouteIndex()
+
+	if h, ok := interface{}(m.GetRouteTable()).(clone.Cloner); ok {
+		target.RouteTable = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+	} else {
+		target.RouteTable = proto.Clone(m.GetRouteTable()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
 	}
 
 	return target

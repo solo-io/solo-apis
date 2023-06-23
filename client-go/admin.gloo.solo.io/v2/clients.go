@@ -171,10 +171,10 @@ type WorkspaceWriter interface {
 type WorkspaceStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given Workspace object.
-	UpdateWorkspaceStatus(ctx context.Context, obj *Workspace, opts ...client.UpdateOption) error
+	UpdateWorkspaceStatus(ctx context.Context, obj *Workspace, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given Workspace object's subresource.
-	PatchWorkspaceStatus(ctx context.Context, obj *Workspace, patch client.Patch, opts ...client.PatchOption) error
+	PatchWorkspaceStatus(ctx context.Context, obj *Workspace, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on Workspaces.
@@ -245,11 +245,11 @@ func (c *workspaceClient) UpsertWorkspace(ctx context.Context, obj *Workspace, t
 	return err
 }
 
-func (c *workspaceClient) UpdateWorkspaceStatus(ctx context.Context, obj *Workspace, opts ...client.UpdateOption) error {
+func (c *workspaceClient) UpdateWorkspaceStatus(ctx context.Context, obj *Workspace, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *workspaceClient) PatchWorkspaceStatus(ctx context.Context, obj *Workspace, patch client.Patch, opts ...client.PatchOption) error {
+func (c *workspaceClient) PatchWorkspaceStatus(ctx context.Context, obj *Workspace, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -313,10 +313,10 @@ type WorkspaceSettingsWriter interface {
 type WorkspaceSettingsStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given WorkspaceSettings object.
-	UpdateWorkspaceSettingsStatus(ctx context.Context, obj *WorkspaceSettings, opts ...client.UpdateOption) error
+	UpdateWorkspaceSettingsStatus(ctx context.Context, obj *WorkspaceSettings, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given WorkspaceSettings object's subresource.
-	PatchWorkspaceSettingsStatus(ctx context.Context, obj *WorkspaceSettings, patch client.Patch, opts ...client.PatchOption) error
+	PatchWorkspaceSettingsStatus(ctx context.Context, obj *WorkspaceSettings, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on WorkspaceSettingss.
@@ -387,11 +387,11 @@ func (c *workspaceSettingsClient) UpsertWorkspaceSettings(ctx context.Context, o
 	return err
 }
 
-func (c *workspaceSettingsClient) UpdateWorkspaceSettingsStatus(ctx context.Context, obj *WorkspaceSettings, opts ...client.UpdateOption) error {
+func (c *workspaceSettingsClient) UpdateWorkspaceSettingsStatus(ctx context.Context, obj *WorkspaceSettings, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *workspaceSettingsClient) PatchWorkspaceSettingsStatus(ctx context.Context, obj *WorkspaceSettings, patch client.Patch, opts ...client.PatchOption) error {
+func (c *workspaceSettingsClient) PatchWorkspaceSettingsStatus(ctx context.Context, obj *WorkspaceSettings, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -455,10 +455,10 @@ type KubernetesClusterWriter interface {
 type KubernetesClusterStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given KubernetesCluster object.
-	UpdateKubernetesClusterStatus(ctx context.Context, obj *KubernetesCluster, opts ...client.UpdateOption) error
+	UpdateKubernetesClusterStatus(ctx context.Context, obj *KubernetesCluster, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given KubernetesCluster object's subresource.
-	PatchKubernetesClusterStatus(ctx context.Context, obj *KubernetesCluster, patch client.Patch, opts ...client.PatchOption) error
+	PatchKubernetesClusterStatus(ctx context.Context, obj *KubernetesCluster, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on KubernetesClusters.
@@ -529,11 +529,11 @@ func (c *kubernetesClusterClient) UpsertKubernetesCluster(ctx context.Context, o
 	return err
 }
 
-func (c *kubernetesClusterClient) UpdateKubernetesClusterStatus(ctx context.Context, obj *KubernetesCluster, opts ...client.UpdateOption) error {
+func (c *kubernetesClusterClient) UpdateKubernetesClusterStatus(ctx context.Context, obj *KubernetesCluster, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *kubernetesClusterClient) PatchKubernetesClusterStatus(ctx context.Context, obj *KubernetesCluster, patch client.Patch, opts ...client.PatchOption) error {
+func (c *kubernetesClusterClient) PatchKubernetesClusterStatus(ctx context.Context, obj *KubernetesCluster, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -597,10 +597,10 @@ type RootTrustPolicyWriter interface {
 type RootTrustPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given RootTrustPolicy object.
-	UpdateRootTrustPolicyStatus(ctx context.Context, obj *RootTrustPolicy, opts ...client.UpdateOption) error
+	UpdateRootTrustPolicyStatus(ctx context.Context, obj *RootTrustPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given RootTrustPolicy object's subresource.
-	PatchRootTrustPolicyStatus(ctx context.Context, obj *RootTrustPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchRootTrustPolicyStatus(ctx context.Context, obj *RootTrustPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on RootTrustPolicys.
@@ -671,11 +671,11 @@ func (c *rootTrustPolicyClient) UpsertRootTrustPolicy(ctx context.Context, obj *
 	return err
 }
 
-func (c *rootTrustPolicyClient) UpdateRootTrustPolicyStatus(ctx context.Context, obj *RootTrustPolicy, opts ...client.UpdateOption) error {
+func (c *rootTrustPolicyClient) UpdateRootTrustPolicyStatus(ctx context.Context, obj *RootTrustPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *rootTrustPolicyClient) PatchRootTrustPolicyStatus(ctx context.Context, obj *RootTrustPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *rootTrustPolicyClient) PatchRootTrustPolicyStatus(ctx context.Context, obj *RootTrustPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -739,10 +739,10 @@ type ExtAuthServerWriter interface {
 type ExtAuthServerStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ExtAuthServer object.
-	UpdateExtAuthServerStatus(ctx context.Context, obj *ExtAuthServer, opts ...client.UpdateOption) error
+	UpdateExtAuthServerStatus(ctx context.Context, obj *ExtAuthServer, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ExtAuthServer object's subresource.
-	PatchExtAuthServerStatus(ctx context.Context, obj *ExtAuthServer, patch client.Patch, opts ...client.PatchOption) error
+	PatchExtAuthServerStatus(ctx context.Context, obj *ExtAuthServer, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ExtAuthServers.
@@ -813,11 +813,11 @@ func (c *extAuthServerClient) UpsertExtAuthServer(ctx context.Context, obj *ExtA
 	return err
 }
 
-func (c *extAuthServerClient) UpdateExtAuthServerStatus(ctx context.Context, obj *ExtAuthServer, opts ...client.UpdateOption) error {
+func (c *extAuthServerClient) UpdateExtAuthServerStatus(ctx context.Context, obj *ExtAuthServer, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *extAuthServerClient) PatchExtAuthServerStatus(ctx context.Context, obj *ExtAuthServer, patch client.Patch, opts ...client.PatchOption) error {
+func (c *extAuthServerClient) PatchExtAuthServerStatus(ctx context.Context, obj *ExtAuthServer, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -881,10 +881,10 @@ type RateLimitServerSettingsWriter interface {
 type RateLimitServerSettingsStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given RateLimitServerSettings object.
-	UpdateRateLimitServerSettingsStatus(ctx context.Context, obj *RateLimitServerSettings, opts ...client.UpdateOption) error
+	UpdateRateLimitServerSettingsStatus(ctx context.Context, obj *RateLimitServerSettings, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given RateLimitServerSettings object's subresource.
-	PatchRateLimitServerSettingsStatus(ctx context.Context, obj *RateLimitServerSettings, patch client.Patch, opts ...client.PatchOption) error
+	PatchRateLimitServerSettingsStatus(ctx context.Context, obj *RateLimitServerSettings, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on RateLimitServerSettingss.
@@ -955,11 +955,11 @@ func (c *rateLimitServerSettingsClient) UpsertRateLimitServerSettings(ctx contex
 	return err
 }
 
-func (c *rateLimitServerSettingsClient) UpdateRateLimitServerSettingsStatus(ctx context.Context, obj *RateLimitServerSettings, opts ...client.UpdateOption) error {
+func (c *rateLimitServerSettingsClient) UpdateRateLimitServerSettingsStatus(ctx context.Context, obj *RateLimitServerSettings, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *rateLimitServerSettingsClient) PatchRateLimitServerSettingsStatus(ctx context.Context, obj *RateLimitServerSettings, patch client.Patch, opts ...client.PatchOption) error {
+func (c *rateLimitServerSettingsClient) PatchRateLimitServerSettingsStatus(ctx context.Context, obj *RateLimitServerSettings, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1023,10 +1023,10 @@ type RateLimitServerConfigWriter interface {
 type RateLimitServerConfigStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given RateLimitServerConfig object.
-	UpdateRateLimitServerConfigStatus(ctx context.Context, obj *RateLimitServerConfig, opts ...client.UpdateOption) error
+	UpdateRateLimitServerConfigStatus(ctx context.Context, obj *RateLimitServerConfig, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given RateLimitServerConfig object's subresource.
-	PatchRateLimitServerConfigStatus(ctx context.Context, obj *RateLimitServerConfig, patch client.Patch, opts ...client.PatchOption) error
+	PatchRateLimitServerConfigStatus(ctx context.Context, obj *RateLimitServerConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on RateLimitServerConfigs.
@@ -1097,11 +1097,11 @@ func (c *rateLimitServerConfigClient) UpsertRateLimitServerConfig(ctx context.Co
 	return err
 }
 
-func (c *rateLimitServerConfigClient) UpdateRateLimitServerConfigStatus(ctx context.Context, obj *RateLimitServerConfig, opts ...client.UpdateOption) error {
+func (c *rateLimitServerConfigClient) UpdateRateLimitServerConfigStatus(ctx context.Context, obj *RateLimitServerConfig, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *rateLimitServerConfigClient) PatchRateLimitServerConfigStatus(ctx context.Context, obj *RateLimitServerConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (c *rateLimitServerConfigClient) PatchRateLimitServerConfigStatus(ctx context.Context, obj *RateLimitServerConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1165,10 +1165,10 @@ type DashboardWriter interface {
 type DashboardStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given Dashboard object.
-	UpdateDashboardStatus(ctx context.Context, obj *Dashboard, opts ...client.UpdateOption) error
+	UpdateDashboardStatus(ctx context.Context, obj *Dashboard, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given Dashboard object's subresource.
-	PatchDashboardStatus(ctx context.Context, obj *Dashboard, patch client.Patch, opts ...client.PatchOption) error
+	PatchDashboardStatus(ctx context.Context, obj *Dashboard, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on Dashboards.
@@ -1239,11 +1239,11 @@ func (c *dashboardClient) UpsertDashboard(ctx context.Context, obj *Dashboard, t
 	return err
 }
 
-func (c *dashboardClient) UpdateDashboardStatus(ctx context.Context, obj *Dashboard, opts ...client.UpdateOption) error {
+func (c *dashboardClient) UpdateDashboardStatus(ctx context.Context, obj *Dashboard, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *dashboardClient) PatchDashboardStatus(ctx context.Context, obj *Dashboard, patch client.Patch, opts ...client.PatchOption) error {
+func (c *dashboardClient) PatchDashboardStatus(ctx context.Context, obj *Dashboard, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1307,10 +1307,10 @@ type IstioLifecycleManagerWriter interface {
 type IstioLifecycleManagerStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given IstioLifecycleManager object.
-	UpdateIstioLifecycleManagerStatus(ctx context.Context, obj *IstioLifecycleManager, opts ...client.UpdateOption) error
+	UpdateIstioLifecycleManagerStatus(ctx context.Context, obj *IstioLifecycleManager, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given IstioLifecycleManager object's subresource.
-	PatchIstioLifecycleManagerStatus(ctx context.Context, obj *IstioLifecycleManager, patch client.Patch, opts ...client.PatchOption) error
+	PatchIstioLifecycleManagerStatus(ctx context.Context, obj *IstioLifecycleManager, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on IstioLifecycleManagers.
@@ -1381,11 +1381,11 @@ func (c *istioLifecycleManagerClient) UpsertIstioLifecycleManager(ctx context.Co
 	return err
 }
 
-func (c *istioLifecycleManagerClient) UpdateIstioLifecycleManagerStatus(ctx context.Context, obj *IstioLifecycleManager, opts ...client.UpdateOption) error {
+func (c *istioLifecycleManagerClient) UpdateIstioLifecycleManagerStatus(ctx context.Context, obj *IstioLifecycleManager, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *istioLifecycleManagerClient) PatchIstioLifecycleManagerStatus(ctx context.Context, obj *IstioLifecycleManager, patch client.Patch, opts ...client.PatchOption) error {
+func (c *istioLifecycleManagerClient) PatchIstioLifecycleManagerStatus(ctx context.Context, obj *IstioLifecycleManager, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1449,10 +1449,10 @@ type GatewayLifecycleManagerWriter interface {
 type GatewayLifecycleManagerStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given GatewayLifecycleManager object.
-	UpdateGatewayLifecycleManagerStatus(ctx context.Context, obj *GatewayLifecycleManager, opts ...client.UpdateOption) error
+	UpdateGatewayLifecycleManagerStatus(ctx context.Context, obj *GatewayLifecycleManager, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given GatewayLifecycleManager object's subresource.
-	PatchGatewayLifecycleManagerStatus(ctx context.Context, obj *GatewayLifecycleManager, patch client.Patch, opts ...client.PatchOption) error
+	PatchGatewayLifecycleManagerStatus(ctx context.Context, obj *GatewayLifecycleManager, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on GatewayLifecycleManagers.
@@ -1523,11 +1523,11 @@ func (c *gatewayLifecycleManagerClient) UpsertGatewayLifecycleManager(ctx contex
 	return err
 }
 
-func (c *gatewayLifecycleManagerClient) UpdateGatewayLifecycleManagerStatus(ctx context.Context, obj *GatewayLifecycleManager, opts ...client.UpdateOption) error {
+func (c *gatewayLifecycleManagerClient) UpdateGatewayLifecycleManagerStatus(ctx context.Context, obj *GatewayLifecycleManager, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *gatewayLifecycleManagerClient) PatchGatewayLifecycleManagerStatus(ctx context.Context, obj *GatewayLifecycleManager, patch client.Patch, opts ...client.PatchOption) error {
+func (c *gatewayLifecycleManagerClient) PatchGatewayLifecycleManagerStatus(ctx context.Context, obj *GatewayLifecycleManager, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

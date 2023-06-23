@@ -7,7 +7,6 @@ import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "google/protobuf/struct.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2";

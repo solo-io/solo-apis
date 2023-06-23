@@ -5,7 +5,7 @@ package internal.gloo.solo.io;
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/locality.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 import "github.com/solo-io/skv2/api/core/v1/core.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2";

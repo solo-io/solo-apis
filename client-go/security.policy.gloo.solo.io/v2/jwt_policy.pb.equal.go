@@ -336,6 +336,10 @@ func (m *JWTPolicySpec_Config_Provider) Equal(that interface{}) bool {
 		}
 	}
 
+	if strings.Compare(m.GetOutputPayloadToHeader(), target.GetOutputPayloadToHeader()) != 0 {
+		return false
+	}
+
 	switch m.JwksSource.(type) {
 
 	case *JWTPolicySpec_Config_Provider_Local:

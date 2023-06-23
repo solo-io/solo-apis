@@ -3,10 +3,10 @@ syntax = "proto3";
 package admin.gloo.solo.io;
 
 import "extproto/ext.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
 
@@ -93,43 +93,7 @@ message WorkspaceSpec {
 
   // Optional: Select workload clusters and namespaces for the workload clusters that are part of the workspace.
   // When this is not specified, the workspace contains no workload clusters.
-  repeated ClusterSelector workload_clusters = 2;
-}
-
-// Select clusters and namespaces for a workspace
-message ClusterSelector {
-  // Optional: Name of the cluster to select.
-  // Use * to match name patterns in multiple clusters name.
-  string name = 1;
-
-  // Optional: Include workload clusters in the workspace by using a selector.
-  // The selector matches the selector values in the KubernetesCluster resource on the management cluster.
-  // Selector is a map of {key,value} pairs. A single {key,value} in the selector
-  // map is equivalent to an element of labelRequirements, whose key field is "key", the
-  // operator is "In", and the values array contains only "value". The requirements are ANDed.
-  map<string, string> selector = 2;
-
-  // Select the namespaces in the cluster(s) to include in the workspace. If you do not select any namespaces, the workspace is empty and results in an error.
-  repeated NamespaceSelector namespaces = 4;
-
-  // Optional: Enable configuration from this workload cluster. (default: true unless explicitly enabled for any selected clusters or namespaces)
-  bool config_enabled = 5;
-
-  // Select namespaces for the selected cluster(s)
-  message NamespaceSelector {
-    // Name of the namespace to select.
-    // Can use * to match name patterns in multiple namespaces.
-    // Note: When this field is used in conjunction with "labels", both conditions are ANDed together.
-    string name = 1;
-
-    // Optional: Enable configuration from this namespace. (default: true unless explicitly enabled for any selected clusters or namespaces)
-    bool config_enabled = 2;
-
-    // Optional: Select groups of namespaces via labels.
-    // Leaving this field empty will NOT select all namespaces, but rather be ignored.
-    // Note: When this field is used in conjunction with "name", both conditions are ANDed together.
-    map<string, string> labels = 3;
-  }
+  repeated .common.gloo.solo.io.ClusterSelector workload_clusters = 2;
 }
 
 message WorkspaceStatus {

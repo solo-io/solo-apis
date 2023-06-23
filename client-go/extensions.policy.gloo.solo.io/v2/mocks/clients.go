@@ -308,7 +308,7 @@ func (m *MockWasmDeploymentPolicyStatusWriter) EXPECT() *MockWasmDeploymentPolic
 }
 
 // PatchWasmDeploymentPolicyStatus mocks base method.
-func (m *MockWasmDeploymentPolicyStatusWriter) PatchWasmDeploymentPolicyStatus(ctx context.Context, obj *v2.WasmDeploymentPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockWasmDeploymentPolicyStatusWriter) PatchWasmDeploymentPolicyStatus(ctx context.Context, obj *v2.WasmDeploymentPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -327,7 +327,7 @@ func (mr *MockWasmDeploymentPolicyStatusWriterMockRecorder) PatchWasmDeploymentP
 }
 
 // UpdateWasmDeploymentPolicyStatus mocks base method.
-func (m *MockWasmDeploymentPolicyStatusWriter) UpdateWasmDeploymentPolicyStatus(ctx context.Context, obj *v2.WasmDeploymentPolicy, opts ...client.UpdateOption) error {
+func (m *MockWasmDeploymentPolicyStatusWriter) UpdateWasmDeploymentPolicyStatus(ctx context.Context, obj *v2.WasmDeploymentPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -480,7 +480,7 @@ func (mr *MockWasmDeploymentPolicyClientMockRecorder) PatchWasmDeploymentPolicy(
 }
 
 // PatchWasmDeploymentPolicyStatus mocks base method.
-func (m *MockWasmDeploymentPolicyClient) PatchWasmDeploymentPolicyStatus(ctx context.Context, obj *v2.WasmDeploymentPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockWasmDeploymentPolicyClient) PatchWasmDeploymentPolicyStatus(ctx context.Context, obj *v2.WasmDeploymentPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -518,7 +518,7 @@ func (mr *MockWasmDeploymentPolicyClientMockRecorder) UpdateWasmDeploymentPolicy
 }
 
 // UpdateWasmDeploymentPolicyStatus mocks base method.
-func (m *MockWasmDeploymentPolicyClient) UpdateWasmDeploymentPolicyStatus(ctx context.Context, obj *v2.WasmDeploymentPolicy, opts ...client.UpdateOption) error {
+func (m *MockWasmDeploymentPolicyClient) UpdateWasmDeploymentPolicyStatus(ctx context.Context, obj *v2.WasmDeploymentPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

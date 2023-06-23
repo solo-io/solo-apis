@@ -416,6 +416,10 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 		}
 	}
 
+	if _, err = hasher.Write([]byte(m.GetOutputPayloadToHeader())); err != nil {
+		return 0, err
+	}
+
 	switch m.JwksSource.(type) {
 
 	case *JWTPolicySpec_Config_Provider_Local:

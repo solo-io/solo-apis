@@ -778,6 +778,22 @@ func (m *PortalMetadata) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetApiProductId(), target.GetApiProductId()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetApiProductDisplayName(), target.GetApiProductDisplayName()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetApiId(), target.GetApiId()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetApiVersion(), target.GetApiVersion()) != 0 {
+		return false
+	}
+
 	if strings.Compare(m.GetTitle(), target.GetTitle()) != 0 {
 		return false
 	}
@@ -962,6 +978,23 @@ func (m *RouteTableReport) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetDelegatedToRouteTables()) != len(target.GetDelegatedToRouteTables()) {
+		return false
+	}
+	for idx, v := range m.GetDelegatedToRouteTables() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetDelegatedToRouteTables()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetDelegatedToRouteTables()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	return true
 }
 
@@ -1033,6 +1066,44 @@ func (m *GraphQLAction_Options) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetLogSensitiveInfo(), target.GetLogSensitiveInfo()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *RouteTableReport_DelegatedRouteTableReference) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*RouteTableReport_DelegatedRouteTableReference)
+	if !ok {
+		that2, ok := that.(RouteTableReport_DelegatedRouteTableReference)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetRouteIndex() != target.GetRouteIndex() {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetRouteTable()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetRouteTable()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetRouteTable(), target.GetRouteTable()) {
 			return false
 		}
 	}

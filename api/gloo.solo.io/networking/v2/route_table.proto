@@ -10,7 +10,6 @@ import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/http_matchers.pr
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/cloud_provider_options.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/tcp_matchers.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/tls_matchers.proto";
@@ -522,21 +521,46 @@ message DelegateAction {
   }
 }
 
-// PortalMetadata is a set of metadata that will be written to Gloo Platform Portal if the route table
-// is selected by a Portal resource configured by the user.
+// With [Portal](https://docs.solo.io/gloo-gateway/main/portal/) installed as part of Gloo Platform,
+// you can use route tables to bundle together individual routes into an API product.
+// When the Portal resource selects your route table, Gloo automatically generates an OpenAPI specification for the API product,
+// which includes all of the routes. You can use this `PortalMetadata` setting to customize details about your API product,
+// such as by providing a title, description, terms of service, licensing, and lifecycle management information.
+// After you deploy a frontend application for your portal, your end users can review the metadata in the portal to help them use your API products.
 message PortalMetadata {
-  // The title of the portal.
-  string title = 1;
-  // The description of the portal.
-  string description = 2;
-  // The terms of service of the portal.
-  string terms_of_service = 3;
-  // The contact information of the portal.
-  string contact = 4;
-  // The license of the portal.
-  string license = 5;
-  // Custom metadata for the portal.
-  map<string, string> custom_metadata = 6;
+  // Group APIs from multiple route tables together as an API product in the portal.
+  // For example, you might have separate route tables that route to different `v1` and `v2` versions of your `billing` services that have their own OpenAPI specs.
+  // By setting the `apiProductId` metadata to the same `billing-api` value in each route table,
+  // the [/apis](https://docs.solo.io/gloo-gateway/main/portal/openapi/redocly/#tag/APIs/operation/ListAPIs) endpoint in the portal server returns the same `apiProduct` in the response.
+  // Then, these APIs are grouped together and shown as a single `billing` API product with multiple `v1` and `v2` versions in the frontend portal for your end users to discover and use.
+  // This field is required when you set `apiVersion`.
+  string api_product_id = 1;
+  // Optional: Give a name for the API product to display in the frontend portal. If omitted, the `apiProductId` value is used as the display name.
+  string api_product_display_name = 2;
+  // The ID for this API. For example, you might use this route table to expose the `v1` versions for your various `billing` services.
+  // In this case, you might set the `apiId` to `billing-v1`. Any metrics that are collected for this API are tagged with this ID.
+  // By default, the `apiId` is a system generated string that is based on the RouteTable metadata. ie: `<route-table-name>.<namespace>.<cluster>`.
+  // Although optional, it is highly recommended that you set this field to a meaningful value so that your can more easily identify the API in your metrics.
+  string api_id = 3;
+  // The version of the API in context of the api product.
+  // You cannot have multiple `apiVersion` values for the same `apiProductId` value, and you must set `apiProductId` to use `apiVersion`.
+  // For example, if you have two route tables that both set `apiProductId` to `billing-api`, then one route table can also set `apiVersion` to `v1` and the other to `v2`.
+  // But both route tables cannot set the `apiVersion` to `v1`.
+  string api_version = 4;
+  // The title of the openAPI specification for this API.
+  string title = 5;
+  // The description of the openAPI specification for this API.
+  string description = 6;
+  // The terms of service of the openAPI specification for this API.
+  string terms_of_service = 7;
+  // The contact information of the openAPI specification for this API.
+  string contact = 8;
+  // The license of the openAPI specification for this API.
+  string license = 9;
+  // Provide key-value pairs of any custom metadata that you want to show end users in the frontend portal for this API product.
+  // In particular, you might provide information about your API lifecycle management policies,
+  // such as `phase=supported`, `phase=deprecated`, `compatibility=backwards`, or other product information.
+  map<string, string> custom_metadata = 10;
 }
 
 message RouteTableStatus {
@@ -571,4 +595,16 @@ message RouteTableReport {
 
   // A list of allowed virtual gateways that this route table can select.
   repeated .common.gloo.solo.io.ObjectReference allowed_virtual_gateways = 5;
+
+  // A list of routes delegated to by delegated routes in this RouteTable.
+  // Only tracks direct delegates of this RouteTable; delegates of delegate routes are not included.
+  repeated DelegatedRouteTableReference delegated_to_route_tables = 6;
+
+  message DelegatedRouteTableReference {
+    // The index of the route in the parent RouteTable that delegates to the listed RouteTable.
+    int32 route_index = 1;
+
+    // The reference to the RouteTable being delegated to by the parent RouteTable.
+    .common.gloo.solo.io.ObjectReference route_table = 2;
+  }
 }

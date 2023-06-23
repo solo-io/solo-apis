@@ -7,7 +7,6 @@ import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/enforcement_layers.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2";
 
@@ -191,10 +190,20 @@ message AccessPolicyStatus {
   uint32 num_selected_destination_ports = 5;
 }
 
-// $hide_from_docs
 message AccessPolicyReport {
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
   // A list of destination ports selected by the policy.
   repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
+
+  // A list of service accounts selected as allowed clients
+  repeated IdentityReference allowed_service_accounts = 3;
+
+  message IdentityReference {
+    // The index of the identity in the list of identity selectors
+    int32 identity_index = 1;
+
+    // The reference to the service account backing the identity
+    .common.gloo.solo.io.ObjectReference service_account = 2;
+  }
 }

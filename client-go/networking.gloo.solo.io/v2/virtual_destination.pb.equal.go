@@ -91,6 +91,23 @@ func (m *VirtualDestinationSpec) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetExternalWorkloads()) != len(target.GetExternalWorkloads()) {
+		return false
+	}
+	for idx, v := range m.GetExternalWorkloads() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetExternalWorkloads()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetExternalWorkloads()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	if len(m.GetPorts()) != len(target.GetPorts()) {
 		return false
 	}

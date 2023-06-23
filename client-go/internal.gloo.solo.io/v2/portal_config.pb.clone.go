@@ -205,6 +205,14 @@ func (m *PortalConfigSpec_API) Clone() proto.Message {
 	}
 	target = &PortalConfigSpec_API{}
 
+	target.ApiProductId = m.GetApiProductId()
+
+	target.ApiProductDisplayName = m.GetApiProductDisplayName()
+
+	target.ApiId = m.GetApiId()
+
+	target.ApiVersion = m.GetApiVersion()
+
 	target.Title = m.GetTitle()
 
 	target.Description = m.GetDescription()

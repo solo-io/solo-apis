@@ -345,6 +345,16 @@ func (m *ConnectionPolicySpec_Config_HTTPConfig) Hash(hasher hash.Hash64) (uint6
 		return 0, err
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetMaxRequests())
+	if err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetMaxPendingRequests())
+	if err != nil {
+		return 0, err
+	}
+
 	if h, ok := interface{}(m.GetIdleTimeout()).(safe_hasher.SafeHasher); ok {
 		if _, err = hasher.Write([]byte("IdleTimeout")); err != nil {
 			return 0, err

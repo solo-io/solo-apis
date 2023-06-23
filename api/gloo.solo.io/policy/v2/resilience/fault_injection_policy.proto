@@ -5,7 +5,6 @@ package resilience.policy.gloo.solo.io;
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/wrappers.proto";
 

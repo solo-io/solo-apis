@@ -157,10 +157,10 @@ type MirrorPolicyWriter interface {
 type MirrorPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given MirrorPolicy object.
-	UpdateMirrorPolicyStatus(ctx context.Context, obj *MirrorPolicy, opts ...client.UpdateOption) error
+	UpdateMirrorPolicyStatus(ctx context.Context, obj *MirrorPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given MirrorPolicy object's subresource.
-	PatchMirrorPolicyStatus(ctx context.Context, obj *MirrorPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchMirrorPolicyStatus(ctx context.Context, obj *MirrorPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on MirrorPolicys.
@@ -231,11 +231,11 @@ func (c *mirrorPolicyClient) UpsertMirrorPolicy(ctx context.Context, obj *Mirror
 	return err
 }
 
-func (c *mirrorPolicyClient) UpdateMirrorPolicyStatus(ctx context.Context, obj *MirrorPolicy, opts ...client.UpdateOption) error {
+func (c *mirrorPolicyClient) UpdateMirrorPolicyStatus(ctx context.Context, obj *MirrorPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *mirrorPolicyClient) PatchMirrorPolicyStatus(ctx context.Context, obj *MirrorPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *mirrorPolicyClient) PatchMirrorPolicyStatus(ctx context.Context, obj *MirrorPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -299,10 +299,10 @@ type RateLimitPolicyWriter interface {
 type RateLimitPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given RateLimitPolicy object.
-	UpdateRateLimitPolicyStatus(ctx context.Context, obj *RateLimitPolicy, opts ...client.UpdateOption) error
+	UpdateRateLimitPolicyStatus(ctx context.Context, obj *RateLimitPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given RateLimitPolicy object's subresource.
-	PatchRateLimitPolicyStatus(ctx context.Context, obj *RateLimitPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchRateLimitPolicyStatus(ctx context.Context, obj *RateLimitPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on RateLimitPolicys.
@@ -373,11 +373,11 @@ func (c *rateLimitPolicyClient) UpsertRateLimitPolicy(ctx context.Context, obj *
 	return err
 }
 
-func (c *rateLimitPolicyClient) UpdateRateLimitPolicyStatus(ctx context.Context, obj *RateLimitPolicy, opts ...client.UpdateOption) error {
+func (c *rateLimitPolicyClient) UpdateRateLimitPolicyStatus(ctx context.Context, obj *RateLimitPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *rateLimitPolicyClient) PatchRateLimitPolicyStatus(ctx context.Context, obj *RateLimitPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *rateLimitPolicyClient) PatchRateLimitPolicyStatus(ctx context.Context, obj *RateLimitPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -441,10 +441,10 @@ type RateLimitClientConfigWriter interface {
 type RateLimitClientConfigStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given RateLimitClientConfig object.
-	UpdateRateLimitClientConfigStatus(ctx context.Context, obj *RateLimitClientConfig, opts ...client.UpdateOption) error
+	UpdateRateLimitClientConfigStatus(ctx context.Context, obj *RateLimitClientConfig, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given RateLimitClientConfig object's subresource.
-	PatchRateLimitClientConfigStatus(ctx context.Context, obj *RateLimitClientConfig, patch client.Patch, opts ...client.PatchOption) error
+	PatchRateLimitClientConfigStatus(ctx context.Context, obj *RateLimitClientConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on RateLimitClientConfigs.
@@ -515,11 +515,11 @@ func (c *rateLimitClientConfigClient) UpsertRateLimitClientConfig(ctx context.Co
 	return err
 }
 
-func (c *rateLimitClientConfigClient) UpdateRateLimitClientConfigStatus(ctx context.Context, obj *RateLimitClientConfig, opts ...client.UpdateOption) error {
+func (c *rateLimitClientConfigClient) UpdateRateLimitClientConfigStatus(ctx context.Context, obj *RateLimitClientConfig, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *rateLimitClientConfigClient) PatchRateLimitClientConfigStatus(ctx context.Context, obj *RateLimitClientConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (c *rateLimitClientConfigClient) PatchRateLimitClientConfigStatus(ctx context.Context, obj *RateLimitClientConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -583,10 +583,10 @@ type HeaderManipulationPolicyWriter interface {
 type HeaderManipulationPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given HeaderManipulationPolicy object.
-	UpdateHeaderManipulationPolicyStatus(ctx context.Context, obj *HeaderManipulationPolicy, opts ...client.UpdateOption) error
+	UpdateHeaderManipulationPolicyStatus(ctx context.Context, obj *HeaderManipulationPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given HeaderManipulationPolicy object's subresource.
-	PatchHeaderManipulationPolicyStatus(ctx context.Context, obj *HeaderManipulationPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchHeaderManipulationPolicyStatus(ctx context.Context, obj *HeaderManipulationPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on HeaderManipulationPolicys.
@@ -657,11 +657,11 @@ func (c *headerManipulationPolicyClient) UpsertHeaderManipulationPolicy(ctx cont
 	return err
 }
 
-func (c *headerManipulationPolicyClient) UpdateHeaderManipulationPolicyStatus(ctx context.Context, obj *HeaderManipulationPolicy, opts ...client.UpdateOption) error {
+func (c *headerManipulationPolicyClient) UpdateHeaderManipulationPolicyStatus(ctx context.Context, obj *HeaderManipulationPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *headerManipulationPolicyClient) PatchHeaderManipulationPolicyStatus(ctx context.Context, obj *HeaderManipulationPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *headerManipulationPolicyClient) PatchHeaderManipulationPolicyStatus(ctx context.Context, obj *HeaderManipulationPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -725,10 +725,10 @@ type TransformationPolicyWriter interface {
 type TransformationPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given TransformationPolicy object.
-	UpdateTransformationPolicyStatus(ctx context.Context, obj *TransformationPolicy, opts ...client.UpdateOption) error
+	UpdateTransformationPolicyStatus(ctx context.Context, obj *TransformationPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given TransformationPolicy object's subresource.
-	PatchTransformationPolicyStatus(ctx context.Context, obj *TransformationPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchTransformationPolicyStatus(ctx context.Context, obj *TransformationPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on TransformationPolicys.
@@ -799,11 +799,11 @@ func (c *transformationPolicyClient) UpsertTransformationPolicy(ctx context.Cont
 	return err
 }
 
-func (c *transformationPolicyClient) UpdateTransformationPolicyStatus(ctx context.Context, obj *TransformationPolicy, opts ...client.UpdateOption) error {
+func (c *transformationPolicyClient) UpdateTransformationPolicyStatus(ctx context.Context, obj *TransformationPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *transformationPolicyClient) PatchTransformationPolicyStatus(ctx context.Context, obj *TransformationPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *transformationPolicyClient) PatchTransformationPolicyStatus(ctx context.Context, obj *TransformationPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -867,10 +867,10 @@ type LoadBalancerPolicyWriter interface {
 type LoadBalancerPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given LoadBalancerPolicy object.
-	UpdateLoadBalancerPolicyStatus(ctx context.Context, obj *LoadBalancerPolicy, opts ...client.UpdateOption) error
+	UpdateLoadBalancerPolicyStatus(ctx context.Context, obj *LoadBalancerPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given LoadBalancerPolicy object's subresource.
-	PatchLoadBalancerPolicyStatus(ctx context.Context, obj *LoadBalancerPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchLoadBalancerPolicyStatus(ctx context.Context, obj *LoadBalancerPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on LoadBalancerPolicys.
@@ -941,11 +941,11 @@ func (c *loadBalancerPolicyClient) UpsertLoadBalancerPolicy(ctx context.Context,
 	return err
 }
 
-func (c *loadBalancerPolicyClient) UpdateLoadBalancerPolicyStatus(ctx context.Context, obj *LoadBalancerPolicy, opts ...client.UpdateOption) error {
+func (c *loadBalancerPolicyClient) UpdateLoadBalancerPolicyStatus(ctx context.Context, obj *LoadBalancerPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *loadBalancerPolicyClient) PatchLoadBalancerPolicyStatus(ctx context.Context, obj *LoadBalancerPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *loadBalancerPolicyClient) PatchLoadBalancerPolicyStatus(ctx context.Context, obj *LoadBalancerPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1009,10 +1009,10 @@ type ProxyProtocolPolicyWriter interface {
 type ProxyProtocolPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ProxyProtocolPolicy object.
-	UpdateProxyProtocolPolicyStatus(ctx context.Context, obj *ProxyProtocolPolicy, opts ...client.UpdateOption) error
+	UpdateProxyProtocolPolicyStatus(ctx context.Context, obj *ProxyProtocolPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ProxyProtocolPolicy object's subresource.
-	PatchProxyProtocolPolicyStatus(ctx context.Context, obj *ProxyProtocolPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchProxyProtocolPolicyStatus(ctx context.Context, obj *ProxyProtocolPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ProxyProtocolPolicys.
@@ -1083,11 +1083,11 @@ func (c *proxyProtocolPolicyClient) UpsertProxyProtocolPolicy(ctx context.Contex
 	return err
 }
 
-func (c *proxyProtocolPolicyClient) UpdateProxyProtocolPolicyStatus(ctx context.Context, obj *ProxyProtocolPolicy, opts ...client.UpdateOption) error {
+func (c *proxyProtocolPolicyClient) UpdateProxyProtocolPolicyStatus(ctx context.Context, obj *ProxyProtocolPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *proxyProtocolPolicyClient) PatchProxyProtocolPolicyStatus(ctx context.Context, obj *ProxyProtocolPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *proxyProtocolPolicyClient) PatchProxyProtocolPolicyStatus(ctx context.Context, obj *ProxyProtocolPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1151,10 +1151,10 @@ type HTTPBufferPolicyWriter interface {
 type HTTPBufferPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given HTTPBufferPolicy object.
-	UpdateHTTPBufferPolicyStatus(ctx context.Context, obj *HTTPBufferPolicy, opts ...client.UpdateOption) error
+	UpdateHTTPBufferPolicyStatus(ctx context.Context, obj *HTTPBufferPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given HTTPBufferPolicy object's subresource.
-	PatchHTTPBufferPolicyStatus(ctx context.Context, obj *HTTPBufferPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchHTTPBufferPolicyStatus(ctx context.Context, obj *HTTPBufferPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on HTTPBufferPolicys.
@@ -1225,11 +1225,11 @@ func (c *hTTPBufferPolicyClient) UpsertHTTPBufferPolicy(ctx context.Context, obj
 	return err
 }
 
-func (c *hTTPBufferPolicyClient) UpdateHTTPBufferPolicyStatus(ctx context.Context, obj *HTTPBufferPolicy, opts ...client.UpdateOption) error {
+func (c *hTTPBufferPolicyClient) UpdateHTTPBufferPolicyStatus(ctx context.Context, obj *HTTPBufferPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *hTTPBufferPolicyClient) PatchHTTPBufferPolicyStatus(ctx context.Context, obj *HTTPBufferPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *hTTPBufferPolicyClient) PatchHTTPBufferPolicyStatus(ctx context.Context, obj *HTTPBufferPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

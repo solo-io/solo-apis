@@ -9,7 +9,6 @@ import "envoy/type/percent.proto";
 import "github.com/solo-io/envoy-gloo-ee/api/envoy/config/filter/http/transformation_ee/v2/transformation_ee_filter.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2";
 

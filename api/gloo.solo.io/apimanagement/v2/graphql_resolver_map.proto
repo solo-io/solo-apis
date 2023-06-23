@@ -7,7 +7,6 @@ import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "github.com/solo-io/skv2/api/core/v1/core.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/empty.proto";

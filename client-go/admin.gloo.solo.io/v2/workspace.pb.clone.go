@@ -36,54 +36,17 @@ func (m *WorkspaceSpec) Clone() proto.Message {
 	target = &WorkspaceSpec{}
 
 	if m.GetWorkloadClusters() != nil {
-		target.WorkloadClusters = make([]*ClusterSelector, len(m.GetWorkloadClusters()))
+		target.WorkloadClusters = make([]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ClusterSelector, len(m.GetWorkloadClusters()))
 		for idx, v := range m.GetWorkloadClusters() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.WorkloadClusters[idx] = h.Clone().(*ClusterSelector)
+				target.WorkloadClusters[idx] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ClusterSelector)
 			} else {
-				target.WorkloadClusters[idx] = proto.Clone(v).(*ClusterSelector)
+				target.WorkloadClusters[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ClusterSelector)
 			}
 
 		}
 	}
-
-	return target
-}
-
-// Clone function
-func (m *ClusterSelector) Clone() proto.Message {
-	var target *ClusterSelector
-	if m == nil {
-		return target
-	}
-	target = &ClusterSelector{}
-
-	target.Name = m.GetName()
-
-	if m.GetSelector() != nil {
-		target.Selector = make(map[string]string, len(m.GetSelector()))
-		for k, v := range m.GetSelector() {
-
-			target.Selector[k] = v
-
-		}
-	}
-
-	if m.GetNamespaces() != nil {
-		target.Namespaces = make([]*ClusterSelector_NamespaceSelector, len(m.GetNamespaces()))
-		for idx, v := range m.GetNamespaces() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Namespaces[idx] = h.Clone().(*ClusterSelector_NamespaceSelector)
-			} else {
-				target.Namespaces[idx] = proto.Clone(v).(*ClusterSelector_NamespaceSelector)
-			}
-
-		}
-	}
-
-	target.ConfigEnabled = m.GetConfigEnabled()
 
 	return target
 }
@@ -225,30 +188,6 @@ func (m *WorkspaceReport) Clone() proto.Message {
 		for idx, v := range m.GetImportedWorkspaces() {
 
 			target.ImportedWorkspaces[idx] = v
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *ClusterSelector_NamespaceSelector) Clone() proto.Message {
-	var target *ClusterSelector_NamespaceSelector
-	if m == nil {
-		return target
-	}
-	target = &ClusterSelector_NamespaceSelector{}
-
-	target.Name = m.GetName()
-
-	target.ConfigEnabled = m.GetConfigEnabled()
-
-	if m.GetLabels() != nil {
-		target.Labels = make(map[string]string, len(m.GetLabels()))
-		for k, v := range m.GetLabels() {
-
-			target.Labels[k] = v
 
 		}
 	}

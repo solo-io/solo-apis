@@ -406,7 +406,7 @@ func (m *MockMirrorPolicyStatusWriter) EXPECT() *MockMirrorPolicyStatusWriterMoc
 }
 
 // PatchMirrorPolicyStatus mocks base method.
-func (m *MockMirrorPolicyStatusWriter) PatchMirrorPolicyStatus(ctx context.Context, obj *v2.MirrorPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockMirrorPolicyStatusWriter) PatchMirrorPolicyStatus(ctx context.Context, obj *v2.MirrorPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -425,7 +425,7 @@ func (mr *MockMirrorPolicyStatusWriterMockRecorder) PatchMirrorPolicyStatus(ctx,
 }
 
 // UpdateMirrorPolicyStatus mocks base method.
-func (m *MockMirrorPolicyStatusWriter) UpdateMirrorPolicyStatus(ctx context.Context, obj *v2.MirrorPolicy, opts ...client.UpdateOption) error {
+func (m *MockMirrorPolicyStatusWriter) UpdateMirrorPolicyStatus(ctx context.Context, obj *v2.MirrorPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -578,7 +578,7 @@ func (mr *MockMirrorPolicyClientMockRecorder) PatchMirrorPolicy(ctx, obj, patch 
 }
 
 // PatchMirrorPolicyStatus mocks base method.
-func (m *MockMirrorPolicyClient) PatchMirrorPolicyStatus(ctx context.Context, obj *v2.MirrorPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockMirrorPolicyClient) PatchMirrorPolicyStatus(ctx context.Context, obj *v2.MirrorPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -616,7 +616,7 @@ func (mr *MockMirrorPolicyClientMockRecorder) UpdateMirrorPolicy(ctx, obj interf
 }
 
 // UpdateMirrorPolicyStatus mocks base method.
-func (m *MockMirrorPolicyClient) UpdateMirrorPolicyStatus(ctx context.Context, obj *v2.MirrorPolicy, opts ...client.UpdateOption) error {
+func (m *MockMirrorPolicyClient) UpdateMirrorPolicyStatus(ctx context.Context, obj *v2.MirrorPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -910,7 +910,7 @@ func (m *MockRateLimitPolicyStatusWriter) EXPECT() *MockRateLimitPolicyStatusWri
 }
 
 // PatchRateLimitPolicyStatus mocks base method.
-func (m *MockRateLimitPolicyStatusWriter) PatchRateLimitPolicyStatus(ctx context.Context, obj *v2.RateLimitPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRateLimitPolicyStatusWriter) PatchRateLimitPolicyStatus(ctx context.Context, obj *v2.RateLimitPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -929,7 +929,7 @@ func (mr *MockRateLimitPolicyStatusWriterMockRecorder) PatchRateLimitPolicyStatu
 }
 
 // UpdateRateLimitPolicyStatus mocks base method.
-func (m *MockRateLimitPolicyStatusWriter) UpdateRateLimitPolicyStatus(ctx context.Context, obj *v2.RateLimitPolicy, opts ...client.UpdateOption) error {
+func (m *MockRateLimitPolicyStatusWriter) UpdateRateLimitPolicyStatus(ctx context.Context, obj *v2.RateLimitPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1082,7 +1082,7 @@ func (mr *MockRateLimitPolicyClientMockRecorder) PatchRateLimitPolicy(ctx, obj, 
 }
 
 // PatchRateLimitPolicyStatus mocks base method.
-func (m *MockRateLimitPolicyClient) PatchRateLimitPolicyStatus(ctx context.Context, obj *v2.RateLimitPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRateLimitPolicyClient) PatchRateLimitPolicyStatus(ctx context.Context, obj *v2.RateLimitPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1120,7 +1120,7 @@ func (mr *MockRateLimitPolicyClientMockRecorder) UpdateRateLimitPolicy(ctx, obj 
 }
 
 // UpdateRateLimitPolicyStatus mocks base method.
-func (m *MockRateLimitPolicyClient) UpdateRateLimitPolicyStatus(ctx context.Context, obj *v2.RateLimitPolicy, opts ...client.UpdateOption) error {
+func (m *MockRateLimitPolicyClient) UpdateRateLimitPolicyStatus(ctx context.Context, obj *v2.RateLimitPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1414,7 +1414,7 @@ func (m *MockRateLimitClientConfigStatusWriter) EXPECT() *MockRateLimitClientCon
 }
 
 // PatchRateLimitClientConfigStatus mocks base method.
-func (m *MockRateLimitClientConfigStatusWriter) PatchRateLimitClientConfigStatus(ctx context.Context, obj *v2.RateLimitClientConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRateLimitClientConfigStatusWriter) PatchRateLimitClientConfigStatus(ctx context.Context, obj *v2.RateLimitClientConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1433,7 +1433,7 @@ func (mr *MockRateLimitClientConfigStatusWriterMockRecorder) PatchRateLimitClien
 }
 
 // UpdateRateLimitClientConfigStatus mocks base method.
-func (m *MockRateLimitClientConfigStatusWriter) UpdateRateLimitClientConfigStatus(ctx context.Context, obj *v2.RateLimitClientConfig, opts ...client.UpdateOption) error {
+func (m *MockRateLimitClientConfigStatusWriter) UpdateRateLimitClientConfigStatus(ctx context.Context, obj *v2.RateLimitClientConfig, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1586,7 +1586,7 @@ func (mr *MockRateLimitClientConfigClientMockRecorder) PatchRateLimitClientConfi
 }
 
 // PatchRateLimitClientConfigStatus mocks base method.
-func (m *MockRateLimitClientConfigClient) PatchRateLimitClientConfigStatus(ctx context.Context, obj *v2.RateLimitClientConfig, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockRateLimitClientConfigClient) PatchRateLimitClientConfigStatus(ctx context.Context, obj *v2.RateLimitClientConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1624,7 +1624,7 @@ func (mr *MockRateLimitClientConfigClientMockRecorder) UpdateRateLimitClientConf
 }
 
 // UpdateRateLimitClientConfigStatus mocks base method.
-func (m *MockRateLimitClientConfigClient) UpdateRateLimitClientConfigStatus(ctx context.Context, obj *v2.RateLimitClientConfig, opts ...client.UpdateOption) error {
+func (m *MockRateLimitClientConfigClient) UpdateRateLimitClientConfigStatus(ctx context.Context, obj *v2.RateLimitClientConfig, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1918,7 +1918,7 @@ func (m *MockHeaderManipulationPolicyStatusWriter) EXPECT() *MockHeaderManipulat
 }
 
 // PatchHeaderManipulationPolicyStatus mocks base method.
-func (m *MockHeaderManipulationPolicyStatusWriter) PatchHeaderManipulationPolicyStatus(ctx context.Context, obj *v2.HeaderManipulationPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockHeaderManipulationPolicyStatusWriter) PatchHeaderManipulationPolicyStatus(ctx context.Context, obj *v2.HeaderManipulationPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1937,7 +1937,7 @@ func (mr *MockHeaderManipulationPolicyStatusWriterMockRecorder) PatchHeaderManip
 }
 
 // UpdateHeaderManipulationPolicyStatus mocks base method.
-func (m *MockHeaderManipulationPolicyStatusWriter) UpdateHeaderManipulationPolicyStatus(ctx context.Context, obj *v2.HeaderManipulationPolicy, opts ...client.UpdateOption) error {
+func (m *MockHeaderManipulationPolicyStatusWriter) UpdateHeaderManipulationPolicyStatus(ctx context.Context, obj *v2.HeaderManipulationPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2090,7 +2090,7 @@ func (mr *MockHeaderManipulationPolicyClientMockRecorder) PatchHeaderManipulatio
 }
 
 // PatchHeaderManipulationPolicyStatus mocks base method.
-func (m *MockHeaderManipulationPolicyClient) PatchHeaderManipulationPolicyStatus(ctx context.Context, obj *v2.HeaderManipulationPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockHeaderManipulationPolicyClient) PatchHeaderManipulationPolicyStatus(ctx context.Context, obj *v2.HeaderManipulationPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2128,7 +2128,7 @@ func (mr *MockHeaderManipulationPolicyClientMockRecorder) UpdateHeaderManipulati
 }
 
 // UpdateHeaderManipulationPolicyStatus mocks base method.
-func (m *MockHeaderManipulationPolicyClient) UpdateHeaderManipulationPolicyStatus(ctx context.Context, obj *v2.HeaderManipulationPolicy, opts ...client.UpdateOption) error {
+func (m *MockHeaderManipulationPolicyClient) UpdateHeaderManipulationPolicyStatus(ctx context.Context, obj *v2.HeaderManipulationPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2422,7 +2422,7 @@ func (m *MockTransformationPolicyStatusWriter) EXPECT() *MockTransformationPolic
 }
 
 // PatchTransformationPolicyStatus mocks base method.
-func (m *MockTransformationPolicyStatusWriter) PatchTransformationPolicyStatus(ctx context.Context, obj *v2.TransformationPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockTransformationPolicyStatusWriter) PatchTransformationPolicyStatus(ctx context.Context, obj *v2.TransformationPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2441,7 +2441,7 @@ func (mr *MockTransformationPolicyStatusWriterMockRecorder) PatchTransformationP
 }
 
 // UpdateTransformationPolicyStatus mocks base method.
-func (m *MockTransformationPolicyStatusWriter) UpdateTransformationPolicyStatus(ctx context.Context, obj *v2.TransformationPolicy, opts ...client.UpdateOption) error {
+func (m *MockTransformationPolicyStatusWriter) UpdateTransformationPolicyStatus(ctx context.Context, obj *v2.TransformationPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2594,7 +2594,7 @@ func (mr *MockTransformationPolicyClientMockRecorder) PatchTransformationPolicy(
 }
 
 // PatchTransformationPolicyStatus mocks base method.
-func (m *MockTransformationPolicyClient) PatchTransformationPolicyStatus(ctx context.Context, obj *v2.TransformationPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockTransformationPolicyClient) PatchTransformationPolicyStatus(ctx context.Context, obj *v2.TransformationPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2632,7 +2632,7 @@ func (mr *MockTransformationPolicyClientMockRecorder) UpdateTransformationPolicy
 }
 
 // UpdateTransformationPolicyStatus mocks base method.
-func (m *MockTransformationPolicyClient) UpdateTransformationPolicyStatus(ctx context.Context, obj *v2.TransformationPolicy, opts ...client.UpdateOption) error {
+func (m *MockTransformationPolicyClient) UpdateTransformationPolicyStatus(ctx context.Context, obj *v2.TransformationPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2926,7 +2926,7 @@ func (m *MockLoadBalancerPolicyStatusWriter) EXPECT() *MockLoadBalancerPolicySta
 }
 
 // PatchLoadBalancerPolicyStatus mocks base method.
-func (m *MockLoadBalancerPolicyStatusWriter) PatchLoadBalancerPolicyStatus(ctx context.Context, obj *v2.LoadBalancerPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockLoadBalancerPolicyStatusWriter) PatchLoadBalancerPolicyStatus(ctx context.Context, obj *v2.LoadBalancerPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2945,7 +2945,7 @@ func (mr *MockLoadBalancerPolicyStatusWriterMockRecorder) PatchLoadBalancerPolic
 }
 
 // UpdateLoadBalancerPolicyStatus mocks base method.
-func (m *MockLoadBalancerPolicyStatusWriter) UpdateLoadBalancerPolicyStatus(ctx context.Context, obj *v2.LoadBalancerPolicy, opts ...client.UpdateOption) error {
+func (m *MockLoadBalancerPolicyStatusWriter) UpdateLoadBalancerPolicyStatus(ctx context.Context, obj *v2.LoadBalancerPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -3098,7 +3098,7 @@ func (mr *MockLoadBalancerPolicyClientMockRecorder) PatchLoadBalancerPolicy(ctx,
 }
 
 // PatchLoadBalancerPolicyStatus mocks base method.
-func (m *MockLoadBalancerPolicyClient) PatchLoadBalancerPolicyStatus(ctx context.Context, obj *v2.LoadBalancerPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockLoadBalancerPolicyClient) PatchLoadBalancerPolicyStatus(ctx context.Context, obj *v2.LoadBalancerPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -3136,7 +3136,7 @@ func (mr *MockLoadBalancerPolicyClientMockRecorder) UpdateLoadBalancerPolicy(ctx
 }
 
 // UpdateLoadBalancerPolicyStatus mocks base method.
-func (m *MockLoadBalancerPolicyClient) UpdateLoadBalancerPolicyStatus(ctx context.Context, obj *v2.LoadBalancerPolicy, opts ...client.UpdateOption) error {
+func (m *MockLoadBalancerPolicyClient) UpdateLoadBalancerPolicyStatus(ctx context.Context, obj *v2.LoadBalancerPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -3430,7 +3430,7 @@ func (m *MockProxyProtocolPolicyStatusWriter) EXPECT() *MockProxyProtocolPolicyS
 }
 
 // PatchProxyProtocolPolicyStatus mocks base method.
-func (m *MockProxyProtocolPolicyStatusWriter) PatchProxyProtocolPolicyStatus(ctx context.Context, obj *v2.ProxyProtocolPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockProxyProtocolPolicyStatusWriter) PatchProxyProtocolPolicyStatus(ctx context.Context, obj *v2.ProxyProtocolPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -3449,7 +3449,7 @@ func (mr *MockProxyProtocolPolicyStatusWriterMockRecorder) PatchProxyProtocolPol
 }
 
 // UpdateProxyProtocolPolicyStatus mocks base method.
-func (m *MockProxyProtocolPolicyStatusWriter) UpdateProxyProtocolPolicyStatus(ctx context.Context, obj *v2.ProxyProtocolPolicy, opts ...client.UpdateOption) error {
+func (m *MockProxyProtocolPolicyStatusWriter) UpdateProxyProtocolPolicyStatus(ctx context.Context, obj *v2.ProxyProtocolPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -3602,7 +3602,7 @@ func (mr *MockProxyProtocolPolicyClientMockRecorder) PatchProxyProtocolPolicy(ct
 }
 
 // PatchProxyProtocolPolicyStatus mocks base method.
-func (m *MockProxyProtocolPolicyClient) PatchProxyProtocolPolicyStatus(ctx context.Context, obj *v2.ProxyProtocolPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockProxyProtocolPolicyClient) PatchProxyProtocolPolicyStatus(ctx context.Context, obj *v2.ProxyProtocolPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -3640,7 +3640,7 @@ func (mr *MockProxyProtocolPolicyClientMockRecorder) UpdateProxyProtocolPolicy(c
 }
 
 // UpdateProxyProtocolPolicyStatus mocks base method.
-func (m *MockProxyProtocolPolicyClient) UpdateProxyProtocolPolicyStatus(ctx context.Context, obj *v2.ProxyProtocolPolicy, opts ...client.UpdateOption) error {
+func (m *MockProxyProtocolPolicyClient) UpdateProxyProtocolPolicyStatus(ctx context.Context, obj *v2.ProxyProtocolPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -3934,7 +3934,7 @@ func (m *MockHTTPBufferPolicyStatusWriter) EXPECT() *MockHTTPBufferPolicyStatusW
 }
 
 // PatchHTTPBufferPolicyStatus mocks base method.
-func (m *MockHTTPBufferPolicyStatusWriter) PatchHTTPBufferPolicyStatus(ctx context.Context, obj *v2.HTTPBufferPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockHTTPBufferPolicyStatusWriter) PatchHTTPBufferPolicyStatus(ctx context.Context, obj *v2.HTTPBufferPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -3953,7 +3953,7 @@ func (mr *MockHTTPBufferPolicyStatusWriterMockRecorder) PatchHTTPBufferPolicySta
 }
 
 // UpdateHTTPBufferPolicyStatus mocks base method.
-func (m *MockHTTPBufferPolicyStatusWriter) UpdateHTTPBufferPolicyStatus(ctx context.Context, obj *v2.HTTPBufferPolicy, opts ...client.UpdateOption) error {
+func (m *MockHTTPBufferPolicyStatusWriter) UpdateHTTPBufferPolicyStatus(ctx context.Context, obj *v2.HTTPBufferPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -4106,7 +4106,7 @@ func (mr *MockHTTPBufferPolicyClientMockRecorder) PatchHTTPBufferPolicy(ctx, obj
 }
 
 // PatchHTTPBufferPolicyStatus mocks base method.
-func (m *MockHTTPBufferPolicyClient) PatchHTTPBufferPolicyStatus(ctx context.Context, obj *v2.HTTPBufferPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockHTTPBufferPolicyClient) PatchHTTPBufferPolicyStatus(ctx context.Context, obj *v2.HTTPBufferPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -4144,7 +4144,7 @@ func (mr *MockHTTPBufferPolicyClientMockRecorder) UpdateHTTPBufferPolicy(ctx, ob
 }
 
 // UpdateHTTPBufferPolicyStatus mocks base method.
-func (m *MockHTTPBufferPolicyClient) UpdateHTTPBufferPolicyStatus(ctx context.Context, obj *v2.HTTPBufferPolicy, opts ...client.UpdateOption) error {
+func (m *MockHTTPBufferPolicyClient) UpdateHTTPBufferPolicyStatus(ctx context.Context, obj *v2.HTTPBufferPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

@@ -108,10 +108,10 @@ type WasmDeploymentPolicyWriter interface {
 type WasmDeploymentPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given WasmDeploymentPolicy object.
-	UpdateWasmDeploymentPolicyStatus(ctx context.Context, obj *WasmDeploymentPolicy, opts ...client.UpdateOption) error
+	UpdateWasmDeploymentPolicyStatus(ctx context.Context, obj *WasmDeploymentPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given WasmDeploymentPolicy object's subresource.
-	PatchWasmDeploymentPolicyStatus(ctx context.Context, obj *WasmDeploymentPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchWasmDeploymentPolicyStatus(ctx context.Context, obj *WasmDeploymentPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on WasmDeploymentPolicys.
@@ -182,11 +182,11 @@ func (c *wasmDeploymentPolicyClient) UpsertWasmDeploymentPolicy(ctx context.Cont
 	return err
 }
 
-func (c *wasmDeploymentPolicyClient) UpdateWasmDeploymentPolicyStatus(ctx context.Context, obj *WasmDeploymentPolicy, opts ...client.UpdateOption) error {
+func (c *wasmDeploymentPolicyClient) UpdateWasmDeploymentPolicyStatus(ctx context.Context, obj *WasmDeploymentPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *wasmDeploymentPolicyClient) PatchWasmDeploymentPolicyStatus(ctx context.Context, obj *WasmDeploymentPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *wasmDeploymentPolicyClient) PatchWasmDeploymentPolicyStatus(ctx context.Context, obj *WasmDeploymentPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

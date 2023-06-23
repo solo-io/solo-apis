@@ -65,56 +65,13 @@ func (m *GraphQLPersistedQueryCachePolicyStatus) Clone() proto.Message {
 	}
 	target = &GraphQLPersistedQueryCachePolicyStatus{}
 
-	if h, ok := interface{}(m.GetGlobal()).(clone.Cloner); ok {
-		target.Global = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.GenericGlobalStatus)
-	} else {
-		target.Global = proto.Clone(m.GetGlobal()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.GenericGlobalStatus)
-	}
-
-	if m.GetWorkspaces() != nil {
-		target.Workspaces = make(map[string]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.WorkspaceStatus, len(m.GetWorkspaces()))
-		for k, v := range m.GetWorkspaces() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Workspaces[k] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.WorkspaceStatus)
-			} else {
-				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.WorkspaceStatus)
-			}
-
-		}
-	}
-
-	if m.GetSelectedRoutes() != nil {
-		target.SelectedRoutes = make([]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.RouteReference, len(m.GetSelectedRoutes()))
-		for idx, v := range m.GetSelectedRoutes() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.SelectedRoutes[idx] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.RouteReference)
-			} else {
-				target.SelectedRoutes[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.RouteReference)
-			}
-
-		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *GraphQLPersistedQueryCachePolicyNewStatus) Clone() proto.Message {
-	var target *GraphQLPersistedQueryCachePolicyNewStatus
-	if m == nil {
-		return target
-	}
-	target = &GraphQLPersistedQueryCachePolicyNewStatus{}
-
 	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
 		target.Common = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Status)
 	} else {
 		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Status)
 	}
 
-	target.SelectedRoutes = m.GetSelectedRoutes()
+	target.NumSelectedRoutes = m.GetNumSelectedRoutes()
 
 	return target
 }
