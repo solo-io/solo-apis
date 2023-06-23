@@ -191,6 +191,29 @@ func (m *RouteFilter) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ListenerSelector) Clone() proto.Message {
+	var target *ListenerSelector
+	if m == nil {
+		return target
+	}
+	target = &ListenerSelector{}
+
+	if h, ok := interface{}(m.GetVirtualGateway()).(clone.Cloner); ok {
+		target.VirtualGateway = h.Clone().(*ObjectSelector)
+	} else {
+		target.VirtualGateway = proto.Clone(m.GetVirtualGateway()).(*ObjectSelector)
+	}
+
+	if h, ok := interface{}(m.GetPort()).(clone.Cloner); ok {
+		target.Port = h.Clone().(*PortSelector)
+	} else {
+		target.Port = proto.Clone(m.GetPort()).(*PortSelector)
+	}
+
+	return target
+}
+
+// Clone function
 func (m *WorkloadSelector) Clone() proto.Message {
 	var target *WorkloadSelector
 	if m == nil {
@@ -245,6 +268,43 @@ func (m *IdentitySelector) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ClusterSelector) Clone() proto.Message {
+	var target *ClusterSelector
+	if m == nil {
+		return target
+	}
+	target = &ClusterSelector{}
+
+	target.Name = m.GetName()
+
+	if m.GetSelector() != nil {
+		target.Selector = make(map[string]string, len(m.GetSelector()))
+		for k, v := range m.GetSelector() {
+
+			target.Selector[k] = v
+
+		}
+	}
+
+	if m.GetNamespaces() != nil {
+		target.Namespaces = make([]*ClusterSelector_NamespaceSelector, len(m.GetNamespaces()))
+		for idx, v := range m.GetNamespaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Namespaces[idx] = h.Clone().(*ClusterSelector_NamespaceSelector)
+			} else {
+				target.Namespaces[idx] = proto.Clone(v).(*ClusterSelector_NamespaceSelector)
+			}
+
+		}
+	}
+
+	target.ConfigEnabled = m.GetConfigEnabled()
+
+	return target
+}
+
+// Clone function
 func (m *MeshSelector) Clone() proto.Message {
 	var target *MeshSelector
 	if m == nil {
@@ -294,29 +354,6 @@ func (m *WorkspaceSelector) Clone() proto.Message {
 }
 
 // Clone function
-func (m *ListenerSelector) Clone() proto.Message {
-	var target *ListenerSelector
-	if m == nil {
-		return target
-	}
-	target = &ListenerSelector{}
-
-	if h, ok := interface{}(m.GetVirtualGateway()).(clone.Cloner); ok {
-		target.VirtualGateway = h.Clone().(*ObjectSelector)
-	} else {
-		target.VirtualGateway = proto.Clone(m.GetVirtualGateway()).(*ObjectSelector)
-	}
-
-	if h, ok := interface{}(m.GetPort()).(clone.Cloner); ok {
-		target.Port = h.Clone().(*PortSelector)
-	} else {
-		target.Port = proto.Clone(m.GetPort()).(*PortSelector)
-	}
-
-	return target
-}
-
-// Clone function
 func (m *IdentitySelector_RequestIdentityMatcher) Clone() proto.Message {
 	var target *IdentitySelector_RequestIdentityMatcher
 	if m == nil {
@@ -338,6 +375,30 @@ func (m *IdentitySelector_RequestIdentityMatcher) Clone() proto.Message {
 		for idx, v := range m.GetNotRequestPrincipals() {
 
 			target.NotRequestPrincipals[idx] = v
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ClusterSelector_NamespaceSelector) Clone() proto.Message {
+	var target *ClusterSelector_NamespaceSelector
+	if m == nil {
+		return target
+	}
+	target = &ClusterSelector_NamespaceSelector{}
+
+	target.Name = m.GetName()
+
+	target.ConfigEnabled = m.GetConfigEnabled()
+
+	if m.GetLabels() != nil {
+		target.Labels = make(map[string]string, len(m.GetLabels()))
+		for k, v := range m.GetLabels() {
+
+			target.Labels[k] = v
 
 		}
 	}

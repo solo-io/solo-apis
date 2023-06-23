@@ -115,10 +115,10 @@ type CloudProviderWriter interface {
 type CloudProviderStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given CloudProvider object.
-	UpdateCloudProviderStatus(ctx context.Context, obj *CloudProvider, opts ...client.UpdateOption) error
+	UpdateCloudProviderStatus(ctx context.Context, obj *CloudProvider, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given CloudProvider object's subresource.
-	PatchCloudProviderStatus(ctx context.Context, obj *CloudProvider, patch client.Patch, opts ...client.PatchOption) error
+	PatchCloudProviderStatus(ctx context.Context, obj *CloudProvider, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on CloudProviders.
@@ -189,11 +189,11 @@ func (c *cloudProviderClient) UpsertCloudProvider(ctx context.Context, obj *Clou
 	return err
 }
 
-func (c *cloudProviderClient) UpdateCloudProviderStatus(ctx context.Context, obj *CloudProvider, opts ...client.UpdateOption) error {
+func (c *cloudProviderClient) UpdateCloudProviderStatus(ctx context.Context, obj *CloudProvider, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *cloudProviderClient) PatchCloudProviderStatus(ctx context.Context, obj *CloudProvider, patch client.Patch, opts ...client.PatchOption) error {
+func (c *cloudProviderClient) PatchCloudProviderStatus(ctx context.Context, obj *CloudProvider, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -257,10 +257,10 @@ type CloudResourcesWriter interface {
 type CloudResourcesStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given CloudResources object.
-	UpdateCloudResourcesStatus(ctx context.Context, obj *CloudResources, opts ...client.UpdateOption) error
+	UpdateCloudResourcesStatus(ctx context.Context, obj *CloudResources, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given CloudResources object's subresource.
-	PatchCloudResourcesStatus(ctx context.Context, obj *CloudResources, patch client.Patch, opts ...client.PatchOption) error
+	PatchCloudResourcesStatus(ctx context.Context, obj *CloudResources, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on CloudResourcess.
@@ -331,11 +331,11 @@ func (c *cloudResourcesClient) UpsertCloudResources(ctx context.Context, obj *Cl
 	return err
 }
 
-func (c *cloudResourcesClient) UpdateCloudResourcesStatus(ctx context.Context, obj *CloudResources, opts ...client.UpdateOption) error {
+func (c *cloudResourcesClient) UpdateCloudResourcesStatus(ctx context.Context, obj *CloudResources, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *cloudResourcesClient) PatchCloudResourcesStatus(ctx context.Context, obj *CloudResources, patch client.Patch, opts ...client.PatchOption) error {
+func (c *cloudResourcesClient) PatchCloudResourcesStatus(ctx context.Context, obj *CloudResources, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

@@ -143,10 +143,10 @@ type GraphQLStitchedSchemaWriter interface {
 type GraphQLStitchedSchemaStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given GraphQLStitchedSchema object.
-	UpdateGraphQLStitchedSchemaStatus(ctx context.Context, obj *GraphQLStitchedSchema, opts ...client.UpdateOption) error
+	UpdateGraphQLStitchedSchemaStatus(ctx context.Context, obj *GraphQLStitchedSchema, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given GraphQLStitchedSchema object's subresource.
-	PatchGraphQLStitchedSchemaStatus(ctx context.Context, obj *GraphQLStitchedSchema, patch client.Patch, opts ...client.PatchOption) error
+	PatchGraphQLStitchedSchemaStatus(ctx context.Context, obj *GraphQLStitchedSchema, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on GraphQLStitchedSchemas.
@@ -217,11 +217,11 @@ func (c *graphQLStitchedSchemaClient) UpsertGraphQLStitchedSchema(ctx context.Co
 	return err
 }
 
-func (c *graphQLStitchedSchemaClient) UpdateGraphQLStitchedSchemaStatus(ctx context.Context, obj *GraphQLStitchedSchema, opts ...client.UpdateOption) error {
+func (c *graphQLStitchedSchemaClient) UpdateGraphQLStitchedSchemaStatus(ctx context.Context, obj *GraphQLStitchedSchema, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *graphQLStitchedSchemaClient) PatchGraphQLStitchedSchemaStatus(ctx context.Context, obj *GraphQLStitchedSchema, patch client.Patch, opts ...client.PatchOption) error {
+func (c *graphQLStitchedSchemaClient) PatchGraphQLStitchedSchemaStatus(ctx context.Context, obj *GraphQLStitchedSchema, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -285,10 +285,10 @@ type GraphQLResolverMapWriter interface {
 type GraphQLResolverMapStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given GraphQLResolverMap object.
-	UpdateGraphQLResolverMapStatus(ctx context.Context, obj *GraphQLResolverMap, opts ...client.UpdateOption) error
+	UpdateGraphQLResolverMapStatus(ctx context.Context, obj *GraphQLResolverMap, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given GraphQLResolverMap object's subresource.
-	PatchGraphQLResolverMapStatus(ctx context.Context, obj *GraphQLResolverMap, patch client.Patch, opts ...client.PatchOption) error
+	PatchGraphQLResolverMapStatus(ctx context.Context, obj *GraphQLResolverMap, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on GraphQLResolverMaps.
@@ -359,11 +359,11 @@ func (c *graphQLResolverMapClient) UpsertGraphQLResolverMap(ctx context.Context,
 	return err
 }
 
-func (c *graphQLResolverMapClient) UpdateGraphQLResolverMapStatus(ctx context.Context, obj *GraphQLResolverMap, opts ...client.UpdateOption) error {
+func (c *graphQLResolverMapClient) UpdateGraphQLResolverMapStatus(ctx context.Context, obj *GraphQLResolverMap, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *graphQLResolverMapClient) PatchGraphQLResolverMapStatus(ctx context.Context, obj *GraphQLResolverMap, patch client.Patch, opts ...client.PatchOption) error {
+func (c *graphQLResolverMapClient) PatchGraphQLResolverMapStatus(ctx context.Context, obj *GraphQLResolverMap, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -427,10 +427,10 @@ type GraphQLSchemaWriter interface {
 type GraphQLSchemaStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given GraphQLSchema object.
-	UpdateGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, opts ...client.UpdateOption) error
+	UpdateGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given GraphQLSchema object's subresource.
-	PatchGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error
+	PatchGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on GraphQLSchemas.
@@ -501,11 +501,11 @@ func (c *graphQLSchemaClient) UpsertGraphQLSchema(ctx context.Context, obj *Grap
 	return err
 }
 
-func (c *graphQLSchemaClient) UpdateGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, opts ...client.UpdateOption) error {
+func (c *graphQLSchemaClient) UpdateGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *graphQLSchemaClient) PatchGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error {
+func (c *graphQLSchemaClient) PatchGraphQLSchemaStatus(ctx context.Context, obj *GraphQLSchema, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -569,10 +569,10 @@ type ApiDocWriter interface {
 type ApiDocStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ApiDoc object.
-	UpdateApiDocStatus(ctx context.Context, obj *ApiDoc, opts ...client.UpdateOption) error
+	UpdateApiDocStatus(ctx context.Context, obj *ApiDoc, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ApiDoc object's subresource.
-	PatchApiDocStatus(ctx context.Context, obj *ApiDoc, patch client.Patch, opts ...client.PatchOption) error
+	PatchApiDocStatus(ctx context.Context, obj *ApiDoc, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ApiDocs.
@@ -643,11 +643,11 @@ func (c *apiDocClient) UpsertApiDoc(ctx context.Context, obj *ApiDoc, transition
 	return err
 }
 
-func (c *apiDocClient) UpdateApiDocStatus(ctx context.Context, obj *ApiDoc, opts ...client.UpdateOption) error {
+func (c *apiDocClient) UpdateApiDocStatus(ctx context.Context, obj *ApiDoc, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *apiDocClient) PatchApiDocStatus(ctx context.Context, obj *ApiDoc, patch client.Patch, opts ...client.PatchOption) error {
+func (c *apiDocClient) PatchApiDocStatus(ctx context.Context, obj *ApiDoc, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -711,10 +711,10 @@ type PortalWriter interface {
 type PortalStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given Portal object.
-	UpdatePortalStatus(ctx context.Context, obj *Portal, opts ...client.UpdateOption) error
+	UpdatePortalStatus(ctx context.Context, obj *Portal, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given Portal object's subresource.
-	PatchPortalStatus(ctx context.Context, obj *Portal, patch client.Patch, opts ...client.PatchOption) error
+	PatchPortalStatus(ctx context.Context, obj *Portal, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on Portals.
@@ -785,11 +785,11 @@ func (c *portalClient) UpsertPortal(ctx context.Context, obj *Portal, transition
 	return err
 }
 
-func (c *portalClient) UpdatePortalStatus(ctx context.Context, obj *Portal, opts ...client.UpdateOption) error {
+func (c *portalClient) UpdatePortalStatus(ctx context.Context, obj *Portal, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *portalClient) PatchPortalStatus(ctx context.Context, obj *Portal, patch client.Patch, opts ...client.PatchOption) error {
+func (c *portalClient) PatchPortalStatus(ctx context.Context, obj *Portal, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -853,10 +853,10 @@ type PortalGroupWriter interface {
 type PortalGroupStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given PortalGroup object.
-	UpdatePortalGroupStatus(ctx context.Context, obj *PortalGroup, opts ...client.UpdateOption) error
+	UpdatePortalGroupStatus(ctx context.Context, obj *PortalGroup, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given PortalGroup object's subresource.
-	PatchPortalGroupStatus(ctx context.Context, obj *PortalGroup, patch client.Patch, opts ...client.PatchOption) error
+	PatchPortalGroupStatus(ctx context.Context, obj *PortalGroup, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on PortalGroups.
@@ -927,11 +927,11 @@ func (c *portalGroupClient) UpsertPortalGroup(ctx context.Context, obj *PortalGr
 	return err
 }
 
-func (c *portalGroupClient) UpdatePortalGroupStatus(ctx context.Context, obj *PortalGroup, opts ...client.UpdateOption) error {
+func (c *portalGroupClient) UpdatePortalGroupStatus(ctx context.Context, obj *PortalGroup, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *portalGroupClient) PatchPortalGroupStatus(ctx context.Context, obj *PortalGroup, patch client.Patch, opts ...client.PatchOption) error {
+func (c *portalGroupClient) PatchPortalGroupStatus(ctx context.Context, obj *PortalGroup, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

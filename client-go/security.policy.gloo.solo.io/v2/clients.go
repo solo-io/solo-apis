@@ -164,10 +164,10 @@ type AccessPolicyWriter interface {
 type AccessPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given AccessPolicy object.
-	UpdateAccessPolicyStatus(ctx context.Context, obj *AccessPolicy, opts ...client.UpdateOption) error
+	UpdateAccessPolicyStatus(ctx context.Context, obj *AccessPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given AccessPolicy object's subresource.
-	PatchAccessPolicyStatus(ctx context.Context, obj *AccessPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchAccessPolicyStatus(ctx context.Context, obj *AccessPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on AccessPolicys.
@@ -238,11 +238,11 @@ func (c *accessPolicyClient) UpsertAccessPolicy(ctx context.Context, obj *Access
 	return err
 }
 
-func (c *accessPolicyClient) UpdateAccessPolicyStatus(ctx context.Context, obj *AccessPolicy, opts ...client.UpdateOption) error {
+func (c *accessPolicyClient) UpdateAccessPolicyStatus(ctx context.Context, obj *AccessPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *accessPolicyClient) PatchAccessPolicyStatus(ctx context.Context, obj *AccessPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *accessPolicyClient) PatchAccessPolicyStatus(ctx context.Context, obj *AccessPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -306,10 +306,10 @@ type CORSPolicyWriter interface {
 type CORSPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given CORSPolicy object.
-	UpdateCORSPolicyStatus(ctx context.Context, obj *CORSPolicy, opts ...client.UpdateOption) error
+	UpdateCORSPolicyStatus(ctx context.Context, obj *CORSPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given CORSPolicy object's subresource.
-	PatchCORSPolicyStatus(ctx context.Context, obj *CORSPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchCORSPolicyStatus(ctx context.Context, obj *CORSPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on CORSPolicys.
@@ -380,11 +380,11 @@ func (c *cORSPolicyClient) UpsertCORSPolicy(ctx context.Context, obj *CORSPolicy
 	return err
 }
 
-func (c *cORSPolicyClient) UpdateCORSPolicyStatus(ctx context.Context, obj *CORSPolicy, opts ...client.UpdateOption) error {
+func (c *cORSPolicyClient) UpdateCORSPolicyStatus(ctx context.Context, obj *CORSPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *cORSPolicyClient) PatchCORSPolicyStatus(ctx context.Context, obj *CORSPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *cORSPolicyClient) PatchCORSPolicyStatus(ctx context.Context, obj *CORSPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -448,10 +448,10 @@ type CSRFPolicyWriter interface {
 type CSRFPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given CSRFPolicy object.
-	UpdateCSRFPolicyStatus(ctx context.Context, obj *CSRFPolicy, opts ...client.UpdateOption) error
+	UpdateCSRFPolicyStatus(ctx context.Context, obj *CSRFPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given CSRFPolicy object's subresource.
-	PatchCSRFPolicyStatus(ctx context.Context, obj *CSRFPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchCSRFPolicyStatus(ctx context.Context, obj *CSRFPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on CSRFPolicys.
@@ -522,11 +522,11 @@ func (c *cSRFPolicyClient) UpsertCSRFPolicy(ctx context.Context, obj *CSRFPolicy
 	return err
 }
 
-func (c *cSRFPolicyClient) UpdateCSRFPolicyStatus(ctx context.Context, obj *CSRFPolicy, opts ...client.UpdateOption) error {
+func (c *cSRFPolicyClient) UpdateCSRFPolicyStatus(ctx context.Context, obj *CSRFPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *cSRFPolicyClient) PatchCSRFPolicyStatus(ctx context.Context, obj *CSRFPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *cSRFPolicyClient) PatchCSRFPolicyStatus(ctx context.Context, obj *CSRFPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -590,10 +590,10 @@ type ExtAuthPolicyWriter interface {
 type ExtAuthPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ExtAuthPolicy object.
-	UpdateExtAuthPolicyStatus(ctx context.Context, obj *ExtAuthPolicy, opts ...client.UpdateOption) error
+	UpdateExtAuthPolicyStatus(ctx context.Context, obj *ExtAuthPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ExtAuthPolicy object's subresource.
-	PatchExtAuthPolicyStatus(ctx context.Context, obj *ExtAuthPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchExtAuthPolicyStatus(ctx context.Context, obj *ExtAuthPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ExtAuthPolicys.
@@ -664,11 +664,11 @@ func (c *extAuthPolicyClient) UpsertExtAuthPolicy(ctx context.Context, obj *ExtA
 	return err
 }
 
-func (c *extAuthPolicyClient) UpdateExtAuthPolicyStatus(ctx context.Context, obj *ExtAuthPolicy, opts ...client.UpdateOption) error {
+func (c *extAuthPolicyClient) UpdateExtAuthPolicyStatus(ctx context.Context, obj *ExtAuthPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *extAuthPolicyClient) PatchExtAuthPolicyStatus(ctx context.Context, obj *ExtAuthPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *extAuthPolicyClient) PatchExtAuthPolicyStatus(ctx context.Context, obj *ExtAuthPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -732,10 +732,10 @@ type WAFPolicyWriter interface {
 type WAFPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given WAFPolicy object.
-	UpdateWAFPolicyStatus(ctx context.Context, obj *WAFPolicy, opts ...client.UpdateOption) error
+	UpdateWAFPolicyStatus(ctx context.Context, obj *WAFPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given WAFPolicy object's subresource.
-	PatchWAFPolicyStatus(ctx context.Context, obj *WAFPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchWAFPolicyStatus(ctx context.Context, obj *WAFPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on WAFPolicys.
@@ -806,11 +806,11 @@ func (c *wAFPolicyClient) UpsertWAFPolicy(ctx context.Context, obj *WAFPolicy, t
 	return err
 }
 
-func (c *wAFPolicyClient) UpdateWAFPolicyStatus(ctx context.Context, obj *WAFPolicy, opts ...client.UpdateOption) error {
+func (c *wAFPolicyClient) UpdateWAFPolicyStatus(ctx context.Context, obj *WAFPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *wAFPolicyClient) PatchWAFPolicyStatus(ctx context.Context, obj *WAFPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *wAFPolicyClient) PatchWAFPolicyStatus(ctx context.Context, obj *WAFPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -874,10 +874,10 @@ type JWTPolicyWriter interface {
 type JWTPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given JWTPolicy object.
-	UpdateJWTPolicyStatus(ctx context.Context, obj *JWTPolicy, opts ...client.UpdateOption) error
+	UpdateJWTPolicyStatus(ctx context.Context, obj *JWTPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given JWTPolicy object's subresource.
-	PatchJWTPolicyStatus(ctx context.Context, obj *JWTPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchJWTPolicyStatus(ctx context.Context, obj *JWTPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on JWTPolicys.
@@ -948,11 +948,11 @@ func (c *jWTPolicyClient) UpsertJWTPolicy(ctx context.Context, obj *JWTPolicy, t
 	return err
 }
 
-func (c *jWTPolicyClient) UpdateJWTPolicyStatus(ctx context.Context, obj *JWTPolicy, opts ...client.UpdateOption) error {
+func (c *jWTPolicyClient) UpdateJWTPolicyStatus(ctx context.Context, obj *JWTPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *jWTPolicyClient) PatchJWTPolicyStatus(ctx context.Context, obj *JWTPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *jWTPolicyClient) PatchJWTPolicyStatus(ctx context.Context, obj *JWTPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1016,10 +1016,10 @@ type ClientTLSPolicyWriter interface {
 type ClientTLSPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ClientTLSPolicy object.
-	UpdateClientTLSPolicyStatus(ctx context.Context, obj *ClientTLSPolicy, opts ...client.UpdateOption) error
+	UpdateClientTLSPolicyStatus(ctx context.Context, obj *ClientTLSPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ClientTLSPolicy object's subresource.
-	PatchClientTLSPolicyStatus(ctx context.Context, obj *ClientTLSPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchClientTLSPolicyStatus(ctx context.Context, obj *ClientTLSPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ClientTLSPolicys.
@@ -1090,11 +1090,11 @@ func (c *clientTLSPolicyClient) UpsertClientTLSPolicy(ctx context.Context, obj *
 	return err
 }
 
-func (c *clientTLSPolicyClient) UpdateClientTLSPolicyStatus(ctx context.Context, obj *ClientTLSPolicy, opts ...client.UpdateOption) error {
+func (c *clientTLSPolicyClient) UpdateClientTLSPolicyStatus(ctx context.Context, obj *ClientTLSPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *clientTLSPolicyClient) PatchClientTLSPolicyStatus(ctx context.Context, obj *ClientTLSPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *clientTLSPolicyClient) PatchClientTLSPolicyStatus(ctx context.Context, obj *ClientTLSPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1158,10 +1158,10 @@ type GraphQLAllowedQueryPolicyWriter interface {
 type GraphQLAllowedQueryPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given GraphQLAllowedQueryPolicy object.
-	UpdateGraphQLAllowedQueryPolicyStatus(ctx context.Context, obj *GraphQLAllowedQueryPolicy, opts ...client.UpdateOption) error
+	UpdateGraphQLAllowedQueryPolicyStatus(ctx context.Context, obj *GraphQLAllowedQueryPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given GraphQLAllowedQueryPolicy object's subresource.
-	PatchGraphQLAllowedQueryPolicyStatus(ctx context.Context, obj *GraphQLAllowedQueryPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchGraphQLAllowedQueryPolicyStatus(ctx context.Context, obj *GraphQLAllowedQueryPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on GraphQLAllowedQueryPolicys.
@@ -1232,11 +1232,11 @@ func (c *graphQLAllowedQueryPolicyClient) UpsertGraphQLAllowedQueryPolicy(ctx co
 	return err
 }
 
-func (c *graphQLAllowedQueryPolicyClient) UpdateGraphQLAllowedQueryPolicyStatus(ctx context.Context, obj *GraphQLAllowedQueryPolicy, opts ...client.UpdateOption) error {
+func (c *graphQLAllowedQueryPolicyClient) UpdateGraphQLAllowedQueryPolicyStatus(ctx context.Context, obj *GraphQLAllowedQueryPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *graphQLAllowedQueryPolicyClient) PatchGraphQLAllowedQueryPolicyStatus(ctx context.Context, obj *GraphQLAllowedQueryPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *graphQLAllowedQueryPolicyClient) PatchGraphQLAllowedQueryPolicyStatus(ctx context.Context, obj *GraphQLAllowedQueryPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1300,10 +1300,10 @@ type DLPPolicyWriter interface {
 type DLPPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given DLPPolicy object.
-	UpdateDLPPolicyStatus(ctx context.Context, obj *DLPPolicy, opts ...client.UpdateOption) error
+	UpdateDLPPolicyStatus(ctx context.Context, obj *DLPPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given DLPPolicy object's subresource.
-	PatchDLPPolicyStatus(ctx context.Context, obj *DLPPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchDLPPolicyStatus(ctx context.Context, obj *DLPPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on DLPPolicys.
@@ -1374,11 +1374,11 @@ func (c *dLPPolicyClient) UpsertDLPPolicy(ctx context.Context, obj *DLPPolicy, t
 	return err
 }
 
-func (c *dLPPolicyClient) UpdateDLPPolicyStatus(ctx context.Context, obj *DLPPolicy, opts ...client.UpdateOption) error {
+func (c *dLPPolicyClient) UpdateDLPPolicyStatus(ctx context.Context, obj *DLPPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *dLPPolicyClient) PatchDLPPolicyStatus(ctx context.Context, obj *DLPPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *dLPPolicyClient) PatchDLPPolicyStatus(ctx context.Context, obj *DLPPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

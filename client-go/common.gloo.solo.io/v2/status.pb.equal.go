@@ -26,14 +26,14 @@ var (
 )
 
 // Equal function
-func (m *OwnerWorkspace) Equal(that interface{}) bool {
+func (m *Status) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*OwnerWorkspace)
+	target, ok := that.(*Status)
 	if !ok {
-		that2, ok := that.(OwnerWorkspace)
+		that2, ok := that.(Status)
 		if ok {
 			target = &that2
 		} else {
@@ -46,7 +46,60 @@ func (m *OwnerWorkspace) Equal(that interface{}) bool {
 		return false
 	}
 
-	if strings.Compare(m.GetWorkspace(), target.GetWorkspace()) != 0 {
+	if h, ok := interface{}(m.GetState()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetState()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetState(), target.GetState()) {
+			return false
+		}
+	}
+
+	if len(m.GetWorkspaceConditions()) != len(target.GetWorkspaceConditions()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaceConditions() {
+
+		if v != target.GetWorkspaceConditions()[k] {
+			return false
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *State) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*State)
+	if !ok {
+		that2, ok := that.(State)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetObservedGeneration() != target.GetObservedGeneration() {
+		return false
+	}
+
+	if m.GetApproval() != target.GetApproval() {
+		return false
+	}
+
+	if strings.Compare(m.GetMessage(), target.GetMessage()) != 0 {
 		return false
 	}
 
@@ -54,14 +107,14 @@ func (m *OwnerWorkspace) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *WorkspaceStatus) Equal(that interface{}) bool {
+func (m *Report) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*WorkspaceStatus)
+	target, ok := that.(*Report)
 	if !ok {
-		that2, ok := that.(WorkspaceStatus)
+		that2, ok := that.(Report)
 		if ok {
 			target = &that2
 		} else {
@@ -89,74 +142,6 @@ func (m *WorkspaceStatus) Equal(that interface{}) bool {
 			}
 		}
 
-	}
-
-	return true
-}
-
-// Equal function
-func (m *GenericGlobalStatus) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*GenericGlobalStatus)
-	if !ok {
-		that2, ok := that.(GenericGlobalStatus)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if m.GetState() != target.GetState() {
-		return false
-	}
-
-	if strings.Compare(m.GetMessage(), target.GetMessage()) != 0 {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *GenericContextStatus) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*GenericContextStatus)
-	if !ok {
-		that2, ok := that.(GenericContextStatus)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if m.GetObservedGeneration() != target.GetObservedGeneration() {
-		return false
-	}
-
-	if m.GetState() != target.GetState() {
-		return false
-	}
-
-	if strings.Compare(m.GetMessage(), target.GetMessage()) != 0 {
-		return false
 	}
 
 	return true
@@ -322,40 +307,6 @@ func (m *AppliedWorkloadPolicies) Equal(that interface{}) bool {
 			}
 		}
 
-	}
-
-	return true
-}
-
-// Equal function
-func (m *WorkspaceStatus_ClusterStatus) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*WorkspaceStatus_ClusterStatus)
-	if !ok {
-		that2, ok := that.(WorkspaceStatus_ClusterStatus)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetGeneric()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetGeneric()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetGeneric(), target.GetGeneric()) {
-			return false
-		}
 	}
 
 	return true

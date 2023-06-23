@@ -378,7 +378,7 @@ func (m *MockGraphQLStitchedSchemaStatusWriter) EXPECT() *MockGraphQLStitchedSch
 }
 
 // PatchGraphQLStitchedSchemaStatus mocks base method.
-func (m *MockGraphQLStitchedSchemaStatusWriter) PatchGraphQLStitchedSchemaStatus(ctx context.Context, obj *v2.GraphQLStitchedSchema, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGraphQLStitchedSchemaStatusWriter) PatchGraphQLStitchedSchemaStatus(ctx context.Context, obj *v2.GraphQLStitchedSchema, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -397,7 +397,7 @@ func (mr *MockGraphQLStitchedSchemaStatusWriterMockRecorder) PatchGraphQLStitche
 }
 
 // UpdateGraphQLStitchedSchemaStatus mocks base method.
-func (m *MockGraphQLStitchedSchemaStatusWriter) UpdateGraphQLStitchedSchemaStatus(ctx context.Context, obj *v2.GraphQLStitchedSchema, opts ...client.UpdateOption) error {
+func (m *MockGraphQLStitchedSchemaStatusWriter) UpdateGraphQLStitchedSchemaStatus(ctx context.Context, obj *v2.GraphQLStitchedSchema, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -550,7 +550,7 @@ func (mr *MockGraphQLStitchedSchemaClientMockRecorder) PatchGraphQLStitchedSchem
 }
 
 // PatchGraphQLStitchedSchemaStatus mocks base method.
-func (m *MockGraphQLStitchedSchemaClient) PatchGraphQLStitchedSchemaStatus(ctx context.Context, obj *v2.GraphQLStitchedSchema, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGraphQLStitchedSchemaClient) PatchGraphQLStitchedSchemaStatus(ctx context.Context, obj *v2.GraphQLStitchedSchema, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -588,7 +588,7 @@ func (mr *MockGraphQLStitchedSchemaClientMockRecorder) UpdateGraphQLStitchedSche
 }
 
 // UpdateGraphQLStitchedSchemaStatus mocks base method.
-func (m *MockGraphQLStitchedSchemaClient) UpdateGraphQLStitchedSchemaStatus(ctx context.Context, obj *v2.GraphQLStitchedSchema, opts ...client.UpdateOption) error {
+func (m *MockGraphQLStitchedSchemaClient) UpdateGraphQLStitchedSchemaStatus(ctx context.Context, obj *v2.GraphQLStitchedSchema, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -882,7 +882,7 @@ func (m *MockGraphQLResolverMapStatusWriter) EXPECT() *MockGraphQLResolverMapSta
 }
 
 // PatchGraphQLResolverMapStatus mocks base method.
-func (m *MockGraphQLResolverMapStatusWriter) PatchGraphQLResolverMapStatus(ctx context.Context, obj *v2.GraphQLResolverMap, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGraphQLResolverMapStatusWriter) PatchGraphQLResolverMapStatus(ctx context.Context, obj *v2.GraphQLResolverMap, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -901,7 +901,7 @@ func (mr *MockGraphQLResolverMapStatusWriterMockRecorder) PatchGraphQLResolverMa
 }
 
 // UpdateGraphQLResolverMapStatus mocks base method.
-func (m *MockGraphQLResolverMapStatusWriter) UpdateGraphQLResolverMapStatus(ctx context.Context, obj *v2.GraphQLResolverMap, opts ...client.UpdateOption) error {
+func (m *MockGraphQLResolverMapStatusWriter) UpdateGraphQLResolverMapStatus(ctx context.Context, obj *v2.GraphQLResolverMap, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1054,7 +1054,7 @@ func (mr *MockGraphQLResolverMapClientMockRecorder) PatchGraphQLResolverMap(ctx,
 }
 
 // PatchGraphQLResolverMapStatus mocks base method.
-func (m *MockGraphQLResolverMapClient) PatchGraphQLResolverMapStatus(ctx context.Context, obj *v2.GraphQLResolverMap, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGraphQLResolverMapClient) PatchGraphQLResolverMapStatus(ctx context.Context, obj *v2.GraphQLResolverMap, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1092,7 +1092,7 @@ func (mr *MockGraphQLResolverMapClientMockRecorder) UpdateGraphQLResolverMap(ctx
 }
 
 // UpdateGraphQLResolverMapStatus mocks base method.
-func (m *MockGraphQLResolverMapClient) UpdateGraphQLResolverMapStatus(ctx context.Context, obj *v2.GraphQLResolverMap, opts ...client.UpdateOption) error {
+func (m *MockGraphQLResolverMapClient) UpdateGraphQLResolverMapStatus(ctx context.Context, obj *v2.GraphQLResolverMap, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1386,7 +1386,7 @@ func (m *MockGraphQLSchemaStatusWriter) EXPECT() *MockGraphQLSchemaStatusWriterM
 }
 
 // PatchGraphQLSchemaStatus mocks base method.
-func (m *MockGraphQLSchemaStatusWriter) PatchGraphQLSchemaStatus(ctx context.Context, obj *v2.GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGraphQLSchemaStatusWriter) PatchGraphQLSchemaStatus(ctx context.Context, obj *v2.GraphQLSchema, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1405,7 +1405,7 @@ func (mr *MockGraphQLSchemaStatusWriterMockRecorder) PatchGraphQLSchemaStatus(ct
 }
 
 // UpdateGraphQLSchemaStatus mocks base method.
-func (m *MockGraphQLSchemaStatusWriter) UpdateGraphQLSchemaStatus(ctx context.Context, obj *v2.GraphQLSchema, opts ...client.UpdateOption) error {
+func (m *MockGraphQLSchemaStatusWriter) UpdateGraphQLSchemaStatus(ctx context.Context, obj *v2.GraphQLSchema, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1558,7 +1558,7 @@ func (mr *MockGraphQLSchemaClientMockRecorder) PatchGraphQLSchema(ctx, obj, patc
 }
 
 // PatchGraphQLSchemaStatus mocks base method.
-func (m *MockGraphQLSchemaClient) PatchGraphQLSchemaStatus(ctx context.Context, obj *v2.GraphQLSchema, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockGraphQLSchemaClient) PatchGraphQLSchemaStatus(ctx context.Context, obj *v2.GraphQLSchema, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1596,7 +1596,7 @@ func (mr *MockGraphQLSchemaClientMockRecorder) UpdateGraphQLSchema(ctx, obj inte
 }
 
 // UpdateGraphQLSchemaStatus mocks base method.
-func (m *MockGraphQLSchemaClient) UpdateGraphQLSchemaStatus(ctx context.Context, obj *v2.GraphQLSchema, opts ...client.UpdateOption) error {
+func (m *MockGraphQLSchemaClient) UpdateGraphQLSchemaStatus(ctx context.Context, obj *v2.GraphQLSchema, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -1890,7 +1890,7 @@ func (m *MockApiDocStatusWriter) EXPECT() *MockApiDocStatusWriterMockRecorder {
 }
 
 // PatchApiDocStatus mocks base method.
-func (m *MockApiDocStatusWriter) PatchApiDocStatus(ctx context.Context, obj *v2.ApiDoc, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockApiDocStatusWriter) PatchApiDocStatus(ctx context.Context, obj *v2.ApiDoc, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1909,7 +1909,7 @@ func (mr *MockApiDocStatusWriterMockRecorder) PatchApiDocStatus(ctx, obj, patch 
 }
 
 // UpdateApiDocStatus mocks base method.
-func (m *MockApiDocStatusWriter) UpdateApiDocStatus(ctx context.Context, obj *v2.ApiDoc, opts ...client.UpdateOption) error {
+func (m *MockApiDocStatusWriter) UpdateApiDocStatus(ctx context.Context, obj *v2.ApiDoc, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2062,7 +2062,7 @@ func (mr *MockApiDocClientMockRecorder) PatchApiDoc(ctx, obj, patch interface{},
 }
 
 // PatchApiDocStatus mocks base method.
-func (m *MockApiDocClient) PatchApiDocStatus(ctx context.Context, obj *v2.ApiDoc, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockApiDocClient) PatchApiDocStatus(ctx context.Context, obj *v2.ApiDoc, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2100,7 +2100,7 @@ func (mr *MockApiDocClientMockRecorder) UpdateApiDoc(ctx, obj interface{}, opts 
 }
 
 // UpdateApiDocStatus mocks base method.
-func (m *MockApiDocClient) UpdateApiDocStatus(ctx context.Context, obj *v2.ApiDoc, opts ...client.UpdateOption) error {
+func (m *MockApiDocClient) UpdateApiDocStatus(ctx context.Context, obj *v2.ApiDoc, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2394,7 +2394,7 @@ func (m *MockPortalStatusWriter) EXPECT() *MockPortalStatusWriterMockRecorder {
 }
 
 // PatchPortalStatus mocks base method.
-func (m *MockPortalStatusWriter) PatchPortalStatus(ctx context.Context, obj *v2.Portal, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockPortalStatusWriter) PatchPortalStatus(ctx context.Context, obj *v2.Portal, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2413,7 +2413,7 @@ func (mr *MockPortalStatusWriterMockRecorder) PatchPortalStatus(ctx, obj, patch 
 }
 
 // UpdatePortalStatus mocks base method.
-func (m *MockPortalStatusWriter) UpdatePortalStatus(ctx context.Context, obj *v2.Portal, opts ...client.UpdateOption) error {
+func (m *MockPortalStatusWriter) UpdatePortalStatus(ctx context.Context, obj *v2.Portal, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2566,7 +2566,7 @@ func (mr *MockPortalClientMockRecorder) PatchPortal(ctx, obj, patch interface{},
 }
 
 // PatchPortalStatus mocks base method.
-func (m *MockPortalClient) PatchPortalStatus(ctx context.Context, obj *v2.Portal, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockPortalClient) PatchPortalStatus(ctx context.Context, obj *v2.Portal, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2604,7 +2604,7 @@ func (mr *MockPortalClientMockRecorder) UpdatePortal(ctx, obj interface{}, opts 
 }
 
 // UpdatePortalStatus mocks base method.
-func (m *MockPortalClient) UpdatePortalStatus(ctx context.Context, obj *v2.Portal, opts ...client.UpdateOption) error {
+func (m *MockPortalClient) UpdatePortalStatus(ctx context.Context, obj *v2.Portal, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -2898,7 +2898,7 @@ func (m *MockPortalGroupStatusWriter) EXPECT() *MockPortalGroupStatusWriterMockR
 }
 
 // PatchPortalGroupStatus mocks base method.
-func (m *MockPortalGroupStatusWriter) PatchPortalGroupStatus(ctx context.Context, obj *v2.PortalGroup, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockPortalGroupStatusWriter) PatchPortalGroupStatus(ctx context.Context, obj *v2.PortalGroup, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -2917,7 +2917,7 @@ func (mr *MockPortalGroupStatusWriterMockRecorder) PatchPortalGroupStatus(ctx, o
 }
 
 // UpdatePortalGroupStatus mocks base method.
-func (m *MockPortalGroupStatusWriter) UpdatePortalGroupStatus(ctx context.Context, obj *v2.PortalGroup, opts ...client.UpdateOption) error {
+func (m *MockPortalGroupStatusWriter) UpdatePortalGroupStatus(ctx context.Context, obj *v2.PortalGroup, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -3070,7 +3070,7 @@ func (mr *MockPortalGroupClientMockRecorder) PatchPortalGroup(ctx, obj, patch in
 }
 
 // PatchPortalGroupStatus mocks base method.
-func (m *MockPortalGroupClient) PatchPortalGroupStatus(ctx context.Context, obj *v2.PortalGroup, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockPortalGroupClient) PatchPortalGroupStatus(ctx context.Context, obj *v2.PortalGroup, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -3108,7 +3108,7 @@ func (mr *MockPortalGroupClientMockRecorder) UpdatePortalGroup(ctx, obj interfac
 }
 
 // UpdatePortalGroupStatus mocks base method.
-func (m *MockPortalGroupClient) UpdatePortalGroupStatus(ctx context.Context, obj *v2.PortalGroup, opts ...client.UpdateOption) error {
+func (m *MockPortalGroupClient) UpdatePortalGroupStatus(ctx context.Context, obj *v2.PortalGroup, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

@@ -8,7 +8,6 @@ import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/port.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2";
 
@@ -25,7 +24,7 @@ message VirtualDestinationSpec {
   // Selectors for the backing K8s services that comprise this VirtualDestination.
   // A service will be selected if it matches any of the given selectors.
   // Currently only one K8s Service can be selected per cluster. If more than one service is selected
-  // within a cluster the VirtualDestination will be invalid and will not be translated.
+  // within a cluster, the VirtualDestination will report a warning and the oldest created service will be selected.
   // When a request is routed through the VirtualDestination, it will be forwarded to one of the backing services, selected at random.
   // (To forward to the service on the local cluster only, a FailoverPolicy and/or OutlierDetectionPolicy must be configured.)
   // If a deployment is unavailable, requests will not be forwarded to that deployment.
@@ -35,6 +34,14 @@ message VirtualDestinationSpec {
   // An external service will be selected if it matches any of the given selectors.
   // Multiple External Services can be selected.
   repeated .common.gloo.solo.io.ObjectSelector external_services = 3;
+
+  // Selectors for the backing ExternalWorkloads that comprise this VirtualDestination.
+  // Currently only one ExternalWorkload can be selected per cluster. If more than one external workload is
+  // selected within a cluster, the VirtualDestination will report a warning and the oldest created external workload will be selected.
+  // When a request is routed through the VirtualDestination, it will be forwarded to one
+  // of the backing external workloads, selected at random.
+  // (To forward to the service on the local cluster only, a FailoverPolicy and/or OutlierDetectionPolicy must be configured.)
+  repeated .common.gloo.solo.io.ObjectSelector external_workloads = 6;
 
   // Required: The ports on which the VirtualDestination will serve traffic. Must have at least one port.
   repeated PortMapping ports = 4;

@@ -293,6 +293,14 @@ func (m *ConnectionPolicySpec_Config_HTTPConfig) Equal(that interface{}) bool {
 		return false
 	}
 
+	if m.GetMaxRequests() != target.GetMaxRequests() {
+		return false
+	}
+
+	if m.GetMaxPendingRequests() != target.GetMaxPendingRequests() {
+		return false
+	}
+
 	if h, ok := interface{}(m.GetIdleTimeout()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetIdleTimeout()) {
 			return false

@@ -308,7 +308,7 @@ func (m *MockAccessLogPolicyStatusWriter) EXPECT() *MockAccessLogPolicyStatusWri
 }
 
 // PatchAccessLogPolicyStatus mocks base method.
-func (m *MockAccessLogPolicyStatusWriter) PatchAccessLogPolicyStatus(ctx context.Context, obj *v2.AccessLogPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockAccessLogPolicyStatusWriter) PatchAccessLogPolicyStatus(ctx context.Context, obj *v2.AccessLogPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -327,7 +327,7 @@ func (mr *MockAccessLogPolicyStatusWriterMockRecorder) PatchAccessLogPolicyStatu
 }
 
 // UpdateAccessLogPolicyStatus mocks base method.
-func (m *MockAccessLogPolicyStatusWriter) UpdateAccessLogPolicyStatus(ctx context.Context, obj *v2.AccessLogPolicy, opts ...client.UpdateOption) error {
+func (m *MockAccessLogPolicyStatusWriter) UpdateAccessLogPolicyStatus(ctx context.Context, obj *v2.AccessLogPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -480,7 +480,7 @@ func (mr *MockAccessLogPolicyClientMockRecorder) PatchAccessLogPolicy(ctx, obj, 
 }
 
 // PatchAccessLogPolicyStatus mocks base method.
-func (m *MockAccessLogPolicyClient) PatchAccessLogPolicyStatus(ctx context.Context, obj *v2.AccessLogPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockAccessLogPolicyClient) PatchAccessLogPolicyStatus(ctx context.Context, obj *v2.AccessLogPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -518,7 +518,7 @@ func (mr *MockAccessLogPolicyClientMockRecorder) UpdateAccessLogPolicy(ctx, obj 
 }
 
 // UpdateAccessLogPolicyStatus mocks base method.
-func (m *MockAccessLogPolicyClient) UpdateAccessLogPolicyStatus(ctx context.Context, obj *v2.AccessLogPolicy, opts ...client.UpdateOption) error {
+func (m *MockAccessLogPolicyClient) UpdateAccessLogPolicyStatus(ctx context.Context, obj *v2.AccessLogPolicy, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

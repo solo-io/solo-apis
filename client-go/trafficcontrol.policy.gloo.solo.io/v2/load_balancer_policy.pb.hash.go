@@ -238,6 +238,46 @@ func (m *LoadBalancerPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error)
 		}
 	}
 
+	if h, ok := interface{}(m.GetHealthyPanicThreshold()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("HealthyPanicThreshold")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetHealthyPanicThreshold(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("HealthyPanicThreshold")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if h, ok := interface{}(m.GetUpdateMergeWindow()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("UpdateMergeWindow")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetUpdateMergeWindow(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("UpdateMergeWindow")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	switch m.LbPolicy.(type) {
 
 	case *LoadBalancerPolicySpec_Config_Simple:

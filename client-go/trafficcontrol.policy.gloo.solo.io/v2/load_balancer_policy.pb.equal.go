@@ -203,6 +203,26 @@ func (m *LoadBalancerPolicySpec_Config) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetHealthyPanicThreshold()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetHealthyPanicThreshold()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetHealthyPanicThreshold(), target.GetHealthyPanicThreshold()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetUpdateMergeWindow()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetUpdateMergeWindow()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetUpdateMergeWindow(), target.GetUpdateMergeWindow()) {
+			return false
+		}
+	}
+
 	switch m.LbPolicy.(type) {
 
 	case *LoadBalancerPolicySpec_Config_Simple:

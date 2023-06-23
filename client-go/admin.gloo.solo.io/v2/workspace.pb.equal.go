@@ -67,66 +67,6 @@ func (m *WorkspaceSpec) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *ClusterSelector) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ClusterSelector)
-	if !ok {
-		that2, ok := that.(ClusterSelector)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetName(), target.GetName()) != 0 {
-		return false
-	}
-
-	if len(m.GetSelector()) != len(target.GetSelector()) {
-		return false
-	}
-	for k, v := range m.GetSelector() {
-
-		if strings.Compare(v, target.GetSelector()[k]) != 0 {
-			return false
-		}
-
-	}
-
-	if len(m.GetNamespaces()) != len(target.GetNamespaces()) {
-		return false
-	}
-	for idx, v := range m.GetNamespaces() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetNamespaces()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetNamespaces()[idx]) {
-				return false
-			}
-		}
-
-	}
-
-	if m.GetConfigEnabled() != target.GetConfigEnabled() {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
 func (m *WorkspaceStatus) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -336,49 +276,6 @@ func (m *WorkspaceReport) Equal(that interface{}) bool {
 	for idx, v := range m.GetImportedWorkspaces() {
 
 		if strings.Compare(v, target.GetImportedWorkspaces()[idx]) != 0 {
-			return false
-		}
-
-	}
-
-	return true
-}
-
-// Equal function
-func (m *ClusterSelector_NamespaceSelector) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ClusterSelector_NamespaceSelector)
-	if !ok {
-		that2, ok := that.(ClusterSelector_NamespaceSelector)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetName(), target.GetName()) != 0 {
-		return false
-	}
-
-	if m.GetConfigEnabled() != target.GetConfigEnabled() {
-		return false
-	}
-
-	if len(m.GetLabels()) != len(target.GetLabels()) {
-		return false
-	}
-	for k, v := range m.GetLabels() {
-
-		if strings.Compare(v, target.GetLabels()[k]) != 0 {
 			return false
 		}
 

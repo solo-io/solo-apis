@@ -111,6 +111,10 @@ func (m *TrimProxyConfigPolicyStatus) Equal(that interface{}) bool {
 		return false
 	}
 
+	if m.GetNumIncludedHosts() != target.GetNumIncludedHosts() {
+		return false
+	}
+
 	return true
 }
 
@@ -165,6 +169,17 @@ func (m *TrimProxyConfigPolicyReport) Equal(that interface{}) bool {
 			if !proto.Equal(v, target.GetSelectedWorkloads()[idx]) {
 				return false
 			}
+		}
+
+	}
+
+	if len(m.GetIncludedHosts()) != len(target.GetIncludedHosts()) {
+		return false
+	}
+	for idx, v := range m.GetIncludedHosts() {
+
+		if strings.Compare(v, target.GetIncludedHosts()[idx]) != 0 {
+			return false
 		}
 
 	}

@@ -7,7 +7,6 @@ import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/keepalive.proto"
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "google/protobuf/duration.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
@@ -52,6 +51,14 @@ message ConnectionPolicySpec {
 
       // Maximum number of retries that can be outstanding to all hosts in a cluster at a given time. Defaults to 2^32-1.
       int32 max_retries = 2;
+
+      // Maximum number of active requests to a destination. Default 1024. Applicable to both HTTP/1.1 and HTTP2.
+      int32 max_requests = 4;
+
+      // Maximum number of requests that will be queued while waiting for a ready connection pool connection. Default 1024. 
+      // If the limit is reached, the request will fail and a 503 error will be returned.
+      // Applicable to both HTTP/1.1 and HTTP2.
+      int32 max_pending_requests = 5;
 
       // The idle timeout for upstream connection pool connections. The idle timeout is defined as the period in which there are no active requests.
       // If not set, the default is 1 hour. When the idle timeout is reached, the connection will be closed. If the connection is an HTTP/2 connection

@@ -66,8 +66,6 @@ enum DestinationKind {
   VIRTUAL_DESTINATION = 1;
   // Select an External Service
   EXTERNAL_SERVICE = 2;
-  // Select an External Workload
-  EXTERNAL_WORKLOAD = 3;
 }
 
 // RouteDestinationSelector is a Selector specifically built for individual destinations on individual Routes inside of RouteTables.
@@ -120,6 +118,13 @@ message RouteFilter {
   .common.gloo.solo.io.CloudProviderFilterOptions cloud_provider = 3;
 }
 
+// ListenerSelector is a selector for a listener on a VirtualGateway.
+message ListenerSelector {
+  ObjectSelector virtual_gateway = 1;
+
+  PortSelector port = 2;
+}
+
 // WorkloadSelector is a Selector specifically built for selecting individual workloads.
 // Workloads must have injected (sidecars) or be standalone proxies (gateways) to be selected by Gloo Mesh policies.
 //
@@ -153,7 +158,7 @@ message IdentitySelector {
   // Providing labels and/or the workspace, or omitting the name, namespace or cluster for a service account that does not exist in the selector will not result in that service account being added to the resulting AuthorizationPolicy.
   ObjectSelector service_account_selector = 1;
 
-  // Select ExternalWorkloads as identities.
+  // Select external workloads.
   ObjectSelector external_workload_selector = 3;
 
   // Select identities based on properties of the request. If multiple fields are set, they are ANDed together.
@@ -175,10 +180,46 @@ message IdentitySelector {
   }
 }
 
+// Select clusters and namespaces for a workspace
+message ClusterSelector {
+  // Optional: Name of the cluster to select.
+  // Use * to match name patterns in multiple clusters name.
+  string name = 1;
+
+  // Optional: Include workload clusters in the workspace by using a selector.
+  // The selector matches the selector values in the KubernetesCluster resource on the management cluster.
+  // Selector is a map of {key,value} pairs. A single {key,value} in the selector
+  // map is equivalent to an element of labelRequirements, whose key field is "key", the
+  // operator is "In", and the values array contains only "value". The requirements are ANDed.
+  map<string, string> selector = 2;
+
+  // Select the namespaces in the cluster(s) to include in the workspace. If you do not select any namespaces, the workspace is empty and results in an error.
+  repeated NamespaceSelector namespaces = 4;
+
+  // Optional: Enable configuration from this workload cluster. (default: true unless explicitly enabled for any selected clusters or namespaces)
+  bool config_enabled = 5;
+
+  // Select namespaces for the selected cluster(s)
+  message NamespaceSelector {
+    // Name of the namespace to select.
+    // Can use * to match name patterns in multiple namespaces.
+    // Note: When this field is used in conjunction with "labels", both conditions are ANDed together.
+    string name = 1;
+
+    // Optional: Enable configuration from this namespace. (default: true unless explicitly enabled for any selected clusters or namespaces)
+    bool config_enabled = 2;
+
+    // Optional: Select groups of namespaces via labels.
+    // Leaving this field empty will NOT select all namespaces, but rather be ignored.
+    // Note: When this field is used in conjunction with "name", both conditions are ANDed together.
+    map<string, string> labels = 3;
+  }
+}
+
 // MeshSelector is a Selector built for selecting instances of Mesh control planes. A control plane is understood to have a single domain and provide a single root of trust for the data plane proxies it is managing. Each revision of Istiod maps
 message MeshSelector {
 
-  // includes all supported meshes (e.g. Istio, AppMesh)
+  // includes all supported meshes (e.g. Istio)
   oneof mesh_type {
     // options for selecting istio Mesh control planes.
     Istio istio = 1;
@@ -218,11 +259,4 @@ message WorkspaceSelector {
   // such as setting `selector` to `team: backend`.
   map<string, string> selector = 2;
 
-}
-
-// ListenerSelector is a selector for a listener on a VirtualGateway.
-message ListenerSelector {
-  ObjectSelector virtual_gateway = 1;
-
-  PortSelector port = 2;
 }

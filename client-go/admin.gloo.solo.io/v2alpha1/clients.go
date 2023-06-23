@@ -108,10 +108,10 @@ type WaypointLifecycleManagerWriter interface {
 type WaypointLifecycleManagerStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given WaypointLifecycleManager object.
-	UpdateWaypointLifecycleManagerStatus(ctx context.Context, obj *WaypointLifecycleManager, opts ...client.UpdateOption) error
+	UpdateWaypointLifecycleManagerStatus(ctx context.Context, obj *WaypointLifecycleManager, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given WaypointLifecycleManager object's subresource.
-	PatchWaypointLifecycleManagerStatus(ctx context.Context, obj *WaypointLifecycleManager, patch client.Patch, opts ...client.PatchOption) error
+	PatchWaypointLifecycleManagerStatus(ctx context.Context, obj *WaypointLifecycleManager, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on WaypointLifecycleManagers.
@@ -182,11 +182,11 @@ func (c *waypointLifecycleManagerClient) UpsertWaypointLifecycleManager(ctx cont
 	return err
 }
 
-func (c *waypointLifecycleManagerClient) UpdateWaypointLifecycleManagerStatus(ctx context.Context, obj *WaypointLifecycleManager, opts ...client.UpdateOption) error {
+func (c *waypointLifecycleManagerClient) UpdateWaypointLifecycleManagerStatus(ctx context.Context, obj *WaypointLifecycleManager, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *waypointLifecycleManagerClient) PatchWaypointLifecycleManagerStatus(ctx context.Context, obj *WaypointLifecycleManager, patch client.Patch, opts ...client.PatchOption) error {
+func (c *waypointLifecycleManagerClient) PatchWaypointLifecycleManagerStatus(ctx context.Context, obj *WaypointLifecycleManager, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

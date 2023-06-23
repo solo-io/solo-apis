@@ -129,5 +129,11 @@ func (m *ListenerConnectionPolicySpec_Config) Clone() proto.Message {
 		target.PerConnectionBufferLimitBytes = proto.Clone(m.GetPerConnectionBufferLimitBytes()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
+	if h, ok := interface{}(m.GetTcpKeepalive()).(clone.Cloner); ok {
+		target.TcpKeepalive = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.TCPKeepalive)
+	} else {
+		target.TcpKeepalive = proto.Clone(m.GetTcpKeepalive()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.TCPKeepalive)
+	}
+
 	return target
 }

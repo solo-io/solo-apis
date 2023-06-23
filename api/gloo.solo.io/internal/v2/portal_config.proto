@@ -7,7 +7,6 @@ import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/apimanagement/v2/portal_group.proto";
 import "google/protobuf/struct.proto";
 
@@ -67,18 +66,28 @@ message PortalConfigSpec {
   // referenced RouteTable and api_schema is a reference to the stitched API schema for the RouteTable.
   // Also references a list of usage plan names that are associated with the API.
   message API {
-    string title = 1;
-    string description = 2;
-    string terms_of_service = 3;
-    string contact = 4;
-    string license = 5;
-    .common.gloo.solo.io.ObjectReference api_schema = 6;
-    .common.gloo.solo.io.ObjectReference route_table = 7;
-    repeated UsagePlanRef usage_plans = 8;
+    // When set, the [/apis](https://docs.solo.io/gloo-gateway/main/portal/openapi/redocly/#tag/APIs/operation/ListAPIs)
+    // endpoint in the portal will return `apiProduct` in the response which can be used to group multiple APIs together.
+    string api_product_id = 1;
+    // The api product display name
+    string api_product_display_name = 2;
+    // The ID for this API.
+    string api_id = 3;
+    // The version of the openAPI specification for this route table. Must be unique within the apiProduct.
+    // `apiProduct` is required if `apiVersion` is set.
+    string api_version = 4;
+    string title = 5;
+    string description = 6;
+    string terms_of_service = 7;
+    string contact = 8;
+    string license = 9;
+    .common.gloo.solo.io.ObjectReference api_schema = 10;
+    .common.gloo.solo.io.ObjectReference route_table = 11;
+    repeated UsagePlanRef usage_plans = 12;
     // The API is private if its associated route table contains labels matching the privateAPILabels specified
     // in the portal resource
-    bool is_private = 9;
-    map<string, string> custom_metadata = 10;
+    bool is_private = 13;
+    map<string, string> custom_metadata = 14;
   }
 
   // A usage plan contains a list of auth policies and one rate limit policy.

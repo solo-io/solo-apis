@@ -26,35 +26,24 @@ var (
 )
 
 // Clone function
-func (m *OwnerWorkspace) Clone() proto.Message {
-	var target *OwnerWorkspace
+func (m *Status) Clone() proto.Message {
+	var target *Status
 	if m == nil {
 		return target
 	}
-	target = &OwnerWorkspace{}
+	target = &Status{}
 
-	target.Workspace = m.GetWorkspace()
-
-	return target
-}
-
-// Clone function
-func (m *WorkspaceStatus) Clone() proto.Message {
-	var target *WorkspaceStatus
-	if m == nil {
-		return target
+	if h, ok := interface{}(m.GetState()).(clone.Cloner); ok {
+		target.State = h.Clone().(*State)
+	} else {
+		target.State = proto.Clone(m.GetState()).(*State)
 	}
-	target = &WorkspaceStatus{}
 
-	if m.GetClusters() != nil {
-		target.Clusters = make(map[string]*WorkspaceStatus_ClusterStatus, len(m.GetClusters()))
-		for k, v := range m.GetClusters() {
+	if m.GetWorkspaceConditions() != nil {
+		target.WorkspaceConditions = make(map[string]uint32, len(m.GetWorkspaceConditions()))
+		for k, v := range m.GetWorkspaceConditions() {
 
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Clusters[k] = h.Clone().(*WorkspaceStatus_ClusterStatus)
-			} else {
-				target.Clusters[k] = proto.Clone(v).(*WorkspaceStatus_ClusterStatus)
-			}
+			target.WorkspaceConditions[k] = v
 
 		}
 	}
@@ -63,14 +52,16 @@ func (m *WorkspaceStatus) Clone() proto.Message {
 }
 
 // Clone function
-func (m *GenericGlobalStatus) Clone() proto.Message {
-	var target *GenericGlobalStatus
+func (m *State) Clone() proto.Message {
+	var target *State
 	if m == nil {
 		return target
 	}
-	target = &GenericGlobalStatus{}
+	target = &State{}
 
-	target.State = m.GetState()
+	target.ObservedGeneration = m.GetObservedGeneration()
+
+	target.Approval = m.GetApproval()
 
 	target.Message = m.GetMessage()
 
@@ -78,18 +69,25 @@ func (m *GenericGlobalStatus) Clone() proto.Message {
 }
 
 // Clone function
-func (m *GenericContextStatus) Clone() proto.Message {
-	var target *GenericContextStatus
+func (m *Report) Clone() proto.Message {
+	var target *Report
 	if m == nil {
 		return target
 	}
-	target = &GenericContextStatus{}
+	target = &Report{}
 
-	target.ObservedGeneration = m.GetObservedGeneration()
+	if m.GetClusters() != nil {
+		target.Clusters = make(map[string]*State, len(m.GetClusters()))
+		for k, v := range m.GetClusters() {
 
-	target.State = m.GetState()
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Clusters[k] = h.Clone().(*State)
+			} else {
+				target.Clusters[k] = proto.Clone(v).(*State)
+			}
 
-	target.Message = m.GetMessage()
+		}
+	}
 
 	return target
 }
@@ -182,23 +180,6 @@ func (m *AppliedWorkloadPolicies) Clone() proto.Message {
 			}
 
 		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *WorkspaceStatus_ClusterStatus) Clone() proto.Message {
-	var target *WorkspaceStatus_ClusterStatus
-	if m == nil {
-		return target
-	}
-	target = &WorkspaceStatus_ClusterStatus{}
-
-	if h, ok := interface{}(m.GetGeneric()).(clone.Cloner); ok {
-		target.Generic = h.Clone().(*GenericContextStatus)
-	} else {
-		target.Generic = proto.Clone(m.GetGeneric()).(*GenericContextStatus)
 	}
 
 	return target

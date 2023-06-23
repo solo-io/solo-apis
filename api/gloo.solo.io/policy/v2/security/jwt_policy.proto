@@ -8,7 +8,6 @@ import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/phase.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/wrappers.proto";
 
@@ -214,7 +213,8 @@ message JWTPolicySpec {
         bool append = 3;
       }
 
-      // Optional: What claims should be copied to upstream headers.
+      // Optional: Specify the claims from the JWT payload to copy to individual headers before forwarding the request to the upstream destination.
+      // To copy the entire payload to a single header instead, use the OutputPayloadToHeader field.
       repeated ClaimsToHeader claims_to_headers = 6;
 
       // Optional: KeepToken is used to keep the JWT in the request post verification.
@@ -223,6 +223,12 @@ message JWTPolicySpec {
       // Optional: ClockSkewSeconds is used to verify time constraints, such as `exp` and `npf`. Default is 60s
       // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
       google.protobuf.UInt32Value clock_skew_seconds = 8;
+
+      // Optional: Copy the output of the JWT payload to a single header before forwarding the request to the upstream destination. The header is the name that you enter in this field.
+      // The payload data is base64-encoded before forwarding.
+      // If this field is omitted or empty, the payload is not forwarded with the request.
+      // To send select claims in the payload in individual headers, use the ClaimsToHeaders field instead.
+      string output_payload_to_header = 9;
     }
 
     // Map provider name to jwt provider configuration.
@@ -246,43 +252,48 @@ message JWTPolicySpec {
     bool allow_missing_or_failed = 3;
 
     enum ClearRouteCache {
-      // ClearRouteCacheAUTO is the default legacy behavior.
+      // The default behavior, which clears the route cache when the auth response is successful or if the JWT policy adds a claim in the 'claimsToHeader' field. This way, the gateway recomputes route matching, such as to route traffic based on the claims you add in the JWT policy.
       AUTO = 0;
 
-      // ClearRouteCacheFALSE ensures generated envoy filters will always have clear_route_cache set to false.
+      // Set to false so that the route cache is not cleared after the JWT filter. This way, you can configure traffic rules based on routing details from both before and after the JWT filter.
+      // For example, you might want to reject with a direct response any requests that send a header that is also set in the JWT policy's 'claimsToHeader' field.
       FALSE = 1;
 
-      // ClearRouteCacheTRUE ensures generated envoy filters will always have clear_route_cache set to true.
+      // Set to true so that the route cache is always cleared after the JWT filter. This way, the gateway recomputes route matching, such as to route traffic based on the claims you add in the JWT policy.
       TRUE = 2;
     }
 
-    // Optional: clear_route_cache controls whether the route cache will be cleared if claims were added to the header.
-    // Defaults to the 'AUTO' option, which will clear the route cache when the claims_to_headers field has been configured.
+    // Optional: Decide whether to clear the route cache after the JWT filter. By clearing the route cache, the gateway recomputes route matching. This way, you can configure traffic rules after JWT auth, such as claim-based routing on cleared routes or direct response on cached routes.
+    // Defaults to the 'AUTO' option.
     ClearRouteCache clear_route_cache = 4;
 
-    // ClaimMatcher configures a list of claim-based JWT authorization rules.
+    // Optionally configure a list of key-value claims for JWT authorization rules. The JWT must meet all of the claims to be allowed (logically AND'd together).
+    // For each claim, you can specify values that must or must not be present. If a claim has multiple supported values, any of these values is allowed (logically OR'd together).
+    // You can also use wildcards, such as `"*"` to allow any value, or for example `"*@solo.io"` to allow any `@solo.io` email. Nested claims are not supported at this time.
     message ClaimMatcher {
-      // key is the name of the JWT claim key.
+      // The name of the JWT claim's key.
+      // [RFC 7519 spec](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1) reserves seven claims, and the [IANA JSON Web Token Claims](https://www.iana.org/assignments/jwt/jwt.xhtml#claims) outline many more registered claims to encourage interoperability across providers. Further, your OIDC provider might have custom claims, such as described in the [Auth0 docs](https://auth0.com/docs/get-started/apis/scopes/sample-use-cases-scopes-and-claims).
       string key = 1;
 
-      // Optional. A list of allowed values for the JWT claim.
-      // Note: at least one of values or not_values must be set.
+      // Optional. A list of allowed values for the JWT claim. If a claim has multiple supported values, any of these values is allowed (logically OR'd together).
+      // You can also use wildcards, such as `"*"` to allow any value or for example `"*@solo.io"` to allow any `@solo.io` email. Nested claims are not supported at this time.
+      // Note: You must set at least one of "values" or "not_values".
       repeated string values = 2;
 
-      // Optional. A list of values that should not exist for the
-      // JWT claim. Note: at least one of values or not_values must
-      // be set.
+      // Optional. A list of values that are not allowed for the JWT claim. If a claim contains one of these values, the request is denied.
+      // You can also use wildcards, such as `"*"` to deny any value, or for example `"*@solo.io"` to deny any `@solo.io` email.
+      // Note: You must set at least one of "values" or "not_values".
       repeated string not_values = 3;
     }
 
-    // Optional: Claims configures a list of arbitrary, claim-based JWT authorization rules. Each claim rule will be
-    // logically AND'd together internally. Any individual claim key that specifies multiple values will be logical
-    // OR'd together.
+    // Optional: A key-value list of claims to require for JWT authorization. The JWT must meet all of the claims to be allowed (logically AND'd together).
+    // For each claim, you can specify values that must or must not be present.
     repeated ClaimMatcher claims = 5;
 
-    // Optional: Scopes configures an unordered list of required JWT scopes. If the JWT contains all of the scopes
-    // specified in this list, the request will be allowed. If the JWT does not contain all of the scopes specified
-    // in this list, the request will be denied. An empty list will skip scope validation.
+    // Optional: An unordered list of required JWT scopes. The JWT must have all of the listed scopes to be allowed (logically AND'd together).
+    // Scopes typically come from an identity provider and are formatted similar to `"<product>:<permission>"` or `"is:<role>"`.
+    // To set "not" scopes or to allow a request to succeed with just one of many listed scopes, use claims instead.
+    // To skip scope validation, omit this value or leave the list empty.
     repeated string required_scopes = 6;
   }
 

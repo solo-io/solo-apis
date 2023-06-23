@@ -2,10 +2,8 @@ syntax = "proto3";
 package infrastructure.gloo.solo.io;
 option go_package = "github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2";
 
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "github.com/solo-io/skv2/api/core/v1/core.proto";
 import   "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
-//import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/locality.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 
 import "extproto/ext.proto";

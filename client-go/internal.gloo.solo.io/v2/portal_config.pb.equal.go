@@ -312,6 +312,22 @@ func (m *PortalConfigSpec_API) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetApiProductId(), target.GetApiProductId()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetApiProductDisplayName(), target.GetApiProductDisplayName()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetApiId(), target.GetApiId()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetApiVersion(), target.GetApiVersion()) != 0 {
+		return false
+	}
+
 	if strings.Compare(m.GetTitle(), target.GetTitle()) != 0 {
 		return false
 	}

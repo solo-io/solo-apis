@@ -322,7 +322,7 @@ func (m *MockCloudProviderStatusWriter) EXPECT() *MockCloudProviderStatusWriterM
 }
 
 // PatchCloudProviderStatus mocks base method.
-func (m *MockCloudProviderStatusWriter) PatchCloudProviderStatus(ctx context.Context, obj *v2.CloudProvider, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockCloudProviderStatusWriter) PatchCloudProviderStatus(ctx context.Context, obj *v2.CloudProvider, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -341,7 +341,7 @@ func (mr *MockCloudProviderStatusWriterMockRecorder) PatchCloudProviderStatus(ct
 }
 
 // UpdateCloudProviderStatus mocks base method.
-func (m *MockCloudProviderStatusWriter) UpdateCloudProviderStatus(ctx context.Context, obj *v2.CloudProvider, opts ...client.UpdateOption) error {
+func (m *MockCloudProviderStatusWriter) UpdateCloudProviderStatus(ctx context.Context, obj *v2.CloudProvider, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -494,7 +494,7 @@ func (mr *MockCloudProviderClientMockRecorder) PatchCloudProvider(ctx, obj, patc
 }
 
 // PatchCloudProviderStatus mocks base method.
-func (m *MockCloudProviderClient) PatchCloudProviderStatus(ctx context.Context, obj *v2.CloudProvider, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockCloudProviderClient) PatchCloudProviderStatus(ctx context.Context, obj *v2.CloudProvider, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -532,7 +532,7 @@ func (mr *MockCloudProviderClientMockRecorder) UpdateCloudProvider(ctx, obj inte
 }
 
 // UpdateCloudProviderStatus mocks base method.
-func (m *MockCloudProviderClient) UpdateCloudProviderStatus(ctx context.Context, obj *v2.CloudProvider, opts ...client.UpdateOption) error {
+func (m *MockCloudProviderClient) UpdateCloudProviderStatus(ctx context.Context, obj *v2.CloudProvider, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -826,7 +826,7 @@ func (m *MockCloudResourcesStatusWriter) EXPECT() *MockCloudResourcesStatusWrite
 }
 
 // PatchCloudResourcesStatus mocks base method.
-func (m *MockCloudResourcesStatusWriter) PatchCloudResourcesStatus(ctx context.Context, obj *v2.CloudResources, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockCloudResourcesStatusWriter) PatchCloudResourcesStatus(ctx context.Context, obj *v2.CloudResources, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -845,7 +845,7 @@ func (mr *MockCloudResourcesStatusWriterMockRecorder) PatchCloudResourcesStatus(
 }
 
 // UpdateCloudResourcesStatus mocks base method.
-func (m *MockCloudResourcesStatusWriter) UpdateCloudResourcesStatus(ctx context.Context, obj *v2.CloudResources, opts ...client.UpdateOption) error {
+func (m *MockCloudResourcesStatusWriter) UpdateCloudResourcesStatus(ctx context.Context, obj *v2.CloudResources, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -998,7 +998,7 @@ func (mr *MockCloudResourcesClientMockRecorder) PatchCloudResources(ctx, obj, pa
 }
 
 // PatchCloudResourcesStatus mocks base method.
-func (m *MockCloudResourcesClient) PatchCloudResourcesStatus(ctx context.Context, obj *v2.CloudResources, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockCloudResourcesClient) PatchCloudResourcesStatus(ctx context.Context, obj *v2.CloudResources, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -1036,7 +1036,7 @@ func (mr *MockCloudResourcesClientMockRecorder) UpdateCloudResources(ctx, obj in
 }
 
 // UpdateCloudResourcesStatus mocks base method.
-func (m *MockCloudResourcesClient) UpdateCloudResourcesStatus(ctx context.Context, obj *v2.CloudResources, opts ...client.UpdateOption) error {
+func (m *MockCloudResourcesClient) UpdateCloudResourcesStatus(ctx context.Context, obj *v2.CloudResources, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {

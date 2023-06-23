@@ -6,7 +6,6 @@ import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/wrappers.proto";
 
@@ -40,6 +39,15 @@ message LoadBalancerPolicySpec {
     // amount of requests.
     // Currently this is only supported for ROUND_ROBIN and LEAST_REQUEST load balancers.
     google.protobuf.Duration warmup_duration_secs = 3;
+
+    // A threshold at which Envoy will disregard health status and balance either among all hosts or no hosts.
+    // If not specified, the default is 50%. To disable panic mode, set to 0%.
+    google.protobuf.DoubleValue healthy_panic_threshold = 4;
+
+    // Health check/weight/metadata updates that happen within this duration will be merged and delivered
+    // in one shot when the duration expires.
+    // If not specified, the default is 1000ms. To disable it, set the merge window to 0.
+    google.protobuf.Duration update_merge_window = 5;
 
     // Standard load balancing algorithms that require no tuning.
     enum SimpleLB {

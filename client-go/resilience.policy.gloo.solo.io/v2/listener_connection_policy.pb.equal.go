@@ -203,5 +203,15 @@ func (m *ListenerConnectionPolicySpec_Config) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetTcpKeepalive()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetTcpKeepalive()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetTcpKeepalive(), target.GetTcpKeepalive()) {
+			return false
+		}
+	}
+
 	return true
 }

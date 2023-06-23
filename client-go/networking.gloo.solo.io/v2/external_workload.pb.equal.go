@@ -63,10 +63,6 @@ func (m *ExternalWorkloadSpec) Equal(that interface{}) bool {
 
 	}
 
-	if strings.Compare(m.GetNetwork(), target.GetNetwork()) != 0 {
-		return false
-	}
-
 	if h, ok := interface{}(m.GetIdentitySelector()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetIdentitySelector()) {
 			return false
@@ -77,8 +73,15 @@ func (m *ExternalWorkloadSpec) Equal(that interface{}) bool {
 		}
 	}
 
-	if strings.Compare(m.GetHost(), target.GetHost()) != 0 {
+	if len(m.GetConnectedClusters()) != len(target.GetConnectedClusters()) {
 		return false
+	}
+	for k, v := range m.GetConnectedClusters() {
+
+		if strings.Compare(v, target.GetConnectedClusters()[k]) != 0 {
+			return false
+		}
+
 	}
 
 	if h, ok := interface{}(m.GetReadinessProbe()).(equality.Equalizer); ok {
@@ -480,7 +483,11 @@ func (m *ExternalWorkloadSpec_IdentitySelector_AWS) Equal(that interface{}) bool
 		return false
 	}
 
-	if strings.Compare(m.GetSecurityGroup(), target.GetSecurityGroup()) != 0 {
+	if strings.Compare(m.GetSecurityGroupName(), target.GetSecurityGroupName()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetSecurityGroupId(), target.GetSecurityGroupId()) != 0 {
 		return false
 	}
 

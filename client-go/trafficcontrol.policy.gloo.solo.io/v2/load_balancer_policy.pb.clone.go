@@ -15,6 +15,8 @@ import (
 
 	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
 
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
 
@@ -127,6 +129,18 @@ func (m *LoadBalancerPolicySpec_Config) Clone() proto.Message {
 		target.WarmupDurationSecs = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
 		target.WarmupDurationSecs = proto.Clone(m.GetWarmupDurationSecs()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+	}
+
+	if h, ok := interface{}(m.GetHealthyPanicThreshold()).(clone.Cloner); ok {
+		target.HealthyPanicThreshold = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
+	} else {
+		target.HealthyPanicThreshold = proto.Clone(m.GetHealthyPanicThreshold()).(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
+	}
+
+	if h, ok := interface{}(m.GetUpdateMergeWindow()).(clone.Cloner); ok {
+		target.UpdateMergeWindow = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+	} else {
+		target.UpdateMergeWindow = proto.Clone(m.GetUpdateMergeWindow()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	switch m.LbPolicy.(type) {

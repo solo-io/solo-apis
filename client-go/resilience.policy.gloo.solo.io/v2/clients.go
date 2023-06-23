@@ -164,10 +164,10 @@ type GraphQLPersistedQueryCachePolicyWriter interface {
 type GraphQLPersistedQueryCachePolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given GraphQLPersistedQueryCachePolicy object.
-	UpdateGraphQLPersistedQueryCachePolicyStatus(ctx context.Context, obj *GraphQLPersistedQueryCachePolicy, opts ...client.UpdateOption) error
+	UpdateGraphQLPersistedQueryCachePolicyStatus(ctx context.Context, obj *GraphQLPersistedQueryCachePolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given GraphQLPersistedQueryCachePolicy object's subresource.
-	PatchGraphQLPersistedQueryCachePolicyStatus(ctx context.Context, obj *GraphQLPersistedQueryCachePolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchGraphQLPersistedQueryCachePolicyStatus(ctx context.Context, obj *GraphQLPersistedQueryCachePolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on GraphQLPersistedQueryCachePolicys.
@@ -238,11 +238,11 @@ func (c *graphQLPersistedQueryCachePolicyClient) UpsertGraphQLPersistedQueryCach
 	return err
 }
 
-func (c *graphQLPersistedQueryCachePolicyClient) UpdateGraphQLPersistedQueryCachePolicyStatus(ctx context.Context, obj *GraphQLPersistedQueryCachePolicy, opts ...client.UpdateOption) error {
+func (c *graphQLPersistedQueryCachePolicyClient) UpdateGraphQLPersistedQueryCachePolicyStatus(ctx context.Context, obj *GraphQLPersistedQueryCachePolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *graphQLPersistedQueryCachePolicyClient) PatchGraphQLPersistedQueryCachePolicyStatus(ctx context.Context, obj *GraphQLPersistedQueryCachePolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *graphQLPersistedQueryCachePolicyClient) PatchGraphQLPersistedQueryCachePolicyStatus(ctx context.Context, obj *GraphQLPersistedQueryCachePolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -306,10 +306,10 @@ type FailoverPolicyWriter interface {
 type FailoverPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given FailoverPolicy object.
-	UpdateFailoverPolicyStatus(ctx context.Context, obj *FailoverPolicy, opts ...client.UpdateOption) error
+	UpdateFailoverPolicyStatus(ctx context.Context, obj *FailoverPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given FailoverPolicy object's subresource.
-	PatchFailoverPolicyStatus(ctx context.Context, obj *FailoverPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchFailoverPolicyStatus(ctx context.Context, obj *FailoverPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on FailoverPolicys.
@@ -380,11 +380,11 @@ func (c *failoverPolicyClient) UpsertFailoverPolicy(ctx context.Context, obj *Fa
 	return err
 }
 
-func (c *failoverPolicyClient) UpdateFailoverPolicyStatus(ctx context.Context, obj *FailoverPolicy, opts ...client.UpdateOption) error {
+func (c *failoverPolicyClient) UpdateFailoverPolicyStatus(ctx context.Context, obj *FailoverPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *failoverPolicyClient) PatchFailoverPolicyStatus(ctx context.Context, obj *FailoverPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *failoverPolicyClient) PatchFailoverPolicyStatus(ctx context.Context, obj *FailoverPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -448,10 +448,10 @@ type OutlierDetectionPolicyWriter interface {
 type OutlierDetectionPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given OutlierDetectionPolicy object.
-	UpdateOutlierDetectionPolicyStatus(ctx context.Context, obj *OutlierDetectionPolicy, opts ...client.UpdateOption) error
+	UpdateOutlierDetectionPolicyStatus(ctx context.Context, obj *OutlierDetectionPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given OutlierDetectionPolicy object's subresource.
-	PatchOutlierDetectionPolicyStatus(ctx context.Context, obj *OutlierDetectionPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchOutlierDetectionPolicyStatus(ctx context.Context, obj *OutlierDetectionPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on OutlierDetectionPolicys.
@@ -522,11 +522,11 @@ func (c *outlierDetectionPolicyClient) UpsertOutlierDetectionPolicy(ctx context.
 	return err
 }
 
-func (c *outlierDetectionPolicyClient) UpdateOutlierDetectionPolicyStatus(ctx context.Context, obj *OutlierDetectionPolicy, opts ...client.UpdateOption) error {
+func (c *outlierDetectionPolicyClient) UpdateOutlierDetectionPolicyStatus(ctx context.Context, obj *OutlierDetectionPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *outlierDetectionPolicyClient) PatchOutlierDetectionPolicyStatus(ctx context.Context, obj *OutlierDetectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *outlierDetectionPolicyClient) PatchOutlierDetectionPolicyStatus(ctx context.Context, obj *OutlierDetectionPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -590,10 +590,10 @@ type FaultInjectionPolicyWriter interface {
 type FaultInjectionPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given FaultInjectionPolicy object.
-	UpdateFaultInjectionPolicyStatus(ctx context.Context, obj *FaultInjectionPolicy, opts ...client.UpdateOption) error
+	UpdateFaultInjectionPolicyStatus(ctx context.Context, obj *FaultInjectionPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given FaultInjectionPolicy object's subresource.
-	PatchFaultInjectionPolicyStatus(ctx context.Context, obj *FaultInjectionPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchFaultInjectionPolicyStatus(ctx context.Context, obj *FaultInjectionPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on FaultInjectionPolicys.
@@ -664,11 +664,11 @@ func (c *faultInjectionPolicyClient) UpsertFaultInjectionPolicy(ctx context.Cont
 	return err
 }
 
-func (c *faultInjectionPolicyClient) UpdateFaultInjectionPolicyStatus(ctx context.Context, obj *FaultInjectionPolicy, opts ...client.UpdateOption) error {
+func (c *faultInjectionPolicyClient) UpdateFaultInjectionPolicyStatus(ctx context.Context, obj *FaultInjectionPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *faultInjectionPolicyClient) PatchFaultInjectionPolicyStatus(ctx context.Context, obj *FaultInjectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *faultInjectionPolicyClient) PatchFaultInjectionPolicyStatus(ctx context.Context, obj *FaultInjectionPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -732,10 +732,10 @@ type RetryTimeoutPolicyWriter interface {
 type RetryTimeoutPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given RetryTimeoutPolicy object.
-	UpdateRetryTimeoutPolicyStatus(ctx context.Context, obj *RetryTimeoutPolicy, opts ...client.UpdateOption) error
+	UpdateRetryTimeoutPolicyStatus(ctx context.Context, obj *RetryTimeoutPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given RetryTimeoutPolicy object's subresource.
-	PatchRetryTimeoutPolicyStatus(ctx context.Context, obj *RetryTimeoutPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchRetryTimeoutPolicyStatus(ctx context.Context, obj *RetryTimeoutPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on RetryTimeoutPolicys.
@@ -806,11 +806,11 @@ func (c *retryTimeoutPolicyClient) UpsertRetryTimeoutPolicy(ctx context.Context,
 	return err
 }
 
-func (c *retryTimeoutPolicyClient) UpdateRetryTimeoutPolicyStatus(ctx context.Context, obj *RetryTimeoutPolicy, opts ...client.UpdateOption) error {
+func (c *retryTimeoutPolicyClient) UpdateRetryTimeoutPolicyStatus(ctx context.Context, obj *RetryTimeoutPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *retryTimeoutPolicyClient) PatchRetryTimeoutPolicyStatus(ctx context.Context, obj *RetryTimeoutPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *retryTimeoutPolicyClient) PatchRetryTimeoutPolicyStatus(ctx context.Context, obj *RetryTimeoutPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -874,10 +874,10 @@ type ConnectionPolicyWriter interface {
 type ConnectionPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ConnectionPolicy object.
-	UpdateConnectionPolicyStatus(ctx context.Context, obj *ConnectionPolicy, opts ...client.UpdateOption) error
+	UpdateConnectionPolicyStatus(ctx context.Context, obj *ConnectionPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ConnectionPolicy object's subresource.
-	PatchConnectionPolicyStatus(ctx context.Context, obj *ConnectionPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchConnectionPolicyStatus(ctx context.Context, obj *ConnectionPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ConnectionPolicys.
@@ -948,11 +948,11 @@ func (c *connectionPolicyClient) UpsertConnectionPolicy(ctx context.Context, obj
 	return err
 }
 
-func (c *connectionPolicyClient) UpdateConnectionPolicyStatus(ctx context.Context, obj *ConnectionPolicy, opts ...client.UpdateOption) error {
+func (c *connectionPolicyClient) UpdateConnectionPolicyStatus(ctx context.Context, obj *ConnectionPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *connectionPolicyClient) PatchConnectionPolicyStatus(ctx context.Context, obj *ConnectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *connectionPolicyClient) PatchConnectionPolicyStatus(ctx context.Context, obj *ConnectionPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1016,10 +1016,10 @@ type TrimProxyConfigPolicyWriter interface {
 type TrimProxyConfigPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given TrimProxyConfigPolicy object.
-	UpdateTrimProxyConfigPolicyStatus(ctx context.Context, obj *TrimProxyConfigPolicy, opts ...client.UpdateOption) error
+	UpdateTrimProxyConfigPolicyStatus(ctx context.Context, obj *TrimProxyConfigPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given TrimProxyConfigPolicy object's subresource.
-	PatchTrimProxyConfigPolicyStatus(ctx context.Context, obj *TrimProxyConfigPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchTrimProxyConfigPolicyStatus(ctx context.Context, obj *TrimProxyConfigPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on TrimProxyConfigPolicys.
@@ -1090,11 +1090,11 @@ func (c *trimProxyConfigPolicyClient) UpsertTrimProxyConfigPolicy(ctx context.Co
 	return err
 }
 
-func (c *trimProxyConfigPolicyClient) UpdateTrimProxyConfigPolicyStatus(ctx context.Context, obj *TrimProxyConfigPolicy, opts ...client.UpdateOption) error {
+func (c *trimProxyConfigPolicyClient) UpdateTrimProxyConfigPolicyStatus(ctx context.Context, obj *TrimProxyConfigPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *trimProxyConfigPolicyClient) PatchTrimProxyConfigPolicyStatus(ctx context.Context, obj *TrimProxyConfigPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *trimProxyConfigPolicyClient) PatchTrimProxyConfigPolicyStatus(ctx context.Context, obj *TrimProxyConfigPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1158,10 +1158,10 @@ type ActiveHealthCheckPolicyWriter interface {
 type ActiveHealthCheckPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ActiveHealthCheckPolicy object.
-	UpdateActiveHealthCheckPolicyStatus(ctx context.Context, obj *ActiveHealthCheckPolicy, opts ...client.UpdateOption) error
+	UpdateActiveHealthCheckPolicyStatus(ctx context.Context, obj *ActiveHealthCheckPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ActiveHealthCheckPolicy object's subresource.
-	PatchActiveHealthCheckPolicyStatus(ctx context.Context, obj *ActiveHealthCheckPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchActiveHealthCheckPolicyStatus(ctx context.Context, obj *ActiveHealthCheckPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ActiveHealthCheckPolicys.
@@ -1232,11 +1232,11 @@ func (c *activeHealthCheckPolicyClient) UpsertActiveHealthCheckPolicy(ctx contex
 	return err
 }
 
-func (c *activeHealthCheckPolicyClient) UpdateActiveHealthCheckPolicyStatus(ctx context.Context, obj *ActiveHealthCheckPolicy, opts ...client.UpdateOption) error {
+func (c *activeHealthCheckPolicyClient) UpdateActiveHealthCheckPolicyStatus(ctx context.Context, obj *ActiveHealthCheckPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *activeHealthCheckPolicyClient) PatchActiveHealthCheckPolicyStatus(ctx context.Context, obj *ActiveHealthCheckPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *activeHealthCheckPolicyClient) PatchActiveHealthCheckPolicyStatus(ctx context.Context, obj *ActiveHealthCheckPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -1300,10 +1300,10 @@ type ListenerConnectionPolicyWriter interface {
 type ListenerConnectionPolicyStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ListenerConnectionPolicy object.
-	UpdateListenerConnectionPolicyStatus(ctx context.Context, obj *ListenerConnectionPolicy, opts ...client.UpdateOption) error
+	UpdateListenerConnectionPolicyStatus(ctx context.Context, obj *ListenerConnectionPolicy, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ListenerConnectionPolicy object's subresource.
-	PatchListenerConnectionPolicyStatus(ctx context.Context, obj *ListenerConnectionPolicy, patch client.Patch, opts ...client.PatchOption) error
+	PatchListenerConnectionPolicyStatus(ctx context.Context, obj *ListenerConnectionPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ListenerConnectionPolicys.
@@ -1374,11 +1374,11 @@ func (c *listenerConnectionPolicyClient) UpsertListenerConnectionPolicy(ctx cont
 	return err
 }
 
-func (c *listenerConnectionPolicyClient) UpdateListenerConnectionPolicyStatus(ctx context.Context, obj *ListenerConnectionPolicy, opts ...client.UpdateOption) error {
+func (c *listenerConnectionPolicyClient) UpdateListenerConnectionPolicyStatus(ctx context.Context, obj *ListenerConnectionPolicy, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *listenerConnectionPolicyClient) PatchListenerConnectionPolicyStatus(ctx context.Context, obj *ListenerConnectionPolicy, patch client.Patch, opts ...client.PatchOption) error {
+func (c *listenerConnectionPolicyClient) PatchListenerConnectionPolicyStatus(ctx context.Context, obj *ListenerConnectionPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

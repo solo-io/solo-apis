@@ -50,15 +50,20 @@ func (m *ExternalWorkloadSpec) Clone() proto.Message {
 		}
 	}
 
-	target.Network = m.GetNetwork()
-
 	if h, ok := interface{}(m.GetIdentitySelector()).(clone.Cloner); ok {
 		target.IdentitySelector = h.Clone().(*ExternalWorkloadSpec_IdentitySelector)
 	} else {
 		target.IdentitySelector = proto.Clone(m.GetIdentitySelector()).(*ExternalWorkloadSpec_IdentitySelector)
 	}
 
-	target.Host = m.GetHost()
+	if m.GetConnectedClusters() != nil {
+		target.ConnectedClusters = make(map[string]string, len(m.GetConnectedClusters()))
+		for k, v := range m.GetConnectedClusters() {
+
+			target.ConnectedClusters[k] = v
+
+		}
+	}
 
 	if h, ok := interface{}(m.GetReadinessProbe()).(clone.Cloner); ok {
 		target.ReadinessProbe = h.Clone().(*ExternalWorkloadSpec_Probe)
@@ -303,7 +308,9 @@ func (m *ExternalWorkloadSpec_IdentitySelector_AWS) Clone() proto.Message {
 
 	target.IamRole = m.GetIamRole()
 
-	target.SecurityGroup = m.GetSecurityGroup()
+	target.SecurityGroupName = m.GetSecurityGroupName()
+
+	target.SecurityGroupId = m.GetSecurityGroupId()
 
 	target.ImageId = m.GetImageId()
 

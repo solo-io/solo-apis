@@ -219,6 +219,8 @@ func (m *JWTPolicySpec_Config_Provider) Clone() proto.Message {
 		target.ClockSkewSeconds = proto.Clone(m.GetClockSkewSeconds()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
+	target.OutputPayloadToHeader = m.GetOutputPayloadToHeader()
+
 	switch m.JwksSource.(type) {
 
 	case *JWTPolicySpec_Config_Provider_Local:

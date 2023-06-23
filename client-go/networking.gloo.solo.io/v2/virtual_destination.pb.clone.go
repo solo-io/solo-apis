@@ -70,6 +70,19 @@ func (m *VirtualDestinationSpec) Clone() proto.Message {
 		}
 	}
 
+	if m.GetExternalWorkloads() != nil {
+		target.ExternalWorkloads = make([]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectSelector, len(m.GetExternalWorkloads()))
+		for idx, v := range m.GetExternalWorkloads() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ExternalWorkloads[idx] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectSelector)
+			} else {
+				target.ExternalWorkloads[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectSelector)
+			}
+
+		}
+	}
+
 	if m.GetPorts() != nil {
 		target.Ports = make([]*VirtualDestinationSpec_PortMapping, len(m.GetPorts()))
 		for idx, v := range m.GetPorts() {

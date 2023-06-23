@@ -26,7 +26,7 @@ var (
 )
 
 // Hash function
-func (m *OwnerWorkspace) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Status) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -34,11 +34,81 @@ func (m *OwnerWorkspace) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.OwnerWorkspace")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.Status")); err != nil {
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetWorkspace())); err != nil {
+	if h, ok := interface{}(m.GetState()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("State")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetState(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("State")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetWorkspaceConditions() {
+			innerHash.Reset()
+
+			err = binary.Write(innerHash, binary.LittleEndian, v)
+			if err != nil {
+				return 0, err
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *State) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.State")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetObservedGeneration())
+	if err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetApproval())
+	if err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetMessage())); err != nil {
 		return 0, err
 	}
 
@@ -46,7 +116,7 @@ func (m *OwnerWorkspace) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *WorkspaceStatus) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *Report) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -54,7 +124,7 @@ func (m *WorkspaceStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.WorkspaceStatus")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.Report")); err != nil {
 		return 0, err
 	}
 
@@ -95,61 +165,6 @@ func (m *WorkspaceStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			return 0, err
 		}
 
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *GenericGlobalStatus) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.GenericGlobalStatus")); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetState())
-	if err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetMessage())); err != nil {
-		return 0, err
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *GenericContextStatus) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.GenericContextStatus")); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetObservedGeneration())
-	if err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetState())
-	if err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetMessage())); err != nil {
-		return 0, err
 	}
 
 	return hasher.Sum64(), nil
@@ -315,42 +330,6 @@ func (m *AppliedWorkloadPolicies) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *WorkspaceStatus_ClusterStatus) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.WorkspaceStatus_ClusterStatus")); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetGeneric()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Generic")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGeneric(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("Generic")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
 	}
 
 	return hasher.Sum64(), nil

@@ -73,6 +73,8 @@ func (m *TrimProxyConfigPolicyStatus) Clone() proto.Message {
 
 	target.NumSelectedWorkloads = m.GetNumSelectedWorkloads()
 
+	target.NumIncludedHosts = m.GetNumIncludedHosts()
+
 	return target
 }
 
@@ -106,6 +108,15 @@ func (m *TrimProxyConfigPolicyReport) Clone() proto.Message {
 			} else {
 				target.SelectedWorkloads[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.WorkloadReference)
 			}
+
+		}
+	}
+
+	if m.GetIncludedHosts() != nil {
+		target.IncludedHosts = make([]string, len(m.GetIncludedHosts()))
+		for idx, v := range m.GetIncludedHosts() {
+
+			target.IncludedHosts[idx] = v
 
 		}
 	}

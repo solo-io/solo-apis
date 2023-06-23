@@ -143,10 +143,10 @@ type ExternalServiceWriter interface {
 type ExternalServiceStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ExternalService object.
-	UpdateExternalServiceStatus(ctx context.Context, obj *ExternalService, opts ...client.UpdateOption) error
+	UpdateExternalServiceStatus(ctx context.Context, obj *ExternalService, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ExternalService object's subresource.
-	PatchExternalServiceStatus(ctx context.Context, obj *ExternalService, patch client.Patch, opts ...client.PatchOption) error
+	PatchExternalServiceStatus(ctx context.Context, obj *ExternalService, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ExternalServices.
@@ -217,11 +217,11 @@ func (c *externalServiceClient) UpsertExternalService(ctx context.Context, obj *
 	return err
 }
 
-func (c *externalServiceClient) UpdateExternalServiceStatus(ctx context.Context, obj *ExternalService, opts ...client.UpdateOption) error {
+func (c *externalServiceClient) UpdateExternalServiceStatus(ctx context.Context, obj *ExternalService, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *externalServiceClient) PatchExternalServiceStatus(ctx context.Context, obj *ExternalService, patch client.Patch, opts ...client.PatchOption) error {
+func (c *externalServiceClient) PatchExternalServiceStatus(ctx context.Context, obj *ExternalService, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -285,10 +285,10 @@ type ExternalEndpointWriter interface {
 type ExternalEndpointStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ExternalEndpoint object.
-	UpdateExternalEndpointStatus(ctx context.Context, obj *ExternalEndpoint, opts ...client.UpdateOption) error
+	UpdateExternalEndpointStatus(ctx context.Context, obj *ExternalEndpoint, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ExternalEndpoint object's subresource.
-	PatchExternalEndpointStatus(ctx context.Context, obj *ExternalEndpoint, patch client.Patch, opts ...client.PatchOption) error
+	PatchExternalEndpointStatus(ctx context.Context, obj *ExternalEndpoint, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ExternalEndpoints.
@@ -359,11 +359,11 @@ func (c *externalEndpointClient) UpsertExternalEndpoint(ctx context.Context, obj
 	return err
 }
 
-func (c *externalEndpointClient) UpdateExternalEndpointStatus(ctx context.Context, obj *ExternalEndpoint, opts ...client.UpdateOption) error {
+func (c *externalEndpointClient) UpdateExternalEndpointStatus(ctx context.Context, obj *ExternalEndpoint, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *externalEndpointClient) PatchExternalEndpointStatus(ctx context.Context, obj *ExternalEndpoint, patch client.Patch, opts ...client.PatchOption) error {
+func (c *externalEndpointClient) PatchExternalEndpointStatus(ctx context.Context, obj *ExternalEndpoint, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -427,10 +427,10 @@ type RouteTableWriter interface {
 type RouteTableStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given RouteTable object.
-	UpdateRouteTableStatus(ctx context.Context, obj *RouteTable, opts ...client.UpdateOption) error
+	UpdateRouteTableStatus(ctx context.Context, obj *RouteTable, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given RouteTable object's subresource.
-	PatchRouteTableStatus(ctx context.Context, obj *RouteTable, patch client.Patch, opts ...client.PatchOption) error
+	PatchRouteTableStatus(ctx context.Context, obj *RouteTable, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on RouteTables.
@@ -501,11 +501,11 @@ func (c *routeTableClient) UpsertRouteTable(ctx context.Context, obj *RouteTable
 	return err
 }
 
-func (c *routeTableClient) UpdateRouteTableStatus(ctx context.Context, obj *RouteTable, opts ...client.UpdateOption) error {
+func (c *routeTableClient) UpdateRouteTableStatus(ctx context.Context, obj *RouteTable, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *routeTableClient) PatchRouteTableStatus(ctx context.Context, obj *RouteTable, patch client.Patch, opts ...client.PatchOption) error {
+func (c *routeTableClient) PatchRouteTableStatus(ctx context.Context, obj *RouteTable, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -569,10 +569,10 @@ type VirtualDestinationWriter interface {
 type VirtualDestinationStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given VirtualDestination object.
-	UpdateVirtualDestinationStatus(ctx context.Context, obj *VirtualDestination, opts ...client.UpdateOption) error
+	UpdateVirtualDestinationStatus(ctx context.Context, obj *VirtualDestination, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given VirtualDestination object's subresource.
-	PatchVirtualDestinationStatus(ctx context.Context, obj *VirtualDestination, patch client.Patch, opts ...client.PatchOption) error
+	PatchVirtualDestinationStatus(ctx context.Context, obj *VirtualDestination, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on VirtualDestinations.
@@ -643,11 +643,11 @@ func (c *virtualDestinationClient) UpsertVirtualDestination(ctx context.Context,
 	return err
 }
 
-func (c *virtualDestinationClient) UpdateVirtualDestinationStatus(ctx context.Context, obj *VirtualDestination, opts ...client.UpdateOption) error {
+func (c *virtualDestinationClient) UpdateVirtualDestinationStatus(ctx context.Context, obj *VirtualDestination, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *virtualDestinationClient) PatchVirtualDestinationStatus(ctx context.Context, obj *VirtualDestination, patch client.Patch, opts ...client.PatchOption) error {
+func (c *virtualDestinationClient) PatchVirtualDestinationStatus(ctx context.Context, obj *VirtualDestination, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -711,10 +711,10 @@ type VirtualGatewayWriter interface {
 type VirtualGatewayStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given VirtualGateway object.
-	UpdateVirtualGatewayStatus(ctx context.Context, obj *VirtualGateway, opts ...client.UpdateOption) error
+	UpdateVirtualGatewayStatus(ctx context.Context, obj *VirtualGateway, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given VirtualGateway object's subresource.
-	PatchVirtualGatewayStatus(ctx context.Context, obj *VirtualGateway, patch client.Patch, opts ...client.PatchOption) error
+	PatchVirtualGatewayStatus(ctx context.Context, obj *VirtualGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on VirtualGateways.
@@ -785,11 +785,11 @@ func (c *virtualGatewayClient) UpsertVirtualGateway(ctx context.Context, obj *Vi
 	return err
 }
 
-func (c *virtualGatewayClient) UpdateVirtualGatewayStatus(ctx context.Context, obj *VirtualGateway, opts ...client.UpdateOption) error {
+func (c *virtualGatewayClient) UpdateVirtualGatewayStatus(ctx context.Context, obj *VirtualGateway, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *virtualGatewayClient) PatchVirtualGatewayStatus(ctx context.Context, obj *VirtualGateway, patch client.Patch, opts ...client.PatchOption) error {
+func (c *virtualGatewayClient) PatchVirtualGatewayStatus(ctx context.Context, obj *VirtualGateway, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 
@@ -853,10 +853,10 @@ type ExternalWorkloadWriter interface {
 type ExternalWorkloadStatusWriter interface {
 	// Update updates the fields corresponding to the status subresource for the
 	// given ExternalWorkload object.
-	UpdateExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, opts ...client.UpdateOption) error
+	UpdateExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, opts ...client.SubResourceUpdateOption) error
 
 	// Patch patches the given ExternalWorkload object's subresource.
-	PatchExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, patch client.Patch, opts ...client.PatchOption) error
+	PatchExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, patch client.Patch, opts ...client.SubResourcePatchOption) error
 }
 
 // Client knows how to perform CRUD operations on ExternalWorkloads.
@@ -927,11 +927,11 @@ func (c *externalWorkloadClient) UpsertExternalWorkload(ctx context.Context, obj
 	return err
 }
 
-func (c *externalWorkloadClient) UpdateExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, opts ...client.UpdateOption) error {
+func (c *externalWorkloadClient) UpdateExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *externalWorkloadClient) PatchExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, patch client.Patch, opts ...client.PatchOption) error {
+func (c *externalWorkloadClient) PatchExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

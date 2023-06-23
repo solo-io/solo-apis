@@ -5,7 +5,7 @@ package resilience.policy.gloo.solo.io;
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status_new.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
@@ -45,6 +45,9 @@ message TrimProxyConfigPolicyStatus {
 
   // The number of workloads selected by the policy.
   uint32 num_selected_workloads = 2;
+
+  // The number of hosts of destinations included by the policy.
+  uint32 num_included_hosts = 3;
 }
 
 message TrimProxyConfigPolicyReport {
@@ -52,4 +55,7 @@ message TrimProxyConfigPolicyReport {
 
   // A list of workloads selected by the policy.
   repeated .common.gloo.solo.io.WorkloadReference selected_workloads = 2;
+
+  // A list of hosts of destinations included by the policy.
+  repeated string included_hosts = 3;
 }

@@ -308,7 +308,7 @@ func (m *MockWaypointLifecycleManagerStatusWriter) EXPECT() *MockWaypointLifecyc
 }
 
 // PatchWaypointLifecycleManagerStatus mocks base method.
-func (m *MockWaypointLifecycleManagerStatusWriter) PatchWaypointLifecycleManagerStatus(ctx context.Context, obj *v2alpha1.WaypointLifecycleManager, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockWaypointLifecycleManagerStatusWriter) PatchWaypointLifecycleManagerStatus(ctx context.Context, obj *v2alpha1.WaypointLifecycleManager, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -327,7 +327,7 @@ func (mr *MockWaypointLifecycleManagerStatusWriterMockRecorder) PatchWaypointLif
 }
 
 // UpdateWaypointLifecycleManagerStatus mocks base method.
-func (m *MockWaypointLifecycleManagerStatusWriter) UpdateWaypointLifecycleManagerStatus(ctx context.Context, obj *v2alpha1.WaypointLifecycleManager, opts ...client.UpdateOption) error {
+func (m *MockWaypointLifecycleManagerStatusWriter) UpdateWaypointLifecycleManagerStatus(ctx context.Context, obj *v2alpha1.WaypointLifecycleManager, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
@@ -480,7 +480,7 @@ func (mr *MockWaypointLifecycleManagerClientMockRecorder) PatchWaypointLifecycle
 }
 
 // PatchWaypointLifecycleManagerStatus mocks base method.
-func (m *MockWaypointLifecycleManagerClient) PatchWaypointLifecycleManagerStatus(ctx context.Context, obj *v2alpha1.WaypointLifecycleManager, patch client.Patch, opts ...client.PatchOption) error {
+func (m *MockWaypointLifecycleManagerClient) PatchWaypointLifecycleManagerStatus(ctx context.Context, obj *v2alpha1.WaypointLifecycleManager, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj, patch}
 	for _, a := range opts {
@@ -518,7 +518,7 @@ func (mr *MockWaypointLifecycleManagerClientMockRecorder) UpdateWaypointLifecycl
 }
 
 // UpdateWaypointLifecycleManagerStatus mocks base method.
-func (m *MockWaypointLifecycleManagerClient) UpdateWaypointLifecycleManagerStatus(ctx context.Context, obj *v2alpha1.WaypointLifecycleManager, opts ...client.UpdateOption) error {
+func (m *MockWaypointLifecycleManagerClient) UpdateWaypointLifecycleManagerStatus(ctx context.Context, obj *v2alpha1.WaypointLifecycleManager, opts ...client.SubResourceUpdateOption) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, obj}
 	for _, a := range opts {
