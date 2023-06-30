@@ -1422,6 +1422,9 @@ type RouteTableReport struct {
 	OwnerWorkspace string `protobuf:"bytes,4,opt,name=owner_workspace,json=ownerWorkspace,proto3" json:"owner_workspace,omitempty"`
 	// A list of allowed virtual gateways that this route table can select.
 	AllowedVirtualGateways []*v2.ObjectReference `protobuf:"bytes,5,rep,name=allowed_virtual_gateways,json=allowedVirtualGateways,proto3" json:"allowed_virtual_gateways,omitempty"`
+	// A list of routes delegated to by delegated routes in this RouteTable.
+	// Only tracks direct delegates of this RouteTable; delegates of delegate routes are not included.
+	DelegatedToRouteTables []*RouteTableReport_DelegatedRouteTableReference `protobuf:"bytes,6,rep,name=delegated_to_route_tables,json=delegatedToRouteTables,proto3" json:"delegated_to_route_tables,omitempty"`
 }
 
 func (x *RouteTableReport) Reset() {
@@ -1487,6 +1490,13 @@ func (x *RouteTableReport) GetOwnerWorkspace() string {
 func (x *RouteTableReport) GetAllowedVirtualGateways() []*v2.ObjectReference {
 	if x != nil {
 		return x.AllowedVirtualGateways
+	}
+	return nil
+}
+
+func (x *RouteTableReport) GetDelegatedToRouteTables() []*RouteTableReport_DelegatedRouteTableReference {
+	if x != nil {
+		return x.DelegatedToRouteTables
 	}
 	return nil
 }
@@ -1586,6 +1596,63 @@ func (*GraphQLAction_Options) Descriptor() ([]byte, []int) {
 func (x *GraphQLAction_Options) GetLogSensitiveInfo() *wrappers.BoolValue {
 	if x != nil {
 		return x.LogSensitiveInfo
+	}
+	return nil
+}
+
+type RouteTableReport_DelegatedRouteTableReference struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The index of the route in the parent RouteTable that delegates to the listed RouteTable.
+	RouteIndex int32 `protobuf:"varint,1,opt,name=route_index,json=routeIndex,proto3" json:"route_index,omitempty"`
+	// The reference to the RouteTable being delegated to by the parent RouteTable.
+	RouteTable *v2.ObjectReference `protobuf:"bytes,2,opt,name=route_table,json=routeTable,proto3" json:"route_table,omitempty"`
+}
+
+func (x *RouteTableReport_DelegatedRouteTableReference) Reset() {
+	*x = RouteTableReport_DelegatedRouteTableReference{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RouteTableReport_DelegatedRouteTableReference) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RouteTableReport_DelegatedRouteTableReference) ProtoMessage() {}
+
+func (x *RouteTableReport_DelegatedRouteTableReference) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RouteTableReport_DelegatedRouteTableReference.ProtoReflect.Descriptor instead.
+func (*RouteTableReport_DelegatedRouteTableReference) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_rawDescGZIP(), []int{11, 2}
+}
+
+func (x *RouteTableReport_DelegatedRouteTableReference) GetRouteIndex() int32 {
+	if x != nil {
+		return x.RouteIndex
+	}
+	return 0
+}
+
+func (x *RouteTableReport_DelegatedRouteTableReference) GetRouteTable() *v2.ObjectReference {
+	if x != nil {
+		return x.RouteTable
 	}
 	return nil
 }
@@ -1886,7 +1953,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_r
 	0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12,
 	0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65,
 	0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d,
-	0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x97, 0x05, 0x0a, 0x10,
+	0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xa4, 0x07, 0x0a, 0x10,
 	0x52, 0x6f, 0x75, 0x74, 0x65, 0x54, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74,
 	0x12, 0x59, 0x0a, 0x0a, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x18, 0x01,
 	0x20, 0x03, 0x28, 0x0b, 0x32, 0x39, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x69, 0x6e,
@@ -1915,26 +1982,43 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_r
 	0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4f, 0x62,
 	0x6a, 0x65, 0x63, 0x74, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x16, 0x61,
 	0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x64, 0x56, 0x69, 0x72, 0x74, 0x75, 0x61, 0x6c, 0x47, 0x61, 0x74,
-	0x65, 0x77, 0x61, 0x79, 0x73, 0x1a, 0x5a, 0x0a, 0x0f, 0x57, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61,
-	0x63, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x31, 0x0a, 0x05, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e,
-	0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
-	0x01, 0x1a, 0x72, 0x0a, 0x19, 0x41, 0x70, 0x70, 0x6c, 0x69, 0x65, 0x64, 0x52, 0x6f, 0x75, 0x74,
-	0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10,
-	0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79,
-	0x12, 0x3f, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x29, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f,
-	0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x70, 0x6c, 0x69, 0x65, 0x64, 0x52, 0x6f, 0x75,
-	0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x3a, 0x02, 0x38, 0x01, 0x42, 0x58, 0x5a, 0x4a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
-	0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x67, 0x6c, 0x6f, 0x6f,
-	0x2d, 0x6d, 0x65, 0x73, 0x68, 0x2d, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65,
-	0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
-	0x69, 0x6e, 0x67, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f,
-	0x2f, 0x76, 0x32, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0xd0, 0xf5, 0x04, 0x01, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x77, 0x61, 0x79, 0x73, 0x12, 0x81, 0x01, 0x0a, 0x19, 0x64, 0x65, 0x6c, 0x65, 0x67, 0x61,
+	0x74, 0x65, 0x64, 0x5f, 0x74, 0x6f, 0x5f, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x5f, 0x74, 0x61, 0x62,
+	0x6c, 0x65, 0x73, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x46, 0x2e, 0x6e, 0x65, 0x74, 0x77,
+	0x6f, 0x72, 0x6b, 0x69, 0x6e, 0x67, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f,
+	0x2e, 0x69, 0x6f, 0x2e, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x54, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x65,
+	0x70, 0x6f, 0x72, 0x74, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x65, 0x64, 0x52, 0x6f,
+	0x75, 0x74, 0x65, 0x54, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63,
+	0x65, 0x52, 0x16, 0x64, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x65, 0x64, 0x54, 0x6f, 0x52, 0x6f,
+	0x75, 0x74, 0x65, 0x54, 0x61, 0x62, 0x6c, 0x65, 0x73, 0x1a, 0x5a, 0x0a, 0x0f, 0x57, 0x6f, 0x72,
+	0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03,
+	0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x31,
+	0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e,
+	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f,
+	0x2e, 0x69, 0x6f, 0x2e, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a, 0x72, 0x0a, 0x19, 0x41, 0x70, 0x70, 0x6c, 0x69, 0x65, 0x64,
+	0x52, 0x6f, 0x75, 0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x45, 0x6e, 0x74,
+	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x03, 0x6b, 0x65, 0x79, 0x12, 0x3f, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f,
+	0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x70, 0x6c, 0x69, 0x65,
+	0x64, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x52, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a, 0x86, 0x01, 0x0a, 0x1c, 0x44, 0x65,
+	0x6c, 0x65, 0x67, 0x61, 0x74, 0x65, 0x64, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x54, 0x61, 0x62, 0x6c,
+	0x65, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x72, 0x6f,
+	0x75, 0x74, 0x65, 0x5f, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52,
+	0x0a, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x45, 0x0a, 0x0b, 0x72,
+	0x6f, 0x75, 0x74, 0x65, 0x5f, 0x74, 0x61, 0x62, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x24, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73,
+	0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x52, 0x65, 0x66,
+	0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x0a, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x54, 0x61, 0x62,
+	0x6c, 0x65, 0x42, 0x58, 0x5a, 0x4a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
+	0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2d, 0x6d, 0x65,
+	0x73, 0x68, 0x2d, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65, 0x2f, 0x70, 0x6b,
+	0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x69, 0x6e, 0x67,
+	0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x32,
+	0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0xd0, 0xf5, 0x04, 0x01, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1950,7 +2034,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 }
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_goTypes = []interface{}{
 	(RedirectAction_RedirectResponseCode)(0), // 0: networking.gloo.solo.io.RedirectAction.RedirectResponseCode
 	(DelegateAction_SortMethod)(0),           // 1: networking.gloo.solo.io.DelegateAction.SortMethod
@@ -1973,63 +2057,66 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_r
 	nil,                                      // 18: networking.gloo.solo.io.RouteTableStatus.NumAppliedRoutePoliciesEntry
 	nil,                                      // 19: networking.gloo.solo.io.RouteTableReport.WorkspacesEntry
 	nil,                                      // 20: networking.gloo.solo.io.RouteTableReport.AppliedRoutePoliciesEntry
-	(*v2.ObjectReference)(nil),               // 21: common.gloo.solo.io.ObjectReference
-	(*v2.WorkloadSelector)(nil),              // 22: common.gloo.solo.io.WorkloadSelector
-	(*v2.DestinationReference)(nil),          // 23: common.gloo.solo.io.DestinationReference
-	(*v2.HTTPRequestMatcher)(nil),            // 24: common.gloo.solo.io.HTTPRequestMatcher
-	(*v2.TCPRequestMatcher)(nil),             // 25: common.gloo.solo.io.TCPRequestMatcher
-	(*v2.TLSRequestMatcher)(nil),             // 26: common.gloo.solo.io.TLSRequestMatcher
-	(*v1.ClusterObjectRef)(nil),              // 27: core.skv2.solo.io.ClusterObjectRef
-	(*v2.ObjectSelector)(nil),                // 28: common.gloo.solo.io.ObjectSelector
-	(*v2.RouteFilter)(nil),                   // 29: common.gloo.solo.io.RouteFilter
-	(*v2.Status)(nil),                        // 30: common.gloo.solo.io.Status
-	(*wrappers.BoolValue)(nil),               // 31: google.protobuf.BoolValue
-	(*v2.Report)(nil),                        // 32: common.gloo.solo.io.Report
-	(*v2.AppliedRoutePolicies)(nil),          // 33: common.gloo.solo.io.AppliedRoutePolicies
+	(*RouteTableReport_DelegatedRouteTableReference)(nil), // 21: networking.gloo.solo.io.RouteTableReport.DelegatedRouteTableReference
+	(*v2.ObjectReference)(nil),                            // 22: common.gloo.solo.io.ObjectReference
+	(*v2.WorkloadSelector)(nil),                           // 23: common.gloo.solo.io.WorkloadSelector
+	(*v2.DestinationReference)(nil),                       // 24: common.gloo.solo.io.DestinationReference
+	(*v2.HTTPRequestMatcher)(nil),                         // 25: common.gloo.solo.io.HTTPRequestMatcher
+	(*v2.TCPRequestMatcher)(nil),                          // 26: common.gloo.solo.io.TCPRequestMatcher
+	(*v2.TLSRequestMatcher)(nil),                          // 27: common.gloo.solo.io.TLSRequestMatcher
+	(*v1.ClusterObjectRef)(nil),                           // 28: core.skv2.solo.io.ClusterObjectRef
+	(*v2.ObjectSelector)(nil),                             // 29: common.gloo.solo.io.ObjectSelector
+	(*v2.RouteFilter)(nil),                                // 30: common.gloo.solo.io.RouteFilter
+	(*v2.Status)(nil),                                     // 31: common.gloo.solo.io.Status
+	(*wrappers.BoolValue)(nil),                            // 32: google.protobuf.BoolValue
+	(*v2.Report)(nil),                                     // 33: common.gloo.solo.io.Report
+	(*v2.AppliedRoutePolicies)(nil),                       // 34: common.gloo.solo.io.AppliedRoutePolicies
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_depIdxs = []int32{
-	21, // 0: networking.gloo.solo.io.RouteTableSpec.virtual_gateways:type_name -> common.gloo.solo.io.ObjectReference
-	22, // 1: networking.gloo.solo.io.RouteTableSpec.workload_selectors:type_name -> common.gloo.solo.io.WorkloadSelector
-	23, // 2: networking.gloo.solo.io.RouteTableSpec.default_destination:type_name -> common.gloo.solo.io.DestinationReference
+	22, // 0: networking.gloo.solo.io.RouteTableSpec.virtual_gateways:type_name -> common.gloo.solo.io.ObjectReference
+	23, // 1: networking.gloo.solo.io.RouteTableSpec.workload_selectors:type_name -> common.gloo.solo.io.WorkloadSelector
+	24, // 2: networking.gloo.solo.io.RouteTableSpec.default_destination:type_name -> common.gloo.solo.io.DestinationReference
 	3,  // 3: networking.gloo.solo.io.RouteTableSpec.http:type_name -> networking.gloo.solo.io.HTTPRoute
 	4,  // 4: networking.gloo.solo.io.RouteTableSpec.tcp:type_name -> networking.gloo.solo.io.TCPRoute
 	5,  // 5: networking.gloo.solo.io.RouteTableSpec.tls:type_name -> networking.gloo.solo.io.TLSRoute
 	11, // 6: networking.gloo.solo.io.RouteTableSpec.portal_metadata:type_name -> networking.gloo.solo.io.PortalMetadata
 	14, // 7: networking.gloo.solo.io.HTTPRoute.labels:type_name -> networking.gloo.solo.io.HTTPRoute.LabelsEntry
-	24, // 8: networking.gloo.solo.io.HTTPRoute.matchers:type_name -> common.gloo.solo.io.HTTPRequestMatcher
+	25, // 8: networking.gloo.solo.io.HTTPRoute.matchers:type_name -> common.gloo.solo.io.HTTPRequestMatcher
 	7,  // 9: networking.gloo.solo.io.HTTPRoute.forward_to:type_name -> networking.gloo.solo.io.ForwardToAction
 	10, // 10: networking.gloo.solo.io.HTTPRoute.delegate:type_name -> networking.gloo.solo.io.DelegateAction
 	8,  // 11: networking.gloo.solo.io.HTTPRoute.redirect:type_name -> networking.gloo.solo.io.RedirectAction
 	9,  // 12: networking.gloo.solo.io.HTTPRoute.direct_response:type_name -> networking.gloo.solo.io.DirectResponseAction
 	6,  // 13: networking.gloo.solo.io.HTTPRoute.graphql:type_name -> networking.gloo.solo.io.GraphQLAction
-	25, // 14: networking.gloo.solo.io.TCPRoute.matchers:type_name -> common.gloo.solo.io.TCPRequestMatcher
+	26, // 14: networking.gloo.solo.io.TCPRoute.matchers:type_name -> common.gloo.solo.io.TCPRequestMatcher
 	7,  // 15: networking.gloo.solo.io.TCPRoute.forward_to:type_name -> networking.gloo.solo.io.ForwardToAction
-	26, // 16: networking.gloo.solo.io.TLSRoute.matchers:type_name -> common.gloo.solo.io.TLSRequestMatcher
+	27, // 16: networking.gloo.solo.io.TLSRoute.matchers:type_name -> common.gloo.solo.io.TLSRequestMatcher
 	15, // 17: networking.gloo.solo.io.TLSRoute.forward_to:type_name -> networking.gloo.solo.io.TLSRoute.TLSForwardToAction
-	27, // 18: networking.gloo.solo.io.GraphQLAction.schema:type_name -> core.skv2.solo.io.ClusterObjectRef
-	27, // 19: networking.gloo.solo.io.GraphQLAction.stitched_schema:type_name -> core.skv2.solo.io.ClusterObjectRef
+	28, // 18: networking.gloo.solo.io.GraphQLAction.schema:type_name -> core.skv2.solo.io.ClusterObjectRef
+	28, // 19: networking.gloo.solo.io.GraphQLAction.stitched_schema:type_name -> core.skv2.solo.io.ClusterObjectRef
 	16, // 20: networking.gloo.solo.io.GraphQLAction.options:type_name -> networking.gloo.solo.io.GraphQLAction.Options
-	23, // 21: networking.gloo.solo.io.ForwardToAction.destinations:type_name -> common.gloo.solo.io.DestinationReference
+	24, // 21: networking.gloo.solo.io.ForwardToAction.destinations:type_name -> common.gloo.solo.io.DestinationReference
 	0,  // 22: networking.gloo.solo.io.RedirectAction.response_code:type_name -> networking.gloo.solo.io.RedirectAction.RedirectResponseCode
-	28, // 23: networking.gloo.solo.io.DelegateAction.route_tables:type_name -> common.gloo.solo.io.ObjectSelector
-	29, // 24: networking.gloo.solo.io.DelegateAction.allowed_routes:type_name -> common.gloo.solo.io.RouteFilter
+	29, // 23: networking.gloo.solo.io.DelegateAction.route_tables:type_name -> common.gloo.solo.io.ObjectSelector
+	30, // 24: networking.gloo.solo.io.DelegateAction.allowed_routes:type_name -> common.gloo.solo.io.RouteFilter
 	1,  // 25: networking.gloo.solo.io.DelegateAction.sort_method:type_name -> networking.gloo.solo.io.DelegateAction.SortMethod
 	17, // 26: networking.gloo.solo.io.PortalMetadata.custom_metadata:type_name -> networking.gloo.solo.io.PortalMetadata.CustomMetadataEntry
-	30, // 27: networking.gloo.solo.io.RouteTableStatus.common:type_name -> common.gloo.solo.io.Status
+	31, // 27: networking.gloo.solo.io.RouteTableStatus.common:type_name -> common.gloo.solo.io.Status
 	18, // 28: networking.gloo.solo.io.RouteTableStatus.num_applied_route_policies:type_name -> networking.gloo.solo.io.RouteTableStatus.NumAppliedRoutePoliciesEntry
 	19, // 29: networking.gloo.solo.io.RouteTableReport.workspaces:type_name -> networking.gloo.solo.io.RouteTableReport.WorkspacesEntry
 	20, // 30: networking.gloo.solo.io.RouteTableReport.applied_route_policies:type_name -> networking.gloo.solo.io.RouteTableReport.AppliedRoutePoliciesEntry
-	21, // 31: networking.gloo.solo.io.RouteTableReport.parent_route_tables:type_name -> common.gloo.solo.io.ObjectReference
-	21, // 32: networking.gloo.solo.io.RouteTableReport.allowed_virtual_gateways:type_name -> common.gloo.solo.io.ObjectReference
-	23, // 33: networking.gloo.solo.io.TLSRoute.TLSForwardToAction.destinations:type_name -> common.gloo.solo.io.DestinationReference
-	31, // 34: networking.gloo.solo.io.GraphQLAction.Options.log_sensitive_info:type_name -> google.protobuf.BoolValue
-	32, // 35: networking.gloo.solo.io.RouteTableReport.WorkspacesEntry.value:type_name -> common.gloo.solo.io.Report
-	33, // 36: networking.gloo.solo.io.RouteTableReport.AppliedRoutePoliciesEntry.value:type_name -> common.gloo.solo.io.AppliedRoutePolicies
-	37, // [37:37] is the sub-list for method output_type
-	37, // [37:37] is the sub-list for method input_type
-	37, // [37:37] is the sub-list for extension type_name
-	37, // [37:37] is the sub-list for extension extendee
-	0,  // [0:37] is the sub-list for field type_name
+	22, // 31: networking.gloo.solo.io.RouteTableReport.parent_route_tables:type_name -> common.gloo.solo.io.ObjectReference
+	22, // 32: networking.gloo.solo.io.RouteTableReport.allowed_virtual_gateways:type_name -> common.gloo.solo.io.ObjectReference
+	21, // 33: networking.gloo.solo.io.RouteTableReport.delegated_to_route_tables:type_name -> networking.gloo.solo.io.RouteTableReport.DelegatedRouteTableReference
+	24, // 34: networking.gloo.solo.io.TLSRoute.TLSForwardToAction.destinations:type_name -> common.gloo.solo.io.DestinationReference
+	32, // 35: networking.gloo.solo.io.GraphQLAction.Options.log_sensitive_info:type_name -> google.protobuf.BoolValue
+	33, // 36: networking.gloo.solo.io.RouteTableReport.WorkspacesEntry.value:type_name -> common.gloo.solo.io.Report
+	34, // 37: networking.gloo.solo.io.RouteTableReport.AppliedRoutePoliciesEntry.value:type_name -> common.gloo.solo.io.AppliedRoutePolicies
+	22, // 38: networking.gloo.solo.io.RouteTableReport.DelegatedRouteTableReference.route_table:type_name -> common.gloo.solo.io.ObjectReference
+	39, // [39:39] is the sub-list for method output_type
+	39, // [39:39] is the sub-list for method input_type
+	39, // [39:39] is the sub-list for extension type_name
+	39, // [39:39] is the sub-list for extension extendee
+	0,  // [0:39] is the sub-list for field type_name
 }
 
 func init() {
@@ -2208,6 +2295,18 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 				return nil
 			}
 		}
+		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RouteTableReport_DelegatedRouteTableReference); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_msgTypes[1].OneofWrappers = []interface{}{
 		(*HTTPRoute_ForwardTo)(nil),
@@ -2235,7 +2334,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   19,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

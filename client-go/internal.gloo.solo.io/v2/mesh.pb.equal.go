@@ -101,6 +101,10 @@ func (m *MeshSpec) Equal(that interface{}) bool {
 		return false
 	}
 
+	if m.GetIpFamily() != target.GetIpFamily() {
+		return false
+	}
+
 	return true
 }
 

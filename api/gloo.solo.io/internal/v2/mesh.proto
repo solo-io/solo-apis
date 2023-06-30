@@ -76,6 +76,20 @@ message MeshSpec {
 
   // istiod image tag
   string tag = 9;
+
+  enum IPFamily {
+    // The cluster suports only IPv4 addresses.
+    IPV4 = 0;
+
+    // The cluster suports only IPv6 addresses.
+    IPV6 = 1;
+
+    // The cluster suports both IPv4 and IPv6 addresses.
+    DUAL = 2;
+  }
+
+  // Optional: The IPFamily supported by the cluster. Defaults to 'IPV4'.
+  IPFamily ip_family = 10;
 }
 
 message MeshStatus {

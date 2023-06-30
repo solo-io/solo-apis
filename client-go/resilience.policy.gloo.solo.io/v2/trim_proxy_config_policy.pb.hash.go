@@ -123,6 +123,11 @@ func (m *TrimProxyConfigPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetNumIncludedHosts())
+	if err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -198,6 +203,14 @@ func (m *TrimProxyConfigPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 					return 0, err
 				}
 			}
+		}
+
+	}
+
+	for _, v := range m.GetIncludedHosts() {
+
+		if _, err = hasher.Write([]byte(v)); err != nil {
+			return 0, err
 		}
 
 	}

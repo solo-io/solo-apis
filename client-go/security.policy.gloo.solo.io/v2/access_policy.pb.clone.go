@@ -123,6 +123,19 @@ func (m *AccessPolicyReport) Clone() proto.Message {
 		}
 	}
 
+	if m.GetAllowedServiceAccounts() != nil {
+		target.AllowedServiceAccounts = make([]*AccessPolicyReport_IdentityReference, len(m.GetAllowedServiceAccounts()))
+		for idx, v := range m.GetAllowedServiceAccounts() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AllowedServiceAccounts[idx] = h.Clone().(*AccessPolicyReport_IdentityReference)
+			} else {
+				target.AllowedServiceAccounts[idx] = proto.Clone(v).(*AccessPolicyReport_IdentityReference)
+			}
+
+		}
+	}
+
 	return target
 }
 
@@ -342,6 +355,25 @@ func (m *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValue
 			target.NotValues[idx] = v
 
 		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *AccessPolicyReport_IdentityReference) Clone() proto.Message {
+	var target *AccessPolicyReport_IdentityReference
+	if m == nil {
+		return target
+	}
+	target = &AccessPolicyReport_IdentityReference{}
+
+	target.IdentityIndex = m.GetIdentityIndex()
+
+	if h, ok := interface{}(m.GetServiceAccount()).(clone.Cloner); ok {
+		target.ServiceAccount = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+	} else {
+		target.ServiceAccount = proto.Clone(m.GetServiceAccount()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
 	}
 
 	return target

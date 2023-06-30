@@ -45,6 +45,9 @@ message TrimProxyConfigPolicyStatus {
 
   // The number of workloads selected by the policy.
   uint32 num_selected_workloads = 2;
+
+  // The number of hosts of destinations included by the policy.
+  uint32 num_included_hosts = 3;
 }
 
 message TrimProxyConfigPolicyReport {
@@ -52,4 +55,7 @@ message TrimProxyConfigPolicyReport {
 
   // A list of workloads selected by the policy.
   repeated .common.gloo.solo.io.WorkloadReference selected_workloads = 2;
+
+  // A list of hosts of destinations included by the policy.
+  repeated string included_hosts = 3;
 }
