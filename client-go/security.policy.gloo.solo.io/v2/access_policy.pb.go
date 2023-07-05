@@ -216,7 +216,6 @@ func (x *AccessPolicyStatus) GetNumSelectedDestinationPorts() uint32 {
 	return 0
 }
 
-// $hide_from_docs
 type AccessPolicyReport struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -225,6 +224,8 @@ type AccessPolicyReport struct {
 	Workspaces map[string]*v2.Report `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// A list of destination ports selected by the policy.
 	SelectedDestinationPorts []*v2.DestinationReference `protobuf:"bytes,2,rep,name=selected_destination_ports,json=selectedDestinationPorts,proto3" json:"selected_destination_ports,omitempty"`
+	// A list of service accounts selected as allowed clients
+	AllowedServiceAccounts []*AccessPolicyReport_IdentityReference `protobuf:"bytes,3,rep,name=allowed_service_accounts,json=allowedServiceAccounts,proto3" json:"allowed_service_accounts,omitempty"`
 }
 
 func (x *AccessPolicyReport) Reset() {
@@ -269,6 +270,13 @@ func (x *AccessPolicyReport) GetWorkspaces() map[string]*v2.Report {
 func (x *AccessPolicyReport) GetSelectedDestinationPorts() []*v2.DestinationReference {
 	if x != nil {
 		return x.SelectedDestinationPorts
+	}
+	return nil
+}
+
+func (x *AccessPolicyReport) GetAllowedServiceAccounts() []*AccessPolicyReport_IdentityReference {
+	if x != nil {
+		return x.AllowedServiceAccounts
 	}
 	return nil
 }
@@ -791,6 +799,63 @@ func (x *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValue
 	return nil
 }
 
+type AccessPolicyReport_IdentityReference struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The index of the identity in the list of identity selectors
+	IdentityIndex int32 `protobuf:"varint,1,opt,name=identity_index,json=identityIndex,proto3" json:"identity_index,omitempty"`
+	// The reference to the service account backing the identity
+	ServiceAccount *v2.ObjectReference `protobuf:"bytes,2,opt,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
+}
+
+func (x *AccessPolicyReport_IdentityReference) Reset() {
+	*x = AccessPolicyReport_IdentityReference{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AccessPolicyReport_IdentityReference) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AccessPolicyReport_IdentityReference) ProtoMessage() {}
+
+func (x *AccessPolicyReport_IdentityReference) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AccessPolicyReport_IdentityReference.ProtoReflect.Descriptor instead.
+func (*AccessPolicyReport_IdentityReference) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_rawDescGZIP(), []int{2, 1}
+}
+
+func (x *AccessPolicyReport_IdentityReference) GetIdentityIndex() int32 {
+	if x != nil {
+		return x.IdentityIndex
+	}
+	return 0
+}
+
+func (x *AccessPolicyReport_IdentityReference) GetServiceAccount() *v2.ObjectReference {
+	if x != nil {
+		return x.ServiceAccount
+	}
+	return nil
+}
+
 var File_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto protoreflect.FileDescriptor
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_rawDesc = []byte{
@@ -970,7 +1035,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secur
 	0x65, 0x73, 0x74, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x70, 0x6f, 0x72, 0x74, 0x73,
 	0x18, 0x05, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x1b, 0x6e, 0x75, 0x6d, 0x53, 0x65, 0x6c, 0x65, 0x63,
 	0x74, 0x65, 0x64, 0x44, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x6f,
-	0x72, 0x74, 0x73, 0x22, 0xbb, 0x02, 0x0a, 0x12, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x50, 0x6f,
+	0x72, 0x74, 0x73, 0x22, 0xc5, 0x04, 0x0a, 0x12, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x50, 0x6f,
 	0x6c, 0x69, 0x63, 0x79, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x12, 0x60, 0x0a, 0x0a, 0x77, 0x6f,
 	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x40,
 	0x2e, 0x73, 0x65, 0x63, 0x75, 0x72, 0x69, 0x74, 0x79, 0x2e, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79,
@@ -984,19 +1049,36 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secur
 	0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x44, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x61, 0x74, 0x69,
 	0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x18, 0x73, 0x65, 0x6c,
 	0x65, 0x63, 0x74, 0x65, 0x64, 0x44, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x50, 0x6f, 0x72, 0x74, 0x73, 0x1a, 0x5a, 0x0a, 0x0f, 0x57, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61,
-	0x63, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x31, 0x0a, 0x05, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e,
-	0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
-	0x01, 0x42, 0x5d, 0x5a, 0x4f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2d, 0x6d, 0x65, 0x73,
-	0x68, 0x2d, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65, 0x2f, 0x70, 0x6b, 0x67,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x65, 0x63, 0x75, 0x72, 0x69, 0x74, 0x79, 0x2e, 0x70, 0x6f,
-	0x6c, 0x69, 0x63, 0x79, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69,
-	0x6f, 0x2f, 0x76, 0x32, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0xd0, 0xf5, 0x04, 0x01,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x50, 0x6f, 0x72, 0x74, 0x73, 0x12, 0x7c, 0x0a, 0x18, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x64,
+	0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74,
+	0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x42, 0x2e, 0x73, 0x65, 0x63, 0x75, 0x72, 0x69,
+	0x74, 0x79, 0x2e, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73,
+	0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x41, 0x63, 0x63, 0x65, 0x73, 0x73, 0x50, 0x6f, 0x6c,
+	0x69, 0x63, 0x79, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x2e, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69,
+	0x74, 0x79, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x16, 0x61, 0x6c, 0x6c,
+	0x6f, 0x77, 0x65, 0x64, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x41, 0x63, 0x63, 0x6f, 0x75,
+	0x6e, 0x74, 0x73, 0x1a, 0x5a, 0x0a, 0x0f, 0x57, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
+	0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x31, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
+	0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x52, 0x65,
+	0x70, 0x6f, 0x72, 0x74, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a,
+	0x89, 0x01, 0x0a, 0x11, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x66, 0x65,
+	0x72, 0x65, 0x6e, 0x63, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x5f, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0d, 0x69,
+	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x4d, 0x0a, 0x0f,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x24, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67,
+	0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4f, 0x62, 0x6a, 0x65,
+	0x63, 0x74, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x0e, 0x73, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x42, 0x5d, 0x5a, 0x4f, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69,
+	0x6f, 0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2d, 0x6d, 0x65, 0x73, 0x68, 0x2d, 0x65, 0x6e, 0x74, 0x65,
+	0x72, 0x70, 0x72, 0x69, 0x73, 0x65, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73,
+	0x65, 0x63, 0x75, 0x72, 0x69, 0x74, 0x79, 0x2e, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x2e, 0x67,
+	0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x32, 0xc0, 0xf5,
+	0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0xd0, 0xf5, 0x04, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -1012,7 +1094,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secu
 }
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_goTypes = []interface{}{
 	(AccessPolicySpec_Config_Authentication_TLSmode)(0),               // 0: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authentication.TLSmode
 	(*AccessPolicySpec)(nil),                                          // 1: security.policy.gloo.solo.io.AccessPolicySpec
@@ -1028,38 +1110,42 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secur
 	(*AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec)(nil), // 11: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec
 	nil, // 12: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.HeadersEntry
 	(*AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues)(nil), // 13: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.HeaderValues
-	nil,                             // 14: security.policy.gloo.solo.io.AccessPolicyReport.WorkspacesEntry
-	(*v2.DestinationSelector)(nil),  // 15: common.gloo.solo.io.DestinationSelector
-	(*v2.Status)(nil),               // 16: common.gloo.solo.io.Status
-	(*v2.DestinationReference)(nil), // 17: common.gloo.solo.io.DestinationReference
-	(*v2.EnforcementLayers)(nil),    // 18: common.gloo.solo.io.EnforcementLayers
-	(*v2.IdentitySelector)(nil),     // 19: common.gloo.solo.io.IdentitySelector
-	(*v2.Report)(nil),               // 20: common.gloo.solo.io.Report
+	nil, // 14: security.policy.gloo.solo.io.AccessPolicyReport.WorkspacesEntry
+	(*AccessPolicyReport_IdentityReference)(nil), // 15: security.policy.gloo.solo.io.AccessPolicyReport.IdentityReference
+	(*v2.DestinationSelector)(nil),               // 16: common.gloo.solo.io.DestinationSelector
+	(*v2.Status)(nil),                            // 17: common.gloo.solo.io.Status
+	(*v2.DestinationReference)(nil),              // 18: common.gloo.solo.io.DestinationReference
+	(*v2.EnforcementLayers)(nil),                 // 19: common.gloo.solo.io.EnforcementLayers
+	(*v2.IdentitySelector)(nil),                  // 20: common.gloo.solo.io.IdentitySelector
+	(*v2.Report)(nil),                            // 21: common.gloo.solo.io.Report
+	(*v2.ObjectReference)(nil),                   // 22: common.gloo.solo.io.ObjectReference
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_depIdxs = []int32{
-	15, // 0: security.policy.gloo.solo.io.AccessPolicySpec.apply_to_destinations:type_name -> common.gloo.solo.io.DestinationSelector
+	16, // 0: security.policy.gloo.solo.io.AccessPolicySpec.apply_to_destinations:type_name -> common.gloo.solo.io.DestinationSelector
 	4,  // 1: security.policy.gloo.solo.io.AccessPolicySpec.apply_to_workloads:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.NamespaceWorkloadSelector
 	5,  // 2: security.policy.gloo.solo.io.AccessPolicySpec.config:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config
-	16, // 3: security.policy.gloo.solo.io.AccessPolicyStatus.common:type_name -> common.gloo.solo.io.Status
+	17, // 3: security.policy.gloo.solo.io.AccessPolicyStatus.common:type_name -> common.gloo.solo.io.Status
 	14, // 4: security.policy.gloo.solo.io.AccessPolicyReport.workspaces:type_name -> security.policy.gloo.solo.io.AccessPolicyReport.WorkspacesEntry
-	17, // 5: security.policy.gloo.solo.io.AccessPolicyReport.selected_destination_ports:type_name -> common.gloo.solo.io.DestinationReference
-	6,  // 6: security.policy.gloo.solo.io.AccessPolicySpec.NamespaceWorkloadSelector.selector:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.NamespaceWorkloadSelector.ObjectSelector
-	8,  // 7: security.policy.gloo.solo.io.AccessPolicySpec.Config.authn:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authentication
-	9,  // 8: security.policy.gloo.solo.io.AccessPolicySpec.Config.authz:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization
-	18, // 9: security.policy.gloo.solo.io.AccessPolicySpec.Config.enforcement_layers:type_name -> common.gloo.solo.io.EnforcementLayers
-	7,  // 10: security.policy.gloo.solo.io.AccessPolicySpec.NamespaceWorkloadSelector.ObjectSelector.labels:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.NamespaceWorkloadSelector.ObjectSelector.LabelsEntry
-	0,  // 11: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authentication.tls_mode:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authentication.TLSmode
-	19, // 12: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.allowed_clients:type_name -> common.gloo.solo.io.IdentitySelector
-	10, // 13: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.match:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec
-	11, // 14: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.request:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec
-	12, // 15: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.headers:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.HeadersEntry
-	13, // 16: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.HeadersEntry.value:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.HeaderValues
-	20, // 17: security.policy.gloo.solo.io.AccessPolicyReport.WorkspacesEntry.value:type_name -> common.gloo.solo.io.Report
-	18, // [18:18] is the sub-list for method output_type
-	18, // [18:18] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	18, // 5: security.policy.gloo.solo.io.AccessPolicyReport.selected_destination_ports:type_name -> common.gloo.solo.io.DestinationReference
+	15, // 6: security.policy.gloo.solo.io.AccessPolicyReport.allowed_service_accounts:type_name -> security.policy.gloo.solo.io.AccessPolicyReport.IdentityReference
+	6,  // 7: security.policy.gloo.solo.io.AccessPolicySpec.NamespaceWorkloadSelector.selector:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.NamespaceWorkloadSelector.ObjectSelector
+	8,  // 8: security.policy.gloo.solo.io.AccessPolicySpec.Config.authn:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authentication
+	9,  // 9: security.policy.gloo.solo.io.AccessPolicySpec.Config.authz:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization
+	19, // 10: security.policy.gloo.solo.io.AccessPolicySpec.Config.enforcement_layers:type_name -> common.gloo.solo.io.EnforcementLayers
+	7,  // 11: security.policy.gloo.solo.io.AccessPolicySpec.NamespaceWorkloadSelector.ObjectSelector.labels:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.NamespaceWorkloadSelector.ObjectSelector.LabelsEntry
+	0,  // 12: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authentication.tls_mode:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authentication.TLSmode
+	20, // 13: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.allowed_clients:type_name -> common.gloo.solo.io.IdentitySelector
+	10, // 14: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.match:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec
+	11, // 15: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.request:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec
+	12, // 16: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.headers:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.HeadersEntry
+	13, // 17: security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.HeadersEntry.value:type_name -> security.policy.gloo.solo.io.AccessPolicySpec.Config.Authorization.MatchSpec.RequestSpec.HeaderValues
+	21, // 18: security.policy.gloo.solo.io.AccessPolicyReport.WorkspacesEntry.value:type_name -> common.gloo.solo.io.Report
+	22, // 19: security.policy.gloo.solo.io.AccessPolicyReport.IdentityReference.service_account:type_name -> common.gloo.solo.io.ObjectReference
+	20, // [20:20] is the sub-list for method output_type
+	20, // [20:20] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() {
@@ -1202,6 +1288,18 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secu
 				return nil
 			}
 		}
+		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AccessPolicyReport_IdentityReference); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1209,7 +1307,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secu
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_access_policy_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   14,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -66,6 +66,8 @@ func (m *MeshSpec) Clone() proto.Message {
 
 	target.Tag = m.GetTag()
 
+	target.IpFamily = m.GetIpFamily()
+
 	return target
 }
 

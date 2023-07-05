@@ -186,6 +186,23 @@ func (m *AccessPolicyReport) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetAllowedServiceAccounts()) != len(target.GetAllowedServiceAccounts()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedServiceAccounts() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAllowedServiceAccounts()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetAllowedServiceAccounts()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	return true
 }
 
@@ -563,6 +580,44 @@ func (m *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValue
 			return false
 		}
 
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AccessPolicyReport_IdentityReference) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AccessPolicyReport_IdentityReference)
+	if !ok {
+		that2, ok := that.(AccessPolicyReport_IdentityReference)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetIdentityIndex() != target.GetIdentityIndex() {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetServiceAccount()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetServiceAccount()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetServiceAccount(), target.GetServiceAccount()) {
+			return false
+		}
 	}
 
 	return true

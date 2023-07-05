@@ -556,4 +556,16 @@ message RouteTableReport {
 
   // A list of allowed virtual gateways that this route table can select.
   repeated .common.gloo.solo.io.ObjectReference allowed_virtual_gateways = 5;
+
+  // A list of routes delegated to by delegated routes in this RouteTable.
+  // Only tracks direct delegates of this RouteTable; delegates of delegate routes are not included.
+  repeated DelegatedRouteTableReference delegated_to_route_tables = 6;
+
+  message DelegatedRouteTableReference {
+    // The index of the route in the parent RouteTable that delegates to the listed RouteTable.
+    int32 route_index = 1;
+
+    // The reference to the RouteTable being delegated to by the parent RouteTable.
+    .common.gloo.solo.io.ObjectReference route_table = 2;
+  }
 }
