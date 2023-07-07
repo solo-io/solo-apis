@@ -311,7 +311,7 @@ type AWSProvider_LambdaOptions struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Name of the IAM Role to assume when calling the specified Cloud Function, associated with the account ID
+	// Optional. The name of the IAM Role to assume when calling the specified Cloud Function, associated with the account ID
 	// and region specified on the CloudProvider. If not specified, the IAM Role specified on the gateway will be used
 	// unless referencing an imported CloudProvider. If importing a CloudProvider,this field must be specified. A default
 	// invokeRole can be put on the routeTable by using the gloo.solo.io/defaultInvokeRole annotation.
@@ -374,8 +374,9 @@ type AWSProvider_LambdaOptions_LambdaDiscovery struct {
 
 	// Enable discovery of lambda functions.
 	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	// Optional: name of role to use for discovering CloudResources, associated with the account ID and region specified
-	// on the CloudProvider. If set this name will be used to override the value found in AWS_ROLE_ARN.
+	// Optional. The name of role to use for discovering CloudResources, associated with the account ID and region specified
+	// on the CloudProvider. If set, this name will be used to override the value found in the $AWS_ROLE_ARN environment variable
+	// on the mgmt-server pod.
 	RoleName string `protobuf:"bytes,2,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`
 	// Lambda function configuration specifies how lambda functions will be discovered.
 	Filter *AWSProvider_LambdaOptions_LambdaDiscovery_LambdaFilter `protobuf:"bytes,3,opt,name=filter,proto3" json:"filter,omitempty"`
