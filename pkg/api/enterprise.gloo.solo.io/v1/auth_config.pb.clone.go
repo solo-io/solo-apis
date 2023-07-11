@@ -1346,6 +1346,10 @@ func (m *OpaAuth) Clone() proto.Message {
 
 	target.Query = m.GetQuery()
 
+	target.Package = m.GetPackage()
+
+	target.RuleName = m.GetRuleName()
+
 	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
 		target.Options = h.Clone().(*OpaAuthOptions)
 	} else {
