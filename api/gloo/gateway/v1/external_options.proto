@@ -36,11 +36,12 @@ import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
 *     options:
 *       headerManipulation:
 *         requestHeadersToRemove: "header-from-vhost"
-*     delegateOptions:
-*       - name: virtualhost-external-options-1
-*         namespace: opt-namespace
-*       - name: virtualhost-external-options-2
-*         namespace: opt-namespace
+*     optionsConfigRefs:
+*       delegateOptions:
+*         - name: virtualhost-external-options-1
+*           namespace: opt-namespace
+*         - name: virtualhost-external-options-2
+*           namespace: opt-namespace
 * ```
 *
 * ```yaml
