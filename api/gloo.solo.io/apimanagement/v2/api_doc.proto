@@ -87,7 +87,7 @@ message ApiDocSpec {
 message ApiDocStatus {
   .common.gloo.solo.io.Status common = 1;
 
-  // The name of workspace that owns the GraphQL API schema.
+  // The name of workspace that owns the APIDoc.
   string owner_workspace = 2;
 
   // Count of the destinations serving the API.

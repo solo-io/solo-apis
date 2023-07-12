@@ -151,7 +151,7 @@ type ApiDocStatus struct {
 	unknownFields protoimpl.UnknownFields
 
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
-	// The name of workspace that owns the GraphQL API schema.
+	// The name of workspace that owns the APIDoc.
 	OwnerWorkspace string `protobuf:"bytes,2,opt,name=owner_workspace,json=ownerWorkspace,proto3" json:"owner_workspace,omitempty"`
 	// Count of the destinations serving the API.
 	SelectedServingDestinations uint32 `protobuf:"varint,3,opt,name=selected_serving_destinations,json=selectedServingDestinations,proto3" json:"selected_serving_destinations,omitempty"`
