@@ -268,7 +268,8 @@ message WorkspaceSettingsSpec {
     }
 
     message Federation {
-      // enables the federation feature for selected Kubernetes services in the workspace.
+      // Enables the federation feature for selected Kubernetes services in the workspace.
+      // Default value is disabled.
       bool enabled = 1;
 
       // Optional: The suffix used for generated hostnames. Hostnames will be generated for each selected service in the format `{{ service name }}.{{ service namespace }}.{{ service cluster }}.{{ host suffix }}`.
