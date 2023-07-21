@@ -18,8 +18,8 @@ option (extproto.clone_all) = true;
 // TransformationPolicies are applied at the *Route* level.
 message TransformationPolicySpec {
 
-  // select the routes where the policy will be applied
-  // if left empty, will apply to all routes in the workspace.
+  // Routes to apply the policy to.
+  // If empty, the policy applies to all workloads in the workspace.
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
   // The details of the transformation policy to apply to the selected routes.
@@ -63,6 +63,7 @@ message TransformationPolicySpec {
 }
 
 message TransformationPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of routes selected by the policy.

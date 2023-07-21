@@ -107,12 +107,13 @@ func (x *ProxyProtocolPolicySpec) GetConfig() *ProxyProtocolPolicySpec_Config {
 	return nil
 }
 
-// reflects the status of the ProxyProtocolPolicy
+// The status of the policy after it is applied to your Gloo environment.
 type ProxyProtocolPolicyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of virtual gateway listeners selected by the policy.
 	NumSelectedListeners uint32 `protobuf:"varint,2,opt,name=num_selected_listeners,json=numSelectedListeners,proto3" json:"num_selected_listeners,omitempty"`

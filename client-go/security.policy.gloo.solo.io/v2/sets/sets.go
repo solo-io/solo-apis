@@ -17,8 +17,10 @@ type AccessPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*security_policy_gloo_solo_io_v2.AccessPolicy) bool) []*security_policy_gloo_solo_io_v2.AccessPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*security_policy_gloo_solo_io_v2.AccessPolicy) bool) []*security_policy_gloo_solo_io_v2.AccessPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*security_policy_gloo_solo_io_v2.AccessPolicy
@@ -238,8 +240,10 @@ type CORSPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*security_policy_gloo_solo_io_v2.CORSPolicy) bool) []*security_policy_gloo_solo_io_v2.CORSPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*security_policy_gloo_solo_io_v2.CORSPolicy) bool) []*security_policy_gloo_solo_io_v2.CORSPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*security_policy_gloo_solo_io_v2.CORSPolicy
@@ -459,8 +463,10 @@ type CSRFPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*security_policy_gloo_solo_io_v2.CSRFPolicy) bool) []*security_policy_gloo_solo_io_v2.CSRFPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*security_policy_gloo_solo_io_v2.CSRFPolicy) bool) []*security_policy_gloo_solo_io_v2.CSRFPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*security_policy_gloo_solo_io_v2.CSRFPolicy
@@ -680,8 +686,10 @@ type ExtAuthPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*security_policy_gloo_solo_io_v2.ExtAuthPolicy) bool) []*security_policy_gloo_solo_io_v2.ExtAuthPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*security_policy_gloo_solo_io_v2.ExtAuthPolicy) bool) []*security_policy_gloo_solo_io_v2.ExtAuthPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*security_policy_gloo_solo_io_v2.ExtAuthPolicy
@@ -901,8 +909,10 @@ type WAFPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*security_policy_gloo_solo_io_v2.WAFPolicy) bool) []*security_policy_gloo_solo_io_v2.WAFPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*security_policy_gloo_solo_io_v2.WAFPolicy) bool) []*security_policy_gloo_solo_io_v2.WAFPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*security_policy_gloo_solo_io_v2.WAFPolicy
@@ -1122,8 +1132,10 @@ type JWTPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*security_policy_gloo_solo_io_v2.JWTPolicy) bool) []*security_policy_gloo_solo_io_v2.JWTPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*security_policy_gloo_solo_io_v2.JWTPolicy) bool) []*security_policy_gloo_solo_io_v2.JWTPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*security_policy_gloo_solo_io_v2.JWTPolicy
@@ -1343,8 +1355,10 @@ type ClientTLSPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*security_policy_gloo_solo_io_v2.ClientTLSPolicy) bool) []*security_policy_gloo_solo_io_v2.ClientTLSPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*security_policy_gloo_solo_io_v2.ClientTLSPolicy) bool) []*security_policy_gloo_solo_io_v2.ClientTLSPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*security_policy_gloo_solo_io_v2.ClientTLSPolicy
@@ -1564,8 +1578,10 @@ type GraphQLAllowedQueryPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*security_policy_gloo_solo_io_v2.GraphQLAllowedQueryPolicy) bool) []*security_policy_gloo_solo_io_v2.GraphQLAllowedQueryPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*security_policy_gloo_solo_io_v2.GraphQLAllowedQueryPolicy) bool) []*security_policy_gloo_solo_io_v2.GraphQLAllowedQueryPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*security_policy_gloo_solo_io_v2.GraphQLAllowedQueryPolicy
@@ -1785,8 +1801,10 @@ type DLPPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*security_policy_gloo_solo_io_v2.DLPPolicy) bool) []*security_policy_gloo_solo_io_v2.DLPPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*security_policy_gloo_solo_io_v2.DLPPolicy) bool) []*security_policy_gloo_solo_io_v2.DLPPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*security_policy_gloo_solo_io_v2.DLPPolicy

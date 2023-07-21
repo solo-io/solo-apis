@@ -17,8 +17,10 @@ type WasmDeploymentPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*extensions_policy_gloo_solo_io_v2.WasmDeploymentPolicy) bool) []*extensions_policy_gloo_solo_io_v2.WasmDeploymentPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*extensions_policy_gloo_solo_io_v2.WasmDeploymentPolicy) bool) []*extensions_policy_gloo_solo_io_v2.WasmDeploymentPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*extensions_policy_gloo_solo_io_v2.WasmDeploymentPolicy

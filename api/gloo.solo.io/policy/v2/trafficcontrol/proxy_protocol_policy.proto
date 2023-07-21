@@ -48,8 +48,9 @@ message ProxyProtocolPolicySpec {
   Config config = 2;
 }
 
-// reflects the status of the ProxyProtocolPolicy
+// The status of the policy after it is applied to your Gloo environment.
 message ProxyProtocolPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of virtual gateway listeners selected by the policy.

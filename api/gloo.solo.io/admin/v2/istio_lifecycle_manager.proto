@@ -4,6 +4,7 @@ package admin.gloo.solo.io;
 
 import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
+import "k8s.io/api/core/v1/generated.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_operator.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
@@ -39,6 +40,35 @@ message IstioClusterSelector {
   string trust_domain = 5;
 }
 
+message IstioController {
+  // The amount of time to wait for resources in a component to become ready before giving up. Configured using a duration string.
+  // A duration string is a possibly signed sequence of decimal numbers, each with optional fraction and a unit suffix, 
+  // such as "300ms" or "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
+  string wait_for_resources_timeout = 1;
+
+  // Names of image pull secrets to use to deploy the Istio controller.
+  // For more info, see the [Kubernetes docs](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-pod-that-uses-your-secret)
+  repeated .k8s.io.api.core.v1.LocalObjectReference image_pull_secrets = 2;
+
+  // Override for resources allocated to the Istio controller deployment.
+  // For more info, see the [Kubernetes docs](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#example-1)
+  .common.gloo.solo.io.Resources resources = 3;
+
+  // Override for the pod's security context. For more info, see the
+  // [Kubernetes documentation](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#securitycontext-v1-core
+  .k8s.io.api.core.v1.SecurityContext security_context = 4;
+
+  // Kubernetes pod/deployment/service labels.
+  map<string, string> labels = 5;
+  
+  // Kubernetes pod/deployment/service annotations.
+  map<string, string> annotations = 6;
+
+  // Deployment environment variables. For more info, see the
+  // [Kubernetes docs](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  repeated .k8s.io.api.core.v1.EnvVar env_vars = 7;
+}
+
 message IstioInstallation {
   // Istio revision for this installation, such as '1-17'. 
   // Label workload resources with 'istio.io/rev=$REVISION' to use this installation.
@@ -52,6 +82,11 @@ message IstioInstallation {
   // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
   .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 3;
 
+  // Optional config used for tuning the deployment of the istio operator controller deployed to each workload cluster.
+  IstioController istio_controller = 4;
+
+  // Skip in-place upgrade change validation. It is highly recommended to use revision based workflows in production environments.
+  bool skip_upgrade_validation = 5;
 }
 
 message IstioLifecycleManagerStatus {

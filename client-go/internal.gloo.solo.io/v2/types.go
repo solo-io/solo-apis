@@ -288,41 +288,6 @@ type PortalConfigList struct {
 	Items           []PortalConfig `json:"items"`
 }
 
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +k8s:openapi-gen=true
-// +kubebuilder:subresource:status
-
-// GroupVersionKind for SpireRegistrationEntry
-var SpireRegistrationEntryGVK = schema.GroupVersionKind{
-	Group:   "internal.gloo.solo.io",
-	Version: "v2",
-	Kind:    "SpireRegistrationEntry",
-}
-
-// SpireRegistrationEntry is the Schema for the spireRegistrationEntry API
-type SpireRegistrationEntry struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   SpireRegistrationEntrySpec   `json:"spec,omitempty"`
-	Status SpireRegistrationEntryStatus `json:"status,omitempty"`
-}
-
-// GVK returns the GroupVersionKind associated with the resource type.
-func (SpireRegistrationEntry) GVK() schema.GroupVersionKind {
-	return SpireRegistrationEntryGVK
-}
-
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// SpireRegistrationEntryList contains a list of SpireRegistrationEntry
-type SpireRegistrationEntryList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SpireRegistrationEntry `json:"items"`
-}
-
 func init() {
 	SchemeBuilder.Register(&IssuedCertificate{}, &IssuedCertificateList{})
 	SchemeBuilder.Register(&CertificateRequest{}, &CertificateRequestList{})
@@ -332,5 +297,4 @@ func init() {
 	SchemeBuilder.Register(&Mesh{}, &MeshList{})
 	SchemeBuilder.Register(&DiscoveredCNI{}, &DiscoveredCNIList{})
 	SchemeBuilder.Register(&PortalConfig{}, &PortalConfigList{})
-	SchemeBuilder.Register(&SpireRegistrationEntry{}, &SpireRegistrationEntryList{})
 }

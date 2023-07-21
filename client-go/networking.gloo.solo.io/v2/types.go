@@ -183,46 +183,10 @@ type VirtualGatewayList struct {
 	Items           []VirtualGateway `json:"items"`
 }
 
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +k8s:openapi-gen=true
-// +kubebuilder:subresource:status
-
-// GroupVersionKind for ExternalWorkload
-var ExternalWorkloadGVK = schema.GroupVersionKind{
-	Group:   "networking.gloo.solo.io",
-	Version: "v2",
-	Kind:    "ExternalWorkload",
-}
-
-// ExternalWorkload is the Schema for the externalWorkload API
-type ExternalWorkload struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   ExternalWorkloadSpec   `json:"spec,omitempty"`
-	Status ExternalWorkloadStatus `json:"status,omitempty"`
-}
-
-// GVK returns the GroupVersionKind associated with the resource type.
-func (ExternalWorkload) GVK() schema.GroupVersionKind {
-	return ExternalWorkloadGVK
-}
-
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// ExternalWorkloadList contains a list of ExternalWorkload
-type ExternalWorkloadList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ExternalWorkload `json:"items"`
-}
-
 func init() {
 	SchemeBuilder.Register(&ExternalService{}, &ExternalServiceList{})
 	SchemeBuilder.Register(&ExternalEndpoint{}, &ExternalEndpointList{})
 	SchemeBuilder.Register(&RouteTable{}, &RouteTableList{})
 	SchemeBuilder.Register(&VirtualDestination{}, &VirtualDestinationList{})
 	SchemeBuilder.Register(&VirtualGateway{}, &VirtualGatewayList{})
-	SchemeBuilder.Register(&ExternalWorkload{}, &ExternalWorkloadList{})
 }

@@ -134,6 +134,7 @@ type GraphQLSchemaStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The name of the workspace that owns the GraphQL schema.
 	OwnedByWorkspace string `protobuf:"bytes,4,opt,name=owned_by_workspace,json=ownedByWorkspace,proto3" json:"owned_by_workspace,omitempty"`
@@ -324,7 +325,7 @@ type GraphQLSchemaSpec_ProxiedGraphQL struct {
 	// The transformation must result in a string value, or an error will be sent back to the client.
 	QueryParams map[string]*VariableTransformation `protobuf:"bytes,4,rep,name=query_params,json=queryParams,proto3" json:"query_params,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The span name for the remote GraphQL request, used for tracing.
-	// If left empty or not set, the request span name will be set to the upstream cluster name.
+	// If empty or omitted, the request span name will be set to the upstream cluster name.
 	SpanName string `protobuf:"bytes,5,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the REST service (default 5s)
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).

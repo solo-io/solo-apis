@@ -1368,6 +1368,27 @@ func (m *OidcAuthorizationCode) Equal(that interface{}) bool {
 		}
 	}
 
+	if len(m.GetDynamicMetadataFromClaims()) != len(target.GetDynamicMetadataFromClaims()) {
+		return false
+	}
+	for k, v := range m.GetDynamicMetadataFromClaims() {
+
+		if strings.Compare(v, target.GetDynamicMetadataFromClaims()[k]) != 0 {
+			return false
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetDisableClientSecret()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDisableClientSecret()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDisableClientSecret(), target.GetDisableClientSecret()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -1475,6 +1496,16 @@ func (m *PlainOAuth2) Equal(that interface{}) bool {
 
 	if strings.Compare(m.GetRevocationEndpoint(), target.GetRevocationEndpoint()) != 0 {
 		return false
+	}
+
+	if h, ok := interface{}(m.GetDisableClientSecret()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDisableClientSecret()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDisableClientSecret(), target.GetDisableClientSecret()) {
+			return false
+		}
 	}
 
 	return true
@@ -1590,6 +1621,16 @@ func (m *IntrospectionValidation) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetDisableClientSecret()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDisableClientSecret()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDisableClientSecret(), target.GetDisableClientSecret()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -1626,6 +1667,17 @@ func (m *AccessTokenValidation) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetCacheTimeout(), target.GetCacheTimeout()) {
 			return false
 		}
+	}
+
+	if len(m.GetDynamicMetadataFromClaims()) != len(target.GetDynamicMetadataFromClaims()) {
+		return false
+	}
+	for k, v := range m.GetDynamicMetadataFromClaims() {
+
+		if strings.Compare(v, target.GetDynamicMetadataFromClaims()[k]) != 0 {
+			return false
+		}
+
 	}
 
 	switch m.ValidationType.(type) {
@@ -2225,6 +2277,10 @@ func (m *OpaAuthOptions) Equal(that interface{}) bool {
 	}
 
 	if m.GetFastInputConversion() != target.GetFastInputConversion() {
+		return false
+	}
+
+	if m.GetReturnDecisionReason() != target.GetReturnDecisionReason() {
 		return false
 	}
 

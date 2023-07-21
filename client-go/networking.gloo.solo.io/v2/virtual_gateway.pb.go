@@ -494,6 +494,7 @@ type VirtualGatewayStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of route tables allowed to bind to this virtual gateway.
 	RouteTablesCount uint32 `protobuf:"varint,2,opt,name=route_tables_count,json=routeTablesCount,proto3" json:"route_tables_count,omitempty"`
@@ -663,10 +664,10 @@ type VirtualGatewaySpec_Listener struct {
 	ListenerType isVirtualGatewaySpec_Listener_ListenerType `protobuf_oneof:"listener_type"`
 	// Optional: Filter RouteTables which can bind to this listener by the host names and object metadata.
 	// Wildcard matching for host name is supported here.
-	// If not specified, any route table will be allowed to bind to this VirtualGateway.
+	// If omitted, any route table will be allowed to bind to this VirtualGateway.
 	AllowedRouteTables []*VirtualGatewaySpec_Listener_RouteTableFilter `protobuf:"bytes,6,rep,name=allowed_route_tables,json=allowedRouteTables,proto3" json:"allowed_route_tables,omitempty"`
 	// Optional: List of ExternalServices exposed by this VirtualGateway.
-	// If not specified, any ExternalService will be exposed by this VirtualGateway.
+	// If empty, any ExternalService will be exposed by this VirtualGateway.
 	// Specifically used for configuring egress traffic.
 	ExposedExternalServices []*VirtualGatewaySpec_Listener_ExternalServiceFilter `protobuf:"bytes,9,rep,name=exposed_external_services,json=exposedExternalServices,proto3" json:"exposed_external_services,omitempty"`
 	// Optional: Apply an application protocol to use when deciding what additional capabilities to
@@ -908,7 +909,7 @@ type VirtualGatewaySpec_Listener_RouteTableFilter struct {
 	// Optional: filter out route tables which do not match the selector, if provided.
 	Selector *v2.ObjectSelector `protobuf:"bytes,2,opt,name=selector,proto3" json:"selector,omitempty"`
 	// Optional: Restrict the routes that can be applied to this VirtualGateway to a set of route filter criteria.
-	// If not specified, all the routes that belong to the matching route tables are allowed to bind to this VirtualGateway.
+	// If empty, all the routes that belong to the matching route tables are allowed to bind to this VirtualGateway.
 	AllowedRoutes []*v2.RouteFilter `protobuf:"bytes,8,rep,name=allowed_routes,json=allowedRoutes,proto3" json:"allowed_routes,omitempty"`
 }
 

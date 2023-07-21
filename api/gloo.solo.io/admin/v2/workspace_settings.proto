@@ -175,15 +175,15 @@ message WorkspaceSettingsSpec {
       // labels matching those of the object
       map<string, string> labels = 2;
 
-      // Only select objects exactly matching the name. If the field is omitted, Gloo Mesh will select
+      // Only select objects exactly matching the name. If omitted, Gloo selects
       // matching objects with any name available in the workspace.
       string name = 3;
 
-      // Only select objects exactly matching the namespace. If the field is omitted, Gloo Mesh will select
+      // Only select objects exactly matching the namespace. If omitted, Gloo selects
       // matching objects across all namespaces available in the workspace.
       string namespace = 4;
 
-      // Only select objects in the exactly matching cluster. If the field is omitted, Gloo Mesh will select
+      // Only select objects in the exactly matching cluster. If omitted, Gloo selects
       // matching objects across all clusters available in the workspace.
       string cluster = 5;
 
@@ -264,13 +264,14 @@ message WorkspaceSettingsSpec {
       // In Istio this will be implemented using the Sidecar resource.
       google.protobuf.BoolValue trim_proxy_config = 2;
 
-      // Optional. When NetworkPolicy translation is enabled, by default, all available layers will be used to enforce Service Isolation.
+      // Optional: When NetworkPolicy translation is enabled, by default, all available layers will be used to enforce Service Isolation.
       // You can optionally explicitly define which available layers will enforce Service Isolation. Only the layers set here will be used.
       .common.gloo.solo.io.EnforcementLayers enforcement_layers = 3;
     }
 
     message Federation {
-      // enables the federation feature for selected Kubernetes services in the workspace.
+      // Enables the federation feature for selected Kubernetes services in the workspace.
+      // Default value is disabled.
       bool enabled = 1;
 
       // Optional: The suffix used for generated hostnames. Hostnames will be generated for each selected service in the format `{{ service name }}.{{ service namespace }}.{{ service cluster }}.{{ host suffix }}`.
@@ -325,6 +326,7 @@ message WorkspaceSettingsSpec {
 }
 
 message WorkspaceSettingsStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The workspace that this workspacesettings object configures.

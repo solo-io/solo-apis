@@ -17,8 +17,10 @@ type WorkspaceSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.Workspace) bool) []*admin_gloo_solo_io_v2.Workspace
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.Workspace) bool) []*admin_gloo_solo_io_v2.Workspace
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.Workspace
@@ -238,8 +240,10 @@ type WorkspaceSettingsSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.WorkspaceSettings) bool) []*admin_gloo_solo_io_v2.WorkspaceSettings
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.WorkspaceSettings) bool) []*admin_gloo_solo_io_v2.WorkspaceSettings
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.WorkspaceSettings
@@ -459,8 +463,10 @@ type KubernetesClusterSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.KubernetesCluster) bool) []*admin_gloo_solo_io_v2.KubernetesCluster
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.KubernetesCluster) bool) []*admin_gloo_solo_io_v2.KubernetesCluster
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.KubernetesCluster
@@ -680,8 +686,10 @@ type RootTrustPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.RootTrustPolicy) bool) []*admin_gloo_solo_io_v2.RootTrustPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.RootTrustPolicy) bool) []*admin_gloo_solo_io_v2.RootTrustPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.RootTrustPolicy
@@ -901,8 +909,10 @@ type ExtAuthServerSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.ExtAuthServer) bool) []*admin_gloo_solo_io_v2.ExtAuthServer
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.ExtAuthServer) bool) []*admin_gloo_solo_io_v2.ExtAuthServer
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.ExtAuthServer
@@ -1122,8 +1132,10 @@ type RateLimitServerSettingsSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.RateLimitServerSettings) bool) []*admin_gloo_solo_io_v2.RateLimitServerSettings
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.RateLimitServerSettings) bool) []*admin_gloo_solo_io_v2.RateLimitServerSettings
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.RateLimitServerSettings
@@ -1343,8 +1355,10 @@ type RateLimitServerConfigSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.RateLimitServerConfig) bool) []*admin_gloo_solo_io_v2.RateLimitServerConfig
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.RateLimitServerConfig) bool) []*admin_gloo_solo_io_v2.RateLimitServerConfig
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.RateLimitServerConfig
@@ -1564,8 +1578,10 @@ type DashboardSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.Dashboard) bool) []*admin_gloo_solo_io_v2.Dashboard
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.Dashboard) bool) []*admin_gloo_solo_io_v2.Dashboard
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.Dashboard
@@ -1785,8 +1801,10 @@ type IstioLifecycleManagerSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.IstioLifecycleManager) bool) []*admin_gloo_solo_io_v2.IstioLifecycleManager
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.IstioLifecycleManager) bool) []*admin_gloo_solo_io_v2.IstioLifecycleManager
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.IstioLifecycleManager
@@ -2006,8 +2024,10 @@ type GatewayLifecycleManagerSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*admin_gloo_solo_io_v2.GatewayLifecycleManager) bool) []*admin_gloo_solo_io_v2.GatewayLifecycleManager
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2.GatewayLifecycleManager) bool) []*admin_gloo_solo_io_v2.GatewayLifecycleManager
 	// Return the Set as a map of key to resource.
 	Map() map[string]*admin_gloo_solo_io_v2.GatewayLifecycleManager

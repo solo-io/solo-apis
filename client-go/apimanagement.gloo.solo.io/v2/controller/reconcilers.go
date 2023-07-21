@@ -718,3 +718,120 @@ func (r genericPortalGroupFinalizer) Finalize(object ezkube.Object) error {
 	}
 	return r.finalizingReconciler.FinalizePortalGroup(obj)
 }
+
+// Reconcile Upsert events for the ApiSchemaDiscovery Resource.
+// implemented by the user
+type ApiSchemaDiscoveryReconciler interface {
+	ReconcileApiSchemaDiscovery(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the ApiSchemaDiscovery Resource.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type ApiSchemaDiscoveryDeletionReconciler interface {
+	ReconcileApiSchemaDiscoveryDeletion(req reconcile.Request) error
+}
+
+type ApiSchemaDiscoveryReconcilerFuncs struct {
+	OnReconcileApiSchemaDiscovery         func(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) (reconcile.Result, error)
+	OnReconcileApiSchemaDiscoveryDeletion func(req reconcile.Request) error
+}
+
+func (f *ApiSchemaDiscoveryReconcilerFuncs) ReconcileApiSchemaDiscovery(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) (reconcile.Result, error) {
+	if f.OnReconcileApiSchemaDiscovery == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileApiSchemaDiscovery(obj)
+}
+
+func (f *ApiSchemaDiscoveryReconcilerFuncs) ReconcileApiSchemaDiscoveryDeletion(req reconcile.Request) error {
+	if f.OnReconcileApiSchemaDiscoveryDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileApiSchemaDiscoveryDeletion(req)
+}
+
+// Reconcile and finalize the ApiSchemaDiscovery Resource
+// implemented by the user
+type ApiSchemaDiscoveryFinalizer interface {
+	ApiSchemaDiscoveryReconciler
+
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	ApiSchemaDiscoveryFinalizerName() string
+
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeApiSchemaDiscovery(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error
+}
+
+type ApiSchemaDiscoveryReconcileLoop interface {
+	RunApiSchemaDiscoveryReconciler(ctx context.Context, rec ApiSchemaDiscoveryReconciler, predicates ...predicate.Predicate) error
+}
+
+type apiSchemaDiscoveryReconcileLoop struct {
+	loop reconcile.Loop
+}
+
+func NewApiSchemaDiscoveryReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) ApiSchemaDiscoveryReconcileLoop {
+	return &apiSchemaDiscoveryReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery{}, options),
+	}
+}
+
+func (c *apiSchemaDiscoveryReconcileLoop) RunApiSchemaDiscoveryReconciler(ctx context.Context, reconciler ApiSchemaDiscoveryReconciler, predicates ...predicate.Predicate) error {
+	genericReconciler := genericApiSchemaDiscoveryReconciler{
+		reconciler: reconciler,
+	}
+
+	var reconcilerWrapper reconcile.Reconciler
+	if finalizingReconciler, ok := reconciler.(ApiSchemaDiscoveryFinalizer); ok {
+		reconcilerWrapper = genericApiSchemaDiscoveryFinalizer{
+			genericApiSchemaDiscoveryReconciler: genericReconciler,
+			finalizingReconciler:                finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
+	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
+}
+
+// genericApiSchemaDiscoveryHandler implements a generic reconcile.Reconciler
+type genericApiSchemaDiscoveryReconciler struct {
+	reconciler ApiSchemaDiscoveryReconciler
+}
+
+func (r genericApiSchemaDiscoveryReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: ApiSchemaDiscovery handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileApiSchemaDiscovery(obj)
+}
+
+func (r genericApiSchemaDiscoveryReconciler) ReconcileDeletion(request reconcile.Request) error {
+	if deletionReconciler, ok := r.reconciler.(ApiSchemaDiscoveryDeletionReconciler); ok {
+		return deletionReconciler.ReconcileApiSchemaDiscoveryDeletion(request)
+	}
+	return nil
+}
+
+// genericApiSchemaDiscoveryFinalizer implements a generic reconcile.FinalizingReconciler
+type genericApiSchemaDiscoveryFinalizer struct {
+	genericApiSchemaDiscoveryReconciler
+	finalizingReconciler ApiSchemaDiscoveryFinalizer
+}
+
+func (r genericApiSchemaDiscoveryFinalizer) FinalizerName() string {
+	return r.finalizingReconciler.ApiSchemaDiscoveryFinalizerName()
+}
+
+func (r genericApiSchemaDiscoveryFinalizer) Finalize(object ezkube.Object) error {
+	obj, ok := object.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	if !ok {
+		return errors.Errorf("internal error: ApiSchemaDiscovery handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeApiSchemaDiscovery(obj)
+}

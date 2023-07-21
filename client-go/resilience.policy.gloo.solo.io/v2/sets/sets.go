@@ -17,8 +17,10 @@ type GraphQLPersistedQueryCachePolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.GraphQLPersistedQueryCachePolicy) bool) []*resilience_policy_gloo_solo_io_v2.GraphQLPersistedQueryCachePolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.GraphQLPersistedQueryCachePolicy) bool) []*resilience_policy_gloo_solo_io_v2.GraphQLPersistedQueryCachePolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*resilience_policy_gloo_solo_io_v2.GraphQLPersistedQueryCachePolicy
@@ -238,8 +240,10 @@ type FailoverPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.FailoverPolicy) bool) []*resilience_policy_gloo_solo_io_v2.FailoverPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.FailoverPolicy) bool) []*resilience_policy_gloo_solo_io_v2.FailoverPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*resilience_policy_gloo_solo_io_v2.FailoverPolicy
@@ -459,8 +463,10 @@ type OutlierDetectionPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.OutlierDetectionPolicy) bool) []*resilience_policy_gloo_solo_io_v2.OutlierDetectionPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.OutlierDetectionPolicy) bool) []*resilience_policy_gloo_solo_io_v2.OutlierDetectionPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*resilience_policy_gloo_solo_io_v2.OutlierDetectionPolicy
@@ -680,8 +686,10 @@ type FaultInjectionPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.FaultInjectionPolicy) bool) []*resilience_policy_gloo_solo_io_v2.FaultInjectionPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.FaultInjectionPolicy) bool) []*resilience_policy_gloo_solo_io_v2.FaultInjectionPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*resilience_policy_gloo_solo_io_v2.FaultInjectionPolicy
@@ -901,8 +909,10 @@ type RetryTimeoutPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.RetryTimeoutPolicy) bool) []*resilience_policy_gloo_solo_io_v2.RetryTimeoutPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.RetryTimeoutPolicy) bool) []*resilience_policy_gloo_solo_io_v2.RetryTimeoutPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*resilience_policy_gloo_solo_io_v2.RetryTimeoutPolicy
@@ -1122,8 +1132,10 @@ type ConnectionPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.ConnectionPolicy) bool) []*resilience_policy_gloo_solo_io_v2.ConnectionPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.ConnectionPolicy) bool) []*resilience_policy_gloo_solo_io_v2.ConnectionPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*resilience_policy_gloo_solo_io_v2.ConnectionPolicy
@@ -1343,8 +1355,10 @@ type TrimProxyConfigPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.TrimProxyConfigPolicy) bool) []*resilience_policy_gloo_solo_io_v2.TrimProxyConfigPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.TrimProxyConfigPolicy) bool) []*resilience_policy_gloo_solo_io_v2.TrimProxyConfigPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*resilience_policy_gloo_solo_io_v2.TrimProxyConfigPolicy
@@ -1564,8 +1578,10 @@ type ActiveHealthCheckPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.ActiveHealthCheckPolicy) bool) []*resilience_policy_gloo_solo_io_v2.ActiveHealthCheckPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.ActiveHealthCheckPolicy) bool) []*resilience_policy_gloo_solo_io_v2.ActiveHealthCheckPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*resilience_policy_gloo_solo_io_v2.ActiveHealthCheckPolicy
@@ -1785,8 +1801,10 @@ type ListenerConnectionPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.ListenerConnectionPolicy) bool) []*resilience_policy_gloo_solo_io_v2.ListenerConnectionPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.ListenerConnectionPolicy) bool) []*resilience_policy_gloo_solo_io_v2.ListenerConnectionPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*resilience_policy_gloo_solo_io_v2.ListenerConnectionPolicy

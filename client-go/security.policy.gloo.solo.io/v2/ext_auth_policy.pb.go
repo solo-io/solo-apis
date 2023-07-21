@@ -37,11 +37,11 @@ type ExtAuthPolicySpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Select the routes where the policy will be applied.
-	// If left empty, no extauth policy will be applied to any routes in the workspace.
+	// If empty, no extauth policy will be applied to any routes in the workspace.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
 	// Select the destinations where the policy will be applied.
 	// Default behavior if no selectors are specified is to apply to all destinations in the workspace.
-	// If left empty and the route selector is set, no extauth policy on destinations will be applied.
+	// If empty and the route selector is set, no extauth policy on destinations will be applied.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,2,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// The details of the external auth policy to apply to the selected routes and destinations.
 	Config *ExtAuthPolicySpec_Config `protobuf:"bytes,3,opt,name=config,proto3" json:"config,omitempty"`
@@ -100,12 +100,13 @@ func (x *ExtAuthPolicySpec) GetConfig() *ExtAuthPolicySpec_Config {
 	return nil
 }
 
-// reflects the status of the ExtAuthPolicy
+// The status of the policy after it is applied to your Gloo environment.
 type ExtAuthPolicyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of destination ports selected by the policy.
 	NumSelectedDestinationPorts uint32 `protobuf:"varint,2,opt,name=num_selected_destination_ports,json=numSelectedDestinationPorts,proto3" json:"num_selected_destination_ports,omitempty"`

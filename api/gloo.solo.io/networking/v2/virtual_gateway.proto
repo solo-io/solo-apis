@@ -205,11 +205,11 @@ message VirtualGatewaySpec {
 
     // Optional: Filter RouteTables which can bind to this listener by the host names and object metadata.
     // Wildcard matching for host name is supported here.
-    // If not specified, any route table will be allowed to bind to this VirtualGateway.
+    // If omitted, any route table will be allowed to bind to this VirtualGateway.
     repeated RouteTableFilter allowed_route_tables = 6;
 
     // Optional: List of ExternalServices exposed by this VirtualGateway.
-    // If not specified, any ExternalService will be exposed by this VirtualGateway.
+    // If empty, any ExternalService will be exposed by this VirtualGateway.
     // Specifically used for configuring egress traffic.
     repeated ExternalServiceFilter exposed_external_services = 9;
 
@@ -240,7 +240,7 @@ message VirtualGatewaySpec {
       .common.gloo.solo.io.ObjectSelector selector = 2;
 
       // Optional: Restrict the routes that can be applied to this VirtualGateway to a set of route filter criteria.
-      // If not specified, all the routes that belong to the matching route tables are allowed to bind to this VirtualGateway.
+      // If empty, all the routes that belong to the matching route tables are allowed to bind to this VirtualGateway.
       repeated .common.gloo.solo.io.RouteFilter allowed_routes = 8;
     }
 
@@ -344,6 +344,7 @@ message TLSConfig {
 }
 
 message VirtualGatewayStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of route tables allowed to bind to this virtual gateway.

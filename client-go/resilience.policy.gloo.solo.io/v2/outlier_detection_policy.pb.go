@@ -36,8 +36,8 @@ type OutlierDetectionPolicySpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// select the destinations where the policy will be applied
-	// if left empty, will apply to all destinations in the workspace.
+	// Destinations to apply the policy to.
+	// If empty, the policy applies to all destinations in the workspace.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// The details of the OutlierDetectionPolicy to apply to the selected destinations.
 	Config *OutlierDetectionPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
@@ -89,12 +89,13 @@ func (x *OutlierDetectionPolicySpec) GetConfig() *OutlierDetectionPolicySpec_Con
 	return nil
 }
 
-// reflects the status of the OutlierDetectionPolicy
+// The status of the policy after it is applied to your Gloo environment.
 type OutlierDetectionPolicyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of destination ports selected by the policy.
 	NumSelectedDestinationPorts uint32 `protobuf:"varint,2,opt,name=num_selected_destination_ports,json=numSelectedDestinationPorts,proto3" json:"num_selected_destination_ports,omitempty"`
@@ -151,6 +152,7 @@ type OutlierDetectionPolicyReport struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// A list of workspaces in which the policy can apply to workloads.
 	Workspaces map[string]*v2.Report `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// A list of destination ports selected by the policy.
 	SelectedDestinationPorts []*v2.DestinationReference `protobuf:"bytes,2,rep,name=selected_destination_ports,json=selectedDestinationPorts,proto3" json:"selected_destination_ports,omitempty"`

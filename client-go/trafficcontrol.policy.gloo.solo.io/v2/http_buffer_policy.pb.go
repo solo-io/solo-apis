@@ -103,12 +103,13 @@ func (x *HTTPBufferPolicySpec) GetConfig() *HTTPBufferPolicySpec_Config {
 	return nil
 }
 
-// reflects the status of the HTTPBufferPolicy
+// The status of the policy after it is applied to your Gloo environment.
 type HTTPBufferPolicyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of routes selected by the policy.
 	NumSelectedRoutes uint32 `protobuf:"varint,2,opt,name=num_selected_routes,json=numSelectedRoutes,proto3" json:"num_selected_routes,omitempty"`
@@ -165,6 +166,7 @@ type HTTPBufferPolicyReport struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// A list of workspaces in which the policy can apply to workloads.
 	Workspaces map[string]*v2.Report `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// A list of references to all routes selected by the policy.
 	SelectedRoutes []*v2.RouteReference `protobuf:"bytes,2,rep,name=selected_routes,json=selectedRoutes,proto3" json:"selected_routes,omitempty"`

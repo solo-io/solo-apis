@@ -658,3 +658,110 @@ func (h genericPortalGroupHandler) Generic(object client.Object) error {
 	}
 	return h.handler.GenericPortalGroup(obj)
 }
+
+// Handle events for the ApiSchemaDiscovery Resource
+// DEPRECATED: Prefer reconciler pattern.
+type ApiSchemaDiscoveryEventHandler interface {
+	CreateApiSchemaDiscovery(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error
+	UpdateApiSchemaDiscovery(old, new *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error
+	DeleteApiSchemaDiscovery(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error
+	GenericApiSchemaDiscovery(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error
+}
+
+type ApiSchemaDiscoveryEventHandlerFuncs struct {
+	OnCreate  func(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error
+	OnUpdate  func(old, new *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error
+	OnDelete  func(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error
+	OnGeneric func(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error
+}
+
+func (f *ApiSchemaDiscoveryEventHandlerFuncs) CreateApiSchemaDiscovery(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *ApiSchemaDiscoveryEventHandlerFuncs) DeleteApiSchemaDiscovery(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *ApiSchemaDiscoveryEventHandlerFuncs) UpdateApiSchemaDiscovery(objOld, objNew *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *ApiSchemaDiscoveryEventHandlerFuncs) GenericApiSchemaDiscovery(obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type ApiSchemaDiscoveryEventWatcher interface {
+	AddEventHandler(ctx context.Context, h ApiSchemaDiscoveryEventHandler, predicates ...predicate.Predicate) error
+}
+
+type apiSchemaDiscoveryEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewApiSchemaDiscoveryEventWatcher(name string, mgr manager.Manager) ApiSchemaDiscoveryEventWatcher {
+	return &apiSchemaDiscoveryEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery{}),
+	}
+}
+
+func (c *apiSchemaDiscoveryEventWatcher) AddEventHandler(ctx context.Context, h ApiSchemaDiscoveryEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericApiSchemaDiscoveryHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericApiSchemaDiscoveryHandler implements a generic events.EventHandler
+type genericApiSchemaDiscoveryHandler struct {
+	handler ApiSchemaDiscoveryEventHandler
+}
+
+func (h genericApiSchemaDiscoveryHandler) Create(object client.Object) error {
+	obj, ok := object.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	if !ok {
+		return errors.Errorf("internal error: ApiSchemaDiscovery handler received event for %T", object)
+	}
+	return h.handler.CreateApiSchemaDiscovery(obj)
+}
+
+func (h genericApiSchemaDiscoveryHandler) Delete(object client.Object) error {
+	obj, ok := object.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	if !ok {
+		return errors.Errorf("internal error: ApiSchemaDiscovery handler received event for %T", object)
+	}
+	return h.handler.DeleteApiSchemaDiscovery(obj)
+}
+
+func (h genericApiSchemaDiscoveryHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	if !ok {
+		return errors.Errorf("internal error: ApiSchemaDiscovery handler received event for %T", old)
+	}
+	objNew, ok := new.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	if !ok {
+		return errors.Errorf("internal error: ApiSchemaDiscovery handler received event for %T", new)
+	}
+	return h.handler.UpdateApiSchemaDiscovery(objOld, objNew)
+}
+
+func (h genericApiSchemaDiscoveryHandler) Generic(object client.Object) error {
+	obj, ok := object.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	if !ok {
+		return errors.Errorf("internal error: ApiSchemaDiscovery handler received event for %T", object)
+	}
+	return h.handler.GenericApiSchemaDiscovery(obj)
+}

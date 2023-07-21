@@ -23,7 +23,7 @@ option (extproto.clone_all) = true;
 message CORSPolicySpec {
 
   // Select the routes where the policy will be applied.
-  // If left empty, will apply to all routes in the workspace.
+  // If empty, will apply to all routes in the workspace.
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
   // The details of the CORS policy to apply to the selected routes.
@@ -58,8 +58,9 @@ message CORSPolicySpec {
   }
 }
 
-// Reflects the status of the CORSPolicy.
+// The status of the policy after it is applied to your Gloo environment.
 message CORSPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of routes selected by the policy.
@@ -67,6 +68,7 @@ message CORSPolicyStatus {
 }
 
 message CORSPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
   // A list of references to all routes selected by the policy.

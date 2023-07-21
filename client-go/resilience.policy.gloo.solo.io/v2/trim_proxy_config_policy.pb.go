@@ -90,6 +90,7 @@ type TrimProxyConfigPolicyStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of workloads selected by the policy.
 	NumSelectedWorkloads uint32 `protobuf:"varint,2,opt,name=num_selected_workloads,json=numSelectedWorkloads,proto3" json:"num_selected_workloads,omitempty"`
@@ -155,6 +156,7 @@ type TrimProxyConfigPolicyReport struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// A list of workspaces in which the policy can apply to workloads.
 	Workspaces map[string]*v2.Report `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// A list of workloads selected by the policy.
 	SelectedWorkloads []*v2.WorkloadReference `protobuf:"bytes,2,rep,name=selected_workloads,json=selectedWorkloads,proto3" json:"selected_workloads,omitempty"`

@@ -526,6 +526,11 @@ func (m *AccessPolicySpec_Config_Authorization) Hash(hasher hash.Hash64) (uint64
 
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetDryRun())
+	if err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 

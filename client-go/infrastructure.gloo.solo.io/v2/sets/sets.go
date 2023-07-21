@@ -17,8 +17,10 @@ type CloudProviderSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*infrastructure_gloo_solo_io_v2.CloudProvider) bool) []*infrastructure_gloo_solo_io_v2.CloudProvider
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*infrastructure_gloo_solo_io_v2.CloudProvider) bool) []*infrastructure_gloo_solo_io_v2.CloudProvider
 	// Return the Set as a map of key to resource.
 	Map() map[string]*infrastructure_gloo_solo_io_v2.CloudProvider
@@ -238,8 +240,10 @@ type CloudResourcesSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*infrastructure_gloo_solo_io_v2.CloudResources) bool) []*infrastructure_gloo_solo_io_v2.CloudResources
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*infrastructure_gloo_solo_io_v2.CloudResources) bool) []*infrastructure_gloo_solo_io_v2.CloudResources
 	// Return the Set as a map of key to resource.
 	Map() map[string]*infrastructure_gloo_solo_io_v2.CloudResources

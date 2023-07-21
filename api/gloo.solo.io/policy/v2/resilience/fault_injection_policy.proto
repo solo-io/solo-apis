@@ -21,8 +21,8 @@ option (extproto.clone_all) = true;
 // FaultInjectionPolicies are applied at the *Route* level.
 message FaultInjectionPolicySpec {
 
-  // select the routes where the policy will be applied
-  // if left empty, will apply to all routes in the workspace.
+  // Routes to apply the policy to.
+  // If empty, the policy applies to all routes in the workspace.
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
   // The details of the fault injection policy to apply to the selected routes.
@@ -44,7 +44,7 @@ message FaultInjectionPolicySpec {
     // service, giving the impression that the upstream service is faulty.
     message Abort {
 
-      // Required. HTTP status code to use to abort the request.
+      // Required: HTTP status code to use to abort the request.
       int32 http_status = 1;
 
       // Percentage of requests to be aborted. Values range between 0 and 100. If omitted all requests will be aborted.
@@ -55,7 +55,7 @@ message FaultInjectionPolicySpec {
     // Delay requests before forwarding, emulating various failures such as
     // network issues, overloaded upstream service, etc.
     message Delay {
-      // Required. Add a delay of a fixed duration before sending the request. Format: `1h`/`1m`/`1s`/`1ms`. MUST be >=1ms.
+      // Required: Add a delay of a fixed duration before sending the request. Format: `1h`/`1m`/`1s`/`1ms`. MUST be >=1ms.
       // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
       google.protobuf.Duration fixed_delay = 1;
 
@@ -67,7 +67,7 @@ message FaultInjectionPolicySpec {
   }
 }
 
-// reflects the status of the FaultInjectionPolicy
+// The status of the policy after it is applied to your Gloo environment.
 message FaultInjectionPolicyStatus {
   // The common status of the object
   .common.gloo.solo.io.Status common = 1;

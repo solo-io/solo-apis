@@ -1113,3 +1113,186 @@ func (mr *MockPortalGroupReconcileLoopMockRecorder) RunPortalGroupReconciler(ctx
 	varargs := append([]interface{}{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunPortalGroupReconciler", reflect.TypeOf((*MockPortalGroupReconcileLoop)(nil).RunPortalGroupReconciler), varargs...)
 }
+
+// MockApiSchemaDiscoveryReconciler is a mock of ApiSchemaDiscoveryReconciler interface.
+type MockApiSchemaDiscoveryReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryReconcilerMockRecorder
+}
+
+// MockApiSchemaDiscoveryReconcilerMockRecorder is the mock recorder for MockApiSchemaDiscoveryReconciler.
+type MockApiSchemaDiscoveryReconcilerMockRecorder struct {
+	mock *MockApiSchemaDiscoveryReconciler
+}
+
+// NewMockApiSchemaDiscoveryReconciler creates a new mock instance.
+func NewMockApiSchemaDiscoveryReconciler(ctrl *gomock.Controller) *MockApiSchemaDiscoveryReconciler {
+	mock := &MockApiSchemaDiscoveryReconciler{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryReconciler) EXPECT() *MockApiSchemaDiscoveryReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryReconciler) ReconcileApiSchemaDiscovery(obj *v2.ApiSchemaDiscovery) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileApiSchemaDiscovery", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileApiSchemaDiscovery indicates an expected call of ReconcileApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryReconcilerMockRecorder) ReconcileApiSchemaDiscovery(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryReconciler)(nil).ReconcileApiSchemaDiscovery), obj)
+}
+
+// MockApiSchemaDiscoveryDeletionReconciler is a mock of ApiSchemaDiscoveryDeletionReconciler interface.
+type MockApiSchemaDiscoveryDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryDeletionReconcilerMockRecorder
+}
+
+// MockApiSchemaDiscoveryDeletionReconcilerMockRecorder is the mock recorder for MockApiSchemaDiscoveryDeletionReconciler.
+type MockApiSchemaDiscoveryDeletionReconcilerMockRecorder struct {
+	mock *MockApiSchemaDiscoveryDeletionReconciler
+}
+
+// NewMockApiSchemaDiscoveryDeletionReconciler creates a new mock instance.
+func NewMockApiSchemaDiscoveryDeletionReconciler(ctrl *gomock.Controller) *MockApiSchemaDiscoveryDeletionReconciler {
+	mock := &MockApiSchemaDiscoveryDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryDeletionReconciler) EXPECT() *MockApiSchemaDiscoveryDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileApiSchemaDiscoveryDeletion mocks base method.
+func (m *MockApiSchemaDiscoveryDeletionReconciler) ReconcileApiSchemaDiscoveryDeletion(req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileApiSchemaDiscoveryDeletion", req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileApiSchemaDiscoveryDeletion indicates an expected call of ReconcileApiSchemaDiscoveryDeletion.
+func (mr *MockApiSchemaDiscoveryDeletionReconcilerMockRecorder) ReconcileApiSchemaDiscoveryDeletion(req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileApiSchemaDiscoveryDeletion", reflect.TypeOf((*MockApiSchemaDiscoveryDeletionReconciler)(nil).ReconcileApiSchemaDiscoveryDeletion), req)
+}
+
+// MockApiSchemaDiscoveryFinalizer is a mock of ApiSchemaDiscoveryFinalizer interface.
+type MockApiSchemaDiscoveryFinalizer struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryFinalizerMockRecorder
+}
+
+// MockApiSchemaDiscoveryFinalizerMockRecorder is the mock recorder for MockApiSchemaDiscoveryFinalizer.
+type MockApiSchemaDiscoveryFinalizerMockRecorder struct {
+	mock *MockApiSchemaDiscoveryFinalizer
+}
+
+// NewMockApiSchemaDiscoveryFinalizer creates a new mock instance.
+func NewMockApiSchemaDiscoveryFinalizer(ctrl *gomock.Controller) *MockApiSchemaDiscoveryFinalizer {
+	mock := &MockApiSchemaDiscoveryFinalizer{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryFinalizerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryFinalizer) EXPECT() *MockApiSchemaDiscoveryFinalizerMockRecorder {
+	return m.recorder
+}
+
+// ApiSchemaDiscoveryFinalizerName mocks base method.
+func (m *MockApiSchemaDiscoveryFinalizer) ApiSchemaDiscoveryFinalizerName() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ApiSchemaDiscoveryFinalizerName")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// ApiSchemaDiscoveryFinalizerName indicates an expected call of ApiSchemaDiscoveryFinalizerName.
+func (mr *MockApiSchemaDiscoveryFinalizerMockRecorder) ApiSchemaDiscoveryFinalizerName() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApiSchemaDiscoveryFinalizerName", reflect.TypeOf((*MockApiSchemaDiscoveryFinalizer)(nil).ApiSchemaDiscoveryFinalizerName))
+}
+
+// FinalizeApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryFinalizer) FinalizeApiSchemaDiscovery(obj *v2.ApiSchemaDiscovery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FinalizeApiSchemaDiscovery", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// FinalizeApiSchemaDiscovery indicates an expected call of FinalizeApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryFinalizerMockRecorder) FinalizeApiSchemaDiscovery(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryFinalizer)(nil).FinalizeApiSchemaDiscovery), obj)
+}
+
+// ReconcileApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryFinalizer) ReconcileApiSchemaDiscovery(obj *v2.ApiSchemaDiscovery) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileApiSchemaDiscovery", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileApiSchemaDiscovery indicates an expected call of ReconcileApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryFinalizerMockRecorder) ReconcileApiSchemaDiscovery(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryFinalizer)(nil).ReconcileApiSchemaDiscovery), obj)
+}
+
+// MockApiSchemaDiscoveryReconcileLoop is a mock of ApiSchemaDiscoveryReconcileLoop interface.
+type MockApiSchemaDiscoveryReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryReconcileLoopMockRecorder
+}
+
+// MockApiSchemaDiscoveryReconcileLoopMockRecorder is the mock recorder for MockApiSchemaDiscoveryReconcileLoop.
+type MockApiSchemaDiscoveryReconcileLoopMockRecorder struct {
+	mock *MockApiSchemaDiscoveryReconcileLoop
+}
+
+// NewMockApiSchemaDiscoveryReconcileLoop creates a new mock instance.
+func NewMockApiSchemaDiscoveryReconcileLoop(ctrl *gomock.Controller) *MockApiSchemaDiscoveryReconcileLoop {
+	mock := &MockApiSchemaDiscoveryReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryReconcileLoop) EXPECT() *MockApiSchemaDiscoveryReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// RunApiSchemaDiscoveryReconciler mocks base method.
+func (m *MockApiSchemaDiscoveryReconcileLoop) RunApiSchemaDiscoveryReconciler(ctx context.Context, rec controller.ApiSchemaDiscoveryReconciler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RunApiSchemaDiscoveryReconciler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RunApiSchemaDiscoveryReconciler indicates an expected call of RunApiSchemaDiscoveryReconciler.
+func (mr *MockApiSchemaDiscoveryReconcileLoopMockRecorder) RunApiSchemaDiscoveryReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunApiSchemaDiscoveryReconciler", reflect.TypeOf((*MockApiSchemaDiscoveryReconcileLoop)(nil).RunApiSchemaDiscoveryReconciler), varargs...)
+}

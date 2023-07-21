@@ -17,8 +17,10 @@ type MirrorPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.MirrorPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.MirrorPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.MirrorPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.MirrorPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*trafficcontrol_policy_gloo_solo_io_v2.MirrorPolicy
@@ -238,8 +240,10 @@ type RateLimitPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.RateLimitPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.RateLimitPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.RateLimitPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.RateLimitPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*trafficcontrol_policy_gloo_solo_io_v2.RateLimitPolicy
@@ -459,8 +463,10 @@ type RateLimitClientConfigSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.RateLimitClientConfig) bool) []*trafficcontrol_policy_gloo_solo_io_v2.RateLimitClientConfig
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.RateLimitClientConfig) bool) []*trafficcontrol_policy_gloo_solo_io_v2.RateLimitClientConfig
 	// Return the Set as a map of key to resource.
 	Map() map[string]*trafficcontrol_policy_gloo_solo_io_v2.RateLimitClientConfig
@@ -680,8 +686,10 @@ type HeaderManipulationPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.HeaderManipulationPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.HeaderManipulationPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.HeaderManipulationPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.HeaderManipulationPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*trafficcontrol_policy_gloo_solo_io_v2.HeaderManipulationPolicy
@@ -901,8 +909,10 @@ type TransformationPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.TransformationPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.TransformationPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.TransformationPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.TransformationPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*trafficcontrol_policy_gloo_solo_io_v2.TransformationPolicy
@@ -1122,8 +1132,10 @@ type LoadBalancerPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.LoadBalancerPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.LoadBalancerPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.LoadBalancerPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.LoadBalancerPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*trafficcontrol_policy_gloo_solo_io_v2.LoadBalancerPolicy
@@ -1343,8 +1355,10 @@ type ProxyProtocolPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.ProxyProtocolPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.ProxyProtocolPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.ProxyProtocolPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.ProxyProtocolPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*trafficcontrol_policy_gloo_solo_io_v2.ProxyProtocolPolicy
@@ -1564,8 +1578,10 @@ type HTTPBufferPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.HTTPBufferPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.HTTPBufferPolicy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*trafficcontrol_policy_gloo_solo_io_v2.HTTPBufferPolicy) bool) []*trafficcontrol_policy_gloo_solo_io_v2.HTTPBufferPolicy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*trafficcontrol_policy_gloo_solo_io_v2.HTTPBufferPolicy

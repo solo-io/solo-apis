@@ -102,7 +102,7 @@ func (x *RateLimitServerSettingsSpec) GetDenyOnFail() bool {
 	return false
 }
 
-// @exclude todo:(tjons) do we need to update this?
+// <!--todo:(tjons) do we need to update this?-->
 // The current status of the `RateLimitServerSettings`.
 type RateLimitServerSettingsStatus struct {
 	state         protoimpl.MessageState

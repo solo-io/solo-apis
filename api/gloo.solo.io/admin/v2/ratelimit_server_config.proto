@@ -50,6 +50,7 @@ message RateLimitServerConfigSpec {
 
 // The current status of the `RateLimitServerConfig`.
 message RateLimitServerConfigStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 }
 

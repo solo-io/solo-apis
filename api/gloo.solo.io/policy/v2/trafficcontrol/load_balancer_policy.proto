@@ -128,16 +128,18 @@ message LoadBalancerPolicySpec {
   }
 }
 
-// reflects the status of the LoadBalancerPolicyStatus
+// The status of the policy after it is applied to your Gloo environment.Status
 message LoadBalancerPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
-  // The number of destination ports selected by the policy
+  // The number of destination ports selected by the policy.
   uint32 num_selected_destination_ports = 2;
 }
 
 // Report on the state of the LoadBalancerPolicyReport
 message LoadBalancerPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
   // Destination ports selected by the policy

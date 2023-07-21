@@ -18,8 +18,8 @@ option (extproto.clone_all) = true;
 // CSRFPolicies are applied at the *Route* level.
 message CSRFPolicySpec {
 
-  // select the routes where the policy will be applied
-  // if left empty, will apply to all routes in the workspace.
+  // Routes to apply the policy to.
+  // If empty, the policy applies to all workloads in the workspace.
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
   // The details of the CSRF policy to apply to the selected routes.
@@ -52,8 +52,9 @@ message CSRFPolicySpec {
   }
 }
 
-// reflects the status of the CSRFPolicy
+// The status of the policy after it is applied to your Gloo environment.
 message CSRFPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // Count of routes selected by the policy
@@ -61,6 +62,7 @@ message CSRFPolicyStatus {
 }
 
 message CSRFPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
   // Routes selected by the policy

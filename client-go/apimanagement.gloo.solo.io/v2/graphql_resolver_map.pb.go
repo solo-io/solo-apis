@@ -480,6 +480,7 @@ type GraphQLResolverMapStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The name of the workspace that owns the Graphql resolver map.
 	OwnedByWorkspace string `protobuf:"bytes,4,opt,name=owned_by_workspace,json=ownedByWorkspace,proto3" json:"owned_by_workspace,omitempty"`
@@ -895,7 +896,7 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver struct {
 	// The value defines where the variable value is extracted from on the GraphQL REST response.
 	Variables map[string]*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable `protobuf:"bytes,3,rep,name=variables,proto3" json:"variables,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The span name for the upstream REST request, used for tracing.
-	// If left empty or not set, the request span name will be set to the upstream cluster name.
+	// If empty or omitted, the request span name will be set to the upstream cluster name.
 	SpanName *wrappers.StringValue `protobuf:"bytes,4,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the REST service (default 5s)
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
@@ -981,7 +982,7 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver struct {
 	Destinations []*v2.DestinationReference                                                         `protobuf:"bytes,1,rep,name=destinations,proto3" json:"destinations,omitempty"`
 	Request      *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
 	// The span name for the upstream gRPC request, used for tracing.
-	// If left empty or not set, the request span name will be set to the upstream cluster name.
+	// If empty or omitted, the request span name will be set to the upstream cluster name.
 	SpanName *wrappers.StringValue `protobuf:"bytes,3,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the gRPC service (default 5s)
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).

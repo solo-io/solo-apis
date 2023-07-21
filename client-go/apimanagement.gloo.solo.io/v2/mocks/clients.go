@@ -89,6 +89,20 @@ func (mr *MockClientsetMockRecorder) ApiDocs() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApiDocs", reflect.TypeOf((*MockClientset)(nil).ApiDocs))
 }
 
+// ApiSchemaDiscoveries mocks base method.
+func (m *MockClientset) ApiSchemaDiscoveries() v2.ApiSchemaDiscoveryClient {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ApiSchemaDiscoveries")
+	ret0, _ := ret[0].(v2.ApiSchemaDiscoveryClient)
+	return ret0
+}
+
+// ApiSchemaDiscoveries indicates an expected call of ApiSchemaDiscoveries.
+func (mr *MockClientsetMockRecorder) ApiSchemaDiscoveries() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApiSchemaDiscoveries", reflect.TypeOf((*MockClientset)(nil).ApiSchemaDiscoveries))
+}
+
 // GraphQLResolverMaps mocks base method.
 func (m *MockClientset) GraphQLResolverMaps() v2.GraphQLResolverMapClient {
 	m.ctrl.T.Helper()
@@ -3181,4 +3195,508 @@ func (m *MockMulticlusterPortalGroupClient) Cluster(cluster string) (v2.PortalGr
 func (mr *MockMulticlusterPortalGroupClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterPortalGroupClient)(nil).Cluster), cluster)
+}
+
+// MockApiSchemaDiscoveryReader is a mock of ApiSchemaDiscoveryReader interface.
+type MockApiSchemaDiscoveryReader struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryReaderMockRecorder
+}
+
+// MockApiSchemaDiscoveryReaderMockRecorder is the mock recorder for MockApiSchemaDiscoveryReader.
+type MockApiSchemaDiscoveryReaderMockRecorder struct {
+	mock *MockApiSchemaDiscoveryReader
+}
+
+// NewMockApiSchemaDiscoveryReader creates a new mock instance.
+func NewMockApiSchemaDiscoveryReader(ctrl *gomock.Controller) *MockApiSchemaDiscoveryReader {
+	mock := &MockApiSchemaDiscoveryReader{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryReaderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryReader) EXPECT() *MockApiSchemaDiscoveryReaderMockRecorder {
+	return m.recorder
+}
+
+// GetApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryReader) GetApiSchemaDiscovery(ctx context.Context, key client.ObjectKey) (*v2.ApiSchemaDiscovery, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetApiSchemaDiscovery", ctx, key)
+	ret0, _ := ret[0].(*v2.ApiSchemaDiscovery)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetApiSchemaDiscovery indicates an expected call of GetApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryReaderMockRecorder) GetApiSchemaDiscovery(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryReader)(nil).GetApiSchemaDiscovery), ctx, key)
+}
+
+// ListApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryReader) ListApiSchemaDiscovery(ctx context.Context, opts ...client.ListOption) (*v2.ApiSchemaDiscoveryList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(*v2.ApiSchemaDiscoveryList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListApiSchemaDiscovery indicates an expected call of ListApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryReaderMockRecorder) ListApiSchemaDiscovery(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryReader)(nil).ListApiSchemaDiscovery), varargs...)
+}
+
+// MockApiSchemaDiscoveryWriter is a mock of ApiSchemaDiscoveryWriter interface.
+type MockApiSchemaDiscoveryWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryWriterMockRecorder
+}
+
+// MockApiSchemaDiscoveryWriterMockRecorder is the mock recorder for MockApiSchemaDiscoveryWriter.
+type MockApiSchemaDiscoveryWriterMockRecorder struct {
+	mock *MockApiSchemaDiscoveryWriter
+}
+
+// NewMockApiSchemaDiscoveryWriter creates a new mock instance.
+func NewMockApiSchemaDiscoveryWriter(ctrl *gomock.Controller) *MockApiSchemaDiscoveryWriter {
+	mock := &MockApiSchemaDiscoveryWriter{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryWriter) EXPECT() *MockApiSchemaDiscoveryWriterMockRecorder {
+	return m.recorder
+}
+
+// CreateApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryWriter) CreateApiSchemaDiscovery(ctx context.Context, obj *v2.ApiSchemaDiscovery, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateApiSchemaDiscovery indicates an expected call of CreateApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryWriterMockRecorder) CreateApiSchemaDiscovery(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryWriter)(nil).CreateApiSchemaDiscovery), varargs...)
+}
+
+// DeleteAllOfApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryWriter) DeleteAllOfApiSchemaDiscovery(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfApiSchemaDiscovery indicates an expected call of DeleteAllOfApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryWriterMockRecorder) DeleteAllOfApiSchemaDiscovery(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryWriter)(nil).DeleteAllOfApiSchemaDiscovery), varargs...)
+}
+
+// DeleteApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryWriter) DeleteApiSchemaDiscovery(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteApiSchemaDiscovery indicates an expected call of DeleteApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryWriterMockRecorder) DeleteApiSchemaDiscovery(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryWriter)(nil).DeleteApiSchemaDiscovery), varargs...)
+}
+
+// PatchApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryWriter) PatchApiSchemaDiscovery(ctx context.Context, obj *v2.ApiSchemaDiscovery, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchApiSchemaDiscovery indicates an expected call of PatchApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryWriterMockRecorder) PatchApiSchemaDiscovery(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryWriter)(nil).PatchApiSchemaDiscovery), varargs...)
+}
+
+// UpdateApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryWriter) UpdateApiSchemaDiscovery(ctx context.Context, obj *v2.ApiSchemaDiscovery, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateApiSchemaDiscovery indicates an expected call of UpdateApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryWriterMockRecorder) UpdateApiSchemaDiscovery(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryWriter)(nil).UpdateApiSchemaDiscovery), varargs...)
+}
+
+// UpsertApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryWriter) UpsertApiSchemaDiscovery(ctx context.Context, obj *v2.ApiSchemaDiscovery, transitionFuncs ...v2.ApiSchemaDiscoveryTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertApiSchemaDiscovery indicates an expected call of UpsertApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryWriterMockRecorder) UpsertApiSchemaDiscovery(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryWriter)(nil).UpsertApiSchemaDiscovery), varargs...)
+}
+
+// MockApiSchemaDiscoveryStatusWriter is a mock of ApiSchemaDiscoveryStatusWriter interface.
+type MockApiSchemaDiscoveryStatusWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryStatusWriterMockRecorder
+}
+
+// MockApiSchemaDiscoveryStatusWriterMockRecorder is the mock recorder for MockApiSchemaDiscoveryStatusWriter.
+type MockApiSchemaDiscoveryStatusWriterMockRecorder struct {
+	mock *MockApiSchemaDiscoveryStatusWriter
+}
+
+// NewMockApiSchemaDiscoveryStatusWriter creates a new mock instance.
+func NewMockApiSchemaDiscoveryStatusWriter(ctrl *gomock.Controller) *MockApiSchemaDiscoveryStatusWriter {
+	mock := &MockApiSchemaDiscoveryStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryStatusWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryStatusWriter) EXPECT() *MockApiSchemaDiscoveryStatusWriterMockRecorder {
+	return m.recorder
+}
+
+// PatchApiSchemaDiscoveryStatus mocks base method.
+func (m *MockApiSchemaDiscoveryStatusWriter) PatchApiSchemaDiscoveryStatus(ctx context.Context, obj *v2.ApiSchemaDiscovery, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchApiSchemaDiscoveryStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchApiSchemaDiscoveryStatus indicates an expected call of PatchApiSchemaDiscoveryStatus.
+func (mr *MockApiSchemaDiscoveryStatusWriterMockRecorder) PatchApiSchemaDiscoveryStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchApiSchemaDiscoveryStatus", reflect.TypeOf((*MockApiSchemaDiscoveryStatusWriter)(nil).PatchApiSchemaDiscoveryStatus), varargs...)
+}
+
+// UpdateApiSchemaDiscoveryStatus mocks base method.
+func (m *MockApiSchemaDiscoveryStatusWriter) UpdateApiSchemaDiscoveryStatus(ctx context.Context, obj *v2.ApiSchemaDiscovery, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateApiSchemaDiscoveryStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateApiSchemaDiscoveryStatus indicates an expected call of UpdateApiSchemaDiscoveryStatus.
+func (mr *MockApiSchemaDiscoveryStatusWriterMockRecorder) UpdateApiSchemaDiscoveryStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateApiSchemaDiscoveryStatus", reflect.TypeOf((*MockApiSchemaDiscoveryStatusWriter)(nil).UpdateApiSchemaDiscoveryStatus), varargs...)
+}
+
+// MockApiSchemaDiscoveryClient is a mock of ApiSchemaDiscoveryClient interface.
+type MockApiSchemaDiscoveryClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryClientMockRecorder
+}
+
+// MockApiSchemaDiscoveryClientMockRecorder is the mock recorder for MockApiSchemaDiscoveryClient.
+type MockApiSchemaDiscoveryClientMockRecorder struct {
+	mock *MockApiSchemaDiscoveryClient
+}
+
+// NewMockApiSchemaDiscoveryClient creates a new mock instance.
+func NewMockApiSchemaDiscoveryClient(ctrl *gomock.Controller) *MockApiSchemaDiscoveryClient {
+	mock := &MockApiSchemaDiscoveryClient{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryClient) EXPECT() *MockApiSchemaDiscoveryClientMockRecorder {
+	return m.recorder
+}
+
+// CreateApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryClient) CreateApiSchemaDiscovery(ctx context.Context, obj *v2.ApiSchemaDiscovery, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateApiSchemaDiscovery indicates an expected call of CreateApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) CreateApiSchemaDiscovery(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).CreateApiSchemaDiscovery), varargs...)
+}
+
+// DeleteAllOfApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryClient) DeleteAllOfApiSchemaDiscovery(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfApiSchemaDiscovery indicates an expected call of DeleteAllOfApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) DeleteAllOfApiSchemaDiscovery(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).DeleteAllOfApiSchemaDiscovery), varargs...)
+}
+
+// DeleteApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryClient) DeleteApiSchemaDiscovery(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteApiSchemaDiscovery indicates an expected call of DeleteApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) DeleteApiSchemaDiscovery(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).DeleteApiSchemaDiscovery), varargs...)
+}
+
+// GetApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryClient) GetApiSchemaDiscovery(ctx context.Context, key client.ObjectKey) (*v2.ApiSchemaDiscovery, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetApiSchemaDiscovery", ctx, key)
+	ret0, _ := ret[0].(*v2.ApiSchemaDiscovery)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetApiSchemaDiscovery indicates an expected call of GetApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) GetApiSchemaDiscovery(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).GetApiSchemaDiscovery), ctx, key)
+}
+
+// ListApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryClient) ListApiSchemaDiscovery(ctx context.Context, opts ...client.ListOption) (*v2.ApiSchemaDiscoveryList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(*v2.ApiSchemaDiscoveryList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListApiSchemaDiscovery indicates an expected call of ListApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) ListApiSchemaDiscovery(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).ListApiSchemaDiscovery), varargs...)
+}
+
+// PatchApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryClient) PatchApiSchemaDiscovery(ctx context.Context, obj *v2.ApiSchemaDiscovery, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchApiSchemaDiscovery indicates an expected call of PatchApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) PatchApiSchemaDiscovery(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).PatchApiSchemaDiscovery), varargs...)
+}
+
+// PatchApiSchemaDiscoveryStatus mocks base method.
+func (m *MockApiSchemaDiscoveryClient) PatchApiSchemaDiscoveryStatus(ctx context.Context, obj *v2.ApiSchemaDiscovery, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchApiSchemaDiscoveryStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchApiSchemaDiscoveryStatus indicates an expected call of PatchApiSchemaDiscoveryStatus.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) PatchApiSchemaDiscoveryStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchApiSchemaDiscoveryStatus", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).PatchApiSchemaDiscoveryStatus), varargs...)
+}
+
+// UpdateApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryClient) UpdateApiSchemaDiscovery(ctx context.Context, obj *v2.ApiSchemaDiscovery, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateApiSchemaDiscovery indicates an expected call of UpdateApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) UpdateApiSchemaDiscovery(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).UpdateApiSchemaDiscovery), varargs...)
+}
+
+// UpdateApiSchemaDiscoveryStatus mocks base method.
+func (m *MockApiSchemaDiscoveryClient) UpdateApiSchemaDiscoveryStatus(ctx context.Context, obj *v2.ApiSchemaDiscovery, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateApiSchemaDiscoveryStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateApiSchemaDiscoveryStatus indicates an expected call of UpdateApiSchemaDiscoveryStatus.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) UpdateApiSchemaDiscoveryStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateApiSchemaDiscoveryStatus", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).UpdateApiSchemaDiscoveryStatus), varargs...)
+}
+
+// UpsertApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryClient) UpsertApiSchemaDiscovery(ctx context.Context, obj *v2.ApiSchemaDiscovery, transitionFuncs ...v2.ApiSchemaDiscoveryTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertApiSchemaDiscovery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertApiSchemaDiscovery indicates an expected call of UpsertApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryClientMockRecorder) UpsertApiSchemaDiscovery(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryClient)(nil).UpsertApiSchemaDiscovery), varargs...)
+}
+
+// MockMulticlusterApiSchemaDiscoveryClient is a mock of MulticlusterApiSchemaDiscoveryClient interface.
+type MockMulticlusterApiSchemaDiscoveryClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterApiSchemaDiscoveryClientMockRecorder
+}
+
+// MockMulticlusterApiSchemaDiscoveryClientMockRecorder is the mock recorder for MockMulticlusterApiSchemaDiscoveryClient.
+type MockMulticlusterApiSchemaDiscoveryClientMockRecorder struct {
+	mock *MockMulticlusterApiSchemaDiscoveryClient
+}
+
+// NewMockMulticlusterApiSchemaDiscoveryClient creates a new mock instance.
+func NewMockMulticlusterApiSchemaDiscoveryClient(ctrl *gomock.Controller) *MockMulticlusterApiSchemaDiscoveryClient {
+	mock := &MockMulticlusterApiSchemaDiscoveryClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterApiSchemaDiscoveryClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterApiSchemaDiscoveryClient) EXPECT() *MockMulticlusterApiSchemaDiscoveryClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterApiSchemaDiscoveryClient) Cluster(cluster string) (v2.ApiSchemaDiscoveryClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v2.ApiSchemaDiscoveryClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterApiSchemaDiscoveryClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterApiSchemaDiscoveryClient)(nil).Cluster), cluster)
 }

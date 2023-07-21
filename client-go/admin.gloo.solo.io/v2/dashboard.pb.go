@@ -283,7 +283,7 @@ type OidcConfig struct {
 	JwksCacheRefreshPolicy *JwksOnDemandCacheRefreshPolicy `protobuf:"bytes,13,opt,name=jwks_cache_refresh_policy,json=jwksCacheRefreshPolicy,proto3" json:"jwks_cache_refresh_policy,omitempty"`
 	// If set, the ID token will used to infer user identity, that can be used to make
 	// authorization decisions.
-	// If not specified, no authorization will be made.
+	// If empty, no authorization will be made.
 	UserMapping *UserMapping `protobuf:"bytes,14,opt,name=user_mapping,json=userMapping,proto3" json:"user_mapping,omitempty"`
 	// A name of a config map containing root cert to use when talking with
 	// the OIDC provider. The config map must contain the a key named "ca.crt" with PEM encoded

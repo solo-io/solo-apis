@@ -131,16 +131,16 @@ type ObjectSelector struct {
 
 	// labels matching those of the object
 	Labels map[string]string `protobuf:"bytes,1,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// Only select objects with the matching name. If the field is omitted, Gloo Mesh will select
+	// Only select objects with the matching name. If omitted, Gloo selects
 	// matching objects with any name available in the parent object's workspace.
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	// Only select objects in the matching namespace. If the field is omitted, Gloo Mesh will select
+	// Only select objects in the matching namespace. If omitted, Gloo selects
 	// matching objects across all namespaces available in the parent object's workspace.
 	Namespace string `protobuf:"bytes,3,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Only select objects in the matching cluster. If the field is omitted, Gloo Mesh will select
+	// Only select objects in the matching cluster. If omitted, Gloo selects
 	// matching objects across all clusters available in the parent object's workspace.
 	Cluster string `protobuf:"bytes,4,opt,name=cluster,proto3" json:"cluster,omitempty"`
-	// Only select objects in the given workspace. If the field is omitted, Gloo Mesh will select
+	// Only select objects in the given workspace. If omitted, Gloo selects
 	// matching objects across all workspaces available in the parent object's workspace.
 	Workspace string `protobuf:"bytes,5,opt,name=workspace,proto3" json:"workspace,omitempty"`
 }
@@ -294,7 +294,7 @@ type RouteDestinationSelector struct {
 
 	// select routes based on their labels.
 	// these labels can be used to match route tables or individual routes within route tables.
-	// if left empty, configuration will apply to all specified destinations on all routes in the workspace.
+	// If empty, configuration will apply to all specified destinations on all routes in the workspace.
 	Route *RouteLabelSelector `protobuf:"bytes,1,opt,name=route,proto3" json:"route,omitempty"`
 	// for the selected routes, select destinations on which to apply this policy
 	OnDestinations []*DestinationSelector `protobuf:"bytes,2,rep,name=on_destinations,json=onDestinations,proto3" json:"on_destinations,omitempty"`
@@ -568,8 +568,10 @@ type ListenerSelector struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The virtual gateway on which to select a listener.
 	VirtualGateway *ObjectSelector `protobuf:"bytes,1,opt,name=virtual_gateway,json=virtualGateway,proto3" json:"virtual_gateway,omitempty"`
-	Port           *PortSelector   `protobuf:"bytes,2,opt,name=port,proto3" json:"port,omitempty"`
+	// The port to select on the selected listener.
+	Port *PortSelector `protobuf:"bytes,2,opt,name=port,proto3" json:"port,omitempty"`
 }
 
 func (x *ListenerSelector) Reset() {
@@ -976,10 +978,10 @@ type IdentitySelector_RequestIdentityMatcher struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Optional. A list of identities to match the request identity ("iss/sub" from the JWT).
+	// Optional: A list of identities to match the request identity ("iss/sub" from the JWT).
 	// If omitted all request identity values will be accepted.
 	RequestPrincipals []string `protobuf:"bytes,3,rep,name=requestPrincipals,proto3" json:"requestPrincipals,omitempty"`
-	// Optional. A list of identities to negative match the request identity.
+	// Optional: A list of identities to negative match the request identity.
 	NotRequestPrincipals []string `protobuf:"bytes,4,rep,name=notRequestPrincipals,proto3" json:"notRequestPrincipals,omitempty"`
 }
 

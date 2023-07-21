@@ -184,25 +184,3 @@ func (in *PortalConfigStatus) DeepCopyInto(out *PortalConfigStatus) {
 	}
 	*out = *p
 }
-
-// DeepCopyInto for the SpireRegistrationEntry.Spec
-func (in *SpireRegistrationEntrySpec) DeepCopyInto(out *SpireRegistrationEntrySpec) {
-	var p *SpireRegistrationEntrySpec
-	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*SpireRegistrationEntrySpec)
-	} else {
-		p = proto.Clone(in).(*SpireRegistrationEntrySpec)
-	}
-	*out = *p
-}
-
-// DeepCopyInto for the SpireRegistrationEntry.Status
-func (in *SpireRegistrationEntryStatus) DeepCopyInto(out *SpireRegistrationEntryStatus) {
-	var p *SpireRegistrationEntryStatus
-	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*SpireRegistrationEntryStatus)
-	} else {
-		p = proto.Clone(in).(*SpireRegistrationEntryStatus)
-	}
-	*out = *p
-}

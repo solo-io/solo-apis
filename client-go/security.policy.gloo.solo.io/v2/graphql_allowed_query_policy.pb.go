@@ -33,7 +33,7 @@ type GraphQLAllowedQueryPolicySpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Select the graphql routes where the policy will be applied.
-	// If left empty, will apply to no graphql routes.
+	// If empty, will apply to no graphql routes.
 	// selection via Destination selectors will not work for this policy, and only
 	// route selectors will work.
 	// If more than one GraphQLAllowedQueryPolicy applies to a GraphQLRoute, the oldest
@@ -93,6 +93,7 @@ type GraphQLAllowedQueryPolicyStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of routes the policy selects.
 	NumSelectedRoutes uint32 `protobuf:"varint,2,opt,name=num_selected_routes,json=numSelectedRoutes,proto3" json:"num_selected_routes,omitempty"`
@@ -150,6 +151,7 @@ type GraphQLAllowedQueryPolicyReport struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// A list of workspaces in which the policy can apply to workloads.
 	Workspaces map[string]*v2.Report `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// A list of references to all routes the policy selects.
 	SelectedRoutes []*v2.RouteReference `protobuf:"bytes,2,rep,name=selected_routes,json=selectedRoutes,proto3" json:"selected_routes,omitempty"`

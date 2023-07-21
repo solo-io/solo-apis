@@ -17,6 +17,3 @@ func (o *VirtualDestination) IsConfigObject() {}
 
 // IsConfigObject implements ConfigObject interface for VirtualGateway
 func (o *VirtualGateway) IsConfigObject() {}
-
-// IsConfigObject implements ConfigObject interface for ExternalWorkload
-func (o *ExternalWorkload) IsConfigObject() {}

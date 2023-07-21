@@ -20,3 +20,6 @@ func (o *Portal) IsConfigObject() {}
 
 // IsConfigObject implements ConfigObject interface for PortalGroup
 func (o *PortalGroup) IsConfigObject() {}
+
+// IsConfigObject implements ConfigObject interface for ApiSchemaDiscovery
+func (o *ApiSchemaDiscovery) IsConfigObject() {}

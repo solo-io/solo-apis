@@ -390,6 +390,10 @@ func (m *PortalConfigSpec_API) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
+	if _, err = hasher.Write([]byte(m.GetLifecycle())); err != nil {
+		return 0, err
+	}
+
 	if h, ok := interface{}(m.GetApiSchema()).(safe_hasher.SafeHasher); ok {
 		if _, err = hasher.Write([]byte("ApiSchema")); err != nil {
 			return 0, err
@@ -590,35 +594,6 @@ func (m *PortalConfigSpec_ExtAuthPolicy) Hash(hasher hash.Hash64) (uint64, error
 		return 0, err
 	}
 
-	err = binary.Write(hasher, binary.LittleEndian, m.GetExtAuthType())
-	if err != nil {
-		return 0, err
-	}
-
-	for _, v := range m.GetExtAuthLabelSelector() {
-
-		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	}
-
 	if h, ok := interface{}(m.GetExtAuthPolicyRef()).(safe_hasher.SafeHasher); ok {
 		if _, err = hasher.Write([]byte("ExtAuthPolicyRef")); err != nil {
 			return 0, err
@@ -643,11 +618,81 @@ func (m *PortalConfigSpec_ExtAuthPolicy) Hash(hasher hash.Hash64) (uint64, error
 		return 0, err
 	}
 
+	switch m.AuthCfg.(type) {
+
+	case *PortalConfigSpec_ExtAuthPolicy_ApiKeyAuth:
+
+		if h, ok := interface{}(m.GetApiKeyAuth()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ApiKeyAuth")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetApiKeyAuth(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ApiKeyAuth")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *PortalConfigSpec_ExtAuthPolicy_OidcAuth:
+
+		if h, ok := interface{}(m.GetOidcAuth()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("OidcAuth")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetOidcAuth(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("OidcAuth")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *PortalConfigSpec_ExtAuthPolicy_AccessTokenValidation:
+
+		if h, ok := interface{}(m.GetAccessTokenValidation()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("AccessTokenValidation")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetAccessTokenValidation(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("AccessTokenValidation")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
 	return hasher.Sum64(), nil
 }
 
 // Hash function
-func (m *PortalConfigSpec_ExtAuthLabelSelector) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *PortalConfigSpec_ApiKeyAuth) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -655,15 +700,70 @@ func (m *PortalConfigSpec_ExtAuthLabelSelector) Hash(hasher hash.Hash64) (uint64
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_ExtAuthLabelSelector")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_ApiKeyAuth")); err != nil {
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetKey())); err != nil {
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetExtAuthLabelSelector() {
+			innerHash.Reset()
+
+			if _, err = innerHash.Write([]byte(v)); err != nil {
+				return 0, err
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *PortalConfigSpec_OidcAuth) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_OidcAuth")); err != nil {
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetValue())); err != nil {
+	if _, err = hasher.Write([]byte(m.GetWellKnownOpenidConfig())); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *PortalConfigSpec_AccessTokenValidation) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_AccessTokenValidation")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetBearerFormat())); err != nil {
 		return 0, err
 	}
 

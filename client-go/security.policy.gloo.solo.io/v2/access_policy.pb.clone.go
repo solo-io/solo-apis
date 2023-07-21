@@ -287,6 +287,8 @@ func (m *AccessPolicySpec_Config_Authorization) Clone() proto.Message {
 		}
 	}
 
+	target.DryRun = m.GetDryRun()
+
 	return target
 }
 

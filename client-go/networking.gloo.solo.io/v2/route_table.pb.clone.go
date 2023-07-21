@@ -76,6 +76,19 @@ func (m *RouteTableSpec) Clone() proto.Message {
 		}
 	}
 
+	if m.GetApplyToDestinations() != nil {
+		target.ApplyToDestinations = make([]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationSelector, len(m.GetApplyToDestinations()))
+		for idx, v := range m.GetApplyToDestinations() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ApplyToDestinations[idx] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationSelector)
+			} else {
+				target.ApplyToDestinations[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationSelector)
+			}
+
+		}
+	}
+
 	if h, ok := interface{}(m.GetDefaultDestination()).(clone.Cloner); ok {
 		target.DefaultDestination = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference)
 	} else {
@@ -509,8 +522,6 @@ func (m *PortalMetadata) Clone() proto.Message {
 
 	target.ApiProductDisplayName = m.GetApiProductDisplayName()
 
-	target.ApiId = m.GetApiId()
-
 	target.ApiVersion = m.GetApiVersion()
 
 	target.Title = m.GetTitle()
@@ -522,6 +533,8 @@ func (m *PortalMetadata) Clone() proto.Message {
 	target.Contact = m.GetContact()
 
 	target.License = m.GetLicense()
+
+	target.Lifecycle = m.GetLifecycle()
 
 	if m.GetCustomMetadata() != nil {
 		target.CustomMetadata = make(map[string]string, len(m.GetCustomMetadata()))

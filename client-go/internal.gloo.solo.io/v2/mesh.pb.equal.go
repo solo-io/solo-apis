@@ -101,6 +101,14 @@ func (m *MeshSpec) Equal(that interface{}) bool {
 		return false
 	}
 
+	if m.GetIpFamily() != target.GetIpFamily() {
+		return false
+	}
+
+	if m.GetAmbientCapable() != target.GetAmbientCapable() {
+		return false
+	}
+
 	return true
 }
 
@@ -210,6 +218,16 @@ func (m *MeshSpec_AgentInfo) Equal(that interface{}) bool {
 
 	if strings.Compare(m.GetVersion(), target.GetVersion()) != 0 {
 		return false
+	}
+
+	if h, ok := interface{}(m.GetRelayRootTlsSecret()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetRelayRootTlsSecret()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetRelayRootTlsSecret(), target.GetRelayRootTlsSecret()) {
+			return false
+		}
 	}
 
 	return true

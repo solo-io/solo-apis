@@ -230,8 +230,8 @@ func (x *ExtAuthServerSpec) GetStatPrefix() string {
 	return ""
 }
 
-// @exclude todo:(tjons) do we need to update this?
-// reflects the status of the ExtAuthServer
+// <!--todo:(tjons) do we need to update this?-->
+// The status of the resource after it is applied to your Gloo environment.
 type ExtAuthServerStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

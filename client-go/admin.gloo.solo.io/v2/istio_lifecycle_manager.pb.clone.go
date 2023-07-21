@@ -14,6 +14,8 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+
+	k8s_io_api_core_v1 "k8s.io/api/core/v1"
 )
 
 // ensure the imports are used
@@ -69,6 +71,63 @@ func (m *IstioClusterSelector) Clone() proto.Message {
 }
 
 // Clone function
+func (m *IstioController) Clone() proto.Message {
+	var target *IstioController
+	if m == nil {
+		return target
+	}
+	target = &IstioController{}
+
+	target.WaitForResourcesTimeout = m.GetWaitForResourcesTimeout()
+
+	if m.GetImagePullSecrets() != nil {
+		target.ImagePullSecrets = make([]*k8s_io_api_core_v1.LocalObjectReference, len(m.GetImagePullSecrets()))
+		for idx, v := range m.GetImagePullSecrets() {
+
+			target.ImagePullSecrets[idx] = v.DeepCopy()
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetResources()).(clone.Cloner); ok {
+		target.Resources = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Resources)
+	} else {
+		target.Resources = proto.Clone(m.GetResources()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Resources)
+	}
+
+	target.SecurityContext = m.GetSecurityContext().DeepCopy()
+
+	if m.GetLabels() != nil {
+		target.Labels = make(map[string]string, len(m.GetLabels()))
+		for k, v := range m.GetLabels() {
+
+			target.Labels[k] = v
+
+		}
+	}
+
+	if m.GetAnnotations() != nil {
+		target.Annotations = make(map[string]string, len(m.GetAnnotations()))
+		for k, v := range m.GetAnnotations() {
+
+			target.Annotations[k] = v
+
+		}
+	}
+
+	if m.GetEnvVars() != nil {
+		target.EnvVars = make([]*k8s_io_api_core_v1.EnvVar, len(m.GetEnvVars()))
+		for idx, v := range m.GetEnvVars() {
+
+			target.EnvVars[idx] = v.DeepCopy()
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *IstioInstallation) Clone() proto.Message {
 	var target *IstioInstallation
 	if m == nil {
@@ -96,6 +155,14 @@ func (m *IstioInstallation) Clone() proto.Message {
 	} else {
 		target.IstioOperatorSpec = proto.Clone(m.GetIstioOperatorSpec()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.IstioOperatorSpec)
 	}
+
+	if h, ok := interface{}(m.GetIstioController()).(clone.Cloner); ok {
+		target.IstioController = h.Clone().(*IstioController)
+	} else {
+		target.IstioController = proto.Clone(m.GetIstioController()).(*IstioController)
+	}
+
+	target.SkipUpgradeValidation = m.GetSkipUpgradeValidation()
 
 	return target
 }

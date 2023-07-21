@@ -18,7 +18,7 @@ option (extproto.clone_all) = true;
 // ConnectionPolicy provides settings to apply low-level settings on selected TCP connections.
 message ConnectionPolicySpec {
 
-  // select the destinations where the policy will be applied. If left empty,
+  // select the destinations where the policy will be applied. If empty,
   // this will apply to all destinations in the workspace.
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
 
@@ -61,7 +61,7 @@ message ConnectionPolicySpec {
       int32 max_pending_requests = 5;
 
       // The idle timeout for upstream connection pool connections. The idle timeout is defined as the period in which there are no active requests.
-      // If not set, the default is 1 hour. When the idle timeout is reached, the connection will be closed. If the connection is an HTTP/2 connection
+      // If omitted, the default is 1 hour. When the idle timeout is reached, the connection will be closed. If the connection is an HTTP/2 connection
       // a drain sequence will occur prior to closing the connection. Note that request based timeouts mean that HTTP/2 PINGs will not keep the connection alive.
       // Applies to both HTTP1.1 and HTTP2 connections.
       // For more information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
@@ -70,8 +70,9 @@ message ConnectionPolicySpec {
   }
 }
 
-// Reflects the status of the ConnectionPolicy.
+// The status of the policy after it is applied to your Gloo environment.
 message ConnectionPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of destination ports selected by this policy.
@@ -79,6 +80,7 @@ message ConnectionPolicyStatus {
 }
 
 message ConnectionPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
   // A list of destination ports selected by this policy.

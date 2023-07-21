@@ -178,6 +178,7 @@ type DiscoveredGatewayStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// A count of virtual gateways that select this discovered gateway.
 	NumVirtualGateways uint32 `protobuf:"varint,2,opt,name=num_virtual_gateways,json=numVirtualGateways,proto3" json:"num_virtual_gateways,omitempty"`

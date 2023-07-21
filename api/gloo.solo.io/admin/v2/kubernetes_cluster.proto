@@ -51,12 +51,13 @@ message KubernetesClusterSpec {
   string cluster_domain = 1;
 }
 
-// Reflects the status of the Kubernetes cluster
+// // The status of the KubernetesCluster after it is applied to your Gloo environment.
 message KubernetesClusterStatus {
   // Indicates the state of the Gloo agent that is connected to the Gloo management server.
   .common.gloo.solo.io.Status common = 1;
 }
 
+// The resources that the applied resource selects.
 message KubernetesClusterReport {
   .common.gloo.solo.io.State state = 1;
 }

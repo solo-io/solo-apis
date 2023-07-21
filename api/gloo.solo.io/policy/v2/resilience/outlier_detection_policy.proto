@@ -22,8 +22,8 @@ option (extproto.clone_all) = true;
 // An OutlierDetectionPolicy will add configuration to also eject a deployment that is returning too many 5xx HTTP status codes.
 message OutlierDetectionPolicySpec {
 
-  // select the destinations where the policy will be applied
-  // if left empty, will apply to all destinations in the workspace.
+  // Destinations to apply the policy to.
+  // If empty, the policy applies to all destinations in the workspace.
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
 
   // The details of the OutlierDetectionPolicy to apply to the selected destinations.
@@ -53,8 +53,9 @@ message OutlierDetectionPolicySpec {
 
 }
 
-// reflects the status of the OutlierDetectionPolicy
+// The status of the policy after it is applied to your Gloo environment.
 message OutlierDetectionPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of destination ports selected by the policy.
@@ -62,6 +63,7 @@ message OutlierDetectionPolicyStatus {
 }
 
 message OutlierDetectionPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
   // A list of destination ports selected by the policy.

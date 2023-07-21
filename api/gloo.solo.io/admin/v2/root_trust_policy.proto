@@ -19,7 +19,7 @@ option (extproto.clone_all) = true;
 message RootTrustPolicySpec {
 
   // select the meshes where the root of trust will be applied.
-  // if left empty, will apply to all Meshes in the workspace.
+  // If empty, will apply to all Meshes in the workspace.
   repeated .common.gloo.solo.io.MeshSelector apply_to_meshes = 1;
 
   // The details of the root of trust to apply to the selected meshes.
@@ -68,8 +68,8 @@ message RootTrustPolicySpec {
   }
 }
 
-// @exclude todo:(tjons) do we need to update this?
-// reflects the status of the RootTrustPolicy
+// <!--todo:(tjons) do we need to update this?-->
+// The status of the policy after it is applied to your Gloo environment.
 message RootTrustPolicyStatus {
 
   // The most recent generation observed in the the object's metadata.

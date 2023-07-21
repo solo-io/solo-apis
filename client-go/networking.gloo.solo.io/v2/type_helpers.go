@@ -17,6 +17,3 @@ type VirtualDestinationSlice []*VirtualDestination
 
 // VirtualGatewaySlice represents a slice of *VirtualGateway
 type VirtualGatewaySlice []*VirtualGateway
-
-// ExternalWorkloadSlice represents a slice of *ExternalWorkload
-type ExternalWorkloadSlice []*ExternalWorkload

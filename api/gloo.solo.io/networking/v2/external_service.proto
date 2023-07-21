@@ -125,8 +125,9 @@ message ExternalServiceSpec {
   }
 }
 
-// reflects the status of the ExternalService
+// The status of the resource after it is applied to your Gloo environment.
 message ExternalServiceStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // A map of policy GVK to policy references for all policies that are applied on this

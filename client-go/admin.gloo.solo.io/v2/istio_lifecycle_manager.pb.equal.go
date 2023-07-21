@@ -103,6 +103,110 @@ func (m *IstioClusterSelector) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *IstioController) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*IstioController)
+	if !ok {
+		that2, ok := that.(IstioController)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetWaitForResourcesTimeout(), target.GetWaitForResourcesTimeout()) != 0 {
+		return false
+	}
+
+	if len(m.GetImagePullSecrets()) != len(target.GetImagePullSecrets()) {
+		return false
+	}
+	for idx, v := range m.GetImagePullSecrets() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetImagePullSecrets()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetImagePullSecrets()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetResources()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetResources()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetResources(), target.GetResources()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetSecurityContext()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetSecurityContext()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetSecurityContext(), target.GetSecurityContext()) {
+			return false
+		}
+	}
+
+	if len(m.GetLabels()) != len(target.GetLabels()) {
+		return false
+	}
+	for k, v := range m.GetLabels() {
+
+		if strings.Compare(v, target.GetLabels()[k]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetAnnotations()) != len(target.GetAnnotations()) {
+		return false
+	}
+	for k, v := range m.GetAnnotations() {
+
+		if strings.Compare(v, target.GetAnnotations()[k]) != 0 {
+			return false
+		}
+
+	}
+
+	if len(m.GetEnvVars()) != len(target.GetEnvVars()) {
+		return false
+	}
+	for idx, v := range m.GetEnvVars() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetEnvVars()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetEnvVars()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *IstioInstallation) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -152,6 +256,20 @@ func (m *IstioInstallation) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetIstioOperatorSpec(), target.GetIstioOperatorSpec()) {
 			return false
 		}
+	}
+
+	if h, ok := interface{}(m.GetIstioController()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetIstioController()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetIstioController(), target.GetIstioController()) {
+			return false
+		}
+	}
+
+	if m.GetSkipUpgradeValidation() != target.GetSkipUpgradeValidation() {
+		return false
 	}
 
 	return true

@@ -136,25 +136,3 @@ func (this *VirtualGatewayStatus) MarshalJSON() ([]byte, error) {
 func (this *VirtualGatewayStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
-// MarshalJSON is a custom marshaler for ExternalWorkloadSpec
-func (this *ExternalWorkloadSpec) MarshalJSON() ([]byte, error) {
-	str, err := marshaller.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for ExternalWorkloadSpec
-func (this *ExternalWorkloadSpec) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for ExternalWorkloadStatus
-func (this *ExternalWorkloadStatus) MarshalJSON() ([]byte, error) {
-	str, err := marshaller.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for ExternalWorkloadStatus
-func (this *ExternalWorkloadStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
-}

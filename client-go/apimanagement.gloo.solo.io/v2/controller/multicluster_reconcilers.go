@@ -443,3 +443,74 @@ func (g genericPortalGroupMulticlusterReconciler) Reconcile(cluster string, obje
 	}
 	return g.reconciler.ReconcilePortalGroup(cluster, obj)
 }
+
+// Reconcile Upsert events for the ApiSchemaDiscovery Resource across clusters.
+// implemented by the user
+type MulticlusterApiSchemaDiscoveryReconciler interface {
+	ReconcileApiSchemaDiscovery(clusterName string, obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the ApiSchemaDiscovery Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterApiSchemaDiscoveryDeletionReconciler interface {
+	ReconcileApiSchemaDiscoveryDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterApiSchemaDiscoveryReconcilerFuncs struct {
+	OnReconcileApiSchemaDiscovery         func(clusterName string, obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) (reconcile.Result, error)
+	OnReconcileApiSchemaDiscoveryDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterApiSchemaDiscoveryReconcilerFuncs) ReconcileApiSchemaDiscovery(clusterName string, obj *apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) (reconcile.Result, error) {
+	if f.OnReconcileApiSchemaDiscovery == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileApiSchemaDiscovery(clusterName, obj)
+}
+
+func (f *MulticlusterApiSchemaDiscoveryReconcilerFuncs) ReconcileApiSchemaDiscoveryDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileApiSchemaDiscoveryDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileApiSchemaDiscoveryDeletion(clusterName, req)
+}
+
+type MulticlusterApiSchemaDiscoveryReconcileLoop interface {
+	// AddMulticlusterApiSchemaDiscoveryReconciler adds a MulticlusterApiSchemaDiscoveryReconciler to the MulticlusterApiSchemaDiscoveryReconcileLoop.
+	AddMulticlusterApiSchemaDiscoveryReconciler(ctx context.Context, rec MulticlusterApiSchemaDiscoveryReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterApiSchemaDiscoveryReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterApiSchemaDiscoveryReconcileLoop) AddMulticlusterApiSchemaDiscoveryReconciler(ctx context.Context, rec MulticlusterApiSchemaDiscoveryReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericApiSchemaDiscoveryMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterApiSchemaDiscoveryReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterApiSchemaDiscoveryReconcileLoop {
+	return &multiclusterApiSchemaDiscoveryReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery{}, options)}
+}
+
+type genericApiSchemaDiscoveryMulticlusterReconciler struct {
+	reconciler MulticlusterApiSchemaDiscoveryReconciler
+}
+
+func (g genericApiSchemaDiscoveryMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterApiSchemaDiscoveryDeletionReconciler); ok {
+		return deletionReconciler.ReconcileApiSchemaDiscoveryDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericApiSchemaDiscoveryMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: ApiSchemaDiscovery handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileApiSchemaDiscovery(cluster, obj)
+}

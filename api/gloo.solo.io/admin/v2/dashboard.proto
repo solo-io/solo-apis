@@ -203,7 +203,7 @@ message OidcConfig {
 
   // If set, the ID token will used to infer user identity, that can be used to make 
   // authorization decisions.
-  // If not specified, no authorization will be made.
+  // If empty, no authorization will be made.
   UserMapping user_mapping = 14;
 
   // A name of a config map containing root cert to use when talking with

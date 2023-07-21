@@ -110,12 +110,13 @@ func (x *ExternalEndpointSpec) GetLocality() *v2.Locality {
 	return nil
 }
 
-// reflects the status of the ExternalEndpoint
+// The status of the resource after it is applied to your Gloo environment.
 type ExternalEndpointStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 }
 

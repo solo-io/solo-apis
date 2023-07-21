@@ -86,7 +86,7 @@ option (extproto.clone_all) = true;
 //
 message JWTPolicySpec {
   // Select the routes where the policy will be applied.
-  // If left empty, no policy will be applied to any routes in the workspace.
+  // If empty, no policy will be applied to any routes in the workspace.
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
   message Config {
@@ -94,16 +94,16 @@ message JWTPolicySpec {
     message Provider {
       // Optional: The principal that issued the JWT, usually a URL or an email address.
       // If specified, the iss field in JWT token in the incoming request has to match this field else the request is denied.
-      //  If left empty the iss field in the JWT token is not checked.
+      //  If empty the iss field in the JWT token is not checked.
       string issuer = 1;
 
       // Optional: A list of intended audiences for this JWT token. A JWT containing any of these
-      // audiences will be accepted. If not specified, the audiences in JWT will not be checked.
+      // audiences will be accepted. If omitted, the audiences in JWT will not be checked.
       repeated string audiences = 2;
 
       // Optional: Where to extract JWT Token in HTTP Request
       //
-      // If left empty, defaults to Header "Authorization: Bearer <Token>" or Query Param "access_token=<Token>"
+      // If empty, defaults to Header "Authorization: Bearer <Token>" or Query Param "access_token=<Token>"
       message TokenSource {
         // Describes how to retrieve a JWT from a header
         message fromHeader {
@@ -165,13 +165,13 @@ message JWTPolicySpec {
 
         // Duration after which the cached JWKS should be expired.
         //
-        // If not specified, default cache duration is 5 minutes.
+        // If omitted, default cache duration is 5 minutes.
         // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
         google.protobuf.Duration cache_duration = 3;
 
         // Sets the maximum duration in seconds that a response can take to arrive upon request.
         //
-        // If left empty, defaults to 5s
+        // If empty, defaults to 5s
         // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
         google.protobuf.Duration timeout = 4;
 
@@ -275,12 +275,12 @@ message JWTPolicySpec {
       // [RFC 7519 spec](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1) reserves seven claims, and the [IANA JSON Web Token Claims](https://www.iana.org/assignments/jwt/jwt.xhtml#claims) outline many more registered claims to encourage interoperability across providers. Further, your OIDC provider might have custom claims, such as described in the [Auth0 docs](https://auth0.com/docs/get-started/apis/scopes/sample-use-cases-scopes-and-claims).
       string key = 1;
 
-      // Optional. A list of allowed values for the JWT claim. If a claim has multiple supported values, any of these values is allowed (logically OR'd together).
+      // Optional: A list of allowed values for the JWT claim. If a claim has multiple supported values, any of these values is allowed (logically OR'd together).
       // You can also use wildcards, such as `"*"` to allow any value or for example `"*@solo.io"` to allow any `@solo.io` email. Nested claims are not supported at this time.
       // Note: You must set at least one of "values" or "not_values".
       repeated string values = 2;
 
-      // Optional. A list of values that are not allowed for the JWT claim. If a claim contains one of these values, the request is denied.
+      // Optional: A list of values that are not allowed for the JWT claim. If a claim contains one of these values, the request is denied.
       // You can also use wildcards, such as `"*"` to deny any value, or for example `"*@solo.io"` to deny any `@solo.io` email.
       // Note: You must set at least one of "values" or "not_values".
       repeated string not_values = 3;
@@ -301,8 +301,9 @@ message JWTPolicySpec {
   Config config = 2;
 }
 
-// reflects the status of the JWTPolicyStatus
+// The status of the policy after it is applied to your Gloo environment.Status
 message JWTPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of routes selected by the policy.

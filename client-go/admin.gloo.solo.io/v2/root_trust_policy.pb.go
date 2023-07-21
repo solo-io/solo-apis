@@ -34,7 +34,7 @@ type RootTrustPolicySpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// select the meshes where the root of trust will be applied.
-	// if left empty, will apply to all Meshes in the workspace.
+	// If empty, will apply to all Meshes in the workspace.
 	ApplyToMeshes []*v2.MeshSelector `protobuf:"bytes,1,rep,name=apply_to_meshes,json=applyToMeshes,proto3" json:"apply_to_meshes,omitempty"`
 	// The details of the root of trust to apply to the selected meshes.
 	Config *RootTrustPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
@@ -86,8 +86,8 @@ func (x *RootTrustPolicySpec) GetConfig() *RootTrustPolicySpec_Config {
 	return nil
 }
 
-// @exclude todo:(tjons) do we need to update this?
-// reflects the status of the RootTrustPolicy
+// <!--todo:(tjons) do we need to update this?-->
+// The status of the policy after it is applied to your Gloo environment.
 type RootTrustPolicyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

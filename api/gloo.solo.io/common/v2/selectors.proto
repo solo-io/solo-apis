@@ -17,19 +17,19 @@ message ObjectSelector {
   // labels matching those of the object
   map<string, string> labels = 1;
 
-  // Only select objects with the matching name. If the field is omitted, Gloo Mesh will select
+  // Only select objects with the matching name. If omitted, Gloo selects
   // matching objects with any name available in the parent object's workspace.
   string name = 2;
 
-  // Only select objects in the matching namespace. If the field is omitted, Gloo Mesh will select
+  // Only select objects in the matching namespace. If omitted, Gloo selects
   // matching objects across all namespaces available in the parent object's workspace.
   string namespace = 3;
 
-  // Only select objects in the matching cluster. If the field is omitted, Gloo Mesh will select
+  // Only select objects in the matching cluster. If omitted, Gloo selects
   // matching objects across all clusters available in the parent object's workspace.
   string cluster = 4;
 
-  // Only select objects in the given workspace. If the field is omitted, Gloo Mesh will select
+  // Only select objects in the given workspace. If omitted, Gloo selects
   // matching objects across all workspaces available in the parent object's workspace.
   string workspace = 5;
 }
@@ -53,7 +53,7 @@ message DestinationSelector {
   // All ports on the Destination will be selected if left empty.
   PortSelector port = 3;
 
-  // @exclude TODO(ilackarms): support subsets here
+  // <!-- TODO(ilackarms): support subsets here-->
   // Select subsets of the destination.
   //    map<string, string> subset = 5;
 }
@@ -72,7 +72,7 @@ enum DestinationKind {
 message RouteDestinationSelector {
   // select routes based on their labels.
   // these labels can be used to match route tables or individual routes within route tables.
-  // if left empty, configuration will apply to all specified destinations on all routes in the workspace.
+  // If empty, configuration will apply to all specified destinations on all routes in the workspace.
   RouteLabelSelector route = 1;
 
   // for the selected routes, select destinations on which to apply this policy
@@ -120,8 +120,10 @@ message RouteFilter {
 
 // ListenerSelector is a selector for a listener on a VirtualGateway.
 message ListenerSelector {
+  // The virtual gateway on which to select a listener.
   ObjectSelector virtual_gateway = 1;
 
+  // The port to select on the selected listener.
   PortSelector port = 2;
 }
 
@@ -168,13 +170,13 @@ message IdentitySelector {
   message RequestIdentityMatcher {
 
     /*
-        Optional. A list of identities to match the request identity ("iss/sub" from the JWT).
+        Optional: A list of identities to match the request identity ("iss/sub" from the JWT).
         If omitted all request identity values will be accepted.
      */
     repeated string requestPrincipals = 3;
 
     /*
-        Optional. A list of identities to negative match the request identity.
+        Optional: A list of identities to negative match the request identity.
      */
     repeated string notRequestPrincipals = 4;
   }
@@ -224,7 +226,7 @@ message MeshSelector {
     // options for selecting istio Mesh control planes.
     Istio istio = 1;
 
-    // @exclude TODO: add other supported mesh types here
+    // <!-- TODO: add other supported mesh types here-->
 
   }
 

@@ -1551,3 +1551,259 @@ func (mr *MockPortalGroupSetMockRecorder) UnsortedList(filterResource ...interfa
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockPortalGroupSet)(nil).UnsortedList), filterResource...)
 }
+
+// MockApiSchemaDiscoverySet is a mock of ApiSchemaDiscoverySet interface.
+type MockApiSchemaDiscoverySet struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoverySetMockRecorder
+}
+
+// MockApiSchemaDiscoverySetMockRecorder is the mock recorder for MockApiSchemaDiscoverySet.
+type MockApiSchemaDiscoverySetMockRecorder struct {
+	mock *MockApiSchemaDiscoverySet
+}
+
+// NewMockApiSchemaDiscoverySet creates a new mock instance.
+func NewMockApiSchemaDiscoverySet(ctrl *gomock.Controller) *MockApiSchemaDiscoverySet {
+	mock := &MockApiSchemaDiscoverySet{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoverySetMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoverySet) EXPECT() *MockApiSchemaDiscoverySetMockRecorder {
+	return m.recorder
+}
+
+// Clone mocks base method.
+func (m *MockApiSchemaDiscoverySet) Clone() v2sets.ApiSchemaDiscoverySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2sets.ApiSchemaDiscoverySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockApiSchemaDiscoverySet) Delete(apiSchemaDiscovery ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", apiSchemaDiscovery)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Delete(apiSchemaDiscovery interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Delete), apiSchemaDiscovery)
+}
+
+// Delta mocks base method.
+func (m *MockApiSchemaDiscoverySet) Delta(newSet v2sets.ApiSchemaDiscoverySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockApiSchemaDiscoverySet) Difference(set v2sets.ApiSchemaDiscoverySet) v2sets.ApiSchemaDiscoverySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2sets.ApiSchemaDiscoverySet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockApiSchemaDiscoverySet) Equal(apiSchemaDiscoverySet v2sets.ApiSchemaDiscoverySet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", apiSchemaDiscoverySet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Equal(apiSchemaDiscoverySet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Equal), apiSchemaDiscoverySet)
+}
+
+// Find mocks base method.
+func (m *MockApiSchemaDiscoverySet) Find(id ezkube.ResourceId) (*v2.ApiSchemaDiscovery, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2.ApiSchemaDiscovery)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockApiSchemaDiscoverySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockApiSchemaDiscoverySet) Has(apiSchemaDiscovery ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", apiSchemaDiscovery)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Has(apiSchemaDiscovery interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Has), apiSchemaDiscovery)
+}
+
+// Insert mocks base method.
+func (m *MockApiSchemaDiscoverySet) Insert(apiSchemaDiscovery ...*v2.ApiSchemaDiscovery) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range apiSchemaDiscovery {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Insert(apiSchemaDiscovery ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Insert), apiSchemaDiscovery...)
+}
+
+// Intersection mocks base method.
+func (m *MockApiSchemaDiscoverySet) Intersection(set v2sets.ApiSchemaDiscoverySet) v2sets.ApiSchemaDiscoverySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2sets.ApiSchemaDiscoverySet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
+func (m *MockApiSchemaDiscoverySet) Keys() sets0.String {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Keys")
+	ret0, _ := ret[0].(sets0.String)
+	return ret0
+}
+
+// Keys indicates an expected call of Keys.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Keys() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Keys))
+}
+
+// Length mocks base method.
+func (m *MockApiSchemaDiscoverySet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Length))
+}
+
+// List mocks base method.
+func (m *MockApiSchemaDiscoverySet) List(filterResource ...func(*v2.ApiSchemaDiscovery) bool) []*v2.ApiSchemaDiscovery {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "List", varargs...)
+	ret0, _ := ret[0].([]*v2.ApiSchemaDiscovery)
+	return ret0
+}
+
+// List indicates an expected call of List.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).List), filterResource...)
+}
+
+// Map mocks base method.
+func (m *MockApiSchemaDiscoverySet) Map() map[string]*v2.ApiSchemaDiscovery {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2.ApiSchemaDiscovery)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockApiSchemaDiscoverySet) Union(set v2sets.ApiSchemaDiscoverySet) v2sets.ApiSchemaDiscoverySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2sets.ApiSchemaDiscoverySet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
+func (m *MockApiSchemaDiscoverySet) UnsortedList(filterResource ...func(*v2.ApiSchemaDiscovery) bool) []*v2.ApiSchemaDiscovery {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v2.ApiSchemaDiscovery)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList.
+func (mr *MockApiSchemaDiscoverySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockApiSchemaDiscoverySet)(nil).UnsortedList), filterResource...)
+}

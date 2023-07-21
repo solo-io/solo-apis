@@ -118,25 +118,3 @@ func (in *VirtualGatewayStatus) DeepCopyInto(out *VirtualGatewayStatus) {
 	}
 	*out = *p
 }
-
-// DeepCopyInto for the ExternalWorkload.Spec
-func (in *ExternalWorkloadSpec) DeepCopyInto(out *ExternalWorkloadSpec) {
-	var p *ExternalWorkloadSpec
-	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*ExternalWorkloadSpec)
-	} else {
-		p = proto.Clone(in).(*ExternalWorkloadSpec)
-	}
-	*out = *p
-}
-
-// DeepCopyInto for the ExternalWorkload.Status
-func (in *ExternalWorkloadStatus) DeepCopyInto(out *ExternalWorkloadStatus) {
-	var p *ExternalWorkloadStatus
-	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*ExternalWorkloadStatus)
-	} else {
-		p = proto.Clone(in).(*ExternalWorkloadStatus)
-	}
-	*out = *p
-}

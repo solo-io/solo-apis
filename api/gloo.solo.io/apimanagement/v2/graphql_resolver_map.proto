@@ -109,7 +109,7 @@ message GraphQLResolverMapSpec {
           map<string, RESTVariable> variables = 3;
 
           // The span name for the upstream REST request, used for tracing.
-          // If left empty or not set, the request span name will be set to the upstream cluster name.
+          // If empty or omitted, the request span name will be set to the upstream cluster name.
           google.protobuf.StringValue span_name = 4;
 
           // Set the timeout of the HTTP request to the REST service (default 5s)
@@ -155,7 +155,7 @@ message GraphQLResolverMapSpec {
           RequestTemplate request = 2;
 
           // The span name for the upstream gRPC request, used for tracing.
-          // If left empty or not set, the request span name will be set to the upstream cluster name.
+          // If empty or omitted, the request span name will be set to the upstream cluster name.
           google.protobuf.StringValue span_name = 3;
 
           // Set the timeout of the HTTP request to the gRPC service (default 5s)
@@ -340,6 +340,7 @@ message DynamicMetadataExtraction {
 }
 
 message GraphQLResolverMapStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The name of the workspace that owns the Graphql resolver map.

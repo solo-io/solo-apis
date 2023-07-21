@@ -166,6 +166,7 @@ type WorkspaceStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied policy.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The workspacesettings object configuring this workspace.
 	WorkspaceSettings *v2.ObjectReference `protobuf:"bytes,2,opt,name=workspace_settings,json=workspaceSettings,proto3" json:"workspace_settings,omitempty"`

@@ -17,7 +17,7 @@ option (extproto.clone_all) = true;
 
 message GraphQLAllowedQueryPolicySpec {
   // Select the graphql routes where the policy will be applied.
-  // If left empty, will apply to no graphql routes.
+  // If empty, will apply to no graphql routes.
   // selection via Destination selectors will not work for this policy, and only
   // route selectors will work.
   // If more than one GraphQLAllowedQueryPolicy applies to a GraphQLRoute, the oldest
@@ -39,6 +39,7 @@ message GraphQLAllowedQueryPolicySpec {
 }
 
 message GraphQLAllowedQueryPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of routes the policy selects.
@@ -47,6 +48,7 @@ message GraphQLAllowedQueryPolicyStatus {
 
 // $hide_from_docs
 message GraphQLAllowedQueryPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
   // A list of references to all routes the policy selects. 
