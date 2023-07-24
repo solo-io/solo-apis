@@ -1094,7 +1094,7 @@ type RedirectAction_PathRedirect struct {
 
 func (*RedirectAction_PathRedirect) isRedirectAction_PathRewriteSpecifier() {}
 
-// @exclude This message needs to be at this level (rather than nested) due to cue restrictions.
+// <!-- This message needs to be at this level (rather than nested) due to cue restrictions.-->
 // DirectResponseAction is copied directly from https://github.com/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
 type DirectResponseAction struct {
 	state         protoimpl.MessageState

@@ -23,7 +23,7 @@ require (
 	github.com/prometheus/common v0.37.0 // indirect
 	github.com/rotisserie/eris v0.5.4
 	github.com/solo-io/cue v0.4.7
-	github.com/solo-io/go-utils v0.24.1 // indirect
+	github.com/solo-io/go-utils v0.24.5 // indirect
 	github.com/solo-io/protoc-gen-ext v0.0.18
 	github.com/solo-io/skv2 v0.29.10
 	github.com/solo-io/solo-kit v0.31.0

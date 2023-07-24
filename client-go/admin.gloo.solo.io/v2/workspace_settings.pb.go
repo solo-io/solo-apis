@@ -788,7 +788,8 @@ type WorkspaceSettingsSpec_Options_Federation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// enables the federation feature for selected Kubernetes services in the workspace.
+	// Enables the federation feature for selected Kubernetes services in the workspace.
+	// Default value is disabled.
 	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	// Optional: The suffix used for generated hostnames. Hostnames will be generated for each selected service in the format `{{ service name }}.{{ service namespace }}.{{ service cluster }}.{{ host suffix }}`.
 	HostSuffix string `protobuf:"bytes,2,opt,name=host_suffix,json=hostSuffix,proto3" json:"host_suffix,omitempty"`

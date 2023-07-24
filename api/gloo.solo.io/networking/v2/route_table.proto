@@ -405,7 +405,7 @@ message RedirectAction {
   }
 }
 
-// @exclude This message needs to be at this level (rather than nested) due to cue restrictions.
+// <!-- This message needs to be at this level (rather than nested) due to cue restrictions.-->
 // DirectResponseAction is copied directly from https://github.com/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
 message DirectResponseAction {
   // Required. Specifies an HTTP response status between 100-599 inclusive to be returned.
