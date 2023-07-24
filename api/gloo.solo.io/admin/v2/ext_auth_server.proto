@@ -137,8 +137,8 @@ message ExtAuthServerSpec {
   }
 }
 
-// @exclude todo:(tjons) do we need to update this?
-// reflects the status of the ExtAuthServer
+// <!--todo:(tjons) do we need to update this?-->
+// The status of the resource after it is applied to your Gloo environment.
 message ExtAuthServerStatus {
 
   // The most recent generation observed in the the object's metadata.

@@ -36,8 +36,8 @@ type FaultInjectionPolicySpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// select the routes where the policy will be applied
-	// if left empty, will apply to all routes in the workspace.
+	// Routes to apply the policy to.
+	// If empty, the policy applies to all routes in the workspace.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
 	// The details of the fault injection policy to apply to the selected routes.
 	Config *FaultInjectionPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
@@ -89,7 +89,7 @@ func (x *FaultInjectionPolicySpec) GetConfig() *FaultInjectionPolicySpec_Config 
 	return nil
 }
 
-// reflects the status of the FaultInjectionPolicy
+// The status of the policy after it is applied to your Gloo environment.
 type FaultInjectionPolicyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +272,7 @@ type FaultInjectionPolicySpec_Config_Abort struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Required. HTTP status code to use to abort the request.
+	// Required: HTTP status code to use to abort the request.
 	HttpStatus int32 `protobuf:"varint,1,opt,name=http_status,json=httpStatus,proto3" json:"http_status,omitempty"`
 	// Percentage of requests to be aborted. Values range between 0 and 100. If omitted all requests will be aborted.
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
@@ -332,7 +332,7 @@ type FaultInjectionPolicySpec_Config_Delay struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Required. Add a delay of a fixed duration before sending the request. Format: `1h`/`1m`/`1s`/`1ms`. MUST be >=1ms.
+	// Required: Add a delay of a fixed duration before sending the request. Format: `1h`/`1m`/`1s`/`1ms`. MUST be >=1ms.
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	FixedDelay *duration.Duration `protobuf:"bytes,1,opt,name=fixed_delay,json=fixedDelay,proto3" json:"fixed_delay,omitempty"`
 	// Percentage of requests on which the delay will be injected. Values range between 0 and 100. If omitted all requests will be delayed.

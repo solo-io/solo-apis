@@ -33,10 +33,10 @@ message ObjectReference {
   // the name of the object
   string name = 1;
 
-  // the namespace of the object. if the field is omitted, Gloo Mesh will use the same namespace as the parent object containing this reference.
+  // the namespace of the object. If omitted, Gloo Mesh will use the same namespace as the parent object containing this reference.
   string namespace = 2;
 
-  // the cluster of the object. if the field is omitted, Gloo Mesh will use the same cluster as the parent object containing this reference.
+  // the cluster of the object. If omitted, Gloo Mesh will use the same cluster as the parent object containing this reference.
   string cluster = 3;
 }
 

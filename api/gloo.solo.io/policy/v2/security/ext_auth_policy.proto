@@ -24,12 +24,12 @@ option (extproto.clone_all) = true;
 message ExtAuthPolicySpec {
 
   // Select the routes where the policy will be applied.
-  // If left empty, no extauth policy will be applied to any routes in the workspace.
+  // If empty, no extauth policy will be applied to any routes in the workspace.
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
   // Select the destinations where the policy will be applied.
   // Default behavior if no selectors are specified is to apply to all destinations in the workspace.
-  // If left empty and the route selector is set, no extauth policy on destinations will be applied.
+  // If empty and the route selector is set, no extauth policy on destinations will be applied.
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 2;
 
   // The details of the external auth policy to apply to the selected routes and destinations.
@@ -71,8 +71,9 @@ message ExtAuthPolicySpec {
   }
 }
 
-// reflects the status of the ExtAuthPolicy
+// The status of the policy after it is applied to your Gloo environment.
 message ExtAuthPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of destination ports selected by the policy.

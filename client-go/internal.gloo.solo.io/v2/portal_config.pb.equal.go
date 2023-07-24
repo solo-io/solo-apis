@@ -348,6 +348,10 @@ func (m *PortalConfigSpec_API) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetLifecycle(), target.GetLifecycle()) != 0 {
+		return false
+	}
+
 	if h, ok := interface{}(m.GetApiSchema()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetApiSchema()) {
 			return false
@@ -515,27 +519,6 @@ func (m *PortalConfigSpec_ExtAuthPolicy) Equal(that interface{}) bool {
 		return false
 	}
 
-	if m.GetExtAuthType() != target.GetExtAuthType() {
-		return false
-	}
-
-	if len(m.GetExtAuthLabelSelector()) != len(target.GetExtAuthLabelSelector()) {
-		return false
-	}
-	for idx, v := range m.GetExtAuthLabelSelector() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetExtAuthLabelSelector()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetExtAuthLabelSelector()[idx]) {
-				return false
-			}
-		}
-
-	}
-
 	if h, ok := interface{}(m.GetExtAuthPolicyRef()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetExtAuthPolicyRef()) {
 			return false
@@ -550,18 +533,72 @@ func (m *PortalConfigSpec_ExtAuthPolicy) Equal(that interface{}) bool {
 		return false
 	}
 
+	switch m.AuthCfg.(type) {
+
+	case *PortalConfigSpec_ExtAuthPolicy_ApiKeyAuth:
+		if _, ok := target.AuthCfg.(*PortalConfigSpec_ExtAuthPolicy_ApiKeyAuth); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetApiKeyAuth()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApiKeyAuth()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetApiKeyAuth(), target.GetApiKeyAuth()) {
+				return false
+			}
+		}
+
+	case *PortalConfigSpec_ExtAuthPolicy_OidcAuth:
+		if _, ok := target.AuthCfg.(*PortalConfigSpec_ExtAuthPolicy_OidcAuth); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetOidcAuth()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetOidcAuth()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetOidcAuth(), target.GetOidcAuth()) {
+				return false
+			}
+		}
+
+	case *PortalConfigSpec_ExtAuthPolicy_AccessTokenValidation:
+		if _, ok := target.AuthCfg.(*PortalConfigSpec_ExtAuthPolicy_AccessTokenValidation); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetAccessTokenValidation()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAccessTokenValidation()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetAccessTokenValidation(), target.GetAccessTokenValidation()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.AuthCfg != target.AuthCfg {
+			return false
+		}
+	}
+
 	return true
 }
 
 // Equal function
-func (m *PortalConfigSpec_ExtAuthLabelSelector) Equal(that interface{}) bool {
+func (m *PortalConfigSpec_ApiKeyAuth) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*PortalConfigSpec_ExtAuthLabelSelector)
+	target, ok := that.(*PortalConfigSpec_ApiKeyAuth)
 	if !ok {
-		that2, ok := that.(PortalConfigSpec_ExtAuthLabelSelector)
+		that2, ok := that.(PortalConfigSpec_ApiKeyAuth)
 		if ok {
 			target = &that2
 		} else {
@@ -574,11 +611,70 @@ func (m *PortalConfigSpec_ExtAuthLabelSelector) Equal(that interface{}) bool {
 		return false
 	}
 
-	if strings.Compare(m.GetKey(), target.GetKey()) != 0 {
+	if len(m.GetExtAuthLabelSelector()) != len(target.GetExtAuthLabelSelector()) {
+		return false
+	}
+	for k, v := range m.GetExtAuthLabelSelector() {
+
+		if strings.Compare(v, target.GetExtAuthLabelSelector()[k]) != 0 {
+			return false
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *PortalConfigSpec_OidcAuth) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PortalConfigSpec_OidcAuth)
+	if !ok {
+		that2, ok := that.(PortalConfigSpec_OidcAuth)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
 		return false
 	}
 
-	if strings.Compare(m.GetValue(), target.GetValue()) != 0 {
+	if strings.Compare(m.GetWellKnownOpenidConfig(), target.GetWellKnownOpenidConfig()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *PortalConfigSpec_AccessTokenValidation) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PortalConfigSpec_AccessTokenValidation)
+	if !ok {
+		that2, ok := that.(PortalConfigSpec_AccessTokenValidation)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetBearerFormat(), target.GetBearerFormat()) != 0 {
 		return false
 	}
 

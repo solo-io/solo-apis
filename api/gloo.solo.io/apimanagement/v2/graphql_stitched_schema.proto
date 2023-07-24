@@ -112,6 +112,7 @@ message GraphQLStitchedSchemaSpec {
 }
 
 message GraphQLStitchedSchemaStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The name of the workspace that owns the GraphQL stitched schema.

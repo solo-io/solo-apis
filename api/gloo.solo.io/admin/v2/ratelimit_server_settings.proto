@@ -37,7 +37,7 @@ message RateLimitServerSettingsSpec {
 
 }
 
-// @exclude todo:(tjons) do we need to update this?
+// <!--todo:(tjons) do we need to update this?-->
 // The current status of the `RateLimitServerSettings`.
 message RateLimitServerSettingsStatus {
 

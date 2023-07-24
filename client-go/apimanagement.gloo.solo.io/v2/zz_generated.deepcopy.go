@@ -367,3 +367,63 @@ func (in *PortalGroupList) DeepCopyObject() runtime.Object {
 	}
 	return nil
 }
+
+// Generated Deepcopy methods for ApiSchemaDiscovery
+
+func (in *ApiSchemaDiscovery) DeepCopyInto(out *ApiSchemaDiscovery) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *ApiSchemaDiscovery) DeepCopy() *ApiSchemaDiscovery {
+	if in == nil {
+		return nil
+	}
+	out := new(ApiSchemaDiscovery)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *ApiSchemaDiscovery) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *ApiSchemaDiscoveryList) DeepCopyInto(out *ApiSchemaDiscoveryList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]ApiSchemaDiscovery, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *ApiSchemaDiscoveryList) DeepCopy() *ApiSchemaDiscoveryList {
+	if in == nil {
+		return nil
+	}
+	out := new(ApiSchemaDiscoveryList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *ApiSchemaDiscoveryList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}

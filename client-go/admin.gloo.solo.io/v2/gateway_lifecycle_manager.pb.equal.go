@@ -158,6 +158,10 @@ func (m *GatewayInstallation) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetSkipUpgradeValidation() != target.GetSkipUpgradeValidation() {
+		return false
+	}
+
 	return true
 }
 

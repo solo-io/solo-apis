@@ -51,6 +51,8 @@ type Clientset interface {
 	Portals() PortalClient
 	// clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
 	PortalGroups() PortalGroupClient
+	// clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
+	ApiSchemaDiscoveries() ApiSchemaDiscoveryClient
 }
 
 type clientSet struct {
@@ -103,6 +105,11 @@ func (c *clientSet) Portals() PortalClient {
 // clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
 func (c *clientSet) PortalGroups() PortalGroupClient {
 	return NewPortalGroupClient(c.client)
+}
+
+// clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
+func (c *clientSet) ApiSchemaDiscoveries() ApiSchemaDiscoveryClient {
+	return NewApiSchemaDiscoveryClient(c.client)
 }
 
 // Reader knows how to read and list GraphQLStitchedSchemas.
@@ -955,4 +962,146 @@ func (m *multiclusterPortalGroupClient) Cluster(cluster string) (PortalGroupClie
 		return nil, err
 	}
 	return NewPortalGroupClient(client), nil
+}
+
+// Reader knows how to read and list ApiSchemaDiscoverys.
+type ApiSchemaDiscoveryReader interface {
+	// Get retrieves a ApiSchemaDiscovery for the given object key
+	GetApiSchemaDiscovery(ctx context.Context, key client.ObjectKey) (*ApiSchemaDiscovery, error)
+
+	// List retrieves list of ApiSchemaDiscoverys for a given namespace and list options.
+	ListApiSchemaDiscovery(ctx context.Context, opts ...client.ListOption) (*ApiSchemaDiscoveryList, error)
+}
+
+// ApiSchemaDiscoveryTransitionFunction instructs the ApiSchemaDiscoveryWriter how to transition between an existing
+// ApiSchemaDiscovery object and a desired on an Upsert
+type ApiSchemaDiscoveryTransitionFunction func(existing, desired *ApiSchemaDiscovery) error
+
+// Writer knows how to create, delete, and update ApiSchemaDiscoverys.
+type ApiSchemaDiscoveryWriter interface {
+	// Create saves the ApiSchemaDiscovery object.
+	CreateApiSchemaDiscovery(ctx context.Context, obj *ApiSchemaDiscovery, opts ...client.CreateOption) error
+
+	// Delete deletes the ApiSchemaDiscovery object.
+	DeleteApiSchemaDiscovery(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given ApiSchemaDiscovery object.
+	UpdateApiSchemaDiscovery(ctx context.Context, obj *ApiSchemaDiscovery, opts ...client.UpdateOption) error
+
+	// Patch patches the given ApiSchemaDiscovery object.
+	PatchApiSchemaDiscovery(ctx context.Context, obj *ApiSchemaDiscovery, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all ApiSchemaDiscovery objects matching the given options.
+	DeleteAllOfApiSchemaDiscovery(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the ApiSchemaDiscovery object.
+	UpsertApiSchemaDiscovery(ctx context.Context, obj *ApiSchemaDiscovery, transitionFuncs ...ApiSchemaDiscoveryTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a ApiSchemaDiscovery object.
+type ApiSchemaDiscoveryStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given ApiSchemaDiscovery object.
+	UpdateApiSchemaDiscoveryStatus(ctx context.Context, obj *ApiSchemaDiscovery, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given ApiSchemaDiscovery object's subresource.
+	PatchApiSchemaDiscoveryStatus(ctx context.Context, obj *ApiSchemaDiscovery, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on ApiSchemaDiscoverys.
+type ApiSchemaDiscoveryClient interface {
+	ApiSchemaDiscoveryReader
+	ApiSchemaDiscoveryWriter
+	ApiSchemaDiscoveryStatusWriter
+}
+
+type apiSchemaDiscoveryClient struct {
+	client client.Client
+}
+
+func NewApiSchemaDiscoveryClient(client client.Client) *apiSchemaDiscoveryClient {
+	return &apiSchemaDiscoveryClient{client: client}
+}
+
+func (c *apiSchemaDiscoveryClient) GetApiSchemaDiscovery(ctx context.Context, key client.ObjectKey) (*ApiSchemaDiscovery, error) {
+	obj := &ApiSchemaDiscovery{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *apiSchemaDiscoveryClient) ListApiSchemaDiscovery(ctx context.Context, opts ...client.ListOption) (*ApiSchemaDiscoveryList, error) {
+	list := &ApiSchemaDiscoveryList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *apiSchemaDiscoveryClient) CreateApiSchemaDiscovery(ctx context.Context, obj *ApiSchemaDiscovery, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *apiSchemaDiscoveryClient) DeleteApiSchemaDiscovery(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &ApiSchemaDiscovery{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *apiSchemaDiscoveryClient) UpdateApiSchemaDiscovery(ctx context.Context, obj *ApiSchemaDiscovery, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *apiSchemaDiscoveryClient) PatchApiSchemaDiscovery(ctx context.Context, obj *ApiSchemaDiscovery, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *apiSchemaDiscoveryClient) DeleteAllOfApiSchemaDiscovery(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &ApiSchemaDiscovery{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *apiSchemaDiscoveryClient) UpsertApiSchemaDiscovery(ctx context.Context, obj *ApiSchemaDiscovery, transitionFuncs ...ApiSchemaDiscoveryTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*ApiSchemaDiscovery), desired.(*ApiSchemaDiscovery)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *apiSchemaDiscoveryClient) UpdateApiSchemaDiscoveryStatus(ctx context.Context, obj *ApiSchemaDiscovery, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *apiSchemaDiscoveryClient) PatchApiSchemaDiscoveryStatus(ctx context.Context, obj *ApiSchemaDiscovery, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides ApiSchemaDiscoveryClients for multiple clusters.
+type MulticlusterApiSchemaDiscoveryClient interface {
+	// Cluster returns a ApiSchemaDiscoveryClient for the given cluster
+	Cluster(cluster string) (ApiSchemaDiscoveryClient, error)
+}
+
+type multiclusterApiSchemaDiscoveryClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterApiSchemaDiscoveryClient(client multicluster.Client) MulticlusterApiSchemaDiscoveryClient {
+	return &multiclusterApiSchemaDiscoveryClient{client: client}
+}
+
+func (m *multiclusterApiSchemaDiscoveryClient) Cluster(cluster string) (ApiSchemaDiscoveryClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewApiSchemaDiscoveryClient(client), nil
 }

@@ -28,6 +28,7 @@ type K8SWorkloadStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// A map of policy GVK to the number of policies that are applied on this resource.
 	NumAppliedWorkloadPolicy map[string]uint32 `protobuf:"bytes,2,rep,name=num_applied_workload_policy,json=numAppliedWorkloadPolicy,proto3" json:"num_applied_workload_policy,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
@@ -141,6 +142,7 @@ type K8SServiceStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// A map of policy GVK to the number of policies that are applied on this resource.
 	NumAppliedDestinationPolicies map[string]uint32 `protobuf:"bytes,2,rep,name=num_applied_destination_policies,json=numAppliedDestinationPolicies,proto3" json:"num_applied_destination_policies,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`

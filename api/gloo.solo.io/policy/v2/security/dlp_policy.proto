@@ -216,6 +216,7 @@ message DlpKeyValueAction {
 
 // The status of the DLPPolicy.
 message DLPPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // A count of references to all routes selected by the policy.

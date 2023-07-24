@@ -57,6 +57,9 @@ message GatewayInstallation {
   // IstioOperator specification for the control plane.
   // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
   .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 4;
+
+  // Skip in-place upgrade change validation. It is highly recommended to use revision based workflows in production environments.
+  bool skip_upgrade_validation = 5;
 }
 
 message GatewayLifecycleManagerStatus {

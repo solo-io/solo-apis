@@ -86,6 +86,7 @@ message DiscoveredGatewaySpec {
 }
 
 message DiscoveredGatewayStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // A count of virtual gateways that select this discovered gateway.

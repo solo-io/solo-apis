@@ -26,6 +26,3 @@ type DiscoveredCNISlice []*DiscoveredCNI
 
 // PortalConfigSlice represents a slice of *PortalConfig
 type PortalConfigSlice []*PortalConfig
-
-// SpireRegistrationEntrySlice represents a slice of *SpireRegistrationEntry
-type SpireRegistrationEntrySlice []*SpireRegistrationEntry

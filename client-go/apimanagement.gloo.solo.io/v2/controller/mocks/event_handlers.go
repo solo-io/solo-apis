@@ -740,3 +740,124 @@ func (mr *MockPortalGroupEventWatcherMockRecorder) AddEventHandler(ctx, h interf
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockPortalGroupEventWatcher)(nil).AddEventHandler), varargs...)
 }
+
+// MockApiSchemaDiscoveryEventHandler is a mock of ApiSchemaDiscoveryEventHandler interface.
+type MockApiSchemaDiscoveryEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryEventHandlerMockRecorder
+}
+
+// MockApiSchemaDiscoveryEventHandlerMockRecorder is the mock recorder for MockApiSchemaDiscoveryEventHandler.
+type MockApiSchemaDiscoveryEventHandlerMockRecorder struct {
+	mock *MockApiSchemaDiscoveryEventHandler
+}
+
+// NewMockApiSchemaDiscoveryEventHandler creates a new mock instance.
+func NewMockApiSchemaDiscoveryEventHandler(ctrl *gomock.Controller) *MockApiSchemaDiscoveryEventHandler {
+	mock := &MockApiSchemaDiscoveryEventHandler{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryEventHandler) EXPECT() *MockApiSchemaDiscoveryEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryEventHandler) CreateApiSchemaDiscovery(obj *v2.ApiSchemaDiscovery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateApiSchemaDiscovery", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateApiSchemaDiscovery indicates an expected call of CreateApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryEventHandlerMockRecorder) CreateApiSchemaDiscovery(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryEventHandler)(nil).CreateApiSchemaDiscovery), obj)
+}
+
+// DeleteApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryEventHandler) DeleteApiSchemaDiscovery(obj *v2.ApiSchemaDiscovery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteApiSchemaDiscovery", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteApiSchemaDiscovery indicates an expected call of DeleteApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryEventHandlerMockRecorder) DeleteApiSchemaDiscovery(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryEventHandler)(nil).DeleteApiSchemaDiscovery), obj)
+}
+
+// GenericApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryEventHandler) GenericApiSchemaDiscovery(obj *v2.ApiSchemaDiscovery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericApiSchemaDiscovery", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericApiSchemaDiscovery indicates an expected call of GenericApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryEventHandlerMockRecorder) GenericApiSchemaDiscovery(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryEventHandler)(nil).GenericApiSchemaDiscovery), obj)
+}
+
+// UpdateApiSchemaDiscovery mocks base method.
+func (m *MockApiSchemaDiscoveryEventHandler) UpdateApiSchemaDiscovery(old, new *v2.ApiSchemaDiscovery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateApiSchemaDiscovery", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateApiSchemaDiscovery indicates an expected call of UpdateApiSchemaDiscovery.
+func (mr *MockApiSchemaDiscoveryEventHandlerMockRecorder) UpdateApiSchemaDiscovery(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateApiSchemaDiscovery", reflect.TypeOf((*MockApiSchemaDiscoveryEventHandler)(nil).UpdateApiSchemaDiscovery), old, new)
+}
+
+// MockApiSchemaDiscoveryEventWatcher is a mock of ApiSchemaDiscoveryEventWatcher interface.
+type MockApiSchemaDiscoveryEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockApiSchemaDiscoveryEventWatcherMockRecorder
+}
+
+// MockApiSchemaDiscoveryEventWatcherMockRecorder is the mock recorder for MockApiSchemaDiscoveryEventWatcher.
+type MockApiSchemaDiscoveryEventWatcherMockRecorder struct {
+	mock *MockApiSchemaDiscoveryEventWatcher
+}
+
+// NewMockApiSchemaDiscoveryEventWatcher creates a new mock instance.
+func NewMockApiSchemaDiscoveryEventWatcher(ctrl *gomock.Controller) *MockApiSchemaDiscoveryEventWatcher {
+	mock := &MockApiSchemaDiscoveryEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockApiSchemaDiscoveryEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockApiSchemaDiscoveryEventWatcher) EXPECT() *MockApiSchemaDiscoveryEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockApiSchemaDiscoveryEventWatcher) AddEventHandler(ctx context.Context, h controller.ApiSchemaDiscoveryEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockApiSchemaDiscoveryEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockApiSchemaDiscoveryEventWatcher)(nil).AddEventHandler), varargs...)
+}

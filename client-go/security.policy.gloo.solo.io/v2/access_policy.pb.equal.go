@@ -461,6 +461,10 @@ func (m *AccessPolicySpec_Config_Authorization) Equal(that interface{}) bool {
 
 	}
 
+	if m.GetDryRun() != target.GetDryRun() {
+		return false
+	}
+
 	return true
 }
 

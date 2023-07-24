@@ -240,31 +240,3 @@ func PortalConfigClientFromConfigFactoryProvider() PortalConfigClientFromConfigF
 		return clients.PortalConfigs(), nil
 	}
 }
-
-// Provider for SpireRegistrationEntryClient from Clientset
-func SpireRegistrationEntryClientFromClientsetProvider(clients internal_gloo_solo_io_v2.Clientset) internal_gloo_solo_io_v2.SpireRegistrationEntryClient {
-	return clients.SpireRegistrationEntries()
-}
-
-// Provider for SpireRegistrationEntry Client from Client
-func SpireRegistrationEntryClientProvider(client client.Client) internal_gloo_solo_io_v2.SpireRegistrationEntryClient {
-	return internal_gloo_solo_io_v2.NewSpireRegistrationEntryClient(client)
-}
-
-type SpireRegistrationEntryClientFactory func(client client.Client) internal_gloo_solo_io_v2.SpireRegistrationEntryClient
-
-func SpireRegistrationEntryClientFactoryProvider() SpireRegistrationEntryClientFactory {
-	return SpireRegistrationEntryClientProvider
-}
-
-type SpireRegistrationEntryClientFromConfigFactory func(cfg *rest.Config) (internal_gloo_solo_io_v2.SpireRegistrationEntryClient, error)
-
-func SpireRegistrationEntryClientFromConfigFactoryProvider() SpireRegistrationEntryClientFromConfigFactory {
-	return func(cfg *rest.Config) (internal_gloo_solo_io_v2.SpireRegistrationEntryClient, error) {
-		clients, err := internal_gloo_solo_io_v2.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.SpireRegistrationEntries(), nil
-	}
-}

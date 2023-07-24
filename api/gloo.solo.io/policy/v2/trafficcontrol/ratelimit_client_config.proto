@@ -40,6 +40,7 @@ message Raw {
 
 // The current status of the `RateLimitClientConfig`.
 message RateLimitClientConfigStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 }
 

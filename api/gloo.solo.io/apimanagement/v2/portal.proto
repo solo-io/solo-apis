@@ -204,6 +204,7 @@ message PortalSpec {
 }
 
 message PortalStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   string owner_workspace = 2;

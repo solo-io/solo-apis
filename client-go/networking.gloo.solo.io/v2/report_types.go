@@ -17,6 +17,3 @@ func (o *VirtualDestinationReport) IsReport() {}
 
 // IsReport implements Reportable interface for VirtualGatewayReport
 func (o *VirtualGatewayReport) IsReport() {}
-
-// IsReport implements Reportable interface for ExternalWorkloadReport
-func (o *ExternalWorkloadReport) IsReport() {}

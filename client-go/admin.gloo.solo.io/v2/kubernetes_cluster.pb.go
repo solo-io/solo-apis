@@ -113,7 +113,7 @@ func (x *KubernetesClusterSpec) GetClusterDomain() string {
 	return ""
 }
 
-// Reflects the status of the Kubernetes cluster
+// // The status of the KubernetesCluster after it is applied to your Gloo environment.
 type KubernetesClusterStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -162,6 +162,7 @@ func (x *KubernetesClusterStatus) GetCommon() *v2.Status {
 	return nil
 }
 
+// The resources that the applied resource selects.
 type KubernetesClusterReport struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

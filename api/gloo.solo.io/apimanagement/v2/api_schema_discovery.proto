@@ -1,0 +1,101 @@
+// The ApiSchemaDiscovery custom resource discovers an API schema at a URL 
+// for a target destination (such as a Kubernetes Service or Gloo VirtualDestination) in the same cluster. 
+// After discovering the API schema, the Gloo agent automatically generates an ApiDoc resource.
+// The ApiDoc can be part of a stitched schema of your API products that you share with
+// end users, such as through the [Gloo Platform developer portal](https://docs.solo.io/gloo-gateway/latest/portal/).
+// Gloo Platform can discover the following API schemas:
+// - OpenAPI
+
+syntax = "proto3";
+
+package apimanagement.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/apimanagement/v2/api_doc.proto";
+
+
+import "google/protobuf/duration.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+
+// Configure the specifications for the ApiSchemaDiscovery custom resource.
+// The following example pulls an OpenAPI `schema.json` file from the `https://example.com/tracks-schema.json` URL.
+// This OpenAPI schema is served by the `tracks-rest-api` Kubernetes service in the same cluster as the ApiSchemaDiscovery resource.
+
+// <b>Example configuration file</b>:
+// ```yaml
+//  apiVersion: apimanagement.gloo.solo.io/v2
+//  kind: ApiSchemaDiscovery
+//  metadata: {}
+//  spec:
+//    openapi:
+//      fetchEndpoint:
+//        url: "https://example.com/tracks-schema.json"
+//        retryDelay: 10s
+//        pullAttempts: 10
+//    servedBy:
+//    - destinationSelector:
+//        kind: SERVICE
+//        selector:
+//          cluster: cluster-1
+//          name: tracks-rest-api
+//          namespace: tracks
+// ```
+message ApiSchemaDiscoverySpec {
+  // The schema type to fetch from the target URL. Currently, only OpenAPI is supported.
+  oneof fetch_schema_type {
+    // The details for fetching the API schema.
+    OpenAPI openapi = 1;
+  }
+
+  // The destinations that serve the fetched API schema. The destinations must be in the same cluster as the ApiSchemaDiscovery resource.
+  repeated ServedBy served_by = 2;
+
+  // The URL endpoint to fetch the API schema manually. The Gloo agent must be able to reach this endpoint.
+  message OpenAPI {
+    // The URL endpoint to fetch the API schema manually. The Gloo agent must be able to reach this endpoint.
+    FetchEndpoint fetch_endpoint = 1;
+  }
+  // The URL endpoint to fetch the API schema manually. The Gloo agent must be able to reach this endpoint.
+  message FetchEndpoint {
+    // Required: The URL endpoint to fetch the API schema from. Supported API schema paths are JSON or YAML files. Formatted as: `<protocol-scheme>://<host-domain>:<port>/<filepath>`
+    string url = 1;
+
+    // The retry delay when fetching the schema. If omitted, the default is 5s.
+    // You can also configure this setting for all resources by configuring the Gloo Platform agent during installation or upgrading with the `--api-discovery-polling-retry-delay` flag.
+    .google.protobuf.Duration retry_delay = 2;
+
+    // The number of attempts to fetch the schema. If omitted, the default is 3.
+    // You can also configure this setting for all resources by configuring the Gloo Platform agent during installation or upgrading with the `--api-discovery-polling-pull-attempts` flag.
+    uint32 pull_attempts = 3;
+
+    // Whether to use [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) when retrying to fetch the schema. If omitted, the default is true.
+    // You can also configure this setting for all resources by configuring the Gloo Platform agent during installation or upgrading with the `--api-discovery-polling-use-backoff` flag.
+    bool use_backoff = 4;
+  }
+}
+
+// ApiSchemaDiscoveryStatus shows the status of the ApiSchemaDiscovery.
+// If the Gloo agent was not able to fetch the API schema, the status is reflected in `common`.
+message ApiSchemaDiscoveryStatus {
+  .common.gloo.solo.io.Status common = 1;
+
+  // The name of workspace that owns the ApiSchemaDiscovery schema.
+  string owner_workspace = 2;
+}
+
+// The report shows the resources that the ApiSchemaDiscovery selects after it is successfully applied.
+message ApiSchemaDiscoveryReport {
+  // The name of the workspace that owns the ApiSchemaDiscovery schema.
+  string owner_workspace = 2;
+}

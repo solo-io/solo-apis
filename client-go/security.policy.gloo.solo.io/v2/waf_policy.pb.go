@@ -33,8 +33,8 @@ type WAFPolicySpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// select the routes where the policy will be applied
-	// if left empty, will apply to all routes in the workspace.
+	// Routes to apply the policy to.
+	// If empty, the policy applies to all workloads in the workspace.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
 	// The details of the WAF policy to apply to the selected routes.
 	Config *WAFPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
@@ -91,6 +91,7 @@ type WAFPolicyStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of routes selected by the policy.
 	NumSelectedRoutes uint32 `protobuf:"varint,2,opt,name=num_selected_routes,json=numSelectedRoutes,proto3" json:"num_selected_routes,omitempty"`

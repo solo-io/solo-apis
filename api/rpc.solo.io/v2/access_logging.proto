@@ -1,3 +1,4 @@
+// The logging service provides structured retrieval of event logs captured by Gloo Platform. For more information, see the [access logging documentation]({{< versioned_link_path fromRoot="/observability/mesh/access-logs/" >}}).
 syntax = "proto3";
 
 package rpc.solo.io;
@@ -9,50 +10,60 @@ import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/rpc.solo.io/v2";
 
-// The logging service provides structured retrieval of event logs captured by Gloo Mesh.
+// The logging service provides structured retrieval of event logs captured by Gloo Platform.
 service Logging {
   // Stream Envoy access logs as they are captured.
   rpc WatchAccessLogs (WatchAccessLogsRequest) returns (stream AccessLog) {}
+  // Retrieve Envoy access logs for a workload.
   rpc GetAccessLogs (GetAccessLogsRequest) returns (AccessLogs) {}
 }
 
+// Stream Envoy access logs as they are captured.
 message WatchAccessLogsRequest {
-  // Select the workloads whose access logs should be streamed.
+  // The workloads for which to stream access logs.
   // Leave empty to stream access logs for all workloads.
   repeated .common.gloo.solo.io.ObjectSelector workload_selectors = 1;
 }
 
+// Retrieve Envoy access logs for a workload.
 message GetAccessLogsRequest {
-  // Select the workloads whose access logs should be returned.
+  // The workloads from which to get access logs.
   // Leave empty to get access logs for all workloads.
   repeated .common.gloo.solo.io.ObjectSelector workload_selectors = 1;
 
-  // Maximum number of access logs to get. If not set, a default value of 20
-  // will be used.
+  // Maximum number of access logs to get. If empty, the default value of 20 is used.
   // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
   google.protobuf.UInt32Value retrieval_number = 2;
 }
 
+// Envoy access logs to collect.
 message AccessLog {
-  // Metadata for workload
+
+  // Metadata for the workload for which to record access logs.
   WorkloadMetadata workload_metadata = 1;
 
-  // An Envoy access log.
-  // For more information, see the [Envoy API reference documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v3/data/accesslog/v3/accesslog.proto#data-accesslog-v3-httpaccesslogentry).
+  // An Envoy HTTP access log. For more information, see the
+  // [Envoy API reference documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v3/data/accesslog/v3/accesslog.proto#data-accesslog-v3-httpaccesslogentry).
   .envoy.data.accesslog.v3.HTTPAccessLogEntry http_access_log = 2;
 
-  // Reference and labels for the associated workload
+  // Metadata for the workload for which to record access logs.
   message WorkloadMetadata {
+    // Workload name.
     string name = 1;
 
+    // Namespace that the workload is in.
     string namespace = 2;
 
+    // Cluster that the workload is in.
     string cluster = 3;
 
+    // Labels for the workload.
     map<string, string> labels = 4;
   }
 }
 
+// Envoy access logs to collect.
 message AccessLogs {
+  // An Envoy access log. For more information, see the [Envoy API reference documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v3/data/accesslog/v3/accesslog.proto).
   repeated AccessLog access_logs = 1;
 }

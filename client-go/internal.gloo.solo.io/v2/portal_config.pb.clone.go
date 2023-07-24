@@ -223,6 +223,8 @@ func (m *PortalConfigSpec_API) Clone() proto.Message {
 
 	target.License = m.GetLicense()
 
+	target.Lifecycle = m.GetLifecycle()
+
 	if h, ok := interface{}(m.GetApiSchema()).(clone.Cloner); ok {
 		target.ApiSchema = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
 	} else {
@@ -319,21 +321,6 @@ func (m *PortalConfigSpec_ExtAuthPolicy) Clone() proto.Message {
 	}
 	target = &PortalConfigSpec_ExtAuthPolicy{}
 
-	target.ExtAuthType = m.GetExtAuthType()
-
-	if m.GetExtAuthLabelSelector() != nil {
-		target.ExtAuthLabelSelector = make([]*PortalConfigSpec_ExtAuthLabelSelector, len(m.GetExtAuthLabelSelector()))
-		for idx, v := range m.GetExtAuthLabelSelector() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.ExtAuthLabelSelector[idx] = h.Clone().(*PortalConfigSpec_ExtAuthLabelSelector)
-			} else {
-				target.ExtAuthLabelSelector[idx] = proto.Clone(v).(*PortalConfigSpec_ExtAuthLabelSelector)
-			}
-
-		}
-	}
-
 	if h, ok := interface{}(m.GetExtAuthPolicyRef()).(clone.Cloner); ok {
 		target.ExtAuthPolicyRef = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
 	} else {
@@ -342,20 +329,91 @@ func (m *PortalConfigSpec_ExtAuthPolicy) Clone() proto.Message {
 
 	target.AuthConfigId = m.GetAuthConfigId()
 
+	switch m.AuthCfg.(type) {
+
+	case *PortalConfigSpec_ExtAuthPolicy_ApiKeyAuth:
+
+		if h, ok := interface{}(m.GetApiKeyAuth()).(clone.Cloner); ok {
+			target.AuthCfg = &PortalConfigSpec_ExtAuthPolicy_ApiKeyAuth{
+				ApiKeyAuth: h.Clone().(*PortalConfigSpec_ApiKeyAuth),
+			}
+		} else {
+			target.AuthCfg = &PortalConfigSpec_ExtAuthPolicy_ApiKeyAuth{
+				ApiKeyAuth: proto.Clone(m.GetApiKeyAuth()).(*PortalConfigSpec_ApiKeyAuth),
+			}
+		}
+
+	case *PortalConfigSpec_ExtAuthPolicy_OidcAuth:
+
+		if h, ok := interface{}(m.GetOidcAuth()).(clone.Cloner); ok {
+			target.AuthCfg = &PortalConfigSpec_ExtAuthPolicy_OidcAuth{
+				OidcAuth: h.Clone().(*PortalConfigSpec_OidcAuth),
+			}
+		} else {
+			target.AuthCfg = &PortalConfigSpec_ExtAuthPolicy_OidcAuth{
+				OidcAuth: proto.Clone(m.GetOidcAuth()).(*PortalConfigSpec_OidcAuth),
+			}
+		}
+
+	case *PortalConfigSpec_ExtAuthPolicy_AccessTokenValidation:
+
+		if h, ok := interface{}(m.GetAccessTokenValidation()).(clone.Cloner); ok {
+			target.AuthCfg = &PortalConfigSpec_ExtAuthPolicy_AccessTokenValidation{
+				AccessTokenValidation: h.Clone().(*PortalConfigSpec_AccessTokenValidation),
+			}
+		} else {
+			target.AuthCfg = &PortalConfigSpec_ExtAuthPolicy_AccessTokenValidation{
+				AccessTokenValidation: proto.Clone(m.GetAccessTokenValidation()).(*PortalConfigSpec_AccessTokenValidation),
+			}
+		}
+
+	}
+
 	return target
 }
 
 // Clone function
-func (m *PortalConfigSpec_ExtAuthLabelSelector) Clone() proto.Message {
-	var target *PortalConfigSpec_ExtAuthLabelSelector
+func (m *PortalConfigSpec_ApiKeyAuth) Clone() proto.Message {
+	var target *PortalConfigSpec_ApiKeyAuth
 	if m == nil {
 		return target
 	}
-	target = &PortalConfigSpec_ExtAuthLabelSelector{}
+	target = &PortalConfigSpec_ApiKeyAuth{}
 
-	target.Key = m.GetKey()
+	if m.GetExtAuthLabelSelector() != nil {
+		target.ExtAuthLabelSelector = make(map[string]string, len(m.GetExtAuthLabelSelector()))
+		for k, v := range m.GetExtAuthLabelSelector() {
 
-	target.Value = m.GetValue()
+			target.ExtAuthLabelSelector[k] = v
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *PortalConfigSpec_OidcAuth) Clone() proto.Message {
+	var target *PortalConfigSpec_OidcAuth
+	if m == nil {
+		return target
+	}
+	target = &PortalConfigSpec_OidcAuth{}
+
+	target.WellKnownOpenidConfig = m.GetWellKnownOpenidConfig()
+
+	return target
+}
+
+// Clone function
+func (m *PortalConfigSpec_AccessTokenValidation) Clone() proto.Message {
+	var target *PortalConfigSpec_AccessTokenValidation
+	if m == nil {
+		return target
+	}
+	target = &PortalConfigSpec_AccessTokenValidation{}
+
+	target.BearerFormat = m.GetBearerFormat()
 
 	return target
 }

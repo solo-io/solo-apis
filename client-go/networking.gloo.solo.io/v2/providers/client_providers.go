@@ -156,31 +156,3 @@ func VirtualGatewayClientFromConfigFactoryProvider() VirtualGatewayClientFromCon
 		return clients.VirtualGateways(), nil
 	}
 }
-
-// Provider for ExternalWorkloadClient from Clientset
-func ExternalWorkloadClientFromClientsetProvider(clients networking_gloo_solo_io_v2.Clientset) networking_gloo_solo_io_v2.ExternalWorkloadClient {
-	return clients.ExternalWorkloads()
-}
-
-// Provider for ExternalWorkload Client from Client
-func ExternalWorkloadClientProvider(client client.Client) networking_gloo_solo_io_v2.ExternalWorkloadClient {
-	return networking_gloo_solo_io_v2.NewExternalWorkloadClient(client)
-}
-
-type ExternalWorkloadClientFactory func(client client.Client) networking_gloo_solo_io_v2.ExternalWorkloadClient
-
-func ExternalWorkloadClientFactoryProvider() ExternalWorkloadClientFactory {
-	return ExternalWorkloadClientProvider
-}
-
-type ExternalWorkloadClientFromConfigFactory func(cfg *rest.Config) (networking_gloo_solo_io_v2.ExternalWorkloadClient, error)
-
-func ExternalWorkloadClientFromConfigFactoryProvider() ExternalWorkloadClientFromConfigFactory {
-	return func(cfg *rest.Config) (networking_gloo_solo_io_v2.ExternalWorkloadClient, error) {
-		clients, err := networking_gloo_solo_io_v2.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.ExternalWorkloads(), nil
-	}
-}

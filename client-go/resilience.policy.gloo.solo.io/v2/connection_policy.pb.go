@@ -31,7 +31,7 @@ type ConnectionPolicySpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// select the destinations where the policy will be applied. If left empty,
+	// select the destinations where the policy will be applied. If empty,
 	// this will apply to all destinations in the workspace.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// The details of the low-level network connection settings to apply to the destinations.
@@ -84,12 +84,13 @@ func (x *ConnectionPolicySpec) GetConfig() *ConnectionPolicySpec_Config {
 	return nil
 }
 
-// Reflects the status of the ConnectionPolicy.
+// The status of the policy after it is applied to your Gloo environment.
 type ConnectionPolicyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of destination ports selected by this policy.
 	NumSelectedDestinationPorts uint32 `protobuf:"varint,2,opt,name=num_selected_destination_ports,json=numSelectedDestinationPorts,proto3" json:"num_selected_destination_ports,omitempty"`
@@ -146,6 +147,7 @@ type ConnectionPolicyReport struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// A list of workspaces in which the policy can apply to workloads.
 	Workspaces map[string]*v2.Report `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// A list of destination ports selected by this policy.
 	SelectedDestinationPorts []*v2.DestinationReference `protobuf:"bytes,2,rep,name=selected_destination_ports,json=selectedDestinationPorts,proto3" json:"selected_destination_ports,omitempty"`
@@ -337,7 +339,7 @@ type ConnectionPolicySpec_Config_HTTPConfig struct {
 	// Applicable to both HTTP/1.1 and HTTP2.
 	MaxPendingRequests int32 `protobuf:"varint,5,opt,name=max_pending_requests,json=maxPendingRequests,proto3" json:"max_pending_requests,omitempty"`
 	// The idle timeout for upstream connection pool connections. The idle timeout is defined as the period in which there are no active requests.
-	// If not set, the default is 1 hour. When the idle timeout is reached, the connection will be closed. If the connection is an HTTP/2 connection
+	// If omitted, the default is 1 hour. When the idle timeout is reached, the connection will be closed. If the connection is an HTTP/2 connection
 	// a drain sequence will occur prior to closing the connection. Note that request based timeouts mean that HTTP/2 PINGs will not keep the connection alive.
 	// Applies to both HTTP1.1 and HTTP2 connections.
 	// For more information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).

@@ -6,7 +6,7 @@ import "extproto/ext.proto";
 import "google/protobuf/wrappers.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 
-option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2";
+option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2alpha1";
 
 option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;
@@ -43,7 +43,7 @@ message SpireRegistrationEntrySpec {
     }
 }
 
-// Reflects the status of the SpireRegistrationEntry.
+// The status of the SpireRegistrationEntry after it is applied to your Gloo environment.
 message SpireRegistrationEntryStatus {
 
   .common.gloo.solo.io.Status common = 1;

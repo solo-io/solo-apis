@@ -18,8 +18,8 @@ option (extproto.clone_all) = true;
 // MirrorPolicies are applied at the *Route* level.
 message MirrorPolicySpec {
 
-  // select the routes where the policy will be applied
-  // if left empty, will apply to all routes in the workspace.
+  // Routes to apply the policy to.
+  // If empty, the policy applies to all workloads in the workspace.
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
   // The details of the Mirror policy to apply to the selected routes
@@ -37,8 +37,9 @@ message MirrorPolicySpec {
   }
 }
 
-// reflects the status of the MirrorPolicy
+// The status of the policy after it is applied to your Gloo environment.
 message MirrorPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of routes selected by this policy.

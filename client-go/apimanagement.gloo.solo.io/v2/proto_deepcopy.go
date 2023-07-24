@@ -140,3 +140,25 @@ func (in *PortalGroupStatus) DeepCopyInto(out *PortalGroupStatus) {
 	}
 	*out = *p
 }
+
+// DeepCopyInto for the ApiSchemaDiscovery.Spec
+func (in *ApiSchemaDiscoverySpec) DeepCopyInto(out *ApiSchemaDiscoverySpec) {
+	var p *ApiSchemaDiscoverySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ApiSchemaDiscoverySpec)
+	} else {
+		p = proto.Clone(in).(*ApiSchemaDiscoverySpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the ApiSchemaDiscovery.Status
+func (in *ApiSchemaDiscoveryStatus) DeepCopyInto(out *ApiSchemaDiscoveryStatus) {
+	var p *ApiSchemaDiscoveryStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ApiSchemaDiscoveryStatus)
+	} else {
+		p = proto.Clone(in).(*ApiSchemaDiscoveryStatus)
+	}
+	*out = *p
+}

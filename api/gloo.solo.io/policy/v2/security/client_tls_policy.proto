@@ -65,6 +65,7 @@ message TLSConfig {
 }
 
 message ClientTLSPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of destination ports selected by the policy.

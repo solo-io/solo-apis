@@ -81,13 +81,14 @@ message PortalConfigSpec {
     string terms_of_service = 7;
     string contact = 8;
     string license = 9;
-    .common.gloo.solo.io.ObjectReference api_schema = 10;
-    .common.gloo.solo.io.ObjectReference route_table = 11;
-    repeated UsagePlanRef usage_plans = 12;
+    string lifecycle = 10;
+    .common.gloo.solo.io.ObjectReference api_schema = 11;
+    .common.gloo.solo.io.ObjectReference route_table = 12;
+    repeated UsagePlanRef usage_plans = 13;
     // The API is private if its associated route table contains labels matching the privateAPILabels specified
     // in the portal resource
-    bool is_private = 13;
-    map<string, string> custom_metadata = 14;
+    bool is_private = 14;
+    map<string, string> custom_metadata = 15;
   }
 
   // A usage plan contains a list of auth policies and one rate limit policy.
@@ -109,20 +110,25 @@ message PortalConfigSpec {
   // unique label selectors that are used to identify the set of clients that
   // are authorized to use the auth policy.
   message ExtAuthPolicy {
-    ExtAuthType ext_auth_type = 1;
-    repeated ExtAuthLabelSelector ext_auth_label_selector = 2;
-    .common.gloo.solo.io.ObjectReference ext_auth_policy_ref = 3;
-    string auth_config_id = 4;
+    oneof auth_cfg {
+      ApiKeyAuth api_key_auth = 1;
+      OidcAuth oidc_auth = 2;
+      AccessTokenValidation access_token_validation = 3;
+    }
+    .common.gloo.solo.io.ObjectReference ext_auth_policy_ref = 4;
+    string auth_config_id = 5;
   }
 
-  message ExtAuthLabelSelector {
-    string key = 1;
-    string value = 2;
+  message ApiKeyAuth {
+    map<string, string>  ext_auth_label_selector = 1;
   }
 
-  // ExtAuthType is the type of authentication that is used to authorize clients.
-  enum ExtAuthType {
-    API_KEY_AUTH = 0;
+  message OidcAuth {
+    string well_known_openid_config = 1;
+  }
+
+  message AccessTokenValidation {
+    string bearer_format = 1;
   }
 
   message RateLimitPolicy {
@@ -140,8 +146,9 @@ message PortalConfigSpec {
   }
 }
 
-// reflects the status of the PortalConfig resource
+// The status of the resource after it is applied to your Gloo environment.
 message PortalConfigStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The name of the workspace that owns the PortalConfig schema.

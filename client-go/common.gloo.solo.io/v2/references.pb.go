@@ -139,9 +139,9 @@ type ObjectReference struct {
 
 	// the name of the object
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// the namespace of the object. if the field is omitted, Gloo Mesh will use the same namespace as the parent object containing this reference.
+	// the namespace of the object. If omitted, Gloo Mesh will use the same namespace as the parent object containing this reference.
 	Namespace string `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// the cluster of the object. if the field is omitted, Gloo Mesh will use the same cluster as the parent object containing this reference.
+	// the cluster of the object. If omitted, Gloo Mesh will use the same cluster as the parent object containing this reference.
 	Cluster string `protobuf:"bytes,3,opt,name=cluster,proto3" json:"cluster,omitempty"`
 }
 

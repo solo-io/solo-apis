@@ -91,6 +91,23 @@ func (m *RouteTableSpec) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetApplyToDestinations()) != len(target.GetApplyToDestinations()) {
+		return false
+	}
+	for idx, v := range m.GetApplyToDestinations() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApplyToDestinations()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetApplyToDestinations()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	if h, ok := interface{}(m.GetDefaultDestination()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetDefaultDestination()) {
 			return false
@@ -786,10 +803,6 @@ func (m *PortalMetadata) Equal(that interface{}) bool {
 		return false
 	}
 
-	if strings.Compare(m.GetApiId(), target.GetApiId()) != 0 {
-		return false
-	}
-
 	if strings.Compare(m.GetApiVersion(), target.GetApiVersion()) != 0 {
 		return false
 	}
@@ -811,6 +824,10 @@ func (m *PortalMetadata) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetLicense(), target.GetLicense()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetLifecycle(), target.GetLifecycle()) != 0 {
 		return false
 	}
 

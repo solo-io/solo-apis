@@ -41,6 +41,7 @@ message TrimProxyConfigPolicySpec {
 }
 
 message TrimProxyConfigPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of workloads selected by the policy.
@@ -51,6 +52,7 @@ message TrimProxyConfigPolicyStatus {
 }
 
 message TrimProxyConfigPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
   // A list of workloads selected by the policy.

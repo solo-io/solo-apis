@@ -40,7 +40,7 @@ type VaultCA struct {
 	Server string `protobuf:"bytes,3,opt,name=server,proto3" json:"server,omitempty"`
 	// PEM encoded CA bundle used to validate Vault server certificate. Only used
 	// if the Server URL is using HTTPS protocol. This parameter is ignored for
-	// plain HTTP protocol connection. If not set the system root certificates
+	// plain HTTP protocol connection. If omitted, the system root certificates
 	// are used to validate the TLS connection.
 	//
 	// Types that are assignable to CaSource:

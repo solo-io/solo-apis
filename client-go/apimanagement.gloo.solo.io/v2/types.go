@@ -218,6 +218,41 @@ type PortalGroupList struct {
 	Items           []PortalGroup `json:"items"`
 }
 
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
+// GroupVersionKind for ApiSchemaDiscovery
+var ApiSchemaDiscoveryGVK = schema.GroupVersionKind{
+	Group:   "apimanagement.gloo.solo.io",
+	Version: "v2",
+	Kind:    "ApiSchemaDiscovery",
+}
+
+// ApiSchemaDiscovery is the Schema for the apiSchemaDiscovery API
+type ApiSchemaDiscovery struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   ApiSchemaDiscoverySpec   `json:"spec,omitempty"`
+	Status ApiSchemaDiscoveryStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (ApiSchemaDiscovery) GVK() schema.GroupVersionKind {
+	return ApiSchemaDiscoveryGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ApiSchemaDiscoveryList contains a list of ApiSchemaDiscovery
+type ApiSchemaDiscoveryList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ApiSchemaDiscovery `json:"items"`
+}
+
 func init() {
 	SchemeBuilder.Register(&GraphQLStitchedSchema{}, &GraphQLStitchedSchemaList{})
 	SchemeBuilder.Register(&GraphQLResolverMap{}, &GraphQLResolverMapList{})
@@ -225,4 +260,5 @@ func init() {
 	SchemeBuilder.Register(&ApiDoc{}, &ApiDocList{})
 	SchemeBuilder.Register(&Portal{}, &PortalList{})
 	SchemeBuilder.Register(&PortalGroup{}, &PortalGroupList{})
+	SchemeBuilder.Register(&ApiSchemaDiscovery{}, &ApiSchemaDiscoveryList{})
 }

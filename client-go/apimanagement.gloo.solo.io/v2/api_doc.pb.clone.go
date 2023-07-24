@@ -28,6 +28,23 @@ var (
 )
 
 // Clone function
+func (m *ServedBy) Clone() proto.Message {
+	var target *ServedBy
+	if m == nil {
+		return target
+	}
+	target = &ServedBy{}
+
+	if h, ok := interface{}(m.GetDestinationSelector()).(clone.Cloner); ok {
+		target.DestinationSelector = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationSelector)
+	} else {
+		target.DestinationSelector = proto.Clone(m.GetDestinationSelector()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationSelector)
+	}
+
+	return target
+}
+
+// Clone function
 func (m *ApiDocSpec) Clone() proto.Message {
 	var target *ApiDocSpec
 	if m == nil {
@@ -36,13 +53,13 @@ func (m *ApiDocSpec) Clone() proto.Message {
 	target = &ApiDocSpec{}
 
 	if m.GetServedBy() != nil {
-		target.ServedBy = make([]*ApiDocSpec_ServedBy, len(m.GetServedBy()))
+		target.ServedBy = make([]*ServedBy, len(m.GetServedBy()))
 		for idx, v := range m.GetServedBy() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.ServedBy[idx] = h.Clone().(*ApiDocSpec_ServedBy)
+				target.ServedBy[idx] = h.Clone().(*ServedBy)
 			} else {
-				target.ServedBy[idx] = proto.Clone(v).(*ApiDocSpec_ServedBy)
+				target.ServedBy[idx] = proto.Clone(v).(*ServedBy)
 			}
 
 		}
@@ -146,45 +163,6 @@ func (m *ApiDocReport) Clone() proto.Message {
 			}
 
 		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *ApiDocSpec_ServedBy) Clone() proto.Message {
-	var target *ApiDocSpec_ServedBy
-	if m == nil {
-		return target
-	}
-	target = &ApiDocSpec_ServedBy{}
-
-	switch m.ServedByType.(type) {
-
-	case *ApiDocSpec_ServedBy_DestinationSelector:
-
-		if h, ok := interface{}(m.GetDestinationSelector()).(clone.Cloner); ok {
-			target.ServedByType = &ApiDocSpec_ServedBy_DestinationSelector{
-				DestinationSelector: h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationSelector),
-			}
-		} else {
-			target.ServedByType = &ApiDocSpec_ServedBy_DestinationSelector{
-				DestinationSelector: proto.Clone(m.GetDestinationSelector()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationSelector),
-			}
-		}
-
-	case *ApiDocSpec_ServedBy_RouteTable:
-
-		if h, ok := interface{}(m.GetRouteTable()).(clone.Cloner); ok {
-			target.ServedByType = &ApiDocSpec_ServedBy_RouteTable{
-				RouteTable: h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference),
-			}
-		} else {
-			target.ServedByType = &ApiDocSpec_ServedBy_RouteTable{
-				RouteTable: proto.Clone(m.GetRouteTable()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference),
-			}
-		}
-
 	}
 
 	return target

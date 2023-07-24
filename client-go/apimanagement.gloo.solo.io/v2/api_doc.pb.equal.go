@@ -26,6 +26,40 @@ var (
 )
 
 // Equal function
+func (m *ServedBy) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ServedBy)
+	if !ok {
+		that2, ok := that.(ServedBy)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetDestinationSelector()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDestinationSelector()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDestinationSelector(), target.GetDestinationSelector()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ApiDocSpec) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -219,69 +253,6 @@ func (m *ApiDocReport) Equal(that interface{}) bool {
 			}
 		}
 
-	}
-
-	return true
-}
-
-// Equal function
-func (m *ApiDocSpec_ServedBy) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ApiDocSpec_ServedBy)
-	if !ok {
-		that2, ok := that.(ApiDocSpec_ServedBy)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	switch m.ServedByType.(type) {
-
-	case *ApiDocSpec_ServedBy_DestinationSelector:
-		if _, ok := target.ServedByType.(*ApiDocSpec_ServedBy_DestinationSelector); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetDestinationSelector()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetDestinationSelector()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetDestinationSelector(), target.GetDestinationSelector()) {
-				return false
-			}
-		}
-
-	case *ApiDocSpec_ServedBy_RouteTable:
-		if _, ok := target.ServedByType.(*ApiDocSpec_ServedBy_RouteTable); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetRouteTable()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetRouteTable()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetRouteTable(), target.GetRouteTable()) {
-				return false
-			}
-		}
-
-	default:
-		// m is nil but target is not nil
-		if m.ServedByType != target.ServedByType {
-			return false
-		}
 	}
 
 	return true

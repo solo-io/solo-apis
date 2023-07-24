@@ -47,6 +47,7 @@ message HeaderManipulationPolicySpec {
 }
 
 message HeaderManipulationPolicyStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of routes selected by this policy.

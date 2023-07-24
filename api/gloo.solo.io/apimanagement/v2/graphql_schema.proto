@@ -128,7 +128,7 @@ message GraphQLSchemaSpec {
     map<string, VariableTransformation> query_params = 4;
 
     // The span name for the remote GraphQL request, used for tracing.
-    // If left empty or not set, the request span name will be set to the upstream cluster name.
+    // If empty or omitted, the request span name will be set to the upstream cluster name.
     string span_name = 5;
 
     // Set the timeout of the HTTP request to the REST service (default 5s)
@@ -164,6 +164,7 @@ message GraphQLSchemaSpec {
 }
 
 message GraphQLSchemaStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The name of the workspace that owns the GraphQL schema.

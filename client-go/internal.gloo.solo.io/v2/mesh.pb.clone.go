@@ -12,6 +12,8 @@ import (
 
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
+
+	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 )
 
 // ensure the imports are used
@@ -65,6 +67,10 @@ func (m *MeshSpec) Clone() proto.Message {
 	target.Hub = m.GetHub()
 
 	target.Tag = m.GetTag()
+
+	target.IpFamily = m.GetIpFamily()
+
+	target.AmbientCapable = m.GetAmbientCapable()
 
 	return target
 }
@@ -121,6 +127,12 @@ func (m *MeshSpec_AgentInfo) Clone() proto.Message {
 	target.Namespace = m.GetNamespace()
 
 	target.Version = m.GetVersion()
+
+	if h, ok := interface{}(m.GetRelayRootTlsSecret()).(clone.Cloner); ok {
+		target.RelayRootTlsSecret = h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ObjectRef)
+	} else {
+		target.RelayRootTlsSecret = proto.Clone(m.GetRelayRootTlsSecret()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.ObjectRef)
+	}
 
 	return target
 }

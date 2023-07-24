@@ -26,6 +26,42 @@ var (
 )
 
 // Hash function
+func (m *ServedBy) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.ServedBy")); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetDestinationSelector()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("DestinationSelector")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetDestinationSelector(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("DestinationSelector")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *ApiDocSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -250,70 +286,6 @@ func (m *ApiDocReport) Hash(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			} else {
 				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-func (m *ApiDocSpec_ServedBy) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.ApiDocSpec_ServedBy")); err != nil {
-		return 0, err
-	}
-
-	switch m.ServedByType.(type) {
-
-	case *ApiDocSpec_ServedBy_DestinationSelector:
-
-		if h, ok := interface{}(m.GetDestinationSelector()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("DestinationSelector")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetDestinationSelector(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("DestinationSelector")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	case *ApiDocSpec_ServedBy_RouteTable:
-
-		if h, ok := interface{}(m.GetRouteTable()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("RouteTable")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetRouteTable(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("RouteTable")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {

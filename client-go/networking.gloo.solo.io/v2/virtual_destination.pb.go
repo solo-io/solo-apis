@@ -132,12 +132,13 @@ func (x *VirtualDestinationSpec) GetClientMode() *v2.ClientMode {
 	return nil
 }
 
-// reflects the status of the VirtualDestination
+// The status of the resource after it is applied to your Gloo environment.
 type VirtualDestinationStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// A map of policy GVK to policy references for all policies that are applied on this
 	// resource.

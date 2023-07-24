@@ -3,6 +3,7 @@ syntax = "proto3";
 package internal.gloo.solo.io;
 
 import "extproto/ext.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2";
 
@@ -66,6 +67,9 @@ message MeshSpec {
 
     // The version of the Gloo Mesh agent.
     string version = 2;
+
+    // The location of the relay root tls secret
+    .core.skv2.solo.io.ObjectRef relay_root_tls_secret = 3;
   }
 
   // Describes the Gloo Mesh agent if it has been installed to the managed cluster.
@@ -76,6 +80,23 @@ message MeshSpec {
 
   // istiod image tag
   string tag = 9;
+
+  enum IPFamily {
+    // The cluster suports only IPv4 addresses.
+    IPV4 = 0;
+
+    // The cluster suports only IPv6 addresses.
+    IPV6 = 1;
+
+    // The cluster suports both IPv4 and IPv6 addresses.
+    DUAL = 2;
+  }
+
+  // Optional: The IPFamily supported by the cluster. Defaults to 'IPV4'.
+  IPFamily ip_family = 10;
+
+  // If true, the mesh is capable of ambient dataplane mode.
+  bool ambient_capable = 11;
 }
 
 message MeshStatus {

@@ -30,6 +30,7 @@ message WaypointLifecycleManagerSpec {
 
 // This field represents the status of the WaypointLifecycleManagerSpec.
 message WaypointLifecycleManagerStatus {
+  // The state and workspace conditions of the applied policy.
   .common.gloo.solo.io.Status common = 1;
 }
 

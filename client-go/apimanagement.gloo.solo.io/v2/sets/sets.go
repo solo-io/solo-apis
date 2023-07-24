@@ -17,8 +17,10 @@ type GraphQLStitchedSchemaSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*apimanagement_gloo_solo_io_v2.GraphQLStitchedSchema) bool) []*apimanagement_gloo_solo_io_v2.GraphQLStitchedSchema
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.GraphQLStitchedSchema) bool) []*apimanagement_gloo_solo_io_v2.GraphQLStitchedSchema
 	// Return the Set as a map of key to resource.
 	Map() map[string]*apimanagement_gloo_solo_io_v2.GraphQLStitchedSchema
@@ -238,8 +240,10 @@ type GraphQLResolverMapSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*apimanagement_gloo_solo_io_v2.GraphQLResolverMap) bool) []*apimanagement_gloo_solo_io_v2.GraphQLResolverMap
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.GraphQLResolverMap) bool) []*apimanagement_gloo_solo_io_v2.GraphQLResolverMap
 	// Return the Set as a map of key to resource.
 	Map() map[string]*apimanagement_gloo_solo_io_v2.GraphQLResolverMap
@@ -459,8 +463,10 @@ type GraphQLSchemaSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*apimanagement_gloo_solo_io_v2.GraphQLSchema) bool) []*apimanagement_gloo_solo_io_v2.GraphQLSchema
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.GraphQLSchema) bool) []*apimanagement_gloo_solo_io_v2.GraphQLSchema
 	// Return the Set as a map of key to resource.
 	Map() map[string]*apimanagement_gloo_solo_io_v2.GraphQLSchema
@@ -680,8 +686,10 @@ type ApiDocSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiDoc) bool) []*apimanagement_gloo_solo_io_v2.ApiDoc
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiDoc) bool) []*apimanagement_gloo_solo_io_v2.ApiDoc
 	// Return the Set as a map of key to resource.
 	Map() map[string]*apimanagement_gloo_solo_io_v2.ApiDoc
@@ -901,8 +909,10 @@ type PortalSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*apimanagement_gloo_solo_io_v2.Portal) bool) []*apimanagement_gloo_solo_io_v2.Portal
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.Portal) bool) []*apimanagement_gloo_solo_io_v2.Portal
 	// Return the Set as a map of key to resource.
 	Map() map[string]*apimanagement_gloo_solo_io_v2.Portal
@@ -1122,8 +1132,10 @@ type PortalGroupSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*apimanagement_gloo_solo_io_v2.PortalGroup) bool) []*apimanagement_gloo_solo_io_v2.PortalGroup
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.PortalGroup) bool) []*apimanagement_gloo_solo_io_v2.PortalGroup
 	// Return the Set as a map of key to resource.
 	Map() map[string]*apimanagement_gloo_solo_io_v2.PortalGroup
@@ -1337,4 +1349,227 @@ func (s *portalGroupSet) Clone() PortalGroupSet {
 		return nil
 	}
 	return &portalGroupSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
+type ApiSchemaDiscoverySet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) bool) []*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) bool) []*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery
+	// Return the Set as a map of key to resource.
+	Map() map[string]*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery
+	// Insert a resource into the set.
+	Insert(apiSchemaDiscovery ...*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(apiSchemaDiscoverySet ApiSchemaDiscoverySet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(apiSchemaDiscovery ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(apiSchemaDiscovery ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set ApiSchemaDiscoverySet) ApiSchemaDiscoverySet
+	// Return the difference with the provided set
+	Difference(set ApiSchemaDiscoverySet) ApiSchemaDiscoverySet
+	// Return the intersection with the provided set
+	Intersection(set ApiSchemaDiscoverySet) ApiSchemaDiscoverySet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another ApiSchemaDiscoverySet
+	Delta(newSet ApiSchemaDiscoverySet) sksets.ResourceDelta
+	// Create a deep copy of the current ApiSchemaDiscoverySet
+	Clone() ApiSchemaDiscoverySet
+}
+
+func makeGenericApiSchemaDiscoverySet(apiSchemaDiscoveryList []*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range apiSchemaDiscoveryList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type apiSchemaDiscoverySet struct {
+	set sksets.ResourceSet
+}
+
+func NewApiSchemaDiscoverySet(apiSchemaDiscoveryList ...*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) ApiSchemaDiscoverySet {
+	return &apiSchemaDiscoverySet{set: makeGenericApiSchemaDiscoverySet(apiSchemaDiscoveryList)}
+}
+
+func NewApiSchemaDiscoverySetFromList(apiSchemaDiscoveryList *apimanagement_gloo_solo_io_v2.ApiSchemaDiscoveryList) ApiSchemaDiscoverySet {
+	list := make([]*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery, 0, len(apiSchemaDiscoveryList.Items))
+	for idx := range apiSchemaDiscoveryList.Items {
+		list = append(list, &apiSchemaDiscoveryList.Items[idx])
+	}
+	return &apiSchemaDiscoverySet{set: makeGenericApiSchemaDiscoverySet(list)}
+}
+
+func (s *apiSchemaDiscoverySet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *apiSchemaDiscoverySet) List(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) bool) []*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	apiSchemaDiscoveryList := make([]*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery, 0, len(objs))
+	for _, obj := range objs {
+		apiSchemaDiscoveryList = append(apiSchemaDiscoveryList, obj.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery))
+	}
+	return apiSchemaDiscoveryList
+}
+
+func (s *apiSchemaDiscoverySet) UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery) bool) []*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery))
+		})
+	}
+
+	var apiSchemaDiscoveryList []*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		apiSchemaDiscoveryList = append(apiSchemaDiscoveryList, obj.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery))
+	}
+	return apiSchemaDiscoveryList
+}
+
+func (s *apiSchemaDiscoverySet) Map() map[string]*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery)
+	}
+	return newMap
+}
+
+func (s *apiSchemaDiscoverySet) Insert(
+	apiSchemaDiscoveryList ...*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range apiSchemaDiscoveryList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *apiSchemaDiscoverySet) Has(apiSchemaDiscovery ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(apiSchemaDiscovery)
+}
+
+func (s *apiSchemaDiscoverySet) Equal(
+	apiSchemaDiscoverySet ApiSchemaDiscoverySet,
+) bool {
+	if s == nil {
+		return apiSchemaDiscoverySet == nil
+	}
+	return s.Generic().Equal(apiSchemaDiscoverySet.Generic())
+}
+
+func (s *apiSchemaDiscoverySet) Delete(ApiSchemaDiscovery ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(ApiSchemaDiscovery)
+}
+
+func (s *apiSchemaDiscoverySet) Union(set ApiSchemaDiscoverySet) ApiSchemaDiscoverySet {
+	if s == nil {
+		return set
+	}
+	return NewApiSchemaDiscoverySet(append(s.List(), set.List()...)...)
+}
+
+func (s *apiSchemaDiscoverySet) Difference(set ApiSchemaDiscoverySet) ApiSchemaDiscoverySet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &apiSchemaDiscoverySet{set: newSet}
+}
+
+func (s *apiSchemaDiscoverySet) Intersection(set ApiSchemaDiscoverySet) ApiSchemaDiscoverySet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var apiSchemaDiscoveryList []*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery
+	for _, obj := range newSet.List() {
+		apiSchemaDiscoveryList = append(apiSchemaDiscoveryList, obj.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery))
+	}
+	return NewApiSchemaDiscoverySet(apiSchemaDiscoveryList...)
+}
+
+func (s *apiSchemaDiscoverySet) Find(id ezkube.ResourceId) (*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find ApiSchemaDiscovery %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*apimanagement_gloo_solo_io_v2.ApiSchemaDiscovery), nil
+}
+
+func (s *apiSchemaDiscoverySet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *apiSchemaDiscoverySet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *apiSchemaDiscoverySet) Delta(newSet ApiSchemaDiscoverySet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *apiSchemaDiscoverySet) Clone() ApiSchemaDiscoverySet {
+	if s == nil {
+		return nil
+	}
+	return &apiSchemaDiscoverySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }

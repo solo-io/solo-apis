@@ -38,10 +38,10 @@ message AWSProvider {
 
   // LambdaOptions specifies options for configuring invocation and filtering of lambda functions
   message LambdaOptions {
-    // Name of the IAM Role to assume when calling the specified Cloud Function, associated with the account ID
-    // and region specified on the CloudProvider. If not specified, the IAM Role specified on the gateway will be used
-    // unless referencing an imported CloudProvider. If importing a CloudProvider,this field must be specified. A default
-    // invokeRole can be put on the routeTable by using the gloo.solo.io/defaultInvokeRole annotation.
+    // Optional. The name of the IAM role to assume when calling the specified Cloud Function, associated with the account ID
+    // and region specified on the CloudProvider. If omitted, the IAM role specified on the gateway is used,
+    // unless referencing an imported CloudProvider. If importing a CloudProvider, you must specify this field. You can also
+    // specify a default invokeRole in a RouteTable by using the 'gloo.solo.io/defaultInvokeRole' annotation.
     string invoke_role_name = 1;
 
     // Discovery of lambda functions
@@ -52,13 +52,13 @@ message AWSProvider {
       // Enable discovery of lambda functions.
       bool enabled = 1;
 
-      // Optional: name of role to use for discovering CloudResources, associated with the account ID and region specified
-      // on the CloudProvider. If set this name will be used to override the value found in AWS_ROLE_ARN.
+      // Optional. The name of role to use for discovering CloudResources, associated with the account ID and region specified
+      // on the CloudProvider. If set, this name will be used to override the value found in the $AWS_ROLE_ARN environment variable
+      // on the mgmt-server pod.
       string role_name = 2;
 
       // Lambda function configuration specifies how lambda functions will be discovered.
       LambdaFilter filter = 3;
-
 
       message LambdaFilter {
         // filter by the names of the functions. Functions that do not match this selector will not be included. Regex supported.
@@ -72,8 +72,9 @@ message AWSProvider {
   }
 }
 
-// reflects the status of the Cloud Provider
+// The status of the resource after it is applied to your Gloo environment.
 message CloudProviderStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // A map of CloudResources to the number of routable functions

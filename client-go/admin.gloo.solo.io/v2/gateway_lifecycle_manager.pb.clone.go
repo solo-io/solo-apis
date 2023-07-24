@@ -99,6 +99,8 @@ func (m *GatewayInstallation) Clone() proto.Message {
 		target.IstioOperatorSpec = proto.Clone(m.GetIstioOperatorSpec()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.IstioOperatorSpec)
 	}
 
+	target.SkipUpgradeValidation = m.GetSkipUpgradeValidation()
+
 	return target
 }
 

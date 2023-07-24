@@ -324,6 +324,7 @@ type WorkspaceSettingsStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The workspace that this workspacesettings object configures.
 	Workspace *v2.ObjectReference `protobuf:"bytes,2,opt,name=workspace,proto3" json:"workspace,omitempty"`
@@ -641,13 +642,13 @@ type WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector struct {
 	Kind WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind `protobuf:"varint,1,opt,name=kind,proto3,enum=admin.gloo.solo.io.WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind" json:"kind,omitempty"`
 	// labels matching those of the object
 	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// Only select objects exactly matching the name. If the field is omitted, Gloo Mesh will select
+	// Only select objects exactly matching the name. If omitted, Gloo selects
 	// matching objects with any name available in the workspace.
 	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	// Only select objects exactly matching the namespace. If the field is omitted, Gloo Mesh will select
+	// Only select objects exactly matching the namespace. If omitted, Gloo selects
 	// matching objects across all namespaces available in the workspace.
 	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Only select objects in the exactly matching cluster. If the field is omitted, Gloo Mesh will select
+	// Only select objects in the exactly matching cluster. If omitted, Gloo selects
 	// matching objects across all clusters available in the workspace.
 	Cluster string `protobuf:"bytes,5,opt,name=cluster,proto3" json:"cluster,omitempty"`
 }
@@ -730,7 +731,7 @@ type WorkspaceSettingsSpec_Options_ServiceIsolation struct {
 	// When enabled, proxy config will be trimmed to eliminate unnecessary config updates.
 	// In Istio this will be implemented using the Sidecar resource.
 	TrimProxyConfig *wrappers.BoolValue `protobuf:"bytes,2,opt,name=trim_proxy_config,json=trimProxyConfig,proto3" json:"trim_proxy_config,omitempty"`
-	// Optional. When NetworkPolicy translation is enabled, by default, all available layers will be used to enforce Service Isolation.
+	// Optional: When NetworkPolicy translation is enabled, by default, all available layers will be used to enforce Service Isolation.
 	// You can optionally explicitly define which available layers will enforce Service Isolation. Only the layers set here will be used.
 	EnforcementLayers *v2.EnforcementLayers `protobuf:"bytes,3,opt,name=enforcement_layers,json=enforcementLayers,proto3" json:"enforcement_layers,omitempty"`
 }
@@ -793,7 +794,8 @@ type WorkspaceSettingsSpec_Options_Federation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// enables the federation feature for selected Kubernetes services in the workspace.
+	// Enables the federation feature for selected Kubernetes services in the workspace.
+	// Default value is disabled.
 	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	// Optional: The suffix used for generated hostnames. Hostnames will be generated for each selected service in the format `{{ service name }}.{{ service namespace }}.{{ service cluster }}.{{ host suffix }}`.
 	HostSuffix string `protobuf:"bytes,2,opt,name=host_suffix,json=hostSuffix,proto3" json:"host_suffix,omitempty"`

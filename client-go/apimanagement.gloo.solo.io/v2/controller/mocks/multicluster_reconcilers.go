@@ -705,3 +705,118 @@ func (mr *MockMulticlusterPortalGroupReconcileLoopMockRecorder) AddMulticlusterP
 	varargs := append([]interface{}{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterPortalGroupReconciler", reflect.TypeOf((*MockMulticlusterPortalGroupReconcileLoop)(nil).AddMulticlusterPortalGroupReconciler), varargs...)
 }
+
+// MockMulticlusterApiSchemaDiscoveryReconciler is a mock of MulticlusterApiSchemaDiscoveryReconciler interface.
+type MockMulticlusterApiSchemaDiscoveryReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterApiSchemaDiscoveryReconcilerMockRecorder
+}
+
+// MockMulticlusterApiSchemaDiscoveryReconcilerMockRecorder is the mock recorder for MockMulticlusterApiSchemaDiscoveryReconciler.
+type MockMulticlusterApiSchemaDiscoveryReconcilerMockRecorder struct {
+	mock *MockMulticlusterApiSchemaDiscoveryReconciler
+}
+
+// NewMockMulticlusterApiSchemaDiscoveryReconciler creates a new mock instance.
+func NewMockMulticlusterApiSchemaDiscoveryReconciler(ctrl *gomock.Controller) *MockMulticlusterApiSchemaDiscoveryReconciler {
+	mock := &MockMulticlusterApiSchemaDiscoveryReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterApiSchemaDiscoveryReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterApiSchemaDiscoveryReconciler) EXPECT() *MockMulticlusterApiSchemaDiscoveryReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileApiSchemaDiscovery mocks base method.
+func (m *MockMulticlusterApiSchemaDiscoveryReconciler) ReconcileApiSchemaDiscovery(clusterName string, obj *v2.ApiSchemaDiscovery) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileApiSchemaDiscovery", clusterName, obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileApiSchemaDiscovery indicates an expected call of ReconcileApiSchemaDiscovery.
+func (mr *MockMulticlusterApiSchemaDiscoveryReconcilerMockRecorder) ReconcileApiSchemaDiscovery(clusterName, obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileApiSchemaDiscovery", reflect.TypeOf((*MockMulticlusterApiSchemaDiscoveryReconciler)(nil).ReconcileApiSchemaDiscovery), clusterName, obj)
+}
+
+// MockMulticlusterApiSchemaDiscoveryDeletionReconciler is a mock of MulticlusterApiSchemaDiscoveryDeletionReconciler interface.
+type MockMulticlusterApiSchemaDiscoveryDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterApiSchemaDiscoveryDeletionReconcilerMockRecorder
+}
+
+// MockMulticlusterApiSchemaDiscoveryDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterApiSchemaDiscoveryDeletionReconciler.
+type MockMulticlusterApiSchemaDiscoveryDeletionReconcilerMockRecorder struct {
+	mock *MockMulticlusterApiSchemaDiscoveryDeletionReconciler
+}
+
+// NewMockMulticlusterApiSchemaDiscoveryDeletionReconciler creates a new mock instance.
+func NewMockMulticlusterApiSchemaDiscoveryDeletionReconciler(ctrl *gomock.Controller) *MockMulticlusterApiSchemaDiscoveryDeletionReconciler {
+	mock := &MockMulticlusterApiSchemaDiscoveryDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterApiSchemaDiscoveryDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterApiSchemaDiscoveryDeletionReconciler) EXPECT() *MockMulticlusterApiSchemaDiscoveryDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileApiSchemaDiscoveryDeletion mocks base method.
+func (m *MockMulticlusterApiSchemaDiscoveryDeletionReconciler) ReconcileApiSchemaDiscoveryDeletion(clusterName string, req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileApiSchemaDiscoveryDeletion", clusterName, req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileApiSchemaDiscoveryDeletion indicates an expected call of ReconcileApiSchemaDiscoveryDeletion.
+func (mr *MockMulticlusterApiSchemaDiscoveryDeletionReconcilerMockRecorder) ReconcileApiSchemaDiscoveryDeletion(clusterName, req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileApiSchemaDiscoveryDeletion", reflect.TypeOf((*MockMulticlusterApiSchemaDiscoveryDeletionReconciler)(nil).ReconcileApiSchemaDiscoveryDeletion), clusterName, req)
+}
+
+// MockMulticlusterApiSchemaDiscoveryReconcileLoop is a mock of MulticlusterApiSchemaDiscoveryReconcileLoop interface.
+type MockMulticlusterApiSchemaDiscoveryReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterApiSchemaDiscoveryReconcileLoopMockRecorder
+}
+
+// MockMulticlusterApiSchemaDiscoveryReconcileLoopMockRecorder is the mock recorder for MockMulticlusterApiSchemaDiscoveryReconcileLoop.
+type MockMulticlusterApiSchemaDiscoveryReconcileLoopMockRecorder struct {
+	mock *MockMulticlusterApiSchemaDiscoveryReconcileLoop
+}
+
+// NewMockMulticlusterApiSchemaDiscoveryReconcileLoop creates a new mock instance.
+func NewMockMulticlusterApiSchemaDiscoveryReconcileLoop(ctrl *gomock.Controller) *MockMulticlusterApiSchemaDiscoveryReconcileLoop {
+	mock := &MockMulticlusterApiSchemaDiscoveryReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterApiSchemaDiscoveryReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterApiSchemaDiscoveryReconcileLoop) EXPECT() *MockMulticlusterApiSchemaDiscoveryReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// AddMulticlusterApiSchemaDiscoveryReconciler mocks base method.
+func (m *MockMulticlusterApiSchemaDiscoveryReconcileLoop) AddMulticlusterApiSchemaDiscoveryReconciler(ctx context.Context, rec controller.MulticlusterApiSchemaDiscoveryReconciler, predicates ...predicate.Predicate) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "AddMulticlusterApiSchemaDiscoveryReconciler", varargs...)
+}
+
+// AddMulticlusterApiSchemaDiscoveryReconciler indicates an expected call of AddMulticlusterApiSchemaDiscoveryReconciler.
+func (mr *MockMulticlusterApiSchemaDiscoveryReconcileLoopMockRecorder) AddMulticlusterApiSchemaDiscoveryReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterApiSchemaDiscoveryReconciler", reflect.TypeOf((*MockMulticlusterApiSchemaDiscoveryReconcileLoop)(nil).AddMulticlusterApiSchemaDiscoveryReconciler), varargs...)
+}

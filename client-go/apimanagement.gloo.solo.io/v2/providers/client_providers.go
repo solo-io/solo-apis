@@ -184,3 +184,31 @@ func PortalGroupClientFromConfigFactoryProvider() PortalGroupClientFromConfigFac
 		return clients.PortalGroups(), nil
 	}
 }
+
+// Provider for ApiSchemaDiscoveryClient from Clientset
+func ApiSchemaDiscoveryClientFromClientsetProvider(clients apimanagement_gloo_solo_io_v2.Clientset) apimanagement_gloo_solo_io_v2.ApiSchemaDiscoveryClient {
+	return clients.ApiSchemaDiscoveries()
+}
+
+// Provider for ApiSchemaDiscovery Client from Client
+func ApiSchemaDiscoveryClientProvider(client client.Client) apimanagement_gloo_solo_io_v2.ApiSchemaDiscoveryClient {
+	return apimanagement_gloo_solo_io_v2.NewApiSchemaDiscoveryClient(client)
+}
+
+type ApiSchemaDiscoveryClientFactory func(client client.Client) apimanagement_gloo_solo_io_v2.ApiSchemaDiscoveryClient
+
+func ApiSchemaDiscoveryClientFactoryProvider() ApiSchemaDiscoveryClientFactory {
+	return ApiSchemaDiscoveryClientProvider
+}
+
+type ApiSchemaDiscoveryClientFromConfigFactory func(cfg *rest.Config) (apimanagement_gloo_solo_io_v2.ApiSchemaDiscoveryClient, error)
+
+func ApiSchemaDiscoveryClientFromConfigFactoryProvider() ApiSchemaDiscoveryClientFromConfigFactory {
+	return func(cfg *rest.Config) (apimanagement_gloo_solo_io_v2.ApiSchemaDiscoveryClient, error) {
+		clients, err := apimanagement_gloo_solo_io_v2.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.ApiSchemaDiscoveries(), nil
+	}
+}

@@ -17,8 +17,10 @@ type IssuedCertificateSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*internal_gloo_solo_io_v2.IssuedCertificate) bool) []*internal_gloo_solo_io_v2.IssuedCertificate
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.IssuedCertificate) bool) []*internal_gloo_solo_io_v2.IssuedCertificate
 	// Return the Set as a map of key to resource.
 	Map() map[string]*internal_gloo_solo_io_v2.IssuedCertificate
@@ -238,8 +240,10 @@ type CertificateRequestSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*internal_gloo_solo_io_v2.CertificateRequest) bool) []*internal_gloo_solo_io_v2.CertificateRequest
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.CertificateRequest) bool) []*internal_gloo_solo_io_v2.CertificateRequest
 	// Return the Set as a map of key to resource.
 	Map() map[string]*internal_gloo_solo_io_v2.CertificateRequest
@@ -459,8 +463,10 @@ type PodBounceDirectiveSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*internal_gloo_solo_io_v2.PodBounceDirective) bool) []*internal_gloo_solo_io_v2.PodBounceDirective
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.PodBounceDirective) bool) []*internal_gloo_solo_io_v2.PodBounceDirective
 	// Return the Set as a map of key to resource.
 	Map() map[string]*internal_gloo_solo_io_v2.PodBounceDirective
@@ -680,8 +686,10 @@ type XdsConfigSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*internal_gloo_solo_io_v2.XdsConfig) bool) []*internal_gloo_solo_io_v2.XdsConfig
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.XdsConfig) bool) []*internal_gloo_solo_io_v2.XdsConfig
 	// Return the Set as a map of key to resource.
 	Map() map[string]*internal_gloo_solo_io_v2.XdsConfig
@@ -901,8 +909,10 @@ type DiscoveredGatewaySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*internal_gloo_solo_io_v2.DiscoveredGateway) bool) []*internal_gloo_solo_io_v2.DiscoveredGateway
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.DiscoveredGateway) bool) []*internal_gloo_solo_io_v2.DiscoveredGateway
 	// Return the Set as a map of key to resource.
 	Map() map[string]*internal_gloo_solo_io_v2.DiscoveredGateway
@@ -1122,8 +1132,10 @@ type MeshSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*internal_gloo_solo_io_v2.Mesh) bool) []*internal_gloo_solo_io_v2.Mesh
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.Mesh) bool) []*internal_gloo_solo_io_v2.Mesh
 	// Return the Set as a map of key to resource.
 	Map() map[string]*internal_gloo_solo_io_v2.Mesh
@@ -1343,8 +1355,10 @@ type DiscoveredCNISet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*internal_gloo_solo_io_v2.DiscoveredCNI) bool) []*internal_gloo_solo_io_v2.DiscoveredCNI
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.DiscoveredCNI) bool) []*internal_gloo_solo_io_v2.DiscoveredCNI
 	// Return the Set as a map of key to resource.
 	Map() map[string]*internal_gloo_solo_io_v2.DiscoveredCNI
@@ -1564,8 +1578,10 @@ type PortalConfigSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*internal_gloo_solo_io_v2.PortalConfig) bool) []*internal_gloo_solo_io_v2.PortalConfig
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.PortalConfig) bool) []*internal_gloo_solo_io_v2.PortalConfig
 	// Return the Set as a map of key to resource.
 	Map() map[string]*internal_gloo_solo_io_v2.PortalConfig
@@ -1779,225 +1795,4 @@ func (s *portalConfigSet) Clone() PortalConfigSet {
 		return nil
 	}
 	return &portalConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
-}
-
-type SpireRegistrationEntrySet interface {
-	// Get the set stored keys
-	Keys() sets.String
-	// List of resources stored in the set. Pass an optional filter function to filter on the list.
-	List(filterResource ...func(*internal_gloo_solo_io_v2.SpireRegistrationEntry) bool) []*internal_gloo_solo_io_v2.SpireRegistrationEntry
-	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.SpireRegistrationEntry) bool) []*internal_gloo_solo_io_v2.SpireRegistrationEntry
-	// Return the Set as a map of key to resource.
-	Map() map[string]*internal_gloo_solo_io_v2.SpireRegistrationEntry
-	// Insert a resource into the set.
-	Insert(spireRegistrationEntry ...*internal_gloo_solo_io_v2.SpireRegistrationEntry)
-	// Compare the equality of the keys in two sets (not the resources themselves)
-	Equal(spireRegistrationEntrySet SpireRegistrationEntrySet) bool
-	// Check if the set contains a key matching the resource (not the resource itself)
-	Has(spireRegistrationEntry ezkube.ResourceId) bool
-	// Delete the key matching the resource
-	Delete(spireRegistrationEntry ezkube.ResourceId)
-	// Return the union with the provided set
-	Union(set SpireRegistrationEntrySet) SpireRegistrationEntrySet
-	// Return the difference with the provided set
-	Difference(set SpireRegistrationEntrySet) SpireRegistrationEntrySet
-	// Return the intersection with the provided set
-	Intersection(set SpireRegistrationEntrySet) SpireRegistrationEntrySet
-	// Find the resource with the given ID
-	Find(id ezkube.ResourceId) (*internal_gloo_solo_io_v2.SpireRegistrationEntry, error)
-	// Get the length of the set
-	Length() int
-	// returns the generic implementation of the set
-	Generic() sksets.ResourceSet
-	// returns the delta between this and and another SpireRegistrationEntrySet
-	Delta(newSet SpireRegistrationEntrySet) sksets.ResourceDelta
-	// Create a deep copy of the current SpireRegistrationEntrySet
-	Clone() SpireRegistrationEntrySet
-}
-
-func makeGenericSpireRegistrationEntrySet(spireRegistrationEntryList []*internal_gloo_solo_io_v2.SpireRegistrationEntry) sksets.ResourceSet {
-	var genericResources []ezkube.ResourceId
-	for _, obj := range spireRegistrationEntryList {
-		genericResources = append(genericResources, obj)
-	}
-	return sksets.NewResourceSet(genericResources...)
-}
-
-type spireRegistrationEntrySet struct {
-	set sksets.ResourceSet
-}
-
-func NewSpireRegistrationEntrySet(spireRegistrationEntryList ...*internal_gloo_solo_io_v2.SpireRegistrationEntry) SpireRegistrationEntrySet {
-	return &spireRegistrationEntrySet{set: makeGenericSpireRegistrationEntrySet(spireRegistrationEntryList)}
-}
-
-func NewSpireRegistrationEntrySetFromList(spireRegistrationEntryList *internal_gloo_solo_io_v2.SpireRegistrationEntryList) SpireRegistrationEntrySet {
-	list := make([]*internal_gloo_solo_io_v2.SpireRegistrationEntry, 0, len(spireRegistrationEntryList.Items))
-	for idx := range spireRegistrationEntryList.Items {
-		list = append(list, &spireRegistrationEntryList.Items[idx])
-	}
-	return &spireRegistrationEntrySet{set: makeGenericSpireRegistrationEntrySet(list)}
-}
-
-func (s *spireRegistrationEntrySet) Keys() sets.String {
-	if s == nil {
-		return sets.String{}
-	}
-	return s.Generic().Keys()
-}
-
-func (s *spireRegistrationEntrySet) List(filterResource ...func(*internal_gloo_solo_io_v2.SpireRegistrationEntry) bool) []*internal_gloo_solo_io_v2.SpireRegistrationEntry {
-	if s == nil {
-		return nil
-	}
-	var genericFilters []func(ezkube.ResourceId) bool
-	for _, filter := range filterResource {
-		filter := filter
-		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*internal_gloo_solo_io_v2.SpireRegistrationEntry))
-		})
-	}
-
-	objs := s.Generic().List(genericFilters...)
-	spireRegistrationEntryList := make([]*internal_gloo_solo_io_v2.SpireRegistrationEntry, 0, len(objs))
-	for _, obj := range objs {
-		spireRegistrationEntryList = append(spireRegistrationEntryList, obj.(*internal_gloo_solo_io_v2.SpireRegistrationEntry))
-	}
-	return spireRegistrationEntryList
-}
-
-func (s *spireRegistrationEntrySet) UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.SpireRegistrationEntry) bool) []*internal_gloo_solo_io_v2.SpireRegistrationEntry {
-	if s == nil {
-		return nil
-	}
-	var genericFilters []func(ezkube.ResourceId) bool
-	for _, filter := range filterResource {
-		filter := filter
-		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*internal_gloo_solo_io_v2.SpireRegistrationEntry))
-		})
-	}
-
-	var spireRegistrationEntryList []*internal_gloo_solo_io_v2.SpireRegistrationEntry
-	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-		spireRegistrationEntryList = append(spireRegistrationEntryList, obj.(*internal_gloo_solo_io_v2.SpireRegistrationEntry))
-	}
-	return spireRegistrationEntryList
-}
-
-func (s *spireRegistrationEntrySet) Map() map[string]*internal_gloo_solo_io_v2.SpireRegistrationEntry {
-	if s == nil {
-		return nil
-	}
-
-	newMap := map[string]*internal_gloo_solo_io_v2.SpireRegistrationEntry{}
-	for k, v := range s.Generic().Map() {
-		newMap[k] = v.(*internal_gloo_solo_io_v2.SpireRegistrationEntry)
-	}
-	return newMap
-}
-
-func (s *spireRegistrationEntrySet) Insert(
-	spireRegistrationEntryList ...*internal_gloo_solo_io_v2.SpireRegistrationEntry,
-) {
-	if s == nil {
-		panic("cannot insert into nil set")
-	}
-
-	for _, obj := range spireRegistrationEntryList {
-		s.Generic().Insert(obj)
-	}
-}
-
-func (s *spireRegistrationEntrySet) Has(spireRegistrationEntry ezkube.ResourceId) bool {
-	if s == nil {
-		return false
-	}
-	return s.Generic().Has(spireRegistrationEntry)
-}
-
-func (s *spireRegistrationEntrySet) Equal(
-	spireRegistrationEntrySet SpireRegistrationEntrySet,
-) bool {
-	if s == nil {
-		return spireRegistrationEntrySet == nil
-	}
-	return s.Generic().Equal(spireRegistrationEntrySet.Generic())
-}
-
-func (s *spireRegistrationEntrySet) Delete(SpireRegistrationEntry ezkube.ResourceId) {
-	if s == nil {
-		return
-	}
-	s.Generic().Delete(SpireRegistrationEntry)
-}
-
-func (s *spireRegistrationEntrySet) Union(set SpireRegistrationEntrySet) SpireRegistrationEntrySet {
-	if s == nil {
-		return set
-	}
-	return NewSpireRegistrationEntrySet(append(s.List(), set.List()...)...)
-}
-
-func (s *spireRegistrationEntrySet) Difference(set SpireRegistrationEntrySet) SpireRegistrationEntrySet {
-	if s == nil {
-		return set
-	}
-	newSet := s.Generic().Difference(set.Generic())
-	return &spireRegistrationEntrySet{set: newSet}
-}
-
-func (s *spireRegistrationEntrySet) Intersection(set SpireRegistrationEntrySet) SpireRegistrationEntrySet {
-	if s == nil {
-		return nil
-	}
-	newSet := s.Generic().Intersection(set.Generic())
-	var spireRegistrationEntryList []*internal_gloo_solo_io_v2.SpireRegistrationEntry
-	for _, obj := range newSet.List() {
-		spireRegistrationEntryList = append(spireRegistrationEntryList, obj.(*internal_gloo_solo_io_v2.SpireRegistrationEntry))
-	}
-	return NewSpireRegistrationEntrySet(spireRegistrationEntryList...)
-}
-
-func (s *spireRegistrationEntrySet) Find(id ezkube.ResourceId) (*internal_gloo_solo_io_v2.SpireRegistrationEntry, error) {
-	if s == nil {
-		return nil, eris.Errorf("empty set, cannot find SpireRegistrationEntry %v", sksets.Key(id))
-	}
-	obj, err := s.Generic().Find(&internal_gloo_solo_io_v2.SpireRegistrationEntry{}, id)
-	if err != nil {
-		return nil, err
-	}
-
-	return obj.(*internal_gloo_solo_io_v2.SpireRegistrationEntry), nil
-}
-
-func (s *spireRegistrationEntrySet) Length() int {
-	if s == nil {
-		return 0
-	}
-	return s.Generic().Length()
-}
-
-func (s *spireRegistrationEntrySet) Generic() sksets.ResourceSet {
-	if s == nil {
-		return nil
-	}
-	return s.set
-}
-
-func (s *spireRegistrationEntrySet) Delta(newSet SpireRegistrationEntrySet) sksets.ResourceDelta {
-	if s == nil {
-		return sksets.ResourceDelta{
-			Inserted: newSet.Generic(),
-		}
-	}
-	return s.Generic().Delta(newSet.Generic())
-}
-
-func (s *spireRegistrationEntrySet) Clone() SpireRegistrationEntrySet {
-	if s == nil {
-		return nil
-	}
-	return &spireRegistrationEntrySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }

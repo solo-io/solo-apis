@@ -52,8 +52,9 @@ message ExternalEndpointSpec {
   }
 }
 
-// reflects the status of the ExternalEndpoint
+// The status of the resource after it is applied to your Gloo environment.
 message ExternalEndpointStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 }
 

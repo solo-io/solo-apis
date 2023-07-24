@@ -49,8 +49,6 @@ type Clientset interface {
 	VirtualDestinations() VirtualDestinationClient
 	// clienset for the networking.gloo.solo.io/v2/v2 APIs
 	VirtualGateways() VirtualGatewayClient
-	// clienset for the networking.gloo.solo.io/v2/v2 APIs
-	ExternalWorkloads() ExternalWorkloadClient
 }
 
 type clientSet struct {
@@ -98,11 +96,6 @@ func (c *clientSet) VirtualDestinations() VirtualDestinationClient {
 // clienset for the networking.gloo.solo.io/v2/v2 APIs
 func (c *clientSet) VirtualGateways() VirtualGatewayClient {
 	return NewVirtualGatewayClient(c.client)
-}
-
-// clienset for the networking.gloo.solo.io/v2/v2 APIs
-func (c *clientSet) ExternalWorkloads() ExternalWorkloadClient {
-	return NewExternalWorkloadClient(c.client)
 }
 
 // Reader knows how to read and list ExternalServices.
@@ -813,146 +806,4 @@ func (m *multiclusterVirtualGatewayClient) Cluster(cluster string) (VirtualGatew
 		return nil, err
 	}
 	return NewVirtualGatewayClient(client), nil
-}
-
-// Reader knows how to read and list ExternalWorkloads.
-type ExternalWorkloadReader interface {
-	// Get retrieves a ExternalWorkload for the given object key
-	GetExternalWorkload(ctx context.Context, key client.ObjectKey) (*ExternalWorkload, error)
-
-	// List retrieves list of ExternalWorkloads for a given namespace and list options.
-	ListExternalWorkload(ctx context.Context, opts ...client.ListOption) (*ExternalWorkloadList, error)
-}
-
-// ExternalWorkloadTransitionFunction instructs the ExternalWorkloadWriter how to transition between an existing
-// ExternalWorkload object and a desired on an Upsert
-type ExternalWorkloadTransitionFunction func(existing, desired *ExternalWorkload) error
-
-// Writer knows how to create, delete, and update ExternalWorkloads.
-type ExternalWorkloadWriter interface {
-	// Create saves the ExternalWorkload object.
-	CreateExternalWorkload(ctx context.Context, obj *ExternalWorkload, opts ...client.CreateOption) error
-
-	// Delete deletes the ExternalWorkload object.
-	DeleteExternalWorkload(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
-
-	// Update updates the given ExternalWorkload object.
-	UpdateExternalWorkload(ctx context.Context, obj *ExternalWorkload, opts ...client.UpdateOption) error
-
-	// Patch patches the given ExternalWorkload object.
-	PatchExternalWorkload(ctx context.Context, obj *ExternalWorkload, patch client.Patch, opts ...client.PatchOption) error
-
-	// DeleteAllOf deletes all ExternalWorkload objects matching the given options.
-	DeleteAllOfExternalWorkload(ctx context.Context, opts ...client.DeleteAllOfOption) error
-
-	// Create or Update the ExternalWorkload object.
-	UpsertExternalWorkload(ctx context.Context, obj *ExternalWorkload, transitionFuncs ...ExternalWorkloadTransitionFunction) error
-}
-
-// StatusWriter knows how to update status subresource of a ExternalWorkload object.
-type ExternalWorkloadStatusWriter interface {
-	// Update updates the fields corresponding to the status subresource for the
-	// given ExternalWorkload object.
-	UpdateExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, opts ...client.SubResourceUpdateOption) error
-
-	// Patch patches the given ExternalWorkload object's subresource.
-	PatchExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, patch client.Patch, opts ...client.SubResourcePatchOption) error
-}
-
-// Client knows how to perform CRUD operations on ExternalWorkloads.
-type ExternalWorkloadClient interface {
-	ExternalWorkloadReader
-	ExternalWorkloadWriter
-	ExternalWorkloadStatusWriter
-}
-
-type externalWorkloadClient struct {
-	client client.Client
-}
-
-func NewExternalWorkloadClient(client client.Client) *externalWorkloadClient {
-	return &externalWorkloadClient{client: client}
-}
-
-func (c *externalWorkloadClient) GetExternalWorkload(ctx context.Context, key client.ObjectKey) (*ExternalWorkload, error) {
-	obj := &ExternalWorkload{}
-	if err := c.client.Get(ctx, key, obj); err != nil {
-		return nil, err
-	}
-	return obj, nil
-}
-
-func (c *externalWorkloadClient) ListExternalWorkload(ctx context.Context, opts ...client.ListOption) (*ExternalWorkloadList, error) {
-	list := &ExternalWorkloadList{}
-	if err := c.client.List(ctx, list, opts...); err != nil {
-		return nil, err
-	}
-	return list, nil
-}
-
-func (c *externalWorkloadClient) CreateExternalWorkload(ctx context.Context, obj *ExternalWorkload, opts ...client.CreateOption) error {
-	return c.client.Create(ctx, obj, opts...)
-}
-
-func (c *externalWorkloadClient) DeleteExternalWorkload(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	obj := &ExternalWorkload{}
-	obj.SetName(key.Name)
-	obj.SetNamespace(key.Namespace)
-	return c.client.Delete(ctx, obj, opts...)
-}
-
-func (c *externalWorkloadClient) UpdateExternalWorkload(ctx context.Context, obj *ExternalWorkload, opts ...client.UpdateOption) error {
-	return c.client.Update(ctx, obj, opts...)
-}
-
-func (c *externalWorkloadClient) PatchExternalWorkload(ctx context.Context, obj *ExternalWorkload, patch client.Patch, opts ...client.PatchOption) error {
-	return c.client.Patch(ctx, obj, patch, opts...)
-}
-
-func (c *externalWorkloadClient) DeleteAllOfExternalWorkload(ctx context.Context, opts ...client.DeleteAllOfOption) error {
-	obj := &ExternalWorkload{}
-	return c.client.DeleteAllOf(ctx, obj, opts...)
-}
-
-func (c *externalWorkloadClient) UpsertExternalWorkload(ctx context.Context, obj *ExternalWorkload, transitionFuncs ...ExternalWorkloadTransitionFunction) error {
-	genericTxFunc := func(existing, desired runtime.Object) error {
-		for _, txFunc := range transitionFuncs {
-			if err := txFunc(existing.(*ExternalWorkload), desired.(*ExternalWorkload)); err != nil {
-				return err
-			}
-		}
-		return nil
-	}
-	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
-	return err
-}
-
-func (c *externalWorkloadClient) UpdateExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, opts ...client.SubResourceUpdateOption) error {
-	return c.client.Status().Update(ctx, obj, opts...)
-}
-
-func (c *externalWorkloadClient) PatchExternalWorkloadStatus(ctx context.Context, obj *ExternalWorkload, patch client.Patch, opts ...client.SubResourcePatchOption) error {
-	return c.client.Status().Patch(ctx, obj, patch, opts...)
-}
-
-// Provides ExternalWorkloadClients for multiple clusters.
-type MulticlusterExternalWorkloadClient interface {
-	// Cluster returns a ExternalWorkloadClient for the given cluster
-	Cluster(cluster string) (ExternalWorkloadClient, error)
-}
-
-type multiclusterExternalWorkloadClient struct {
-	client multicluster.Client
-}
-
-func NewMulticlusterExternalWorkloadClient(client multicluster.Client) MulticlusterExternalWorkloadClient {
-	return &multiclusterExternalWorkloadClient{client: client}
-}
-
-func (m *multiclusterExternalWorkloadClient) Cluster(cluster string) (ExternalWorkloadClient, error) {
-	client, err := m.client.Cluster(cluster)
-	if err != nil {
-		return nil, err
-	}
-	return NewExternalWorkloadClient(client), nil
 }

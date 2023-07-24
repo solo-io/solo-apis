@@ -162,7 +162,7 @@ type JWTPolicySpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Select the routes where the policy will be applied.
-	// If left empty, no policy will be applied to any routes in the workspace.
+	// If empty, no policy will be applied to any routes in the workspace.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
 	// The details of the JWT policy to apply to the selected routes.
 	Config *JWTPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
@@ -214,12 +214,13 @@ func (x *JWTPolicySpec) GetConfig() *JWTPolicySpec_Config {
 	return nil
 }
 
-// reflects the status of the JWTPolicyStatus
+// The status of the policy after it is applied to your Gloo environment.Status
 type JWTPolicyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// The state and workspace conditions of the applied resource.
 	Common *v2.Status `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
 	// The number of routes selected by the policy.
 	NumSelectedRoutes uint32 `protobuf:"varint,2,opt,name=num_selected_routes,json=numSelectedRoutes,proto3" json:"num_selected_routes,omitempty"`
@@ -446,10 +447,10 @@ type JWTPolicySpec_Config_Provider struct {
 	// Optional: The principal that issued the JWT, usually a URL or an email address.
 	// If specified, the iss field in JWT token in the incoming request has to match this field else the request is denied.
 	//
-	//	If left empty the iss field in the JWT token is not checked.
+	//	If empty the iss field in the JWT token is not checked.
 	Issuer string `protobuf:"bytes,1,opt,name=issuer,proto3" json:"issuer,omitempty"`
 	// Optional: A list of intended audiences for this JWT token. A JWT containing any of these
-	// audiences will be accepted. If not specified, the audiences in JWT will not be checked.
+	// audiences will be accepted. If omitted, the audiences in JWT will not be checked.
 	Audiences []string `protobuf:"bytes,2,rep,name=audiences,proto3" json:"audiences,omitempty"`
 	// Optional: If no explicit location is specified, the following default locations are tried in order:
 	//
@@ -619,11 +620,11 @@ type JWTPolicySpec_Config_ClaimMatcher struct {
 	// The name of the JWT claim's key.
 	// [RFC 7519 spec](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1) reserves seven claims, and the [IANA JSON Web Token Claims](https://www.iana.org/assignments/jwt/jwt.xhtml#claims) outline many more registered claims to encourage interoperability across providers. Further, your OIDC provider might have custom claims, such as described in the [Auth0 docs](https://auth0.com/docs/get-started/apis/scopes/sample-use-cases-scopes-and-claims).
 	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
-	// Optional. A list of allowed values for the JWT claim. If a claim has multiple supported values, any of these values is allowed (logically OR'd together).
+	// Optional: A list of allowed values for the JWT claim. If a claim has multiple supported values, any of these values is allowed (logically OR'd together).
 	// You can also use wildcards, such as `"*"` to allow any value or for example `"*@solo.io"` to allow any `@solo.io` email. Nested claims are not supported at this time.
 	// Note: You must set at least one of "values" or "not_values".
 	Values []string `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty"`
-	// Optional. A list of values that are not allowed for the JWT claim. If a claim contains one of these values, the request is denied.
+	// Optional: A list of values that are not allowed for the JWT claim. If a claim contains one of these values, the request is denied.
 	// You can also use wildcards, such as `"*"` to deny any value, or for example `"*@solo.io"` to deny any `@solo.io` email.
 	// Note: You must set at least one of "values" or "not_values".
 	NotValues []string `protobuf:"bytes,3,rep,name=not_values,json=notValues,proto3" json:"not_values,omitempty"`
@@ -684,7 +685,7 @@ func (x *JWTPolicySpec_Config_ClaimMatcher) GetNotValues() []string {
 
 // Optional: Where to extract JWT Token in HTTP Request
 //
-// If left empty, defaults to Header "Authorization: Bearer <Token>" or Query Param "access_token=<Token>"
+// If empty, defaults to Header "Authorization: Bearer <Token>" or Query Param "access_token=<Token>"
 type JWTPolicySpec_Config_Provider_TokenSource struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -839,12 +840,12 @@ type JWTPolicySpec_Config_Provider_RemoteJWKS struct {
 	DestinationRef *v2.DestinationReference `protobuf:"bytes,2,opt,name=destination_ref,json=destinationRef,proto3" json:"destination_ref,omitempty"`
 	// Duration after which the cached JWKS should be expired.
 	//
-	// If not specified, default cache duration is 5 minutes.
+	// If omitted, default cache duration is 5 minutes.
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	CacheDuration *duration.Duration `protobuf:"bytes,3,opt,name=cache_duration,json=cacheDuration,proto3" json:"cache_duration,omitempty"`
 	// Sets the maximum duration in seconds that a response can take to arrive upon request.
 	//
-	// If left empty, defaults to 5s
+	// If empty, defaults to 5s
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	Timeout *duration.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	// Fetch Jwks asynchronously in the main thread before the listener is activated. Fetched Jwks can be used by all worker threads.

@@ -94,6 +94,30 @@ func (m *RouteTableSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	for _, v := range m.GetApplyToDestinations() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
 	if h, ok := interface{}(m.GetDefaultDestination()).(safe_hasher.SafeHasher); ok {
 		if _, err = hasher.Write([]byte("DefaultDestination")); err != nil {
 			return 0, err
@@ -850,10 +874,6 @@ func (m *PortalMetadata) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetApiId())); err != nil {
-		return 0, err
-	}
-
 	if _, err = hasher.Write([]byte(m.GetApiVersion())); err != nil {
 		return 0, err
 	}
@@ -875,6 +895,10 @@ func (m *PortalMetadata) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if _, err = hasher.Write([]byte(m.GetLicense())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetLifecycle())); err != nil {
 		return 0, err
 	}
 
