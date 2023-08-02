@@ -245,41 +245,12 @@ func (m *ApiDocSpec_ServedBy) Equal(that interface{}) bool {
 		return false
 	}
 
-	switch m.ServedByType.(type) {
-
-	case *ApiDocSpec_ServedBy_DestinationSelector:
-		if _, ok := target.ServedByType.(*ApiDocSpec_ServedBy_DestinationSelector); !ok {
+	if h, ok := interface{}(m.GetDestinationSelector()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDestinationSelector()) {
 			return false
 		}
-
-		if h, ok := interface{}(m.GetDestinationSelector()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetDestinationSelector()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetDestinationSelector(), target.GetDestinationSelector()) {
-				return false
-			}
-		}
-
-	case *ApiDocSpec_ServedBy_RouteTable:
-		if _, ok := target.ServedByType.(*ApiDocSpec_ServedBy_RouteTable); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetRouteTable()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetRouteTable()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetRouteTable(), target.GetRouteTable()) {
-				return false
-			}
-		}
-
-	default:
-		// m is nil but target is not nil
-		if m.ServedByType != target.ServedByType {
+	} else {
+		if !proto.Equal(m.GetDestinationSelector(), target.GetDestinationSelector()) {
 			return false
 		}
 	}

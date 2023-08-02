@@ -352,13 +352,13 @@ type JWTPolicySpec_Config struct {
 	// Optional: Decide whether to clear the route cache after the JWT filter. By clearing the route cache, the gateway recomputes route matching. This way, you can configure traffic rules after JWT auth, such as claim-based routing on cleared routes or direct response on cached routes.
 	// Defaults to the 'AUTO' option.
 	ClearRouteCache JWTPolicySpec_Config_ClearRouteCache `protobuf:"varint,4,opt,name=clear_route_cache,json=clearRouteCache,proto3,enum=security.policy.gloo.solo.io.JWTPolicySpec_Config_ClearRouteCache" json:"clear_route_cache,omitempty"`
-	// Optional: Claims configures a list of arbitrary, claim-based JWT authorization rules. Each claim rule will be
-	// logically AND'd together internally. Any individual claim key that specifies multiple values will be logical
-	// OR'd together.
+	// Optional: A key-value list of claims to require for JWT authorization. The JWT must meet all of the claims to be allowed (logically AND'd together).
+	// For each claim, you can specify values that must or must not be present.
 	Claims []*JWTPolicySpec_Config_ClaimMatcher `protobuf:"bytes,5,rep,name=claims,proto3" json:"claims,omitempty"`
-	// Optional: Scopes configures an unordered list of required JWT scopes. If the JWT contains all of the scopes
-	// specified in this list, the request will be allowed. If the JWT does not contain all of the scopes specified
-	// in this list, the request will be denied. An empty list will skip scope validation.
+	// Optional: An unordered list of required JWT scopes. The JWT must have all of the listed scopes to be allowed (logically AND'd together).
+	// Scopes typically come from an identity provider and are formatted similar to `"<product>:<permission>"` or `"is:<role>"`.
+	// To set "not" scopes or to allow a request to succeed with just one of many listed scopes, use claims instead.
+	// To skip scope validation, omit this value or leave the list empty.
 	RequiredScopes []string `protobuf:"bytes,6,rep,name=required_scopes,json=requiredScopes,proto3" json:"required_scopes,omitempty"`
 }
 
@@ -594,20 +594,24 @@ func (*JWTPolicySpec_Config_Provider_Local) isJWTPolicySpec_Config_Provider_Jwks
 
 func (*JWTPolicySpec_Config_Provider_Remote) isJWTPolicySpec_Config_Provider_JwksSource() {}
 
-// ClaimMatcher configures a list of claim-based JWT authorization rules.
+// Optionally configure a list of key-value claims for JWT authorization rules. The JWT must meet all of the claims to be allowed (logically AND'd together).
+// For each claim, you can specify values that must or must not be present. If a claim has multiple supported values, any of these values is allowed (logically OR'd together).
+// You can also use wildcards, such as `"*"` to allow any value, or for example `"*@solo.io"` to allow any `@solo.io` email. Nested claims are not supported at this time.
 type JWTPolicySpec_Config_ClaimMatcher struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// key is the name of the JWT claim key.
+	// The name of the JWT claim's key.
+	// [RFC 7519 spec](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1) reserves seven claims, and the [IANA JSON Web Token Claims](https://www.iana.org/assignments/jwt/jwt.xhtml#claims) outline many more registered claims to encourage interoperability across providers. Further, your OIDC provider might have custom claims, such as described in the [Auth0 docs](https://auth0.com/docs/get-started/apis/scopes/sample-use-cases-scopes-and-claims).
 	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
-	// Optional. A list of allowed values for the JWT claim.
-	// Note: at least one of values or not_values must be set.
+	// Optional. A list of allowed values for the JWT claim. If a claim has multiple supported values, any of these values is allowed (logically OR'd together).
+	// You can also use wildcards, such as `"*"` to allow any value or for example `"*@solo.io"` to allow any `@solo.io` email. Nested claims are not supported at this time.
+	// Note: You must set at least one of "values" or "not_values".
 	Values []string `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty"`
-	// Optional. A list of values that should not exist for the
-	// JWT claim. Note: at least one of values or not_values must
-	// be set.
+	// Optional. A list of values that are not allowed for the JWT claim. If a claim contains one of these values, the request is denied.
+	// You can also use wildcards, such as `"*"` to deny any value, or for example `"*@solo.io"` to deny any `@solo.io` email.
+	// Note: You must set at least one of "values" or "not_values".
 	NotValues []string `protobuf:"bytes,3,rep,name=not_values,json=notValues,proto3" json:"not_values,omitempty"`
 }
 

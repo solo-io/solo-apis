@@ -47,10 +47,7 @@ message ApiDocSpec {
   repeated ServedBy served_by = 4;
 
   message ServedBy {
-    oneof served_by_type {
-      .common.gloo.solo.io.DestinationSelector destination_selector = 1;
-      .common.gloo.solo.io.ObjectReference route_table = 2;
-    }
+    .common.gloo.solo.io.DestinationSelector destination_selector = 1;
   }
 
   // a complete openapi schema describing the API
