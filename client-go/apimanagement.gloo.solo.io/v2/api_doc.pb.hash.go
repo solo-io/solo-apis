@@ -276,52 +276,24 @@ func (m *ApiDocSpec_ServedBy) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
-	switch m.ServedByType.(type) {
-
-	case *ApiDocSpec_ServedBy_DestinationSelector:
-
-		if h, ok := interface{}(m.GetDestinationSelector()).(safe_hasher.SafeHasher); ok {
+	if h, ok := interface{}(m.GetDestinationSelector()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("DestinationSelector")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetDestinationSelector(), nil); err != nil {
+			return 0, err
+		} else {
 			if _, err = hasher.Write([]byte("DestinationSelector")); err != nil {
 				return 0, err
 			}
-			if _, err = h.Hash(hasher); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
 				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetDestinationSelector(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("DestinationSelector")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
 			}
 		}
-
-	case *ApiDocSpec_ServedBy_RouteTable:
-
-		if h, ok := interface{}(m.GetRouteTable()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("RouteTable")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetRouteTable(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("RouteTable")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
 	}
 
 	return hasher.Sum64(), nil
