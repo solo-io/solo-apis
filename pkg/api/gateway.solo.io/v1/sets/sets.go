@@ -17,8 +17,10 @@ type GatewaySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gateway_solo_io_v1.Gateway) bool) []*gateway_solo_io_v1.Gateway
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gateway_solo_io_v1.Gateway) bool) []*gateway_solo_io_v1.Gateway
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.Gateway
@@ -238,8 +240,10 @@ type MatchableHttpGatewaySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gateway_solo_io_v1.MatchableHttpGateway) bool) []*gateway_solo_io_v1.MatchableHttpGateway
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gateway_solo_io_v1.MatchableHttpGateway) bool) []*gateway_solo_io_v1.MatchableHttpGateway
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.MatchableHttpGateway
@@ -459,8 +463,10 @@ type MatchableTcpGatewaySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gateway_solo_io_v1.MatchableTcpGateway) bool) []*gateway_solo_io_v1.MatchableTcpGateway
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gateway_solo_io_v1.MatchableTcpGateway) bool) []*gateway_solo_io_v1.MatchableTcpGateway
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.MatchableTcpGateway
@@ -680,8 +686,10 @@ type RouteTableSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gateway_solo_io_v1.RouteTable) bool) []*gateway_solo_io_v1.RouteTable
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gateway_solo_io_v1.RouteTable) bool) []*gateway_solo_io_v1.RouteTable
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.RouteTable
@@ -901,8 +909,10 @@ type VirtualServiceSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gateway_solo_io_v1.VirtualService) bool) []*gateway_solo_io_v1.VirtualService
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gateway_solo_io_v1.VirtualService) bool) []*gateway_solo_io_v1.VirtualService
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.VirtualService
@@ -1122,8 +1132,10 @@ type VirtualHostOptionSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gateway_solo_io_v1.VirtualHostOption) bool) []*gateway_solo_io_v1.VirtualHostOption
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gateway_solo_io_v1.VirtualHostOption) bool) []*gateway_solo_io_v1.VirtualHostOption
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.VirtualHostOption
@@ -1343,8 +1355,10 @@ type RouteOptionSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gateway_solo_io_v1.RouteOption

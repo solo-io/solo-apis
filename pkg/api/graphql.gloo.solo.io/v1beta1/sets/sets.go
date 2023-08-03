@@ -17,8 +17,10 @@ type GraphQLApiSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	// Return the Set as a map of key to resource.
 	Map() map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi
