@@ -2,11 +2,13 @@
 
 package v1
 
-import (
-	fed_gateway_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.gateway.solo.io/v1"
 
-	"k8s.io/client-go/rest"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+
+import (
+    fed_gateway_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.gateway.solo.io/v1"
+
+    "k8s.io/client-go/rest"
+    "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 /*
@@ -19,112 +21,112 @@ import (
 
 // Provider for FederatedGatewayClient from Clientset
 func FederatedGatewayClientFromClientsetProvider(clients fed_gateway_solo_io_v1.Clientset) fed_gateway_solo_io_v1.FederatedGatewayClient {
-	return clients.FederatedGateways()
+    return clients.FederatedGateways()
 }
 
 // Provider for FederatedGateway Client from Client
 func FederatedGatewayClientProvider(client client.Client) fed_gateway_solo_io_v1.FederatedGatewayClient {
-	return fed_gateway_solo_io_v1.NewFederatedGatewayClient(client)
+    return fed_gateway_solo_io_v1.NewFederatedGatewayClient(client)
 }
 
 type FederatedGatewayClientFactory func(client client.Client) fed_gateway_solo_io_v1.FederatedGatewayClient
 
 func FederatedGatewayClientFactoryProvider() FederatedGatewayClientFactory {
-	return FederatedGatewayClientProvider
+    return FederatedGatewayClientProvider
 }
 
 type FederatedGatewayClientFromConfigFactory func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedGatewayClient, error)
 
 func FederatedGatewayClientFromConfigFactoryProvider() FederatedGatewayClientFromConfigFactory {
-	return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedGatewayClient, error) {
-		clients, err := fed_gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.FederatedGateways(), nil
-	}
+    return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedGatewayClient, error) {
+        clients, err := fed_gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+        if err != nil {
+            return nil, err
+        }
+        return clients.FederatedGateways(), nil
+    }
 }
 
 // Provider for FederatedMatchableHttpGatewayClient from Clientset
 func FederatedMatchableHttpGatewayClientFromClientsetProvider(clients fed_gateway_solo_io_v1.Clientset) fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient {
-	return clients.FederatedMatchableHttpGateways()
+    return clients.FederatedMatchableHttpGateways()
 }
 
 // Provider for FederatedMatchableHttpGateway Client from Client
 func FederatedMatchableHttpGatewayClientProvider(client client.Client) fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient {
-	return fed_gateway_solo_io_v1.NewFederatedMatchableHttpGatewayClient(client)
+    return fed_gateway_solo_io_v1.NewFederatedMatchableHttpGatewayClient(client)
 }
 
 type FederatedMatchableHttpGatewayClientFactory func(client client.Client) fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient
 
 func FederatedMatchableHttpGatewayClientFactoryProvider() FederatedMatchableHttpGatewayClientFactory {
-	return FederatedMatchableHttpGatewayClientProvider
+    return FederatedMatchableHttpGatewayClientProvider
 }
 
 type FederatedMatchableHttpGatewayClientFromConfigFactory func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient, error)
 
 func FederatedMatchableHttpGatewayClientFromConfigFactoryProvider() FederatedMatchableHttpGatewayClientFromConfigFactory {
-	return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient, error) {
-		clients, err := fed_gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.FederatedMatchableHttpGateways(), nil
-	}
+    return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayClient, error) {
+        clients, err := fed_gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+        if err != nil {
+            return nil, err
+        }
+        return clients.FederatedMatchableHttpGateways(), nil
+    }
 }
 
 // Provider for FederatedRouteTableClient from Clientset
 func FederatedRouteTableClientFromClientsetProvider(clients fed_gateway_solo_io_v1.Clientset) fed_gateway_solo_io_v1.FederatedRouteTableClient {
-	return clients.FederatedRouteTables()
+    return clients.FederatedRouteTables()
 }
 
 // Provider for FederatedRouteTable Client from Client
 func FederatedRouteTableClientProvider(client client.Client) fed_gateway_solo_io_v1.FederatedRouteTableClient {
-	return fed_gateway_solo_io_v1.NewFederatedRouteTableClient(client)
+    return fed_gateway_solo_io_v1.NewFederatedRouteTableClient(client)
 }
 
 type FederatedRouteTableClientFactory func(client client.Client) fed_gateway_solo_io_v1.FederatedRouteTableClient
 
 func FederatedRouteTableClientFactoryProvider() FederatedRouteTableClientFactory {
-	return FederatedRouteTableClientProvider
+    return FederatedRouteTableClientProvider
 }
 
 type FederatedRouteTableClientFromConfigFactory func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedRouteTableClient, error)
 
 func FederatedRouteTableClientFromConfigFactoryProvider() FederatedRouteTableClientFromConfigFactory {
-	return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedRouteTableClient, error) {
-		clients, err := fed_gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.FederatedRouteTables(), nil
-	}
+    return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedRouteTableClient, error) {
+        clients, err := fed_gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+        if err != nil {
+            return nil, err
+        }
+        return clients.FederatedRouteTables(), nil
+    }
 }
 
 // Provider for FederatedVirtualServiceClient from Clientset
 func FederatedVirtualServiceClientFromClientsetProvider(clients fed_gateway_solo_io_v1.Clientset) fed_gateway_solo_io_v1.FederatedVirtualServiceClient {
-	return clients.FederatedVirtualServices()
+    return clients.FederatedVirtualServices()
 }
 
 // Provider for FederatedVirtualService Client from Client
 func FederatedVirtualServiceClientProvider(client client.Client) fed_gateway_solo_io_v1.FederatedVirtualServiceClient {
-	return fed_gateway_solo_io_v1.NewFederatedVirtualServiceClient(client)
+    return fed_gateway_solo_io_v1.NewFederatedVirtualServiceClient(client)
 }
 
 type FederatedVirtualServiceClientFactory func(client client.Client) fed_gateway_solo_io_v1.FederatedVirtualServiceClient
 
 func FederatedVirtualServiceClientFactoryProvider() FederatedVirtualServiceClientFactory {
-	return FederatedVirtualServiceClientProvider
+    return FederatedVirtualServiceClientProvider
 }
 
 type FederatedVirtualServiceClientFromConfigFactory func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedVirtualServiceClient, error)
 
 func FederatedVirtualServiceClientFromConfigFactoryProvider() FederatedVirtualServiceClientFromConfigFactory {
-	return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedVirtualServiceClient, error) {
-		clients, err := fed_gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.FederatedVirtualServices(), nil
-	}
+    return func(cfg *rest.Config) (fed_gateway_solo_io_v1.FederatedVirtualServiceClient, error) {
+        clients, err := fed_gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+        if err != nil {
+            return nil, err
+        }
+        return clients.FederatedVirtualServices(), nil
+    }
 }

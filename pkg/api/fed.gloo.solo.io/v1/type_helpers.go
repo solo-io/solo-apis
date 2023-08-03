@@ -3,6 +3,9 @@
 // Definitions for the Kubernetes types
 package v1
 
+import (
+)
+
 // FederatedSettingsSlice represents a slice of *FederatedSettings
 type FederatedSettingsSlice []*FederatedSettings
 

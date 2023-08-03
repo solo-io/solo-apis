@@ -2,11 +2,13 @@
 
 package v1
 
-import (
-	fed_enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1"
 
-	"k8s.io/client-go/rest"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+
+import (
+    fed_enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1"
+
+    "k8s.io/client-go/rest"
+    "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 /*
@@ -19,28 +21,28 @@ import (
 
 // Provider for FederatedAuthConfigClient from Clientset
 func FederatedAuthConfigClientFromClientsetProvider(clients fed_enterprise_gloo_solo_io_v1.Clientset) fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigClient {
-	return clients.FederatedAuthConfigs()
+    return clients.FederatedAuthConfigs()
 }
 
 // Provider for FederatedAuthConfig Client from Client
 func FederatedAuthConfigClientProvider(client client.Client) fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigClient {
-	return fed_enterprise_gloo_solo_io_v1.NewFederatedAuthConfigClient(client)
+    return fed_enterprise_gloo_solo_io_v1.NewFederatedAuthConfigClient(client)
 }
 
 type FederatedAuthConfigClientFactory func(client client.Client) fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigClient
 
 func FederatedAuthConfigClientFactoryProvider() FederatedAuthConfigClientFactory {
-	return FederatedAuthConfigClientProvider
+    return FederatedAuthConfigClientProvider
 }
 
 type FederatedAuthConfigClientFromConfigFactory func(cfg *rest.Config) (fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigClient, error)
 
 func FederatedAuthConfigClientFromConfigFactoryProvider() FederatedAuthConfigClientFromConfigFactory {
-	return func(cfg *rest.Config) (fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigClient, error) {
-		clients, err := fed_enterprise_gloo_solo_io_v1.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.FederatedAuthConfigs(), nil
-	}
+    return func(cfg *rest.Config) (fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigClient, error) {
+        clients, err := fed_enterprise_gloo_solo_io_v1.NewClientsetFromConfig(cfg)
+        if err != nil {
+            return nil, err
+        }
+        return clients.FederatedAuthConfigs(), nil
+    }
 }

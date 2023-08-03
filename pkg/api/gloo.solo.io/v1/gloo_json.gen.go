@@ -5,13 +5,13 @@
 package v1
 
 import (
-	bytes "bytes"
-	fmt "fmt"
-	math "math"
+    bytes "bytes"
+    fmt "fmt"
+    math "math"
 
-	jsonpb "github.com/golang/protobuf/jsonpb"
-	proto "github.com/golang/protobuf/proto"
-	skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
+    skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
+    jsonpb "github.com/golang/protobuf/jsonpb"
+    proto "github.com/golang/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -36,7 +36,6 @@ func (this *SettingsSpec) MarshalJSON() ([]byte, error) {
 func (this *SettingsSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for SettingsStatus
 func (this *SettingsStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -45,7 +44,7 @@ func (this *SettingsStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for SettingsStatus
 func (this *SettingsStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := SettingsNamespacedStatuses{}
+    namespacedStatuses := SettingsNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
@@ -70,7 +69,6 @@ func (this *UpstreamSpec) MarshalJSON() ([]byte, error) {
 func (this *UpstreamSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for UpstreamStatus
 func (this *UpstreamStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -79,7 +77,7 @@ func (this *UpstreamStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for UpstreamStatus
 func (this *UpstreamStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := UpstreamNamespacedStatuses{}
+    namespacedStatuses := UpstreamNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
@@ -104,7 +102,6 @@ func (this *UpstreamGroupSpec) MarshalJSON() ([]byte, error) {
 func (this *UpstreamGroupSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for UpstreamGroupStatus
 func (this *UpstreamGroupStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -113,7 +110,7 @@ func (this *UpstreamGroupStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for UpstreamGroupStatus
 func (this *UpstreamGroupStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := UpstreamGroupNamespacedStatuses{}
+    namespacedStatuses := UpstreamGroupNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
@@ -138,7 +135,6 @@ func (this *ProxySpec) MarshalJSON() ([]byte, error) {
 func (this *ProxySpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for ProxyStatus
 func (this *ProxyStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -147,7 +143,7 @@ func (this *ProxyStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for ProxyStatus
 func (this *ProxyStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := ProxyNamespacedStatuses{}
+    namespacedStatuses := ProxyNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}

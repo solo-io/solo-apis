@@ -4,9 +4,9 @@
 package v1
 
 import (
-	i5345b6a73a23b1ba71598d84ccc955e9 "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1/types"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/apimachinery/pkg/runtime/schema"
+    i5345b6a73a23b1ba71598d84ccc955e9 "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1/types"
 )
 
 // +genclient
@@ -16,22 +16,22 @@ import (
 
 // GroupVersionKind for FederatedAuthConfig
 var FederatedAuthConfigGVK = schema.GroupVersionKind{
-	Group:   "fed.enterprise.gloo.solo.io",
-	Version: "v1",
-	Kind:    "FederatedAuthConfig",
+    Group: "fed.enterprise.gloo.solo.io",
+    Version: "v1",
+    Kind: "FederatedAuthConfig",
 }
 
 // FederatedAuthConfig is the Schema for the federatedAuthConfig API
 type FederatedAuthConfig struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   i5345b6a73a23b1ba71598d84ccc955e9.FederatedAuthConfigSpec   `json:"spec,omitempty"`
-	Status i5345b6a73a23b1ba71598d84ccc955e9.FederatedAuthConfigStatus `json:"status,omitempty"`
+    Spec i5345b6a73a23b1ba71598d84ccc955e9.FederatedAuthConfigSpec `json:"spec,omitempty"`
+    Status i5345b6a73a23b1ba71598d84ccc955e9.FederatedAuthConfigStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedAuthConfig) GVK() schema.GroupVersionKind {
+func (FederatedAuthConfig)  GVK() schema.GroupVersionKind {
 	return FederatedAuthConfigGVK
 }
 
@@ -39,11 +39,11 @@ func (FederatedAuthConfig) GVK() schema.GroupVersionKind {
 
 // FederatedAuthConfigList contains a list of FederatedAuthConfig
 type FederatedAuthConfigList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FederatedAuthConfig `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []FederatedAuthConfig `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&FederatedAuthConfig{}, &FederatedAuthConfigList{})
+    SchemeBuilder.Register(&FederatedAuthConfig{}, &FederatedAuthConfigList{})
 }

@@ -3,6 +3,9 @@
 // Definitions for the Kubernetes types
 package v1
 
+import (
+)
+
 // GatewaySlice represents a slice of *Gateway
 type GatewaySlice []*Gateway
 
