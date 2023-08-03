@@ -2,13 +2,11 @@
 
 package v1
 
-
-
 import (
-    gateway_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1"
+	gateway_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1"
 
-    "k8s.io/client-go/rest"
-    "sigs.k8s.io/controller-runtime/pkg/client"
+	"k8s.io/client-go/rest"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 /*
@@ -21,168 +19,168 @@ import (
 
 // Provider for GatewayClient from Clientset
 func GatewayClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.GatewayClient {
-    return clients.Gateways()
+	return clients.Gateways()
 }
 
 // Provider for Gateway Client from Client
 func GatewayClientProvider(client client.Client) gateway_solo_io_v1.GatewayClient {
-    return gateway_solo_io_v1.NewGatewayClient(client)
+	return gateway_solo_io_v1.NewGatewayClient(client)
 }
 
 type GatewayClientFactory func(client client.Client) gateway_solo_io_v1.GatewayClient
 
 func GatewayClientFactoryProvider() GatewayClientFactory {
-    return GatewayClientProvider
+	return GatewayClientProvider
 }
 
 type GatewayClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.GatewayClient, error)
 
 func GatewayClientFromConfigFactoryProvider() GatewayClientFromConfigFactory {
-    return func(cfg *rest.Config) (gateway_solo_io_v1.GatewayClient, error) {
-        clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.Gateways(), nil
-    }
+	return func(cfg *rest.Config) (gateway_solo_io_v1.GatewayClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.Gateways(), nil
+	}
 }
 
 // Provider for MatchableHttpGatewayClient from Clientset
 func MatchableHttpGatewayClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.MatchableHttpGatewayClient {
-    return clients.MatchableHttpGateways()
+	return clients.MatchableHttpGateways()
 }
 
 // Provider for MatchableHttpGateway Client from Client
 func MatchableHttpGatewayClientProvider(client client.Client) gateway_solo_io_v1.MatchableHttpGatewayClient {
-    return gateway_solo_io_v1.NewMatchableHttpGatewayClient(client)
+	return gateway_solo_io_v1.NewMatchableHttpGatewayClient(client)
 }
 
 type MatchableHttpGatewayClientFactory func(client client.Client) gateway_solo_io_v1.MatchableHttpGatewayClient
 
 func MatchableHttpGatewayClientFactoryProvider() MatchableHttpGatewayClientFactory {
-    return MatchableHttpGatewayClientProvider
+	return MatchableHttpGatewayClientProvider
 }
 
 type MatchableHttpGatewayClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.MatchableHttpGatewayClient, error)
 
 func MatchableHttpGatewayClientFromConfigFactoryProvider() MatchableHttpGatewayClientFromConfigFactory {
-    return func(cfg *rest.Config) (gateway_solo_io_v1.MatchableHttpGatewayClient, error) {
-        clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.MatchableHttpGateways(), nil
-    }
+	return func(cfg *rest.Config) (gateway_solo_io_v1.MatchableHttpGatewayClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.MatchableHttpGateways(), nil
+	}
 }
 
 // Provider for RouteTableClient from Clientset
 func RouteTableClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.RouteTableClient {
-    return clients.RouteTables()
+	return clients.RouteTables()
 }
 
 // Provider for RouteTable Client from Client
 func RouteTableClientProvider(client client.Client) gateway_solo_io_v1.RouteTableClient {
-    return gateway_solo_io_v1.NewRouteTableClient(client)
+	return gateway_solo_io_v1.NewRouteTableClient(client)
 }
 
 type RouteTableClientFactory func(client client.Client) gateway_solo_io_v1.RouteTableClient
 
 func RouteTableClientFactoryProvider() RouteTableClientFactory {
-    return RouteTableClientProvider
+	return RouteTableClientProvider
 }
 
 type RouteTableClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.RouteTableClient, error)
 
 func RouteTableClientFromConfigFactoryProvider() RouteTableClientFromConfigFactory {
-    return func(cfg *rest.Config) (gateway_solo_io_v1.RouteTableClient, error) {
-        clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.RouteTables(), nil
-    }
+	return func(cfg *rest.Config) (gateway_solo_io_v1.RouteTableClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.RouteTables(), nil
+	}
 }
 
 // Provider for VirtualServiceClient from Clientset
 func VirtualServiceClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.VirtualServiceClient {
-    return clients.VirtualServices()
+	return clients.VirtualServices()
 }
 
 // Provider for VirtualService Client from Client
 func VirtualServiceClientProvider(client client.Client) gateway_solo_io_v1.VirtualServiceClient {
-    return gateway_solo_io_v1.NewVirtualServiceClient(client)
+	return gateway_solo_io_v1.NewVirtualServiceClient(client)
 }
 
 type VirtualServiceClientFactory func(client client.Client) gateway_solo_io_v1.VirtualServiceClient
 
 func VirtualServiceClientFactoryProvider() VirtualServiceClientFactory {
-    return VirtualServiceClientProvider
+	return VirtualServiceClientProvider
 }
 
 type VirtualServiceClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.VirtualServiceClient, error)
 
 func VirtualServiceClientFromConfigFactoryProvider() VirtualServiceClientFromConfigFactory {
-    return func(cfg *rest.Config) (gateway_solo_io_v1.VirtualServiceClient, error) {
-        clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.VirtualServices(), nil
-    }
+	return func(cfg *rest.Config) (gateway_solo_io_v1.VirtualServiceClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.VirtualServices(), nil
+	}
 }
 
 // Provider for VirtualHostOptionClient from Clientset
 func VirtualHostOptionClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.VirtualHostOptionClient {
-    return clients.VirtualHostOptions()
+	return clients.VirtualHostOptions()
 }
 
 // Provider for VirtualHostOption Client from Client
 func VirtualHostOptionClientProvider(client client.Client) gateway_solo_io_v1.VirtualHostOptionClient {
-    return gateway_solo_io_v1.NewVirtualHostOptionClient(client)
+	return gateway_solo_io_v1.NewVirtualHostOptionClient(client)
 }
 
 type VirtualHostOptionClientFactory func(client client.Client) gateway_solo_io_v1.VirtualHostOptionClient
 
 func VirtualHostOptionClientFactoryProvider() VirtualHostOptionClientFactory {
-    return VirtualHostOptionClientProvider
+	return VirtualHostOptionClientProvider
 }
 
 type VirtualHostOptionClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.VirtualHostOptionClient, error)
 
 func VirtualHostOptionClientFromConfigFactoryProvider() VirtualHostOptionClientFromConfigFactory {
-    return func(cfg *rest.Config) (gateway_solo_io_v1.VirtualHostOptionClient, error) {
-        clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.VirtualHostOptions(), nil
-    }
+	return func(cfg *rest.Config) (gateway_solo_io_v1.VirtualHostOptionClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.VirtualHostOptions(), nil
+	}
 }
 
 // Provider for RouteOptionClient from Clientset
 func RouteOptionClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.RouteOptionClient {
-    return clients.RouteOptions()
+	return clients.RouteOptions()
 }
 
 // Provider for RouteOption Client from Client
 func RouteOptionClientProvider(client client.Client) gateway_solo_io_v1.RouteOptionClient {
-    return gateway_solo_io_v1.NewRouteOptionClient(client)
+	return gateway_solo_io_v1.NewRouteOptionClient(client)
 }
 
 type RouteOptionClientFactory func(client client.Client) gateway_solo_io_v1.RouteOptionClient
 
 func RouteOptionClientFactoryProvider() RouteOptionClientFactory {
-    return RouteOptionClientProvider
+	return RouteOptionClientProvider
 }
 
 type RouteOptionClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.RouteOptionClient, error)
 
 func RouteOptionClientFromConfigFactoryProvider() RouteOptionClientFromConfigFactory {
-    return func(cfg *rest.Config) (gateway_solo_io_v1.RouteOptionClient, error) {
-        clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-        if err != nil {
-            return nil, err
-        }
-        return clients.RouteOptions(), nil
-    }
+	return func(cfg *rest.Config) (gateway_solo_io_v1.RouteOptionClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.RouteOptions(), nil
+	}
 }

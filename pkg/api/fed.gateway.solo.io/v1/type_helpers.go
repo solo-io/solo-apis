@@ -3,9 +3,6 @@
 // Definitions for the Kubernetes types
 package v1
 
-import (
-)
-
 // FederatedGatewaySlice represents a slice of *FederatedGateway
 type FederatedGatewaySlice []*FederatedGateway
 

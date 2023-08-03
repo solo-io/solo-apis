@@ -5,86 +5,94 @@
 package types
 
 import (
-    proto "github.com/golang/protobuf/proto"
+	proto "github.com/golang/protobuf/proto"
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 )
+
 // DeepCopyInto for the FederatedGateway.Spec
 func (in *FederatedGatewaySpec) DeepCopyInto(out *FederatedGatewaySpec) {
-    var p *FederatedGatewaySpec
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedGatewaySpec)
-    } else {
-        p = proto.Clone(in).(*FederatedGatewaySpec)
-    }
-    *out = *p
+	var p *FederatedGatewaySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedGatewaySpec)
+	} else {
+		p = proto.Clone(in).(*FederatedGatewaySpec)
+	}
+	*out = *p
 }
+
 // DeepCopyInto for the FederatedGateway.Status
 func (in *FederatedGatewayStatus) DeepCopyInto(out *FederatedGatewayStatus) {
-    var p *FederatedGatewayStatus
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedGatewayStatus)
-    } else {
-        p = proto.Clone(in).(*FederatedGatewayStatus)
-    }
-    *out = *p
+	var p *FederatedGatewayStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedGatewayStatus)
+	} else {
+		p = proto.Clone(in).(*FederatedGatewayStatus)
+	}
+	*out = *p
 }
+
 // DeepCopyInto for the FederatedMatchableHttpGateway.Spec
 func (in *FederatedMatchableHttpGatewaySpec) DeepCopyInto(out *FederatedMatchableHttpGatewaySpec) {
-    var p *FederatedMatchableHttpGatewaySpec
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedMatchableHttpGatewaySpec)
-    } else {
-        p = proto.Clone(in).(*FederatedMatchableHttpGatewaySpec)
-    }
-    *out = *p
+	var p *FederatedMatchableHttpGatewaySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedMatchableHttpGatewaySpec)
+	} else {
+		p = proto.Clone(in).(*FederatedMatchableHttpGatewaySpec)
+	}
+	*out = *p
 }
+
 // DeepCopyInto for the FederatedMatchableHttpGateway.Status
 func (in *FederatedMatchableHttpGatewayStatus) DeepCopyInto(out *FederatedMatchableHttpGatewayStatus) {
-    var p *FederatedMatchableHttpGatewayStatus
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedMatchableHttpGatewayStatus)
-    } else {
-        p = proto.Clone(in).(*FederatedMatchableHttpGatewayStatus)
-    }
-    *out = *p
+	var p *FederatedMatchableHttpGatewayStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedMatchableHttpGatewayStatus)
+	} else {
+		p = proto.Clone(in).(*FederatedMatchableHttpGatewayStatus)
+	}
+	*out = *p
 }
+
 // DeepCopyInto for the FederatedRouteTable.Spec
 func (in *FederatedRouteTableSpec) DeepCopyInto(out *FederatedRouteTableSpec) {
-    var p *FederatedRouteTableSpec
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedRouteTableSpec)
-    } else {
-        p = proto.Clone(in).(*FederatedRouteTableSpec)
-    }
-    *out = *p
+	var p *FederatedRouteTableSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedRouteTableSpec)
+	} else {
+		p = proto.Clone(in).(*FederatedRouteTableSpec)
+	}
+	*out = *p
 }
+
 // DeepCopyInto for the FederatedRouteTable.Status
 func (in *FederatedRouteTableStatus) DeepCopyInto(out *FederatedRouteTableStatus) {
-    var p *FederatedRouteTableStatus
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedRouteTableStatus)
-    } else {
-        p = proto.Clone(in).(*FederatedRouteTableStatus)
-    }
-    *out = *p
+	var p *FederatedRouteTableStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedRouteTableStatus)
+	} else {
+		p = proto.Clone(in).(*FederatedRouteTableStatus)
+	}
+	*out = *p
 }
+
 // DeepCopyInto for the FederatedVirtualService.Spec
 func (in *FederatedVirtualServiceSpec) DeepCopyInto(out *FederatedVirtualServiceSpec) {
-    var p *FederatedVirtualServiceSpec
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedVirtualServiceSpec)
-    } else {
-        p = proto.Clone(in).(*FederatedVirtualServiceSpec)
-    }
-    *out = *p
+	var p *FederatedVirtualServiceSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedVirtualServiceSpec)
+	} else {
+		p = proto.Clone(in).(*FederatedVirtualServiceSpec)
+	}
+	*out = *p
 }
+
 // DeepCopyInto for the FederatedVirtualService.Status
 func (in *FederatedVirtualServiceStatus) DeepCopyInto(out *FederatedVirtualServiceStatus) {
-    var p *FederatedVirtualServiceStatus
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedVirtualServiceStatus)
-    } else {
-        p = proto.Clone(in).(*FederatedVirtualServiceStatus)
-    }
-    *out = *p
+	var p *FederatedVirtualServiceStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedVirtualServiceStatus)
+	} else {
+		p = proto.Clone(in).(*FederatedVirtualServiceStatus)
+	}
+	*out = *p
 }
