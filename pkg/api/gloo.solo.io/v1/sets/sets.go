@@ -17,8 +17,10 @@ type SettingsSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gloo_solo_io_v1.Settings) bool) []*gloo_solo_io_v1.Settings
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gloo_solo_io_v1.Settings) bool) []*gloo_solo_io_v1.Settings
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.Settings
@@ -238,8 +240,10 @@ type UpstreamSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gloo_solo_io_v1.Upstream) bool) []*gloo_solo_io_v1.Upstream
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gloo_solo_io_v1.Upstream) bool) []*gloo_solo_io_v1.Upstream
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.Upstream
@@ -459,8 +463,10 @@ type UpstreamGroupSet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gloo_solo_io_v1.UpstreamGroup) bool) []*gloo_solo_io_v1.UpstreamGroup
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gloo_solo_io_v1.UpstreamGroup) bool) []*gloo_solo_io_v1.UpstreamGroup
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.UpstreamGroup
@@ -680,8 +686,10 @@ type ProxySet interface {
 	// Get the set stored keys
 	Keys() sets.String
 	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	List(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*gloo_solo_io_v1.Proxy
 	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
 	UnsortedList(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*gloo_solo_io_v1.Proxy
 	// Return the Set as a map of key to resource.
 	Map() map[string]*gloo_solo_io_v1.Proxy
