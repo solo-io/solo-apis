@@ -43,28 +43,16 @@ message GraphQLPersistedQueryCachePolicySpec {
   }
 }
 
-// reflects the status of the GraphQLPersistedQueryCachePolicy
 message GraphQLPersistedQueryCachePolicyStatus {
-
-  .common.gloo.solo.io.GenericGlobalStatus global = 1;
-
-  // The status of the resource in each workspace that it exists in.
-  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
-
-  // A list of references to all routes selected by the policy. 
-  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
-}
-
-// $hide_from_docs
-message GraphQLPersistedQueryCachePolicyNewStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
-  // The number of routes selected by the policy. 
-  uint32 selected_routes = 2;
+  // The number of routes selected by the policy.
+  uint32 num_selected_routes = 2;
 }
 
-// $hide_from_docs
 message GraphQLPersistedQueryCachePolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
   // A list of references to all routes selected by the policy. 

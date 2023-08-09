@@ -39,30 +39,18 @@ message GraphQLAllowedQueryPolicySpec {
   }
 }
 
-// reflects the status of the GraphQLAllowedQueryPolicy
 message GraphQLAllowedQueryPolicyStatus {
-
-  .common.gloo.solo.io.GenericGlobalStatus global = 1;
-
-  // The status of the resource in each workspace that it exists in.
-  map<string, .common.gloo.solo.io.WorkspaceStatus> workspaces = 2;
-
-  // A list of references to all routes the policy selects. 
-  repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
-}
-
-// $hide_from_docs
-message GraphQLAllowedQueryPolicyNewStatus {
+  // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
   // The number of routes the policy selects.
-  uint32 selected_routes = 2;
+  uint32 num_selected_routes = 2;
 }
 
-// $hide_from_docs
 message GraphQLAllowedQueryPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
-  // A list of references to all routes the policy selects. 
+  // A list of references to all routes the policy selects.
   repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
 }
