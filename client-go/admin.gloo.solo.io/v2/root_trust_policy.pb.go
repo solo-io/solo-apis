@@ -92,7 +92,7 @@ type RootTrustPolicyStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The most recent generation observed in the the object's metadata.
+	// The most recent generation observed in the object's metadata.
 	// If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh has not processed the most
 	// recent version of this object.
 	ObservedGeneration int64 `protobuf:"varint,1,opt,name=observed_generation,json=observedGeneration,proto3" json:"observed_generation,omitempty"`

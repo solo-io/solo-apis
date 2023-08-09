@@ -41,12 +41,12 @@ type NodeMetricsRequest struct {
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
 	Time *timestamp.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 	// The duration over which the metrics are computed, floored to the minute.
-	// I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+	// I.e. metrics are returned for the time window defined by [`time - window`, `time`].
 	// Defaults to 5 minutes.
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	Window *duration.Duration `protobuf:"bytes,3,opt,name=window,proto3" json:"window,omitempty"`
 	// The duration for each sample in the range, floored to the minute.
-	// I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+	// I.e. metrics are returned for the time window defined by [`time - window`, `time`].
 	// If omitted, defaults to the value of `window`, which represents a request for a single sample.
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	Step *duration.Duration `protobuf:"bytes,4,opt,name=step,proto3" json:"step,omitempty"`
@@ -201,12 +201,12 @@ type EdgeMetricsRequest struct {
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/timestamp).
 	Time *timestamp.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 	// The duration over which the metrics are computed, floored to the minute.
-	// I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+	// I.e. metrics are returned for the time window defined by [`time - window`, `time`].
 	// Defaults to 5 minutes.
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	Window *duration.Duration `protobuf:"bytes,3,opt,name=window,proto3" json:"window,omitempty"`
 	// The duration for each sample in the range, floored to the minute.
-	// I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+	// I.e. metrics are returned for the time window defined by [`time - window`, `time`].
 	// Defaults to 2 minutes.
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	Step *duration.Duration `protobuf:"bytes,4,opt,name=step,proto3" json:"step,omitempty"`

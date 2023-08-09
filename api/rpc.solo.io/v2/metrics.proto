@@ -35,13 +35,13 @@ message NodeMetricsRequest {
   .google.protobuf.Timestamp time = 2;
 
   // The duration over which the metrics are computed, floored to the minute.
-  // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // I.e. metrics are returned for the time window defined by [`time - window`, `time`].
   // Defaults to 5 minutes.
   // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   .google.protobuf.Duration window = 3;
 
   // The duration for each sample in the range, floored to the minute.
-  // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // I.e. metrics are returned for the time window defined by [`time - window`, `time`].
   // If omitted, defaults to the value of `window`, which represents a request for a single sample.
   // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   .google.protobuf.Duration step = 4;
@@ -99,13 +99,13 @@ message EdgeMetricsRequest {
   .google.protobuf.Timestamp time = 2;
 
   // The duration over which the metrics are computed, floored to the minute.
-  // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // I.e. metrics are returned for the time window defined by [`time - window`, `time`].
   // Defaults to 5 minutes.
   // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   .google.protobuf.Duration window = 3;
 
   // The duration for each sample in the range, floored to the minute.
-  // I.e. metrics are returned for the the time window defined by [`time - window`, `time`].
+  // I.e. metrics are returned for the time window defined by [`time - window`, `time`].
   // Defaults to 2 minutes.
   // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   .google.protobuf.Duration step = 4;

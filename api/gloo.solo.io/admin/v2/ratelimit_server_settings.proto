@@ -41,7 +41,7 @@ message RateLimitServerSettingsSpec {
 // The current status of the `RateLimitServerSettings`.
 message RateLimitServerSettingsStatus {
 
-  // The most recent generation observed in the the RateLimitServerSettings metadata.
+  // The most recent generation observed in the RateLimitServerSettings metadata.
   // If the `observedGeneration` does not match `metadata.generation`,
   // Gloo Mesh has not processed the most recent version of this resource.
   int64 observed_generation = 1;

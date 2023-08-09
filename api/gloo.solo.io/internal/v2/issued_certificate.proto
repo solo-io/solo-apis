@@ -85,7 +85,7 @@ message MgmtServerCertificateAuthority {
 // The IssuedCertificate status is written by the CertificateRequesting agent.
 message IssuedCertificateStatus {
 
-  // The most recent generation observed in the the IssuedCertificate metadata.
+  // The most recent generation observed in the IssuedCertificate metadata.
   // If the `observedGeneration` does not match `metadata.generation`, the Gloo Mesh agent has not processed the most
   // recent version of this IssuedCertificate.
   int64 observed_generation = 1;
