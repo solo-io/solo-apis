@@ -72,7 +72,7 @@ message RootTrustPolicySpec {
 // The status of the policy after it is applied to your Gloo environment.
 message RootTrustPolicyStatus {
 
-  // The most recent generation observed in the the object's metadata.
+  // The most recent generation observed in the object's metadata.
   // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh has not processed the most
   // recent version of this object.
   int64 observed_generation = 1;

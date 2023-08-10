@@ -65,7 +65,7 @@ message PodBounceDirectiveSpec {
 */
 message PodBounceDirectiveStatus {
 
-  // The most recent generation observed in the the PodBounceDirective metadata.
+  // The most recent generation observed in the PodBounceDirective metadata.
   // If the `observedGeneration` does not match `metadata.generation`, the Gloo Mesh agent has not processed the most
   // recent version of this IssuedCertificate.
   int64 observed_generation = 1;

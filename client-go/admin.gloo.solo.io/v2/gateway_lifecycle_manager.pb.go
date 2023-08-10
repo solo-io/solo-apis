@@ -169,7 +169,7 @@ type GatewayClusterSelector struct {
 	// When set to true, the installation for this revision is applied as the active gateway through which primary service traffic is routed in the cluster.
 	// If the `istioOperatorSpec` defines a service, this field switches the service selectors to the revision specified in the `gatewayRevsion`.
 	// You might change this setting for gateway installations during a canary upgrade.
-	// For more info, see the [upgrade docs](https://docs.solo.io/gloo-gateway/main/setup/legacy/managed_upgrade/).
+	// For more info, see the [upgrade docs](https://docs.solo.io/gloo-gateway/2.3.x/setup/legacy/managed_upgrade/).
 	ActiveGateway bool `protobuf:"varint,2,opt,name=active_gateway,json=activeGateway,proto3" json:"active_gateway,omitempty"`
 	// Optional: By default, the `trustDomain` value is automatically set in the meshConfig by the installer to the name of each workload cluster.
 	// To override the `trustDomain` for each cluster, you can instead specify the override value in the `trustDomain` field,
