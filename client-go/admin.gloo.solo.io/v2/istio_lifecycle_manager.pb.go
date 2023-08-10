@@ -176,7 +176,7 @@ type IstioClusterSelector struct {
 	// Optional: Defaults to false.
 	// When set to true, the installation for this revision is applied as the active Istio installation in the cluster.
 	// Resources with the `istio-injection=true` label entry use this revision. You might change this setting for Istio installations
-	// during a canary upgrade. For more info, see the [upgrade docs](https://docs.solo.io/gloo-gateway/main/setup/legacy/managed_upgrade/).
+	// during a canary upgrade. For more info, see the [upgrade docs](https://docs.solo.io/gloo-gateway/2.3.x/setup/legacy/managed_upgrade/).
 	DefaultRevision bool `protobuf:"varint,2,opt,name=default_revision,json=defaultRevision,proto3" json:"default_revision,omitempty"`
 	// Optional: By default, the `trustDomain` value is automatically set in the meshConfig by the installer to the name of each workload cluster.
 	// To override the `trustDomain` for each cluster, you can instead specify the override value in the `trustDomain` field,

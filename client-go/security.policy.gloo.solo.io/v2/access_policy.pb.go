@@ -64,16 +64,19 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// TLS connection mode. Enums correspond to those
-// [defined here](https://github.com/istio/api/blob/00636152b9d9254b614828a65723840282a177d3/networking/v1beta1/destination_rule.proto#L886).
+// The mutual TLS (mTLS) connection mode. The following enums correspond to the
+// [modes defined by Istio](https://github.com/istio/api/blob/master/security/v1beta1/peer_authentication.proto#L129).
 type AccessPolicySpec_Config_Authentication_TLSmode int32
 
 const (
-	// Do not originate a TLS connection to the upstream endpoint.
+	// Do not originate mTLS connections to the upstream workload,
+	// and instead use unencrypted plaintext.
 	AccessPolicySpec_Config_Authentication_DISABLE AccessPolicySpec_Config_Authentication_TLSmode = 0
-	// Originate a TLS connection to the upstream endpoint.
+	// Permit both unencrypted plaintext and mTLS-secured connections to the upstream workload.
+	// Use this mode only when you migrate workloads to your service mesh.
+	// After the workload is onboarded to the service mesh, using the `STRICT` mode is recommended.
 	AccessPolicySpec_Config_Authentication_PERMISSIVE AccessPolicySpec_Config_Authentication_TLSmode = 1
-	// Secure connections to the upstream using mutual TLS by presenting
+	// Secure connections to the upstream workload with mTLS by presenting
 	// client certificates for authentication.
 	// This mode uses certificates generated
 	// automatically by Istio for mTLS authentication. When you use

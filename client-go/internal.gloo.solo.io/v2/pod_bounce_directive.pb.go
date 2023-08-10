@@ -150,7 +150,7 @@ type PodBounceDirectiveStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The most recent generation observed in the the PodBounceDirective metadata.
+	// The most recent generation observed in the PodBounceDirective metadata.
 	// If the `observedGeneration` does not match `metadata.generation`, the Gloo Mesh agent has not processed the most
 	// recent version of this IssuedCertificate.
 	ObservedGeneration int64 `protobuf:"varint,1,opt,name=observed_generation,json=observedGeneration,proto3" json:"observed_generation,omitempty"`

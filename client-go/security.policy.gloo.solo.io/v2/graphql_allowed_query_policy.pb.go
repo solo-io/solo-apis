@@ -145,7 +145,6 @@ func (x *GraphQLAllowedQueryPolicyStatus) GetNumSelectedRoutes() uint32 {
 	return 0
 }
 
-// $hide_from_docs
 type GraphQLAllowedQueryPolicyReport struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

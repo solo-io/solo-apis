@@ -54,7 +54,7 @@ message XdsConfigSpec {
 // The XdsConfig status is written by the CertificateRequesting agent.
 message XdsConfigStatus {
 
-  // The most recent generation observed in the the XdsConfig metadata.
+  // The most recent generation observed in the XdsConfig metadata.
   // If the `observedGeneration` does not match `metadata.generation`, the Gloo Mesh agent has not processed the most
   // recent version of this XdsConfig.
   int64 observed_generation = 1;

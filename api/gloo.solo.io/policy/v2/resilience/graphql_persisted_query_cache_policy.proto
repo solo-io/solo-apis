@@ -50,7 +50,6 @@ message GraphQLPersistedQueryCachePolicyStatus {
   uint32 num_selected_routes = 2;
 }
 
-// $hide_from_docs
 message GraphQLPersistedQueryCachePolicyReport {
   // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
