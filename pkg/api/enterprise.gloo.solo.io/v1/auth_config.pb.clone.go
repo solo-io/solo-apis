@@ -2497,6 +2497,15 @@ func (m *PassThroughHttp_Response) Clone() proto.Message {
 
 	target.ReadStateFromResponse = m.GetReadStateFromResponse()
 
+	if m.GetOverwriteUpstreamHeaders() != nil {
+		target.OverwriteUpstreamHeaders = make([]string, len(m.GetOverwriteUpstreamHeaders()))
+		for idx, v := range m.GetOverwriteUpstreamHeaders() {
+
+			target.OverwriteUpstreamHeaders[idx] = v
+
+		}
+	}
+
 	return target
 }
 
