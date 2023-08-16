@@ -4226,6 +4226,17 @@ func (m *PassThroughHttp_Response) Equal(that interface{}) bool {
 		return false
 	}
 
+	if len(m.GetAllowedUpstreamHeadersToOverride()) != len(target.GetAllowedUpstreamHeadersToOverride()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedUpstreamHeadersToOverride() {
+
+		if strings.Compare(v, target.GetAllowedUpstreamHeadersToOverride()[idx]) != 0 {
+			return false
+		}
+
+	}
+
 	return true
 }
 
