@@ -314,6 +314,36 @@ func (m *Settings) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *HeaderValueOptionTemplate) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.HeaderValueOptionTemplate")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetHeaderName())); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetAppendAction())
+	if err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetKeepEmptyValue())
+	if err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *GrpcService) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -4600,6 +4630,54 @@ func (m *PassThroughHttp_Response) Hash(hasher hash.Hash64) (uint64, error) {
 	err = binary.Write(hasher, binary.LittleEndian, m.GetReadStateFromResponse())
 	if err != nil {
 		return 0, err
+	}
+
+	for _, v := range m.GetPassthroughUpstreamHeaders() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	for _, v := range m.GetPassthroughUpstreamHeadersOnDenied() {
+
+		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
 	}
 
 	return hasher.Sum64(), nil

@@ -182,6 +182,23 @@ func (m *Settings) Clone() proto.Message {
 }
 
 // Clone function
+func (m *HeaderValueOptionTemplate) Clone() proto.Message {
+	var target *HeaderValueOptionTemplate
+	if m == nil {
+		return target
+	}
+	target = &HeaderValueOptionTemplate{}
+
+	target.HeaderName = m.GetHeaderName()
+
+	target.AppendAction = m.GetAppendAction()
+
+	target.KeepEmptyValue = m.GetKeepEmptyValue()
+
+	return target
+}
+
+// Clone function
 func (m *GrpcService) Clone() proto.Message {
 	var target *GrpcService
 	if m == nil {
@@ -2496,6 +2513,32 @@ func (m *PassThroughHttp_Response) Clone() proto.Message {
 	}
 
 	target.ReadStateFromResponse = m.GetReadStateFromResponse()
+
+	if m.GetPassthroughUpstreamHeaders() != nil {
+		target.PassthroughUpstreamHeaders = make([]*HeaderValueOptionTemplate, len(m.GetPassthroughUpstreamHeaders()))
+		for idx, v := range m.GetPassthroughUpstreamHeaders() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.PassthroughUpstreamHeaders[idx] = h.Clone().(*HeaderValueOptionTemplate)
+			} else {
+				target.PassthroughUpstreamHeaders[idx] = proto.Clone(v).(*HeaderValueOptionTemplate)
+			}
+
+		}
+	}
+
+	if m.GetPassthroughUpstreamHeadersOnDenied() != nil {
+		target.PassthroughUpstreamHeadersOnDenied = make([]*HeaderValueOptionTemplate, len(m.GetPassthroughUpstreamHeadersOnDenied()))
+		for idx, v := range m.GetPassthroughUpstreamHeadersOnDenied() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.PassthroughUpstreamHeadersOnDenied[idx] = h.Clone().(*HeaderValueOptionTemplate)
+			} else {
+				target.PassthroughUpstreamHeadersOnDenied[idx] = proto.Clone(v).(*HeaderValueOptionTemplate)
+			}
+
+		}
+	}
 
 	return target
 }

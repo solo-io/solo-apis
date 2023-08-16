@@ -270,6 +270,42 @@ func (m *Settings) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *HeaderValueOptionTemplate) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*HeaderValueOptionTemplate)
+	if !ok {
+		that2, ok := that.(HeaderValueOptionTemplate)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetHeaderName(), target.GetHeaderName()) != 0 {
+		return false
+	}
+
+	if m.GetAppendAction() != target.GetAppendAction() {
+		return false
+	}
+
+	if m.GetKeepEmptyValue() != target.GetKeepEmptyValue() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
 func (m *GrpcService) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -4224,6 +4260,40 @@ func (m *PassThroughHttp_Response) Equal(that interface{}) bool {
 
 	if m.GetReadStateFromResponse() != target.GetReadStateFromResponse() {
 		return false
+	}
+
+	if len(m.GetPassthroughUpstreamHeaders()) != len(target.GetPassthroughUpstreamHeaders()) {
+		return false
+	}
+	for idx, v := range m.GetPassthroughUpstreamHeaders() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetPassthroughUpstreamHeaders()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetPassthroughUpstreamHeaders()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetPassthroughUpstreamHeadersOnDenied()) != len(target.GetPassthroughUpstreamHeadersOnDenied()) {
+		return false
+	}
+	for idx, v := range m.GetPassthroughUpstreamHeadersOnDenied() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetPassthroughUpstreamHeadersOnDenied()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetPassthroughUpstreamHeadersOnDenied()[idx]) {
+				return false
+			}
+		}
+
 	}
 
 	return true
