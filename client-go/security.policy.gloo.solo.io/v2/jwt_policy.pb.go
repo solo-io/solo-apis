@@ -148,7 +148,7 @@ func (JWTPolicySpec_Config_ClearRouteCache) EnumDescriptor() ([]byte, []int) {
 //	        inline: |
 //	          <pem formatted public key>
 //	      tokenSource:
-//	        header:
+//	        headers:
 //	        - name: "X-Auth"
 //	          prefix: "Bearer"
 //	        queryParams:

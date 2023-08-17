@@ -76,7 +76,7 @@ option (extproto.clone_all) = true;
 //           inline: |
 //             <pem formatted public key>
 //         tokenSource:
-//           header:
+//           headers:
 //           - name: "X-Auth"
 //             prefix: "Bearer"
 //           queryParams:
