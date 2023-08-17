@@ -714,6 +714,23 @@ func (m *EndSessionProperties) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ClaimsToHeaders) Clone() proto.Message {
+	var target *ClaimsToHeaders
+	if m == nil {
+		return target
+	}
+	target = &ClaimsToHeaders{}
+
+	target.Claim = m.GetClaim()
+
+	target.Header = m.GetHeader()
+
+	target.Append = m.GetAppend()
+
+	return target
+}
+
+// Clone function
 func (m *OidcAuthorizationCode) Clone() proto.Message {
 	var target *OidcAuthorizationCode
 	if m == nil {
@@ -825,6 +842,12 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 		target.DisableClientSecret = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
 		target.DisableClientSecret = proto.Clone(m.GetDisableClientSecret()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	if h, ok := interface{}(m.GetClaimsToHeaders()).(clone.Cloner); ok {
+		target.ClaimsToHeaders = h.Clone().(*ClaimsToHeaders)
+	} else {
+		target.ClaimsToHeaders = proto.Clone(m.GetClaimsToHeaders()).(*ClaimsToHeaders)
 	}
 
 	return target
