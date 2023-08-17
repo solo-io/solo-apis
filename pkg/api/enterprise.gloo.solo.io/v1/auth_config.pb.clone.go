@@ -714,6 +714,23 @@ func (m *EndSessionProperties) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ClaimToHeader) Clone() proto.Message {
+	var target *ClaimToHeader
+	if m == nil {
+		return target
+	}
+	target = &ClaimToHeader{}
+
+	target.Claim = m.GetClaim()
+
+	target.Header = m.GetHeader()
+
+	target.Append = m.GetAppend()
+
+	return target
+}
+
+// Clone function
 func (m *OidcAuthorizationCode) Clone() proto.Message {
 	var target *OidcAuthorizationCode
 	if m == nil {
@@ -825,6 +842,12 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 		target.DisableClientSecret = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
 		target.DisableClientSecret = proto.Clone(m.GetDisableClientSecret()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	if h, ok := interface{}(m.GetClaimsToHeaders()).(clone.Cloner); ok {
+		target.ClaimsToHeaders = h.Clone().(*OidcAuthorizationCode_OidcClaimsToHeaders)
+	} else {
+		target.ClaimsToHeaders = proto.Clone(m.GetClaimsToHeaders()).(*OidcAuthorizationCode_OidcClaimsToHeaders)
 	}
 
 	return target
@@ -2219,6 +2242,43 @@ func (m *UserSession_CipherConfig) Clone() proto.Message {
 			}
 		}
 
+	}
+
+	return target
+}
+
+// Clone function
+func (m *OidcAuthorizationCode_OidcClaimsToHeaders) Clone() proto.Message {
+	var target *OidcAuthorizationCode_OidcClaimsToHeaders
+	if m == nil {
+		return target
+	}
+	target = &OidcAuthorizationCode_OidcClaimsToHeaders{}
+
+	if m.GetAccessToken() != nil {
+		target.AccessToken = make([]*ClaimToHeader, len(m.GetAccessToken()))
+		for idx, v := range m.GetAccessToken() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AccessToken[idx] = h.Clone().(*ClaimToHeader)
+			} else {
+				target.AccessToken[idx] = proto.Clone(v).(*ClaimToHeader)
+			}
+
+		}
+	}
+
+	if m.GetIdToken() != nil {
+		target.IdToken = make([]*ClaimToHeader, len(m.GetIdToken()))
+		for idx, v := range m.GetIdToken() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.IdToken[idx] = h.Clone().(*ClaimToHeader)
+			} else {
+				target.IdToken[idx] = proto.Clone(v).(*ClaimToHeader)
+			}
+
+		}
 	}
 
 	return target
