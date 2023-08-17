@@ -1,6 +1,6 @@
 // Create an in-mesh identity for workloads that are external to a Kubernetes workload
 // cluster to enable routing to and from those workloads in Gloo Mesh.
-// For example, after you [onboard a VM to Gloo Mesh](https://docs.solo.io/gloo-mesh-enterprise/main/setup/prod/meshctl_onboard/),
+// For example, after you [onboard a VM to Gloo Mesh](https://docs.solo.io/gloo-mesh-enterprise/main/setup/prod/ext_workload_int/),
 // you might create an ExternalWorkload to represent a set of workloads
 // that run on the virtual machine or bare metal instance.
 // When an ExternalWorkload is defined for a given workspace, it can be referenced in:

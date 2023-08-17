@@ -3,7 +3,7 @@
 // that have injected sidecars or are standalone proxies, such as gateways.
 // AccessLogPolicies are applied at the *Workload* level.
 //
-// Note: Be sure to [enable access logging]({{< versioned_link_path fromRoot="/observability/mesh/access-logs/" >}})
+// Note: Be sure to [enable access logging]({{< versioned_link_path fromRoot="/observability/dataplane/service-mesh/access-logs/" >}})
 // by modifying your default Istio operator installation.
 //
 // **Example**: This example filters access logs for the `reviews` service, so that only

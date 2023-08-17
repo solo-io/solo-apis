@@ -1,8 +1,10 @@
 // The ApiSchemaDiscovery custom resource discovers an API schema at a URL
 // for a target destination (such as a Kubernetes Service or Gloo VirtualDestination) in the same cluster.
 // After discovering the API schema, the Gloo agent automatically generates an ApiDoc resource.
+//
 // The ApiDoc can be part of a stitched schema of your API products that you share with
 // end users, such as through the [Gloo Platform developer portal](https://docs.solo.io/gloo-gateway/latest/portal/).
+//
 // Gloo Platform can discover the following API schemas:
 // - OpenAPI
 
@@ -241,7 +243,7 @@ func (x *ApiSchemaDiscoveryReport) GetOwnerWorkspace() string {
 	return ""
 }
 
-// The URL endpoint to fetch the API schema manually. The Gloo agent must be able to reach this endpoint.
+// The details for the OpenAPI endpoint.
 type ApiSchemaDiscoverySpec_OpenAPI struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -296,7 +298,7 @@ type ApiSchemaDiscoverySpec_FetchEndpoint struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Required: The URL endpoint to fetch the API schema from. Supported API schema paths are JSON or YAML files. Formatted as: `<protocol-scheme>://<host-domain>:<port>/<filepath>`
+	// Required: The URL endpoint to fetch the API schema from. Supported API schema paths are JSON or YAML files. For `https`, make sure that the URL is included in the certificate that validates the HTTPS traffic. Formatted as: `<protocol-scheme>://<host-domain>:<port>/<filepath>`
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// The retry delay when fetching the schema. If omitted, the default is 5s.
 	// You can also configure this setting for all resources by configuring the Gloo Platform agent during installation or upgrading with the `--api-discovery-polling-retry-delay` flag.

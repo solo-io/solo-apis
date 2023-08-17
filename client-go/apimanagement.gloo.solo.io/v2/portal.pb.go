@@ -191,14 +191,14 @@ type PortalSpec struct {
 	// To prevent undefined behavior, creating a Portal whose domain conflicts with
 	// an existing Portal will result in the Portal resource being placed into an 'Invalid' state.
 	Domains []string `protobuf:"bytes,4,rep,name=domains,proto3" json:"domains,omitempty"`
-	// Settings for the controlling the visibility of the Portal's contents.
+	// Settings for controlling the visibility of the Portal's contents.
 	// Default visibility for content in the Portal is private.
 	// When a Portal is public, individual APIs can be made private, by specifying the labels for private APIs
 	// and applying said labels to the route tables that need to be private.
-	// When a Portal or its APIs are private, the Portal will require authentication. An ExtAuthPolicy must be
-	// applied to the Portal's route table in order to enable authentication. The ExtAuthPolicy must use the
-	// the idTokenHeader field with the `id_token` to pass the user's id token to the Portal.
-	// For authentication to work the `email` claim is required in the `id_token`.
+	// When a Portal or its APIs are private, the Portal requires authentication. An external auth policy must be
+	// applied to the Portal's route table in order to enable authentication. The external auth policy must use the
+	// the `idTokenHeader` field with the `id_token` to pass the user's ID token to the Portal.
+	// For authentication to work, the `email` claim is required in the `id_token`.
 	Visibility *PortalSpec_Visibility `protobuf:"bytes,5,opt,name=visibility,proto3" json:"visibility,omitempty"`
 }
 
