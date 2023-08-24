@@ -2288,6 +2288,52 @@ func (m *OpaAuthOptions) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *OpaServerAuth) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*OpaServerAuth)
+	if !ok {
+		that2, ok := that.(OpaServerAuth)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetPackage(), target.GetPackage()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetRuleName(), target.GetRuleName()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetServerAddr(), target.GetServerAddr()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptions(), target.GetOptions()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *Ldap) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -3296,6 +3342,21 @@ func (m *AuthConfigSpec_Config) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetHmacAuth(), target.GetHmacAuth()) {
+				return false
+			}
+		}
+
+	case *AuthConfigSpec_Config_OpaServerAuth:
+		if _, ok := target.AuthConfig.(*AuthConfigSpec_Config_OpaServerAuth); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetOpaServerAuth()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetOpaServerAuth()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetOpaServerAuth(), target.GetOpaServerAuth()) {
 				return false
 			}
 		}
@@ -5012,6 +5073,84 @@ func (m *ExtAuthConfig_OpaAuthConfig) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *ExtAuthConfig_OpaAuthOptions) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_OpaAuthOptions)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_OpaAuthOptions)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetFastInputConversion() != target.GetFastInputConversion() {
+		return false
+	}
+
+	if m.GetReturnDecisionReason() != target.GetReturnDecisionReason() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_OpaServerAuthConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_OpaServerAuthConfig)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_OpaServerAuthConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetPackage(), target.GetPackage()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetRuleName(), target.GetRuleName()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetServerAddr(), target.GetServerAddr()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptions(), target.GetOptions()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ExtAuthConfig_LdapConfig) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -5423,6 +5562,21 @@ func (m *ExtAuthConfig_Config) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetHmacAuth(), target.GetHmacAuth()) {
+				return false
+			}
+		}
+
+	case *ExtAuthConfig_Config_OpaServerAuth:
+		if _, ok := target.AuthConfig.(*ExtAuthConfig_Config_OpaServerAuth); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetOpaServerAuth()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetOpaServerAuth()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetOpaServerAuth(), target.GetOpaServerAuth()) {
 				return false
 			}
 		}
