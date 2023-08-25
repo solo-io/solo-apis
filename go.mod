@@ -25,7 +25,7 @@ require (
 	github.com/solo-io/cue v0.4.7
 	github.com/solo-io/go-utils v0.24.5 // indirect
 	github.com/solo-io/protoc-gen-ext v0.0.18
-	github.com/solo-io/skv2 v0.31.4
+	github.com/solo-io/skv2 v0.31.8-gp
 	github.com/solo-io/solo-kit v0.32.0
 	github.com/spf13/pflag v1.0.6-0.20210604193023-d5e0c0615ace // indirect
 	go.uber.org/atomic v1.10.0 // indirect
