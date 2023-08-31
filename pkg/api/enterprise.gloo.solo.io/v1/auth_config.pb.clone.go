@@ -21,6 +21,8 @@ import (
 
 	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_jwt "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/jwt"
+
 	github_com_solo_io_solo_kit_pkg_api_v1_resources_core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
@@ -825,6 +827,18 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 		target.DisableClientSecret = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
 		target.DisableClientSecret = proto.Clone(m.GetDisableClientSecret()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	if h, ok := interface{}(m.GetAccessToken()).(clone.Cloner); ok {
+		target.AccessToken = h.Clone().(*OidcAuthorizationCode_AccessToken)
+	} else {
+		target.AccessToken = proto.Clone(m.GetAccessToken()).(*OidcAuthorizationCode_AccessToken)
+	}
+
+	if h, ok := interface{}(m.GetIdentityToken()).(clone.Cloner); ok {
+		target.IdentityToken = h.Clone().(*OidcAuthorizationCode_IdentityToken)
+	} else {
+		target.IdentityToken = proto.Clone(m.GetIdentityToken()).(*OidcAuthorizationCode_IdentityToken)
 	}
 
 	return target
@@ -2254,6 +2268,54 @@ func (m *UserSession_CipherConfig) Clone() proto.Message {
 			}
 		}
 
+	}
+
+	return target
+}
+
+// Clone function
+func (m *OidcAuthorizationCode_AccessToken) Clone() proto.Message {
+	var target *OidcAuthorizationCode_AccessToken
+	if m == nil {
+		return target
+	}
+	target = &OidcAuthorizationCode_AccessToken{}
+
+	if m.GetClaimsToHeaders() != nil {
+		target.ClaimsToHeaders = make([]*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_jwt.ClaimToHeader, len(m.GetClaimsToHeaders()))
+		for idx, v := range m.GetClaimsToHeaders() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ClaimsToHeaders[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_jwt.ClaimToHeader)
+			} else {
+				target.ClaimsToHeaders[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_jwt.ClaimToHeader)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *OidcAuthorizationCode_IdentityToken) Clone() proto.Message {
+	var target *OidcAuthorizationCode_IdentityToken
+	if m == nil {
+		return target
+	}
+	target = &OidcAuthorizationCode_IdentityToken{}
+
+	if m.GetClaimsToHeaders() != nil {
+		target.ClaimsToHeaders = make([]*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_jwt.ClaimToHeader, len(m.GetClaimsToHeaders()))
+		for idx, v := range m.GetClaimsToHeaders() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ClaimsToHeaders[idx] = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_jwt.ClaimToHeader)
+			} else {
+				target.ClaimsToHeaders[idx] = proto.Clone(v).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_jwt.ClaimToHeader)
+			}
+
+		}
 	}
 
 	return target
