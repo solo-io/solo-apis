@@ -3088,25 +3088,10 @@ func (m *ExtAuthConfig_OpaAuthConfig) Clone() proto.Message {
 	target.Query = m.GetQuery()
 
 	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
-		target.Options = h.Clone().(*ExtAuthConfig_OpaAuthOptions)
+		target.Options = h.Clone().(*OpaAuthOptions)
 	} else {
-		target.Options = proto.Clone(m.GetOptions()).(*ExtAuthConfig_OpaAuthOptions)
+		target.Options = proto.Clone(m.GetOptions()).(*OpaAuthOptions)
 	}
-
-	return target
-}
-
-// Clone function
-func (m *ExtAuthConfig_OpaAuthOptions) Clone() proto.Message {
-	var target *ExtAuthConfig_OpaAuthOptions
-	if m == nil {
-		return target
-	}
-	target = &ExtAuthConfig_OpaAuthOptions{}
-
-	target.FastInputConversion = m.GetFastInputConversion()
-
-	target.ReturnDecisionReason = m.GetReturnDecisionReason()
 
 	return target
 }
@@ -3126,9 +3111,9 @@ func (m *ExtAuthConfig_OpaServerAuthConfig) Clone() proto.Message {
 	target.ServerAddr = m.GetServerAddr()
 
 	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
-		target.Options = h.Clone().(*ExtAuthConfig_OpaAuthOptions)
+		target.Options = h.Clone().(*OpaAuthOptions)
 	} else {
-		target.Options = proto.Clone(m.GetOptions()).(*ExtAuthConfig_OpaAuthOptions)
+		target.Options = proto.Clone(m.GetOptions()).(*OpaAuthOptions)
 	}
 
 	return target
