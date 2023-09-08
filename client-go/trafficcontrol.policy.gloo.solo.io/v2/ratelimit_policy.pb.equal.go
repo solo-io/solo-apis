@@ -132,6 +132,16 @@ func (m *RateLimitPolicyStatus) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetDestinationServer()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDestinationServer()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDestinationServer(), target.GetDestinationServer()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -205,6 +215,16 @@ func (m *RateLimitPolicyReport) Equal(that interface{}) bool {
 			}
 		}
 
+	}
+
+	if h, ok := interface{}(m.GetDestinationServer()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDestinationServer()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDestinationServer(), target.GetDestinationServer()) {
+			return false
+		}
 	}
 
 	return true

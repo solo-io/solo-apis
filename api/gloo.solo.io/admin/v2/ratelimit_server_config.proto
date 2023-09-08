@@ -51,8 +51,14 @@ message RateLimitServerConfigSpec {
 // The current status of the `RateLimitServerConfig`.
 message RateLimitServerConfigStatus {
   .common.gloo.solo.io.Status common = 1;
+
+  // The number of ratelimit servers for which server config was translated.
+  uint32 num_selected_destination_servers = 2;
 }
 
 message RateLimitServerConfigReport {
   .common.gloo.solo.io.Report report = 1;
+
+  // A list of ratelimit servers for which server config was translated.
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_servers = 2;
 }

@@ -98,7 +98,7 @@ type ExtAuthServerSpec struct {
 	DestinationServer *v2.DestinationReference `protobuf:"bytes,1,opt,name=destination_server,json=destinationServer,proto3" json:"destination_server,omitempty"`
 	// If this is set, communication to the upstream will be via HTTP and not GRPC.
 	HttpService *ExtAuthServerSpec_HttpService `protobuf:"bytes,2,opt,name=http_service,json=httpService,proto3" json:"http_service,omitempty"`
-	// Timeout for the ext auth service to respond. Defaults to 100ms
+	// Timeout for the ext auth service to respond. Defaults to 2s.
 	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
 	RequestTimeout *duration.Duration `protobuf:"bytes,3,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 	// In case of a failure or timeout querying the auth server, normally a request is denied.
