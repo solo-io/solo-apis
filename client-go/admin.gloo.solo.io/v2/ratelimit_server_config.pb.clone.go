@@ -83,6 +83,8 @@ func (m *RateLimitServerConfigStatus) Clone() proto.Message {
 		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Status)
 	}
 
+	target.NumSelectedDestinationServers = m.GetNumSelectedDestinationServers()
+
 	return target
 }
 
@@ -98,6 +100,19 @@ func (m *RateLimitServerConfigReport) Clone() proto.Message {
 		target.Report = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Report)
 	} else {
 		target.Report = proto.Clone(m.GetReport()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Report)
+	}
+
+	if m.GetSelectedDestinationServers() != nil {
+		target.SelectedDestinationServers = make([]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference, len(m.GetSelectedDestinationServers()))
+		for idx, v := range m.GetSelectedDestinationServers() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedDestinationServers[idx] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference)
+			} else {
+				target.SelectedDestinationServers[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference)
+			}
+
+		}
 	}
 
 	return target

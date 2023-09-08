@@ -33,7 +33,7 @@ message ExtAuthServerSpec {
   // If this is set, communication to the upstream will be via HTTP and not GRPC.
   HttpService http_service = 2;
 
-  // Timeout for the ext auth service to respond. Defaults to 100ms
+  // Timeout for the ext auth service to respond. Defaults to 2s.
   // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
   .google.protobuf.Duration request_timeout = 3;
 

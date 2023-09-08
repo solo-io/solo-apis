@@ -88,6 +88,12 @@ func (m *RateLimitPolicyStatus) Clone() proto.Message {
 
 	target.NumSelectedRoutes = m.GetNumSelectedRoutes()
 
+	if h, ok := interface{}(m.GetDestinationServer()).(clone.Cloner); ok {
+		target.DestinationServer = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference)
+	} else {
+		target.DestinationServer = proto.Clone(m.GetDestinationServer()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference)
+	}
+
 	return target
 }
 
@@ -136,6 +142,12 @@ func (m *RateLimitPolicyReport) Clone() proto.Message {
 			}
 
 		}
+	}
+
+	if h, ok := interface{}(m.GetDestinationServer()).(clone.Cloner); ok {
+		target.DestinationServer = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference)
+	} else {
+		target.DestinationServer = proto.Clone(m.GetDestinationServer()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference)
 	}
 
 	return target
