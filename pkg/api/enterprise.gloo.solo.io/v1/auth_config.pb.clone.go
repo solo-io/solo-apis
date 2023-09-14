@@ -856,6 +856,22 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 		target.IdentityToken = proto.Clone(m.GetIdentityToken()).(*OidcAuthorizationCode_IdentityToken)
 	}
 
+	switch m.ExchangeConfig.(type) {
+
+	case *OidcAuthorizationCode_ClientSecretExchangeConfig_:
+
+		if h, ok := interface{}(m.GetClientSecretExchangeConfig()).(clone.Cloner); ok {
+			target.ExchangeConfig = &OidcAuthorizationCode_ClientSecretExchangeConfig_{
+				ClientSecretExchangeConfig: h.Clone().(*OidcAuthorizationCode_ClientSecretExchangeConfig),
+			}
+		} else {
+			target.ExchangeConfig = &OidcAuthorizationCode_ClientSecretExchangeConfig_{
+				ClientSecretExchangeConfig: proto.Clone(m.GetClientSecretExchangeConfig()).(*OidcAuthorizationCode_ClientSecretExchangeConfig),
+			}
+		}
+
+	}
+
 	return target
 }
 
@@ -2337,6 +2353,29 @@ func (m *OidcAuthorizationCode_IdentityToken) Clone() proto.Message {
 }
 
 // Clone function
+func (m *OidcAuthorizationCode_ClientSecretExchangeConfig) Clone() proto.Message {
+	var target *OidcAuthorizationCode_ClientSecretExchangeConfig
+	if m == nil {
+		return target
+	}
+	target = &OidcAuthorizationCode_ClientSecretExchangeConfig{}
+
+	if h, ok := interface{}(m.GetClientSecretRef()).(clone.Cloner); ok {
+		target.ClientSecretRef = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
+	} else {
+		target.ClientSecretRef = proto.Clone(m.GetClientSecretRef()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
+	}
+
+	if h, ok := interface{}(m.GetDisableClientSecret()).(clone.Cloner); ok {
+		target.DisableClientSecret = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	} else {
+		target.DisableClientSecret = proto.Clone(m.GetDisableClientSecret()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	return target
+}
+
+// Clone function
 func (m *JwtValidation_RemoteJwks) Clone() proto.Message {
 	var target *JwtValidation_RemoteJwks
 	if m == nil {
@@ -2812,6 +2851,22 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Clone() proto.Message {
 		target.UserSession = h.Clone().(*ExtAuthConfig_UserSessionConfig)
 	} else {
 		target.UserSession = proto.Clone(m.GetUserSession()).(*ExtAuthConfig_UserSessionConfig)
+	}
+
+	switch m.ExchangeConfig.(type) {
+
+	case *ExtAuthConfig_OidcAuthorizationCodeConfig_ClientSecretExchangeConfig_:
+
+		if h, ok := interface{}(m.GetClientSecretExchangeConfig()).(clone.Cloner); ok {
+			target.ExchangeConfig = &ExtAuthConfig_OidcAuthorizationCodeConfig_ClientSecretExchangeConfig_{
+				ClientSecretExchangeConfig: h.Clone().(*ExtAuthConfig_OidcAuthorizationCodeConfig_ClientSecretExchangeConfig),
+			}
+		} else {
+			target.ExchangeConfig = &ExtAuthConfig_OidcAuthorizationCodeConfig_ClientSecretExchangeConfig_{
+				ClientSecretExchangeConfig: proto.Clone(m.GetClientSecretExchangeConfig()).(*ExtAuthConfig_OidcAuthorizationCodeConfig_ClientSecretExchangeConfig),
+			}
+		}
+
 	}
 
 	return target
@@ -3415,6 +3470,19 @@ func (m *ExtAuthConfig_UserSessionConfig_CipherConfig) Clone() proto.Message {
 	target = &ExtAuthConfig_UserSessionConfig_CipherConfig{}
 
 	target.Key = m.GetKey()
+
+	return target
+}
+
+// Clone function
+func (m *ExtAuthConfig_OidcAuthorizationCodeConfig_ClientSecretExchangeConfig) Clone() proto.Message {
+	var target *ExtAuthConfig_OidcAuthorizationCodeConfig_ClientSecretExchangeConfig
+	if m == nil {
+		return target
+	}
+	target = &ExtAuthConfig_OidcAuthorizationCodeConfig_ClientSecretExchangeConfig{}
+
+	target.ClientSecret = m.GetClientSecret()
 
 	return target
 }
