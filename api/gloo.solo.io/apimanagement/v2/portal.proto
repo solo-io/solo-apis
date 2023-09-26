@@ -172,7 +172,7 @@ message PortalSpec {
   // and applying said labels to the route tables that need to be private.
   // When a Portal or its APIs are private, the Portal requires authentication. An external auth policy must be
   // applied to the Portal's route table in order to enable authentication. The external auth policy must use the
-  // the `idTokenHeader` field with the `id_token` to pass the user's ID token to the Portal.
+  // `idTokenHeader` field with the `id_token` to pass the user's ID token to the Portal.
   // For authentication to work, the `email` claim is required in the `id_token`.
   Visibility visibility = 5;
 

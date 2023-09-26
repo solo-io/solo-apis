@@ -238,7 +238,10 @@ func (WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKi
 //
 // ```
 //
-// WorkspaceSettings defined in the admin namespace for Gloo Mesh will override settings defined in individual workspaces. Must have the name "global" to be picked up by Gloo Mesh.
+// To create global workspace settings that apply to all namespaces in all clusters, you can create a
+// WorkspaceSettings resource named `global` in the admin namespace, which is typically `gloo-mesh`.
+// If you have multiple workspaces, you must still create one WorkspaceSettings resource per workspaces.
+// However, global workspace settings override settings defined in individual workspaces.
 type WorkspaceSettingsSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

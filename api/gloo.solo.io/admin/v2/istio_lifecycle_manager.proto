@@ -72,7 +72,7 @@ message IstioController {
 message IstioInstallation {
   // Istio revision for this installation, such as '1-17'. 
   // Label workload resources with 'istio.io/rev=$REVISION' to use this installation.
-  // When set to `auto`, the default supported version of Gloo Istio is installed.
+  // When set to `auto`, the default supported version of Solo Istio is installed.
   string revision = 1;
 
   // Clusters to install the Istio control planes in.

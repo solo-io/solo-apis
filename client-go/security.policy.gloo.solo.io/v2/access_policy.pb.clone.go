@@ -182,6 +182,19 @@ func (m *AccessPolicySpec_Config) Clone() proto.Message {
 		target.EnforcementLayers = proto.Clone(m.GetEnforcementLayers()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.EnforcementLayers)
 	}
 
+	if m.GetAuthzList() != nil {
+		target.AuthzList = make([]*AccessPolicySpec_Config_Authorization, len(m.GetAuthzList()))
+		for idx, v := range m.GetAuthzList() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AuthzList[idx] = h.Clone().(*AccessPolicySpec_Config_Authorization)
+			} else {
+				target.AuthzList[idx] = proto.Clone(v).(*AccessPolicySpec_Config_Authorization)
+			}
+
+		}
+	}
+
 	return target
 }
 
@@ -377,6 +390,8 @@ func (m *AccessPolicyReport_IdentityReference) Clone() proto.Message {
 	} else {
 		target.ServiceAccount = proto.Clone(m.GetServiceAccount()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
 	}
+
+	target.AuthzIndex = m.GetAuthzIndex()
 
 	return target
 }

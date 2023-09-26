@@ -48,7 +48,7 @@ message GatewayInstallation {
   string control_plane_revision = 1;
 
   // Istio revision for this installation, such as '1-17'.
-  // When set to `auto`, the default supported version of Gloo Istio is installed.
+  // When set to `auto`, the default supported version of Solo Istio is installed.
   string gateway_revision = 2;
 
   // Clusters to install the Istio gateways in.

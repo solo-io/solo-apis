@@ -291,6 +291,23 @@ func (m *AccessPolicySpec_Config) Equal(that interface{}) bool {
 		}
 	}
 
+	if len(m.GetAuthzList()) != len(target.GetAuthzList()) {
+		return false
+	}
+	for idx, v := range m.GetAuthzList() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAuthzList()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetAuthzList()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	return true
 }
 
@@ -622,6 +639,10 @@ func (m *AccessPolicyReport_IdentityReference) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetServiceAccount(), target.GetServiceAccount()) {
 			return false
 		}
+	}
+
+	if m.GetAuthzIndex() != target.GetAuthzIndex() {
+		return false
 	}
 
 	return true
