@@ -368,4 +368,16 @@ message VirtualGatewayReport {
 
   // list of external services exposed by this virtual gateway.
   repeated .common.gloo.solo.io.ObjectReference exposed_external_services = 4;
+
+  // A list of listener/RouteTable combinations showing which route tables are attached to which listeners.
+  repeated ListenerRouteTable listener_route_tables = 5;
+}
+
+// ListenerRouteTable represents an association between a RouteTable and a particular VirtualGateway listener.
+message ListenerRouteTable {
+  // The index of the listener in the list of listeners on the virtual gateway
+  uint32 listener_idx = 1;
+
+  // A reference to a route table
+  .common.gloo.solo.io.ObjectReference route_table_ref = 2;
 }

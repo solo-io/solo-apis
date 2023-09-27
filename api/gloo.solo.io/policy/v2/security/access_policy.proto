@@ -9,7 +9,7 @@
 // only the productpage app to access the ratings app through
 // the ratings app's port number.
 // ```yaml
-// {{% readfile file="/content/mesh/static/content/examples/generated/cni-int/access_policy_cni/mgmt-cluster/access-policy_bookinfo_ratings-access.yaml" %}}
+// {{% readfile file="/content/mesh/static/content/examples/generated/e2e/access_policy_same_workspace_block/cluster-1/access-policy_bookinfo_ratings-access.yaml" %}}
 // ```
 //
 // The following example specifies the IP address that you want to
@@ -106,6 +106,7 @@ message AccessPolicySpec {
     // How clients are authenticated to the workload.
     Authentication authn = 1;
 
+    // Deprecated; Use authzList instead. If authzList is set, it takes precedence and this field is ignored.
     // How clients are authorized to access the workload.
     Authorization authz = 2;
 
@@ -113,6 +114,10 @@ message AccessPolicySpec {
     // If you want to explicitly define which layers to use to enforce this AccessPolicy, you can set them by using this field.
     // Note that the layer that you define in this field must be available to be configured.
     .common.gloo.solo.io.EnforcementLayers enforcement_layers = 3;
+
+    // How clients are authorized to access the workload.
+    // A request is allowed when it matches at least one authz entry in the list (logically OR'd together).
+    repeated Authorization authz_list = 4;
 
     // How clients are authenticated to the workload.
     message Authentication {
@@ -144,6 +149,9 @@ message AccessPolicySpec {
     }
 
     // How clients are authorized to access the workload.
+    // A request is allowed when it matches ALL of the requirements specified (logically AND'd together).
+    // If the policy uses `applyToWorkloads`, you can also allow NO requests by setting this value to the empty object `{}`,
+    // which will serve as a fallback when requests do not match another `authz` case for the given workload.
     message Authorization {
       // Client identities that are permitted to access the workload.
       // To allow access for all client identities, provide a single empty selector.
@@ -258,5 +266,8 @@ message AccessPolicyReport {
 
     // The reference to the service account backing the identity.
     .common.gloo.solo.io.ObjectReference service_account = 2;
+
+    // The index of the authz in the authzList.
+    int32 authz_index = 3;
   }
 }

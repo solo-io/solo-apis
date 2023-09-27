@@ -1,5 +1,5 @@
 // The ApiSchemaDiscovery custom resource discovers an API schema at a URL
-// for a target destination (such as a Kubernetes Service or Gloo VirtualDestination) in the same cluster.
+// for a target destination, such as a Kubernetes Service or Gloo VirtualDestination, in the same cluster.
 // After discovering the API schema, the Gloo agent automatically generates an ApiDoc resource.
 //
 // The ApiDoc can be part of a stitched schema of your API products that you share with

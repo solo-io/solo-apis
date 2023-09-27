@@ -355,7 +355,7 @@ type IstioInstallation struct {
 
 	// Istio revision for this installation, such as '1-17'.
 	// Label workload resources with 'istio.io/rev=$REVISION' to use this installation.
-	// When set to `auto`, the default supported version of Gloo Istio is installed.
+	// When set to `auto`, the default supported version of Solo Istio is installed.
 	Revision string `protobuf:"bytes,1,opt,name=revision,proto3" json:"revision,omitempty"`
 	// Clusters to install the Istio control planes in.
 	Clusters []*IstioClusterSelector `protobuf:"bytes,2,rep,name=clusters,proto3" json:"clusters,omitempty"`

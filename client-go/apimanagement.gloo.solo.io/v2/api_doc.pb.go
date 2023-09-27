@@ -41,7 +41,8 @@ type ServedBy struct {
 
 	// Specify the backing destination for your app, by label or by name.
 	// This destination matches the destinations that you later route to.
-	// Supported destinations are Kubernetes services or Gloo virtual destinations.
+	// Supported destinations are Kubernetes services, Gloo virtual destinations, and
+	// Gloo external services.
 	// This field is required when you manually create an ApiDoc for a service that
 	// serves an OpenAPI or gRPC schema.
 	DestinationSelector *v2.DestinationSelector `protobuf:"bytes,1,opt,name=destination_selector,json=destinationSelector,proto3" json:"destination_selector,omitempty"`

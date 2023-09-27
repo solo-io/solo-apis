@@ -121,6 +121,10 @@ func (m *RateLimitServerConfigStatus) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetNumSelectedDestinationServers() != target.GetNumSelectedDestinationServers() {
+		return false
+	}
+
 	return true
 }
 
@@ -153,6 +157,23 @@ func (m *RateLimitServerConfigReport) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetReport(), target.GetReport()) {
 			return false
 		}
+	}
+
+	if len(m.GetSelectedDestinationServers()) != len(target.GetSelectedDestinationServers()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedDestinationServers() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedDestinationServers()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedDestinationServers()[idx]) {
+				return false
+			}
+		}
+
 	}
 
 	return true

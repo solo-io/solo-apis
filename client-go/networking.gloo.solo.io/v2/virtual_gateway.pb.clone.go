@@ -197,6 +197,38 @@ func (m *VirtualGatewayReport) Clone() proto.Message {
 		}
 	}
 
+	if m.GetListenerRouteTables() != nil {
+		target.ListenerRouteTables = make([]*ListenerRouteTable, len(m.GetListenerRouteTables()))
+		for idx, v := range m.GetListenerRouteTables() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ListenerRouteTables[idx] = h.Clone().(*ListenerRouteTable)
+			} else {
+				target.ListenerRouteTables[idx] = proto.Clone(v).(*ListenerRouteTable)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ListenerRouteTable) Clone() proto.Message {
+	var target *ListenerRouteTable
+	if m == nil {
+		return target
+	}
+	target = &ListenerRouteTable{}
+
+	target.ListenerIdx = m.GetListenerIdx()
+
+	if h, ok := interface{}(m.GetRouteTableRef()).(clone.Cloner); ok {
+		target.RouteTableRef = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+	} else {
+		target.RouteTableRef = proto.Clone(m.GetRouteTableRef()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+	}
+
 	return target
 }
 

@@ -75,6 +75,9 @@ message RateLimitPolicyStatus {
 
   // The number of routes selected by the policy.
   uint32 num_selected_routes = 3;
+
+  // The rate limit server specified by the `server_settings`.
+  .common.gloo.solo.io.DestinationReference destination_server = 4;
 }
 
 message RateLimitPolicyReport {
@@ -86,4 +89,7 @@ message RateLimitPolicyReport {
 
   // A list of references for all routes selected by the policy.
   repeated .common.gloo.solo.io.RouteReference selected_routes = 3;
+
+  // The rate limit server specified by the `server_settings`.
+  .common.gloo.solo.io.DestinationReference destination_server = 4;
 }

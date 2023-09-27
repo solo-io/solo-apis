@@ -242,7 +242,7 @@ type GatewayInstallation struct {
 	// If a control plane installation of this revision is not found, no gateway is created.
 	ControlPlaneRevision string `protobuf:"bytes,1,opt,name=control_plane_revision,json=controlPlaneRevision,proto3" json:"control_plane_revision,omitempty"`
 	// Istio revision for this installation, such as '1-17'.
-	// When set to `auto`, the default supported version of Gloo Istio is installed.
+	// When set to `auto`, the default supported version of Solo Istio is installed.
 	GatewayRevision string `protobuf:"bytes,2,opt,name=gateway_revision,json=gatewayRevision,proto3" json:"gateway_revision,omitempty"`
 	// Clusters to install the Istio gateways in.
 	Clusters []*GatewayClusterSelector `protobuf:"bytes,3,rep,name=clusters,proto3" json:"clusters,omitempty"`
