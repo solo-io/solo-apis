@@ -1,0 +1,119 @@
+// {{% readfile file="static/content/policies/ov_access_logs" markdown="true"%}}
+// You can use access log policies to configure log collection for workloads 
+// that have injected sidecars or are standalone proxies, such as gateways.
+// AccessLogPolicies are applied at the *Workload* level.
+//
+// Note: Be sure to [enable access logging]({{< versioned_link_path fromRoot="/observability/dataplane/service-mesh/access-logs/" >}})
+// by modifying your default Istio operator installation.
+//
+// **Example**: This example filters access logs for the `reviews` service, so that only
+// logs that contain the header `foo: bar` are recorded.
+// ```yaml
+// apiVersion: observability.policy.gloo.solo.io/v2
+// kind: AccessLogPolicy
+// metadata:
+//   name: access-log-policy
+//   namespace: bookinfo
+// spec:
+//   applyToWorkloads:
+//   - selector:
+//       cluster: cluster1
+//       labels:
+//         app: reviews
+//       namespace: bookinfo
+//   config:
+//     filters:
+//     #- statusCodeMatcher:
+//     #    value: 200
+//     #    comparator: EQ
+//     - headerMatcher:
+//         name: foo
+//         value: bar
+//         regex: false
+//         invertMatch: false
+//     #includedRequestHeaders:
+//     #  - x-user-agent
+//     #includedResponseHeaders:
+//     #  - x-server
+//     #includedResponseTrailers:
+//     #  - x-expires
+//     #includedFilterStateObjects:
+// ```
+syntax = "proto3";
+
+package observability.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/http_matchers.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/observability.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Specifications for the policy.
+message AccessLogPolicySpec {
+
+  // Select the workloads where access logs will be collected.
+  // If empty, the policy applies to all workloads in the workspace.
+  repeated .common.gloo.solo.io.WorkloadSelector apply_to_workloads = 1;
+
+  // Details of the policy specifying how to collect access logs from the selected workloads.
+  Config config = 2;
+
+  // Details of the policy specifying how to collect access logs from the selected workloads.
+  message Config {
+
+    // Criteria for determining which access logs are recorded for the workload.
+    // The list is disjunctive, meaning that a request is logged if it matches any filter.
+    // If empty, all access logs are recorded.
+    repeated Filter filters = 2;
+
+    // Request headers to include in access logs.
+    repeated string included_request_headers = 3;
+
+    // Response headers to include in access logs.
+    repeated string included_response_headers = 4;
+
+    // Response trailers to include in access logs.
+    repeated string included_response_trailers = 5;
+
+    // Filter state objects to include in access logs.
+    repeated string included_filter_state_objects = 6;
+
+    // Criteria for recording access logs. A request must match all specified criteria in the filter to be recorded.
+    message Filter {
+
+      // Criteria type.
+      oneof type {
+        // Matches against a response HTTP status code. Omit to match any status code.
+        .common.gloo.solo.io.StatusCodeMatcher status_code_matcher = 1;
+
+        // Matches against a request or response HTTP header. Omit to match any headers.
+        .common.gloo.solo.io.HeaderMatcher header_matcher = 2;
+      }
+    }
+  }
+}
+
+// The status of the policy after it is applied to your Gloo environment.
+message AccessLogPolicyStatus {
+  // The state and workspace conditions of the applied policy.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of workloads selected by the policy.
+  uint32 num_selected_workloads = 2;
+}
+
+// The report shows the resources that the policy selects after the policy is successfully applied.
+message AccessLogPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of workloads selected by the policy.
+  repeated .common.gloo.solo.io.WorkloadReference selected_workloads = 2;
+}

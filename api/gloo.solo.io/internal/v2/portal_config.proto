@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+package internal.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/apimanagement/v2/portal_group.proto";
+import "google/protobuf/struct.proto";
+
+
+option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// PortalConfig is a internal representation of the user facing Portal resource.
+// It is used to provide configuration information for a single Portal backend.
+// The PortalConfig contains a list of all API resources that are exposed by the Portal,
+// the associated usage plans for each API, and all usage plans available
+// across the Portal.
+message PortalConfigSpec {
+
+  // Portal level metadata configured by the user in the user facing Portal resource as a JSON value.
+  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+  google.protobuf.Value portal_custom_metadata = 1 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
+
+  // The list of API resources that are exposed by the Portal.
+  repeated API apis = 2;
+
+  // The list of usage plans that are available across the Portal.
+  repeated UsagePlan usage_plans = 3;
+
+  // Reference to the Portal resource that this PortalConfig resource is derived from.
+  .common.gloo.solo.io.ObjectReference portal_ref = 4;
+
+  // The domains on which this Portal will be served. The Host header received by the
+  // Portal Web App will be matched to one of these domains in order to determine which Portal will be served.
+  repeated string domains = 5;
+
+  // The list of groups that are available across the Portal.
+  repeated Group groups = 6;
+
+  // Indicates whether the Portal is public or private, this is based on the visibility setting specified in the
+  // `Portal` resource
+  bool public = 7;
+
+  // A Portal group represents a set of group names, which has visibility into a set of APIs and the ability
+  // to manage API keys selected usage plans.
+  message Group {
+    // The name of the group this is derived from the `PortalGroup` resource
+    string name = 1;
+    // The apis that are visible to this group
+    repeated .common.gloo.solo.io.ObjectReference apis = 2;
+    // The names of the usage plans that are visible to this group
+    repeated string usage_plans = 3;
+    // The list of membership claims that are used to determine whether a user is a member of this group
+    repeated .apimanagement.gloo.solo.io.Membership membership_claims = 4;
+  }
+
+  // TODO(jmhbh): Update this doc when we decide to support operation level usage plans.
+  // An API that is exposed by the Portal. API metadata is sourced from the
+  // referenced RouteTable and api_schema is a reference to the stitched API schema for the RouteTable.
+  // Also references a list of usage plan names that are associated with the API.
+  message API {
+    // When set, the [/apis](https://docs.solo.io/gloo-gateway/main/portal/openapi/redocly/#tag/APIs/operation/ListAPIs)
+    // endpoint in the portal will return `apiProduct` in the response which can be used to group multiple APIs together.
+    string api_product_id = 1;
+    // The api product display name
+    string api_product_display_name = 2;
+    // The ID for this API.
+    string api_id = 3;
+    // The version of the openAPI specification for this route table. Must be unique within the apiProduct.
+    // `apiProduct` is required if `apiVersion` is set.
+    string api_version = 4;
+    string title = 5;
+    string description = 6;
+    string terms_of_service = 7;
+    string contact = 8;
+    string license = 9;
+    string lifecycle = 10;
+    .common.gloo.solo.io.ObjectReference api_schema = 11;
+    .common.gloo.solo.io.ObjectReference route_table = 12;
+    repeated UsagePlanRef usage_plans = 13;
+    // The API is private if its associated route table contains labels matching the privateAPILabels specified
+    // in the portal resource
+    bool is_private = 14;
+    map<string, string> custom_metadata = 15;
+  }
+
+  // A usage plan contains a list of auth policies and one rate limit policy.
+  message UsagePlan {
+    string name = 1;
+    string display_name = 2;
+    string description = 3;
+
+    repeated ExtAuthPolicy ext_auth_policies = 4;
+    RateLimitPolicy rate_limit_policy = 5;
+  }
+
+  // Reference to a usage plan by name.
+  message UsagePlanRef {
+    string name = 1;
+  }
+
+  // An ext auth policy identified by its authentication type and contains a list of
+  // unique label selectors that are used to identify the set of clients that
+  // are authorized to use the auth policy.
+  message ExtAuthPolicy {
+    oneof auth_cfg {
+      ApiKeyAuth api_key_auth = 1;
+      OidcAuth oidc_auth = 2;
+      AccessTokenValidation access_token_validation = 3;
+    }
+    .common.gloo.solo.io.ObjectReference ext_auth_policy_ref = 4;
+    string auth_config_id = 5;
+  }
+
+  message ApiKeyAuth {
+    map<string, string>  ext_auth_label_selector = 1;
+  }
+
+  message OidcAuth {
+    string well_known_openid_config = 1;
+  }
+
+  message AccessTokenValidation {
+    string bearer_format = 1;
+  }
+
+  message RateLimitPolicy {
+    Unit unit = 1;
+    uint32 requests_per_unit = 2;
+    .common.gloo.solo.io.ObjectReference rate_limit_policy_ref = 3;
+  }
+
+  enum Unit {
+    UNKNOWN = 0;
+    SECOND = 1;
+    MINUTE = 2;
+    HOUR = 3;
+    DAY = 4;
+  }
+}
+
+// The status of the resource after it is applied to your Gloo environment.
+message PortalConfigStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The name of the workspace that owns the PortalConfig schema.
+  string owned_by_workspace = 2;
+}
+
+message PortalConfigReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // The name of the workspace that owns the PortalConfig schema.
+  string owner_workspace = 2;
+}

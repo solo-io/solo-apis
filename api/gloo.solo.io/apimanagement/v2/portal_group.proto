@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package apimanagement.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+
+// A `PortalGroup` defines what APIs a group of users can view in the portal, and what usage plans they can manage API keys for.
+//
+// A `PortalGroup` consists of a set of permissions defined for the group defined in `AccessLevel`, and a set of claims that
+// is used to determine whether a user belongs to this group.
+//
+// Below is an example of a `PortalGroup` that defines a group of users that can view the APIs (RouteTables) with the `customers-group: true` label,
+// and manage API keys for the `bronze`, `silver`, and `gold` usage plans for said APIs.
+// A user belongs to this group if they have the following claims in their JWT:
+// ```json
+// { "type": "customers", "region": "us-east-1" }
+// ```
+//
+// ```yaml
+// apiVersion: apimanagement.gloo.solo.io/v2
+// kind: PortalGroup
+// metadata:
+//   name: customers-group
+//   namespace: gloo-mesh-addons
+// labels:
+//   portal: sample-bank-portal
+// spec:
+//   name: customers-group
+//   description: a group for users accessing the customers APIs
+//   membership:
+//     - claims:
+//         - key: type
+//           value: customers
+//         - key: region
+//           value: us-east-1
+//   accessLevel:
+//     apis:
+//     - routeTable:
+//         labels:
+//           customers-group: true
+//     usagePlans:
+//     - name: bronze
+//     - name: silver
+//     - name: gold
+// ```
+message PortalGroupSpec {
+    // The name of the group.
+    string name = 1;
+
+    // The description of the group.
+    string description = 2;
+
+    // A list of `Membership` criteria that defines the claims that are used to determine whether a user belongs to this group.
+    // A user is considered to be a member of this group if they have claims that match all the claims in any `Membership` criteria in this list.
+    // For example, a user is considered to be a member of this group if they have defined the following list of membership criteria in their `PortalGroup`:
+    // ```yaml
+    // ...
+    //  membership:
+    //    - claims:
+    //        - key: type
+    //          value: customers
+    //        - key: region
+    //          value: us-east-1
+    //    - claims:
+    //        - key: type
+    //          value: customers
+    //        - key: region
+    //          value: us-west-1
+    // ```
+    // and the user has the following claims in their idToken:
+    // ```json
+    // { "type": "customers", "region": "us-east-1" } or { "type": "customers", "region": "us-west-1" }
+    // ```
+    // claims within a `Membership` criteria is an AND operation, and the list of `Membership` criteria is an OR operation.
+    repeated Membership membership = 3;
+
+    // Settings that control the list of APIs that this group can view, and the usage plans that this group can manage API keys for.
+    AccessLevel access_level = 4;
+
+    // Defines the access level of the group. Private APIs listed in the access level allows this group to
+    // view the selected APIs in the portal.
+    // Usage plans listed in the access level allows this group to manage API keys for the listed usage plans.
+    message AccessLevel {
+        // The APIs that we want to allow this group to view in the portal. An API consists of all routes exposed by a route table,
+        // so the apis field is a list of route table selectors.
+        repeated .common.gloo.solo.io.ObjectSelector apis = 1;
+        // The names of usage plans that we want to allow this group to manage API keys for. Note that if your usage plan is applied across
+        // different route tables, granting the ability to manage API keys for a usage plan in a group will allow the created API keys
+        // to also be used across all route tables that the usage plan applies to.
+        repeated string usage_plans = 2;
+    }
+}
+
+// `Membership` contains a list of claims that is used to determine whether a user belongs to this group.
+// A user is considered to be a member of this group if their idToken has all the claims in this list.
+message Membership {
+    // A list of claims that is used to determine whether a user belongs to this group.
+    // A user is considered to be a member of this group if their idToken has claims that match all the claims in this list.
+    repeated Claim claims = 1;
+}
+
+// A claim that can be used to define a group of users.
+message Claim {
+    // The key of the claim. For example, `customers` or `region`. This is the key that we will use to match against the claims in the idToken.
+    string key = 1;
+    // The value of the claim.
+    string value = 2;
+}
+
+message PortalGroupStatus {
+    .common.gloo.solo.io.Status common = 1;
+
+    // The name of the workspace that owns the PortalGroup schema.
+    string owned_by_workspace = 2;
+}
+
+message PortalGroupReport {
+    map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+    // The name of the workspace that owns the PortalGroup schema.
+    string owned_by_workspace = 2;
+}

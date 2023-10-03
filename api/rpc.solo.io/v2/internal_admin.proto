@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package rpc.solo.io;
+
+import "istio.io/api/mesh/v1alpha1/config.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/rpc.solo.io/v2";
+
+service InternalAdmin {
+  rpc ExtWorkloadBootstrap(ExtWorkloadBootstrapRequest) returns (ExtWorkloadBootstrapResponse) {}
+  rpc CaCert(CaCertRequest) returns (CaCertResponse) {}
+}
+
+message ExtWorkloadBootstrapRequest {
+  string istio_namespace = 1;
+  string istio_revision = 2;
+}
+
+message ExtWorkloadBootstrapResponse {
+  istio.mesh.v1alpha1.MeshConfig mesh_config = 1;
+}
+
+message CaCertRequest {
+
+}
+
+message CaCertResponse {
+  string ca_cert = 1;
+}

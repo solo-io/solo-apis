@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package resilience.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Use the TrimConfigProxyPolicy to select workloads and their corresponding allowed destinations. Then, the Istio
+// sidecar of the workloads keeps only the configuration of those allowed destinations instead of all the destinations
+// in the Istio service mesh. Otherwise, the extra config can lead to memory pressure issues.
+message TrimProxyConfigPolicySpec {
+
+  // Select the workloads for the policy to trim the Istio sidecar config. If omitted, all workloads are selected.
+  repeated .common.gloo.solo.io.WorkloadSelector apply_to_workloads = 1;
+
+
+  // Trim Proxy Config
+  Config config = 2;
+
+  message Config {
+
+    // Select which destinations to include in the trimmed sidecar proxy configuration of the workloads that this policy
+    // applies to. You can select destinations by Kubernetes label. Destinations can be a Kubernetes service,
+    // VirtualDestination, or ExternalService. To select all destinations, specify {}. If omitted or if the selection
+    // does not match any destination, no destinations are selected and the sidecar proxy configurations of the
+    // workloads are not trimmed. The destinations must be within the same workspace as the policy, or imported to the
+    // workspace.
+    repeated .common.gloo.solo.io.DestinationSelector included_destinations = 1;
+
+  }
+
+}
+
+message TrimProxyConfigPolicyStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of workloads selected by the policy.
+  uint32 num_selected_workloads = 2;
+
+  // The number of hosts of destinations included by the policy.
+  uint32 num_included_hosts = 3;
+}
+
+message TrimProxyConfigPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of workloads selected by the policy.
+  repeated .common.gloo.solo.io.WorkloadReference selected_workloads = 2;
+
+  // A list of hosts of destinations included by the policy.
+  repeated string included_hosts = 3;
+}
