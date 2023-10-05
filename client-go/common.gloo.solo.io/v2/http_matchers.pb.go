@@ -80,9 +80,7 @@ type HTTPRequestMatcher struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Optional: The name assigned to a match. The match's name will be
-	// concatenated with the parent route's name and will be logged in
-	// the access logs for requests matching this route.
+	// UNSUPPORTED: Name matching is currently unsupported.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Optional: Specify match criteria against the targeted path.
 	Uri *StringMatch `protobuf:"bytes,2,opt,name=uri,proto3" json:"uri,omitempty"`

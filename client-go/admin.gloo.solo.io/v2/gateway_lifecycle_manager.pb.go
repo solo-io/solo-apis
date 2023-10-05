@@ -1,3 +1,246 @@
+// Use Gloo Platform to install Istio ingress, egress, and east-west gateways in your workload clusters,
+// as part of the Istio lifecycle management.
+// In your `GatewayLifecycleManager` resource, you provide gateway settings in an `IstioOperator` configuration.
+// When you create the `GatewayLifecycleManager` in your management cluster, Gloo translates the configuration
+// into gateways in your registered workload clusters for you.
+//
+// For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% versioned_link_path fromRoot="/setup/install/gloo_mesh_managed/" %}}) guide.
+//
+// **Examples**:
+//
+// **East-west** (Gloo Mesh license): This example creates an east-west gateway named `istio-eastwestgateway` in the `gloo-mesh-gateways`
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`),
+// image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: GatewayLifecycleManager
+// metadata:
+//   name: istio-eastwestgateway
+//   namespace: gloo-mesh
+// spec:
+//   installations:
+//   # The revision for this installation, such as 1-18-2
+//   - gatewayRevision: $REVISION
+//     # List all workload clusters to install Istio into
+//     clusters:
+//     - name: $REMOTE_CLUSTER1
+//       # If set to true, the spec for this revision is applied in the cluster
+//       activeGateway: true
+//     - name: $REMOTE_CLUSTER2
+//       activeGateway: true
+//     istioOperatorSpec:
+//       # No control plane components are installed
+//       profile: empty
+//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # You get the repo key from your Solo Account Representative.
+//       hub: $REPO
+//       # The Solo.io Gloo Istio version
+//       tag: $ISTIO_IMAGE
+//       components:
+//         ingressGateways:
+//         # Enable the default east-west gateway
+//         - name: istio-eastwestgateway
+//           # Deployed to gloo-mesh-gateways by default
+//           namespace: gloo-mesh-gateways
+//           enabled: true
+//           label:
+//             # Set a unique label for the gateway. This is required to
+//             # ensure Gateways can select this workload.
+//             istio: eastwestgateway
+//             app: istio-eastwestgateway
+//           k8s:
+//             env:
+//               # 'sni-dnat' enables AUTO_PASSTHROUGH mode for east-west communication through the gateway.
+//               # The default value ('standard') does not set up a passthrough cluster.
+//               # Required for multi-cluster communication and to preserve SNI.
+//               - name: ISTIO_META_ROUTER_MODE
+//                 value: "sni-dnat"
+//             service:
+//               type: LoadBalancer
+//               selector:
+//                 istio: eastwestgateway
+//               # Default ports
+//               ports:
+//                 # Port for health checks on path /healthz/ready.
+//                 # For AWS ELBs, this port must be listed first.
+//                 - name: status-port
+//                   port: 15021
+//                   targetPort: 15021
+//                 # Port for multicluster mTLS passthrough
+//                 # Gloo looks for this default name 'tls' on a gateway
+//                 # Required for Gloo east/west routing
+//                 - name: tls
+//                   port: 15443
+//                   targetPort: 15443
+//
+// ```
+//
+// **Ingress** (Gloo Gateway license): This example creates an ingress gateway named `istio-ingressgateway` in the `gloo-mesh-gateways`
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`),
+// image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: GatewayLifecycleManager
+// metadata:
+//   name: istio-ingressgateway
+//   namespace: gloo-mesh
+// spec:
+//   installations:
+//   # The revision for this installation, such as 1-18-2
+//   - gatewayRevision: $REVISION
+//     # List all workload clusters to install Istio into
+//     clusters:
+//     - name: $REMOTE_CLUSTER1
+//       # If set to true, the spec for this revision is applied in the cluster
+//       activeGateway: true
+//     - name: $REMOTE_CLUSTER2
+//       activeGateway: true
+//     istioOperatorSpec:
+//       # No control plane components are installed
+//       profile: empty
+//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # You get the repo key from your Solo Account Representative.
+//       hub: $REPO
+//       # The Solo.io Istio version tag
+//       tag: $ISTIO_IMAGE
+//       components:
+//         ingressGateways:
+//         # Enable the default ingress gateway
+//         - name: istio-ingressgateway
+//           # Deployed to gloo-mesh-gateways by default
+//           namespace: gloo-mesh-gateways
+//           enabled: true
+//           label:
+//             # Set a unique label for the gateway. This is required to
+//             # ensure Gateways can select this workload
+//             istio: ingressgateway
+//             app: istio-ingressgateway
+//           k8s:
+//             service:
+//               type: LoadBalancer
+//               selector:
+//                 istio: ingressgateway
+//               # Default ports
+//               ports:
+//                 # Port for health checks on path /healthz/ready.
+//                 # For AWS ELBs, this port must be listed first.
+//                 - name: status-port
+//                   port: 15021
+//                   targetPort: 15021
+//                 # Main HTTP ingress port
+//                 - name: http2
+//                   port: 80
+//                   targetPort: 8080
+//                 # Main HTTPS ingress port
+//                 - name: https
+//                   port: 443
+//                   targetPort: 8443
+//                 - name: tls
+//                   port: 15443
+//                   targetPort: 15443
+// ```
+//
+// **Egress**: This example creates an egress gateway named `istio-egressgateway` in the `gloo-mesh-gateways` namespace of two workload clusters,
+// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`), image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// For more information, see the
+// [Block egress traffic with an egress gateway]({{% versioned_link_path fromRoot="/routing/forward-requests/external-service/egress-gateway/" %}}) guide.
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: GatewayLifecycleManager
+// metadata:
+//   name: istio-egressgateway
+//   namespace: gloo-mesh
+// spec:
+//   installations:
+//       # The revision for this installation, such as 1-18-2
+//     - gatewayRevision: $REVISION
+//       # List all workload clusters to install Istio into
+//       clusters:
+//       - name: $REMOTE_CLUSTER1
+//         # If set to true, the spec for this revision is applied in the cluster
+//         activeGateway: true
+//       - name: $REMOTE_CLUSTER2
+//         activeGateway: true
+//       istioOperatorSpec:
+//         # No control plane components are installed
+//         profile: minimal
+//         # Solo.io Istio distribution repository; required for Gloo Istio.
+//         # You get the repo key from your Solo Account Representative.
+//         hub: $REPO
+//         # The Solo.io Gloo Istio version
+//         tag: $ISTIO_IMAGE
+//         meshConfig:
+//           outboundTrafficPolicy:
+//             mode: REGISTRY_ONLY
+//             # Enable access logs
+//           accessLogFile: /dev/stdout
+//           defaultConfig:
+//             proxyMetadata:
+//               # For known hosts, enable the Istio agent to handle DNS requests
+//               # for any custom ServiceEntry, such as non-Kubernetes services.
+//               # Unknown hosts are automatically resolved using upstream DNS
+//               # servers in resolv.conf (for proxy-dns)
+//               ISTIO_META_DNS_CAPTURE: "true"
+//         components:
+//           egressGateways:
+//           # Enable the egress gateway
+//             - name: istio-egressgateway
+//               # Deployed to gloo-mesh-gateways by default
+//               namespace: gloo-mesh-gateways
+//               enabled: true
+//               label:
+//                 # Set a unique label for the gateway. This is required to
+//                 # ensure Gateways can select this workload.
+//                 istio: egressgateway
+//                 app: istio-egressgateway
+//                 traffic: egress
+//               k8s:
+//                 affinity:
+//                    nodeAffinity:
+//                      requiredDuringSchedulingIgnoredDuringExecution:
+//                        nodeSelectorTerms:
+//                          - matchExpressions:
+//                              - key: kubernetes.io/arch
+//                                operator: In
+//                                values:
+//                                  - arm64
+//                                  - amd64
+//                 env:
+//                   # 'sni-dnat' enables AUTO_PASSTHROUGH mode for east-west communication through the gateway.
+//                   # The default value ('standard') does not set up a passthrough cluster.
+//                   # Required for multi-cluster communication and to preserve SNI.
+//                   - name: ISTIO_META_ROUTER_MODE
+//                     value: "sni-dnat"
+//                   - name: AUTO_RELOAD_PLUGIN_CERTS
+//                     value: "true"
+//                 podAnnotations:
+//                   proxy.istio.io/config: |
+//                     proxyStatsMatcher:
+//                       inclusionRegexps:
+//                       - .*ext_authz.*
+//                 service:
+//                   type: LoadBalancer
+//                   selector:
+//                     istio: egressgateway
+//                   # Default ports
+//                   ports:
+//                     # Port for health checks on path /healthz/ready.
+//                     # For AWS ELBs, this port must be listed first.
+//                     - port: 15021
+//                       targetPort: 15021
+//                       name: status-port
+//                     # Port for multicluster mTLS passthrough
+//                     # Required for Gloo egress routing
+//                     - port: 15443
+//                       targetPort: 15443
+//                       # Gloo looks for this default name 'tls' on a gateway
+//                       name: tls
+//                     # Required for Istio mutual TLS
+//                     - port: 443
+//                       targetPort: 8443
+//                       name: https
+// ```
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.26.0
@@ -25,22 +268,22 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// The state of an Istio installation.
+// The current state of the gateway installation.
 type GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State int32
 
 const (
 	// Waiting for resources to be installed or updated.
 	GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_PENDING GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State = 0
-	// Gloo Mesh server encountered a problem while attempting
-	// to install the Istio gateway.
+	// The Gloo management server encountered a problem while attempting
+	// to install the gateway.
 	GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_FAILED GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State = 1
-	// Could not select a control plane.
+	// Could not select a istiod control plane.
 	GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_NO_CONTROL_PLANE_AVAILABLE GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State = 2
-	// The Istio gateway is currently being installed.
+	// The gateway is currently being installed.
 	GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_INSTALLING_GATEWAY GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State = 3
-	// All Istio components are successfully installed and healthy.
+	// All Istio components for the gateway are successfully installed and healthy.
 	GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_HEALTHY GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State = 4
-	// The Istio installation is no longer healthy.
+	// The gateway installation is no longer healthy.
 	GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_UNHEALTHY GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State = 5
 	// The gateway IstioOperator resource is in an 'ACTION_REQUIRED' state. Check the logs of the IstioOperator deployment for more info.
 	GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_ACTION_REQUIRED GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State = 6
@@ -107,14 +350,13 @@ func (GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State) En
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_gateway_lifecycle_manager_proto_rawDescGZIP(), []int{3, 1, 1, 0}
 }
 
+// Specifications for the `GatewayLifecycleManager` resource.
 type GatewayLifecycleManagerSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// List of Istio gateway installations.
-	// Any components that are NOT related to the gateway are ignored.
-	// Only one installation is allowed per revision per cluster.
 	Installations []*GatewayInstallation `protobuf:"bytes,1,rep,name=installations,proto3" json:"installations,omitempty"`
 }
 
@@ -157,24 +399,25 @@ func (x *GatewayLifecycleManagerSpec) GetInstallations() []*GatewayInstallation 
 	return nil
 }
 
+// Clusters to install the Istio gateways in.
 type GatewayClusterSelector struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Name of the cluster to install Istio into.
-	// Must match the registered cluster name.
+	// Name of the cluster to install the gateway into.
+	// Must match the name of the cluster that you used when you registered the cluster with Gloo.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Optional: Defaults to false.
-	// When set to true, the installation for this revision is applied as the active gateway through which primary service traffic is routed in the cluster.
+	// When set to true, the gateway installation for this revision is applied as the active gateway through which primary service traffic is routed in the cluster.
 	// If the `istioOperatorSpec` defines a service, this field switches the service selectors to the revision specified in the `gatewayRevsion`.
 	// You might change this setting for gateway installations during a canary upgrade.
-	// For more info, see the [upgrade docs](https://docs.solo.io/gloo-gateway/2.3.x/setup/legacy/managed_upgrade/).
+	// For more info, see the [upgrade docs](https://docs.solo.io/gloo-mesh-enterprise/main/setup/upgrade/gloo_mesh_managed_upgrade/).
 	ActiveGateway bool `protobuf:"varint,2,opt,name=active_gateway,json=activeGateway,proto3" json:"active_gateway,omitempty"`
-	// Optional: By default, the `trustDomain` value is automatically set in the meshConfig by the installer to the name of each workload cluster.
-	// To override the `trustDomain` for each cluster, you can instead specify the override value in the `trustDomain` field,
-	// and include the value in the list of cluster names. For example, if you specify `trustDomain: cluster1-trust-override` in the operator spec,
-	// you then specify the cluster name (`cluster1`) and the trust domain (`cluster1-trust-override`) in the list of cluster names.
+	// Optional: By default, the `trustDomain` value in the `meshConfig` section of the operator spec is automatically set by the Gloo to the name of each workload cluster.
+	// To override the `trustDomain` for each cluster, you can instead specify the override value by using this `trustDomain` field,
+	// and include the value in the list of cluster names. For example, if you specify `meshConfig.trustDomain: cluster1-trust-override` in your operator spec,
+	// you then specify both the cluster name (`name: cluster1`) and the trust domain (`trustDomain: cluster1-trust-override`) in this `installations.clusters` section.
 	// Additionally, because Gloo requires multiple trust domains for east-west routing, the `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` field is set to `"true"` by default.
 	// For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1).
 	TrustDomain string `protobuf:"bytes,5,opt,name=trust_domain,json=trustDomain,proto3" json:"trust_domain,omitempty"`
@@ -233,6 +476,11 @@ func (x *GatewayClusterSelector) GetTrustDomain() string {
 	return ""
 }
 
+// List of Istio gateway installations.
+// Any components that are not related to the gateway are ignored.
+// You can provide only one type of gateway installation per revision in a cluster.
+// For example, in a workload cluster `cluster2`, you can install only one east-west
+// gateway that runs revision `1-18-2`.
 type GatewayInstallation struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -241,15 +489,16 @@ type GatewayInstallation struct {
 	// Optional: The revision of an Istio control plane in the cluster that this gateway should also use.
 	// If a control plane installation of this revision is not found, no gateway is created.
 	ControlPlaneRevision string `protobuf:"bytes,1,opt,name=control_plane_revision,json=controlPlaneRevision,proto3" json:"control_plane_revision,omitempty"`
-	// Istio revision for this installation, such as '1-17'.
-	// When set to `auto`, the default supported version of Solo Istio is installed.
+	// Istio revision for this gateway installation, such as '1-18-2'.
+	// When set to `auto`, Gloo installs the gateway with the default supported version of Solo Istio.
 	GatewayRevision string `protobuf:"bytes,2,opt,name=gateway_revision,json=gatewayRevision,proto3" json:"gateway_revision,omitempty"`
 	// Clusters to install the Istio gateways in.
 	Clusters []*GatewayClusterSelector `protobuf:"bytes,3,rep,name=clusters,proto3" json:"clusters,omitempty"`
-	// IstioOperator specification for the control plane.
+	// IstioOperator specification for the gateway.
 	// For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
 	IstioOperatorSpec *v2.IstioOperatorSpec `protobuf:"bytes,4,opt,name=istio_operator_spec,json=istioOperatorSpec,proto3" json:"istio_operator_spec,omitempty"`
-	// Skip in-place upgrade change validation. It is highly recommended to use revision based workflows in production environments.
+	// Skip validation of in-place upgrade changes. Note that in-place upgrades are not recommended in production environments.
+	// Instead, use canary upgrades.
 	SkipUpgradeValidation bool `protobuf:"varint,5,opt,name=skip_upgrade_validation,json=skipUpgradeValidation,proto3" json:"skip_upgrade_validation,omitempty"`
 }
 
@@ -320,13 +569,13 @@ func (x *GatewayInstallation) GetSkipUpgradeValidation() bool {
 	return false
 }
 
+// The status of the `GatewayLifecycleManager` resource after you apply it to your Gloo environment.
 type GatewayLifecycleManagerStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The status of each Istio gateway installation that is being managed by Gloo Mesh, where
-	// the key is the cluster name of the installation.
+	// The list of clusters where Gloo manages Istio gateway installations.
 	Clusters map[string]*GatewayLifecycleManagerStatus_ClusterStatuses `protobuf:"bytes,1,rep,name=clusters,proto3" json:"clusters,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
@@ -447,12 +696,13 @@ func (*GatewayLifecycleManagerReport) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_gateway_lifecycle_manager_proto_rawDescGZIP(), []int{5}
 }
 
+// The list of clusters where Gloo manages Istio gateway installations.
 type GatewayLifecycleManagerStatus_ClusterStatuses struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The Istio installations by revision.
+	// The Istio gateway installations in the cluster, listed by revision.
 	Installations map[string]*GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus `protobuf:"bytes,1,rep,name=installations,proto3" json:"installations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
@@ -495,18 +745,19 @@ func (x *GatewayLifecycleManagerStatus_ClusterStatuses) GetInstallations() map[s
 	return nil
 }
 
+// The status of the gateway installation.
 type GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The state of the Istio installation.
+	// The current state of the gateway installation.
 	State GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State `protobuf:"varint,1,opt,name=state,proto3,enum=admin.gloo.solo.io.GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus_State" json:"state,omitempty"`
-	// A human readable message about the current state of the GatewayInstallationInstance.
+	// A human-readable message about the current state of the installation.
 	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	// The observed revision for the Istio installation.
+	// The observed revision of the gateway installation.
 	ObservedRevision string `protobuf:"bytes,5,opt,name=observed_revision,json=observedRevision,proto3" json:"observed_revision,omitempty"`
-	// The Istio operator spec that is currently deployed for this revision.
+	// The IstioOperator spec that is currently deployed for this revision.
 	ObservedOperator *v2.IstioOperatorSpec `protobuf:"bytes,4,opt,name=observed_operator,json=observedOperator,proto3" json:"observed_operator,omitempty"`
 }
 
