@@ -1,3 +1,76 @@
+// Control access or route traffic based on verified claims in a JSON web token (JWT).
+// JWTs follow an open standard for securely sharing information between a client and your apps. 
+// JWTs are commonly used to support stateless, simple, scalable, and interoperable authentication and authorization flows.
+// For more information, see the [RFC 7519 JWT specification](https://datatracker.ietf.org/doc/html/rfc7519).
+//
+// JWT policies are applied at the route level.
+// You can have multiple JWT providers in the same policy, or in different policies.
+// Keep in mind that you cannot apply multiple JWT policies to the same route in a route table.
+//
+// **Examples**:
+// The following example is a basic JWT policy with a local JWT issuer and inline public key.
+// For more examples of using Gloo JWT policies, see the [JWT guides](https://docs.solo.io/gloo-gateway/latest/policies/jwt/).
+//
+// Sample JWT payload from the JWT provider:
+// ```json
+// {
+//   "org": "solo-io",
+//   "email": "user@solo.io",
+//   "iss": "https://localhost",
+//   "exp": 4804324736,
+//   "iat": 1648651136
+// }
+// ```
+// 
+// The following policy enables JWT authentication for the selected `httpbin` route.
+// It adds the values of the `org` and `email` claims from the JWT payload to the `X-Org` and `X-Email` headers in the request, if present.
+// It also checks requests by using the token found in the `X-Auth` header with the prefix `Bearer <token>`, or in a query parameter `auth_token=<token>`.
+// Note that if a request has both the header and query parameter, both tokens must be valid for Gloo Gateway to accept the request.
+//
+// ```yaml
+// apiVersion: security.policy.gloo.solo.io/v2
+// kind: JWTPolicy
+// metadata:
+//   annotations:
+//     cluster.solo.io/cluster: ""
+//   name: jwt-policy
+//   namespace: default
+// spec:
+//   applyToRoutes:
+//   - route:
+//       labels:
+//         route: httpbin
+//   config:
+//     phase:
+//       preAuthz: {}
+//     providers:
+//       provider1:
+//         claimsToHeaders:
+//         - append: true
+//           claim: org
+//           header: x-org
+//         - append: true
+//           claim: email
+//           header: x-email
+//         issuer: https://localhost
+//         local:
+//           inline: |-
+//             -----BEGIN PUBLIC KEY-----
+//             MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnknfKiIDREaE/vxu8rtz
+//             oMaPop6rsiX7GANCRcqFks0j96Gb+UssKD8zJs2JBvEe4n0wNKVeLRbOctII+ZEO
+//             G8b+Dqig/1ubq3xiGbDBbZqHiFKjFQVUnII3Un9VRtDcJdgaaPGHnhlPs79sJNgQ
+//             e6AWJmfAasdT7i3MVEW7/dXcROiMRGapmxv+nQbKdoeiCJDULRdMSodhg/WJw2sH
+//             LLVxh4fPSF7cRxj36Y9FKWcGUH+YKe7n4gufAeEsHk+tPBndymYpmcMjb6W9HrJO
+//             39vvyMTjLAUyElCEfeMqCpFBCElhaGbF8ZncbV6vvDEkOxMX/m1TYhoJr1E2U8y/
+//             NwIDAQAB
+//             -----END PUBLIC KEY-----
+//         tokenSource:                    
+//           headers:  
+//           - name: X-Auth
+//             prefix: 'Bearer '
+//           queryParams:       
+//           - auth_token
+// ```
 syntax = "proto3";
 
 package security.policy.gloo.solo.io;
@@ -17,199 +90,146 @@ option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-// JWTPolicy used to enable JWT Authentication for routes.
-//
-// Example:
-// Sample JWT Payload:
-// ```json
-// {
-//   "org": "solo-io",
-//   "iss": "https://localhost",
-//   "exp": 4804324736,
-//   "iat": 1648651136
-// }
-// ```
-//
-// Configuration below will enable JWT Authentication for selected routes
-// as well as inject a header into the request containing the value found
-// within the parsed claim if it exists. Empty sources default to extracting
-// JWTs from Authorization Header with prefix "Bearer <Token>"" or Query Param
-// "access_token=<Token>"
-//
-// ```yaml
-// apiVersion: security.policy.gloo.solo.io/v2
-// kind: JWTPolicy
-// metadata:
-//   name: <name>
-//   namespace: <namespace>
-// spec:
-//   config:
-//     providers:
-//       <provider_name>:
-//         issuer: "https://localhost"
-//         local:
-//           inline: |
-//             <pem formatted public key>
-//         claimsToHeaders:
-//         - claim: org
-//           header: x-org
-//       stage: PRE_AUTHZ
-// ```
-//
-// This example enables JWT Authentication for selected routes and
-// request will be checked using token found at either X-Auth header with prefix
-// "Bearer <token>" or query param "auth_token=<Token>". Note if a request has both
-// sources available all tokens will need to be valid for the request to be accepted.
-//
-// ```yaml
-// apiVersion: security.policy.gloo.solo.io/v2
-// kind: JWTPolicy
-// metadata:
-//   name: <name>
-//   namespace: <namespace>
-// spec:
-//   config:
-//     providers:
-//       <provider_name>:
-//         issuer: "https://localhost"
-//         local:
-//           inline: |
-//             <pem formatted public key>
-//         tokenSource:
-//           headers:
-//           - name: "X-Auth"
-//             prefix: "Bearer"
-//           queryParams:
-//           - "auth_token"
-//       stage: PRE_AUTHZ
-// ```
-//
+// Fill out the spec of the JWT policy to enable JWT authentication for routes.
 message JWTPolicySpec {
   // Select the routes where the policy will be applied.
-  // If empty, no policy will be applied to any routes in the workspace.
+  // If empty, the policy is not applied to any routes in the workspace.
+  // If omitted, the policy applies to all routes in the workspace.
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
+  // Configure the details of the JWT policy, including the provider, phase, matching claims or scopes, and other settings.
   message Config {
-    // Specifies how a JWT should be verified.
+    // Configure how to verify the details of a JWT, such as the issuer, source, audience, matching claims or scopes, and other settings.
     message Provider {
       // Optional: The principal that issued the JWT, usually a URL or an email address.
-      // If specified, the iss field in JWT token in the incoming request has to match this field else the request is denied.
-      //  If empty the iss field in the JWT token is not checked.
+      // If specified, the `iss` field in JWT token of the incoming request must match this field, or else the request is denied.
+      // If omitted, the `iss` field in the JWT token is not checked.
       string issuer = 1;
 
-      // Optional: A list of intended audiences for this JWT token. A JWT containing any of these
-      // audiences will be accepted. If omitted, the audiences in JWT will not be checked.
+      // Optional: A list of intended audiences for this JWT token.
+      // If specified, a JWT token containing any of these `aud` field values is accepted. 
+      // If omitted, the `aud` field in the JWT token is not checked.
       repeated string audiences = 2;
 
-      // Optional: Where to extract JWT Token in HTTP Request
+      // Optional: Where to extract the JWT from the HTTP request.
       //
-      // If empty, defaults to Header "Authorization: Bearer <Token>" or Query Param "access_token=<Token>"
+      // If omitted, defaults to the header `"Authorization: Bearer <token>"` or the query parameter `"access_token=<Token>"`.
+      // Note that if a request has both the header and query parameter, both tokens must be valid for Gloo Gateway to accept the request.
+      // Configured fields are case sensitive and are matched verbatim.
       message TokenSource {
-        // Describes how to retrieve a JWT from a header
+        // Describes how to retrieve the JWT from a header.
         message fromHeader {
-          // The name of header. E.g: "Authorization"
+          // The name of header, such as `"Authorization"`.
           string name = 1;
 
-          // Prefix before the token. for example, "Bearer " with space
+          // The prefix before the token, such as `"Bearer "` (with a space before the token).
           string prefix = 2;
         }
 
-        // Try to retrieve token from these headers
+        // Try to retrieve the token from these headers.
         repeated fromHeader headers = 1;
 
-        // Try to retrieve token from these query params
+        // Try to retrieve the token from these query parameters.
         repeated string query_params = 2;
       }
 
-      // Optional: If no explicit location is specified, the following default locations are tried in order:
+      // Optional: Where to extract the JWT from the HTTP request.
+      // If no explicit token source location is specified, the following default locations are tried in order:
       //
-      // 1. The Authorization header using the `Bearer `
+      // First, the Authorization header using the `Bearer ` prefix, such as: `Authorization: Bearer <token>`.
       //
-      //    Authorization: Bearer <token>.
+      // Second, the `access_token` query parameter, such as: `https://<url>/path?access_token=<token>`.
       //
-      // 2. `access_token` query parameter
-      //
-      //    https://<url>/path?access_token=<token>
-      //
-      // Multiple JWTs can be verified for a request. Each JWT has to be extracted from the locations
-      // its provider specified or from the default locations. Note if a single request contains multiple
-      // sources e.g header and query param set, then all tokens found in the request will need to be valid
-      // for the request to be accepted. Configured fields are case sensitive will be matched verbatim
+      // Gloo can verify multiple JWTs for a request.
+      // Each JWT is extracted from the location that is specified per provider, or from the default locations previously described. 
+      // Note that if a single request contains multiple sources,
+      // such as both a header and query parameter, then all tokens found in the request must be valid for the request to be accepted. 
+      // Configured fields are case sensitive and are matched verbatim.
       TokenSource token_source = 3;
 
+      // Get the public keys to validate the JWT from a local source,
+      // such as a Kubernetes secret or inline configuration.
       message LocalJWKS {
         message SecretRef {
-          // Secret can be referenced explicitly by the namespace and cluster containing them.
+          // Refer to the secret explicitly by the cluster and namespace where the secret is located.
           .common.gloo.solo.io.ObjectReference objectRef = 1;
 
-          // Key of data within specified secret.
+          // Refer to the key of data that has the PEM-formatted public key within the specified secret.
           string key = 2;
         }
 
         oneof specifier {
-          // Reference to a secret containing the PEM formatted public key.
+           // Refer to a secret that has the PEM-formatted public key.
           SecretRef secret_ref = 1;
 
-          // Inline PEM formatted public key.
+          // Provide an inline PEM-formatted public key in the configuration of this JWT policy.
           string inline = 2;
         }
       }
 
+      // Get the public keys from a remote JSON Web Key Set (JWKS) server.
+      // This server must be accessible from your cluster.
       message RemoteJWKS {
-        // The url used when accessing the remote destination for Json Web Key Set.
-        // This is used to set the host and path in the request
+        // The URL to access the remote destination for JWKS server.
+        // This value sets the host and path in the request.
         string url = 1;
 
-        // The remote destination representing the Json Web Key Set server
+        // The destination that represents the JWKS server.
+        // If the JWKS server runs in your cluster, the destination can be a Kubernetes Service or Gloo VirtualDestination.
+        // If the JWKS server is a remote URL, the destination must be a Gloo ExternalService.
         .common.gloo.solo.io.DestinationReference destination_ref = 2;
 
-        // Duration after which the cached JWKS should be expired.
+        // Duration after which the cached JWKS expires.
         //
-        // If omitted, default cache duration is 5 minutes.
+        // If omitted, defaults to 5 minutes.
         // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
         google.protobuf.Duration cache_duration = 3;
 
-        // Sets the maximum duration in seconds that a response can take to arrive upon request.
+        // Set the maximum duration in seconds that a response can take to arrive upon request.
         //
-        // If empty, defaults to 5s
+        // If omitted, defaults to 5 seconds.
         // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
         google.protobuf.Duration timeout = 4;
 
 
-        // Fetch Jwks asynchronously in the main thread before the listener is activated. Fetched Jwks can be used by all worker threads.
+        // Fetch the JWKS asynchronously in the main thread before activating the listener.
+        // Then, the fetched JWKS can be used by all worker threads.
         //
-        // If this feature is not enabled:
+        // When set to false (default):
+        // The JWKS is fetched on-demand when requests come. The first few requests are paused until the JWKS is fetched.
+        // Because the JWKS cache is per worker thread, each worker thread fetches its own JWKS.
+        // You might leave async fetching disabled in simple environments with minimal traffic or resources,
+        // during testing to simplify debugging issues, or when you want more control over when and how the JWKS is fetched.
         //
-        //     * The Jwks is fetched on-demand when the requests come. During the fetching, first
-        //       few requests are paused until the Jwks is fetched.
-        //     * Each worker thread fetches its own Jwks since Jwks cache is per worker thread.
-        //
-        // If this feature is enabled:
-        //
-        //     * Fetched Jwks is done in the main thread before the listener is activated. Its fetched
-        //       Jwks can be used by all worker threads. Each worker thread doesn't need to fetch its own.
-        //     * Jwks is ready when the requests come, not need to wait for the Jwks fetching.
+        // When set to true:
+        // The JWKS is fetched in the main thread before activating the listener.
+        // Then, the JWKS can be used by all worker threads. Each worker thread doesn't need to fetch its own.
+        // This way, the JWKS is ready when requests come.
+        // You might enable async fetching to reduce latency, improve responsiveness, and have consistent JWKS across worker threads
+        // such as in multi-threaded, concurrent, and large-scale environments.
         bool enable_async_fetch = 5;
       }
 
-      // Required: Where to find the JWT of the current provider.
+      // Required: Where to find the public keys of the current provider to verify the JWT.
       oneof jwks_source {
-        // Local can be either inline raw string of public jwks or kubernetes secret reference.
+        // Get the public keys to validate the JWT from a local source,
+        // such as a Kubernetes secret or an inline, raw string JWKS.
         LocalJWKS local = 4;
 
-        // JWKS from remote url source.
+        // Get the public keys from a remote JSON Web Key Set (JWKS) server.
+        // This server must be accessible from your cluster.
         RemoteJWKS remote = 5;
       }
 
-      // Allows copying verified claims to headers sent upstream
+      // Specify the claims from the JWT payload to copy to individual headers before forwarding the request to the upstream destination. 
       message ClaimsToHeader {
-        // Claim name. for example, "sub"
+        // Claim name, such as `"sub"`.
         string claim = 1;
 
-        // The header the claim will be copied to. for example, "x-sub".
+        // The request header to copy the claim to, such as `"x-sub"`.
         string header = 2;
 
-        // If the header exists, append to it (true), or overwrite it (false).
+        // If the header already exists, append this copied value to it (true), or overwrite the existing value (false).
         bool append = 3;
       }
 
@@ -217,10 +237,10 @@ message JWTPolicySpec {
       // To copy the entire payload to a single header instead, use the OutputPayloadToHeader field.
       repeated ClaimsToHeader claims_to_headers = 6;
 
-      // Optional: KeepToken is used to keep the JWT in the request post verification.
+      // Optional: Keep the JWT in the request post verification.
       bool keep_token = 7;
 
-      // Optional: ClockSkewSeconds is used to verify time constraints, such as `exp` and `npf`. Default is 60s
+      // Optional: Verify time constraints, such as `exp` and `npf`. Default is 60s.
       // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
       google.protobuf.UInt32Value clock_skew_seconds = 8;
 
@@ -231,16 +251,16 @@ message JWTPolicySpec {
       string output_payload_to_header = 9;
     }
 
-    // Map provider name to jwt provider configuration.
+    // Set up the provider for the JWT configuration.
+    // You can have multiple providers in the same JWT policy, or create separate policies per provider.
     //
-    // Note: The JWT provider name can help you map the JWT policy to the
-    // provider, such as when debugging and viewing logs. However, the JWT
-    // provider name does not change your policy's behavior, and cannot be
-    // used by other resources to select the policy.
+    // Note: You can name the providers to help you map the provider when viewing logs to debug.
+    // However, the provider name does not affect the policy's behavior and cannot be used by other resources to select the policy.
     map<string, Provider> providers = 1;
 
-    // Use phase to indicate where in the request chain this JWT Filter should be applied.
-    // If no phase is specified, the default will be post AuthZ.
+    // Optional: Set when to apply the JWT filter in the request chain, 
+    // either before (`preAuthz`) or after (`postAuthz`) authorization to have access to the JWT token.
+    // If no phase is specified, defaults to `preAuthz`.
     .common.gloo.solo.io.PrioritizedPhase phase = 2;
 
     // Allow requests to succeed even if JWT authentication is missing or fails.
@@ -251,6 +271,7 @@ message JWTPolicySpec {
     // authentication then fail authorization immediately.
     bool allow_missing_or_failed = 3;
 
+    // Decide whether to clear the route cache after the JWT filter.
     enum ClearRouteCache {
       // The default behavior, which clears the route cache when the auth response is successful or if the JWT policy adds a claim in the 'claimsToHeader' field. This way, the gateway recomputes route matching, such as to route traffic based on the claims you add in the JWT policy.
       AUTO = 0;
@@ -290,10 +311,20 @@ message JWTPolicySpec {
     // For each claim, you can specify values that must or must not be present.
     repeated ClaimMatcher claims = 5;
 
-    // Optional: An unordered list of required JWT scopes. The JWT must have all of the listed scopes to be allowed (logically AND'd together).
-    // Scopes typically come from an identity provider and are formatted similar to `"<product>:<permission>"` or `"is:<role>"`.
-    // To set "not" scopes or to allow a request to succeed with just one of many listed scopes, use claims instead.
+    // Optional: An unordered list of required JWT scopes. The JWT "scope" claim must have all of the listed scopes to be allowed (logically AND'd together).
+    // Scopes typically come from an identity provider and are formatted similar to `"<product>:<permission>"` or `"is:<role>"`. 
+    // For more information, see the [IETF docs](https://datatracker.ietf.org/doc/html/rfc8693#name-scope-scopes-claim).
+    //
+    // For example, you might use this field to set `email` and `is:developer` as required scopes.
+    // Then the scope claim in the JWT must have all of those required scopes, but could also have others. 
+    // JWTs with scopes such as `"scope":"email is:developer"` or `"scope":"email is:developer phone address"` would be allowed. 
+    // JWTs with only one of the required scopes, such as `"scope":"email address"` would not be allowed.
+    //
+    // If you want to set scopes that if present in the claim are not allowed (`notValues`),
+    // or to allow a request to succeed with just one of many listed scopes (`email OR is:developer`), 
+    // use the claims field instead.
     // To skip scope validation, omit this value or leave the list empty.
+    // Note that nested scopes (a scope with multiple sub scopes) are not supported at this time.
     repeated string required_scopes = 6;
   }
 
@@ -310,6 +341,7 @@ message JWTPolicyStatus {
   uint32 num_selected_routes = 2;
 }
 
+// The report shows the resources that the policy selects after the policy is successfully applied.
 message JWTPolicyReport {
   // The status of the resource in each workspace that it exists in.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;

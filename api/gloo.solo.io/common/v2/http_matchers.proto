@@ -15,9 +15,7 @@ option (extproto.hash_all) = true;
 // Specify HTTP request level match criteria. All specified conditions must be satisfied for a match to occur.
 message HTTPRequestMatcher {
 
-  // Optional: The name assigned to a match. The match's name will be
-  // concatenated with the parent route's name and will be logged in
-  // the access logs for requests matching this route.
+  // UNSUPPORTED: Name matching is currently unsupported.
   string name = 1;
 
   // Optional: Specify match criteria against the targeted path.
