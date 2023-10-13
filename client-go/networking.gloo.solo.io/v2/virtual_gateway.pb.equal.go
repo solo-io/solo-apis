@@ -279,6 +279,61 @@ func (m *VirtualGatewayReport) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetListenerRouteTables()) != len(target.GetListenerRouteTables()) {
+		return false
+	}
+	for idx, v := range m.GetListenerRouteTables() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetListenerRouteTables()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetListenerRouteTables()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ListenerRouteTable) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ListenerRouteTable)
+	if !ok {
+		that2, ok := that.(ListenerRouteTable)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetListenerIdx() != target.GetListenerIdx() {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetRouteTableRef()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetRouteTableRef()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetRouteTableRef(), target.GetRouteTableRef()) {
+			return false
+		}
+	}
+
 	return true
 }
 

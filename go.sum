@@ -424,8 +424,8 @@ github.com/solo-io/go-utils v0.24.5 h1:Cj5F8JD3fN/rmbW2DDh77rojnzNC9i9r0jSr3k/mc
 github.com/solo-io/go-utils v0.24.5/go.mod h1:2ds5++iv1FGox0/aWz/DAiRYTIb6r4yiM+VSF7sAyL4=
 github.com/solo-io/protoc-gen-ext v0.0.18 h1:zSAL8NzWpJUGYoA5IyjHiKASNyHjR0uxBQ7eQS94i3A=
 github.com/solo-io/protoc-gen-ext v0.0.18/go.mod h1:iGyCvmKmhJNXs5MgBcYFBF0om7LDnCVD2WwhOZGnqeA=
-github.com/solo-io/skv2 v0.29.12-gp-patch0 h1:UHxhiI2yoZWQ1d6ck4jZ8ORbuzvr8rnd5YRxi1DgNz4=
-github.com/solo-io/skv2 v0.29.12-gp-patch0/go.mod h1:vmd66LgBwGWrHnuBZ4O3TzDpu1N1inp5Ji8gcdLFNis=
+github.com/solo-io/skv2 v0.29.12-gp-patch1 h1:A77NcG/Bbc5x+AWm65zcVpvY6UOtppzxTo66mJ5r5lw=
+github.com/solo-io/skv2 v0.29.12-gp-patch1/go.mod h1:vmd66LgBwGWrHnuBZ4O3TzDpu1N1inp5Ji8gcdLFNis=
 github.com/solo-io/solo-kit v0.31.0 h1:s61jP17ul7WNgOvKIsM7UYysaaKE3ZomXt4OG5WhIJk=
 github.com/solo-io/solo-kit v0.31.0/go.mod h1:L+DuD0vSZ6IlgoYVC3Ji0jHlI7pzvUotLBVfEM1RbQI=
 github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=

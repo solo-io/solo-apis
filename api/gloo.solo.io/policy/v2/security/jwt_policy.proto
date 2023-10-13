@@ -233,8 +233,8 @@ message JWTPolicySpec {
     // used by other resources to select the policy.
     map<string, Provider> providers = 1;
 
-    // Use phase to indicate where in the request chain this JWT Filter should be applied.
-    // If no phase is specified, the default will be post AuthZ.
+    // Optional: Specify the phase to indicate where in the request chain this
+    // JWT Filter should be applied. If no phase is specified, the default will be preAuthz.
     .common.gloo.solo.io.PrioritizedPhase phase = 2;
 
     // Allow requests to succeed even if JWT authentication is missing or fails.
@@ -284,10 +284,20 @@ message JWTPolicySpec {
     // For each claim, you can specify values that must or must not be present.
     repeated ClaimMatcher claims = 5;
 
-    // Optional: An unordered list of required JWT scopes. The JWT must have all of the listed scopes to be allowed (logically AND'd together).
+    // Optional: An unordered list of required JWT scopes. The JWT "scope" claim must have all of the listed scopes to be allowed (logically AND'd together).
     // Scopes typically come from an identity provider and are formatted similar to `"<product>:<permission>"` or `"is:<role>"`. 
-    // To set "not" scopes or to allow a request to succeed with just one of many listed scopes, use claims instead.
+    // For more information, see the [IETF docs](https://datatracker.ietf.org/doc/html/rfc8693#name-scope-scopes-claim).
+    //
+    // For example, you might use this field to set `email` and `is:developer` as required scopes.
+    // Then the scope claim in the JWT must have all of those required scopes, but could also have others. 
+    // JWTs with scopes such as `"scope":"email is:developer"` or `"scope":"email is:developer phone address"` would be allowed. 
+    // JWTs with only one of the required scopes, such as `"scope":"email address"` would not be allowed.
+    //
+    // If you want to set scopes that if present in the claim are not allowed (`notValues`),
+    // or to allow a request to succeed with just one of many listed scopes (`email OR is:developer`), 
+    // use the claims field instead.
     // To skip scope validation, omit this value or leave the list empty.
+    // Note that nested scopes (a scope with multiple sub scopes) are not supported at this time.
     repeated string required_scopes = 6;
   }
 
