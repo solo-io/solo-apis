@@ -339,8 +339,8 @@ type JWTPolicySpec_Config struct {
 	// provider name does not change your policy's behavior, and cannot be
 	// used by other resources to select the policy.
 	Providers map[string]*JWTPolicySpec_Config_Provider `protobuf:"bytes,1,rep,name=providers,proto3" json:"providers,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// Use phase to indicate where in the request chain this JWT Filter should be applied.
-	// If no phase is specified, the default will be post AuthZ.
+	// Optional: Specify the phase to indicate where in the request chain this
+	// JWT Filter should be applied. If no phase is specified, the default will be preAuthz.
 	Phase *v2.PrioritizedPhase `protobuf:"bytes,2,opt,name=phase,proto3" json:"phase,omitempty"`
 	// Allow requests to succeed even if JWT authentication is missing or fails.
 	// For example, you might apply multiple policies to your routes to require
@@ -355,10 +355,20 @@ type JWTPolicySpec_Config struct {
 	// Optional: A key-value list of claims to require for JWT authorization. The JWT must meet all of the claims to be allowed (logically AND'd together).
 	// For each claim, you can specify values that must or must not be present.
 	Claims []*JWTPolicySpec_Config_ClaimMatcher `protobuf:"bytes,5,rep,name=claims,proto3" json:"claims,omitempty"`
-	// Optional: An unordered list of required JWT scopes. The JWT must have all of the listed scopes to be allowed (logically AND'd together).
+	// Optional: An unordered list of required JWT scopes. The JWT "scope" claim must have all of the listed scopes to be allowed (logically AND'd together).
 	// Scopes typically come from an identity provider and are formatted similar to `"<product>:<permission>"` or `"is:<role>"`.
-	// To set "not" scopes or to allow a request to succeed with just one of many listed scopes, use claims instead.
+	// For more information, see the [IETF docs](https://datatracker.ietf.org/doc/html/rfc8693#name-scope-scopes-claim).
+	//
+	// For example, you might use this field to set `email` and `is:developer` as required scopes.
+	// Then the scope claim in the JWT must have all of those required scopes, but could also have others.
+	// JWTs with scopes such as `"scope":"email is:developer"` or `"scope":"email is:developer phone address"` would be allowed.
+	// JWTs with only one of the required scopes, such as `"scope":"email address"` would not be allowed.
+	//
+	// If you want to set scopes that if present in the claim are not allowed (`notValues`),
+	// or to allow a request to succeed with just one of many listed scopes (`email OR is:developer`),
+	// use the claims field instead.
 	// To skip scope validation, omit this value or leave the list empty.
+	// Note that nested scopes (a scope with multiple sub scopes) are not supported at this time.
 	RequiredScopes []string `protobuf:"bytes,6,rep,name=required_scopes,json=requiredScopes,proto3" json:"required_scopes,omitempty"`
 }
 

@@ -563,6 +563,8 @@ type VirtualGatewayReport struct {
 	AllowedRouteTables []*v2.ObjectReference `protobuf:"bytes,2,rep,name=allowed_route_tables,json=allowedRouteTables,proto3" json:"allowed_route_tables,omitempty"`
 	// A list of workloads selected by this virtual gateway.
 	SelectedWorkloads []*v2.ObjectReference `protobuf:"bytes,3,rep,name=selected_workloads,json=selectedWorkloads,proto3" json:"selected_workloads,omitempty"`
+	// A list of listener/RouteTable combinations showing which route tables are attached to which listeners.
+	ListenerRouteTables []*ListenerRouteTable `protobuf:"bytes,5,rep,name=listener_route_tables,json=listenerRouteTables,proto3" json:"listener_route_tables,omitempty"`
 }
 
 func (x *VirtualGatewayReport) Reset() {
@@ -618,6 +620,71 @@ func (x *VirtualGatewayReport) GetSelectedWorkloads() []*v2.ObjectReference {
 	return nil
 }
 
+func (x *VirtualGatewayReport) GetListenerRouteTables() []*ListenerRouteTable {
+	if x != nil {
+		return x.ListenerRouteTables
+	}
+	return nil
+}
+
+// ListenerRouteTable represents an association between a RouteTable and a particular VirtualGateway listener.
+type ListenerRouteTable struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The index of the listener in the list of listeners on the virtual gateway
+	ListenerIdx uint32 `protobuf:"varint,1,opt,name=listener_idx,json=listenerIdx,proto3" json:"listener_idx,omitempty"`
+	// A reference to a route table
+	RouteTableRef *v2.ObjectReference `protobuf:"bytes,2,opt,name=route_table_ref,json=routeTableRef,proto3" json:"route_table_ref,omitempty"`
+}
+
+func (x *ListenerRouteTable) Reset() {
+	*x = ListenerRouteTable{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListenerRouteTable) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListenerRouteTable) ProtoMessage() {}
+
+func (x *ListenerRouteTable) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListenerRouteTable.ProtoReflect.Descriptor instead.
+func (*ListenerRouteTable) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ListenerRouteTable) GetListenerIdx() uint32 {
+	if x != nil {
+		return x.ListenerIdx
+	}
+	return 0
+}
+
+func (x *ListenerRouteTable) GetRouteTableRef() *v2.ObjectReference {
+	if x != nil {
+		return x.RouteTableRef
+	}
+	return nil
+}
+
 type VirtualGatewaySpec_Listener struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -657,7 +724,7 @@ type VirtualGatewaySpec_Listener struct {
 func (x *VirtualGatewaySpec_Listener) Reset() {
 	*x = VirtualGatewaySpec_Listener{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[4]
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -670,7 +737,7 @@ func (x *VirtualGatewaySpec_Listener) String() string {
 func (*VirtualGatewaySpec_Listener) ProtoMessage() {}
 
 func (x *VirtualGatewaySpec_Listener) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[4]
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -799,7 +866,7 @@ type VirtualGatewaySpec_Listener_HTTPServer struct {
 func (x *VirtualGatewaySpec_Listener_HTTPServer) Reset() {
 	*x = VirtualGatewaySpec_Listener_HTTPServer{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[5]
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -812,7 +879,7 @@ func (x *VirtualGatewaySpec_Listener_HTTPServer) String() string {
 func (*VirtualGatewaySpec_Listener_HTTPServer) ProtoMessage() {}
 
 func (x *VirtualGatewaySpec_Listener_HTTPServer) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[5]
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -838,7 +905,7 @@ type VirtualGatewaySpec_Listener_TCPServer struct {
 func (x *VirtualGatewaySpec_Listener_TCPServer) Reset() {
 	*x = VirtualGatewaySpec_Listener_TCPServer{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[6]
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -851,7 +918,7 @@ func (x *VirtualGatewaySpec_Listener_TCPServer) String() string {
 func (*VirtualGatewaySpec_Listener_TCPServer) ProtoMessage() {}
 
 func (x *VirtualGatewaySpec_Listener_TCPServer) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[6]
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -885,7 +952,7 @@ type VirtualGatewaySpec_Listener_RouteTableFilter struct {
 func (x *VirtualGatewaySpec_Listener_RouteTableFilter) Reset() {
 	*x = VirtualGatewaySpec_Listener_RouteTableFilter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[7]
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -898,7 +965,7 @@ func (x *VirtualGatewaySpec_Listener_RouteTableFilter) String() string {
 func (*VirtualGatewaySpec_Listener_RouteTableFilter) ProtoMessage() {}
 
 func (x *VirtualGatewaySpec_Listener_RouteTableFilter) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[7]
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -954,7 +1021,7 @@ type TLSConfig_Files struct {
 func (x *TLSConfig_Files) Reset() {
 	*x = TLSConfig_Files{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[8]
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -967,7 +1034,7 @@ func (x *TLSConfig_Files) String() string {
 func (*TLSConfig_Files) ProtoMessage() {}
 
 func (x *TLSConfig_Files) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[8]
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1019,7 +1086,7 @@ type TLSConfig_Parameters struct {
 func (x *TLSConfig_Parameters) Reset() {
 	*x = TLSConfig_Parameters{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[9]
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1032,7 +1099,7 @@ func (x *TLSConfig_Parameters) String() string {
 func (*TLSConfig_Parameters) ProtoMessage() {}
 
 func (x *TLSConfig_Parameters) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[9]
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1231,7 +1298,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_v
 	0x65, 0x64, 0x5f, 0x77, 0x6f, 0x72, 0x6b, 0x6c, 0x6f, 0x61, 0x64, 0x73, 0x5f, 0x63, 0x6f, 0x75,
 	0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x16, 0x73, 0x65, 0x6c, 0x65, 0x63, 0x74,
 	0x65, 0x64, 0x57, 0x6f, 0x72, 0x6b, 0x6c, 0x6f, 0x61, 0x64, 0x73, 0x43, 0x6f, 0x75, 0x6e, 0x74,
-	0x22, 0xfe, 0x02, 0x0a, 0x14, 0x56, 0x69, 0x72, 0x74, 0x75, 0x61, 0x6c, 0x47, 0x61, 0x74, 0x65,
+	0x22, 0xdf, 0x03, 0x0a, 0x14, 0x56, 0x69, 0x72, 0x74, 0x75, 0x61, 0x6c, 0x47, 0x61, 0x74, 0x65,
 	0x77, 0x61, 0x79, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x12, 0x5d, 0x0a, 0x0a, 0x77, 0x6f, 0x72,
 	0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x3d, 0x2e,
 	0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x69, 0x6e, 0x67, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e,
@@ -1249,19 +1316,33 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_v
 	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e,
 	0x69, 0x6f, 0x2e, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e,
 	0x63, 0x65, 0x52, 0x11, 0x73, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x57, 0x6f, 0x72, 0x6b,
-	0x6c, 0x6f, 0x61, 0x64, 0x73, 0x1a, 0x5a, 0x0a, 0x0f, 0x57, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61,
-	0x63, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x31, 0x0a, 0x05, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e,
-	0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
-	0x01, 0x42, 0x58, 0x5a, 0x4a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2d, 0x6d, 0x65, 0x73,
-	0x68, 0x2d, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65, 0x2f, 0x70, 0x6b, 0x67,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x69, 0x6e, 0x67, 0x2e,
-	0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x32, 0xc0,
-	0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01, 0xd0, 0xf5, 0x04, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x6c, 0x6f, 0x61, 0x64, 0x73, 0x12, 0x5f, 0x0a, 0x15, 0x6c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65,
+	0x72, 0x5f, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x5f, 0x74, 0x61, 0x62, 0x6c, 0x65, 0x73, 0x18, 0x05,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x69, 0x6e,
+	0x67, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4c,
+	0x69, 0x73, 0x74, 0x65, 0x6e, 0x65, 0x72, 0x52, 0x6f, 0x75, 0x74, 0x65, 0x54, 0x61, 0x62, 0x6c,
+	0x65, 0x52, 0x13, 0x6c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65, 0x72, 0x52, 0x6f, 0x75, 0x74, 0x65,
+	0x54, 0x61, 0x62, 0x6c, 0x65, 0x73, 0x1a, 0x5a, 0x0a, 0x0f, 0x57, 0x6f, 0x72, 0x6b, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x31, 0x0a, 0x05, 0x76,
+	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x63, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f,
+	0x2e, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02,
+	0x38, 0x01, 0x22, 0x85, 0x01, 0x0a, 0x12, 0x4c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65, 0x72, 0x52,
+	0x6f, 0x75, 0x74, 0x65, 0x54, 0x61, 0x62, 0x6c, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x6c, 0x69, 0x73,
+	0x74, 0x65, 0x6e, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52,
+	0x0b, 0x6c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65, 0x72, 0x49, 0x64, 0x78, 0x12, 0x4c, 0x0a, 0x0f,
+	0x72, 0x6f, 0x75, 0x74, 0x65, 0x5f, 0x74, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x72, 0x65, 0x66, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x24, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x67,
+	0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4f, 0x62, 0x6a, 0x65,
+	0x63, 0x74, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x0d, 0x72, 0x6f, 0x75,
+	0x74, 0x65, 0x54, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x66, 0x42, 0x58, 0x5a, 0x4a, 0x67, 0x69,
+	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f,
+	0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2d, 0x6d, 0x65, 0x73, 0x68, 0x2d, 0x65, 0x6e, 0x74, 0x65, 0x72,
+	0x70, 0x72, 0x69, 0x73, 0x65, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e, 0x65,
+	0x74, 0x77, 0x6f, 0x72, 0x6b, 0x69, 0x6e, 0x67, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f,
+	0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x32, 0xc0, 0xf5, 0x04, 0x01, 0xb8, 0xf5, 0x04, 0x01,
+	0xd0, 0xf5, 0x04, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1277,7 +1358,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 }
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_goTypes = []interface{}{
 	(TLSConfig_TLSMode)(0),                               // 0: networking.gloo.solo.io.TLSConfig.TLSMode
 	(TLSConfig_Parameters_ProtocolVersion)(0),            // 1: networking.gloo.solo.io.TLSConfig.Parameters.ProtocolVersion
@@ -1285,46 +1366,49 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_v
 	(*TLSConfig)(nil),                                    // 3: networking.gloo.solo.io.TLSConfig
 	(*VirtualGatewayStatus)(nil),                         // 4: networking.gloo.solo.io.VirtualGatewayStatus
 	(*VirtualGatewayReport)(nil),                         // 5: networking.gloo.solo.io.VirtualGatewayReport
-	(*VirtualGatewaySpec_Listener)(nil),                  // 6: networking.gloo.solo.io.VirtualGatewaySpec.Listener
-	(*VirtualGatewaySpec_Listener_HTTPServer)(nil),       // 7: networking.gloo.solo.io.VirtualGatewaySpec.Listener.HTTPServer
-	(*VirtualGatewaySpec_Listener_TCPServer)(nil),        // 8: networking.gloo.solo.io.VirtualGatewaySpec.Listener.TCPServer
-	(*VirtualGatewaySpec_Listener_RouteTableFilter)(nil), // 9: networking.gloo.solo.io.VirtualGatewaySpec.Listener.RouteTableFilter
-	(*TLSConfig_Files)(nil),                              // 10: networking.gloo.solo.io.TLSConfig.Files
-	(*TLSConfig_Parameters)(nil),                         // 11: networking.gloo.solo.io.TLSConfig.Parameters
-	nil,                                                  // 12: networking.gloo.solo.io.VirtualGatewayReport.WorkspacesEntry
-	(*v2.WorkloadSelector)(nil),                          // 13: common.gloo.solo.io.WorkloadSelector
-	(*v2.Status)(nil),                                    // 14: common.gloo.solo.io.Status
-	(*v2.ObjectReference)(nil),                           // 15: common.gloo.solo.io.ObjectReference
-	(*v2.PortSelector)(nil),                              // 16: common.gloo.solo.io.PortSelector
-	(*v2.ObjectSelector)(nil),                            // 17: common.gloo.solo.io.ObjectSelector
-	(*v2.RouteFilter)(nil),                               // 18: common.gloo.solo.io.RouteFilter
-	(*v2.Report)(nil),                                    // 19: common.gloo.solo.io.Report
+	(*ListenerRouteTable)(nil),                           // 6: networking.gloo.solo.io.ListenerRouteTable
+	(*VirtualGatewaySpec_Listener)(nil),                  // 7: networking.gloo.solo.io.VirtualGatewaySpec.Listener
+	(*VirtualGatewaySpec_Listener_HTTPServer)(nil),       // 8: networking.gloo.solo.io.VirtualGatewaySpec.Listener.HTTPServer
+	(*VirtualGatewaySpec_Listener_TCPServer)(nil),        // 9: networking.gloo.solo.io.VirtualGatewaySpec.Listener.TCPServer
+	(*VirtualGatewaySpec_Listener_RouteTableFilter)(nil), // 10: networking.gloo.solo.io.VirtualGatewaySpec.Listener.RouteTableFilter
+	(*TLSConfig_Files)(nil),                              // 11: networking.gloo.solo.io.TLSConfig.Files
+	(*TLSConfig_Parameters)(nil),                         // 12: networking.gloo.solo.io.TLSConfig.Parameters
+	nil,                                                  // 13: networking.gloo.solo.io.VirtualGatewayReport.WorkspacesEntry
+	(*v2.WorkloadSelector)(nil),                          // 14: common.gloo.solo.io.WorkloadSelector
+	(*v2.Status)(nil),                                    // 15: common.gloo.solo.io.Status
+	(*v2.ObjectReference)(nil),                           // 16: common.gloo.solo.io.ObjectReference
+	(*v2.PortSelector)(nil),                              // 17: common.gloo.solo.io.PortSelector
+	(*v2.ObjectSelector)(nil),                            // 18: common.gloo.solo.io.ObjectSelector
+	(*v2.RouteFilter)(nil),                               // 19: common.gloo.solo.io.RouteFilter
+	(*v2.Report)(nil),                                    // 20: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_depIdxs = []int32{
-	13, // 0: networking.gloo.solo.io.VirtualGatewaySpec.workloads:type_name -> common.gloo.solo.io.WorkloadSelector
-	6,  // 1: networking.gloo.solo.io.VirtualGatewaySpec.listeners:type_name -> networking.gloo.solo.io.VirtualGatewaySpec.Listener
-	10, // 2: networking.gloo.solo.io.TLSConfig.files:type_name -> networking.gloo.solo.io.TLSConfig.Files
-	11, // 3: networking.gloo.solo.io.TLSConfig.parameters:type_name -> networking.gloo.solo.io.TLSConfig.Parameters
+	14, // 0: networking.gloo.solo.io.VirtualGatewaySpec.workloads:type_name -> common.gloo.solo.io.WorkloadSelector
+	7,  // 1: networking.gloo.solo.io.VirtualGatewaySpec.listeners:type_name -> networking.gloo.solo.io.VirtualGatewaySpec.Listener
+	11, // 2: networking.gloo.solo.io.TLSConfig.files:type_name -> networking.gloo.solo.io.TLSConfig.Files
+	12, // 3: networking.gloo.solo.io.TLSConfig.parameters:type_name -> networking.gloo.solo.io.TLSConfig.Parameters
 	0,  // 4: networking.gloo.solo.io.TLSConfig.mode:type_name -> networking.gloo.solo.io.TLSConfig.TLSMode
-	14, // 5: networking.gloo.solo.io.VirtualGatewayStatus.common:type_name -> common.gloo.solo.io.Status
-	12, // 6: networking.gloo.solo.io.VirtualGatewayReport.workspaces:type_name -> networking.gloo.solo.io.VirtualGatewayReport.WorkspacesEntry
-	15, // 7: networking.gloo.solo.io.VirtualGatewayReport.allowed_route_tables:type_name -> common.gloo.solo.io.ObjectReference
-	15, // 8: networking.gloo.solo.io.VirtualGatewayReport.selected_workloads:type_name -> common.gloo.solo.io.ObjectReference
-	16, // 9: networking.gloo.solo.io.VirtualGatewaySpec.Listener.port:type_name -> common.gloo.solo.io.PortSelector
-	3,  // 10: networking.gloo.solo.io.VirtualGatewaySpec.Listener.tls:type_name -> networking.gloo.solo.io.TLSConfig
-	7,  // 11: networking.gloo.solo.io.VirtualGatewaySpec.Listener.http:type_name -> networking.gloo.solo.io.VirtualGatewaySpec.Listener.HTTPServer
-	8,  // 12: networking.gloo.solo.io.VirtualGatewaySpec.Listener.tcp:type_name -> networking.gloo.solo.io.VirtualGatewaySpec.Listener.TCPServer
-	9,  // 13: networking.gloo.solo.io.VirtualGatewaySpec.Listener.allowed_route_tables:type_name -> networking.gloo.solo.io.VirtualGatewaySpec.Listener.RouteTableFilter
-	17, // 14: networking.gloo.solo.io.VirtualGatewaySpec.Listener.RouteTableFilter.selector:type_name -> common.gloo.solo.io.ObjectSelector
-	18, // 15: networking.gloo.solo.io.VirtualGatewaySpec.Listener.RouteTableFilter.allowed_routes:type_name -> common.gloo.solo.io.RouteFilter
-	1,  // 16: networking.gloo.solo.io.TLSConfig.Parameters.minimum_protocol_version:type_name -> networking.gloo.solo.io.TLSConfig.Parameters.ProtocolVersion
-	1,  // 17: networking.gloo.solo.io.TLSConfig.Parameters.maximum_protocol_version:type_name -> networking.gloo.solo.io.TLSConfig.Parameters.ProtocolVersion
-	19, // 18: networking.gloo.solo.io.VirtualGatewayReport.WorkspacesEntry.value:type_name -> common.gloo.solo.io.Report
-	19, // [19:19] is the sub-list for method output_type
-	19, // [19:19] is the sub-list for method input_type
-	19, // [19:19] is the sub-list for extension type_name
-	19, // [19:19] is the sub-list for extension extendee
-	0,  // [0:19] is the sub-list for field type_name
+	15, // 5: networking.gloo.solo.io.VirtualGatewayStatus.common:type_name -> common.gloo.solo.io.Status
+	13, // 6: networking.gloo.solo.io.VirtualGatewayReport.workspaces:type_name -> networking.gloo.solo.io.VirtualGatewayReport.WorkspacesEntry
+	16, // 7: networking.gloo.solo.io.VirtualGatewayReport.allowed_route_tables:type_name -> common.gloo.solo.io.ObjectReference
+	16, // 8: networking.gloo.solo.io.VirtualGatewayReport.selected_workloads:type_name -> common.gloo.solo.io.ObjectReference
+	6,  // 9: networking.gloo.solo.io.VirtualGatewayReport.listener_route_tables:type_name -> networking.gloo.solo.io.ListenerRouteTable
+	16, // 10: networking.gloo.solo.io.ListenerRouteTable.route_table_ref:type_name -> common.gloo.solo.io.ObjectReference
+	17, // 11: networking.gloo.solo.io.VirtualGatewaySpec.Listener.port:type_name -> common.gloo.solo.io.PortSelector
+	3,  // 12: networking.gloo.solo.io.VirtualGatewaySpec.Listener.tls:type_name -> networking.gloo.solo.io.TLSConfig
+	8,  // 13: networking.gloo.solo.io.VirtualGatewaySpec.Listener.http:type_name -> networking.gloo.solo.io.VirtualGatewaySpec.Listener.HTTPServer
+	9,  // 14: networking.gloo.solo.io.VirtualGatewaySpec.Listener.tcp:type_name -> networking.gloo.solo.io.VirtualGatewaySpec.Listener.TCPServer
+	10, // 15: networking.gloo.solo.io.VirtualGatewaySpec.Listener.allowed_route_tables:type_name -> networking.gloo.solo.io.VirtualGatewaySpec.Listener.RouteTableFilter
+	18, // 16: networking.gloo.solo.io.VirtualGatewaySpec.Listener.RouteTableFilter.selector:type_name -> common.gloo.solo.io.ObjectSelector
+	19, // 17: networking.gloo.solo.io.VirtualGatewaySpec.Listener.RouteTableFilter.allowed_routes:type_name -> common.gloo.solo.io.RouteFilter
+	1,  // 18: networking.gloo.solo.io.TLSConfig.Parameters.minimum_protocol_version:type_name -> networking.gloo.solo.io.TLSConfig.Parameters.ProtocolVersion
+	1,  // 19: networking.gloo.solo.io.TLSConfig.Parameters.maximum_protocol_version:type_name -> networking.gloo.solo.io.TLSConfig.Parameters.ProtocolVersion
+	20, // 20: networking.gloo.solo.io.VirtualGatewayReport.WorkspacesEntry.value:type_name -> common.gloo.solo.io.Report
+	21, // [21:21] is the sub-list for method output_type
+	21, // [21:21] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() {
@@ -1384,7 +1468,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 			}
 		}
 		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*VirtualGatewaySpec_Listener); i {
+			switch v := v.(*ListenerRouteTable); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1396,7 +1480,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 			}
 		}
 		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*VirtualGatewaySpec_Listener_HTTPServer); i {
+			switch v := v.(*VirtualGatewaySpec_Listener); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1408,7 +1492,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 			}
 		}
 		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*VirtualGatewaySpec_Listener_TCPServer); i {
+			switch v := v.(*VirtualGatewaySpec_Listener_HTTPServer); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1420,7 +1504,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 			}
 		}
 		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*VirtualGatewaySpec_Listener_RouteTableFilter); i {
+			switch v := v.(*VirtualGatewaySpec_Listener_TCPServer); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1432,7 +1516,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 			}
 		}
 		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TLSConfig_Files); i {
+			switch v := v.(*VirtualGatewaySpec_Listener_RouteTableFilter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1444,6 +1528,18 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 			}
 		}
 		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TLSConfig_Files); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*TLSConfig_Parameters); i {
 			case 0:
 				return &v.state
@@ -1460,7 +1556,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 		(*TLSConfig_SecretName)(nil),
 		(*TLSConfig_Files_)(nil),
 	}
-	file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[4].OneofWrappers = []interface{}{
+	file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_msgTypes[5].OneofWrappers = []interface{}{
 		(*VirtualGatewaySpec_Listener_Tls)(nil),
 		(*VirtualGatewaySpec_Listener_HttpsRedirect)(nil),
 		(*VirtualGatewaySpec_Listener_Http)(nil),
@@ -1472,7 +1568,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
