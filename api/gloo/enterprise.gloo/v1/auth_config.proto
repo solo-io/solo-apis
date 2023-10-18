@@ -256,7 +256,34 @@ message BasicAuth {
         map<string, SaltedHashedPassword> users = 2;
     }
     Apr apr = 2;
+
+    
+    message EncryptionType {
+        message Sha1 {}
+        oneof encryption {
+            // When Apr message is used here, no users should be defined. They should be defined in the users field
+            Apr apr = 1;
+            Sha1 sha1 = 2;
+        }
+    }
+
+    EncryptionType encryption = 3;
+
+    message User {
+        string salt = 1;
+        string hashed_password = 2;
+    }
+
+    message UserList {
+        map<string, User> users= 1;
+    }
+
+    // create new types to add here
+    oneof user_sources {
+        UserList user_list = 4;
+    }
 }
+
 
 // HMAC is a message authentication technique that can use multiple algorithms for finding credentials and generating signed messages.
 // It conforms to https://www.ietf.org/rfc/rfc2104.txt

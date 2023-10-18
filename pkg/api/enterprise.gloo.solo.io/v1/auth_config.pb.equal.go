@@ -501,6 +501,40 @@ func (m *BasicAuth) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetEncryption()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetEncryption()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetEncryption(), target.GetEncryption()) {
+			return false
+		}
+	}
+
+	switch m.UserSources.(type) {
+
+	case *BasicAuth_UserList_:
+		if _, ok := target.UserSources.(*BasicAuth_UserList_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetUserList()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetUserList()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetUserList(), target.GetUserList()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.UserSources != target.UserSources {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -3593,6 +3627,142 @@ func (m *BasicAuth_Apr) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *BasicAuth_EncryptionType) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*BasicAuth_EncryptionType)
+	if !ok {
+		that2, ok := that.(BasicAuth_EncryptionType)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.Encryption.(type) {
+
+	case *BasicAuth_EncryptionType_Apr:
+		if _, ok := target.Encryption.(*BasicAuth_EncryptionType_Apr); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetApr()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApr()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetApr(), target.GetApr()) {
+				return false
+			}
+		}
+
+	case *BasicAuth_EncryptionType_Sha1_:
+		if _, ok := target.Encryption.(*BasicAuth_EncryptionType_Sha1_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetSha1()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSha1()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetSha1(), target.GetSha1()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Encryption != target.Encryption {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *BasicAuth_User) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*BasicAuth_User)
+	if !ok {
+		that2, ok := that.(BasicAuth_User)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetSalt(), target.GetSalt()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetHashedPassword(), target.GetHashedPassword()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *BasicAuth_UserList) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*BasicAuth_UserList)
+	if !ok {
+		that2, ok := that.(BasicAuth_UserList)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetUsers()) != len(target.GetUsers()) {
+		return false
+	}
+	for k, v := range m.GetUsers() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetUsers()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetUsers()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *BasicAuth_Apr_SaltedHashedPassword) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -3618,6 +3788,30 @@ func (m *BasicAuth_Apr_SaltedHashedPassword) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetHashedPassword(), target.GetHashedPassword()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *BasicAuth_EncryptionType_Sha1) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*BasicAuth_EncryptionType_Sha1)
+	if !ok {
+		that2, ok := that.(BasicAuth_EncryptionType_Sha1)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
 		return false
 	}
 
