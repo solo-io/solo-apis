@@ -19,7 +19,7 @@
 //   namespace: gloo-mesh
 // spec:
 //   installations:
-//   # The revision for this installation, such as 1-18-2
+//   # The revision for this installation, such as 1-18-3
 //   - gatewayRevision: $REVISION
 //     # List all workload clusters to install Istio into
 //     clusters:
@@ -86,7 +86,7 @@
 //   namespace: gloo-mesh
 // spec:
 //   installations:
-//   # The revision for this installation, such as 1-18-2
+//   # The revision for this installation, such as 1-18-3
 //   - gatewayRevision: $REVISION
 //     # List all workload clusters to install Istio into
 //     clusters:
@@ -152,7 +152,7 @@
 //   namespace: gloo-mesh
 // spec:
 //   installations:
-//       # The revision for this installation, such as 1-18-2
+//       # The revision for this installation, such as 1-18-3
 //     - gatewayRevision: $REVISION
 //       # List all workload clusters to install Istio into
 //       clusters:

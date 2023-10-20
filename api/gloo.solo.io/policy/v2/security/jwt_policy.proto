@@ -90,12 +90,25 @@ option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-// Fill out the spec of the JWT policy to enable JWT authentication for routes.
+// Fill out the spec of the JWT policy to enable JWT authentication. You can apply JWT policies to routes and destinations.
+// 
+// Multiple policies: If multiple JWT policies select the same route or destination, only the oldest policy applies. 
+//
+// Multiple selectors: You can select routes and destinations together in the same policy. 
+// Using both selectors might impact the other. For example, you might omit a route selector. If you also omit a destination selector, then the policy applies to all routes. If you use a destination selector, the policy applies only to those destinations and no longer to any routes.
+//
+// If different JWT policies having conflicting rules for the same routes and destinations, then access is blocked.
 message JWTPolicySpec {
   // Select the routes where the policy will be applied.
-  // If empty, the policy is not applied to any routes in the workspace.
-  // If omitted, the policy applies to all routes in the workspace.
+  // If empty (`{}`), the policy applies to all routes in the workspace.
+  // If omitted and the policy also does not select any destinations, the policy applies to all routes in the workspace.
+  // If omitted and the policy selects a destination, the policy does not apply to any routes.
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // Select the destinations where the policy will be applied. Only Kubernetes services are supported.
+  // By default if omitted, the policy does not apply to any destinations.
+  // If empty (`{}`), the policy applies to all destinations in the workspace.
+  repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 3;
 
   // Configure the details of the JWT policy, including the provider, phase, matching claims or scopes, and other settings.
   message Config {
@@ -339,6 +352,9 @@ message JWTPolicyStatus {
 
   // The number of routes selected by the policy.
   uint32 num_selected_routes = 2;
+
+  // The number of destination ports selected by the policy.
+  uint32 num_selected_destination_ports = 3;
 }
 
 // The report shows the resources that the policy selects after the policy is successfully applied.
@@ -348,4 +364,7 @@ message JWTPolicyReport {
 
   // A list of references to all routes selected by the policy.
   repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
+
+  // A list of destination ports selected by the policy.
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 3;
 }
