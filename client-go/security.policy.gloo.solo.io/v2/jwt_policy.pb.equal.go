@@ -63,6 +63,23 @@ func (m *JWTPolicySpec) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetApplyToDestinations()) != len(target.GetApplyToDestinations()) {
+		return false
+	}
+	for idx, v := range m.GetApplyToDestinations() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApplyToDestinations()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetApplyToDestinations()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	if h, ok := interface{}(m.GetConfig()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetConfig()) {
 			return false
@@ -108,6 +125,10 @@ func (m *JWTPolicyStatus) Equal(that interface{}) bool {
 	}
 
 	if m.GetNumSelectedRoutes() != target.GetNumSelectedRoutes() {
+		return false
+	}
+
+	if m.GetNumSelectedDestinationPorts() != target.GetNumSelectedDestinationPorts() {
 		return false
 	}
 
@@ -163,6 +184,23 @@ func (m *JWTPolicyReport) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(v, target.GetSelectedRoutes()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedDestinationPorts()) != len(target.GetSelectedDestinationPorts()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedDestinationPorts() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedDestinationPorts()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedDestinationPorts()[idx]) {
 				return false
 			}
 		}
