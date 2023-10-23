@@ -501,6 +501,40 @@ func (m *BasicAuth) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetEncryption()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetEncryption()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetEncryption(), target.GetEncryption()) {
+			return false
+		}
+	}
+
+	switch m.UserSource.(type) {
+
+	case *BasicAuth_UserList_:
+		if _, ok := target.UserSource.(*BasicAuth_UserList_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetUserList()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetUserList()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetUserList(), target.GetUserList()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.UserSource != target.UserSource {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -3593,6 +3627,142 @@ func (m *BasicAuth_Apr) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *BasicAuth_EncryptionType) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*BasicAuth_EncryptionType)
+	if !ok {
+		that2, ok := that.(BasicAuth_EncryptionType)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.Algorithm.(type) {
+
+	case *BasicAuth_EncryptionType_Apr_:
+		if _, ok := target.Algorithm.(*BasicAuth_EncryptionType_Apr_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetApr()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApr()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetApr(), target.GetApr()) {
+				return false
+			}
+		}
+
+	case *BasicAuth_EncryptionType_Sha1_:
+		if _, ok := target.Algorithm.(*BasicAuth_EncryptionType_Sha1_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetSha1()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSha1()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetSha1(), target.GetSha1()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Algorithm != target.Algorithm {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *BasicAuth_User) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*BasicAuth_User)
+	if !ok {
+		that2, ok := that.(BasicAuth_User)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetSalt(), target.GetSalt()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetHashedPassword(), target.GetHashedPassword()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *BasicAuth_UserList) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*BasicAuth_UserList)
+	if !ok {
+		that2, ok := that.(BasicAuth_UserList)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetUsers()) != len(target.GetUsers()) {
+		return false
+	}
+	for k, v := range m.GetUsers() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetUsers()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetUsers()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *BasicAuth_Apr_SaltedHashedPassword) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -3618,6 +3788,54 @@ func (m *BasicAuth_Apr_SaltedHashedPassword) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetHashedPassword(), target.GetHashedPassword()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *BasicAuth_EncryptionType_Sha1) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*BasicAuth_EncryptionType_Sha1)
+	if !ok {
+		that2, ok := that.(BasicAuth_EncryptionType_Sha1)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *BasicAuth_EncryptionType_Apr) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*BasicAuth_EncryptionType_Apr)
+	if !ok {
+		that2, ok := that.(BasicAuth_EncryptionType_Apr)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
 		return false
 	}
 
@@ -4593,6 +4811,61 @@ func (m *PassThroughHttp_Response) Equal(that interface{}) bool {
 
 		if strings.Compare(v, target.GetAllowedUpstreamHeadersToOverwrite()[idx]) != 0 {
 			return false
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_BasicAuthConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_BasicAuthConfig)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_BasicAuthConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetRealm(), target.GetRealm()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetEncryption()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetEncryption()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetEncryption(), target.GetEncryption()) {
+			return false
+		}
+	}
+
+	if len(m.GetUsers()) != len(target.GetUsers()) {
+		return false
+	}
+	for k, v := range m.GetUsers() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetUsers()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetUsers()[k]) {
+				return false
+			}
 		}
 
 	}
@@ -5858,11 +6131,169 @@ func (m *ExtAuthConfig_Config) Equal(that interface{}) bool {
 			}
 		}
 
+	case *ExtAuthConfig_Config_BasicAuthConfig:
+		if _, ok := target.AuthConfig.(*ExtAuthConfig_Config_BasicAuthConfig); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetBasicAuthConfig()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetBasicAuthConfig()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetBasicAuthConfig(), target.GetBasicAuthConfig()) {
+				return false
+			}
+		}
+
 	default:
 		// m is nil but target is not nil
 		if m.AuthConfig != target.AuthConfig {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_BasicAuthConfig_EncryptionType) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_BasicAuthConfig_EncryptionType)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_BasicAuthConfig_EncryptionType)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.Algorithm.(type) {
+
+	case *ExtAuthConfig_BasicAuthConfig_EncryptionType_Apr_:
+		if _, ok := target.Algorithm.(*ExtAuthConfig_BasicAuthConfig_EncryptionType_Apr_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetApr()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApr()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetApr(), target.GetApr()) {
+				return false
+			}
+		}
+
+	case *ExtAuthConfig_BasicAuthConfig_EncryptionType_Sha1_:
+		if _, ok := target.Algorithm.(*ExtAuthConfig_BasicAuthConfig_EncryptionType_Sha1_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetSha1()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSha1()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetSha1(), target.GetSha1()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Algorithm != target.Algorithm {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_BasicAuthConfig_User) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_BasicAuthConfig_User)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_BasicAuthConfig_User)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetSalt(), target.GetSalt()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetHashedPassword(), target.GetHashedPassword()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_BasicAuthConfig_EncryptionType_Sha1) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_BasicAuthConfig_EncryptionType_Sha1)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_BasicAuthConfig_EncryptionType_Sha1)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_BasicAuthConfig_EncryptionType_Apr) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_BasicAuthConfig_EncryptionType_Apr)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_BasicAuthConfig_EncryptionType_Apr)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	return true
