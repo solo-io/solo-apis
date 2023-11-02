@@ -89,6 +89,8 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_stats "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/stats"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_tap "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/tap"
+
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_tcp "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/tcp"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_tracing "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/tracing"
@@ -343,6 +345,12 @@ func (m *HttpListenerOptions) Clone() proto.Message {
 		target.Router = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_router.Router)
 	} else {
 		target.Router = proto.Clone(m.GetRouter()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_router.Router)
+	}
+
+	if h, ok := interface{}(m.GetTap()).(clone.Cloner); ok {
+		target.Tap = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_tap.Tap)
+	} else {
+		target.Tap = proto.Clone(m.GetTap()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_tap.Tap)
 	}
 
 	switch m.ExtProcConfig.(type) {
