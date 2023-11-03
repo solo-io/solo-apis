@@ -778,7 +778,11 @@ type ClusterSelector struct {
 	Selector map[string]string `protobuf:"bytes,2,rep,name=selector,proto3" json:"selector,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Select the namespaces in the cluster(s) to include in the workspace. If you do not select any namespaces, the workspace is empty and results in an error.
 	Namespaces []*ClusterSelector_NamespaceSelector `protobuf:"bytes,4,rep,name=namespaces,proto3" json:"namespaces,omitempty"`
-	// Optional: Enable configuration from this workload cluster. (default: true unless explicitly enabled for any selected clusters or namespaces)
+	// Optional: Read Gloo configuration from specific clusters and namespaces that are included in a workspace.
+	// If this field is omitted and not explicitly set for any cluster or namespace in a workspace, config_enabled is
+	// automatically set to true, and Gloo configuration is read for all clusters and namespaces in that workspace.
+	// If set to true on a specific namespace or cluster, Gloo configuration is read for that particular namespace or cluster,
+	// but ignored from all other namespaces and clusters in that workspace that do not explicitly set config_enabled to true.
 	ConfigEnabled bool `protobuf:"varint,5,opt,name=config_enabled,json=configEnabled,proto3" json:"config_enabled,omitempty"`
 }
 

@@ -404,12 +404,24 @@ func (m *ExternalWorkloadSpec_IdentitySelector) Hash(hasher hash.Hash64) (uint64
 
 	}
 
-	for _, v := range m.GetJoinTokenSpiffeId() {
-
-		if _, err = hasher.Write([]byte(v)); err != nil {
+	if h, ok := interface{}(m.GetJoinToken()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("JoinToken")); err != nil {
 			return 0, err
 		}
-
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetJoinToken(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("JoinToken")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
 	}
 
 	return hasher.Sum64(), nil
@@ -755,6 +767,27 @@ func (m *ExternalWorkloadSpec_IdentitySelector_Azure) Hash(hasher hash.Hash64) (
 	}
 
 	if _, err = hasher.Write([]byte(m.GetResourceGroup())); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *ExternalWorkloadSpec_IdentitySelector_JoinToken) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2alpha1.ExternalWorkloadSpec_IdentitySelector_JoinToken")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetEnable())
+	if err != nil {
 		return 0, err
 	}
 

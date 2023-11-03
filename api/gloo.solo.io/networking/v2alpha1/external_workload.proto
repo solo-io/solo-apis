@@ -99,9 +99,8 @@ message ExternalWorkloadSpec {
     // Optional: Selector for external workloads running in Azure.
     repeated Azure azure = 3;
 
-    // Optional: Selector for external workloads using a join token.
-    // Specifies the SPIFFE ID associated with the join token.
-    repeated string join_token_spiffe_id = 4;
+    // Optional: Join token configuration to attest the external workload.
+    JoinToken join_token = 4;
 
     // Selector for external workloads that run in AWS.
     // If multiple fields are specified, an external workload is selected only when all match. <!--line 34-35 says the opposite?-->
@@ -203,6 +202,13 @@ message ExternalWorkloadSpec {
       // but is used in conjunction with the other fields.
       // Must be specified if the `securityGroup`, `virtualNetwork`, `subnet`, or `name` fields are specified.
       string resource_group = 6;
+    }
+
+    message JoinToken {
+
+      // Optional: Enable the use of join tokens to attest the external workload.
+      // Defaults to false.
+      bool enable = 1;
     }
   }
 

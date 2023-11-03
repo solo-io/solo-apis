@@ -205,13 +205,10 @@ func (m *ExternalWorkloadSpec_IdentitySelector) Clone() proto.Message {
 		}
 	}
 
-	if m.GetJoinTokenSpiffeId() != nil {
-		target.JoinTokenSpiffeId = make([]string, len(m.GetJoinTokenSpiffeId()))
-		for idx, v := range m.GetJoinTokenSpiffeId() {
-
-			target.JoinTokenSpiffeId[idx] = v
-
-		}
+	if h, ok := interface{}(m.GetJoinToken()).(clone.Cloner); ok {
+		target.JoinToken = h.Clone().(*ExternalWorkloadSpec_IdentitySelector_JoinToken)
+	} else {
+		target.JoinToken = proto.Clone(m.GetJoinToken()).(*ExternalWorkloadSpec_IdentitySelector_JoinToken)
 	}
 
 	return target
@@ -375,6 +372,19 @@ func (m *ExternalWorkloadSpec_IdentitySelector_Azure) Clone() proto.Message {
 	target.Name = m.GetName()
 
 	target.ResourceGroup = m.GetResourceGroup()
+
+	return target
+}
+
+// Clone function
+func (m *ExternalWorkloadSpec_IdentitySelector_JoinToken) Clone() proto.Message {
+	var target *ExternalWorkloadSpec_IdentitySelector_JoinToken
+	if m == nil {
+		return target
+	}
+	target = &ExternalWorkloadSpec_IdentitySelector_JoinToken{}
+
+	target.Enable = m.GetEnable()
 
 	return target
 }

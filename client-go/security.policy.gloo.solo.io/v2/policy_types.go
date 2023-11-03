@@ -65,6 +65,11 @@ func (o *JWTPolicy) GetRouteSelectors() []*commonv2.RouteSelector {
 	return o.Spec.ApplyToRoutes
 }
 
+// GetDestinationSelectors returns the destination selectors of the JWTPolicy policy
+func (o *JWTPolicy) GetDestinationSelectors() []*commonv2.DestinationSelector {
+	return o.Spec.ApplyToDestinations
+}
+
 // IsPolicy implements Policy interface for ClientTLSPolicy
 func (o *ClientTLSPolicy) IsPolicy() {}
 
