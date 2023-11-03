@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package rpc.solo.io;
 
-import "istio.io/api/mesh/v1alpha1/config.proto";
+import "mesh/v1alpha1/config.proto";
+import "networking/v1alpha3/workload_group.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/rpc.solo.io/v2";
 
@@ -14,10 +15,17 @@ service InternalAdmin {
 message ExtWorkloadBootstrapRequest {
   string istio_namespace = 1;
   string istio_revision = 2;
+  Workload workload = 3;
+
+  message Workload {
+    string name = 1;
+    string namespace = 2;
+  }
 }
 
 message ExtWorkloadBootstrapResponse {
   istio.mesh.v1alpha1.MeshConfig mesh_config = 1;
+  istio.networking.v1alpha3.WorkloadGroup workload_group = 2;
 }
 
 message CaCertRequest {

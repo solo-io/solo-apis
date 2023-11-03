@@ -72,11 +72,6 @@ message Insight {
     string name = 1;
   }
 
-  message WorkspaceRef {
-    string name = 1;
-  }
-
-  // Storage for extra custom data that is output by the insights engine and consumed directly by the UI for custom components.
   Target target = 7;
 
   message Target {
@@ -94,8 +89,11 @@ message Insight {
   // Used for garbage collection.
   string last_source_exec_id = 9;
 
-  // A dynamic summary of this specific insight, derived by the insights engine.
+  // A short dynamic summary of this specific insight, derived by the insights engine.
   string summary = 10;
+
+  // A longer dynamic details of this specific insight with more context, derived by the insights engine.
+  string details = 11;
 
   // A flag for whether this is an internal system insight.
   bool system = 12;
@@ -121,6 +119,9 @@ message Insight {
       SYS0013Data SYS0013 = 26;
       SYS0014Data SYS0014 = 27;
       SYS0015Data SYS0015 = 28;
+      SYS0019Data SYS0019 = 29; // Adding so UI works for mock - might change later
+      SYS0020Data SYS0020 = 30;
+      SYS0025Data SYS0025 = 31;
     }
   }
 
@@ -134,14 +135,16 @@ message Insight {
   message SYS0007Data {
     string hostname = 1;
     string issued_to_cn = 2;
-    string issued_to_organization = 3;
-    string issued_to_organization_unit = 4;
+    repeated string issued_to_organization = 3;
+    repeated string issued_to_organization_unit = 4;
     string issued_from_cn = 5;
-    string issued_from_organization = 6;
-    string issued_from_organization_unit = 7;
+    repeated string issued_from_organization = 6;
+    repeated string issued_from_organization_unit = 7;
     google.protobuf.Timestamp issued_on = 8;
     google.protobuf.Timestamp expires_on = 9;
     repeated Fingerprints fingerprints = 10;
+    string subject_key_identifier = 11;
+    string authority_key_identifier = 12;
     message Fingerprints {
       string name = 1;
       string value = 2;
@@ -152,32 +155,50 @@ message Insight {
   message SYS0008Data {
     string hostname = 1;
     string issued_to_cn = 2;
-    string issued_to_organization = 3;
-    string issued_to_organization_unit = 4;
+    repeated string issued_to_organization = 3;
+    repeated string issued_to_organization_unit = 4;
     string issued_from_cn = 5;
-    string issued_from_organization = 6;
-    string issued_from_organization_unit = 7;
+    repeated string issued_from_organization = 6;
+    repeated string issued_from_organization_unit = 7;
     google.protobuf.Timestamp issued_on = 8;
     google.protobuf.Timestamp expires_on = 9;
     repeated Fingerprints fingerprints = 10;
+    string subject_key_identifier = 11;
+    string authority_key_identifier = 12;
     message Fingerprints {
       string name = 1;
       string value = 2;
     }
   }
 
-  // gateway certificate
+  // Istio Gateway certificates
   message SYS0015Data {
+    repeated ReferencedCertificateSecret certificates = 1;
+  }
+
+  // Kubernetes Gateway certificates
+  message SYS0025Data {
+    repeated ReferencedCertificateSecret certificates = 1;
+  }
+
+  message ReferencedCertificateSecret {
+    ResourceRef ref = 1;
+    CertificateInformation certificate = 2;
+  }
+
+  message CertificateInformation {
     string hostname = 1;
     string issued_to_cn = 2;
-    string issued_to_organization = 3;
-    string issued_to_organization_unit = 4;
+    repeated string issued_to_organization = 3;
+    repeated string issued_to_organization_unit = 4;
     string issued_from_cn = 5;
-    string issued_from_organization = 6;
-    string issued_from_organization_unit = 7;
+    repeated string issued_from_organization = 6;
+    repeated string issued_from_organization_unit = 7;
     google.protobuf.Timestamp issued_on = 8;
     google.protobuf.Timestamp expires_on = 9;
     repeated Fingerprints fingerprints = 10;
+    string subject_key_identifier = 11;
+    string authority_key_identifier = 12;
     message Fingerprints {
       string name = 1;
       string value = 2;
@@ -219,5 +240,18 @@ message Insight {
   // zero trust - access policy violations
   message SYS0014Data {
     int32 value = 1;
+  }
+
+  // Adding so UI works for mock - might change later
+  message SYS0019Data {
+    string cilium_version = 1;
+  }
+
+  // resource counts
+  message SYS0020Data {
+    int32 istio_resources = 1;
+    int32 cilium_resources = 2;
+    int32 k8s_resources = 3;
+    int32 gateway_resources = 4;
   }
 }

@@ -316,15 +316,14 @@ func (m *ExternalWorkloadSpec_IdentitySelector) Equal(that interface{}) bool {
 
 	}
 
-	if len(m.GetJoinTokenSpiffeId()) != len(target.GetJoinTokenSpiffeId()) {
-		return false
-	}
-	for idx, v := range m.GetJoinTokenSpiffeId() {
-
-		if strings.Compare(v, target.GetJoinTokenSpiffeId()[idx]) != 0 {
+	if h, ok := interface{}(m.GetJoinToken()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetJoinToken()) {
 			return false
 		}
-
+	} else {
+		if !proto.Equal(m.GetJoinToken(), target.GetJoinToken()) {
+			return false
+		}
 	}
 
 	return true
@@ -616,6 +615,34 @@ func (m *ExternalWorkloadSpec_IdentitySelector_Azure) Equal(that interface{}) bo
 	}
 
 	if strings.Compare(m.GetResourceGroup(), target.GetResourceGroup()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExternalWorkloadSpec_IdentitySelector_JoinToken) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExternalWorkloadSpec_IdentitySelector_JoinToken)
+	if !ok {
+		that2, ok := that.(ExternalWorkloadSpec_IdentitySelector_JoinToken)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetEnable() != target.GetEnable() {
 		return false
 	}
 
