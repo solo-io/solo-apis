@@ -359,6 +359,16 @@ func (m *RateLimitActions) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetLimit()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetLimit()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetLimit(), target.GetLimit()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -525,6 +535,54 @@ func (m *Action) Equal(that interface{}) bool {
 	default:
 		// m is nil but target is not nil
 		if m.ActionSpecifier != target.ActionSpecifier {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *Override) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*Override)
+	if !ok {
+		that2, ok := that.(Override)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.OverrideSpecifier.(type) {
+
+	case *Override_DynamicMetadata_:
+		if _, ok := target.OverrideSpecifier.(*Override_DynamicMetadata_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetDynamicMetadata()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetDynamicMetadata()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetDynamicMetadata(), target.GetDynamicMetadata()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.OverrideSpecifier != target.OverrideSpecifier {
 			return false
 		}
 	}
@@ -1043,6 +1101,127 @@ func (m *Action_MetaData_MetadataKey_PathSegment) Equal(that interface{}) bool {
 
 	case *Action_MetaData_MetadataKey_PathSegment_Key:
 		if _, ok := target.Segment.(*Action_MetaData_MetadataKey_PathSegment_Key); !ok {
+			return false
+		}
+
+		if strings.Compare(m.GetKey(), target.GetKey()) != 0 {
+			return false
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Segment != target.Segment {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *Override_MetadataKey) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*Override_MetadataKey)
+	if !ok {
+		that2, ok := that.(Override_MetadataKey)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetKey(), target.GetKey()) != 0 {
+		return false
+	}
+
+	if len(m.GetPath()) != len(target.GetPath()) {
+		return false
+	}
+	for idx, v := range m.GetPath() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetPath()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetPath()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *Override_DynamicMetadata) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*Override_DynamicMetadata)
+	if !ok {
+		that2, ok := that.(Override_DynamicMetadata)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetMetadataKey()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMetadataKey()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMetadataKey(), target.GetMetadataKey()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *Override_MetadataKey_PathSegment) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*Override_MetadataKey_PathSegment)
+	if !ok {
+		that2, ok := that.(Override_MetadataKey_PathSegment)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.Segment.(type) {
+
+	case *Override_MetadataKey_PathSegment_Key:
+		if _, ok := target.Segment.(*Override_MetadataKey_PathSegment_Key); !ok {
 			return false
 		}
 
