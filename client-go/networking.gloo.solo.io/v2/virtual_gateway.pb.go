@@ -228,7 +228,7 @@ func (TLSConfig_Parameters_ProtocolVersion) EnumDescriptor() ([]byte, []int) {
 // 9443(https) for ingress.  The VirtualGateway resource is
 // applied to a specific set of gateway pods/VMs with the `app: my-gateway-controller`
 // label within the same workspace. The route table(s) associated with each
-// port 80, 9080 and 443 must be provided by the foo-ws workspace, with hosts that
+// port 80, 9443 and 443 must be provided by the foo-ws workspace, with hosts that
 // match `*.foo.com`. The route table(s) for port 9080 must be provided by the bar-ws
 // workspace with hosts that match `*.bar.com`.
 //
