@@ -127,52 +127,52 @@ func (RateLimit_Unit) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{7, 0}
 }
 
-type Action_MetaData_Source int32
+type MetaData_Source int32
 
 const (
 	// Query [dynamic metadata](https://www.envoyproxy.io/docs/envoy/latest/configuration/advanced/well_known_dynamic_metadata#well-known-dynamic-metadata).
-	Action_MetaData_DYNAMIC Action_MetaData_Source = 0
+	MetaData_DYNAMIC MetaData_Source = 0
 	// Query [route entry metadata](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-field-config-route-v3-route-metadata).
-	Action_MetaData_ROUTE_ENTRY Action_MetaData_Source = 1
+	MetaData_ROUTE_ENTRY MetaData_Source = 1
 )
 
-// Enum value maps for Action_MetaData_Source.
+// Enum value maps for MetaData_Source.
 var (
-	Action_MetaData_Source_name = map[int32]string{
+	MetaData_Source_name = map[int32]string{
 		0: "DYNAMIC",
 		1: "ROUTE_ENTRY",
 	}
-	Action_MetaData_Source_value = map[string]int32{
+	MetaData_Source_value = map[string]int32{
 		"DYNAMIC":     0,
 		"ROUTE_ENTRY": 1,
 	}
 )
 
-func (x Action_MetaData_Source) Enum() *Action_MetaData_Source {
-	p := new(Action_MetaData_Source)
+func (x MetaData_Source) Enum() *MetaData_Source {
+	p := new(MetaData_Source)
 	*p = x
 	return p
 }
 
-func (x Action_MetaData_Source) String() string {
+func (x MetaData_Source) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Action_MetaData_Source) Descriptor() protoreflect.EnumDescriptor {
+func (MetaData_Source) Descriptor() protoreflect.EnumDescriptor {
 	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_enumTypes[2].Descriptor()
 }
 
-func (Action_MetaData_Source) Type() protoreflect.EnumType {
+func (MetaData_Source) Type() protoreflect.EnumType {
 	return &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_enumTypes[2]
 }
 
-func (x Action_MetaData_Source) Number() protoreflect.EnumNumber {
+func (x MetaData_Source) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Action_MetaData_Source.Descriptor instead.
-func (Action_MetaData_Source) EnumDescriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{8, 6, 0}
+// Deprecated: Use MetaData_Source.Descriptor instead.
+func (MetaData_Source) EnumDescriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{9, 0}
 }
 
 // A `RateLimitConfig` describes a rate limit policy.
@@ -950,7 +950,7 @@ func (x *Action) GetHeaderValueMatch() *Action_HeaderValueMatch {
 	return nil
 }
 
-func (x *Action) GetMetadata() *Action_MetaData {
+func (x *Action) GetMetadata() *MetaData {
 	if x, ok := x.GetActionSpecifier().(*Action_Metadata); ok {
 		return x.Metadata
 	}
@@ -993,7 +993,7 @@ type Action_HeaderValueMatch_ struct {
 
 type Action_Metadata struct {
 	// Rate limit on metadata.
-	Metadata *Action_MetaData `protobuf:"bytes,8,opt,name=metadata,proto3,oneof"`
+	Metadata *MetaData `protobuf:"bytes,8,opt,name=metadata,proto3,oneof"`
 }
 
 func (*Action_SourceCluster_) isAction_ActionSpecifier() {}
@@ -1010,6 +1010,85 @@ func (*Action_HeaderValueMatch_) isAction_ActionSpecifier() {}
 
 func (*Action_Metadata) isAction_ActionSpecifier() {}
 
+// The following descriptor entry is appended when the metadata contains a key value:
+//   ("<descriptor_key>", "<value_queried_from_metadata>")
+type MetaData struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Required. The key to use in the descriptor entry.
+	DescriptorKey string `protobuf:"bytes,1,opt,name=descriptor_key,json=descriptorKey,proto3" json:"descriptor_key,omitempty"` // [(validate.rules).string = {min_len: 1}];
+	// Required. Metadata struct that defines the key and path to retrieve the string value. A match will
+	// only happen if the value in the metadata is of type string.
+	MetadataKey *MetaData_MetadataKey `protobuf:"bytes,2,opt,name=metadata_key,json=metadataKey,proto3" json:"metadata_key,omitempty"` // [(validate.rules).message = {required: true}];
+	// An optional value to use if *metadata_key* is empty. If not set and
+	// no value is present under the metadata_key then no descriptor is generated.
+	DefaultValue string `protobuf:"bytes,3,opt,name=default_value,json=defaultValue,proto3" json:"default_value,omitempty"`
+	// Source of metadata
+	Source MetaData_Source `protobuf:"varint,4,opt,name=source,proto3,enum=ratelimit.api.solo.io.MetaData_Source" json:"source,omitempty"` // [(validate.rules).enum = {defined_only: true}];
+}
+
+func (x *MetaData) Reset() {
+	*x = MetaData{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MetaData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MetaData) ProtoMessage() {}
+
+func (x *MetaData) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MetaData.ProtoReflect.Descriptor instead.
+func (*MetaData) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *MetaData) GetDescriptorKey() string {
+	if x != nil {
+		return x.DescriptorKey
+	}
+	return ""
+}
+
+func (x *MetaData) GetMetadataKey() *MetaData_MetadataKey {
+	if x != nil {
+		return x.MetadataKey
+	}
+	return nil
+}
+
+func (x *MetaData) GetDefaultValue() string {
+	if x != nil {
+		return x.DefaultValue
+	}
+	return ""
+}
+
+func (x *MetaData) GetSource() MetaData_Source {
+	if x != nil {
+		return x.Source
+	}
+	return MetaData_DYNAMIC
+}
+
 // Copied directly from envoy
 // https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit-override
 type Override struct {
@@ -1025,7 +1104,7 @@ type Override struct {
 func (x *Override) Reset() {
 	*x = Override{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[9]
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1038,7 +1117,7 @@ func (x *Override) String() string {
 func (*Override) ProtoMessage() {}
 
 func (x *Override) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[9]
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1051,7 +1130,7 @@ func (x *Override) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Override.ProtoReflect.Descriptor instead.
 func (*Override) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{9}
+	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{10}
 }
 
 func (m *Override) GetOverrideSpecifier() isOverride_OverrideSpecifier {
@@ -1101,7 +1180,7 @@ type RateLimitConfigSpec_Raw struct {
 func (x *RateLimitConfigSpec_Raw) Reset() {
 	*x = RateLimitConfigSpec_Raw{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[10]
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1114,7 +1193,7 @@ func (x *RateLimitConfigSpec_Raw) String() string {
 func (*RateLimitConfigSpec_Raw) ProtoMessage() {}
 
 func (x *RateLimitConfigSpec_Raw) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[10]
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1167,7 +1246,7 @@ type Action_SourceCluster struct {
 func (x *Action_SourceCluster) Reset() {
 	*x = Action_SourceCluster{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[12]
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1180,7 +1259,7 @@ func (x *Action_SourceCluster) String() string {
 func (*Action_SourceCluster) ProtoMessage() {}
 
 func (x *Action_SourceCluster) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[12]
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1221,7 +1300,7 @@ type Action_DestinationCluster struct {
 func (x *Action_DestinationCluster) Reset() {
 	*x = Action_DestinationCluster{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[13]
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1234,7 +1313,7 @@ func (x *Action_DestinationCluster) String() string {
 func (*Action_DestinationCluster) ProtoMessage() {}
 
 func (x *Action_DestinationCluster) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[13]
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1272,7 +1351,7 @@ type Action_RequestHeaders struct {
 func (x *Action_RequestHeaders) Reset() {
 	*x = Action_RequestHeaders{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[14]
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1285,7 +1364,7 @@ func (x *Action_RequestHeaders) String() string {
 func (*Action_RequestHeaders) ProtoMessage() {}
 
 func (x *Action_RequestHeaders) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[14]
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1330,7 +1409,7 @@ type Action_RemoteAddress struct {
 func (x *Action_RemoteAddress) Reset() {
 	*x = Action_RemoteAddress{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[15]
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1343,7 +1422,7 @@ func (x *Action_RemoteAddress) String() string {
 func (*Action_RemoteAddress) ProtoMessage() {}
 
 func (x *Action_RemoteAddress) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[15]
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1376,7 +1455,7 @@ type Action_GenericKey struct {
 func (x *Action_GenericKey) Reset() {
 	*x = Action_GenericKey{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[16]
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1389,7 +1468,7 @@ func (x *Action_GenericKey) String() string {
 func (*Action_GenericKey) ProtoMessage() {}
 
 func (x *Action_GenericKey) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[16]
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1440,7 +1519,7 @@ type Action_HeaderValueMatch struct {
 func (x *Action_HeaderValueMatch) Reset() {
 	*x = Action_HeaderValueMatch{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[17]
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1453,7 +1532,7 @@ func (x *Action_HeaderValueMatch) String() string {
 func (*Action_HeaderValueMatch) ProtoMessage() {}
 
 func (x *Action_HeaderValueMatch) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[17]
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1488,85 +1567,6 @@ func (x *Action_HeaderValueMatch) GetHeaders() []*Action_HeaderValueMatch_Header
 		return x.Headers
 	}
 	return nil
-}
-
-// The following descriptor entry is appended when the metadata contains a key value:
-//   ("<descriptor_key>", "<value_queried_from_metadata>")
-type Action_MetaData struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Required. The key to use in the descriptor entry.
-	DescriptorKey string `protobuf:"bytes,1,opt,name=descriptor_key,json=descriptorKey,proto3" json:"descriptor_key,omitempty"` // [(validate.rules).string = {min_len: 1}];
-	// Required. Metadata struct that defines the key and path to retrieve the string value. A match will
-	// only happen if the value in the metadata is of type string.
-	MetadataKey *Action_MetaData_MetadataKey `protobuf:"bytes,2,opt,name=metadata_key,json=metadataKey,proto3" json:"metadata_key,omitempty"` // [(validate.rules).message = {required: true}];
-	// An optional value to use if *metadata_key* is empty. If not set and
-	// no value is present under the metadata_key then no descriptor is generated.
-	DefaultValue string `protobuf:"bytes,3,opt,name=default_value,json=defaultValue,proto3" json:"default_value,omitempty"`
-	// Source of metadata
-	Source Action_MetaData_Source `protobuf:"varint,4,opt,name=source,proto3,enum=ratelimit.api.solo.io.Action_MetaData_Source" json:"source,omitempty"` // [(validate.rules).enum = {defined_only: true}];
-}
-
-func (x *Action_MetaData) Reset() {
-	*x = Action_MetaData{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[18]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Action_MetaData) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Action_MetaData) ProtoMessage() {}
-
-func (x *Action_MetaData) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[18]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Action_MetaData.ProtoReflect.Descriptor instead.
-func (*Action_MetaData) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{8, 6}
-}
-
-func (x *Action_MetaData) GetDescriptorKey() string {
-	if x != nil {
-		return x.DescriptorKey
-	}
-	return ""
-}
-
-func (x *Action_MetaData) GetMetadataKey() *Action_MetaData_MetadataKey {
-	if x != nil {
-		return x.MetadataKey
-	}
-	return nil
-}
-
-func (x *Action_MetaData) GetDefaultValue() string {
-	if x != nil {
-		return x.DefaultValue
-	}
-	return ""
-}
-
-func (x *Action_MetaData) GetSource() Action_MetaData_Source {
-	if x != nil {
-		return x.Source
-	}
-	return Action_MetaData_DYNAMIC
 }
 
 type Action_HeaderValueMatch_HeaderMatcher struct {
@@ -1854,7 +1854,7 @@ func (x *Action_HeaderValueMatch_HeaderMatcher_Int64Range) GetEnd() int64 {
 // - key: foo
 // ```
 //
-type Action_MetaData_MetadataKey struct {
+type MetaData_MetadataKey struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1868,11 +1868,11 @@ type Action_MetaData_MetadataKey struct {
 	//
 	// Note: Due to that only the key type segment is supported, the path can not specify a list
 	// unless the list is the last segment.
-	Path []*Action_MetaData_MetadataKey_PathSegment `protobuf:"bytes,2,rep,name=path,proto3" json:"path,omitempty"` // [(validate.rules).repeated = {min_items: 1}];
+	Path []*MetaData_MetadataKey_PathSegment `protobuf:"bytes,2,rep,name=path,proto3" json:"path,omitempty"` // [(validate.rules).repeated = {min_items: 1}];
 }
 
-func (x *Action_MetaData_MetadataKey) Reset() {
-	*x = Action_MetaData_MetadataKey{}
+func (x *MetaData_MetadataKey) Reset() {
+	*x = MetaData_MetadataKey{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1880,13 +1880,13 @@ func (x *Action_MetaData_MetadataKey) Reset() {
 	}
 }
 
-func (x *Action_MetaData_MetadataKey) String() string {
+func (x *MetaData_MetadataKey) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Action_MetaData_MetadataKey) ProtoMessage() {}
+func (*MetaData_MetadataKey) ProtoMessage() {}
 
-func (x *Action_MetaData_MetadataKey) ProtoReflect() protoreflect.Message {
+func (x *MetaData_MetadataKey) ProtoReflect() protoreflect.Message {
 	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1898,19 +1898,19 @@ func (x *Action_MetaData_MetadataKey) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Action_MetaData_MetadataKey.ProtoReflect.Descriptor instead.
-func (*Action_MetaData_MetadataKey) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{8, 6, 0}
+// Deprecated: Use MetaData_MetadataKey.ProtoReflect.Descriptor instead.
+func (*MetaData_MetadataKey) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{9, 0}
 }
 
-func (x *Action_MetaData_MetadataKey) GetKey() string {
+func (x *MetaData_MetadataKey) GetKey() string {
 	if x != nil {
 		return x.Key
 	}
 	return ""
 }
 
-func (x *Action_MetaData_MetadataKey) GetPath() []*Action_MetaData_MetadataKey_PathSegment {
+func (x *MetaData_MetadataKey) GetPath() []*MetaData_MetadataKey_PathSegment {
 	if x != nil {
 		return x.Path
 	}
@@ -1919,18 +1919,18 @@ func (x *Action_MetaData_MetadataKey) GetPath() []*Action_MetaData_MetadataKey_P
 
 // Specifies the segment in a path to retrieve value from Metadata.
 // Currently it is only supported to specify the key, i.e. field name, as one segment of a path.
-type Action_MetaData_MetadataKey_PathSegment struct {
+type MetaData_MetadataKey_PathSegment struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Segment:
-	//	*Action_MetaData_MetadataKey_PathSegment_Key
-	Segment isAction_MetaData_MetadataKey_PathSegment_Segment `protobuf_oneof:"segment"`
+	//	*MetaData_MetadataKey_PathSegment_Key
+	Segment isMetaData_MetadataKey_PathSegment_Segment `protobuf_oneof:"segment"`
 }
 
-func (x *Action_MetaData_MetadataKey_PathSegment) Reset() {
-	*x = Action_MetaData_MetadataKey_PathSegment{}
+func (x *MetaData_MetadataKey_PathSegment) Reset() {
+	*x = MetaData_MetadataKey_PathSegment{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1938,13 +1938,13 @@ func (x *Action_MetaData_MetadataKey_PathSegment) Reset() {
 	}
 }
 
-func (x *Action_MetaData_MetadataKey_PathSegment) String() string {
+func (x *MetaData_MetadataKey_PathSegment) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Action_MetaData_MetadataKey_PathSegment) ProtoMessage() {}
+func (*MetaData_MetadataKey_PathSegment) ProtoMessage() {}
 
-func (x *Action_MetaData_MetadataKey_PathSegment) ProtoReflect() protoreflect.Message {
+func (x *MetaData_MetadataKey_PathSegment) ProtoReflect() protoreflect.Message {
 	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1956,122 +1956,35 @@ func (x *Action_MetaData_MetadataKey_PathSegment) ProtoReflect() protoreflect.Me
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Action_MetaData_MetadataKey_PathSegment.ProtoReflect.Descriptor instead.
-func (*Action_MetaData_MetadataKey_PathSegment) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{8, 6, 0, 0}
+// Deprecated: Use MetaData_MetadataKey_PathSegment.ProtoReflect.Descriptor instead.
+func (*MetaData_MetadataKey_PathSegment) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{9, 0, 0}
 }
 
-func (m *Action_MetaData_MetadataKey_PathSegment) GetSegment() isAction_MetaData_MetadataKey_PathSegment_Segment {
+func (m *MetaData_MetadataKey_PathSegment) GetSegment() isMetaData_MetadataKey_PathSegment_Segment {
 	if m != nil {
 		return m.Segment
 	}
 	return nil
 }
 
-func (x *Action_MetaData_MetadataKey_PathSegment) GetKey() string {
-	if x, ok := x.GetSegment().(*Action_MetaData_MetadataKey_PathSegment_Key); ok {
+func (x *MetaData_MetadataKey_PathSegment) GetKey() string {
+	if x, ok := x.GetSegment().(*MetaData_MetadataKey_PathSegment_Key); ok {
 		return x.Key
 	}
 	return ""
 }
 
-type isAction_MetaData_MetadataKey_PathSegment_Segment interface {
-	isAction_MetaData_MetadataKey_PathSegment_Segment()
+type isMetaData_MetadataKey_PathSegment_Segment interface {
+	isMetaData_MetadataKey_PathSegment_Segment()
 }
 
-type Action_MetaData_MetadataKey_PathSegment_Key struct {
+type MetaData_MetadataKey_PathSegment_Key struct {
 	// Required. If specified, use the key to retrieve the value in a Struct.
 	Key string `protobuf:"bytes,1,opt,name=key,proto3,oneof"` // [(validate.rules).string = {min_len: 1}];
 }
 
-func (*Action_MetaData_MetadataKey_PathSegment_Key) isAction_MetaData_MetadataKey_PathSegment_Segment() {
-}
-
-// MetadataKey provides a general interface using `key` and `path` to retrieve value from
-// [`Metadata`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/base.proto#envoy-v3-api-msg-config-core-v3-metadata).
-//
-// For example, for the following Metadata:
-//
-// ```yaml
-// filter_metadata:
-//   envoy.xxx:
-//     prop:
-//       foo: bar
-//       xyz:
-//         hello: envoy
-// ```
-//
-// The following MetadataKey will retrieve a string value "bar" from the Metadata.
-//
-// ```yaml
-// key: envoy.xxx
-// path:
-// - key: prop
-// - key: foo
-// ```
-//
-type Override_MetadataKey struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Required. The key name of Metadata to retrieve the Struct from the metadata.
-	// Typically, it represents a builtin subsystem or custom extension.
-	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"` // [(validate.rules).string = {min_len: 1}];
-	// Must have at least one element. The path to retrieve the Value from the Struct. It can be a prefix or a full path,
-	// e.g. ``[prop, xyz]`` for a struct or ``[prop, foo]`` for a string in the example,
-	// which depends on the particular scenario.
-	//
-	// Note: Due to that only the key type segment is supported, the path can not specify a list
-	// unless the list is the last segment.
-	Path []*Override_MetadataKey_PathSegment `protobuf:"bytes,2,rep,name=path,proto3" json:"path,omitempty"` // [(validate.rules).repeated = {min_items: 1}];
-}
-
-func (x *Override_MetadataKey) Reset() {
-	*x = Override_MetadataKey{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[23]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Override_MetadataKey) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Override_MetadataKey) ProtoMessage() {}
-
-func (x *Override_MetadataKey) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[23]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Override_MetadataKey.ProtoReflect.Descriptor instead.
-func (*Override_MetadataKey) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{9, 0}
-}
-
-func (x *Override_MetadataKey) GetKey() string {
-	if x != nil {
-		return x.Key
-	}
-	return ""
-}
-
-func (x *Override_MetadataKey) GetPath() []*Override_MetadataKey_PathSegment {
-	if x != nil {
-		return x.Path
-	}
-	return nil
-}
+func (*MetaData_MetadataKey_PathSegment_Key) isMetaData_MetadataKey_PathSegment_Segment() {}
 
 // Fetches the override from the dynamic metadata.
 type Override_DynamicMetadata struct {
@@ -2083,13 +1996,13 @@ type Override_DynamicMetadata struct {
 	// The value must be a struct containing an integer "requests_per_unit" property
 	// and a "unit" property with a value parseable to :ref:`RateLimitUnit
 	// enum <envoy_v3_api_enum_type.v3.RateLimitUnit>`
-	MetadataKey *Override_MetadataKey `protobuf:"bytes,1,opt,name=metadata_key,json=metadataKey,proto3" json:"metadata_key,omitempty"` // [(validate.rules).message = {required: true}];
+	MetadataKey *MetaData_MetadataKey `protobuf:"bytes,1,opt,name=metadata_key,json=metadataKey,proto3" json:"metadata_key,omitempty"` // [(validate.rules).message = {required: true}];
 }
 
 func (x *Override_DynamicMetadata) Reset() {
 	*x = Override_DynamicMetadata{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[24]
+		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2102,7 +2015,7 @@ func (x *Override_DynamicMetadata) String() string {
 func (*Override_DynamicMetadata) ProtoMessage() {}
 
 func (x *Override_DynamicMetadata) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[24]
+	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2115,84 +2028,15 @@ func (x *Override_DynamicMetadata) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Override_DynamicMetadata.ProtoReflect.Descriptor instead.
 func (*Override_DynamicMetadata) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{9, 1}
+	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{10, 0}
 }
 
-func (x *Override_DynamicMetadata) GetMetadataKey() *Override_MetadataKey {
+func (x *Override_DynamicMetadata) GetMetadataKey() *MetaData_MetadataKey {
 	if x != nil {
 		return x.MetadataKey
 	}
 	return nil
 }
-
-// Specifies the segment in a path to retrieve value from Metadata.
-// Currently it is only supported to specify the key, i.e. field name, as one segment of a path.
-type Override_MetadataKey_PathSegment struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Types that are assignable to Segment:
-	//	*Override_MetadataKey_PathSegment_Key
-	Segment isOverride_MetadataKey_PathSegment_Segment `protobuf_oneof:"segment"`
-}
-
-func (x *Override_MetadataKey_PathSegment) Reset() {
-	*x = Override_MetadataKey_PathSegment{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[25]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Override_MetadataKey_PathSegment) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Override_MetadataKey_PathSegment) ProtoMessage() {}
-
-func (x *Override_MetadataKey_PathSegment) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[25]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Override_MetadataKey_PathSegment.ProtoReflect.Descriptor instead.
-func (*Override_MetadataKey_PathSegment) Descriptor() ([]byte, []int) {
-	return file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDescGZIP(), []int{9, 0, 0}
-}
-
-func (m *Override_MetadataKey_PathSegment) GetSegment() isOverride_MetadataKey_PathSegment_Segment {
-	if m != nil {
-		return m.Segment
-	}
-	return nil
-}
-
-func (x *Override_MetadataKey_PathSegment) GetKey() string {
-	if x, ok := x.GetSegment().(*Override_MetadataKey_PathSegment_Key); ok {
-		return x.Key
-	}
-	return ""
-}
-
-type isOverride_MetadataKey_PathSegment_Segment interface {
-	isOverride_MetadataKey_PathSegment_Segment()
-}
-
-type Override_MetadataKey_PathSegment_Key struct {
-	// Required. If specified, use the key to retrieve the value in a Struct.
-	Key string `protobuf:"bytes,1,opt,name=key,proto3,oneof"` // [(validate.rules).string = {min_len: 1}];
-}
-
-func (*Override_MetadataKey_PathSegment_Key) isOverride_MetadataKey_PathSegment_Segment() {}
 
 var File_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto protoreflect.FileDescriptor
 
@@ -2312,7 +2156,7 @@ var file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_
 	0x0a, 0x07, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x53,
 	0x45, 0x43, 0x4f, 0x4e, 0x44, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x4d, 0x49, 0x4e, 0x55, 0x54,
 	0x45, 0x10, 0x02, 0x12, 0x08, 0x0a, 0x04, 0x48, 0x4f, 0x55, 0x52, 0x10, 0x03, 0x12, 0x07, 0x0a,
-	0x03, 0x44, 0x41, 0x59, 0x10, 0x04, 0x22, 0xa6, 0x0f, 0x0a, 0x06, 0x41, 0x63, 0x74, 0x69, 0x6f,
+	0x03, 0x44, 0x41, 0x59, 0x10, 0x04, 0x22, 0xdc, 0x0b, 0x0a, 0x06, 0x41, 0x63, 0x74, 0x69, 0x6f,
 	0x6e, 0x12, 0x54, 0x0a, 0x0e, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x63, 0x6c, 0x75, 0x73,
 	0x74, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x72, 0x61, 0x74, 0x65,
 	0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69,
@@ -2346,125 +2190,113 @@ var file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_
 	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x41, 0x63, 0x74,
 	0x69, 0x6f, 0x6e, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x4d,
 	0x61, 0x74, 0x63, 0x68, 0x48, 0x00, 0x52, 0x10, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x56, 0x61,
-	0x6c, 0x75, 0x65, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x44, 0x0a, 0x08, 0x6d, 0x65, 0x74, 0x61,
-	0x64, 0x61, 0x74, 0x61, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x72, 0x61, 0x74,
+	0x6c, 0x75, 0x65, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x3d, 0x0a, 0x08, 0x6d, 0x65, 0x74, 0x61,
+	0x64, 0x61, 0x74, 0x61, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x72, 0x61, 0x74,
 	0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e,
-	0x69, 0x6f, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x44, 0x61,
-	0x74, 0x61, 0x48, 0x00, 0x52, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x1a, 0x0f,
-	0x0a, 0x0d, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x1a,
-	0x14, 0x0a, 0x12, 0x44, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6c,
-	0x75, 0x73, 0x74, 0x65, 0x72, 0x1a, 0x58, 0x0a, 0x0e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x73, 0x12, 0x1f, 0x0a, 0x0b, 0x68, 0x65, 0x61, 0x64, 0x65,
-	0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x68, 0x65,
-	0x61, 0x64, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x64, 0x65, 0x73, 0x63,
-	0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0d, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x4b, 0x65, 0x79, 0x1a,
-	0x0f, 0x0a, 0x0d, 0x52, 0x65, 0x6d, 0x6f, 0x74, 0x65, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x1a, 0x37, 0x0a, 0x0a, 0x47, 0x65, 0x6e, 0x65, 0x72, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x12, 0x29,
-	0x0a, 0x10, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x5f, 0x76, 0x61, 0x6c,
-	0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69,
-	0x70, 0x74, 0x6f, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x1a, 0x9c, 0x05, 0x0a, 0x10, 0x48, 0x65,
-	0x61, 0x64, 0x65, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x29,
-	0x0a, 0x10, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x5f, 0x76, 0x61, 0x6c,
-	0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69,
-	0x70, 0x74, 0x6f, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x3d, 0x0a, 0x0c, 0x65, 0x78, 0x70,
-	0x65, 0x63, 0x74, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2e, 0x42, 0x6f, 0x6f, 0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0b, 0x65, 0x78, 0x70,
-	0x65, 0x63, 0x74, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x56, 0x0a, 0x07, 0x68, 0x65, 0x61, 0x64,
-	0x65, 0x72, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x3c, 0x2e, 0x72, 0x61, 0x74, 0x65,
-	0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69,
-	0x6f, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x56,
-	0x61, 0x6c, 0x75, 0x65, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72,
-	0x4d, 0x61, 0x74, 0x63, 0x68, 0x65, 0x72, 0x52, 0x07, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x73,
-	0x1a, 0xc5, 0x03, 0x0a, 0x0d, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x4d, 0x61, 0x74, 0x63, 0x68,
-	0x65, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x21, 0x0a, 0x0b, 0x65, 0x78, 0x61, 0x63, 0x74, 0x5f,
-	0x6d, 0x61, 0x74, 0x63, 0x68, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x0a, 0x65,
-	0x78, 0x61, 0x63, 0x74, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x21, 0x0a, 0x0b, 0x72, 0x65, 0x67,
-	0x65, 0x78, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00,
-	0x52, 0x0a, 0x72, 0x65, 0x67, 0x65, 0x78, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x6a, 0x0a, 0x0b,
-	0x72, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x18, 0x06, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x47, 0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x2e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x4d, 0x61, 0x74, 0x63,
-	0x68, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x65, 0x72, 0x2e,
-	0x49, 0x6e, 0x74, 0x36, 0x34, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x48, 0x00, 0x52, 0x0a, 0x72, 0x61,
-	0x6e, 0x67, 0x65, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x25, 0x0a, 0x0d, 0x70, 0x72, 0x65, 0x73,
-	0x65, 0x6e, 0x74, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x48,
-	0x00, 0x52, 0x0c, 0x70, 0x72, 0x65, 0x73, 0x65, 0x6e, 0x74, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12,
-	0x23, 0x0a, 0x0c, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x18,
-	0x09, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x0b, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x4d,
-	0x61, 0x74, 0x63, 0x68, 0x12, 0x23, 0x0a, 0x0c, 0x73, 0x75, 0x66, 0x66, 0x69, 0x78, 0x5f, 0x6d,
-	0x61, 0x74, 0x63, 0x68, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x0b, 0x73, 0x75,
-	0x66, 0x66, 0x69, 0x78, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x21, 0x0a, 0x0c, 0x69, 0x6e, 0x76,
-	0x65, 0x72, 0x74, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x18, 0x08, 0x20, 0x01, 0x28, 0x08, 0x52,
-	0x0b, 0x69, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x1a, 0x34, 0x0a, 0x0a,
-	0x49, 0x6e, 0x74, 0x36, 0x34, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x73, 0x74,
-	0x61, 0x72, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74,
-	0x12, 0x10, 0x0a, 0x03, 0x65, 0x6e, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x03, 0x65,
-	0x6e, 0x64, 0x42, 0x18, 0x0a, 0x16, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x5f, 0x6d, 0x61, 0x74,
-	0x63, 0x68, 0x5f, 0x73, 0x70, 0x65, 0x63, 0x69, 0x66, 0x69, 0x65, 0x72, 0x4a, 0x04, 0x08, 0x02,
-	0x10, 0x03, 0x4a, 0x04, 0x08, 0x03, 0x10, 0x04, 0x1a, 0xc0, 0x03, 0x0a, 0x08, 0x4d, 0x65, 0x74,
-	0x61, 0x44, 0x61, 0x74, 0x61, 0x12, 0x25, 0x0a, 0x0e, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70,
-	0x74, 0x6f, 0x72, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x64,
-	0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x4b, 0x65, 0x79, 0x12, 0x55, 0x0a, 0x0c,
-	0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x32, 0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61,
+	0x69, 0x6f, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x44, 0x61, 0x74, 0x61, 0x48, 0x00, 0x52, 0x08, 0x6d,
+	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x1a, 0x0f, 0x0a, 0x0d, 0x53, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x1a, 0x14, 0x0a, 0x12, 0x44, 0x65, 0x73, 0x74,
+	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x1a, 0x58,
+	0x0a, 0x0e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x73,
+	0x12, 0x1f, 0x0a, 0x0b, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x4e, 0x61, 0x6d,
+	0x65, 0x12, 0x25, 0x0a, 0x0e, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x5f,
+	0x6b, 0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x64, 0x65, 0x73, 0x63, 0x72,
+	0x69, 0x70, 0x74, 0x6f, 0x72, 0x4b, 0x65, 0x79, 0x1a, 0x0f, 0x0a, 0x0d, 0x52, 0x65, 0x6d, 0x6f,
+	0x74, 0x65, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x1a, 0x37, 0x0a, 0x0a, 0x47, 0x65, 0x6e,
+	0x65, 0x72, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x12, 0x29, 0x0a, 0x10, 0x64, 0x65, 0x73, 0x63, 0x72,
+	0x69, 0x70, 0x74, 0x6f, 0x72, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0f, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x56, 0x61, 0x6c,
+	0x75, 0x65, 0x1a, 0x9c, 0x05, 0x0a, 0x10, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x56, 0x61, 0x6c,
+	0x75, 0x65, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x29, 0x0a, 0x10, 0x64, 0x65, 0x73, 0x63, 0x72,
+	0x69, 0x70, 0x74, 0x6f, 0x72, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0f, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x56, 0x61, 0x6c,
+	0x75, 0x65, 0x12, 0x3d, 0x0a, 0x0c, 0x65, 0x78, 0x70, 0x65, 0x63, 0x74, 0x5f, 0x6d, 0x61, 0x74,
+	0x63, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f, 0x6c, 0x56,
+	0x61, 0x6c, 0x75, 0x65, 0x52, 0x0b, 0x65, 0x78, 0x70, 0x65, 0x63, 0x74, 0x4d, 0x61, 0x74, 0x63,
+	0x68, 0x12, 0x56, 0x0a, 0x07, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x73, 0x18, 0x03, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x3c, 0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61,
 	0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x6f,
-	0x6e, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x44, 0x61, 0x74, 0x61, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x64,
-	0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x52, 0x0b, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0x4b, 0x65, 0x79, 0x12, 0x23, 0x0a, 0x0d, 0x64, 0x65, 0x66, 0x61, 0x75, 0x6c, 0x74, 0x5f, 0x76,
-	0x61, 0x6c, 0x75, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x64, 0x65, 0x66, 0x61,
-	0x75, 0x6c, 0x74, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x45, 0x0a, 0x06, 0x73, 0x6f, 0x75, 0x72,
-	0x63, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x2d, 0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c,
-	0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f,
-	0x2e, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x44, 0x61, 0x74, 0x61,
-	0x2e, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x1a,
-	0xa1, 0x01, 0x0a, 0x0b, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x12,
-	0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65,
-	0x79, 0x12, 0x52, 0x0a, 0x04, 0x70, 0x61, 0x74, 0x68, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32,
-	0x3e, 0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x4d,
-	0x65, 0x74, 0x61, 0x44, 0x61, 0x74, 0x61, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0x4b, 0x65, 0x79, 0x2e, 0x50, 0x61, 0x74, 0x68, 0x53, 0x65, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x52,
-	0x04, 0x70, 0x61, 0x74, 0x68, 0x1a, 0x2c, 0x0a, 0x0b, 0x50, 0x61, 0x74, 0x68, 0x53, 0x65, 0x67,
-	0x6d, 0x65, 0x6e, 0x74, 0x12, 0x12, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x48, 0x00, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x42, 0x09, 0x0a, 0x07, 0x73, 0x65, 0x67, 0x6d,
-	0x65, 0x6e, 0x74, 0x22, 0x26, 0x0a, 0x06, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x0b, 0x0a,
-	0x07, 0x44, 0x59, 0x4e, 0x41, 0x4d, 0x49, 0x43, 0x10, 0x00, 0x12, 0x0f, 0x0a, 0x0b, 0x52, 0x4f,
-	0x55, 0x54, 0x45, 0x5f, 0x45, 0x4e, 0x54, 0x52, 0x59, 0x10, 0x01, 0x42, 0x12, 0x0a, 0x10, 0x61,
-	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x70, 0x65, 0x63, 0x69, 0x66, 0x69, 0x65, 0x72, 0x22,
-	0xfe, 0x02, 0x0a, 0x08, 0x4f, 0x76, 0x65, 0x72, 0x72, 0x69, 0x64, 0x65, 0x12, 0x5c, 0x0a, 0x10,
-	0x64, 0x79, 0x6e, 0x61, 0x6d, 0x69, 0x63, 0x5f, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2f, 0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d,
-	0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4f,
-	0x76, 0x65, 0x72, 0x72, 0x69, 0x64, 0x65, 0x2e, 0x44, 0x79, 0x6e, 0x61, 0x6d, 0x69, 0x63, 0x4d,
-	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x48, 0x00, 0x52, 0x0f, 0x64, 0x79, 0x6e, 0x61, 0x6d,
-	0x69, 0x63, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x1a, 0x9a, 0x01, 0x0a, 0x0b, 0x4d,
-	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65,
-	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x4b, 0x0a, 0x04,
-	0x70, 0x61, 0x74, 0x68, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x37, 0x2e, 0x72, 0x61, 0x74,
+	0x6e, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x4d, 0x61, 0x74,
+	0x63, 0x68, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x65, 0x72,
+	0x52, 0x07, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x73, 0x1a, 0xc5, 0x03, 0x0a, 0x0d, 0x48, 0x65,
+	0x61, 0x64, 0x65, 0x72, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x65, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x6e,
+	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12,
+	0x21, 0x0a, 0x0b, 0x65, 0x78, 0x61, 0x63, 0x74, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x0a, 0x65, 0x78, 0x61, 0x63, 0x74, 0x4d, 0x61, 0x74,
+	0x63, 0x68, 0x12, 0x21, 0x0a, 0x0b, 0x72, 0x65, 0x67, 0x65, 0x78, 0x5f, 0x6d, 0x61, 0x74, 0x63,
+	0x68, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x0a, 0x72, 0x65, 0x67, 0x65, 0x78,
+	0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x6a, 0x0a, 0x0b, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x6d,
+	0x61, 0x74, 0x63, 0x68, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x47, 0x2e, 0x72, 0x61, 0x74,
 	0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e,
-	0x69, 0x6f, 0x2e, 0x4f, 0x76, 0x65, 0x72, 0x72, 0x69, 0x64, 0x65, 0x2e, 0x4d, 0x65, 0x74, 0x61,
-	0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x2e, 0x50, 0x61, 0x74, 0x68, 0x53, 0x65, 0x67, 0x6d,
-	0x65, 0x6e, 0x74, 0x52, 0x04, 0x70, 0x61, 0x74, 0x68, 0x1a, 0x2c, 0x0a, 0x0b, 0x50, 0x61, 0x74,
-	0x68, 0x53, 0x65, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x12, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x42, 0x09, 0x0a, 0x07,
-	0x73, 0x65, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x1a, 0x61, 0x0a, 0x0f, 0x44, 0x79, 0x6e, 0x61, 0x6d,
-	0x69, 0x63, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x4e, 0x0a, 0x0c, 0x6d, 0x65,
-	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x2b, 0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4f, 0x76, 0x65, 0x72, 0x72, 0x69, 0x64,
-	0x65, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x52, 0x0b, 0x6d,
-	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x42, 0x14, 0x0a, 0x12, 0x6f, 0x76,
-	0x65, 0x72, 0x72, 0x69, 0x64, 0x65, 0x5f, 0x73, 0x70, 0x65, 0x63, 0x69, 0x66, 0x69, 0x65, 0x72,
-	0x42, 0x49, 0x5a, 0x3f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73,
-	0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x61, 0x70, 0x69, 0x73,
-	0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d,
-	0x69, 0x74, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0xb8, 0xf5, 0x04, 0x01, 0xc0, 0xf5, 0x04, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x69, 0x6f, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72,
+	0x56, 0x61, 0x6c, 0x75, 0x65, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65,
+	0x72, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x65, 0x72, 0x2e, 0x49, 0x6e, 0x74, 0x36, 0x34, 0x52, 0x61,
+	0x6e, 0x67, 0x65, 0x48, 0x00, 0x52, 0x0a, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x4d, 0x61, 0x74, 0x63,
+	0x68, 0x12, 0x25, 0x0a, 0x0d, 0x70, 0x72, 0x65, 0x73, 0x65, 0x6e, 0x74, 0x5f, 0x6d, 0x61, 0x74,
+	0x63, 0x68, 0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x0c, 0x70, 0x72, 0x65, 0x73,
+	0x65, 0x6e, 0x74, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x23, 0x0a, 0x0c, 0x70, 0x72, 0x65, 0x66,
+	0x69, 0x78, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00,
+	0x52, 0x0b, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x4d, 0x61, 0x74, 0x63, 0x68, 0x12, 0x23, 0x0a,
+	0x0c, 0x73, 0x75, 0x66, 0x66, 0x69, 0x78, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x18, 0x0a, 0x20,
+	0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x0b, 0x73, 0x75, 0x66, 0x66, 0x69, 0x78, 0x4d, 0x61, 0x74,
+	0x63, 0x68, 0x12, 0x21, 0x0a, 0x0c, 0x69, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x5f, 0x6d, 0x61, 0x74,
+	0x63, 0x68, 0x18, 0x08, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0b, 0x69, 0x6e, 0x76, 0x65, 0x72, 0x74,
+	0x4d, 0x61, 0x74, 0x63, 0x68, 0x1a, 0x34, 0x0a, 0x0a, 0x49, 0x6e, 0x74, 0x36, 0x34, 0x52, 0x61,
+	0x6e, 0x67, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x65, 0x6e, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x03, 0x65, 0x6e, 0x64, 0x42, 0x18, 0x0a, 0x16, 0x68,
+	0x65, 0x61, 0x64, 0x65, 0x72, 0x5f, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x5f, 0x73, 0x70, 0x65, 0x63,
+	0x69, 0x66, 0x69, 0x65, 0x72, 0x4a, 0x04, 0x08, 0x02, 0x10, 0x03, 0x4a, 0x04, 0x08, 0x03, 0x10,
+	0x04, 0x42, 0x12, 0x0a, 0x10, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x70, 0x65, 0x63,
+	0x69, 0x66, 0x69, 0x65, 0x72, 0x22, 0xab, 0x03, 0x0a, 0x08, 0x4d, 0x65, 0x74, 0x61, 0x44, 0x61,
+	0x74, 0x61, 0x12, 0x25, 0x0a, 0x0e, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72,
+	0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x64, 0x65, 0x73, 0x63,
+	0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x4b, 0x65, 0x79, 0x12, 0x4e, 0x0a, 0x0c, 0x6d, 0x65, 0x74,
+	0x61, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x2b, 0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x44, 0x61, 0x74, 0x61,
+	0x2e, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x52, 0x0b, 0x6d, 0x65,
+	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x12, 0x23, 0x0a, 0x0d, 0x64, 0x65, 0x66,
+	0x61, 0x75, 0x6c, 0x74, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0c, 0x64, 0x65, 0x66, 0x61, 0x75, 0x6c, 0x74, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x3e,
+	0x0a, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x26,
+	0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73,
+	0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x44, 0x61, 0x74, 0x61, 0x2e,
+	0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x1a, 0x9a,
+	0x01, 0x0a, 0x0b, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x12, 0x10,
+	0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79,
+	0x12, 0x4b, 0x0a, 0x04, 0x70, 0x61, 0x74, 0x68, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x37,
+	0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73,
+	0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x44, 0x61, 0x74, 0x61, 0x2e,
+	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79, 0x2e, 0x50, 0x61, 0x74, 0x68,
+	0x53, 0x65, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x04, 0x70, 0x61, 0x74, 0x68, 0x1a, 0x2c, 0x0a,
+	0x0b, 0x50, 0x61, 0x74, 0x68, 0x53, 0x65, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x12, 0x0a, 0x03,
+	0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x03, 0x6b, 0x65, 0x79,
+	0x42, 0x09, 0x0a, 0x07, 0x73, 0x65, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x22, 0x26, 0x0a, 0x06, 0x53,
+	0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x0b, 0x0a, 0x07, 0x44, 0x59, 0x4e, 0x41, 0x4d, 0x49, 0x43,
+	0x10, 0x00, 0x12, 0x0f, 0x0a, 0x0b, 0x52, 0x4f, 0x55, 0x54, 0x45, 0x5f, 0x45, 0x4e, 0x54, 0x52,
+	0x59, 0x10, 0x01, 0x22, 0xe1, 0x01, 0x0a, 0x08, 0x4f, 0x76, 0x65, 0x72, 0x72, 0x69, 0x64, 0x65,
+	0x12, 0x5c, 0x0a, 0x10, 0x64, 0x79, 0x6e, 0x61, 0x6d, 0x69, 0x63, 0x5f, 0x6d, 0x65, 0x74, 0x61,
+	0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2f, 0x2e, 0x72, 0x61, 0x74,
+	0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e,
+	0x69, 0x6f, 0x2e, 0x4f, 0x76, 0x65, 0x72, 0x72, 0x69, 0x64, 0x65, 0x2e, 0x44, 0x79, 0x6e, 0x61,
+	0x6d, 0x69, 0x63, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x48, 0x00, 0x52, 0x0f, 0x64,
+	0x79, 0x6e, 0x61, 0x6d, 0x69, 0x63, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x1a, 0x61,
+	0x0a, 0x0f, 0x44, 0x79, 0x6e, 0x61, 0x6d, 0x69, 0x63, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0x12, 0x4e, 0x0a, 0x0c, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x6b, 0x65,
+	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x72, 0x61, 0x74, 0x65, 0x6c, 0x69,
+	0x6d, 0x69, 0x74, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e,
+	0x4d, 0x65, 0x74, 0x61, 0x44, 0x61, 0x74, 0x61, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0x4b, 0x65, 0x79, 0x52, 0x0b, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65,
+	0x79, 0x42, 0x14, 0x0a, 0x12, 0x6f, 0x76, 0x65, 0x72, 0x72, 0x69, 0x64, 0x65, 0x5f, 0x73, 0x70,
+	0x65, 0x63, 0x69, 0x66, 0x69, 0x65, 0x72, 0x42, 0x49, 0x5a, 0x3f, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x73, 0x6f,
+	0x6c, 0x6f, 0x2d, 0x61, 0x70, 0x69, 0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x72, 0x61, 0x74, 0x65, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69,
+	0x6f, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xb8, 0xf5, 0x04, 0x01, 0xc0, 0xf5,
+	0x04, 0x01, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2480,11 +2312,11 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 }
 
 var file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_goTypes = []interface{}{
 	(RateLimitConfigStatus_State)(0),                         // 0: ratelimit.api.solo.io.RateLimitConfigStatus.State
 	(RateLimit_Unit)(0),                                      // 1: ratelimit.api.solo.io.RateLimit.Unit
-	(Action_MetaData_Source)(0),                              // 2: ratelimit.api.solo.io.Action.MetaData.Source
+	(MetaData_Source)(0),                                     // 2: ratelimit.api.solo.io.MetaData.Source
 	(*RateLimitConfigSpec)(nil),                              // 3: ratelimit.api.solo.io.RateLimitConfigSpec
 	(*RateLimitConfigStatus)(nil),                            // 4: ratelimit.api.solo.io.RateLimitConfigStatus
 	(*RateLimitConfigNamespacedStatuses)(nil),                // 5: ratelimit.api.solo.io.RateLimitConfigNamespacedStatuses
@@ -2494,62 +2326,59 @@ var file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_
 	(*RateLimitActions)(nil),                                 // 9: ratelimit.api.solo.io.RateLimitActions
 	(*RateLimit)(nil),                                        // 10: ratelimit.api.solo.io.RateLimit
 	(*Action)(nil),                                           // 11: ratelimit.api.solo.io.Action
-	(*Override)(nil),                                         // 12: ratelimit.api.solo.io.Override
-	(*RateLimitConfigSpec_Raw)(nil),                          // 13: ratelimit.api.solo.io.RateLimitConfigSpec.Raw
-	nil,                                                      // 14: ratelimit.api.solo.io.RateLimitConfigNamespacedStatuses.StatusesEntry
-	(*Action_SourceCluster)(nil),                             // 15: ratelimit.api.solo.io.Action.SourceCluster
-	(*Action_DestinationCluster)(nil),                        // 16: ratelimit.api.solo.io.Action.DestinationCluster
-	(*Action_RequestHeaders)(nil),                            // 17: ratelimit.api.solo.io.Action.RequestHeaders
-	(*Action_RemoteAddress)(nil),                             // 18: ratelimit.api.solo.io.Action.RemoteAddress
-	(*Action_GenericKey)(nil),                                // 19: ratelimit.api.solo.io.Action.GenericKey
-	(*Action_HeaderValueMatch)(nil),                          // 20: ratelimit.api.solo.io.Action.HeaderValueMatch
-	(*Action_MetaData)(nil),                                  // 21: ratelimit.api.solo.io.Action.MetaData
+	(*MetaData)(nil),                                         // 12: ratelimit.api.solo.io.MetaData
+	(*Override)(nil),                                         // 13: ratelimit.api.solo.io.Override
+	(*RateLimitConfigSpec_Raw)(nil),                          // 14: ratelimit.api.solo.io.RateLimitConfigSpec.Raw
+	nil,                                                      // 15: ratelimit.api.solo.io.RateLimitConfigNamespacedStatuses.StatusesEntry
+	(*Action_SourceCluster)(nil),                             // 16: ratelimit.api.solo.io.Action.SourceCluster
+	(*Action_DestinationCluster)(nil),                        // 17: ratelimit.api.solo.io.Action.DestinationCluster
+	(*Action_RequestHeaders)(nil),                            // 18: ratelimit.api.solo.io.Action.RequestHeaders
+	(*Action_RemoteAddress)(nil),                             // 19: ratelimit.api.solo.io.Action.RemoteAddress
+	(*Action_GenericKey)(nil),                                // 20: ratelimit.api.solo.io.Action.GenericKey
+	(*Action_HeaderValueMatch)(nil),                          // 21: ratelimit.api.solo.io.Action.HeaderValueMatch
 	(*Action_HeaderValueMatch_HeaderMatcher)(nil),            // 22: ratelimit.api.solo.io.Action.HeaderValueMatch.HeaderMatcher
 	(*Action_HeaderValueMatch_HeaderMatcher_Int64Range)(nil), // 23: ratelimit.api.solo.io.Action.HeaderValueMatch.HeaderMatcher.Int64Range
-	(*Action_MetaData_MetadataKey)(nil),                      // 24: ratelimit.api.solo.io.Action.MetaData.MetadataKey
-	(*Action_MetaData_MetadataKey_PathSegment)(nil),          // 25: ratelimit.api.solo.io.Action.MetaData.MetadataKey.PathSegment
-	(*Override_MetadataKey)(nil),                             // 26: ratelimit.api.solo.io.Override.MetadataKey
-	(*Override_DynamicMetadata)(nil),                         // 27: ratelimit.api.solo.io.Override.DynamicMetadata
-	(*Override_MetadataKey_PathSegment)(nil),                 // 28: ratelimit.api.solo.io.Override.MetadataKey.PathSegment
-	(*wrappers.BoolValue)(nil),                               // 29: google.protobuf.BoolValue
+	(*MetaData_MetadataKey)(nil),                             // 24: ratelimit.api.solo.io.MetaData.MetadataKey
+	(*MetaData_MetadataKey_PathSegment)(nil),                 // 25: ratelimit.api.solo.io.MetaData.MetadataKey.PathSegment
+	(*Override_DynamicMetadata)(nil),                         // 26: ratelimit.api.solo.io.Override.DynamicMetadata
+	(*wrappers.BoolValue)(nil),                               // 27: google.protobuf.BoolValue
 }
 var file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_depIdxs = []int32{
-	13, // 0: ratelimit.api.solo.io.RateLimitConfigSpec.raw:type_name -> ratelimit.api.solo.io.RateLimitConfigSpec.Raw
+	14, // 0: ratelimit.api.solo.io.RateLimitConfigSpec.raw:type_name -> ratelimit.api.solo.io.RateLimitConfigSpec.Raw
 	0,  // 1: ratelimit.api.solo.io.RateLimitConfigStatus.state:type_name -> ratelimit.api.solo.io.RateLimitConfigStatus.State
-	14, // 2: ratelimit.api.solo.io.RateLimitConfigNamespacedStatuses.statuses:type_name -> ratelimit.api.solo.io.RateLimitConfigNamespacedStatuses.StatusesEntry
+	15, // 2: ratelimit.api.solo.io.RateLimitConfigNamespacedStatuses.statuses:type_name -> ratelimit.api.solo.io.RateLimitConfigNamespacedStatuses.StatusesEntry
 	10, // 3: ratelimit.api.solo.io.Descriptor.rate_limit:type_name -> ratelimit.api.solo.io.RateLimit
 	6,  // 4: ratelimit.api.solo.io.Descriptor.descriptors:type_name -> ratelimit.api.solo.io.Descriptor
 	8,  // 5: ratelimit.api.solo.io.SetDescriptor.simple_descriptors:type_name -> ratelimit.api.solo.io.SimpleDescriptor
 	10, // 6: ratelimit.api.solo.io.SetDescriptor.rate_limit:type_name -> ratelimit.api.solo.io.RateLimit
 	11, // 7: ratelimit.api.solo.io.RateLimitActions.actions:type_name -> ratelimit.api.solo.io.Action
 	11, // 8: ratelimit.api.solo.io.RateLimitActions.set_actions:type_name -> ratelimit.api.solo.io.Action
-	12, // 9: ratelimit.api.solo.io.RateLimitActions.limit:type_name -> ratelimit.api.solo.io.Override
+	13, // 9: ratelimit.api.solo.io.RateLimitActions.limit:type_name -> ratelimit.api.solo.io.Override
 	1,  // 10: ratelimit.api.solo.io.RateLimit.unit:type_name -> ratelimit.api.solo.io.RateLimit.Unit
-	15, // 11: ratelimit.api.solo.io.Action.source_cluster:type_name -> ratelimit.api.solo.io.Action.SourceCluster
-	16, // 12: ratelimit.api.solo.io.Action.destination_cluster:type_name -> ratelimit.api.solo.io.Action.DestinationCluster
-	17, // 13: ratelimit.api.solo.io.Action.request_headers:type_name -> ratelimit.api.solo.io.Action.RequestHeaders
-	18, // 14: ratelimit.api.solo.io.Action.remote_address:type_name -> ratelimit.api.solo.io.Action.RemoteAddress
-	19, // 15: ratelimit.api.solo.io.Action.generic_key:type_name -> ratelimit.api.solo.io.Action.GenericKey
-	20, // 16: ratelimit.api.solo.io.Action.header_value_match:type_name -> ratelimit.api.solo.io.Action.HeaderValueMatch
-	21, // 17: ratelimit.api.solo.io.Action.metadata:type_name -> ratelimit.api.solo.io.Action.MetaData
-	27, // 18: ratelimit.api.solo.io.Override.dynamic_metadata:type_name -> ratelimit.api.solo.io.Override.DynamicMetadata
-	6,  // 19: ratelimit.api.solo.io.RateLimitConfigSpec.Raw.descriptors:type_name -> ratelimit.api.solo.io.Descriptor
-	9,  // 20: ratelimit.api.solo.io.RateLimitConfigSpec.Raw.rate_limits:type_name -> ratelimit.api.solo.io.RateLimitActions
-	7,  // 21: ratelimit.api.solo.io.RateLimitConfigSpec.Raw.set_descriptors:type_name -> ratelimit.api.solo.io.SetDescriptor
-	4,  // 22: ratelimit.api.solo.io.RateLimitConfigNamespacedStatuses.StatusesEntry.value:type_name -> ratelimit.api.solo.io.RateLimitConfigStatus
-	29, // 23: ratelimit.api.solo.io.Action.HeaderValueMatch.expect_match:type_name -> google.protobuf.BoolValue
-	22, // 24: ratelimit.api.solo.io.Action.HeaderValueMatch.headers:type_name -> ratelimit.api.solo.io.Action.HeaderValueMatch.HeaderMatcher
-	24, // 25: ratelimit.api.solo.io.Action.MetaData.metadata_key:type_name -> ratelimit.api.solo.io.Action.MetaData.MetadataKey
-	2,  // 26: ratelimit.api.solo.io.Action.MetaData.source:type_name -> ratelimit.api.solo.io.Action.MetaData.Source
+	16, // 11: ratelimit.api.solo.io.Action.source_cluster:type_name -> ratelimit.api.solo.io.Action.SourceCluster
+	17, // 12: ratelimit.api.solo.io.Action.destination_cluster:type_name -> ratelimit.api.solo.io.Action.DestinationCluster
+	18, // 13: ratelimit.api.solo.io.Action.request_headers:type_name -> ratelimit.api.solo.io.Action.RequestHeaders
+	19, // 14: ratelimit.api.solo.io.Action.remote_address:type_name -> ratelimit.api.solo.io.Action.RemoteAddress
+	20, // 15: ratelimit.api.solo.io.Action.generic_key:type_name -> ratelimit.api.solo.io.Action.GenericKey
+	21, // 16: ratelimit.api.solo.io.Action.header_value_match:type_name -> ratelimit.api.solo.io.Action.HeaderValueMatch
+	12, // 17: ratelimit.api.solo.io.Action.metadata:type_name -> ratelimit.api.solo.io.MetaData
+	24, // 18: ratelimit.api.solo.io.MetaData.metadata_key:type_name -> ratelimit.api.solo.io.MetaData.MetadataKey
+	2,  // 19: ratelimit.api.solo.io.MetaData.source:type_name -> ratelimit.api.solo.io.MetaData.Source
+	26, // 20: ratelimit.api.solo.io.Override.dynamic_metadata:type_name -> ratelimit.api.solo.io.Override.DynamicMetadata
+	6,  // 21: ratelimit.api.solo.io.RateLimitConfigSpec.Raw.descriptors:type_name -> ratelimit.api.solo.io.Descriptor
+	9,  // 22: ratelimit.api.solo.io.RateLimitConfigSpec.Raw.rate_limits:type_name -> ratelimit.api.solo.io.RateLimitActions
+	7,  // 23: ratelimit.api.solo.io.RateLimitConfigSpec.Raw.set_descriptors:type_name -> ratelimit.api.solo.io.SetDescriptor
+	4,  // 24: ratelimit.api.solo.io.RateLimitConfigNamespacedStatuses.StatusesEntry.value:type_name -> ratelimit.api.solo.io.RateLimitConfigStatus
+	27, // 25: ratelimit.api.solo.io.Action.HeaderValueMatch.expect_match:type_name -> google.protobuf.BoolValue
+	22, // 26: ratelimit.api.solo.io.Action.HeaderValueMatch.headers:type_name -> ratelimit.api.solo.io.Action.HeaderValueMatch.HeaderMatcher
 	23, // 27: ratelimit.api.solo.io.Action.HeaderValueMatch.HeaderMatcher.range_match:type_name -> ratelimit.api.solo.io.Action.HeaderValueMatch.HeaderMatcher.Int64Range
-	25, // 28: ratelimit.api.solo.io.Action.MetaData.MetadataKey.path:type_name -> ratelimit.api.solo.io.Action.MetaData.MetadataKey.PathSegment
-	28, // 29: ratelimit.api.solo.io.Override.MetadataKey.path:type_name -> ratelimit.api.solo.io.Override.MetadataKey.PathSegment
-	26, // 30: ratelimit.api.solo.io.Override.DynamicMetadata.metadata_key:type_name -> ratelimit.api.solo.io.Override.MetadataKey
-	31, // [31:31] is the sub-list for method output_type
-	31, // [31:31] is the sub-list for method input_type
-	31, // [31:31] is the sub-list for extension type_name
-	31, // [31:31] is the sub-list for extension extendee
-	0,  // [0:31] is the sub-list for field type_name
+	25, // 28: ratelimit.api.solo.io.MetaData.MetadataKey.path:type_name -> ratelimit.api.solo.io.MetaData.MetadataKey.PathSegment
+	24, // 29: ratelimit.api.solo.io.Override.DynamicMetadata.metadata_key:type_name -> ratelimit.api.solo.io.MetaData.MetadataKey
+	30, // [30:30] is the sub-list for method output_type
+	30, // [30:30] is the sub-list for method input_type
+	30, // [30:30] is the sub-list for extension type_name
+	30, // [30:30] is the sub-list for extension extendee
+	0,  // [0:30] is the sub-list for field type_name
 }
 
 func init() { file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_init() }
@@ -2667,7 +2496,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Override); i {
+			switch v := v.(*MetaData); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2679,6 +2508,18 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Override); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RateLimitConfigSpec_Raw); i {
 			case 0:
 				return &v.state
@@ -2690,7 +2531,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Action_SourceCluster); i {
 			case 0:
 				return &v.state
@@ -2702,7 +2543,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Action_DestinationCluster); i {
 			case 0:
 				return &v.state
@@ -2714,7 +2555,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Action_RequestHeaders); i {
 			case 0:
 				return &v.state
@@ -2726,7 +2567,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Action_RemoteAddress); i {
 			case 0:
 				return &v.state
@@ -2738,7 +2579,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Action_GenericKey); i {
 			case 0:
 				return &v.state
@@ -2750,20 +2591,8 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 				return nil
 			}
 		}
-		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Action_HeaderValueMatch); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Action_MetaData); i {
+			switch v := v.(*Action_HeaderValueMatch); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2799,7 +2628,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Action_MetaData_MetadataKey); i {
+			switch v := v.(*MetaData_MetadataKey); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2811,7 +2640,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Action_MetaData_MetadataKey_PathSegment); i {
+			switch v := v.(*MetaData_MetadataKey_PathSegment); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2823,31 +2652,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 			}
 		}
 		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Override_MetadataKey); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Override_DynamicMetadata); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Override_MetadataKey_PathSegment); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2871,7 +2676,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 		(*Action_HeaderValueMatch_)(nil),
 		(*Action_Metadata)(nil),
 	}
-	file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[9].OneofWrappers = []interface{}{
+	file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[10].OneofWrappers = []interface{}{
 		(*Override_DynamicMetadata_)(nil),
 	}
 	file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[19].OneofWrappers = []interface{}{
@@ -2883,10 +2688,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 		(*Action_HeaderValueMatch_HeaderMatcher_SuffixMatch)(nil),
 	}
 	file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[22].OneofWrappers = []interface{}{
-		(*Action_MetaData_MetadataKey_PathSegment_Key)(nil),
-	}
-	file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_msgTypes[25].OneofWrappers = []interface{}{
-		(*Override_MetadataKey_PathSegment_Key)(nil),
+		(*MetaData_MetadataKey_PathSegment_Key)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2894,7 +2696,7 @@ func file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_rawDesc,
 			NumEnums:      3,
-			NumMessages:   26,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
