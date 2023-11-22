@@ -6,14 +6,14 @@ metadata:
   labels:
     app: ""
     app.kubernetes.io/name: ""
-  name: glooinstances.fed.solo.io
+  name: failoverschemes.fed.solo.io
 spec:
   group: fed.solo.io
   names:
-    kind: GlooInstance
-    listKind: GlooInstanceList
-    plural: glooinstances
-    singular: glooinstance
+    kind: FailoverScheme
+    listKind: FailoverSchemeList
+    plural: failoverschemes
+    singular: failoverscheme
   scope: Namespaced
   versions:
   - name: v1
@@ -33,14 +33,14 @@ metadata:
   labels:
     app: ""
     app.kubernetes.io/name: ""
-  name: failoverschemes.fed.solo.io
+  name: glooinstances.fed.solo.io
 spec:
   group: fed.solo.io
   names:
-    kind: FailoverScheme
-    listKind: FailoverSchemeList
-    plural: failoverschemes
-    singular: failoverscheme
+    kind: GlooInstance
+    listKind: GlooInstanceList
+    plural: glooinstances
+    singular: glooinstance
   scope: Namespaced
   versions:
   - name: v1

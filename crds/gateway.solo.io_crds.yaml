@@ -87,14 +87,14 @@ metadata:
   labels:
     app: ""
     app.kubernetes.io/name: ""
-  name: routetables.gateway.solo.io
+  name: routeoptions.gateway.solo.io
 spec:
   group: gateway.solo.io
   names:
-    kind: RouteTable
-    listKind: RouteTableList
-    plural: routetables
-    singular: routetable
+    kind: RouteOption
+    listKind: RouteOptionList
+    plural: routeoptions
+    singular: routeoption
   scope: Namespaced
   versions:
   - name: v1
@@ -114,14 +114,14 @@ metadata:
   labels:
     app: ""
     app.kubernetes.io/name: ""
-  name: virtualservices.gateway.solo.io
+  name: routetables.gateway.solo.io
 spec:
   group: gateway.solo.io
   names:
-    kind: VirtualService
-    listKind: VirtualServiceList
-    plural: virtualservices
-    singular: virtualservice
+    kind: RouteTable
+    listKind: RouteTableList
+    plural: routetables
+    singular: routetable
   scope: Namespaced
   versions:
   - name: v1
@@ -168,14 +168,14 @@ metadata:
   labels:
     app: ""
     app.kubernetes.io/name: ""
-  name: routeoptions.gateway.solo.io
+  name: virtualservices.gateway.solo.io
 spec:
   group: gateway.solo.io
   names:
-    kind: RouteOption
-    listKind: RouteOptionList
-    plural: routeoptions
-    singular: routeoption
+    kind: VirtualService
+    listKind: VirtualServiceList
+    plural: virtualservices
+    singular: virtualservice
   scope: Namespaced
   versions:
   - name: v1
