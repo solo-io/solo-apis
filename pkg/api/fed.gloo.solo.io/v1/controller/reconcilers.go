@@ -5,24 +5,22 @@
 // Definitions for the Kubernetes Controllers
 package controller
 
-
-
 import (
 	"context"
 
-    fed_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
+	fed_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
 
-    "github.com/pkg/errors"
-    "github.com/solo-io/skv2/pkg/ezkube"
-    "github.com/solo-io/skv2/pkg/reconcile"
-    "sigs.k8s.io/controller-runtime/pkg/manager"
-    "sigs.k8s.io/controller-runtime/pkg/predicate"
+	"github.com/pkg/errors"
+	"github.com/solo-io/skv2/pkg/ezkube"
+	"github.com/solo-io/skv2/pkg/reconcile"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
 // Reconcile Upsert events for the FederatedSettings Resource.
 // implemented by the user
 type FederatedSettingsReconciler interface {
-    ReconcileFederatedSettings(obj *fed_gloo_solo_io_v1.FederatedSettings) (reconcile.Result, error)
+	ReconcileFederatedSettings(obj *fed_gloo_solo_io_v1.FederatedSettings) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the FederatedSettings Resource.
@@ -30,117 +28,116 @@ type FederatedSettingsReconciler interface {
 // before being deleted.
 // implemented by the user
 type FederatedSettingsDeletionReconciler interface {
-    ReconcileFederatedSettingsDeletion(req reconcile.Request) error
+	ReconcileFederatedSettingsDeletion(req reconcile.Request) error
 }
 
 type FederatedSettingsReconcilerFuncs struct {
-    OnReconcileFederatedSettings func(obj *fed_gloo_solo_io_v1.FederatedSettings) (reconcile.Result, error)
-    OnReconcileFederatedSettingsDeletion func(req reconcile.Request) error
+	OnReconcileFederatedSettings         func(obj *fed_gloo_solo_io_v1.FederatedSettings) (reconcile.Result, error)
+	OnReconcileFederatedSettingsDeletion func(req reconcile.Request) error
 }
 
 func (f *FederatedSettingsReconcilerFuncs) ReconcileFederatedSettings(obj *fed_gloo_solo_io_v1.FederatedSettings) (reconcile.Result, error) {
-    if f.OnReconcileFederatedSettings == nil {
-        return reconcile.Result{}, nil
-    }
-    return f.OnReconcileFederatedSettings(obj)
+	if f.OnReconcileFederatedSettings == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileFederatedSettings(obj)
 }
 
 func (f *FederatedSettingsReconcilerFuncs) ReconcileFederatedSettingsDeletion(req reconcile.Request) error {
-    if f.OnReconcileFederatedSettingsDeletion == nil {
-        return nil
-    }
-    return f.OnReconcileFederatedSettingsDeletion(req)
+	if f.OnReconcileFederatedSettingsDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileFederatedSettingsDeletion(req)
 }
 
 // Reconcile and finalize the FederatedSettings Resource
 // implemented by the user
 type FederatedSettingsFinalizer interface {
-    FederatedSettingsReconciler
+	FederatedSettingsReconciler
 
-    // name of the finalizer used by this handler.
-    // finalizer names should be unique for a single task
-    FederatedSettingsFinalizerName() string
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	FederatedSettingsFinalizerName() string
 
-    // finalize the object before it is deleted.
-    // Watchers created with a finalizing handler will a
-    FinalizeFederatedSettings(obj *fed_gloo_solo_io_v1.FederatedSettings) error
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeFederatedSettings(obj *fed_gloo_solo_io_v1.FederatedSettings) error
 }
 
 type FederatedSettingsReconcileLoop interface {
-    RunFederatedSettingsReconciler(ctx context.Context, rec FederatedSettingsReconciler, predicates ...predicate.Predicate) error
+	RunFederatedSettingsReconciler(ctx context.Context, rec FederatedSettingsReconciler, predicates ...predicate.Predicate) error
 }
 
 type federatedSettingsReconcileLoop struct {
-    loop reconcile.Loop
+	loop reconcile.Loop
 }
 
 func NewFederatedSettingsReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) FederatedSettingsReconcileLoop {
-    return &federatedSettingsReconcileLoop{
-    	// empty cluster indicates this reconciler is built for the local cluster
-        loop: reconcile.NewLoop(name, "", mgr, &fed_gloo_solo_io_v1.FederatedSettings{}, options),
-    }
+	return &federatedSettingsReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &fed_gloo_solo_io_v1.FederatedSettings{}, options),
+	}
 }
 
 func (c *federatedSettingsReconcileLoop) RunFederatedSettingsReconciler(ctx context.Context, reconciler FederatedSettingsReconciler, predicates ...predicate.Predicate) error {
-    genericReconciler := genericFederatedSettingsReconciler{
-        reconciler: reconciler,
-    }
+	genericReconciler := genericFederatedSettingsReconciler{
+		reconciler: reconciler,
+	}
 
 	var reconcilerWrapper reconcile.Reconciler
 	if finalizingReconciler, ok := reconciler.(FederatedSettingsFinalizer); ok {
-        reconcilerWrapper = genericFederatedSettingsFinalizer{
-            genericFederatedSettingsReconciler: genericReconciler,
-            finalizingReconciler: finalizingReconciler,
-        }
-    } else {
-        reconcilerWrapper = genericReconciler
-    }
+		reconcilerWrapper = genericFederatedSettingsFinalizer{
+			genericFederatedSettingsReconciler: genericReconciler,
+			finalizingReconciler:               finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
 	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
 }
 
 // genericFederatedSettingsHandler implements a generic reconcile.Reconciler
 type genericFederatedSettingsReconciler struct {
-    reconciler FederatedSettingsReconciler
+	reconciler FederatedSettingsReconciler
 }
 
 func (r genericFederatedSettingsReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-    obj, ok := object.(*fed_gloo_solo_io_v1.FederatedSettings)
-    if !ok {
-        return reconcile.Result{}, errors.Errorf("internal error: FederatedSettings handler received event for %T", object)
-    }
-    return r.reconciler.ReconcileFederatedSettings(obj)
+	obj, ok := object.(*fed_gloo_solo_io_v1.FederatedSettings)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: FederatedSettings handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileFederatedSettings(obj)
 }
 
 func (r genericFederatedSettingsReconciler) ReconcileDeletion(request reconcile.Request) error {
-    if deletionReconciler, ok := r.reconciler.(FederatedSettingsDeletionReconciler); ok {
-        return deletionReconciler.ReconcileFederatedSettingsDeletion(request)
-    }
-    return nil
+	if deletionReconciler, ok := r.reconciler.(FederatedSettingsDeletionReconciler); ok {
+		return deletionReconciler.ReconcileFederatedSettingsDeletion(request)
+	}
+	return nil
 }
 
 // genericFederatedSettingsFinalizer implements a generic reconcile.FinalizingReconciler
 type genericFederatedSettingsFinalizer struct {
-    genericFederatedSettingsReconciler
-    finalizingReconciler FederatedSettingsFinalizer
+	genericFederatedSettingsReconciler
+	finalizingReconciler FederatedSettingsFinalizer
 }
 
-
 func (r genericFederatedSettingsFinalizer) FinalizerName() string {
-    return r.finalizingReconciler.FederatedSettingsFinalizerName()
+	return r.finalizingReconciler.FederatedSettingsFinalizerName()
 }
 
 func (r genericFederatedSettingsFinalizer) Finalize(object ezkube.Object) error {
-    obj, ok := object.(*fed_gloo_solo_io_v1.FederatedSettings)
-    if !ok {
-        return errors.Errorf("internal error: FederatedSettings handler received event for %T", object)
-    }
-    return r.finalizingReconciler.FinalizeFederatedSettings(obj)
+	obj, ok := object.(*fed_gloo_solo_io_v1.FederatedSettings)
+	if !ok {
+		return errors.Errorf("internal error: FederatedSettings handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeFederatedSettings(obj)
 }
 
 // Reconcile Upsert events for the FederatedUpstream Resource.
 // implemented by the user
 type FederatedUpstreamReconciler interface {
-    ReconcileFederatedUpstream(obj *fed_gloo_solo_io_v1.FederatedUpstream) (reconcile.Result, error)
+	ReconcileFederatedUpstream(obj *fed_gloo_solo_io_v1.FederatedUpstream) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the FederatedUpstream Resource.
@@ -148,117 +145,116 @@ type FederatedUpstreamReconciler interface {
 // before being deleted.
 // implemented by the user
 type FederatedUpstreamDeletionReconciler interface {
-    ReconcileFederatedUpstreamDeletion(req reconcile.Request) error
+	ReconcileFederatedUpstreamDeletion(req reconcile.Request) error
 }
 
 type FederatedUpstreamReconcilerFuncs struct {
-    OnReconcileFederatedUpstream func(obj *fed_gloo_solo_io_v1.FederatedUpstream) (reconcile.Result, error)
-    OnReconcileFederatedUpstreamDeletion func(req reconcile.Request) error
+	OnReconcileFederatedUpstream         func(obj *fed_gloo_solo_io_v1.FederatedUpstream) (reconcile.Result, error)
+	OnReconcileFederatedUpstreamDeletion func(req reconcile.Request) error
 }
 
 func (f *FederatedUpstreamReconcilerFuncs) ReconcileFederatedUpstream(obj *fed_gloo_solo_io_v1.FederatedUpstream) (reconcile.Result, error) {
-    if f.OnReconcileFederatedUpstream == nil {
-        return reconcile.Result{}, nil
-    }
-    return f.OnReconcileFederatedUpstream(obj)
+	if f.OnReconcileFederatedUpstream == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileFederatedUpstream(obj)
 }
 
 func (f *FederatedUpstreamReconcilerFuncs) ReconcileFederatedUpstreamDeletion(req reconcile.Request) error {
-    if f.OnReconcileFederatedUpstreamDeletion == nil {
-        return nil
-    }
-    return f.OnReconcileFederatedUpstreamDeletion(req)
+	if f.OnReconcileFederatedUpstreamDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileFederatedUpstreamDeletion(req)
 }
 
 // Reconcile and finalize the FederatedUpstream Resource
 // implemented by the user
 type FederatedUpstreamFinalizer interface {
-    FederatedUpstreamReconciler
+	FederatedUpstreamReconciler
 
-    // name of the finalizer used by this handler.
-    // finalizer names should be unique for a single task
-    FederatedUpstreamFinalizerName() string
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	FederatedUpstreamFinalizerName() string
 
-    // finalize the object before it is deleted.
-    // Watchers created with a finalizing handler will a
-    FinalizeFederatedUpstream(obj *fed_gloo_solo_io_v1.FederatedUpstream) error
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeFederatedUpstream(obj *fed_gloo_solo_io_v1.FederatedUpstream) error
 }
 
 type FederatedUpstreamReconcileLoop interface {
-    RunFederatedUpstreamReconciler(ctx context.Context, rec FederatedUpstreamReconciler, predicates ...predicate.Predicate) error
+	RunFederatedUpstreamReconciler(ctx context.Context, rec FederatedUpstreamReconciler, predicates ...predicate.Predicate) error
 }
 
 type federatedUpstreamReconcileLoop struct {
-    loop reconcile.Loop
+	loop reconcile.Loop
 }
 
 func NewFederatedUpstreamReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) FederatedUpstreamReconcileLoop {
-    return &federatedUpstreamReconcileLoop{
-    	// empty cluster indicates this reconciler is built for the local cluster
-        loop: reconcile.NewLoop(name, "", mgr, &fed_gloo_solo_io_v1.FederatedUpstream{}, options),
-    }
+	return &federatedUpstreamReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &fed_gloo_solo_io_v1.FederatedUpstream{}, options),
+	}
 }
 
 func (c *federatedUpstreamReconcileLoop) RunFederatedUpstreamReconciler(ctx context.Context, reconciler FederatedUpstreamReconciler, predicates ...predicate.Predicate) error {
-    genericReconciler := genericFederatedUpstreamReconciler{
-        reconciler: reconciler,
-    }
+	genericReconciler := genericFederatedUpstreamReconciler{
+		reconciler: reconciler,
+	}
 
 	var reconcilerWrapper reconcile.Reconciler
 	if finalizingReconciler, ok := reconciler.(FederatedUpstreamFinalizer); ok {
-        reconcilerWrapper = genericFederatedUpstreamFinalizer{
-            genericFederatedUpstreamReconciler: genericReconciler,
-            finalizingReconciler: finalizingReconciler,
-        }
-    } else {
-        reconcilerWrapper = genericReconciler
-    }
+		reconcilerWrapper = genericFederatedUpstreamFinalizer{
+			genericFederatedUpstreamReconciler: genericReconciler,
+			finalizingReconciler:               finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
 	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
 }
 
 // genericFederatedUpstreamHandler implements a generic reconcile.Reconciler
 type genericFederatedUpstreamReconciler struct {
-    reconciler FederatedUpstreamReconciler
+	reconciler FederatedUpstreamReconciler
 }
 
 func (r genericFederatedUpstreamReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-    obj, ok := object.(*fed_gloo_solo_io_v1.FederatedUpstream)
-    if !ok {
-        return reconcile.Result{}, errors.Errorf("internal error: FederatedUpstream handler received event for %T", object)
-    }
-    return r.reconciler.ReconcileFederatedUpstream(obj)
+	obj, ok := object.(*fed_gloo_solo_io_v1.FederatedUpstream)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: FederatedUpstream handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileFederatedUpstream(obj)
 }
 
 func (r genericFederatedUpstreamReconciler) ReconcileDeletion(request reconcile.Request) error {
-    if deletionReconciler, ok := r.reconciler.(FederatedUpstreamDeletionReconciler); ok {
-        return deletionReconciler.ReconcileFederatedUpstreamDeletion(request)
-    }
-    return nil
+	if deletionReconciler, ok := r.reconciler.(FederatedUpstreamDeletionReconciler); ok {
+		return deletionReconciler.ReconcileFederatedUpstreamDeletion(request)
+	}
+	return nil
 }
 
 // genericFederatedUpstreamFinalizer implements a generic reconcile.FinalizingReconciler
 type genericFederatedUpstreamFinalizer struct {
-    genericFederatedUpstreamReconciler
-    finalizingReconciler FederatedUpstreamFinalizer
+	genericFederatedUpstreamReconciler
+	finalizingReconciler FederatedUpstreamFinalizer
 }
 
-
 func (r genericFederatedUpstreamFinalizer) FinalizerName() string {
-    return r.finalizingReconciler.FederatedUpstreamFinalizerName()
+	return r.finalizingReconciler.FederatedUpstreamFinalizerName()
 }
 
 func (r genericFederatedUpstreamFinalizer) Finalize(object ezkube.Object) error {
-    obj, ok := object.(*fed_gloo_solo_io_v1.FederatedUpstream)
-    if !ok {
-        return errors.Errorf("internal error: FederatedUpstream handler received event for %T", object)
-    }
-    return r.finalizingReconciler.FinalizeFederatedUpstream(obj)
+	obj, ok := object.(*fed_gloo_solo_io_v1.FederatedUpstream)
+	if !ok {
+		return errors.Errorf("internal error: FederatedUpstream handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeFederatedUpstream(obj)
 }
 
 // Reconcile Upsert events for the FederatedUpstreamGroup Resource.
 // implemented by the user
 type FederatedUpstreamGroupReconciler interface {
-    ReconcileFederatedUpstreamGroup(obj *fed_gloo_solo_io_v1.FederatedUpstreamGroup) (reconcile.Result, error)
+	ReconcileFederatedUpstreamGroup(obj *fed_gloo_solo_io_v1.FederatedUpstreamGroup) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the FederatedUpstreamGroup Resource.
@@ -266,109 +262,108 @@ type FederatedUpstreamGroupReconciler interface {
 // before being deleted.
 // implemented by the user
 type FederatedUpstreamGroupDeletionReconciler interface {
-    ReconcileFederatedUpstreamGroupDeletion(req reconcile.Request) error
+	ReconcileFederatedUpstreamGroupDeletion(req reconcile.Request) error
 }
 
 type FederatedUpstreamGroupReconcilerFuncs struct {
-    OnReconcileFederatedUpstreamGroup func(obj *fed_gloo_solo_io_v1.FederatedUpstreamGroup) (reconcile.Result, error)
-    OnReconcileFederatedUpstreamGroupDeletion func(req reconcile.Request) error
+	OnReconcileFederatedUpstreamGroup         func(obj *fed_gloo_solo_io_v1.FederatedUpstreamGroup) (reconcile.Result, error)
+	OnReconcileFederatedUpstreamGroupDeletion func(req reconcile.Request) error
 }
 
 func (f *FederatedUpstreamGroupReconcilerFuncs) ReconcileFederatedUpstreamGroup(obj *fed_gloo_solo_io_v1.FederatedUpstreamGroup) (reconcile.Result, error) {
-    if f.OnReconcileFederatedUpstreamGroup == nil {
-        return reconcile.Result{}, nil
-    }
-    return f.OnReconcileFederatedUpstreamGroup(obj)
+	if f.OnReconcileFederatedUpstreamGroup == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileFederatedUpstreamGroup(obj)
 }
 
 func (f *FederatedUpstreamGroupReconcilerFuncs) ReconcileFederatedUpstreamGroupDeletion(req reconcile.Request) error {
-    if f.OnReconcileFederatedUpstreamGroupDeletion == nil {
-        return nil
-    }
-    return f.OnReconcileFederatedUpstreamGroupDeletion(req)
+	if f.OnReconcileFederatedUpstreamGroupDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileFederatedUpstreamGroupDeletion(req)
 }
 
 // Reconcile and finalize the FederatedUpstreamGroup Resource
 // implemented by the user
 type FederatedUpstreamGroupFinalizer interface {
-    FederatedUpstreamGroupReconciler
+	FederatedUpstreamGroupReconciler
 
-    // name of the finalizer used by this handler.
-    // finalizer names should be unique for a single task
-    FederatedUpstreamGroupFinalizerName() string
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	FederatedUpstreamGroupFinalizerName() string
 
-    // finalize the object before it is deleted.
-    // Watchers created with a finalizing handler will a
-    FinalizeFederatedUpstreamGroup(obj *fed_gloo_solo_io_v1.FederatedUpstreamGroup) error
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeFederatedUpstreamGroup(obj *fed_gloo_solo_io_v1.FederatedUpstreamGroup) error
 }
 
 type FederatedUpstreamGroupReconcileLoop interface {
-    RunFederatedUpstreamGroupReconciler(ctx context.Context, rec FederatedUpstreamGroupReconciler, predicates ...predicate.Predicate) error
+	RunFederatedUpstreamGroupReconciler(ctx context.Context, rec FederatedUpstreamGroupReconciler, predicates ...predicate.Predicate) error
 }
 
 type federatedUpstreamGroupReconcileLoop struct {
-    loop reconcile.Loop
+	loop reconcile.Loop
 }
 
 func NewFederatedUpstreamGroupReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) FederatedUpstreamGroupReconcileLoop {
-    return &federatedUpstreamGroupReconcileLoop{
-    	// empty cluster indicates this reconciler is built for the local cluster
-        loop: reconcile.NewLoop(name, "", mgr, &fed_gloo_solo_io_v1.FederatedUpstreamGroup{}, options),
-    }
+	return &federatedUpstreamGroupReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &fed_gloo_solo_io_v1.FederatedUpstreamGroup{}, options),
+	}
 }
 
 func (c *federatedUpstreamGroupReconcileLoop) RunFederatedUpstreamGroupReconciler(ctx context.Context, reconciler FederatedUpstreamGroupReconciler, predicates ...predicate.Predicate) error {
-    genericReconciler := genericFederatedUpstreamGroupReconciler{
-        reconciler: reconciler,
-    }
+	genericReconciler := genericFederatedUpstreamGroupReconciler{
+		reconciler: reconciler,
+	}
 
 	var reconcilerWrapper reconcile.Reconciler
 	if finalizingReconciler, ok := reconciler.(FederatedUpstreamGroupFinalizer); ok {
-        reconcilerWrapper = genericFederatedUpstreamGroupFinalizer{
-            genericFederatedUpstreamGroupReconciler: genericReconciler,
-            finalizingReconciler: finalizingReconciler,
-        }
-    } else {
-        reconcilerWrapper = genericReconciler
-    }
+		reconcilerWrapper = genericFederatedUpstreamGroupFinalizer{
+			genericFederatedUpstreamGroupReconciler: genericReconciler,
+			finalizingReconciler:                    finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
 	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
 }
 
 // genericFederatedUpstreamGroupHandler implements a generic reconcile.Reconciler
 type genericFederatedUpstreamGroupReconciler struct {
-    reconciler FederatedUpstreamGroupReconciler
+	reconciler FederatedUpstreamGroupReconciler
 }
 
 func (r genericFederatedUpstreamGroupReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-    obj, ok := object.(*fed_gloo_solo_io_v1.FederatedUpstreamGroup)
-    if !ok {
-        return reconcile.Result{}, errors.Errorf("internal error: FederatedUpstreamGroup handler received event for %T", object)
-    }
-    return r.reconciler.ReconcileFederatedUpstreamGroup(obj)
+	obj, ok := object.(*fed_gloo_solo_io_v1.FederatedUpstreamGroup)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: FederatedUpstreamGroup handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileFederatedUpstreamGroup(obj)
 }
 
 func (r genericFederatedUpstreamGroupReconciler) ReconcileDeletion(request reconcile.Request) error {
-    if deletionReconciler, ok := r.reconciler.(FederatedUpstreamGroupDeletionReconciler); ok {
-        return deletionReconciler.ReconcileFederatedUpstreamGroupDeletion(request)
-    }
-    return nil
+	if deletionReconciler, ok := r.reconciler.(FederatedUpstreamGroupDeletionReconciler); ok {
+		return deletionReconciler.ReconcileFederatedUpstreamGroupDeletion(request)
+	}
+	return nil
 }
 
 // genericFederatedUpstreamGroupFinalizer implements a generic reconcile.FinalizingReconciler
 type genericFederatedUpstreamGroupFinalizer struct {
-    genericFederatedUpstreamGroupReconciler
-    finalizingReconciler FederatedUpstreamGroupFinalizer
+	genericFederatedUpstreamGroupReconciler
+	finalizingReconciler FederatedUpstreamGroupFinalizer
 }
 
-
 func (r genericFederatedUpstreamGroupFinalizer) FinalizerName() string {
-    return r.finalizingReconciler.FederatedUpstreamGroupFinalizerName()
+	return r.finalizingReconciler.FederatedUpstreamGroupFinalizerName()
 }
 
 func (r genericFederatedUpstreamGroupFinalizer) Finalize(object ezkube.Object) error {
-    obj, ok := object.(*fed_gloo_solo_io_v1.FederatedUpstreamGroup)
-    if !ok {
-        return errors.Errorf("internal error: FederatedUpstreamGroup handler received event for %T", object)
-    }
-    return r.finalizingReconciler.FinalizeFederatedUpstreamGroup(obj)
+	obj, ok := object.(*fed_gloo_solo_io_v1.FederatedUpstreamGroup)
+	if !ok {
+		return errors.Errorf("internal error: FederatedUpstreamGroup handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeFederatedUpstreamGroup(obj)
 }

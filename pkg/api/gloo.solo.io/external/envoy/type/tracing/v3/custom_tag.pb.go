@@ -7,14 +7,15 @@
 package v3
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/type/metadata/v3"
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/udpa/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (

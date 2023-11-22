@@ -5,24 +5,22 @@
 // Definitions for the Kubernetes Controllers
 package controller
 
-
-
 import (
 	"context"
 
-    graphql_gloo_solo_io_v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
+	graphql_gloo_solo_io_v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
 
-    "github.com/pkg/errors"
-    "github.com/solo-io/skv2/pkg/ezkube"
-    "github.com/solo-io/skv2/pkg/reconcile"
-    "sigs.k8s.io/controller-runtime/pkg/manager"
-    "sigs.k8s.io/controller-runtime/pkg/predicate"
+	"github.com/pkg/errors"
+	"github.com/solo-io/skv2/pkg/ezkube"
+	"github.com/solo-io/skv2/pkg/reconcile"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
 // Reconcile Upsert events for the GraphQLApi Resource.
 // implemented by the user
 type GraphQLApiReconciler interface {
-    ReconcileGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error)
+	ReconcileGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error)
 }
 
 // Reconcile deletion events for the GraphQLApi Resource.
@@ -30,109 +28,108 @@ type GraphQLApiReconciler interface {
 // before being deleted.
 // implemented by the user
 type GraphQLApiDeletionReconciler interface {
-    ReconcileGraphQLApiDeletion(req reconcile.Request) error
+	ReconcileGraphQLApiDeletion(req reconcile.Request) error
 }
 
 type GraphQLApiReconcilerFuncs struct {
-    OnReconcileGraphQLApi func(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error)
-    OnReconcileGraphQLApiDeletion func(req reconcile.Request) error
+	OnReconcileGraphQLApi         func(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error)
+	OnReconcileGraphQLApiDeletion func(req reconcile.Request) error
 }
 
 func (f *GraphQLApiReconcilerFuncs) ReconcileGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) (reconcile.Result, error) {
-    if f.OnReconcileGraphQLApi == nil {
-        return reconcile.Result{}, nil
-    }
-    return f.OnReconcileGraphQLApi(obj)
+	if f.OnReconcileGraphQLApi == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileGraphQLApi(obj)
 }
 
 func (f *GraphQLApiReconcilerFuncs) ReconcileGraphQLApiDeletion(req reconcile.Request) error {
-    if f.OnReconcileGraphQLApiDeletion == nil {
-        return nil
-    }
-    return f.OnReconcileGraphQLApiDeletion(req)
+	if f.OnReconcileGraphQLApiDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileGraphQLApiDeletion(req)
 }
 
 // Reconcile and finalize the GraphQLApi Resource
 // implemented by the user
 type GraphQLApiFinalizer interface {
-    GraphQLApiReconciler
+	GraphQLApiReconciler
 
-    // name of the finalizer used by this handler.
-    // finalizer names should be unique for a single task
-    GraphQLApiFinalizerName() string
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	GraphQLApiFinalizerName() string
 
-    // finalize the object before it is deleted.
-    // Watchers created with a finalizing handler will a
-    FinalizeGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeGraphQLApi(obj *graphql_gloo_solo_io_v1beta1.GraphQLApi) error
 }
 
 type GraphQLApiReconcileLoop interface {
-    RunGraphQLApiReconciler(ctx context.Context, rec GraphQLApiReconciler, predicates ...predicate.Predicate) error
+	RunGraphQLApiReconciler(ctx context.Context, rec GraphQLApiReconciler, predicates ...predicate.Predicate) error
 }
 
 type graphQLApiReconcileLoop struct {
-    loop reconcile.Loop
+	loop reconcile.Loop
 }
 
 func NewGraphQLApiReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) GraphQLApiReconcileLoop {
-    return &graphQLApiReconcileLoop{
-    	// empty cluster indicates this reconciler is built for the local cluster
-        loop: reconcile.NewLoop(name, "", mgr, &graphql_gloo_solo_io_v1beta1.GraphQLApi{}, options),
-    }
+	return &graphQLApiReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &graphql_gloo_solo_io_v1beta1.GraphQLApi{}, options),
+	}
 }
 
 func (c *graphQLApiReconcileLoop) RunGraphQLApiReconciler(ctx context.Context, reconciler GraphQLApiReconciler, predicates ...predicate.Predicate) error {
-    genericReconciler := genericGraphQLApiReconciler{
-        reconciler: reconciler,
-    }
+	genericReconciler := genericGraphQLApiReconciler{
+		reconciler: reconciler,
+	}
 
 	var reconcilerWrapper reconcile.Reconciler
 	if finalizingReconciler, ok := reconciler.(GraphQLApiFinalizer); ok {
-        reconcilerWrapper = genericGraphQLApiFinalizer{
-            genericGraphQLApiReconciler: genericReconciler,
-            finalizingReconciler: finalizingReconciler,
-        }
-    } else {
-        reconcilerWrapper = genericReconciler
-    }
+		reconcilerWrapper = genericGraphQLApiFinalizer{
+			genericGraphQLApiReconciler: genericReconciler,
+			finalizingReconciler:        finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
 	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
 }
 
 // genericGraphQLApiHandler implements a generic reconcile.Reconciler
 type genericGraphQLApiReconciler struct {
-    reconciler GraphQLApiReconciler
+	reconciler GraphQLApiReconciler
 }
 
 func (r genericGraphQLApiReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
-    obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
-    if !ok {
-        return reconcile.Result{}, errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
-    }
-    return r.reconciler.ReconcileGraphQLApi(obj)
+	obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileGraphQLApi(obj)
 }
 
 func (r genericGraphQLApiReconciler) ReconcileDeletion(request reconcile.Request) error {
-    if deletionReconciler, ok := r.reconciler.(GraphQLApiDeletionReconciler); ok {
-        return deletionReconciler.ReconcileGraphQLApiDeletion(request)
-    }
-    return nil
+	if deletionReconciler, ok := r.reconciler.(GraphQLApiDeletionReconciler); ok {
+		return deletionReconciler.ReconcileGraphQLApiDeletion(request)
+	}
+	return nil
 }
 
 // genericGraphQLApiFinalizer implements a generic reconcile.FinalizingReconciler
 type genericGraphQLApiFinalizer struct {
-    genericGraphQLApiReconciler
-    finalizingReconciler GraphQLApiFinalizer
+	genericGraphQLApiReconciler
+	finalizingReconciler GraphQLApiFinalizer
 }
 
-
 func (r genericGraphQLApiFinalizer) FinalizerName() string {
-    return r.finalizingReconciler.GraphQLApiFinalizerName()
+	return r.finalizingReconciler.GraphQLApiFinalizerName()
 }
 
 func (r genericGraphQLApiFinalizer) Finalize(object ezkube.Object) error {
-    obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
-    if !ok {
-        return errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
-    }
-    return r.finalizingReconciler.FinalizeGraphQLApi(obj)
+	obj, ok := object.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
+	if !ok {
+		return errors.Errorf("internal error: GraphQLApi handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeGraphQLApi(obj)
 }

@@ -3,8 +3,5 @@
 // Definitions for the Kubernetes types
 package v1
 
-import (
-)
-
 // FederatedAuthConfigSlice represents a slice of *FederatedAuthConfig
 type FederatedAuthConfigSlice []*FederatedAuthConfig

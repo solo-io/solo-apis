@@ -5,13 +5,13 @@
 package types
 
 import (
-    bytes "bytes"
-    fmt "fmt"
-    math "math"
+	bytes "bytes"
+	fmt "fmt"
+	math "math"
 
-    skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
-    jsonpb "github.com/golang/protobuf/jsonpb"
-    proto "github.com/golang/protobuf/proto"
+	jsonpb "github.com/golang/protobuf/jsonpb"
+	proto "github.com/golang/protobuf/proto"
+	skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -20,12 +20,13 @@ var _ = fmt.Errorf
 var _ = math.Inf
 
 var (
-	marshaller = &skv2jsonpb.Marshaler{}
+	marshaller   = &skv2jsonpb.Marshaler{}
 	unmarshaller = &jsonpb.Unmarshaler{
 		AllowUnknownFields: true,
 	}
 	strictUnmarshaller = &jsonpb.Unmarshaler{}
 )
+
 // MarshalJSON is a custom marshaler for FederatedSettingsSpec
 func (this *FederatedSettingsSpec) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -36,6 +37,7 @@ func (this *FederatedSettingsSpec) MarshalJSON() ([]byte, error) {
 func (this *FederatedSettingsSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for FederatedSettingsStatus
 func (this *FederatedSettingsStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -46,6 +48,7 @@ func (this *FederatedSettingsStatus) MarshalJSON() ([]byte, error) {
 func (this *FederatedSettingsStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for FederatedUpstreamSpec
 func (this *FederatedUpstreamSpec) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -56,6 +59,7 @@ func (this *FederatedUpstreamSpec) MarshalJSON() ([]byte, error) {
 func (this *FederatedUpstreamSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for FederatedUpstreamStatus
 func (this *FederatedUpstreamStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -66,6 +70,7 @@ func (this *FederatedUpstreamStatus) MarshalJSON() ([]byte, error) {
 func (this *FederatedUpstreamStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for FederatedUpstreamGroupSpec
 func (this *FederatedUpstreamGroupSpec) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -76,6 +81,7 @@ func (this *FederatedUpstreamGroupSpec) MarshalJSON() ([]byte, error) {
 func (this *FederatedUpstreamGroupSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for FederatedUpstreamGroupStatus
 func (this *FederatedUpstreamGroupStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)

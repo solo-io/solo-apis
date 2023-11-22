@@ -5,26 +5,28 @@
 package types
 
 import (
-    proto "github.com/golang/protobuf/proto"
+	proto "github.com/golang/protobuf/proto"
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 )
+
 // DeepCopyInto for the FederatedRateLimitConfig.Spec
 func (in *FederatedRateLimitConfigSpec) DeepCopyInto(out *FederatedRateLimitConfigSpec) {
-    var p *FederatedRateLimitConfigSpec
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedRateLimitConfigSpec)
-    } else {
-        p = proto.Clone(in).(*FederatedRateLimitConfigSpec)
-    }
-    *out = *p
+	var p *FederatedRateLimitConfigSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedRateLimitConfigSpec)
+	} else {
+		p = proto.Clone(in).(*FederatedRateLimitConfigSpec)
+	}
+	*out = *p
 }
+
 // DeepCopyInto for the FederatedRateLimitConfig.Status
 func (in *FederatedRateLimitConfigStatus) DeepCopyInto(out *FederatedRateLimitConfigStatus) {
-    var p *FederatedRateLimitConfigStatus
-    if h, ok := interface{}(in).(clone.Cloner); ok {
-        p = h.Clone().(*FederatedRateLimitConfigStatus)
-    } else {
-        p = proto.Clone(in).(*FederatedRateLimitConfigStatus)
-    }
-    *out = *p
+	var p *FederatedRateLimitConfigStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*FederatedRateLimitConfigStatus)
+	} else {
+		p = proto.Clone(in).(*FederatedRateLimitConfigStatus)
+	}
+	*out = *p
 }

@@ -4,9 +4,9 @@
 package v1alpha1
 
 import (
-    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-    "k8s.io/apimachinery/pkg/runtime/schema"
-    i030ea16e9a32c349e55238df46175e70 "github.com/solo-io/solo-apis/pkg/api/fed.ratelimit.solo.io/v1alpha1/types"
+	i030ea16e9a32c349e55238df46175e70 "github.com/solo-io/solo-apis/pkg/api/fed.ratelimit.solo.io/v1alpha1/types"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // +genclient
@@ -16,22 +16,22 @@ import (
 
 // GroupVersionKind for FederatedRateLimitConfig
 var FederatedRateLimitConfigGVK = schema.GroupVersionKind{
-    Group: "fed.ratelimit.solo.io",
-    Version: "v1alpha1",
-    Kind: "FederatedRateLimitConfig",
+	Group:   "fed.ratelimit.solo.io",
+	Version: "v1alpha1",
+	Kind:    "FederatedRateLimitConfig",
 }
 
 // FederatedRateLimitConfig is the Schema for the federatedRateLimitConfig API
 type FederatedRateLimitConfig struct {
-    metav1.TypeMeta   `json:",inline"`
-    metav1.ObjectMeta `json:"metadata,omitempty"`
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-    Spec i030ea16e9a32c349e55238df46175e70.FederatedRateLimitConfigSpec `json:"spec,omitempty"`
-    Status i030ea16e9a32c349e55238df46175e70.FederatedRateLimitConfigStatus `json:"status,omitempty"`
+	Spec   i030ea16e9a32c349e55238df46175e70.FederatedRateLimitConfigSpec   `json:"spec,omitempty"`
+	Status i030ea16e9a32c349e55238df46175e70.FederatedRateLimitConfigStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedRateLimitConfig)  GVK() schema.GroupVersionKind {
+func (FederatedRateLimitConfig) GVK() schema.GroupVersionKind {
 	return FederatedRateLimitConfigGVK
 }
 
@@ -39,11 +39,11 @@ func (FederatedRateLimitConfig)  GVK() schema.GroupVersionKind {
 
 // FederatedRateLimitConfigList contains a list of FederatedRateLimitConfig
 type FederatedRateLimitConfigList struct {
-    metav1.TypeMeta `json:",inline"`
-    metav1.ListMeta `json:"metadata,omitempty"`
-    Items           []FederatedRateLimitConfig `json:"items"`
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []FederatedRateLimitConfig `json:"items"`
 }
 
 func init() {
-    SchemeBuilder.Register(&FederatedRateLimitConfig{}, &FederatedRateLimitConfigList{})
+	SchemeBuilder.Register(&FederatedRateLimitConfig{}, &FederatedRateLimitConfigList{})
 }
