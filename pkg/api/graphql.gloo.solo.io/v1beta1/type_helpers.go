@@ -3,5 +3,8 @@
 // Definitions for the Kubernetes types
 package v1beta1
 
+import (
+)
+
 // GraphQLApiSlice represents a slice of *GraphQLApi
 type GraphQLApiSlice []*GraphQLApi

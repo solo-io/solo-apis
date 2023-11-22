@@ -8,118 +8,118 @@ package controller
 import (
 	"context"
 
-	fed_ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/fed.ratelimit.solo.io/v1alpha1"
+    fed_ratelimit_solo_io_v1alpha1 "github.com/solo-io/solo-apis/pkg/api/fed.ratelimit.solo.io/v1alpha1"
 
-	"github.com/pkg/errors"
-	"github.com/solo-io/skv2/pkg/events"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/manager"
-	"sigs.k8s.io/controller-runtime/pkg/predicate"
+    "github.com/pkg/errors"
+    "github.com/solo-io/skv2/pkg/events"
+    "sigs.k8s.io/controller-runtime/pkg/manager"
+    "sigs.k8s.io/controller-runtime/pkg/predicate"
+    "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // Handle events for the FederatedRateLimitConfig Resource
 // DEPRECATED: Prefer reconciler pattern.
 type FederatedRateLimitConfigEventHandler interface {
-	CreateFederatedRateLimitConfig(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
-	UpdateFederatedRateLimitConfig(old, new *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
-	DeleteFederatedRateLimitConfig(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
-	GenericFederatedRateLimitConfig(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
+    CreateFederatedRateLimitConfig(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
+    UpdateFederatedRateLimitConfig(old, new *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
+    DeleteFederatedRateLimitConfig(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
+    GenericFederatedRateLimitConfig(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
 }
 
 type FederatedRateLimitConfigEventHandlerFuncs struct {
-	OnCreate  func(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
-	OnUpdate  func(old, new *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
-	OnDelete  func(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
-	OnGeneric func(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
+    OnCreate  func(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
+    OnUpdate  func(old, new *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
+    OnDelete  func(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
+    OnGeneric func(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error
 }
 
 func (f *FederatedRateLimitConfigEventHandlerFuncs) CreateFederatedRateLimitConfig(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error {
-	if f.OnCreate == nil {
-		return nil
-	}
-	return f.OnCreate(obj)
+    if f.OnCreate == nil {
+        return nil
+    }
+    return f.OnCreate(obj)
 }
 
 func (f *FederatedRateLimitConfigEventHandlerFuncs) DeleteFederatedRateLimitConfig(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error {
-	if f.OnDelete == nil {
-		return nil
-	}
-	return f.OnDelete(obj)
+    if f.OnDelete == nil {
+        return nil
+    }
+    return f.OnDelete(obj)
 }
 
 func (f *FederatedRateLimitConfigEventHandlerFuncs) UpdateFederatedRateLimitConfig(objOld, objNew *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error {
-	if f.OnUpdate == nil {
-		return nil
-	}
-	return f.OnUpdate(objOld, objNew)
+    if f.OnUpdate == nil {
+        return nil
+    }
+    return f.OnUpdate(objOld, objNew)
 }
 
 func (f *FederatedRateLimitConfigEventHandlerFuncs) GenericFederatedRateLimitConfig(obj *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) error {
-	if f.OnGeneric == nil {
-		return nil
-	}
-	return f.OnGeneric(obj)
+    if f.OnGeneric == nil {
+        return nil
+    }
+    return f.OnGeneric(obj)
 }
 
 type FederatedRateLimitConfigEventWatcher interface {
-	AddEventHandler(ctx context.Context, h FederatedRateLimitConfigEventHandler, predicates ...predicate.Predicate) error
+    AddEventHandler(ctx context.Context, h FederatedRateLimitConfigEventHandler, predicates ...predicate.Predicate) error
 }
 
 type federatedRateLimitConfigEventWatcher struct {
-	watcher events.EventWatcher
+    watcher events.EventWatcher
 }
 
 func NewFederatedRateLimitConfigEventWatcher(name string, mgr manager.Manager) FederatedRateLimitConfigEventWatcher {
-	return &federatedRateLimitConfigEventWatcher{
-		watcher: events.NewWatcher(name, mgr, &fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig{}),
-	}
+    return &federatedRateLimitConfigEventWatcher{
+        watcher: events.NewWatcher(name, mgr, &fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig{}),
+    }
 }
 
 func (c *federatedRateLimitConfigEventWatcher) AddEventHandler(ctx context.Context, h FederatedRateLimitConfigEventHandler, predicates ...predicate.Predicate) error {
 	handler := genericFederatedRateLimitConfigHandler{handler: h}
-	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
-		return err
-	}
-	return nil
+    if err := c.watcher.Watch(ctx, handler, predicates...); err != nil{
+        return err
+    }
+    return nil
 }
 
 // genericFederatedRateLimitConfigHandler implements a generic events.EventHandler
 type genericFederatedRateLimitConfigHandler struct {
-	handler FederatedRateLimitConfigEventHandler
+    handler FederatedRateLimitConfigEventHandler
 }
 
 func (h genericFederatedRateLimitConfigHandler) Create(object client.Object) error {
-	obj, ok := object.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
-	if !ok {
-		return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", object)
-	}
-	return h.handler.CreateFederatedRateLimitConfig(obj)
+    obj, ok := object.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
+    if !ok {
+        return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", object)
+    }
+    return h.handler.CreateFederatedRateLimitConfig(obj)
 }
 
 func (h genericFederatedRateLimitConfigHandler) Delete(object client.Object) error {
-	obj, ok := object.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
-	if !ok {
-		return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", object)
-	}
-	return h.handler.DeleteFederatedRateLimitConfig(obj)
+    obj, ok := object.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
+    if !ok {
+        return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", object)
+    }
+    return h.handler.DeleteFederatedRateLimitConfig(obj)
 }
 
 func (h genericFederatedRateLimitConfigHandler) Update(old, new client.Object) error {
-	objOld, ok := old.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
-	if !ok {
-		return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", old)
-	}
-	objNew, ok := new.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
-	if !ok {
-		return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", new)
-	}
-	return h.handler.UpdateFederatedRateLimitConfig(objOld, objNew)
+    objOld, ok := old.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
+    if !ok {
+        return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", old)
+    }
+    objNew, ok := new.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
+    if !ok {
+        return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", new)
+    }
+    return h.handler.UpdateFederatedRateLimitConfig(objOld, objNew)
 }
 
 func (h genericFederatedRateLimitConfigHandler) Generic(object client.Object) error {
-	obj, ok := object.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
-	if !ok {
-		return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", object)
-	}
-	return h.handler.GenericFederatedRateLimitConfig(obj)
+    obj, ok := object.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
+    if !ok {
+        return errors.Errorf("internal error: FederatedRateLimitConfig handler received event for %T", object)
+    }
+    return h.handler.GenericFederatedRateLimitConfig(obj)
 }

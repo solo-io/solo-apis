@@ -2,11 +2,13 @@
 
 package v1beta1
 
-import (
-	graphql_gloo_solo_io_v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
 
-	"k8s.io/client-go/rest"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+
+import (
+    graphql_gloo_solo_io_v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
+
+    "k8s.io/client-go/rest"
+    "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 /*
@@ -19,28 +21,28 @@ import (
 
 // Provider for GraphQLApiClient from Clientset
 func GraphQLApiClientFromClientsetProvider(clients graphql_gloo_solo_io_v1beta1.Clientset) graphql_gloo_solo_io_v1beta1.GraphQLApiClient {
-	return clients.GraphQLApis()
+    return clients.GraphQLApis()
 }
 
 // Provider for GraphQLApi Client from Client
 func GraphQLApiClientProvider(client client.Client) graphql_gloo_solo_io_v1beta1.GraphQLApiClient {
-	return graphql_gloo_solo_io_v1beta1.NewGraphQLApiClient(client)
+    return graphql_gloo_solo_io_v1beta1.NewGraphQLApiClient(client)
 }
 
 type GraphQLApiClientFactory func(client client.Client) graphql_gloo_solo_io_v1beta1.GraphQLApiClient
 
 func GraphQLApiClientFactoryProvider() GraphQLApiClientFactory {
-	return GraphQLApiClientProvider
+    return GraphQLApiClientProvider
 }
 
 type GraphQLApiClientFromConfigFactory func(cfg *rest.Config) (graphql_gloo_solo_io_v1beta1.GraphQLApiClient, error)
 
 func GraphQLApiClientFromConfigFactoryProvider() GraphQLApiClientFromConfigFactory {
-	return func(cfg *rest.Config) (graphql_gloo_solo_io_v1beta1.GraphQLApiClient, error) {
-		clients, err := graphql_gloo_solo_io_v1beta1.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.GraphQLApis(), nil
-	}
+    return func(cfg *rest.Config) (graphql_gloo_solo_io_v1beta1.GraphQLApiClient, error) {
+        clients, err := graphql_gloo_solo_io_v1beta1.NewClientsetFromConfig(cfg)
+        if err != nil {
+            return nil, err
+        }
+        return clients.GraphQLApis(), nil
+    }
 }

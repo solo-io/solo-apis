@@ -5,13 +5,13 @@
 package v1
 
 import (
-	bytes "bytes"
-	fmt "fmt"
-	math "math"
+    bytes "bytes"
+    fmt "fmt"
+    math "math"
 
-	jsonpb "github.com/golang/protobuf/jsonpb"
-	proto "github.com/golang/protobuf/proto"
-	skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
+    skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
+    jsonpb "github.com/golang/protobuf/jsonpb"
+    proto "github.com/golang/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -36,7 +36,6 @@ func (this *GatewaySpec) MarshalJSON() ([]byte, error) {
 func (this *GatewaySpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for GatewayStatus
 func (this *GatewayStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -45,7 +44,7 @@ func (this *GatewayStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for GatewayStatus
 func (this *GatewayStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := GatewayNamespacedStatuses{}
+    namespacedStatuses := GatewayNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
@@ -70,7 +69,6 @@ func (this *MatchableHttpGatewaySpec) MarshalJSON() ([]byte, error) {
 func (this *MatchableHttpGatewaySpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for MatchableHttpGatewayStatus
 func (this *MatchableHttpGatewayStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -79,7 +77,7 @@ func (this *MatchableHttpGatewayStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for MatchableHttpGatewayStatus
 func (this *MatchableHttpGatewayStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := MatchableHttpGatewayNamespacedStatuses{}
+    namespacedStatuses := MatchableHttpGatewayNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
@@ -104,7 +102,6 @@ func (this *MatchableTcpGatewaySpec) MarshalJSON() ([]byte, error) {
 func (this *MatchableTcpGatewaySpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for MatchableTcpGatewayStatus
 func (this *MatchableTcpGatewayStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -113,7 +110,7 @@ func (this *MatchableTcpGatewayStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for MatchableTcpGatewayStatus
 func (this *MatchableTcpGatewayStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := MatchableTcpGatewayNamespacedStatuses{}
+    namespacedStatuses := MatchableTcpGatewayNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
@@ -138,7 +135,6 @@ func (this *RouteTableSpec) MarshalJSON() ([]byte, error) {
 func (this *RouteTableSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for RouteTableStatus
 func (this *RouteTableStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -147,7 +143,7 @@ func (this *RouteTableStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for RouteTableStatus
 func (this *RouteTableStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := RouteTableNamespacedStatuses{}
+    namespacedStatuses := RouteTableNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
@@ -172,7 +168,6 @@ func (this *VirtualServiceSpec) MarshalJSON() ([]byte, error) {
 func (this *VirtualServiceSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for VirtualServiceStatus
 func (this *VirtualServiceStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -181,7 +176,7 @@ func (this *VirtualServiceStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for VirtualServiceStatus
 func (this *VirtualServiceStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := VirtualServiceNamespacedStatuses{}
+    namespacedStatuses := VirtualServiceNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
@@ -206,7 +201,6 @@ func (this *VirtualHostOptionSpec) MarshalJSON() ([]byte, error) {
 func (this *VirtualHostOptionSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for VirtualHostOptionStatus
 func (this *VirtualHostOptionStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -215,7 +209,7 @@ func (this *VirtualHostOptionStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for VirtualHostOptionStatus
 func (this *VirtualHostOptionStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := VirtualHostOptionNamespacedStatuses{}
+    namespacedStatuses := VirtualHostOptionNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
@@ -240,7 +234,6 @@ func (this *RouteOptionSpec) MarshalJSON() ([]byte, error) {
 func (this *RouteOptionSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for RouteOptionStatus
 func (this *RouteOptionStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -249,7 +242,7 @@ func (this *RouteOptionStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for RouteOptionStatus
 func (this *RouteOptionStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := RouteOptionNamespacedStatuses{}
+    namespacedStatuses := RouteOptionNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}

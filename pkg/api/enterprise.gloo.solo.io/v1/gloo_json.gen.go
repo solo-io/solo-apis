@@ -5,13 +5,13 @@
 package v1
 
 import (
-	bytes "bytes"
-	fmt "fmt"
-	math "math"
+    bytes "bytes"
+    fmt "fmt"
+    math "math"
 
-	jsonpb "github.com/golang/protobuf/jsonpb"
-	proto "github.com/golang/protobuf/proto"
-	skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
+    skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
+    jsonpb "github.com/golang/protobuf/jsonpb"
+    proto "github.com/golang/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -36,7 +36,6 @@ func (this *AuthConfigSpec) MarshalJSON() ([]byte, error) {
 func (this *AuthConfigSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
-
 // MarshalJSON is a custom marshaler for AuthConfigStatus
 func (this *AuthConfigStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -45,7 +44,7 @@ func (this *AuthConfigStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for AuthConfigStatus
 func (this *AuthConfigStatus) UnmarshalJSON(b []byte) error {
-	namespacedStatuses := AuthConfigNamespacedStatuses{}
+    namespacedStatuses := AuthConfigNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}
