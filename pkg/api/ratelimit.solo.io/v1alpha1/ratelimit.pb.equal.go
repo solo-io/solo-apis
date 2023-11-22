@@ -359,6 +359,16 @@ func (m *RateLimitActions) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetLimit()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetLimit()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetLimit(), target.GetLimit()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -525,6 +535,100 @@ func (m *Action) Equal(that interface{}) bool {
 	default:
 		// m is nil but target is not nil
 		if m.ActionSpecifier != target.ActionSpecifier {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *MetaData) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*MetaData)
+	if !ok {
+		that2, ok := that.(MetaData)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetDescriptorKey(), target.GetDescriptorKey()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetMetadataKey()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMetadataKey()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMetadataKey(), target.GetMetadataKey()) {
+			return false
+		}
+	}
+
+	if strings.Compare(m.GetDefaultValue(), target.GetDefaultValue()) != 0 {
+		return false
+	}
+
+	if m.GetSource() != target.GetSource() {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *Override) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*Override)
+	if !ok {
+		that2, ok := that.(Override)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.OverrideSpecifier.(type) {
+
+	case *Override_DynamicMetadata_:
+		if _, ok := target.OverrideSpecifier.(*Override_DynamicMetadata_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetDynamicMetadata()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetDynamicMetadata()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetDynamicMetadata(), target.GetDynamicMetadata()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.OverrideSpecifier != target.OverrideSpecifier {
 			return false
 		}
 	}
@@ -795,52 +899,6 @@ func (m *Action_HeaderValueMatch) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *Action_MetaData) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*Action_MetaData)
-	if !ok {
-		that2, ok := that.(Action_MetaData)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetDescriptorKey(), target.GetDescriptorKey()) != 0 {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetMetadataKey()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetMetadataKey()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetMetadataKey(), target.GetMetadataKey()) {
-			return false
-		}
-	}
-
-	if strings.Compare(m.GetDefaultValue(), target.GetDefaultValue()) != 0 {
-		return false
-	}
-
-	if m.GetSource() != target.GetSource() {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
 func (m *Action_HeaderValueMatch_HeaderMatcher) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -974,14 +1032,14 @@ func (m *Action_HeaderValueMatch_HeaderMatcher_Int64Range) Equal(that interface{
 }
 
 // Equal function
-func (m *Action_MetaData_MetadataKey) Equal(that interface{}) bool {
+func (m *MetaData_MetadataKey) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*Action_MetaData_MetadataKey)
+	target, ok := that.(*MetaData_MetadataKey)
 	if !ok {
-		that2, ok := that.(Action_MetaData_MetadataKey)
+		that2, ok := that.(MetaData_MetadataKey)
 		if ok {
 			target = &that2
 		} else {
@@ -1019,14 +1077,14 @@ func (m *Action_MetaData_MetadataKey) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *Action_MetaData_MetadataKey_PathSegment) Equal(that interface{}) bool {
+func (m *MetaData_MetadataKey_PathSegment) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*Action_MetaData_MetadataKey_PathSegment)
+	target, ok := that.(*MetaData_MetadataKey_PathSegment)
 	if !ok {
-		that2, ok := that.(Action_MetaData_MetadataKey_PathSegment)
+		that2, ok := that.(MetaData_MetadataKey_PathSegment)
 		if ok {
 			target = &that2
 		} else {
@@ -1041,8 +1099,8 @@ func (m *Action_MetaData_MetadataKey_PathSegment) Equal(that interface{}) bool {
 
 	switch m.Segment.(type) {
 
-	case *Action_MetaData_MetadataKey_PathSegment_Key:
-		if _, ok := target.Segment.(*Action_MetaData_MetadataKey_PathSegment_Key); !ok {
+	case *MetaData_MetadataKey_PathSegment_Key:
+		if _, ok := target.Segment.(*MetaData_MetadataKey_PathSegment_Key); !ok {
 			return false
 		}
 
@@ -1053,6 +1111,40 @@ func (m *Action_MetaData_MetadataKey_PathSegment) Equal(that interface{}) bool {
 	default:
 		// m is nil but target is not nil
 		if m.Segment != target.Segment {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *Override_DynamicMetadata) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*Override_DynamicMetadata)
+	if !ok {
+		that2, ok := that.(Override_DynamicMetadata)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetMetadataKey()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMetadataKey()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMetadataKey(), target.GetMetadataKey()) {
 			return false
 		}
 	}
