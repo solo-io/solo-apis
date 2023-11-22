@@ -34,6 +34,7 @@ func makeGroup(
 				},
 			},
 			StrictUnmarshal: false,
+			Stored:          true,
 		}
 		if !resource.noStatus {
 			res.Status = &model.Field{Type: model.Type{
@@ -52,15 +53,17 @@ func makeGroup(
 			Group:   groupPrefix + "." + "solo.io",
 			Version: version,
 		},
-		Module:           module,
-		Resources:        resources,
-		RenderManifests:  true,
-		RenderTypes:      true,
-		RenderClients:    true,
-		RenderController: true,
-		MockgenDirective: true,
-		CustomTemplates:  customGroupTemplates,
-		ApiRoot:          apiRoot,
-		SkipSpecHash:     true,
+		Module:                    module,
+		Resources:                 resources,
+		RenderManifests:           true,
+		RenderTypes:               true,
+		RenderClients:             true,
+		RenderController:          true,
+		MockgenDirective:          true,
+		CustomTemplates:           customGroupTemplates,
+		ApiRoot:                   apiRoot,
+		SkipSpecHash:              true,
+		SkipConditionalCRDLoading: true, // we want the alpha crds always rendered
+		SkipTemplatedCRDManifest:  true, // do not make a copy of crds in templates dir
 	}
 }
