@@ -374,28 +374,28 @@ message OAuth2 {
 }
 
 message AzureOidc {
-    // the URL of the backing service
+    // The URL of the backing service for the app that the user accesses.
     string app_url = 1;
 
-    // the callback path to use for OIDC callbacks
+    // The callback path of the app to use for OIDC callbacks.
     string callback_path = 2;
 
-    // the client id for the backing service as registered with the issuer
+    // The client ID of the backing service for the app as registered in the OIDC issuer, such as MS Entra.
     string application_client_id = 3;
 
-    // the client secret for the backing service as registered with the issuer
+    // The client secret of the backing service for the app as registered in the OIDC issuer, such as MS Entra.
     core.solo.io.ResourceRef client_secret_ref = 4;
 
-    // the URL of the issuer to redirect to for login
+    // The URL of the OpenID Connect identity provider where you want to redirect the user to log in to.
     string issuer_url = 5;
 
-    // the scopes to request in addition to openid scope
+    // Other scopes to request in addition to the `openid` scope, such as `email` or `profile`. For Azure, include the `api` scope, which is the application ID URI that you configured in MS Entra.
     repeated string scopes = 6;
 
-    // config for the user's session with the ext auth service
+    // Details on how to store the user session details with the external auth service, such storing a cookie in Redis.
     UserSession session = 7;
 
-    // config for caching distributed claims in redis
+    // Details for caching distributed claims in Redis.
     RedisOptions caching_redis_options = 8;
 }
 
@@ -808,24 +808,28 @@ message OidcAuthorizationCode {
         Azure azure = 27;
     }
 
-    // Represents default OIDC behavior
+    // Configure the default OIDC behavior.
     message DefaultOIDCProvider {}
 
-    // Represents config specific to Azure Distributed Claims OIDC implementation
+    // For apps in Microsoft Azure, configure Microsoft Entra ID as the OpenID Connect (OIDC) provider.
+    // This way, you can enable distibuted claims and caching for when users are members of more than 200 groups.
     message Azure {
-        // client ID for ExtAuthService as registered with MS Entera, NOT the backing service 
+        // The client ID for the ExtAuthService app that is registered in MS Entra.
+        // This app is NOT the same as the app for the backing service for the URL that you want users to access.
         string client_id = 1;
 
-        // tenant ID where the ExtAuthService's client ID is registered with MS Entera. 
-        // may or may not be the same as the tenant ID in the top level `OidcAuthorizationCodeConfig`,
+        // The tenant ID where the ExtAuthService app's client ID is registered with MS Entra. 
+        // This tenant ID may or may not be the same as in the top level `OidcAuthorizationCodeConfig`,
         // depending on how your Azure account is provisioned.
         string tenant_id = 2;
 
-        // secret registered for the ExtAuthService to communciate with the Entera APIs
+        // The client secret of the ExtAuthService app that is registered with MS Entra to communciate with the MS Graph API.
         core.solo.io.ResourceRef client_secret = 3; // TODO: whatever azure actually calls this thing
 
-        // Redis connection details for caching MS Entera claims. Will not turn on Redis session caching,
-        // if you'd like to turn on Redis session caching, use the `userSessionConfig` field.
+        // Redis connection details to cache MS Entera claims. 
+        // This way, you avoid performance issues of accessing the Microsoft Graph API too many times.
+        // Note that this setting does NOT turn on Redis caching for the user session.
+        // To turn on Redis user session caching, use the `userSessionConfig` field.
         RedisOptions claims_caching_options = 4;
     }
 }
@@ -1727,16 +1731,19 @@ message ExtAuthConfig {
     }
 
     message MSEnteraOauth2ConfigSettings {
-        // client ID for ExtAuthService as registered with MS Entera, NOT the backing service 
+        // The client ID for the ExtAuthService app that is registered in MS Entra.
+        // This app is NOT the same as the app for the backing service for the URL that you want users to access.
         string client_id = 1;
 
-        // tenant ID where the ExtAuthService's client ID is registered with MS Entera. 
-        // may or may not be the same as the tenant ID in the top level `OidcAuthorizationCodeConfig`,
+        // The tenant ID where the ExtAuthService app's client ID is registered with MS Entra. 
+        // This tenant ID may or may not be the same as in the top level `OidcAuthorizationCodeConfig`,
         // depending on how your Azure account is provisioned.
         string tenant_id = 2;
 
-        // Redis connection details for caching MS Entera claims. Will not turn on Redis session caching,
-        // if you'd like to turn on Redis session caching, use the `userSessionConfig` field.
+        // Redis connection details to cache MS Entera claims. 
+        // This way, you avoid performance issues of accessing the Microsoft Graph API too many times.
+        // Note that this setting does NOT turn on Redis caching for the user session.
+        // To turn on Redis user session caching, use the `userSessionConfig` field.
         RedisOptions claims_caching_options = 3;
     }
 
