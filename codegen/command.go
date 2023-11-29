@@ -31,9 +31,8 @@ func Command() codegen.Command {
 			Local:    skv2Imports.Local,
 			External: skv2Imports.External,
 		},
-		RenderProtos:            true,
-		Groups:                  groups,
-		EnabledAlphaApiFlagName: "enabledExperimentalApi",
-		CustomGoArgs:            []string{"Mgithub.com/solo-io/solo-kit/api/external/envoy/api/v2/discovery.proto=github.com/envoyproxy/go-control-plane/envoy/api/v2"},
+		RenderProtos: true,
+		Groups:       groups,
+		CustomGoArgs: []string{"Mgithub.com/solo-io/solo-kit/api/external/envoy/api/v2/discovery.proto=github.com/envoyproxy/go-control-plane/envoy/api/v2"},
 	}
 }
