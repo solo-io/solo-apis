@@ -310,6 +310,8 @@ func (m *JWTPolicySpec_Config_ClaimMatcher) Clone() proto.Message {
 		}
 	}
 
+	target.NestedClaimDelimiter = m.GetNestedClaimDelimiter()
+
 	return target
 }
 

@@ -235,3 +235,226 @@ func (s *waypointLifecycleManagerSet) Clone() WaypointLifecycleManagerSet {
 	}
 	return &waypointLifecycleManagerSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
+
+type InsightsConfigSet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*admin_gloo_solo_io_v2alpha1.InsightsConfig) bool) []*admin_gloo_solo_io_v2alpha1.InsightsConfig
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2alpha1.InsightsConfig) bool) []*admin_gloo_solo_io_v2alpha1.InsightsConfig
+	// Return the Set as a map of key to resource.
+	Map() map[string]*admin_gloo_solo_io_v2alpha1.InsightsConfig
+	// Insert a resource into the set.
+	Insert(insightsConfig ...*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(insightsConfigSet InsightsConfigSet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(insightsConfig ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(insightsConfig ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set InsightsConfigSet) InsightsConfigSet
+	// Return the difference with the provided set
+	Difference(set InsightsConfigSet) InsightsConfigSet
+	// Return the intersection with the provided set
+	Intersection(set InsightsConfigSet) InsightsConfigSet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*admin_gloo_solo_io_v2alpha1.InsightsConfig, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another InsightsConfigSet
+	Delta(newSet InsightsConfigSet) sksets.ResourceDelta
+	// Create a deep copy of the current InsightsConfigSet
+	Clone() InsightsConfigSet
+}
+
+func makeGenericInsightsConfigSet(insightsConfigList []*admin_gloo_solo_io_v2alpha1.InsightsConfig) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range insightsConfigList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type insightsConfigSet struct {
+	set sksets.ResourceSet
+}
+
+func NewInsightsConfigSet(insightsConfigList ...*admin_gloo_solo_io_v2alpha1.InsightsConfig) InsightsConfigSet {
+	return &insightsConfigSet{set: makeGenericInsightsConfigSet(insightsConfigList)}
+}
+
+func NewInsightsConfigSetFromList(insightsConfigList *admin_gloo_solo_io_v2alpha1.InsightsConfigList) InsightsConfigSet {
+	list := make([]*admin_gloo_solo_io_v2alpha1.InsightsConfig, 0, len(insightsConfigList.Items))
+	for idx := range insightsConfigList.Items {
+		list = append(list, &insightsConfigList.Items[idx])
+	}
+	return &insightsConfigSet{set: makeGenericInsightsConfigSet(list)}
+}
+
+func (s *insightsConfigSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *insightsConfigSet) List(filterResource ...func(*admin_gloo_solo_io_v2alpha1.InsightsConfig) bool) []*admin_gloo_solo_io_v2alpha1.InsightsConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*admin_gloo_solo_io_v2alpha1.InsightsConfig))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	insightsConfigList := make([]*admin_gloo_solo_io_v2alpha1.InsightsConfig, 0, len(objs))
+	for _, obj := range objs {
+		insightsConfigList = append(insightsConfigList, obj.(*admin_gloo_solo_io_v2alpha1.InsightsConfig))
+	}
+	return insightsConfigList
+}
+
+func (s *insightsConfigSet) UnsortedList(filterResource ...func(*admin_gloo_solo_io_v2alpha1.InsightsConfig) bool) []*admin_gloo_solo_io_v2alpha1.InsightsConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*admin_gloo_solo_io_v2alpha1.InsightsConfig))
+		})
+	}
+
+	var insightsConfigList []*admin_gloo_solo_io_v2alpha1.InsightsConfig
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		insightsConfigList = append(insightsConfigList, obj.(*admin_gloo_solo_io_v2alpha1.InsightsConfig))
+	}
+	return insightsConfigList
+}
+
+func (s *insightsConfigSet) Map() map[string]*admin_gloo_solo_io_v2alpha1.InsightsConfig {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*admin_gloo_solo_io_v2alpha1.InsightsConfig{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	}
+	return newMap
+}
+
+func (s *insightsConfigSet) Insert(
+	insightsConfigList ...*admin_gloo_solo_io_v2alpha1.InsightsConfig,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range insightsConfigList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *insightsConfigSet) Has(insightsConfig ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(insightsConfig)
+}
+
+func (s *insightsConfigSet) Equal(
+	insightsConfigSet InsightsConfigSet,
+) bool {
+	if s == nil {
+		return insightsConfigSet == nil
+	}
+	return s.Generic().Equal(insightsConfigSet.Generic())
+}
+
+func (s *insightsConfigSet) Delete(InsightsConfig ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(InsightsConfig)
+}
+
+func (s *insightsConfigSet) Union(set InsightsConfigSet) InsightsConfigSet {
+	if s == nil {
+		return set
+	}
+	return NewInsightsConfigSet(append(s.List(), set.List()...)...)
+}
+
+func (s *insightsConfigSet) Difference(set InsightsConfigSet) InsightsConfigSet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &insightsConfigSet{set: newSet}
+}
+
+func (s *insightsConfigSet) Intersection(set InsightsConfigSet) InsightsConfigSet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var insightsConfigList []*admin_gloo_solo_io_v2alpha1.InsightsConfig
+	for _, obj := range newSet.List() {
+		insightsConfigList = append(insightsConfigList, obj.(*admin_gloo_solo_io_v2alpha1.InsightsConfig))
+	}
+	return NewInsightsConfigSet(insightsConfigList...)
+}
+
+func (s *insightsConfigSet) Find(id ezkube.ResourceId) (*admin_gloo_solo_io_v2alpha1.InsightsConfig, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find InsightsConfig %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&admin_gloo_solo_io_v2alpha1.InsightsConfig{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*admin_gloo_solo_io_v2alpha1.InsightsConfig), nil
+}
+
+func (s *insightsConfigSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *insightsConfigSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *insightsConfigSet) Delta(newSet InsightsConfigSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *insightsConfigSet) Clone() InsightsConfigSet {
+	if s == nil {
+		return nil
+	}
+	return &insightsConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}

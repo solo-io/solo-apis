@@ -75,6 +75,20 @@ func (m *MockClientset) EXPECT() *MockClientsetMockRecorder {
 	return m.recorder
 }
 
+// InsightsConfigs mocks base method.
+func (m *MockClientset) InsightsConfigs() v2alpha1.InsightsConfigClient {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "InsightsConfigs")
+	ret0, _ := ret[0].(v2alpha1.InsightsConfigClient)
+	return ret0
+}
+
+// InsightsConfigs indicates an expected call of InsightsConfigs.
+func (mr *MockClientsetMockRecorder) InsightsConfigs() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsightsConfigs", reflect.TypeOf((*MockClientset)(nil).InsightsConfigs))
+}
+
 // WaypointLifecycleManagers mocks base method.
 func (m *MockClientset) WaypointLifecycleManagers() v2alpha1.WaypointLifecycleManagerClient {
 	m.ctrl.T.Helper()
@@ -591,4 +605,508 @@ func (m *MockMulticlusterWaypointLifecycleManagerClient) Cluster(cluster string)
 func (mr *MockMulticlusterWaypointLifecycleManagerClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterWaypointLifecycleManagerClient)(nil).Cluster), cluster)
+}
+
+// MockInsightsConfigReader is a mock of InsightsConfigReader interface.
+type MockInsightsConfigReader struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigReaderMockRecorder
+}
+
+// MockInsightsConfigReaderMockRecorder is the mock recorder for MockInsightsConfigReader.
+type MockInsightsConfigReaderMockRecorder struct {
+	mock *MockInsightsConfigReader
+}
+
+// NewMockInsightsConfigReader creates a new mock instance.
+func NewMockInsightsConfigReader(ctrl *gomock.Controller) *MockInsightsConfigReader {
+	mock := &MockInsightsConfigReader{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigReaderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigReader) EXPECT() *MockInsightsConfigReaderMockRecorder {
+	return m.recorder
+}
+
+// GetInsightsConfig mocks base method.
+func (m *MockInsightsConfigReader) GetInsightsConfig(ctx context.Context, key client.ObjectKey) (*v2alpha1.InsightsConfig, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetInsightsConfig", ctx, key)
+	ret0, _ := ret[0].(*v2alpha1.InsightsConfig)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetInsightsConfig indicates an expected call of GetInsightsConfig.
+func (mr *MockInsightsConfigReaderMockRecorder) GetInsightsConfig(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInsightsConfig", reflect.TypeOf((*MockInsightsConfigReader)(nil).GetInsightsConfig), ctx, key)
+}
+
+// ListInsightsConfig mocks base method.
+func (m *MockInsightsConfigReader) ListInsightsConfig(ctx context.Context, opts ...client.ListOption) (*v2alpha1.InsightsConfigList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListInsightsConfig", varargs...)
+	ret0, _ := ret[0].(*v2alpha1.InsightsConfigList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListInsightsConfig indicates an expected call of ListInsightsConfig.
+func (mr *MockInsightsConfigReaderMockRecorder) ListInsightsConfig(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListInsightsConfig", reflect.TypeOf((*MockInsightsConfigReader)(nil).ListInsightsConfig), varargs...)
+}
+
+// MockInsightsConfigWriter is a mock of InsightsConfigWriter interface.
+type MockInsightsConfigWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigWriterMockRecorder
+}
+
+// MockInsightsConfigWriterMockRecorder is the mock recorder for MockInsightsConfigWriter.
+type MockInsightsConfigWriterMockRecorder struct {
+	mock *MockInsightsConfigWriter
+}
+
+// NewMockInsightsConfigWriter creates a new mock instance.
+func NewMockInsightsConfigWriter(ctrl *gomock.Controller) *MockInsightsConfigWriter {
+	mock := &MockInsightsConfigWriter{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigWriter) EXPECT() *MockInsightsConfigWriterMockRecorder {
+	return m.recorder
+}
+
+// CreateInsightsConfig mocks base method.
+func (m *MockInsightsConfigWriter) CreateInsightsConfig(ctx context.Context, obj *v2alpha1.InsightsConfig, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateInsightsConfig indicates an expected call of CreateInsightsConfig.
+func (mr *MockInsightsConfigWriterMockRecorder) CreateInsightsConfig(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateInsightsConfig", reflect.TypeOf((*MockInsightsConfigWriter)(nil).CreateInsightsConfig), varargs...)
+}
+
+// DeleteAllOfInsightsConfig mocks base method.
+func (m *MockInsightsConfigWriter) DeleteAllOfInsightsConfig(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfInsightsConfig indicates an expected call of DeleteAllOfInsightsConfig.
+func (mr *MockInsightsConfigWriterMockRecorder) DeleteAllOfInsightsConfig(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfInsightsConfig", reflect.TypeOf((*MockInsightsConfigWriter)(nil).DeleteAllOfInsightsConfig), varargs...)
+}
+
+// DeleteInsightsConfig mocks base method.
+func (m *MockInsightsConfigWriter) DeleteInsightsConfig(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteInsightsConfig indicates an expected call of DeleteInsightsConfig.
+func (mr *MockInsightsConfigWriterMockRecorder) DeleteInsightsConfig(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteInsightsConfig", reflect.TypeOf((*MockInsightsConfigWriter)(nil).DeleteInsightsConfig), varargs...)
+}
+
+// PatchInsightsConfig mocks base method.
+func (m *MockInsightsConfigWriter) PatchInsightsConfig(ctx context.Context, obj *v2alpha1.InsightsConfig, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchInsightsConfig indicates an expected call of PatchInsightsConfig.
+func (mr *MockInsightsConfigWriterMockRecorder) PatchInsightsConfig(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchInsightsConfig", reflect.TypeOf((*MockInsightsConfigWriter)(nil).PatchInsightsConfig), varargs...)
+}
+
+// UpdateInsightsConfig mocks base method.
+func (m *MockInsightsConfigWriter) UpdateInsightsConfig(ctx context.Context, obj *v2alpha1.InsightsConfig, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateInsightsConfig indicates an expected call of UpdateInsightsConfig.
+func (mr *MockInsightsConfigWriterMockRecorder) UpdateInsightsConfig(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateInsightsConfig", reflect.TypeOf((*MockInsightsConfigWriter)(nil).UpdateInsightsConfig), varargs...)
+}
+
+// UpsertInsightsConfig mocks base method.
+func (m *MockInsightsConfigWriter) UpsertInsightsConfig(ctx context.Context, obj *v2alpha1.InsightsConfig, transitionFuncs ...v2alpha1.InsightsConfigTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertInsightsConfig indicates an expected call of UpsertInsightsConfig.
+func (mr *MockInsightsConfigWriterMockRecorder) UpsertInsightsConfig(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertInsightsConfig", reflect.TypeOf((*MockInsightsConfigWriter)(nil).UpsertInsightsConfig), varargs...)
+}
+
+// MockInsightsConfigStatusWriter is a mock of InsightsConfigStatusWriter interface.
+type MockInsightsConfigStatusWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigStatusWriterMockRecorder
+}
+
+// MockInsightsConfigStatusWriterMockRecorder is the mock recorder for MockInsightsConfigStatusWriter.
+type MockInsightsConfigStatusWriterMockRecorder struct {
+	mock *MockInsightsConfigStatusWriter
+}
+
+// NewMockInsightsConfigStatusWriter creates a new mock instance.
+func NewMockInsightsConfigStatusWriter(ctrl *gomock.Controller) *MockInsightsConfigStatusWriter {
+	mock := &MockInsightsConfigStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigStatusWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigStatusWriter) EXPECT() *MockInsightsConfigStatusWriterMockRecorder {
+	return m.recorder
+}
+
+// PatchInsightsConfigStatus mocks base method.
+func (m *MockInsightsConfigStatusWriter) PatchInsightsConfigStatus(ctx context.Context, obj *v2alpha1.InsightsConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchInsightsConfigStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchInsightsConfigStatus indicates an expected call of PatchInsightsConfigStatus.
+func (mr *MockInsightsConfigStatusWriterMockRecorder) PatchInsightsConfigStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchInsightsConfigStatus", reflect.TypeOf((*MockInsightsConfigStatusWriter)(nil).PatchInsightsConfigStatus), varargs...)
+}
+
+// UpdateInsightsConfigStatus mocks base method.
+func (m *MockInsightsConfigStatusWriter) UpdateInsightsConfigStatus(ctx context.Context, obj *v2alpha1.InsightsConfig, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateInsightsConfigStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateInsightsConfigStatus indicates an expected call of UpdateInsightsConfigStatus.
+func (mr *MockInsightsConfigStatusWriterMockRecorder) UpdateInsightsConfigStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateInsightsConfigStatus", reflect.TypeOf((*MockInsightsConfigStatusWriter)(nil).UpdateInsightsConfigStatus), varargs...)
+}
+
+// MockInsightsConfigClient is a mock of InsightsConfigClient interface.
+type MockInsightsConfigClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigClientMockRecorder
+}
+
+// MockInsightsConfigClientMockRecorder is the mock recorder for MockInsightsConfigClient.
+type MockInsightsConfigClientMockRecorder struct {
+	mock *MockInsightsConfigClient
+}
+
+// NewMockInsightsConfigClient creates a new mock instance.
+func NewMockInsightsConfigClient(ctrl *gomock.Controller) *MockInsightsConfigClient {
+	mock := &MockInsightsConfigClient{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigClient) EXPECT() *MockInsightsConfigClientMockRecorder {
+	return m.recorder
+}
+
+// CreateInsightsConfig mocks base method.
+func (m *MockInsightsConfigClient) CreateInsightsConfig(ctx context.Context, obj *v2alpha1.InsightsConfig, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateInsightsConfig indicates an expected call of CreateInsightsConfig.
+func (mr *MockInsightsConfigClientMockRecorder) CreateInsightsConfig(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateInsightsConfig", reflect.TypeOf((*MockInsightsConfigClient)(nil).CreateInsightsConfig), varargs...)
+}
+
+// DeleteAllOfInsightsConfig mocks base method.
+func (m *MockInsightsConfigClient) DeleteAllOfInsightsConfig(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfInsightsConfig indicates an expected call of DeleteAllOfInsightsConfig.
+func (mr *MockInsightsConfigClientMockRecorder) DeleteAllOfInsightsConfig(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfInsightsConfig", reflect.TypeOf((*MockInsightsConfigClient)(nil).DeleteAllOfInsightsConfig), varargs...)
+}
+
+// DeleteInsightsConfig mocks base method.
+func (m *MockInsightsConfigClient) DeleteInsightsConfig(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteInsightsConfig indicates an expected call of DeleteInsightsConfig.
+func (mr *MockInsightsConfigClientMockRecorder) DeleteInsightsConfig(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteInsightsConfig", reflect.TypeOf((*MockInsightsConfigClient)(nil).DeleteInsightsConfig), varargs...)
+}
+
+// GetInsightsConfig mocks base method.
+func (m *MockInsightsConfigClient) GetInsightsConfig(ctx context.Context, key client.ObjectKey) (*v2alpha1.InsightsConfig, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetInsightsConfig", ctx, key)
+	ret0, _ := ret[0].(*v2alpha1.InsightsConfig)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetInsightsConfig indicates an expected call of GetInsightsConfig.
+func (mr *MockInsightsConfigClientMockRecorder) GetInsightsConfig(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInsightsConfig", reflect.TypeOf((*MockInsightsConfigClient)(nil).GetInsightsConfig), ctx, key)
+}
+
+// ListInsightsConfig mocks base method.
+func (m *MockInsightsConfigClient) ListInsightsConfig(ctx context.Context, opts ...client.ListOption) (*v2alpha1.InsightsConfigList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListInsightsConfig", varargs...)
+	ret0, _ := ret[0].(*v2alpha1.InsightsConfigList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListInsightsConfig indicates an expected call of ListInsightsConfig.
+func (mr *MockInsightsConfigClientMockRecorder) ListInsightsConfig(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListInsightsConfig", reflect.TypeOf((*MockInsightsConfigClient)(nil).ListInsightsConfig), varargs...)
+}
+
+// PatchInsightsConfig mocks base method.
+func (m *MockInsightsConfigClient) PatchInsightsConfig(ctx context.Context, obj *v2alpha1.InsightsConfig, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchInsightsConfig indicates an expected call of PatchInsightsConfig.
+func (mr *MockInsightsConfigClientMockRecorder) PatchInsightsConfig(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchInsightsConfig", reflect.TypeOf((*MockInsightsConfigClient)(nil).PatchInsightsConfig), varargs...)
+}
+
+// PatchInsightsConfigStatus mocks base method.
+func (m *MockInsightsConfigClient) PatchInsightsConfigStatus(ctx context.Context, obj *v2alpha1.InsightsConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchInsightsConfigStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchInsightsConfigStatus indicates an expected call of PatchInsightsConfigStatus.
+func (mr *MockInsightsConfigClientMockRecorder) PatchInsightsConfigStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchInsightsConfigStatus", reflect.TypeOf((*MockInsightsConfigClient)(nil).PatchInsightsConfigStatus), varargs...)
+}
+
+// UpdateInsightsConfig mocks base method.
+func (m *MockInsightsConfigClient) UpdateInsightsConfig(ctx context.Context, obj *v2alpha1.InsightsConfig, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateInsightsConfig indicates an expected call of UpdateInsightsConfig.
+func (mr *MockInsightsConfigClientMockRecorder) UpdateInsightsConfig(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateInsightsConfig", reflect.TypeOf((*MockInsightsConfigClient)(nil).UpdateInsightsConfig), varargs...)
+}
+
+// UpdateInsightsConfigStatus mocks base method.
+func (m *MockInsightsConfigClient) UpdateInsightsConfigStatus(ctx context.Context, obj *v2alpha1.InsightsConfig, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateInsightsConfigStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateInsightsConfigStatus indicates an expected call of UpdateInsightsConfigStatus.
+func (mr *MockInsightsConfigClientMockRecorder) UpdateInsightsConfigStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateInsightsConfigStatus", reflect.TypeOf((*MockInsightsConfigClient)(nil).UpdateInsightsConfigStatus), varargs...)
+}
+
+// UpsertInsightsConfig mocks base method.
+func (m *MockInsightsConfigClient) UpsertInsightsConfig(ctx context.Context, obj *v2alpha1.InsightsConfig, transitionFuncs ...v2alpha1.InsightsConfigTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertInsightsConfig", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertInsightsConfig indicates an expected call of UpsertInsightsConfig.
+func (mr *MockInsightsConfigClientMockRecorder) UpsertInsightsConfig(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertInsightsConfig", reflect.TypeOf((*MockInsightsConfigClient)(nil).UpsertInsightsConfig), varargs...)
+}
+
+// MockMulticlusterInsightsConfigClient is a mock of MulticlusterInsightsConfigClient interface.
+type MockMulticlusterInsightsConfigClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterInsightsConfigClientMockRecorder
+}
+
+// MockMulticlusterInsightsConfigClientMockRecorder is the mock recorder for MockMulticlusterInsightsConfigClient.
+type MockMulticlusterInsightsConfigClientMockRecorder struct {
+	mock *MockMulticlusterInsightsConfigClient
+}
+
+// NewMockMulticlusterInsightsConfigClient creates a new mock instance.
+func NewMockMulticlusterInsightsConfigClient(ctrl *gomock.Controller) *MockMulticlusterInsightsConfigClient {
+	mock := &MockMulticlusterInsightsConfigClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterInsightsConfigClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterInsightsConfigClient) EXPECT() *MockMulticlusterInsightsConfigClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterInsightsConfigClient) Cluster(cluster string) (v2alpha1.InsightsConfigClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v2alpha1.InsightsConfigClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterInsightsConfigClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterInsightsConfigClient)(nil).Cluster), cluster)
 }

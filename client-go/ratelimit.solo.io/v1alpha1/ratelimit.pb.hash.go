@@ -380,6 +380,26 @@ func (m *RateLimitActions) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	if h, ok := interface{}(m.GetLimit()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Limit")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetLimit(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Limit")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -570,6 +590,97 @@ func (m *Action) Hash(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			} else {
 				if _, err = hasher.Write([]byte("Metadata")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *MetaData) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/client-go/ratelimit.solo.io/v1alpha1.MetaData")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetDescriptorKey())); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetMetadataKey()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("MetadataKey")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetMetadataKey(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("MetadataKey")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if _, err = hasher.Write([]byte(m.GetDefaultValue())); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetSource())
+	if err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *Override) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/client-go/ratelimit.solo.io/v1alpha1.Override")); err != nil {
+		return 0, err
+	}
+
+	switch m.OverrideSpecifier.(type) {
+
+	case *Override_DynamicMetadata_:
+
+		if h, ok := interface{}(m.GetDynamicMetadata()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("DynamicMetadata")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetDynamicMetadata(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("DynamicMetadata")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -828,55 +939,6 @@ func (m *Action_HeaderValueMatch) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *Action_MetaData) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/client-go/ratelimit.solo.io/v1alpha1.Action_MetaData")); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetDescriptorKey())); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetMetadataKey()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MetadataKey")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMetadataKey(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("MetadataKey")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	if _, err = hasher.Write([]byte(m.GetDefaultValue())); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetSource())
-	if err != nil {
-		return 0, err
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
 func (m *Action_HeaderValueMatch_HeaderMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -985,7 +1047,7 @@ func (m *Action_HeaderValueMatch_HeaderMatcher_Int64Range) Hash(hasher hash.Hash
 }
 
 // Hash function
-func (m *Action_MetaData_MetadataKey) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *MetaData_MetadataKey) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -993,7 +1055,7 @@ func (m *Action_MetaData_MetadataKey) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/client-go/ratelimit.solo.io/v1alpha1.Action_MetaData_MetadataKey")); err != nil {
+	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/client-go/ratelimit.solo.io/v1alpha1.MetaData_MetadataKey")); err != nil {
 		return 0, err
 	}
 
@@ -1029,7 +1091,7 @@ func (m *Action_MetaData_MetadataKey) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *Action_MetaData_MetadataKey_PathSegment) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *MetaData_MetadataKey_PathSegment) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -1037,18 +1099,54 @@ func (m *Action_MetaData_MetadataKey_PathSegment) Hash(hasher hash.Hash64) (uint
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/client-go/ratelimit.solo.io/v1alpha1.Action_MetaData_MetadataKey_PathSegment")); err != nil {
+	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/client-go/ratelimit.solo.io/v1alpha1.MetaData_MetadataKey_PathSegment")); err != nil {
 		return 0, err
 	}
 
 	switch m.Segment.(type) {
 
-	case *Action_MetaData_MetadataKey_PathSegment_Key:
+	case *MetaData_MetadataKey_PathSegment_Key:
 
 		if _, err = hasher.Write([]byte(m.GetKey())); err != nil {
 			return 0, err
 		}
 
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *Override_DynamicMetadata) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/client-go/ratelimit.solo.io/v1alpha1.Override_DynamicMetadata")); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetMetadataKey()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("MetadataKey")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetMetadataKey(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("MetadataKey")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
 	}
 
 	return hasher.Sum64(), nil

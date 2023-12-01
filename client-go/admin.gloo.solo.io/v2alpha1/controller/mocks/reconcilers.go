@@ -198,3 +198,186 @@ func (mr *MockWaypointLifecycleManagerReconcileLoopMockRecorder) RunWaypointLife
 	varargs := append([]interface{}{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunWaypointLifecycleManagerReconciler", reflect.TypeOf((*MockWaypointLifecycleManagerReconcileLoop)(nil).RunWaypointLifecycleManagerReconciler), varargs...)
 }
+
+// MockInsightsConfigReconciler is a mock of InsightsConfigReconciler interface.
+type MockInsightsConfigReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigReconcilerMockRecorder
+}
+
+// MockInsightsConfigReconcilerMockRecorder is the mock recorder for MockInsightsConfigReconciler.
+type MockInsightsConfigReconcilerMockRecorder struct {
+	mock *MockInsightsConfigReconciler
+}
+
+// NewMockInsightsConfigReconciler creates a new mock instance.
+func NewMockInsightsConfigReconciler(ctrl *gomock.Controller) *MockInsightsConfigReconciler {
+	mock := &MockInsightsConfigReconciler{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigReconciler) EXPECT() *MockInsightsConfigReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileInsightsConfig mocks base method.
+func (m *MockInsightsConfigReconciler) ReconcileInsightsConfig(obj *v2alpha1.InsightsConfig) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileInsightsConfig", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileInsightsConfig indicates an expected call of ReconcileInsightsConfig.
+func (mr *MockInsightsConfigReconcilerMockRecorder) ReconcileInsightsConfig(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileInsightsConfig", reflect.TypeOf((*MockInsightsConfigReconciler)(nil).ReconcileInsightsConfig), obj)
+}
+
+// MockInsightsConfigDeletionReconciler is a mock of InsightsConfigDeletionReconciler interface.
+type MockInsightsConfigDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigDeletionReconcilerMockRecorder
+}
+
+// MockInsightsConfigDeletionReconcilerMockRecorder is the mock recorder for MockInsightsConfigDeletionReconciler.
+type MockInsightsConfigDeletionReconcilerMockRecorder struct {
+	mock *MockInsightsConfigDeletionReconciler
+}
+
+// NewMockInsightsConfigDeletionReconciler creates a new mock instance.
+func NewMockInsightsConfigDeletionReconciler(ctrl *gomock.Controller) *MockInsightsConfigDeletionReconciler {
+	mock := &MockInsightsConfigDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigDeletionReconciler) EXPECT() *MockInsightsConfigDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileInsightsConfigDeletion mocks base method.
+func (m *MockInsightsConfigDeletionReconciler) ReconcileInsightsConfigDeletion(req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileInsightsConfigDeletion", req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileInsightsConfigDeletion indicates an expected call of ReconcileInsightsConfigDeletion.
+func (mr *MockInsightsConfigDeletionReconcilerMockRecorder) ReconcileInsightsConfigDeletion(req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileInsightsConfigDeletion", reflect.TypeOf((*MockInsightsConfigDeletionReconciler)(nil).ReconcileInsightsConfigDeletion), req)
+}
+
+// MockInsightsConfigFinalizer is a mock of InsightsConfigFinalizer interface.
+type MockInsightsConfigFinalizer struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigFinalizerMockRecorder
+}
+
+// MockInsightsConfigFinalizerMockRecorder is the mock recorder for MockInsightsConfigFinalizer.
+type MockInsightsConfigFinalizerMockRecorder struct {
+	mock *MockInsightsConfigFinalizer
+}
+
+// NewMockInsightsConfigFinalizer creates a new mock instance.
+func NewMockInsightsConfigFinalizer(ctrl *gomock.Controller) *MockInsightsConfigFinalizer {
+	mock := &MockInsightsConfigFinalizer{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigFinalizerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigFinalizer) EXPECT() *MockInsightsConfigFinalizerMockRecorder {
+	return m.recorder
+}
+
+// FinalizeInsightsConfig mocks base method.
+func (m *MockInsightsConfigFinalizer) FinalizeInsightsConfig(obj *v2alpha1.InsightsConfig) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FinalizeInsightsConfig", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// FinalizeInsightsConfig indicates an expected call of FinalizeInsightsConfig.
+func (mr *MockInsightsConfigFinalizerMockRecorder) FinalizeInsightsConfig(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeInsightsConfig", reflect.TypeOf((*MockInsightsConfigFinalizer)(nil).FinalizeInsightsConfig), obj)
+}
+
+// InsightsConfigFinalizerName mocks base method.
+func (m *MockInsightsConfigFinalizer) InsightsConfigFinalizerName() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "InsightsConfigFinalizerName")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// InsightsConfigFinalizerName indicates an expected call of InsightsConfigFinalizerName.
+func (mr *MockInsightsConfigFinalizerMockRecorder) InsightsConfigFinalizerName() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsightsConfigFinalizerName", reflect.TypeOf((*MockInsightsConfigFinalizer)(nil).InsightsConfigFinalizerName))
+}
+
+// ReconcileInsightsConfig mocks base method.
+func (m *MockInsightsConfigFinalizer) ReconcileInsightsConfig(obj *v2alpha1.InsightsConfig) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileInsightsConfig", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileInsightsConfig indicates an expected call of ReconcileInsightsConfig.
+func (mr *MockInsightsConfigFinalizerMockRecorder) ReconcileInsightsConfig(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileInsightsConfig", reflect.TypeOf((*MockInsightsConfigFinalizer)(nil).ReconcileInsightsConfig), obj)
+}
+
+// MockInsightsConfigReconcileLoop is a mock of InsightsConfigReconcileLoop interface.
+type MockInsightsConfigReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigReconcileLoopMockRecorder
+}
+
+// MockInsightsConfigReconcileLoopMockRecorder is the mock recorder for MockInsightsConfigReconcileLoop.
+type MockInsightsConfigReconcileLoopMockRecorder struct {
+	mock *MockInsightsConfigReconcileLoop
+}
+
+// NewMockInsightsConfigReconcileLoop creates a new mock instance.
+func NewMockInsightsConfigReconcileLoop(ctrl *gomock.Controller) *MockInsightsConfigReconcileLoop {
+	mock := &MockInsightsConfigReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigReconcileLoop) EXPECT() *MockInsightsConfigReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// RunInsightsConfigReconciler mocks base method.
+func (m *MockInsightsConfigReconcileLoop) RunInsightsConfigReconciler(ctx context.Context, rec controller.InsightsConfigReconciler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RunInsightsConfigReconciler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RunInsightsConfigReconciler indicates an expected call of RunInsightsConfigReconciler.
+func (mr *MockInsightsConfigReconcileLoopMockRecorder) RunInsightsConfigReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunInsightsConfigReconciler", reflect.TypeOf((*MockInsightsConfigReconcileLoop)(nil).RunInsightsConfigReconciler), varargs...)
+}

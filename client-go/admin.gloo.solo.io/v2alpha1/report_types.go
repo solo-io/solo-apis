@@ -5,3 +5,6 @@ package v2alpha1
 
 // IsReport implements Reportable interface for WaypointLifecycleManagerReport
 func (o *WaypointLifecycleManagerReport) IsReport() {}
+
+// IsReport implements Reportable interface for InsightsConfigReport
+func (o *InsightsConfigReport) IsReport() {}

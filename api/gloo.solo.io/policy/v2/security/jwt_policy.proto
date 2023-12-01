@@ -321,6 +321,10 @@ message JWTPolicySpec {
       // You can also use wildcards, such as `"*"` to deny any value, or for example `"*@solo.io"` to deny any `@solo.io` email.
       // Note: You must set at least one of "values" or "not_values".
       repeated string not_values = 3;
+
+      // Optional: Specify a delimiter to enable nested claims, which are claims that are children of top-level claims. The delimiter is the character that separates the nested levels within the claims names of the JWT.
+      // The delimiter is commonly set to a period ("."), which allows nested claim names of the form parent.child.grandchild. JWTs that match the value you set for the grandchild nested claim are allowed.
+      string nested_claim_delimiter = 4;
     }
 
     // Optional: A key-value list of claims to require for JWT authorization. The JWT must meet all of the claims to be allowed (logically AND'd together).

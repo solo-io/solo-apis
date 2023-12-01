@@ -489,13 +489,13 @@ type ExternalWorkloadSpec_Probe struct {
 	// Optional: Number of seconds after which the probe times out.
 	// Defaults to 1 second. Minimum value is 1 second.
 	TimeoutSeconds *wrappers.UInt32Value `protobuf:"bytes,2,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
-	// How often (in seconds) to perform the probe.
+	// Optional: How often (in seconds) to perform the probe.
 	// Defaults to 10 seconds. Minimum value is 1 second.
 	PeriodSeconds *wrappers.UInt32Value `protobuf:"bytes,3,opt,name=period_seconds,json=periodSeconds,proto3" json:"period_seconds,omitempty"`
-	// Minimum consecutive successes for the probe to be considered successful after having failed.
+	// Optional: Minimum consecutive successes for the probe to be considered successful after having failed.
 	// Defaults to 1.
 	SuccessThreshold *wrappers.UInt32Value `protobuf:"bytes,4,opt,name=success_threshold,json=successThreshold,proto3" json:"success_threshold,omitempty"`
-	// Minimum consecutive failures for the probe to be considered failed after having succeeded.
+	// Optional: Minimum consecutive failures for the probe to be considered failed after having succeeded.
 	// Defaults to 3.
 	FailureThreshold *wrappers.UInt32Value `protobuf:"bytes,5,opt,name=failure_threshold,json=failureThreshold,proto3" json:"failure_threshold,omitempty"`
 	// The handler corresponding to the probe. Specify only one of: httpGet, tcpSocket, exec

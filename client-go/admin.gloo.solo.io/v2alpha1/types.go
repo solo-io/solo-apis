@@ -43,6 +43,42 @@ type WaypointLifecycleManagerList struct {
 	Items           []WaypointLifecycleManager `json:"items"`
 }
 
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
+// GroupVersionKind for InsightsConfig
+var InsightsConfigGVK = schema.GroupVersionKind{
+	Group:   "admin.gloo.solo.io",
+	Version: "v2alpha1",
+	Kind:    "InsightsConfig",
+}
+
+// InsightsConfig is the Schema for the insightsConfig API
+type InsightsConfig struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   InsightsConfigSpec   `json:"spec,omitempty"`
+	Status InsightsConfigStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (InsightsConfig) GVK() schema.GroupVersionKind {
+	return InsightsConfigGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// InsightsConfigList contains a list of InsightsConfig
+type InsightsConfigList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []InsightsConfig `json:"items"`
+}
+
 func init() {
 	SchemeBuilder.Register(&WaypointLifecycleManager{}, &WaypointLifecycleManagerList{})
+	SchemeBuilder.Register(&InsightsConfig{}, &InsightsConfigList{})
 }

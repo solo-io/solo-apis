@@ -130,3 +130,118 @@ func (mr *MockMulticlusterWaypointLifecycleManagerReconcileLoopMockRecorder) Add
 	varargs := append([]interface{}{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterWaypointLifecycleManagerReconciler", reflect.TypeOf((*MockMulticlusterWaypointLifecycleManagerReconcileLoop)(nil).AddMulticlusterWaypointLifecycleManagerReconciler), varargs...)
 }
+
+// MockMulticlusterInsightsConfigReconciler is a mock of MulticlusterInsightsConfigReconciler interface.
+type MockMulticlusterInsightsConfigReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterInsightsConfigReconcilerMockRecorder
+}
+
+// MockMulticlusterInsightsConfigReconcilerMockRecorder is the mock recorder for MockMulticlusterInsightsConfigReconciler.
+type MockMulticlusterInsightsConfigReconcilerMockRecorder struct {
+	mock *MockMulticlusterInsightsConfigReconciler
+}
+
+// NewMockMulticlusterInsightsConfigReconciler creates a new mock instance.
+func NewMockMulticlusterInsightsConfigReconciler(ctrl *gomock.Controller) *MockMulticlusterInsightsConfigReconciler {
+	mock := &MockMulticlusterInsightsConfigReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterInsightsConfigReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterInsightsConfigReconciler) EXPECT() *MockMulticlusterInsightsConfigReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileInsightsConfig mocks base method.
+func (m *MockMulticlusterInsightsConfigReconciler) ReconcileInsightsConfig(clusterName string, obj *v2alpha1.InsightsConfig) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileInsightsConfig", clusterName, obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileInsightsConfig indicates an expected call of ReconcileInsightsConfig.
+func (mr *MockMulticlusterInsightsConfigReconcilerMockRecorder) ReconcileInsightsConfig(clusterName, obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileInsightsConfig", reflect.TypeOf((*MockMulticlusterInsightsConfigReconciler)(nil).ReconcileInsightsConfig), clusterName, obj)
+}
+
+// MockMulticlusterInsightsConfigDeletionReconciler is a mock of MulticlusterInsightsConfigDeletionReconciler interface.
+type MockMulticlusterInsightsConfigDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterInsightsConfigDeletionReconcilerMockRecorder
+}
+
+// MockMulticlusterInsightsConfigDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterInsightsConfigDeletionReconciler.
+type MockMulticlusterInsightsConfigDeletionReconcilerMockRecorder struct {
+	mock *MockMulticlusterInsightsConfigDeletionReconciler
+}
+
+// NewMockMulticlusterInsightsConfigDeletionReconciler creates a new mock instance.
+func NewMockMulticlusterInsightsConfigDeletionReconciler(ctrl *gomock.Controller) *MockMulticlusterInsightsConfigDeletionReconciler {
+	mock := &MockMulticlusterInsightsConfigDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterInsightsConfigDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterInsightsConfigDeletionReconciler) EXPECT() *MockMulticlusterInsightsConfigDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileInsightsConfigDeletion mocks base method.
+func (m *MockMulticlusterInsightsConfigDeletionReconciler) ReconcileInsightsConfigDeletion(clusterName string, req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileInsightsConfigDeletion", clusterName, req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileInsightsConfigDeletion indicates an expected call of ReconcileInsightsConfigDeletion.
+func (mr *MockMulticlusterInsightsConfigDeletionReconcilerMockRecorder) ReconcileInsightsConfigDeletion(clusterName, req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileInsightsConfigDeletion", reflect.TypeOf((*MockMulticlusterInsightsConfigDeletionReconciler)(nil).ReconcileInsightsConfigDeletion), clusterName, req)
+}
+
+// MockMulticlusterInsightsConfigReconcileLoop is a mock of MulticlusterInsightsConfigReconcileLoop interface.
+type MockMulticlusterInsightsConfigReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterInsightsConfigReconcileLoopMockRecorder
+}
+
+// MockMulticlusterInsightsConfigReconcileLoopMockRecorder is the mock recorder for MockMulticlusterInsightsConfigReconcileLoop.
+type MockMulticlusterInsightsConfigReconcileLoopMockRecorder struct {
+	mock *MockMulticlusterInsightsConfigReconcileLoop
+}
+
+// NewMockMulticlusterInsightsConfigReconcileLoop creates a new mock instance.
+func NewMockMulticlusterInsightsConfigReconcileLoop(ctrl *gomock.Controller) *MockMulticlusterInsightsConfigReconcileLoop {
+	mock := &MockMulticlusterInsightsConfigReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterInsightsConfigReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterInsightsConfigReconcileLoop) EXPECT() *MockMulticlusterInsightsConfigReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// AddMulticlusterInsightsConfigReconciler mocks base method.
+func (m *MockMulticlusterInsightsConfigReconcileLoop) AddMulticlusterInsightsConfigReconciler(ctx context.Context, rec controller.MulticlusterInsightsConfigReconciler, predicates ...predicate.Predicate) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "AddMulticlusterInsightsConfigReconciler", varargs...)
+}
+
+// AddMulticlusterInsightsConfigReconciler indicates an expected call of AddMulticlusterInsightsConfigReconciler.
+func (mr *MockMulticlusterInsightsConfigReconcileLoopMockRecorder) AddMulticlusterInsightsConfigReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterInsightsConfigReconciler", reflect.TypeOf((*MockMulticlusterInsightsConfigReconcileLoop)(nil).AddMulticlusterInsightsConfigReconciler), varargs...)
+}

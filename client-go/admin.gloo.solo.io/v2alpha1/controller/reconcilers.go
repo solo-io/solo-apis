@@ -133,3 +133,120 @@ func (r genericWaypointLifecycleManagerFinalizer) Finalize(object ezkube.Object)
 	}
 	return r.finalizingReconciler.FinalizeWaypointLifecycleManager(obj)
 }
+
+// Reconcile Upsert events for the InsightsConfig Resource.
+// implemented by the user
+type InsightsConfigReconciler interface {
+	ReconcileInsightsConfig(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the InsightsConfig Resource.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type InsightsConfigDeletionReconciler interface {
+	ReconcileInsightsConfigDeletion(req reconcile.Request) error
+}
+
+type InsightsConfigReconcilerFuncs struct {
+	OnReconcileInsightsConfig         func(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) (reconcile.Result, error)
+	OnReconcileInsightsConfigDeletion func(req reconcile.Request) error
+}
+
+func (f *InsightsConfigReconcilerFuncs) ReconcileInsightsConfig(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) (reconcile.Result, error) {
+	if f.OnReconcileInsightsConfig == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileInsightsConfig(obj)
+}
+
+func (f *InsightsConfigReconcilerFuncs) ReconcileInsightsConfigDeletion(req reconcile.Request) error {
+	if f.OnReconcileInsightsConfigDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileInsightsConfigDeletion(req)
+}
+
+// Reconcile and finalize the InsightsConfig Resource
+// implemented by the user
+type InsightsConfigFinalizer interface {
+	InsightsConfigReconciler
+
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	InsightsConfigFinalizerName() string
+
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeInsightsConfig(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error
+}
+
+type InsightsConfigReconcileLoop interface {
+	RunInsightsConfigReconciler(ctx context.Context, rec InsightsConfigReconciler, predicates ...predicate.Predicate) error
+}
+
+type insightsConfigReconcileLoop struct {
+	loop reconcile.Loop
+}
+
+func NewInsightsConfigReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) InsightsConfigReconcileLoop {
+	return &insightsConfigReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &admin_gloo_solo_io_v2alpha1.InsightsConfig{}, options),
+	}
+}
+
+func (c *insightsConfigReconcileLoop) RunInsightsConfigReconciler(ctx context.Context, reconciler InsightsConfigReconciler, predicates ...predicate.Predicate) error {
+	genericReconciler := genericInsightsConfigReconciler{
+		reconciler: reconciler,
+	}
+
+	var reconcilerWrapper reconcile.Reconciler
+	if finalizingReconciler, ok := reconciler.(InsightsConfigFinalizer); ok {
+		reconcilerWrapper = genericInsightsConfigFinalizer{
+			genericInsightsConfigReconciler: genericReconciler,
+			finalizingReconciler:            finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
+	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
+}
+
+// genericInsightsConfigHandler implements a generic reconcile.Reconciler
+type genericInsightsConfigReconciler struct {
+	reconciler InsightsConfigReconciler
+}
+
+func (r genericInsightsConfigReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: InsightsConfig handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileInsightsConfig(obj)
+}
+
+func (r genericInsightsConfigReconciler) ReconcileDeletion(request reconcile.Request) error {
+	if deletionReconciler, ok := r.reconciler.(InsightsConfigDeletionReconciler); ok {
+		return deletionReconciler.ReconcileInsightsConfigDeletion(request)
+	}
+	return nil
+}
+
+// genericInsightsConfigFinalizer implements a generic reconcile.FinalizingReconciler
+type genericInsightsConfigFinalizer struct {
+	genericInsightsConfigReconciler
+	finalizingReconciler InsightsConfigFinalizer
+}
+
+func (r genericInsightsConfigFinalizer) FinalizerName() string {
+	return r.finalizingReconciler.InsightsConfigFinalizerName()
+}
+
+func (r genericInsightsConfigFinalizer) Finalize(object ezkube.Object) error {
+	obj, ok := object.(*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	if !ok {
+		return errors.Errorf("internal error: InsightsConfig handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeInsightsConfig(obj)
+}

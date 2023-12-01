@@ -30,3 +30,25 @@ func (in *WaypointLifecycleManagerStatus) DeepCopyInto(out *WaypointLifecycleMan
 	}
 	*out = *p
 }
+
+// DeepCopyInto for the InsightsConfig.Spec
+func (in *InsightsConfigSpec) DeepCopyInto(out *InsightsConfigSpec) {
+	var p *InsightsConfigSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*InsightsConfigSpec)
+	} else {
+		p = proto.Clone(in).(*InsightsConfigSpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the InsightsConfig.Status
+func (in *InsightsConfigStatus) DeepCopyInto(out *InsightsConfigStatus) {
+	var p *InsightsConfigStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*InsightsConfigStatus)
+	} else {
+		p = proto.Clone(in).(*InsightsConfigStatus)
+	}
+	*out = *p
+}
