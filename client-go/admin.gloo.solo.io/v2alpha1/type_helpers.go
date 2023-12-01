@@ -5,3 +5,6 @@ package v2alpha1
 
 // WaypointLifecycleManagerSlice represents a slice of *WaypointLifecycleManager
 type WaypointLifecycleManagerSlice []*WaypointLifecycleManager
+
+// InsightsConfigSlice represents a slice of *InsightsConfig
+type InsightsConfigSlice []*InsightsConfig

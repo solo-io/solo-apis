@@ -41,6 +41,8 @@ func (m *multiclusterClientset) Cluster(cluster string) (Clientset, error) {
 type Clientset interface {
 	// clienset for the admin.gloo.solo.io/v2alpha1/v2alpha1 APIs
 	WaypointLifecycleManagers() WaypointLifecycleManagerClient
+	// clienset for the admin.gloo.solo.io/v2alpha1/v2alpha1 APIs
+	InsightsConfigs() InsightsConfigClient
 }
 
 type clientSet struct {
@@ -68,6 +70,11 @@ func NewClientset(client client.Client) Clientset {
 // clienset for the admin.gloo.solo.io/v2alpha1/v2alpha1 APIs
 func (c *clientSet) WaypointLifecycleManagers() WaypointLifecycleManagerClient {
 	return NewWaypointLifecycleManagerClient(c.client)
+}
+
+// clienset for the admin.gloo.solo.io/v2alpha1/v2alpha1 APIs
+func (c *clientSet) InsightsConfigs() InsightsConfigClient {
+	return NewInsightsConfigClient(c.client)
 }
 
 // Reader knows how to read and list WaypointLifecycleManagers.
@@ -210,4 +217,146 @@ func (m *multiclusterWaypointLifecycleManagerClient) Cluster(cluster string) (Wa
 		return nil, err
 	}
 	return NewWaypointLifecycleManagerClient(client), nil
+}
+
+// Reader knows how to read and list InsightsConfigs.
+type InsightsConfigReader interface {
+	// Get retrieves a InsightsConfig for the given object key
+	GetInsightsConfig(ctx context.Context, key client.ObjectKey) (*InsightsConfig, error)
+
+	// List retrieves list of InsightsConfigs for a given namespace and list options.
+	ListInsightsConfig(ctx context.Context, opts ...client.ListOption) (*InsightsConfigList, error)
+}
+
+// InsightsConfigTransitionFunction instructs the InsightsConfigWriter how to transition between an existing
+// InsightsConfig object and a desired on an Upsert
+type InsightsConfigTransitionFunction func(existing, desired *InsightsConfig) error
+
+// Writer knows how to create, delete, and update InsightsConfigs.
+type InsightsConfigWriter interface {
+	// Create saves the InsightsConfig object.
+	CreateInsightsConfig(ctx context.Context, obj *InsightsConfig, opts ...client.CreateOption) error
+
+	// Delete deletes the InsightsConfig object.
+	DeleteInsightsConfig(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given InsightsConfig object.
+	UpdateInsightsConfig(ctx context.Context, obj *InsightsConfig, opts ...client.UpdateOption) error
+
+	// Patch patches the given InsightsConfig object.
+	PatchInsightsConfig(ctx context.Context, obj *InsightsConfig, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all InsightsConfig objects matching the given options.
+	DeleteAllOfInsightsConfig(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the InsightsConfig object.
+	UpsertInsightsConfig(ctx context.Context, obj *InsightsConfig, transitionFuncs ...InsightsConfigTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a InsightsConfig object.
+type InsightsConfigStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given InsightsConfig object.
+	UpdateInsightsConfigStatus(ctx context.Context, obj *InsightsConfig, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given InsightsConfig object's subresource.
+	PatchInsightsConfigStatus(ctx context.Context, obj *InsightsConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on InsightsConfigs.
+type InsightsConfigClient interface {
+	InsightsConfigReader
+	InsightsConfigWriter
+	InsightsConfigStatusWriter
+}
+
+type insightsConfigClient struct {
+	client client.Client
+}
+
+func NewInsightsConfigClient(client client.Client) *insightsConfigClient {
+	return &insightsConfigClient{client: client}
+}
+
+func (c *insightsConfigClient) GetInsightsConfig(ctx context.Context, key client.ObjectKey) (*InsightsConfig, error) {
+	obj := &InsightsConfig{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *insightsConfigClient) ListInsightsConfig(ctx context.Context, opts ...client.ListOption) (*InsightsConfigList, error) {
+	list := &InsightsConfigList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *insightsConfigClient) CreateInsightsConfig(ctx context.Context, obj *InsightsConfig, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *insightsConfigClient) DeleteInsightsConfig(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &InsightsConfig{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *insightsConfigClient) UpdateInsightsConfig(ctx context.Context, obj *InsightsConfig, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *insightsConfigClient) PatchInsightsConfig(ctx context.Context, obj *InsightsConfig, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *insightsConfigClient) DeleteAllOfInsightsConfig(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &InsightsConfig{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *insightsConfigClient) UpsertInsightsConfig(ctx context.Context, obj *InsightsConfig, transitionFuncs ...InsightsConfigTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*InsightsConfig), desired.(*InsightsConfig)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *insightsConfigClient) UpdateInsightsConfigStatus(ctx context.Context, obj *InsightsConfig, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *insightsConfigClient) PatchInsightsConfigStatus(ctx context.Context, obj *InsightsConfig, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides InsightsConfigClients for multiple clusters.
+type MulticlusterInsightsConfigClient interface {
+	// Cluster returns a InsightsConfigClient for the given cluster
+	Cluster(cluster string) (InsightsConfigClient, error)
+}
+
+type multiclusterInsightsConfigClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterInsightsConfigClient(client multicluster.Client) MulticlusterInsightsConfigClient {
+	return &multiclusterInsightsConfigClient{client: client}
+}
+
+func (m *multiclusterInsightsConfigClient) Cluster(cluster string) (InsightsConfigClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewInsightsConfigClient(client), nil
 }

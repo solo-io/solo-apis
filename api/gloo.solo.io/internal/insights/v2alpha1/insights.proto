@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package insights.internal.gloo.solo.io;
 
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package="github.com/solo-io/solo-apis/client-go/insights.internal.gloo.solo.io/v2alpha1";
@@ -49,25 +50,6 @@ message Insight {
   // Commented out for now, as we don't have a use case for it yet. If the use case is for docs this could be a docURL instead. (josh)
   // string description = 6;
 
-  // reference to a Kubernetes API object.
-  message ResourceRef {
-    // the name of the object
-    string name = 1;
-
-    // the namespace of the object.
-    string namespace = 2;
-
-    message GVK {
-      string group = 1;
-      string version = 2;
-      string kind = 3;
-   }
-
-    GVK gvk = 3;
-
-    string cluster = 4;
-  }
-
   message ClusterRef {
     string name = 1;
   }
@@ -79,7 +61,7 @@ message Insight {
       // The cluster that the insight was generated for.
       ClusterRef cluster = 7;
   
-      ResourceRef resource = 8;
+      .core.skv2.solo.io.TypedClusterObjectRef resource = 8;
   
       bool global = 16;
     }
@@ -182,7 +164,7 @@ message Insight {
   }
 
   message ReferencedCertificateSecret {
-    ResourceRef ref = 1;
+    .core.skv2.solo.io.TypedClusterObjectRef ref = 1;
     CertificateInformation certificate = 2;
   }
 
@@ -227,12 +209,13 @@ message Insight {
     int32 ambient_services = 4;
   }
 
-  // zero trust - mesh encyrpted traffic
+  // zero trust - workloads receiving mesh encrypted traffic
   message SYS0012Data {
-    int32 value = 1;
+    int32 mtls_encrypted_workloads = 1;
+    int32 total_workloads = 2;
   }
 
-  // zero trust - external services accesssed
+  // zero trust - kubernetes external services accessed
   message SYS0013Data {
     int32 value = 1;
   }
@@ -253,5 +236,6 @@ message Insight {
     int32 cilium_resources = 2;
     int32 k8s_resources = 3;
     int32 gateway_resources = 4;
+    int32 solo_resources = 5;
   }
 }

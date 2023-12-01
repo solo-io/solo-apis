@@ -123,3 +123,110 @@ func (h genericWaypointLifecycleManagerHandler) Generic(object client.Object) er
 	}
 	return h.handler.GenericWaypointLifecycleManager(obj)
 }
+
+// Handle events for the InsightsConfig Resource
+// DEPRECATED: Prefer reconciler pattern.
+type InsightsConfigEventHandler interface {
+	CreateInsightsConfig(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error
+	UpdateInsightsConfig(old, new *admin_gloo_solo_io_v2alpha1.InsightsConfig) error
+	DeleteInsightsConfig(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error
+	GenericInsightsConfig(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error
+}
+
+type InsightsConfigEventHandlerFuncs struct {
+	OnCreate  func(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error
+	OnUpdate  func(old, new *admin_gloo_solo_io_v2alpha1.InsightsConfig) error
+	OnDelete  func(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error
+	OnGeneric func(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error
+}
+
+func (f *InsightsConfigEventHandlerFuncs) CreateInsightsConfig(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *InsightsConfigEventHandlerFuncs) DeleteInsightsConfig(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *InsightsConfigEventHandlerFuncs) UpdateInsightsConfig(objOld, objNew *admin_gloo_solo_io_v2alpha1.InsightsConfig) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *InsightsConfigEventHandlerFuncs) GenericInsightsConfig(obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type InsightsConfigEventWatcher interface {
+	AddEventHandler(ctx context.Context, h InsightsConfigEventHandler, predicates ...predicate.Predicate) error
+}
+
+type insightsConfigEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewInsightsConfigEventWatcher(name string, mgr manager.Manager) InsightsConfigEventWatcher {
+	return &insightsConfigEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &admin_gloo_solo_io_v2alpha1.InsightsConfig{}),
+	}
+}
+
+func (c *insightsConfigEventWatcher) AddEventHandler(ctx context.Context, h InsightsConfigEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericInsightsConfigHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericInsightsConfigHandler implements a generic events.EventHandler
+type genericInsightsConfigHandler struct {
+	handler InsightsConfigEventHandler
+}
+
+func (h genericInsightsConfigHandler) Create(object client.Object) error {
+	obj, ok := object.(*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	if !ok {
+		return errors.Errorf("internal error: InsightsConfig handler received event for %T", object)
+	}
+	return h.handler.CreateInsightsConfig(obj)
+}
+
+func (h genericInsightsConfigHandler) Delete(object client.Object) error {
+	obj, ok := object.(*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	if !ok {
+		return errors.Errorf("internal error: InsightsConfig handler received event for %T", object)
+	}
+	return h.handler.DeleteInsightsConfig(obj)
+}
+
+func (h genericInsightsConfigHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	if !ok {
+		return errors.Errorf("internal error: InsightsConfig handler received event for %T", old)
+	}
+	objNew, ok := new.(*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	if !ok {
+		return errors.Errorf("internal error: InsightsConfig handler received event for %T", new)
+	}
+	return h.handler.UpdateInsightsConfig(objOld, objNew)
+}
+
+func (h genericInsightsConfigHandler) Generic(object client.Object) error {
+	obj, ok := object.(*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	if !ok {
+		return errors.Errorf("internal error: InsightsConfig handler received event for %T", object)
+	}
+	return h.handler.GenericInsightsConfig(obj)
+}

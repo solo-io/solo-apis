@@ -44,3 +44,31 @@ func WaypointLifecycleManagerClientFromConfigFactoryProvider() WaypointLifecycle
 		return clients.WaypointLifecycleManagers(), nil
 	}
 }
+
+// Provider for InsightsConfigClient from Clientset
+func InsightsConfigClientFromClientsetProvider(clients admin_gloo_solo_io_v2alpha1.Clientset) admin_gloo_solo_io_v2alpha1.InsightsConfigClient {
+	return clients.InsightsConfigs()
+}
+
+// Provider for InsightsConfig Client from Client
+func InsightsConfigClientProvider(client client.Client) admin_gloo_solo_io_v2alpha1.InsightsConfigClient {
+	return admin_gloo_solo_io_v2alpha1.NewInsightsConfigClient(client)
+}
+
+type InsightsConfigClientFactory func(client client.Client) admin_gloo_solo_io_v2alpha1.InsightsConfigClient
+
+func InsightsConfigClientFactoryProvider() InsightsConfigClientFactory {
+	return InsightsConfigClientProvider
+}
+
+type InsightsConfigClientFromConfigFactory func(cfg *rest.Config) (admin_gloo_solo_io_v2alpha1.InsightsConfigClient, error)
+
+func InsightsConfigClientFromConfigFactoryProvider() InsightsConfigClientFromConfigFactory {
+	return func(cfg *rest.Config) (admin_gloo_solo_io_v2alpha1.InsightsConfigClient, error) {
+		clients, err := admin_gloo_solo_io_v2alpha1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.InsightsConfigs(), nil
+	}
+}

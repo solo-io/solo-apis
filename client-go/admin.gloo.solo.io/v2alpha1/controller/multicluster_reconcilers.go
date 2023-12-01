@@ -88,3 +88,74 @@ func (g genericWaypointLifecycleManagerMulticlusterReconciler) Reconcile(cluster
 	}
 	return g.reconciler.ReconcileWaypointLifecycleManager(cluster, obj)
 }
+
+// Reconcile Upsert events for the InsightsConfig Resource across clusters.
+// implemented by the user
+type MulticlusterInsightsConfigReconciler interface {
+	ReconcileInsightsConfig(clusterName string, obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the InsightsConfig Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterInsightsConfigDeletionReconciler interface {
+	ReconcileInsightsConfigDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterInsightsConfigReconcilerFuncs struct {
+	OnReconcileInsightsConfig         func(clusterName string, obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) (reconcile.Result, error)
+	OnReconcileInsightsConfigDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterInsightsConfigReconcilerFuncs) ReconcileInsightsConfig(clusterName string, obj *admin_gloo_solo_io_v2alpha1.InsightsConfig) (reconcile.Result, error) {
+	if f.OnReconcileInsightsConfig == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileInsightsConfig(clusterName, obj)
+}
+
+func (f *MulticlusterInsightsConfigReconcilerFuncs) ReconcileInsightsConfigDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileInsightsConfigDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileInsightsConfigDeletion(clusterName, req)
+}
+
+type MulticlusterInsightsConfigReconcileLoop interface {
+	// AddMulticlusterInsightsConfigReconciler adds a MulticlusterInsightsConfigReconciler to the MulticlusterInsightsConfigReconcileLoop.
+	AddMulticlusterInsightsConfigReconciler(ctx context.Context, rec MulticlusterInsightsConfigReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterInsightsConfigReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterInsightsConfigReconcileLoop) AddMulticlusterInsightsConfigReconciler(ctx context.Context, rec MulticlusterInsightsConfigReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericInsightsConfigMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterInsightsConfigReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterInsightsConfigReconcileLoop {
+	return &multiclusterInsightsConfigReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &admin_gloo_solo_io_v2alpha1.InsightsConfig{}, options)}
+}
+
+type genericInsightsConfigMulticlusterReconciler struct {
+	reconciler MulticlusterInsightsConfigReconciler
+}
+
+func (g genericInsightsConfigMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterInsightsConfigDeletionReconciler); ok {
+		return deletionReconciler.ReconcileInsightsConfigDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericInsightsConfigMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*admin_gloo_solo_io_v2alpha1.InsightsConfig)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: InsightsConfig handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileInsightsConfig(cluster, obj)
+}

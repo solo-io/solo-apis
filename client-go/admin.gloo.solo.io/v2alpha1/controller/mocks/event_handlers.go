@@ -135,3 +135,124 @@ func (mr *MockWaypointLifecycleManagerEventWatcherMockRecorder) AddEventHandler(
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockWaypointLifecycleManagerEventWatcher)(nil).AddEventHandler), varargs...)
 }
+
+// MockInsightsConfigEventHandler is a mock of InsightsConfigEventHandler interface.
+type MockInsightsConfigEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigEventHandlerMockRecorder
+}
+
+// MockInsightsConfigEventHandlerMockRecorder is the mock recorder for MockInsightsConfigEventHandler.
+type MockInsightsConfigEventHandlerMockRecorder struct {
+	mock *MockInsightsConfigEventHandler
+}
+
+// NewMockInsightsConfigEventHandler creates a new mock instance.
+func NewMockInsightsConfigEventHandler(ctrl *gomock.Controller) *MockInsightsConfigEventHandler {
+	mock := &MockInsightsConfigEventHandler{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigEventHandler) EXPECT() *MockInsightsConfigEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateInsightsConfig mocks base method.
+func (m *MockInsightsConfigEventHandler) CreateInsightsConfig(obj *v2alpha1.InsightsConfig) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateInsightsConfig", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateInsightsConfig indicates an expected call of CreateInsightsConfig.
+func (mr *MockInsightsConfigEventHandlerMockRecorder) CreateInsightsConfig(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateInsightsConfig", reflect.TypeOf((*MockInsightsConfigEventHandler)(nil).CreateInsightsConfig), obj)
+}
+
+// DeleteInsightsConfig mocks base method.
+func (m *MockInsightsConfigEventHandler) DeleteInsightsConfig(obj *v2alpha1.InsightsConfig) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteInsightsConfig", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteInsightsConfig indicates an expected call of DeleteInsightsConfig.
+func (mr *MockInsightsConfigEventHandlerMockRecorder) DeleteInsightsConfig(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteInsightsConfig", reflect.TypeOf((*MockInsightsConfigEventHandler)(nil).DeleteInsightsConfig), obj)
+}
+
+// GenericInsightsConfig mocks base method.
+func (m *MockInsightsConfigEventHandler) GenericInsightsConfig(obj *v2alpha1.InsightsConfig) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericInsightsConfig", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericInsightsConfig indicates an expected call of GenericInsightsConfig.
+func (mr *MockInsightsConfigEventHandlerMockRecorder) GenericInsightsConfig(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericInsightsConfig", reflect.TypeOf((*MockInsightsConfigEventHandler)(nil).GenericInsightsConfig), obj)
+}
+
+// UpdateInsightsConfig mocks base method.
+func (m *MockInsightsConfigEventHandler) UpdateInsightsConfig(old, new *v2alpha1.InsightsConfig) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateInsightsConfig", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateInsightsConfig indicates an expected call of UpdateInsightsConfig.
+func (mr *MockInsightsConfigEventHandlerMockRecorder) UpdateInsightsConfig(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateInsightsConfig", reflect.TypeOf((*MockInsightsConfigEventHandler)(nil).UpdateInsightsConfig), old, new)
+}
+
+// MockInsightsConfigEventWatcher is a mock of InsightsConfigEventWatcher interface.
+type MockInsightsConfigEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockInsightsConfigEventWatcherMockRecorder
+}
+
+// MockInsightsConfigEventWatcherMockRecorder is the mock recorder for MockInsightsConfigEventWatcher.
+type MockInsightsConfigEventWatcherMockRecorder struct {
+	mock *MockInsightsConfigEventWatcher
+}
+
+// NewMockInsightsConfigEventWatcher creates a new mock instance.
+func NewMockInsightsConfigEventWatcher(ctrl *gomock.Controller) *MockInsightsConfigEventWatcher {
+	mock := &MockInsightsConfigEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockInsightsConfigEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockInsightsConfigEventWatcher) EXPECT() *MockInsightsConfigEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockInsightsConfigEventWatcher) AddEventHandler(ctx context.Context, h controller.InsightsConfigEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockInsightsConfigEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockInsightsConfigEventWatcher)(nil).AddEventHandler), varargs...)
+}

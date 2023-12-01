@@ -48,3 +48,25 @@ func (this *WaypointLifecycleManagerStatus) MarshalJSON() ([]byte, error) {
 func (this *WaypointLifecycleManagerStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
+// MarshalJSON is a custom marshaler for InsightsConfigSpec
+func (this *InsightsConfigSpec) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for InsightsConfigSpec
+func (this *InsightsConfigSpec) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for InsightsConfigStatus
+func (this *InsightsConfigStatus) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for InsightsConfigStatus
+func (this *InsightsConfigStatus) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}

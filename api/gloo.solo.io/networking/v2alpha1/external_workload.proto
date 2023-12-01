@@ -224,15 +224,15 @@ message ExternalWorkloadSpec {
     // Defaults to 1 second. Minimum value is 1 second.
     google.protobuf.UInt32Value timeout_seconds = 2;
 
-    // How often (in seconds) to perform the probe.
+    // Optional: How often (in seconds) to perform the probe.
     // Defaults to 10 seconds. Minimum value is 1 second.
     google.protobuf.UInt32Value period_seconds = 3;
 
-    // Minimum consecutive successes for the probe to be considered successful after having failed.
+    // Optional: Minimum consecutive successes for the probe to be considered successful after having failed.
     // Defaults to 1.
     google.protobuf.UInt32Value success_threshold = 4;
 
-    // Minimum consecutive failures for the probe to be considered failed after having succeeded.
+    // Optional: Minimum consecutive failures for the probe to be considered failed after having succeeded.
     // Defaults to 3.
     google.protobuf.UInt32Value failure_threshold = 5;
 

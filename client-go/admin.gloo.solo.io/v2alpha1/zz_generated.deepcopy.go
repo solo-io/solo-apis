@@ -67,3 +67,63 @@ func (in *WaypointLifecycleManagerList) DeepCopyObject() runtime.Object {
 	}
 	return nil
 }
+
+// Generated Deepcopy methods for InsightsConfig
+
+func (in *InsightsConfig) DeepCopyInto(out *InsightsConfig) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *InsightsConfig) DeepCopy() *InsightsConfig {
+	if in == nil {
+		return nil
+	}
+	out := new(InsightsConfig)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *InsightsConfig) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *InsightsConfigList) DeepCopyInto(out *InsightsConfigList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]InsightsConfig, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *InsightsConfigList) DeepCopy() *InsightsConfigList {
+	if in == nil {
+		return nil
+	}
+	out := new(InsightsConfigList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *InsightsConfigList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}

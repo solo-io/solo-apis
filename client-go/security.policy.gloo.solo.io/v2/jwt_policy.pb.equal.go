@@ -471,6 +471,10 @@ func (m *JWTPolicySpec_Config_ClaimMatcher) Equal(that interface{}) bool {
 
 	}
 
+	if strings.Compare(m.GetNestedClaimDelimiter(), target.GetNestedClaimDelimiter()) != 0 {
+		return false
+	}
+
 	return true
 }
 
