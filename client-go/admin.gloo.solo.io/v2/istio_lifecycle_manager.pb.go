@@ -459,8 +459,12 @@ type IstioInstallation struct {
 	IstioOperatorSpec *v2.IstioOperatorSpec `protobuf:"bytes,3,opt,name=istio_operator_spec,json=istioOperatorSpec,proto3" json:"istio_operator_spec,omitempty"`
 	// Optional configuration to tune the deployment of the IstioOperator controller deployed to each workload cluster.
 	IstioController *IstioController `protobuf:"bytes,4,opt,name=istio_controller,json=istioController,proto3" json:"istio_controller,omitempty"`
-	// Skip validation of in-place upgrade changes. Note that in-place upgrades are not recommended in production environments.
-	// Instead, use canary upgrades.
+	// When set to true, the lifecycle manager allows you to perform
+	// in-place upgrades by skipping checks that are required for canary upgrades.
+	// In production environments, canary upgrades are recommended for
+	// updating the minor version. To update the patch version or make
+	// configuration changes within the same version, you can use in-place upgrades.
+	// Be sure to test in-place upgrades in development or staging environments first.
 	SkipUpgradeValidation bool `protobuf:"varint,5,opt,name=skip_upgrade_validation,json=skipUpgradeValidation,proto3" json:"skip_upgrade_validation,omitempty"`
 }
 
