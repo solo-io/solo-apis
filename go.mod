@@ -3,7 +3,7 @@ module github.com/solo-io/solo-apis
 go 1.21
 
 replace (
-	github.com/docker/docker => github.com/moby/moby v24.0.4+incompatible
+	github.com/docker/docker => github.com/moby/moby v24.0.7+incompatible
 
 	// skv2 uses a newer version than the imported solo-kit version which causes issues. Replaces the version with the solo-kit version
 	github.com/pseudomuto/protoc-gen-doc => github.com/pseudomuto/protoc-gen-doc v1.0.0
