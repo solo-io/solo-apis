@@ -22,10 +22,10 @@ require (
 	github.com/onsi/gomega v1.27.10
 	github.com/pkg/errors v0.9.1
 	github.com/rotisserie/eris v0.1.1
-	github.com/solo-io/go-utils v0.24.8-0.20231128194722-8ca1ac5fcb92
+	github.com/solo-io/go-utils v0.24.8
 	github.com/solo-io/protoc-gen-ext v0.0.18
-	github.com/solo-io/skv2 v0.35.1-0.20231128223536-65914ef14080
-	github.com/solo-io/solo-kit v0.33.2-0.20231128223744-e099eef9dc15
+	github.com/solo-io/skv2 v0.36.0
+	github.com/solo-io/solo-kit v0.34.0
 	golang.org/x/tools v0.9.3
 	google.golang.org/genproto/googleapis/api v0.0.0-20230525234035-dd9d682886f9
 	google.golang.org/grpc v1.56.3
@@ -97,7 +97,7 @@ require (
 	github.com/prometheus/common v0.44.0 // indirect
 	github.com/prometheus/procfs v0.10.1 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
-	github.com/sirupsen/logrus v1.9.0 // indirect
+	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/solo-io/anyvendor v0.0.4 // indirect
 	github.com/solo-io/cue v0.4.7 // indirect
 	github.com/spf13/afero v1.9.2 // indirect
