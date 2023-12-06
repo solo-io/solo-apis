@@ -166,7 +166,7 @@ func (RouteOptionStatus_State) EnumDescriptor() ([]byte, []int) {
 //	  - '*'
 //	  options:
 //	    headerManipulation:
-//	      requestHeadersToRemove: "header-from-vhost"
+//	      requestHeadersToRemove: ["header-from-vhost"]
 //	  optionsConfigRefs:
 //	    delegateOptions:
 //	      - name: virtualhost-external-options-1
@@ -188,10 +188,12 @@ func (RouteOptionStatus_State) EnumDescriptor() ([]byte, []int) {
 //
 //	options:
 //	  headerManipulation:
-//	    requestHeadersToRemove: "header-from-external-options1"
-//	  corsPolicy:
+//	    requestHeadersToRemove: ["header-from-external-options1"]
+//	  cors:
 //	    exposeHeaders:
 //	      - header-from-extopt1
+//	    allowOrigin:
+//	      - 'https://solo.io'
 //
 // ```
 //
@@ -207,17 +209,19 @@ func (RouteOptionStatus_State) EnumDescriptor() ([]byte, []int) {
 //
 //	options:
 //	  headerManipulation:
-//	    requestHeadersToRemove: "header-from-external-options2"
-//	  corsPolicy:
+//	    requestHeadersToRemove: ["header-from-external-options2"]
+//	  cors:
 //	    exposeHeaders:
 //	      - header-from-extopt2
 //	    maxAge: 2s
+//	    allowOrigin:
+//	      - 'https://solo.io'
 //	  transformations:
 //	    requestTransformation:
 //	      transformationTemplate:
 //	        headers:
 //	          x-header-added-in-opt2:
-//	            value: this header was added in the VirtualHostOption object - #2
+//	            text: this header was added in the VirtualHostOption object - #2
 //
 // ```
 //
@@ -231,18 +235,20 @@ func (RouteOptionStatus_State) EnumDescriptor() ([]byte, []int) {
 //	  options:
 //	    # from Virtual host options
 //	    headerManipulation:
-//	      requestHeadersToRemove: "header-from-vhost"
+//	      requestHeadersToRemove: ["header-from-vhost"]
 //	    # from delegated virtualhost-external-options-1
-//	    corsPolicy:
+//	    cors:
 //	      exposeHeaders:
 //	        - header-from-extopt1
+//	      allowOrigin:
+//	        - 'https://solo.io'
 //	    # from delegated virtualhost-external-options-2
 //	    transformations:
 //	      requestTransformation:
 //	        transformationTemplate:
 //	          headers:
 //	            x-header-added-in-opt2:
-//	              value: this header was added in the VirtualHostOption object - #2
+//	              text: this header was added in the VirtualHostOption object - #2
 //
 // ```
 //
@@ -322,12 +328,13 @@ func (x *VirtualHostOptionSpec) GetOptions() *v1.VirtualHostOptions {
 //	    - prefix: /
 //	    options:
 //	      headerManipulation:
-//	        requestHeadersToRemove: "header-from-route"
-//	    delegateOptions:
-//	      - name: route-external-options-1
-//	        namespace: opt-namespace
-//	      - name: route-external-options-2
-//	        namespace: opt-namespace
+//	        requestHeadersToRemove: ["header-from-route"]
+//	    optionsConfigRefs:
+//	      delegateOptions:
+//	        - name: route-external-options-1
+//	          namespace: opt-namespace
+//	        - name: route-external-options-2
+//	          namespace: opt-namespace
 //
 // ```
 //
@@ -343,10 +350,12 @@ func (x *VirtualHostOptionSpec) GetOptions() *v1.VirtualHostOptions {
 //
 //	options:
 //	  headerManipulation:
-//	    requestHeadersToRemove: "header-from-external-options1"
-//	  corsPolicy:
+//	    requestHeadersToRemove: ["header-from-external-options1"]
+//	  cors:
 //	    exposeHeaders:
 //	      - header-from-extopt1
+//	    allowOrigin:
+//	      - 'https://solo.io'
 //
 // ```
 //
@@ -362,17 +371,19 @@ func (x *VirtualHostOptionSpec) GetOptions() *v1.VirtualHostOptions {
 //
 //	options:
 //	  headerManipulation:
-//	    requestHeadersToRemove: "header-from-external-options2"
-//	  corsPolicy:
+//	    requestHeadersToRemove: ["header-from-external-options2"]
+//	  cors:
 //	    exposeHeaders:
 //	      - header-from-extopt2
 //	    maxAge: 2s
+//	    allowOrigin:
+//	      - 'https://solo.io'
 //	  transformations:
 //	    requestTransformation:
 //	      transformationTemplate:
 //	        headers:
 //	          x-header-added-in-opt2:
-//	            value: this header was added in the RouteOption object - #2
+//	            text: this header was added in the RouteOption object - #2
 //
 // ```
 //
@@ -384,18 +395,20 @@ func (x *VirtualHostOptionSpec) GetOptions() *v1.VirtualHostOptions {
 //     options:
 //     # from Route options
 //     headerManipulation:
-//     requestHeadersToRemove: "header-from-route"
+//     requestHeadersToRemove: ["header-from-route"]
 //     # from delegated route-external-options-1
-//     corsPolicy:
+//     cors:
 //     exposeHeaders:
 //   - header-from-extopt1
+//     allowOrigin:
+//   - 'https://solo.io'
 //     # from delegated route-external-options-2
 //     transformations:
 //     requestTransformation:
 //     transformationTemplate:
 //     headers:
 //     x-header-added-in-opt2:
-//     value: this header was added in the Route object - #2
+//     text: this header was added in the Route object - #2
 //
 // ```
 //
