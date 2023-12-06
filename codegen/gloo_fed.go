@@ -31,11 +31,15 @@ func GlooFedGroups() []model.Group {
 							Name:      "GlooInstanceStatus",
 							GoPackage: "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types",
 						}},
+					Stored: true,
 				},
 			},
-			RenderTypes:   true,
-			RenderClients: true,
-			ApiRoot:       "pkg/api",
+			RenderManifests:           true,
+			RenderTypes:               true,
+			RenderClients:             true,
+			ApiRoot:                   "pkg/api",
+			SkipConditionalCRDLoading: true, // we want the alpha crds always rendered
+			SkipTemplatedCRDManifest:  true, // do not make a copy of crds in templates dir
 		},
 	}
 }

@@ -33,6 +33,7 @@ func makeGroup(
 					GoPackage:    resource.goPackage,
 				},
 			},
+			Stored: true,
 		}
 		if !resource.noStatus {
 			res.Status = &model.Field{Type: model.Type{
@@ -51,14 +52,16 @@ func makeGroup(
 			Group:   groupPrefix + "." + "solo.io",
 			Version: version,
 		},
-		Module:           module,
-		Resources:        resources,
-		RenderManifests:  true,
-		RenderTypes:      true,
-		RenderClients:    true,
-		RenderController: true,
-		MockgenDirective: true,
-		CustomTemplates:  customGroupTemplates,
-		ApiRoot:          apiRoot,
+		Module:                    module,
+		Resources:                 resources,
+		RenderManifests:           true,
+		RenderTypes:               true,
+		RenderClients:             true,
+		RenderController:          true,
+		MockgenDirective:          true,
+		CustomTemplates:           customGroupTemplates,
+		ApiRoot:                   apiRoot,
+		SkipConditionalCRDLoading: true, // we want the alpha crds always rendered
+		SkipTemplatedCRDManifest:  true, // do not make a copy of crds in templates dir
 	}
 }
