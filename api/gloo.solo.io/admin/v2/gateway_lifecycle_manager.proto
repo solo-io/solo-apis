@@ -372,6 +372,11 @@ message GatewayLifecycleManagerStatus {
         // The gateway installation state could not be determined. 
         UNKNOWN = 9;
 
+        // The gateway is currently being uninstalled.
+        UNINSTALLING_GATEWAY = 10;
+
+        // The gateway is uninstalled.
+        UNINSTALLED_GATEWAY = 11;
       }
     }
   }

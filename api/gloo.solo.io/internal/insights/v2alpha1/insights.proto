@@ -91,14 +91,13 @@ message Insight {
 
   message Data {
     oneof data {
+      SYS0003Data SYS0003 = 18;
       SYS0006Data SYS0006 = 19;
       SYS0007Data SYS0007 = 20;
       SYS0008Data SYS0008 = 21;
       SYS0009Data SYS0009 = 22;
       SYS0010Data SYS0010 = 23;
       SYS0011Data SYS0011 = 24;
-      SYS0012Data SYS0012 = 25;
-      SYS0013Data SYS0013 = 26;
       SYS0014Data SYS0014 = 27;
       SYS0015Data SYS0015 = 28;
       SYS0019Data SYS0019 = 29; // Adding so UI works for mock - might change later
@@ -107,6 +106,10 @@ message Insight {
     }
   }
 
+  // Agent Deployent Reference
+  message SYS0003Data {
+    .core.skv2.solo.io.TypedClusterObjectRef deployment_ref = 1;
+  }
 
   // CRDs
   message SYS0006Data {
@@ -207,6 +210,8 @@ message Insight {
     int32 out_of_mesh_services = 2;
     int32 sidecar_services = 3;
     int32 ambient_services = 4;
+    int32 gateway_services = 5;
+    int32 total_services = 6;
   }
 
   // zero trust - workloads receiving mesh encrypted traffic
