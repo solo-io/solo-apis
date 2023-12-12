@@ -251,6 +251,12 @@ message IstioLifecycleManagerStatus {
 
         // The control plane installation state could not be determined.
         UNKNOWN = 11;
+
+        // The Istio control plane is currently being uninstalled.
+        UNINSTALLING_CONTROL_PLANE = 12;
+
+        // The Istio control plane is uninstalled.
+        UNINSTALLED_CONTROL_PLANE = 13;
       }
     }
   }

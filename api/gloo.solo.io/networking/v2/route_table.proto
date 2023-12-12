@@ -35,11 +35,11 @@ option (extproto.clone_all) = true;
 // depending on the configuration of the `virtualGateways` field.
 //
 // The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts.
-// Traffic arrives at the `my-gateway` virtual gateway in the `my-gateway-ws` workspace. 
+// Traffic arrives at the `my-gateway` virtual gateway in the `my-gateway-ws` workspace.
 // The route table sets up several different matchers to direct HTTP traffic.
-// * When the cookie in the header matches to `user=dev-123`, HTTP traffic is forwarded to the port `7777` of the `v1` of `reviews.qa` service. 
+// * When the cookie in the header matches to `user=dev-123`, HTTP traffic is forwarded to the port `7777` of the `v1` of `reviews.qa` service.
 // * When the path matches exactly to `/reviews/`, 80% traffic is forwarded to port 9080
-// of the `reviews.prod` service and 20% traffic is forwarded to port 9080 of the `reviews.qa` service. 
+// of the `reviews.prod` service and 20% traffic is forwarded to port 9080 of the `reviews.qa` service.
 // * All other HTTP traffic is sent to the default destination, which is port 9080 of `reviews.prod` service in the `bookinfo` workspace.
 // ```yaml
 // apiVersion: networking.gloo.solo.io/v2
@@ -71,7 +71,7 @@ option (extproto.clone_all) = true;
 //           - ref:
 //               name: reviews
 //               namespace: qa
-//             subset: 
+//             subset:
 //               version: v1
 //             port:
 //               number: 7777
@@ -91,10 +91,10 @@ option (extproto.clone_all) = true;
 //             weight: 20
 // ```
 //
-// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts. 
+// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts.
 // Traffic arrives at the `my-gateway` virtual gateway in the `my-gateway-ws` workspace. The route table sends traffic to an external cloud function.
 // * When the HTTP route path matches the prefix `/lambda`, traffic is forwarded to the backing `aws-provider` CloudProvider.
-// * The associated `aws-provider` CloudResources resource describes an AWS Lambda service named `logicalName: aws-dest`. 
+// * The associated `aws-provider` CloudResources resource describes an AWS Lambda service named `logicalName: aws-dest`.
 // * The `"SYNC"` option indicates that the AWS Lambda function is invoked synchronously, which is also the default behavior.
 //
 // ```yaml
@@ -224,15 +224,15 @@ message RouteTableSpec {
   // *Note*: Selection of external workloads (VMs) is currently not supported.
   repeated .common.gloo.solo.io.WorkloadSelector workload_selectors = 6;
 
-  //  Optional: Selectors for destinations that shall route traffic by this route table via producer-side side policy (e.g on waypoints) 
+  //  Optional: Selectors for destinations that shall route traffic by this route table via producer-side side policy (e.g on waypoints)
   //
-  // Applying an ambient-backed destinations means that any traffic that reaches the destination, regardless of its origin 
+  // Applying an ambient-backed destinations means that any traffic that reaches the destination, regardless of its origin
   // (mesh, outside mesh), will be subject to the RouteTable's policy.
-  // 
+  //
   // To select all ambient destinations in the workspace, set `applyToDestinations: - {}`.
   //
   // *Note*: applyToDestinations is an alpha API currently implemented only for ambient-enabled meshes.
-  // *Note*: For delegated route tables this field should be empty, as the values from the parent will always be used for destination selection. 
+  // *Note*: For delegated route tables this field should be empty, as the values from the parent will always be used for destination selection.
   // *Note*: Selection of external workloads (VMs), external services, and Destinations with sidecars is currently not supported.
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 10;
 
@@ -264,7 +264,7 @@ message RouteTableSpec {
 }
 
 // Use HTTP routes to control Layer 7 application level traffic to your services. To configure HTTP routes, you pair together
-// HTTP request `matchers` with certain actions. Matchers are criteria such as a route name, port, header, or method to match 
+// HTTP request `matchers` with certain actions. Matchers are criteria such as a route name, port, header, or method to match
 // with an incoming request. Actions describe what to do with a matching request, such as `forwardTo` a destination or `delegate`
 // to another route table. When an HTTP request matches your HTTP route, Gloo performs the action for that route. You can add
 // metadata such as names and labels to your HTTP routes so that you can apply policies, track metrics, and better manage the routes.
@@ -272,7 +272,13 @@ message HTTPRoute {
   // unique name of the route (within the route table). used to identify the route for metrics
   string name = 1;
 
-  // Labels for the route. used to apply policies which implement routeSelectors.
+  // Labels for the route, which you can use to apply policies that support routeSelectors.
+  //
+  // For enhanced security, include the special label "gateway.gloo.solo.io/require_auth=true"
+  // on the route. To activate this security feature, enable the "gatewayDefaultDenyAllHTTPRequests"
+  // feature flag for your Gloo installation. When both the label and feature flag are in place, Gloo
+  // requires an authentication policy, such as ExtAuthPolicy or JWTPolicy, to be applied to the route.
+  // If the authentication policy is removed or has an error, Gloo rejects all requests to the route.
   map<string, string> labels = 2;
 
   // The set of request matchers which this route will match on. If none are specified, this route will match any HTTP traffic.
@@ -303,11 +309,11 @@ message HTTPRoute {
   }
 }
 
-// Use TCP routes to control lower-level, connection-based traffic to services such as a local database. 
-// TCP routes are available only for internal traffic within the cluster, not for ingress gateway traffic. 
-// To configure TCP routes, you pair together TCP request `matchers` with certain actions. 
-// Matchers are criteria such as a port to match with an incoming request. 
-// Actions describe what to do with a matching request, such as `forwardTo` a destination. 
+// Use TCP routes to control lower-level, connection-based traffic to services such as a local database.
+// TCP routes are available only for internal traffic within the cluster, not for ingress gateway traffic.
+// To configure TCP routes, you pair together TCP request `matchers` with certain actions.
+// Matchers are criteria such as a port to match with an incoming request.
+// Actions describe what to do with a matching request, such as `forwardTo` a destination.
 // When a TCP request matches your TCP route, Gloo performs the action for that route.
 message TCPRoute {
 
@@ -338,7 +344,7 @@ message TLSRoute {
   // When a client request matches a route, Gloo forwards the request to the destination that you specify in this `forwardTo` action.
   message TLSForwardToAction {
 
-    // Define the upstream destination to route the request to. 
+    // Define the upstream destination to route the request to.
     repeated .common.gloo.solo.io.DestinationReference destinations = 1;
   }
 }
@@ -379,7 +385,7 @@ message ForwardToAction {
     // rewrites are available for HTTP routes only and are not supported for TCP routes.
     string path_rewrite = 2;
 
-    // During forwarding, portions of the path that match the pattern are rewritten, even allowing the substitution 
+    // During forwarding, portions of the path that match the pattern are rewritten, even allowing the substitution
     // of capture groups from the pattern into the new path as specified by the rewrite substitution string. This substitution is useful
     // to allow application paths to be rewritten in a way that is aware of segments with variable content like identifiers.
     // Note that regex rewrites are available for RE2 syntax and HTTP routes only.
@@ -581,7 +587,7 @@ message RouteTableStatus {
   // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
-  // A map of policy GVK to the number of policies that are applied on this resource, 
+  // A map of policy GVK to the number of policies that are applied on this resource,
   // sorted by GVK.
   map<string, uint32> num_applied_route_policies = 2;
 

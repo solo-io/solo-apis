@@ -1,6 +1,6 @@
 module github.com/solo-io/solo-apis
 
-go 1.21.1
+go 1.21.5
 
 require (
 	github.com/cncf/xds/go v0.0.0-20231016030527-8bd2eac9fb4a
@@ -30,9 +30,9 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.26.0 // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
-	golang.org/x/net v0.18.0 // indirect
+	golang.org/x/net v0.19.0 // indirect
 	golang.org/x/oauth2 v0.14.0 // indirect
-	golang.org/x/sys v0.14.1-0.20231108174845-98889049283a // indirect
+	golang.org/x/sys v0.15.0 // indirect
 	google.golang.org/genproto v0.0.0-20231030173426-d783a09b4405 // indirect
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
@@ -85,7 +85,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
-	golang.org/x/term v0.14.0 // indirect
+	golang.org/x/term v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.4.0 // indirect
 	golang.org/x/tools v0.15.0 // indirect
@@ -104,7 +104,6 @@ replace (
 	github.com/go-git/go-git/v5 => github.com/go-git/go-git/v5 v5.3.0
 
 	github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
-	github.com/miekg/dns => github.com/cilium/dns v1.1.4-0.20190417235132-8e25ec9a0ff3
 
 	// skv2 uses a newer version than the imported solo-kit version which causes issues. Replaces the version with the solo-kit version
 	github.com/pseudomuto/protoc-gen-doc => github.com/pseudomuto/protoc-gen-doc v1.5.1
@@ -112,17 +111,6 @@ replace (
 	// Using private fork of controller-tools. See commit msg for more context
 	// as to why we are using a private fork.
 	go.universe.tf/metallb => github.com/cilium/metallb v0.1.1-0.20210831235406-48667b93284d
-
-	// Using grpc v1.54.0 since pkg/meshctl/commands/generate/graphql/grpc/grpc.go imports
-	// hjump/protoreflect which imports a package test/grpc_testing which has been moved to interop/grpc_testing
-	// in the grpc repo - https://github.com/grpc/grpc-go/pull/6164 since grpc v1.55.0.
-	// This causes v1.55.0+ to not be backwards compatible with v1.54.0 and below if the grpc_testing package is imported.
-	// Pinned to v1.54.0 until either hjump/protoreflect is updated to grpc v1.55.0+
-	// or this is fixed in a newer version of grpc.
-	google.golang.org/grpc => google.golang.org/grpc v1.54.0
-
-	// 1.20
-	istio.io/istio => istio.io/istio v0.0.0-20231024033128-e941bd9cbffe
 
 	// pinned istio version uses these version of k8s (1.20)
 	k8s.io/api => k8s.io/api v0.28.4

@@ -534,7 +534,13 @@ type HTTPRoute struct {
 
 	// unique name of the route (within the route table). used to identify the route for metrics
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Labels for the route. used to apply policies which implement routeSelectors.
+	// Labels for the route, which you can use to apply policies that support routeSelectors.
+	//
+	// For enhanced security, include the special label "gateway.gloo.solo.io/require_auth=true"
+	// on the route. To activate this security feature, enable the "gatewayDefaultDenyAllHTTPRequests"
+	// feature flag for your Gloo installation. When both the label and feature flag are in place, Gloo
+	// requires an authentication policy, such as ExtAuthPolicy or JWTPolicy, to be applied to the route.
+	// If the authentication policy is removed or has an error, Gloo rejects all requests to the route.
 	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The set of request matchers which this route will match on. If none are specified, this route will match any HTTP traffic.
 	// On a delegated RouteTable, this route will only match traffic that includes both the parent and child's matchers.

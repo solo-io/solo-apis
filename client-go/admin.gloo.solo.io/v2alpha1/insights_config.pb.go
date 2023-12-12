@@ -32,7 +32,7 @@ const (
 // based on the insight code.
 // For example, to disable the insight CFG002:
 // ```yaml
-// apiVersion: admin.gloo.solo.io/v2
+// apiVersion: admin.gloo.solo.io/v2alpha1
 // kind: InsightsConfig
 // metadata:
 //
