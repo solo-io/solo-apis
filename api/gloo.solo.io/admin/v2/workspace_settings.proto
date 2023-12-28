@@ -207,7 +207,9 @@ message WorkspaceSettingsSpec {
         EXTERNAL_SERVICE = 4;
 
         // Select ApiDoc objects.
-        API_DOC = 5;
+        // Deprecated since we no longer import/export across workspaces: route tables can
+        // now automatically access ApiDocs for all available destinations.
+        API_DOC = 5 [deprecated = true];
 
         // Select GraphQLResolverMap objects.
         GRAPHQL_RESOLVER_MAP = 6;
