@@ -271,8 +271,9 @@ type TransformationPolicySpec_Config_RequestTransformation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// If the request was transformed such that it would match a different route,
-	// recalculate the routing destination (select a new route) based on the transformed content of the request.
+	// If set to **true**, recalculate the routing destination and select a new route for transformed requests.
+	// For example, if you have a request that is transformed to match a new route, the new route is selected
+	// when calculating the routing destination. The default value is **false**.
 	RecalculateRoutingDestination bool `protobuf:"varint,1,opt,name=recalculate_routing_destination,json=recalculateRoutingDestination,proto3" json:"recalculate_routing_destination,omitempty"`
 	// transform HTTP body and headers using Inja templates.
 	// For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).

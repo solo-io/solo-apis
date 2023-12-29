@@ -373,6 +373,7 @@ type ExternalServiceSpec_Port struct {
 	// A list of egress VirtualGateways via which this ExternalService is reachable.
 	// This is required in meshes that are configured to deny all traffic that is not explicitly allowed.
 	// Requires the ExternalService to use Hosts rather than Addresses.
+	// Currently only supported for ExternalService ports with HTTP, HTTP2, and HTTPS protocols.
 	EgressGatewayRoutes *ExternalServiceSpec_Port_EgressGatewayRoutes `protobuf:"bytes,6,opt,name=egress_gateway_routes,json=egressGatewayRoutes,proto3" json:"egress_gateway_routes,omitempty"`
 }
 
@@ -550,6 +551,8 @@ type ExternalServiceSpec_Port_EgressGatewayRoutes struct {
 	// The port number to match for traffic originating from the mesh.
 	// default to 80.
 	// must be unique for each ExternalService port.
+	// Note that if this field matches any ExternalService non-egress port (spec.ports.number),
+	// requests to this port may not be routed through the egress gateway.
 	PortMatch uint32 `protobuf:"varint,1,opt,name=port_match,json=portMatch,proto3" json:"port_match,omitempty"`
 	// Reference to the virtual gateways to use for egress.
 	// Multiple gateways selected in this way will have egress traffic load-balanced across them.

@@ -1,8 +1,6 @@
 module github.com/solo-io/solo-apis
 
-go 1.21
-
-toolchain go1.21.1
+go 1.21.5
 
 require (
 	github.com/cncf/xds/go v0.0.0-20230607035331-e9ce68804cb4
@@ -31,11 +29,11 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.25.0 // indirect
 	golang.org/x/exp v0.0.0-20230522175609-2e198f4a06a1 // indirect
-	golang.org/x/net v0.15.0 // indirect
-	golang.org/x/oauth2 v0.10.0 // indirect
-	golang.org/x/sys v0.12.0 // indirect
-	google.golang.org/genproto v0.0.0-20230711160842-782d3b101e98 // indirect
-	google.golang.org/grpc v1.58.2
+	golang.org/x/net v0.19.0 // indirect
+	golang.org/x/oauth2 v0.11.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
+	google.golang.org/genproto v0.0.0-20230822172742-b8732ec3820d // indirect
+	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	istio.io/api v0.0.0-20230803063743-0b7b8bc2e0bb
@@ -49,7 +47,7 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-require google.golang.org/genproto/googleapis/api v0.0.0-20230711160842-782d3b101e98
+require google.golang.org/genproto/googleapis/api v0.0.0-20230822172742-b8732ec3820d
 
 require (
 	github.com/google/go-cmp v0.5.9 // indirect
@@ -62,7 +60,7 @@ require (
 require (
 	github.com/google/gnostic v0.6.9 // indirect
 	github.com/google/gnostic-models v0.6.8 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230711160842-782d3b101e98 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230822172742-b8732ec3820d // indirect
 )
 
 require (
@@ -86,8 +84,8 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/prometheus/procfs v0.11.0 // indirect
-	golang.org/x/term v0.12.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/term v0.15.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
@@ -99,8 +97,7 @@ require (
 
 replace (
 	github.com/Sirupsen/logrus => github.com/sirupsen/logrus v1.4.2
-	github.com/docker/docker => github.com/docker/docker v23.0.1+incompatible
-	github.com/envoyproxy/go-control-plane => github.com/envoyproxy/go-control-plane v0.11.1-0.20230416233444-7f2a3030ef40
+	github.com/docker/docker => github.com/docker/docker v23.0.3+incompatible
 
 	// anyvendor (used in check-code-gen in CI) requires version v5.3.0, but solo-io/go-utils overrides it
 	github.com/go-git/go-git/v5 => github.com/go-git/go-git/v5 v5.3.0
@@ -114,17 +111,6 @@ replace (
 	// Using private fork of controller-tools. See commit msg for more context
 	// as to why we are using a private fork.
 	go.universe.tf/metallb => github.com/cilium/metallb v0.1.1-0.20210831235406-48667b93284d
-
-	// Using grpc v1.54.0 since pkg/meshctl/commands/generate/graphql/grpc/grpc.go imports
-	// hjump/protoreflect which imports a package test/grpc_testing which has been moved to interop/grpc_testing
-	// in the grpc repo - https://github.com/grpc/grpc-go/pull/6164 since grpc v1.55.0.
-	// This causes v1.55.0+ to not be backwards compatible with v1.54.0 and below if the grpc_testing package is imported.
-	// Pinned to v1.54.0 until either hjump/protoreflect is updated to grpc v1.55.0+
-	// or this is fixed in a newer version of grpc.
-	google.golang.org/grpc => google.golang.org/grpc v1.54.0
-
-	// 1.18
-	istio.io/istio => istio.io/istio v0.0.0-20230824050558-a835e9cca9eb
 
 	k8s.io/client-go => k8s.io/client-go v0.28.1
 

@@ -36,8 +36,9 @@ message TransformationPolicySpec {
 
     message RequestTransformation {
 
-      // If the request was transformed such that it would match a different route,
-      // recalculate the routing destination (select a new route) based on the transformed content of the request.
+      // If set to **true**, recalculate the routing destination and select a new route for transformed requests. 
+      // For example, if you have a request that is transformed to match a new route, the new route is selected 
+      // when calculating the routing destination. The default value is **false**. 
       bool recalculate_routing_destination = 1;
 
       // transform HTTP body and headers using Inja templates.

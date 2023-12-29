@@ -107,15 +107,17 @@ type ExtAuthServerSpec struct {
 	FailureModeAllow bool `protobuf:"varint,4,opt,name=failure_mode_allow,json=failureModeAllow,proto3" json:"failure_mode_allow,omitempty"`
 	// Set this if you also want to send the body of the request, and not just the headers.
 	RequestBody *ExtAuthServerSpec_BufferSettings `protobuf:"bytes,5,opt,name=request_body,json=requestBody,proto3" json:"request_body,omitempty"`
-	// Clears route cache in order to allow the external authorization service to correctly affect
-	// routing decisions. Filter clears all cached routes when:
+	// Clear the route cache to force the external auth service to recalculate the routing decision.
+	// All cached routes are cleared if one of the following conditions is met.
 	//
 	// 1. The field is set to *true*.
 	//
-	// 2. The status returned from the authorization service is a HTTP 200 or gRPC 0.
+	// 2. The external auth service returns a HTTP 200 or gRPC 0 response code.
 	//
-	// 3. At least one *authorization response header* is added to the client request, or is used for
-	// altering another client request header.
+	// 3. At least one *authorization response header* is added to the client request, or is used to
+	// alter another client request header.
+	//
+	// The default value is **false**.
 	ClearRouteCache bool `protobuf:"varint,6,opt,name=clear_route_cache,json=clearRouteCache,proto3" json:"clear_route_cache,omitempty"`
 	// Sets the HTTP status that is returned to the client when there is a network error between the
 	// filter and the authorization server. The default status is HTTP 403 Forbidden.
