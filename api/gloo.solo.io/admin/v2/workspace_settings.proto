@@ -206,10 +206,15 @@ message WorkspaceSettingsSpec {
         // Select ExternalService objects.
         EXTERNAL_SERVICE = 4;
 
-        // Select ApiDoc objects.
-        // Deprecated since we no longer import/export across workspaces: route tables can
-        // now automatically access ApiDocs for all available destinations.
-        API_DOC = 5 [deprecated = true];
+        //  Select ApiDoc objects. Please note that explicit import/export
+        //  is only necessary for GraphQL ApiDocs that are referenced in
+        //  graphql routes. ApiDocs that are used only in the context of the
+        //  portal features (currently only OpenAPI ones) are implicitly
+        //  imported/exported together with their corresponding destination,
+        //  i.e. if a destination (e.g. a service) is visible to a RouteTable,
+        //  the ApiDoc associated with it will be available when the RouteTable
+        //  is referenced in a Portal.
+        API_DOC = 5;
 
         // Select GraphQLResolverMap objects.
         GRAPHQL_RESOLVER_MAP = 6;
