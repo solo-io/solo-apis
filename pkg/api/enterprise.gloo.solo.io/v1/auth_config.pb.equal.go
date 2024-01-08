@@ -2216,6 +2216,26 @@ func (m *AerospikeApiKeyStorage) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetConnectionQueueSize()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetConnectionQueueSize()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetConnectionQueueSize(), target.GetConnectionQueueSize()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetLimitConnectionsToQueueSize()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetLimitConnectionsToQueueSize()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetLimitConnectionsToQueueSize(), target.GetLimitConnectionsToQueueSize()) {
+			return false
+		}
+	}
+
 	switch m.CommitLevel.(type) {
 
 	case *AerospikeApiKeyStorage_CommitAll:
