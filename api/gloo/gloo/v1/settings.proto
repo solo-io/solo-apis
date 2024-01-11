@@ -504,6 +504,9 @@ message SettingsSpec {
             // 2. Request all folder data (after admin:admin is replaced with the correct credentials):
             // curl http://admin:admin@localhost:3000/api/folders
             google.protobuf.UInt32Value default_dashboard_folder_id = 1;
+
+            // The prefix for all dashboards created on grafana
+            string dashboard_prefix = 2;
         }
 
         // Options to configure Gloo's integration with [Kubernetes](https://www.kubernetes.io/).
@@ -680,6 +683,7 @@ message GlooOptions {
 
     // Whether or not to use rest xds for all EDS by default.
     // Rest XDS, as opposed to grpc, uses http polling rather than streaming
+    // It is strongly recommended that this field be set to false, due to the superior performance of GRPC XDS
     google.protobuf.BoolValue enable_rest_eds = 12;
 
     // The polling interval for the DNS server if upstream failover is configured.

@@ -1154,6 +1154,8 @@ func (m *SettingsSpec_ObservabilityOptions_GrafanaIntegration) Clone() proto.Mes
 		target.DefaultDashboardFolderId = proto.Clone(m.GetDefaultDashboardFolderId()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
+	target.DashboardPrefix = m.GetDashboardPrefix()
+
 	return target
 }
 
