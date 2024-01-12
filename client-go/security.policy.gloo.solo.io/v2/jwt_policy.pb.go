@@ -377,6 +377,10 @@ type JWTPolicySpec_Config struct {
 	// Set up the provider for the JWT configuration.
 	// You can have multiple providers in the same JWT policy, or create separate policies per provider.
 	//
+	// Successfully verified JWT payloads will be written to Envoy Dynamic Metadata in the format `{{ policy generated prefix }}.{{ provider }}`.
+	// For more info, see the `payload_in_metadata` field
+	// [here](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/jwt_authn/v3/config.proto.html).
+	//
 	// Note: You can name the providers to help you map the provider when viewing logs to debug.
 	// However, the provider name does not affect the policy's behavior and cannot be used by other resources to select the policy.
 	Providers map[string]*JWTPolicySpec_Config_Provider `protobuf:"bytes,1,rep,name=providers,proto3" json:"providers,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
