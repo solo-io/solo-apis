@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package networking.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/clientmode.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/port.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// VirtualDestinations define groupings of backing destinations (for network traffic).
+message VirtualDestinationSpec {
+
+  // Optional: The set of custom hosts for which this virtual destination will serve traffic.
+  repeated string hosts = 1;
+
+  // Selectors for the backing K8s services that comprise this VirtualDestination.
+  // A service will be selected if it matches any of the given selectors.
+  // Currently only one K8s Service can be selected per cluster. If more than one service is selected
+  // within a cluster, the VirtualDestination will report a warning and the oldest created service will be selected.
+  // When a request is routed through the VirtualDestination, it will be forwarded to one of the backing services, selected at random.
+  // (To forward to the service on the local cluster only, a FailoverPolicy and/or OutlierDetectionPolicy must be configured.)
+  // If a deployment is unavailable, requests will not be forwarded to that deployment.
+  repeated .common.gloo.solo.io.ObjectSelector services = 2;
+
+  // Selectors for the backing External services that comprise this VirtualDestination.
+  // An external service will be selected if it matches any of the given selectors.
+  // Multiple External Services can be selected.
+  repeated .common.gloo.solo.io.ObjectSelector external_services = 3;
+
+  // Selectors for the backing ExternalWorkloads that comprise this VirtualDestination.
+  // Currently only one ExternalWorkload can be selected per cluster. If more than one external workload is
+  // selected within a cluster, the VirtualDestination will report a warning and the oldest created external workload will be selected.
+  // When a request is routed through the VirtualDestination, it will be forwarded to one
+  // of the backing external workloads, selected at random.
+  // (To forward to the service on the local cluster only, a FailoverPolicy and/or OutlierDetectionPolicy must be configured.)
+  repeated .common.gloo.solo.io.ObjectSelector external_workloads = 6;
+
+  // Required: The ports on which the VirtualDestination will serve traffic. Must have at least one port.
+  repeated PortMapping ports = 4;
+
+  // Optional: Client mode determines how the VirtualDestination will be translated.
+  // If nil, the mode is inherited from the WorkspaceSettings defined by the admin.
+  .common.gloo.solo.io.ClientMode client_mode = 5;
+
+  // PortMapping establishes a new port that will be exposed on a VirtualDestination.
+  message PortMapping {
+
+    // The port number. Must be a valid, non-negative integer port number.
+    uint32 number = 1;
+
+    // The protocol used in communication with this destination
+    // MUST be one of the following: HTTP, HTTPS, GRPC, HTTP2, MONGO, TCP, TLS.
+    // Note that the VirtualDestination protocol may not match the protocol of the backing k8s Service(s).
+    // For example, VirtualDestinations pointing to GRPC services will need the protocol set to GRPC.
+    // The prefix of the k8s Service port's name will typically match the needed PROTOCOL in such cases.
+    string protocol = 2;
+
+    // (optional): The port number or name used to match the corresponding port on the
+    // VirtualDestination's backing Services and ExternalServices.
+    // All of the backing services for this VirtualDestination must contain
+    // this port, matching by name or number.
+    // If unspecified, will default to the value of the port number field above.
+    .common.gloo.solo.io.PortSelector target_port = 3;
+  }
+}
+
+// The status of the resource after it is applied to your Gloo environment.
+message VirtualDestinationStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // A map of policy GVK to policy references for all policies that are applied on this
+  // resource.
+  // "ExtAuthPolicy" -> ["policy-1", "policy-2"]
+  // "AccesssPolicy" -> ["policy-3"]
+  map<string, uint32> num_applied_destination_policies = 2;
+
+  // The number of destinations (across all clusters) that back this virtual destination.
+  uint32 num_selected_backing_services = 3;
+
+  // The name of the workspace that owns the virtual destination.
+  string owned_by_workspace = 4;
+
+}
+
+// reflects the report of the VirtualDestination
+message VirtualDestinationReport {
+
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A map of policy GVK to policy references for all policies that are applied on this
+  // resource.
+  map<string, .common.gloo.solo.io.AppliedDestinationPortPolicies> applied_destination_policies = 2;
+
+  // A list of destinations that back this virtual destination.
+  repeated .common.gloo.solo.io.DestinationReference selected_backing_services = 3;
+
+  // The name of the workspace that owns the virtual destination.
+  string owner_workspace = 4;
+}

@@ -1,0 +1,408 @@
+// {{% readfile file="static/content/policies/ov_access" markdown="true"%}}
+// An access policy describes how clients should be authenticated and authorized
+// to access a service. For more information about cross-origin resource sharing,
+// see [this article](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+// AccessPolicies can be applied at the workload or destination level. 
+// 
+// **Note**: 
+// Workload selectors are considered more secure than destination selectors
+// and are therefore recommended to be used whenever possible. While workload
+// selectors are applied to the translated Istio AuthorizationPolicy resource directly, 
+// destination selectors require the translation of the selected destination first
+// before the access policy is enforced. This can lead to a window where traffic is unsecured
+// if a new destination is added to the cluster. However, keep in mind that workloads selectors
+// cannot be used when service isolation is enabled in your workspace.
+// If service isolation is enabled, you must use destination selectors
+// instead. 
+//
+// **Examples**:
+// The following example is for a simple access policy that allows
+// the productpage app to access the ratings app. 
+// ```yaml
+// apiVersion: security.policy.gloo.solo.io/v2
+// kind: AccessPolicy
+// metadata:
+//   name: ratings-access
+//   namespace: bookinfo
+// spec:
+//   applyToWorkloads:
+//   - selector:
+//       labels:
+//         app: ratings
+//   config:
+//     authn:
+//       tlsMode: STRICT
+//     authzList:
+//     - allowedClients:
+//       - serviceAccountSelector:
+//           labels:
+//             app: productpage
+//       allowedPaths:
+//       - /ratings*
+// ```
+//
+// The following example specifies the IP address that you want to
+// allow access to the ratings app. When a client sends a request to ratings,
+// the client's IP address is matched against the IP addresses that are defined
+// in the access policy. If the IP address matches, the request is forwarded
+// to the ratings app. If the IP does not match, access to ratings is denied.
+// ```yaml
+// apiVersion: security.policy.gloo.solo.io/v2
+// kind: AccessPolicy
+// metadata:
+//   name: ratings-access
+//   namespace: bookinfo
+// spec:
+//   applyToWorkloads:
+//   - selector:
+//       labels:
+//         app: ratings
+//   config:
+//     authn:
+//       tlsMode: STRICT
+//     authzList:
+//     - allowedIpBlocks:
+//       - 112.114.230.1
+//       allowedPaths:
+//       - /ratings*
+// ```
+//
+// The following access policy uses a destination selector and specifies the request 
+// headers that must be sent to allow or deny the communication between the productpage
+// and ratings apps. For example, if you send a request with the `X-Test-Header: match`
+// header from the productpage app to the ratings app, the request is matched and the
+// communication between productpage and ratings is allowed. If you send the same request
+// without a header or with the `X-Test-Header: noMatch` header, the request is not matched
+// and the communication between the apps is denied.
+// ```yaml
+// apiVersion: security.policy.gloo.solo.io/v2
+// kind: AccessPolicy
+// metadata:
+//   name: ratings-access
+//   namespace: bookinfo
+// spec:
+//   applyToDestinations:
+//   - port:
+//       number: 9080
+//     selector:
+//       labels:
+//         app: ratings
+//   config:
+//     authn:
+//       tlsMode: STRICT
+//     authzList:
+//     - allowedClients:
+//       - serviceAccountSelector:
+//           labels:
+//             app: productpage
+//       allowedPaths:
+//       - /ratings*
+//       match:
+//         request:
+//           headers:
+//             X-Test-Header:
+//               notValues:
+//               - noMatch
+//               - partial-blocked
+//               values:
+//               - match
+//               - partial*
+// ```
+// 
+// You can have multiple `authzList` entries to control access to workloads.
+// A request is allowed when it matches at least one of the `authzList` entries (logically OR'd together).
+// 
+// For each entry, you can specify different requirements for allowed clients, paths, methods, IP blocks, and other configuration settings.
+// Then, a request is allowed only when ALL of the requirements are met (logically AND'd together).
+// 
+// In the following example:
+// * The product page app is allowed to send GET requests to the ratings app along the `/ratings*` wildcard path.
+// * The product page app is allowed to send PATCH requests to the ratings app along the `/ratings/2*` wildcard path.
+// * The reviews app is allowed to access the ratings app.
+// 
+// ```yaml
+// apiVersion: security.policy.gloo.solo.io/v2
+// kind: AccessPolicy
+// metadata:
+//   name: ratings-access
+//   namespace: bookinfo
+// spec:
+//   applyToWorkloads:
+//   - selector:
+//       labels:
+//         app: ratings
+//   config:
+//     authn:
+//       tlsMode: STRICT
+//     authzList:
+//     - allowedClients:
+//       - serviceAccountSelector:
+//           labels:
+//             app: productpage
+//       allowedPaths:
+//       - /ratings*
+//       allowedMethods:
+//       - GET
+//     - allowedClients:
+//       - serviceAccountSelector:
+//           labels:
+//             app: productpage
+//       allowedPaths:
+//       - /ratings/2*
+//       allowedMethods:
+//       - PATCH
+//     - allowedClients:
+//       - serviceAccountSelector:
+//           labels:
+//             app: reviews
+// ```
+syntax = "proto3";
+
+package security.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/enforcement_layers.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Specifications for the policy.
+message AccessPolicySpec {
+
+  // Destinations to apply the policy to. If `applyToWorkloads` is non-empty,
+  // this field is ignored. If this field and `applyToWorkloads` are both empty,
+  // the policy applies to all ports on all destinations in the workspace.
+  // {{% notice note %}}
+  // For security reasons, `applyToWorkloads` is preferred.
+  // {{% /notice %}}
+  repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
+
+  // Workloads to apply the policy to. For security reasons,
+  // this field is prefered over `applyToDestinations`. If an empty selector is
+  // provided in the list, the policy applies to all workloads in a namespace, cluster,
+  // and workspace that are available in the parent object's workspace.
+  repeated NamespaceWorkloadSelector apply_to_workloads = 3;
+
+  // Select individual namespaces and workloads within the namespaces by label.
+  // Workloads must have injected (sidecars) or be standalone proxies (gateways)
+  // to be selected by Gloo policies.
+  message NamespaceWorkloadSelector {
+
+    // Selector to match workload objects by their metadata.
+    ObjectSelector selector = 1;
+
+    // Selects zero or more Kubernetes workloads by matching on labels, namespace, cluster, and workspace.
+    message ObjectSelector {
+      // Only select workloads with matching labels.
+      map<string, string> labels = 1;
+
+      // Only select objects in the matching namespace. If empty, Gloo selects
+      // matching objects across all namespaces available in the parent object's workspace.
+      string namespace = 2;
+
+      // Only select objects in the matching cluster. If empty, Gloo selects
+      // matching objects across all clusters available in the parent object's workspace.
+      string cluster = 3;
+
+      // Only select objects in the given workspace. If empty, Gloo selects
+      // matching objects across all workspaces available in the parent object's workspace.
+      string workspace = 4;
+    }
+  }
+
+  // Details of the access policy to apply to the selected workloads.
+  Config config = 2;
+
+  // Details of the access policy to apply to the selected workloads.
+  message Config {
+
+    // How clients are authenticated to the workload.
+    Authentication authn = 1;
+
+    // Deprecated; Use authzList instead. If authzList is set, it takes precedence and this field is ignored.
+    // How clients are authorized to access the workload.
+    Authorization authz = 2;
+
+    // Optional: When NetworkPolicy translation is enabled, all available layers are used to enforce AccessPolicies by default.
+    // If you want to explicitly define which layers to use to enforce this AccessPolicy, you can set them by using this field.
+    // Note that the layer that you define in this field must be available to be configured.
+    .common.gloo.solo.io.EnforcementLayers enforcement_layers = 3;
+
+    // How clients are authorized to access the workload.
+    // A request is allowed when it matches at least one authz entry in the list (logically OR'd together).
+    repeated Authorization authz_list = 4;
+
+    // How clients are authenticated to the workload.
+    message Authentication {
+
+      // Type of TLS policy that is enforced on clients connecting to the workload.
+      // If service isolation is enabled for the workspace, this field is treated as 'STRICT'.
+      TLSmode tls_mode = 1;
+
+      // The mutual TLS (mTLS) connection mode. The following enums correspond to the
+      // [modes defined by Istio](https://github.com/istio/api/blob/master/security/v1beta1/peer_authentication.proto#L129).
+      enum TLSmode {
+
+        // Do not originate mTLS connections to the upstream workload,
+        // and instead use unencrypted plaintext.
+        DISABLE = 0;
+
+        // Permit both unencrypted plaintext and mTLS-secured connections to the upstream workload.
+        // Use this mode only when you migrate workloads to your service mesh.
+        // After the workload is onboarded to the service mesh, using the `STRICT` mode is recommended.
+        PERMISSIVE = 1;
+
+        // Secure connections to the upstream workload with mTLS by presenting
+        // client certificates for authentication.
+        // This mode uses certificates generated
+        // automatically by Istio for mTLS authentication. When you use
+        // this mode, keep all other fields in `ClientTLSSettings` empty.
+        STRICT = 2;
+      };
+    }
+
+    
+    // Configure access to workloads.
+    // 
+    // You can have multiple `authzList` entries.
+    // A request is allowed when it matches at least one of the `authzList` entries (logically OR'd together).
+    //
+    // For each entry, you can specify different requirements for allowed clients, paths, methods, IP blocks, and other configuration settings. 
+    // Then, a request is allowed only when ALL of the requirements are met (logically AND'd together).
+    // 
+    // If the policy uses `applyToWorkloads`, you can also allow NO requests by setting this value to the empty object `{}`,
+    // which will serve as a fallback when requests do not match another `authz` case for the given workload.
+    message Authorization {
+      // Client identities that are permitted to access the workload.
+      // To allow access for all client identities, provide a single empty selector.
+      repeated .common.gloo.solo.io.IdentitySelector allowed_clients = 1;
+
+      /*
+          Optional: A list of HTTP paths or gRPC methods to allow.
+          gRPC methods must be presented as fully-qualified name in the form of
+          "/packageName.serviceName/methodName", and are case sensitive.
+          Exact match, prefix match, and suffix match are supported for paths.
+          For example, the path `/books/review` matches
+          `/books/review` (exact match), `*books/` (suffix match), or `/books*` (prefix match).
+
+          If empty, any path is allowed.
+      */
+      repeated string allowed_paths = 2;
+
+      /*
+          Optional: A list of HTTP methods to allow (e.g., "GET", "POST").
+          If empty, any method is allowed.
+          This field is ignored for gRPC, because the value is always "POST".
+      */
+      repeated string allowed_methods = 3;
+
+      /*
+          Optional: Additional request matching conditions.
+       */
+      MatchSpec match = 4;
+
+      // Optional: A list of IP blocks, populated from the source address of the IP packet.
+      // Single IP addresses (e.g. “1.2.3.4”) and CIDRs (e.g. “1.2.3.0/24”) are supported. If empty,
+      // any IP address is allowed.
+      repeated string allowed_ip_blocks = 5;
+
+      // Optional: A list of IP blocks, populated from X-Forwarded-For header or proxy protocol.
+      // Single IP addresses (e.g. “1.2.3.4”) and CIDRs (e.g. “1.2.3.0/24”) are supported. This field
+      // is equivalent to the remote.ip attribute. If empty, any IP address is allowed.
+      // {{% notice note %}}
+      // To use this field, you must configure the `meshConfig.defaultConfig.gatewayTopology.numTrustedProxies`
+      // field in your Istio installation. For more info, see the
+      // [Istio documentation](https://istio.io/latest/docs/ops/configuration/traffic-management/network-topologies/#configuring-network-topologies).
+      // {{% /notice %}}
+      repeated string allowed_remote_ip_blocks = 6;
+
+      // Set to true to enable a dry run of the access policy for L7 Istio service mesh authorization only. Then, you can check the sidecar proxy logs, metrics, and tracing to determine if traffic would be allowed or denied. However, the authorization is not enforced until you disable the dry run and re-apply the access policy.
+      // Note that when there are both dry run and enforced policies, dry run policies are considered independently of enforced policies;
+      // i.e. the logs, metrics, and tracing results indicating if traffic would be allowed or denied is based on the behavior if all dry run policies were enforced but all currently enforced policies were deleted.
+      // Note that dry run cannot be used to review allow or deny decisions for L4 traffic. Even if you enable the dry run feature with a Gloo Network setup, no Cilium network policy and decision logs are created or enforced.
+      bool dry_run = 7;
+
+      // Optional: Additional request matching conditions.
+      message MatchSpec {
+
+        // Optional: HTTP request header matching conditions.
+        RequestSpec request = 1;
+
+        message RequestSpec {
+          /*
+              Optional: HTTP request header matching conditions.
+           */
+          map<string, HeaderValues> headers = 1;
+
+          // A value matching condition for HTTP request headers.
+          // At least one of `values` or `notValues` must be set.
+          message HeaderValues {
+
+            // A list of match values for the header. A request must match at least one value.
+            // Supports wildcards. For example, to
+            // match a request with header values containing `exact-books` OR `partial-matched-books`,
+            // set `values` to `exact-books` and `partial-*-books`.
+            repeated string values = 1;
+
+            // A list of negative match values for the header. A request must not match any values.
+            // Supports wildcards. For example, to
+            // _not_ match a request with header values containing `ignore-books` or `partial-ignored-books`,
+            // set `notValues` to `ignore-books` and `partial-ig*-books`.
+            repeated string not_values = 2;
+
+          }
+        }
+      }
+    }
+  }
+}
+
+// The status of the policy after it is applied to your Gloo environment.
+message AccessPolicyStatus {
+  // The state and workspace conditions of the applied policy.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of destination ports selected by the policy.
+  uint32 num_selected_destination_ports = 5;
+
+  // The number of namespaces containing selected workloads by the policy.
+  uint32 num_selected_namespaces = 2;
+
+  // The number of service accounts allowed to access the selected destinations.
+  uint32 num_allowed_service_accounts = 3;
+}
+
+// The report shows the resources that the policy selects after the policy is successfully applied.
+message AccessPolicyReport {
+  // A list of workspaces in which the policy can apply to destinations.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of destination ports selected by the policy.
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
+
+  // A list of the service accounts whose workloads are allowed
+  // to send requests to the selected destinations.
+  message IdentityReference {
+    // The index of the identity in the list of identity selectors.
+    int32 identity_index = 1;
+
+    // The reference to the service account backing the identity.
+    .common.gloo.solo.io.ObjectReference service_account = 2;
+
+    // The index of the authz in the authzList.
+    int32 authz_index = 3;
+  }
+
+  // A list of the service accounts whose workloads are allowed
+  // to send requests to the selected destinations.
+  repeated IdentityReference allowed_service_accounts = 3;
+
+   // A list of namespaces that contain workloads selected by the policy.
+  repeated .common.gloo.solo.io.ObjectReference selected_namespaces = 4;
+}

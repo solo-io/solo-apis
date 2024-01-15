@@ -1,0 +1,394 @@
+// Use Gloo Platform to install Istio ingress, egress, and east-west gateways in your workload clusters,
+// as part of the Istio lifecycle management.
+// In your `GatewayLifecycleManager` resource, you provide gateway settings in an `IstioOperator` configuration.
+// When you create the `GatewayLifecycleManager` in your management cluster, Gloo translates the configuration
+// into gateways in your registered workload clusters for you.
+//
+// For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% versioned_link_path fromRoot="/setup/install/gloo_mesh_managed/" %}}) guide.
+//
+// **Examples**:
+//
+// **East-west** (Gloo Mesh license): This example creates an east-west gateway named `istio-eastwestgateway` in the `gloo-mesh-gateways`
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`),
+// image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: GatewayLifecycleManager
+// metadata:
+//   name: istio-eastwestgateway
+//   namespace: gloo-mesh
+// spec:
+//   installations:
+//   # The revision for this installation
+//   - gatewayRevision: $REVISION
+//     # List all workload clusters to install Istio into
+//     clusters:
+//     - name: $REMOTE_CLUSTER1
+//       # If set to true, the spec for this revision is applied in the cluster
+//       activeGateway: true
+//     - name: $REMOTE_CLUSTER2
+//       activeGateway: true
+//     istioOperatorSpec:
+//       # No control plane components are installed
+//       profile: empty
+//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # You get the repo key from your Solo Account Representative.
+//       hub: $REPO
+//       # The Solo.io Gloo Istio version
+//       tag: $ISTIO_IMAGE
+//       components:
+//         ingressGateways:
+//         # Enable the default east-west gateway
+//         - name: istio-eastwestgateway
+//           # Deployed to gloo-mesh-gateways by default
+//           namespace: gloo-mesh-gateways
+//           enabled: true
+//           label:
+//             # Set a unique label for the gateway. This is required to
+//             # ensure Gateways can select this workload.
+//             istio: eastwestgateway
+//             app: istio-eastwestgateway
+//           k8s:
+//             env:
+//               # 'sni-dnat' enables AUTO_PASSTHROUGH mode for east-west communication through the gateway.
+//               # The default value ('standard') does not set up a passthrough cluster.
+//               # Required for multi-cluster communication and to preserve SNI.
+//               - name: ISTIO_META_ROUTER_MODE
+//                 value: "sni-dnat"
+//             service:
+//               type: LoadBalancer
+//               selector:
+//                 istio: eastwestgateway
+//               # Default ports
+//               ports:
+//                 # Port for health checks on path /healthz/ready.
+//                 # For AWS ELBs, this port must be listed first.
+//                 - name: status-port
+//                   port: 15021
+//                   targetPort: 15021
+//                 # Port for multicluster mTLS passthrough
+//                 # Gloo looks for this default name 'tls' on a gateway
+//                 # Required for Gloo east/west routing
+//                 - name: tls
+//                   port: 15443
+//                   targetPort: 15443
+//                     
+// ```
+//
+// **Ingress** (Gloo Gateway license): This example creates an ingress gateway named `istio-ingressgateway` in the `gloo-mesh-gateways`
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`),
+// image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: GatewayLifecycleManager
+// metadata:
+//   name: istio-ingressgateway
+//   namespace: gloo-mesh
+// spec:
+//   installations:
+//   # The revision for this installation
+//   - gatewayRevision: $REVISION
+//     # List all workload clusters to install Istio into
+//     clusters:
+//     - name: $REMOTE_CLUSTER1
+//       # If set to true, the spec for this revision is applied in the cluster
+//       activeGateway: true
+//     - name: $REMOTE_CLUSTER2
+//       activeGateway: true
+//     istioOperatorSpec:
+//       # No control plane components are installed
+//       profile: empty
+//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # You get the repo key from your Solo Account Representative.
+//       hub: $REPO
+//       # The Solo.io Istio version tag
+//       tag: $ISTIO_IMAGE
+//       components:
+//         ingressGateways:
+//         # Enable the default ingress gateway
+//         - name: istio-ingressgateway
+//           # Deployed to gloo-mesh-gateways by default
+//           namespace: gloo-mesh-gateways
+//           enabled: true
+//           label:
+//             # Set a unique label for the gateway. This is required to
+//             # ensure Gateways can select this workload
+//             istio: ingressgateway
+//             app: istio-ingressgateway
+//           k8s:
+//             service:
+//               type: LoadBalancer
+//               selector:
+//                 istio: ingressgateway
+//               # Default ports
+//               ports:
+//                 # Port for health checks on path /healthz/ready.
+//                 # For AWS ELBs, this port must be listed first.
+//                 - name: status-port
+//                   port: 15021
+//                   targetPort: 15021
+//                 # Main HTTP ingress port
+//                 - name: http2
+//                   port: 80
+//                   targetPort: 8080
+//                 # Main HTTPS ingress port
+//                 - name: https
+//                   port: 443
+//                   targetPort: 8443
+//                 - name: tls
+//                   port: 15443
+//                   targetPort: 15443
+// ```
+//
+// **Egress**: This example creates an egress gateway named `istio-egressgateway` in the `gloo-mesh-gateways` namespace of two workload clusters,
+// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`), image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// For more information, see the 
+// [Block egress traffic with an egress gateway]({{% versioned_link_path fromRoot="/routing/forward-requests/external-service/egress-gateway/" %}}) guide.
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: GatewayLifecycleManager
+// metadata:
+//   name: istio-egressgateway
+//   namespace: gloo-mesh
+// spec:
+//   installations:
+//       # The revision for this installation
+//     - gatewayRevision: $REVISION
+//       # List all workload clusters to install Istio into
+//       clusters:
+//       - name: $REMOTE_CLUSTER1
+//         # If set to true, the spec for this revision is applied in the cluster
+//         activeGateway: true
+//       - name: $REMOTE_CLUSTER2
+//         activeGateway: true
+//       istioOperatorSpec:
+//         # No control plane components are installed
+//         profile: minimal
+//         # Solo.io Istio distribution repository; required for Gloo Istio.
+//         # You get the repo key from your Solo Account Representative.
+//         hub: $REPO
+//         # The Solo.io Gloo Istio version
+//         tag: $ISTIO_IMAGE
+//         meshConfig:
+//           outboundTrafficPolicy:
+//             mode: REGISTRY_ONLY
+//             # Enable access logs
+//           accessLogFile: /dev/stdout
+//           defaultConfig:
+//             proxyMetadata:
+//               # For known hosts, enable the Istio agent to handle DNS requests
+//               # for any custom ServiceEntry, such as non-Kubernetes services.
+//               # Unknown hosts are automatically resolved using upstream DNS
+//               # servers in resolv.conf (for proxy-dns)
+//               ISTIO_META_DNS_CAPTURE: "true"
+//         components:
+//           egressGateways:
+//           # Enable the egress gateway
+//             - name: istio-egressgateway
+//               # Deployed to gloo-mesh-gateways by default
+//               namespace: gloo-mesh-gateways
+//               enabled: true
+//               label:
+//                 # Set a unique label for the gateway. This is required to
+//                 # ensure Gateways can select this workload.
+//                 istio: egressgateway
+//                 app: istio-egressgateway
+//                 traffic: egress
+//               k8s:
+//                 affinity:
+//                    nodeAffinity:
+//                      requiredDuringSchedulingIgnoredDuringExecution:
+//                        nodeSelectorTerms:
+//                          - matchExpressions:
+//                              - key: kubernetes.io/arch
+//                                operator: In
+//                                values:
+//                                  - arm64
+//                                  - amd64
+//                 env:
+//                   # 'sni-dnat' enables AUTO_PASSTHROUGH mode for east-west communication through the gateway.
+//                   # The default value ('standard') does not set up a passthrough cluster.
+//                   # Required for multi-cluster communication and to preserve SNI.
+//                   - name: ISTIO_META_ROUTER_MODE
+//                     value: "sni-dnat"
+//                   - name: AUTO_RELOAD_PLUGIN_CERTS
+//                     value: "true"
+//                 podAnnotations:
+//                   proxy.istio.io/config: |
+//                     proxyStatsMatcher:
+//                       inclusionRegexps:
+//                       - .*ext_authz.*
+//                 service:
+//                   type: LoadBalancer
+//                   selector:
+//                     istio: egressgateway
+//                   # Default ports
+//                   ports:
+//                     # Port for health checks on path /healthz/ready.
+//                     # For AWS ELBs, this port must be listed first.
+//                     - port: 15021
+//                       targetPort: 15021
+//                       name: status-port
+//                     # Port for multicluster mTLS passthrough
+//                     # Required for Gloo egress routing
+//                     - port: 15443
+//                       targetPort: 15443
+//                       # Gloo looks for this default name 'tls' on a gateway
+//                       name: tls
+//                     # Required for Istio mutual TLS
+//                     - port: 443
+//                       targetPort: 8443
+//                       name: https
+// ```
+syntax = "proto3";
+
+package admin.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_operator.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Specifications for the `GatewayLifecycleManager` resource.
+message GatewayLifecycleManagerSpec {
+
+  // List of Istio gateway installations.
+  repeated GatewayInstallation installations = 1;
+}
+
+// Clusters to install the Istio gateways in.
+message GatewayClusterSelector {
+
+  // Name of the cluster to install the gateway into.
+  // Must match the name of the cluster that you used when you registered the cluster with Gloo.
+  string name = 1;
+
+  // Optional: Defaults to false.
+  // When set to true, the gateway installation for this revision is applied as the active gateway through which primary service traffic is routed in the cluster.
+  // If the `istioOperatorSpec` defines a service, this field switches the service selectors to the revision specified in the `gatewayRevsion`.
+  // You might change this setting for gateway installations during a canary upgrade.
+  // For more info, see the [upgrade docs](https://docs.solo.io/gloo-mesh-enterprise/main/setup/upgrade/gloo_mesh_managed_upgrade/).
+  bool active_gateway = 2;
+
+  // Optional: By default, the `trustDomain` value in the `meshConfig` section of the operator spec is automatically set by the Gloo to the name of each workload cluster.
+  // To override the `trustDomain` for each cluster, you can instead specify the override value by using this `trustDomain` field,
+  // and include the value in the list of cluster names. For example, if you specify `meshConfig.trustDomain: cluster1-trust-override` in your operator spec,
+  // you then specify both the cluster name (`name: cluster1`) and the trust domain (`trustDomain: cluster1-trust-override`) in this `installations.clusters` section.
+  // Additionally, because Gloo requires multiple trust domains for east-west routing, the `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` field is set to `"true"` by default. 
+  // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1).
+  string trust_domain = 5;
+}
+
+// List of Istio gateway installations.
+// Any components that are not related to the gateway are ignored.
+// You can provide only one type of gateway installation per revision in a cluster.
+// For example, in a workload cluster `cluster2`, you can install only one east-west
+// gateway that runs revision `1-19-5`.
+message GatewayInstallation {
+  // Optional: The revision of an Istio control plane in the cluster that this gateway should also use.
+  // If a control plane installation of this revision is not found, no gateway is created.
+  string control_plane_revision = 1;
+
+  // Istio revision for this gateway installation.
+  // When set to `auto`, Gloo installs the gateway with the default supported version of Solo Istio.
+  string gateway_revision = 2;
+
+  // Clusters to install the Istio gateways in.
+  repeated GatewayClusterSelector clusters = 3;
+
+  // IstioOperator specification for the gateway.
+  // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
+  .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 4;
+
+  // When set to true, the lifecycle manager allows you to perform
+  // in-place upgrades by skipping checks that are required for canary upgrades.
+  // In production environments, canary upgrades are recommended for
+  // updating the minor version. To update the patch version or make
+  // configuration changes within the same version, you can use in-place upgrades.
+  // Be sure to test in-place upgrades in development or staging environments first.
+  bool skip_upgrade_validation = 5;
+}
+
+// The status of the `GatewayLifecycleManager` resource after you apply it to your Gloo environment.
+message GatewayLifecycleManagerStatus {
+
+  // The list of clusters where Gloo manages Istio gateway installations.
+  map<string, ClusterStatuses> clusters = 1;
+
+  // The list of clusters where Gloo manages Istio gateway installations.
+  message ClusterStatuses {
+    // The Istio gateway installations in the cluster, listed by revision.
+    map<string, InstallationStatus> installations = 1;
+
+    // The status of the gateway installation.
+    message InstallationStatus {
+      // The current state of the gateway installation.
+      State state = 1;
+
+      // A human-readable message about the current state of the installation.
+      string message = 2;
+
+      // The observed revision of the gateway installation. 
+      string observed_revision = 5;
+
+      // The IstioOperator spec that is currently deployed for this revision. 
+      .common.gloo.solo.io.IstioOperatorSpec observed_operator = 4;
+
+      // The current state of the gateway installation.
+      enum State {
+        // Waiting for resources to be installed or updated.
+        PENDING = 0;
+
+        // The Gloo management server encountered a problem while attempting
+        // to install the gateway.
+        FAILED = 1;
+
+        // Could not select a istiod control plane.
+        NO_CONTROL_PLANE_AVAILABLE = 2;
+
+        // The gateway is currently being installed. 
+        INSTALLING_GATEWAY = 3;
+
+        // All Istio components for the gateway are successfully installed and healthy.
+        HEALTHY = 4;
+
+        // The gateway installation is no longer healthy.
+        UNHEALTHY = 5;
+
+        // The gateway IstioOperator resource is in an 'ACTION_REQUIRED' state. Check the logs of the IstioOperator deployment for more info.
+        ACTION_REQUIRED = 6;
+
+        // The gateway IstioOperator resource is in an 'UPDATING' state. 
+        UPDATING_GATEWAY = 7;
+
+        // The gateway IstioOperator resource is in a 'RECONCILING' state.
+        RECONCILING_GATEWAY = 8;
+
+        // The gateway installation state could not be determined. 
+        UNKNOWN = 9;
+
+        // The gateway is currently being uninstalled.
+        UNINSTALLING_GATEWAY = 10;
+
+        // The gateway is uninstalled.
+        UNINSTALLED_GATEWAY = 11;
+      }
+    }
+  }
+}
+
+// $hide_from_docs
+message GatewayLifecycleManagerNewStatus {
+
+}
+
+// $hide_from_docs
+message GatewayLifecycleManagerReport {
+
+}
+

@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package internal.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "k8s.io/api/core/v1/generated.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_operator.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// $hide_from_docs
+message ClusterIstioInstallation {
+  // IstioOperator specification for the control plane.
+  // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
+  .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 1;
+}
+
+// $hide_from_docs
+message ClusterIstioInstallationStatus {
+  // The current state of the Istio installation.
+  State state = 1;
+
+  // A human readable message about the current state of the installation.
+  string message = 2;
+
+  // The observed revision of the Istio installation. 
+  string observed_revision = 3;
+
+  // The IstioOperator spec that is currently deployed for this revision. 
+  .common.gloo.solo.io.IstioOperatorSpec observed_operator = 4;
+
+  // The current state of the installation.
+  enum State {
+    // Waiting for resources to be installed.
+    INSTALLING = 0;
+
+    // Waiting for upgrade to complete.
+    UPGRADING = 1;
+
+    // Waiting for resources to be uninstalled.
+    UNINSTALLING = 2;
+
+    // Waiting for user input to correct a problem or advance canary.
+    ACTION_REQUIRED = 3;
+
+    // The desired installation state on the cluster has been achieved.
+    SYNCED = 4;
+
+    // An unrecoverable error was observed.
+    ERROR = 5;
+  }
+}

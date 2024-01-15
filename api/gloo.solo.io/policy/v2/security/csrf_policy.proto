@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package security.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/string_match.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// CSRFPolicy is used to set safeguard to prevent CSRF (cross-site request forgery) attacks in requests matching selected routes.
+// CSRFPolicies are applied at the *Route* level.
+message CSRFPolicySpec {
+
+  // Routes to apply the policy to.
+  // If empty, the policy applies to all workloads in the workspace.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // The details of the CSRF policy to apply to the selected routes.
+  Config config = 2;
+
+  message Config {
+
+    // Specifies that CSRF policies will be evaluated, tracked and enforced.
+    bool filter_enabled = 1;
+
+    // Specifies that CSRF policies will be evaluated and tracked, but not enforced.
+    //
+    // This is intended to be used when ``filter_enabled`` is false and will be ignored otherwise.
+    bool shadow_enabled = 2;
+
+    // Specifies the % of requests for which the CSRF filter is enabled or when shadow mode is enabled the % of requests
+    // evaluated and tracked, but not enforced.
+    //
+    // If filter_enabled or shadow_enabled is true.
+    // Envoy will lookup the runtime key to get the percentage of requests to filter.
+    //
+    // .. note:: This field defaults to 100
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
+    google.protobuf.DoubleValue percentage = 3;
+
+    // Specifies additional source origins that will be allowed in addition to
+    // the destination origin.
+    repeated .common.gloo.solo.io.StringMatch additional_origins = 4;
+
+  }
+}
+
+// The status of the policy after it is applied to your Gloo environment.
+message CSRFPolicyStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // Count of routes selected by the policy
+  uint32 num_selected_routes = 2;
+}
+
+message CSRFPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // Routes selected by the policy
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
+}

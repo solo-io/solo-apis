@@ -1,0 +1,44 @@
+syntax = "proto3";
+package networking.gloo.solo.io;
+
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2";
+
+message K8sWorkloadStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // A map of policy GVK to the number of policies that are applied on this resource.
+  map<string, uint32> num_applied_workload_policy = 2;
+}
+
+message K8sWorkloadReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A map of policy GVK to policy references for all policies that are 
+  // applied on this resource.
+  map<string, .common.gloo.solo.io.AppliedWorkloadPolicies> applied_workload_policies = 2;
+}
+
+message K8sServiceStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // A map of policy GVK to the number of policies that are applied on this resource.
+  map<string, uint32> num_applied_destination_policies = 2;
+
+  // The name of the workspace that owns this Kubernetes service.
+  string owned_by_workspace = 3;
+}
+
+message K8sServiceReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A map of policy GVK to policy references for all policies that are 
+  // applied on this resource.
+  map<string, .common.gloo.solo.io.AppliedDestinationPortPolicies> applied_destination_policies = 2;
+
+  // The name of the workspace that owns this Kubernetes service.
+  string owner_workspace = 3;
+}

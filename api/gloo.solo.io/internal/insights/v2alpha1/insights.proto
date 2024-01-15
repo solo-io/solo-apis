@@ -1,0 +1,267 @@
+syntax = "proto3";
+
+package insights.internal.gloo.solo.io;
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package="github.com/solo-io/solo-apis/client-go/insights.internal.gloo.solo.io/v2alpha1";
+
+
+
+//
+message Insight {
+  enum Severity {
+    // SEVERITY_UNSPECIFIED is the default SeverityNumber. It should not be used
+    // as all insights should have a severity.
+    SEVERITY_UNSPECIFIED = 0;
+    // guidance, suggestions, and best practices
+    INFO = 1;
+    // something may not work as expected
+    WARNING = 2;
+    // something is broken, will not work as expected
+    ERROR = 3;
+  }
+
+  // Numerical value of the insight severity.
+  Severity severity = 1;
+
+  // Time when the situation that caused the insight was last observed.
+  .google.protobuf.Timestamp last_observed = 2;
+
+  // Time when the insight was generated.
+  .google.protobuf.Timestamp created = 3;
+
+  message Code {
+    // The group of the code -- e.g. IST
+    string group = 1;
+
+    // The key of the code -- e.g. 0102
+    string key = 2;
+  }
+  // A code that identifies the situation that caused the insight.
+  // For example - IST0102
+  Code code = 4;
+
+  // A unique identifier for the insight.
+  string id = 5;
+
+  // Static description of insght, intended for documentation purposes.
+  // Commented out for now, as we don't have a use case for it yet. If the use case is for docs this could be a docURL instead. (josh)
+  // string description = 6;
+
+  message ClusterRef {
+    string name = 1;
+  }
+
+  Target target = 7;
+
+  message Target {
+    oneof target {
+      // The cluster that the insight was generated for.
+      ClusterRef cluster = 7;
+
+      .core.skv2.solo.io.TypedClusterObjectRef resource = 8;
+
+      bool global = 16;
+    }
+  }
+
+  // An identifier of the instance of the analytics job that last produced the inisght.
+  // Used for garbage collection.
+  string last_source_exec_id = 9;
+
+  // A short dynamic summary of this specific insight, derived by the insights engine.
+  string summary = 10;
+
+  // A longer dynamic details of this specific insight with more context, derived by the insights engine.
+  string details = 11;
+
+  // A flag for whether this is an internal system insight.
+  bool system = 12;
+
+  // used for TTL based garbage collection
+  google.protobuf.Timestamp expirey_time = 13;
+
+  // Time used internally to determine if an insight is potentially stale, this should be updated everytime the engine processes the insight.
+  google.protobuf.Timestamp last_processed_time = 14;
+
+  // Storage for extra custom data that is output by the insights engine and consumed directly by the UI for custom components.
+  Data data = 15;
+
+  message Data {
+    oneof data {
+      SYS0003Data SYS0003 = 18;
+      SYS0006Data SYS0006 = 19;
+      SYS0007Data SYS0007 = 20;
+      SYS0008Data SYS0008 = 21;
+      SYS0009Data SYS0009 = 22;
+      SYS0010Data SYS0010 = 23;
+      SYS0011Data SYS0011 = 24;
+      SYS0014Data SYS0014 = 27;
+      SYS0015Data SYS0015 = 28;
+      SYS0019Data SYS0019 = 29; // Adding so UI works for mock - might change later
+      SYS0020Data SYS0020 = 30;
+      SYS0025Data SYS0025 = 31;
+      SYS0021Data SYS0021 = 32;
+      SYS0022Data SYS0022 = 33;
+      SYS0023Data SYS0023 = 34;
+    }
+  }
+
+  // Agent Deployent Reference
+  message SYS0003Data {
+    .core.skv2.solo.io.TypedClusterObjectRef deployment_ref = 1;
+  }
+
+  // CRDs
+  message SYS0006Data {
+     string istio_version = 1;
+  }
+
+  // root certificate
+  message SYS0007Data {
+    string hostname = 1;
+    string issued_to_cn = 2;
+    repeated string issued_to_organization = 3;
+    repeated string issued_to_organization_unit = 4;
+    string issued_from_cn = 5;
+    repeated string issued_from_organization = 6;
+    repeated string issued_from_organization_unit = 7;
+    google.protobuf.Timestamp issued_on = 8;
+    google.protobuf.Timestamp expires_on = 9;
+    repeated Fingerprints fingerprints = 10;
+    string subject_key_identifier = 11;
+    string authority_key_identifier = 12;
+    message Fingerprints {
+      string name = 1;
+      string value = 2;
+    }
+  }
+
+  // intermediate certificate
+  message SYS0008Data {
+    string hostname = 1;
+    string issued_to_cn = 2;
+    repeated string issued_to_organization = 3;
+    repeated string issued_to_organization_unit = 4;
+    string issued_from_cn = 5;
+    repeated string issued_from_organization = 6;
+    repeated string issued_from_organization_unit = 7;
+    google.protobuf.Timestamp issued_on = 8;
+    google.protobuf.Timestamp expires_on = 9;
+    repeated Fingerprints fingerprints = 10;
+    string subject_key_identifier = 11;
+    string authority_key_identifier = 12;
+    message Fingerprints {
+      string name = 1;
+      string value = 2;
+    }
+  }
+
+  // Istio Gateway certificates
+  message SYS0015Data {
+    repeated ReferencedCertificateSecret certificates = 1;
+  }
+
+  // Kubernetes Gateway certificates
+  message SYS0025Data {
+    repeated ReferencedCertificateSecret certificates = 1;
+  }
+
+  // Endpoint policy info
+  message SYS0021Data {
+    uint32 endpoints_with_policies = 1;
+    uint32 total_endpoints = 2;
+  }
+
+  message ReferencedCertificateSecret {
+    .core.skv2.solo.io.TypedClusterObjectRef ref = 1;
+    CertificateInformation certificate = 2;
+  }
+
+  message CertificateInformation {
+    string hostname = 1;
+    string issued_to_cn = 2;
+    repeated string issued_to_organization = 3;
+    repeated string issued_to_organization_unit = 4;
+    string issued_from_cn = 5;
+    repeated string issued_from_organization = 6;
+    repeated string issued_from_organization_unit = 7;
+    google.protobuf.Timestamp issued_on = 8;
+    google.protobuf.Timestamp expires_on = 9;
+    repeated Fingerprints fingerprints = 10;
+    string subject_key_identifier = 11;
+    string authority_key_identifier = 12;
+    message Fingerprints {
+      string name = 1;
+      string value = 2;
+    }
+  }
+
+  // Control plane FIPs
+  message SYS0009Data {
+    int32 fips_compliant_istio_workloads = 1;
+    int32 total_istio_workloads = 2;
+    repeated string unique_fips_versions = 4;
+  }
+
+  // Data plane FIPs
+  message SYS0010Data {
+    int32 fips_compliant_istio_workloads = 1;
+    int32 total_istio_workloads = 2;
+    repeated string unique_fips_versions = 4;
+  }
+
+  // Cluster services
+  message SYS0011Data {
+    int32 in_mesh_services = 1;
+    int32 out_of_mesh_services = 2;
+    int32 sidecar_services = 3;
+    int32 ambient_services = 4;
+    int32 gateway_services = 5;
+    int32 total_services = 6;
+  }
+
+  // zero trust - workloads receiving mesh encrypted traffic
+  message SYS0012Data {
+    int32 mtls_encrypted_workloads = 1;
+    int32 total_workloads = 2;
+  }
+
+  // zero trust - kubernetes external services accessed
+  message SYS0013Data {
+    int32 value = 1;
+  }
+
+  // zero trust - access policy violations
+  message SYS0014Data {
+    int32 value = 1;
+  }
+
+  // Adding so UI works for mock - might change later
+  message SYS0019Data {
+    string cilium_version = 1;
+  }
+
+  // resource counts
+  message SYS0020Data {
+    int32 istio_resources = 1;
+    int32 cilium_resources = 2;
+    int32 k8s_resources = 3;
+    int32 gateway_resources = 4;
+    int32 solo_resources = 5;
+  }
+
+  // Cilium policy violation info
+  message SYS0022Data {
+    uint32 count = 1;
+    string time_window = 2;
+  }
+
+  // Cilium node connectivity info
+  message SYS0023Data {
+    uint32 unhealthy = 1;
+    uint32 total = 2;
+  }
+}
