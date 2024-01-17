@@ -1,0 +1,152 @@
+// The ApiDoc resource represents the schema of an API served by a Destination (Service, ExternalService).
+// ApiDocs are typically created by Gloo Platform discovery running on the agent
+// in registered workload clusters, but you can also manually create an `ApiDoc` CR.
+// The ApiDoc type is used to represent different types of API schema specification languages:
+// - OpenAPI
+// - gRPC
+// - GraphQL
+syntax = "proto3";
+
+package apimanagement.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+
+option go_package = "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+
+// The destinations that serve this API, if any.
+message ServedBy {
+  // Specify the backing destination for your app, by label or by name.
+  // This destination matches the destinations that you later route to.
+  // Supported destinations are Kubernetes services, Gloo virtual destinations, and
+  // Gloo external services.
+  // This field is required when you manually create an ApiDoc for a service that
+  // serves an OpenAPI or gRPC schema.
+  .common.gloo.solo.io.DestinationSelector destination_selector = 1;
+}
+
+// Specifications for the ApiDoc.
+message ApiDocSpec {
+
+  // The API schema specification language.
+  oneof schema_type {
+    // The OpenAPI schema specification language. Specify only one schema type.
+    OpenAPISchema openapi = 1;
+
+    // The gRPC schema specification language. Specify only one schema type.
+    GrpcSchema grpc = 2;
+
+    // The graphQL schema specification language. Specify only one schema type.
+    GraphQLSchema graphql = 3;
+  }
+
+  // The destinations that serve this API, if any.
+  repeated ServedBy served_by = 4;
+
+  // The YAML- or JSON-formatted OpenAPI v2 or v3 schema string to use for your API.
+  //
+  // **Example**: For detailed information about the settings in this example, see
+  // [Create your APIs](https://docs.solo.io/gloo-gateway/latest/portal/apis/apidocs/#apidoc) in the Gloo Portal documentation.
+  // ```yaml
+  // apiVersion: apimanagement.gloo.solo.io/v2
+  // kind: ApiDoc
+  // metadata:
+  //   annotations:
+  //     cluster.solo.io/cluster: ""
+  //   name: customers-api-schema
+  //   namespace: default
+  // spec:
+  //   openapi:
+  //     inlineString: '{ "info": { "title": "Gloo Platform Portal API", "version": "1.0.0", "description": "Review the following reference documentation for the Gloo Platform portal APIs. Use these endpoints to manage user access to both the developer portal and the API resources exposed by the portal." }, "openapi": "3.0.0", "servers": [ { "url": "https://api.gloo-platform-portal.com/v1" } ], "paths": { "/login": { "get": { "description": "Logs user into the developer portal. This is the path that should be used as the callbackPath in the ExtAuthPolicy's OIDC configuration.", "operationId": "login", "security": [ { "identityToken": [ ] } ], "responses": { "200": { "description": "Successfully logged in" } }, "summary": "Logs user into the developer portal", "tags": [ "User" ] } }'
+  //   servedBy:
+  //   - destinationSelector:
+  //    port:
+  //      number: 8080
+  //    selector:
+  //      cluster: $CLUSTER_NAME
+  //      name: app
+  //      namespace: app
+  // ```
+  message OpenAPISchema {
+    // The inline, YAML- or JSON-formatted, OpenAPI v2 or v3 schema.
+    string inline_string = 1;
+  }
+
+  // A complete gRPC schema describing the API.
+  //
+  // **Example**: In this gRPC example for a basic user service app,
+  // the base64-encoded descriptor includes a set of fields that are defined
+  // for various queries, such as `UserSearch` and `UserByCountry`. For detailed
+  // information about the settings in this example, see
+  // [gRPC schema](https://docs.solo.io/gloo-gateway/latest/graphql/resolvers/resolved/resolver_grpc/)
+  // in the GraphQL integration documentation.
+  // ```yaml
+  // {{% readfile file="/content/gateway/static/content/examples/generated/int/graphql_routes/cluster-1/api-doc_bookinfo_grpc-schema.yaml" %}}
+  // ```
+  message GrpcSchema {
+    // Protobuf descriptors that represent the gRPC services provided by your API, encoded in base64.
+    // For more information, see the
+    // [protobuf reference for `FileDescriptorSet`](https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/DescriptorProtos.FileDescriptorSet).
+    bytes descriptors = 1;
+
+  }
+
+  // Provide a schema definition in GraphQL SDL format.
+  // The GraphQL schema also has logging options for logging sensitive
+  // request-related information, and schema extension configuration such as
+  // custom type definitions. For more information about the different schema features,
+  // see the [GraphQL documentation](https://graphql.org/learn/schema/).
+  //
+  // **Example**: In this GraphQL example for the Bookinfo sample app, a query type and object
+  // types are defined. For detailed information about the settings in this example, see
+  // [Example GraphQL ApiDoc](https://docs.solo.io/gloo-gateway/latest/graphql/apidoc/#example-graphql-apidoc)
+  // in the GraphQL integration documentation.
+  // ```yaml
+  // {{% readfile file="/content/gateway/static/content/examples/generated/int/graphql_proxied_introspection/cluster-1/api-doc_bookinfo_music-schema.yaml" %}}
+  // ```
+  message GraphQLSchema {
+    // Required: The GraphQL schema definition. Root-level query and mutation
+    // types are supported, and you must define at least a query type.
+    string schema_definition = 1;
+  }
+
+  /* <!--todo(API-team)-->
+  // Extensions such as Custom Types, which are contained in their own CRD.
+  repeated .common.gloo.solo.io.ObjectReference schema_extensions = 5;
+  */
+
+}
+
+// The status of the ApiDoc after it is applied to your Gloo environment.
+message ApiDocStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The name of workspace that owns the APIDoc.
+  string owner_workspace = 2;
+
+  // Count of the destinations serving the API.
+  uint32 selected_serving_destinations = 3;
+}
+
+// The report shows the resources that the ApiDoc selects after the it is successfully applied.
+message ApiDocReport {
+  // A list of workspaces in which the ApiDoc can be applied.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // The name of the workspace that owns the Graqphql API schema.
+  string owner_workspace = 2;
+
+  // A list of destinations serving the API.
+  repeated .common.gloo.solo.io.DestinationReference serving_destinations = 3;
+}

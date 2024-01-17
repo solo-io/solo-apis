@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package resilience.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// OutlierDetectionPolicy is used to configure [outlier detection](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier) on the selected destinations.
+// Specifying this field requires an empty `source_selector` because it must apply to all traffic.
+// OutlierDetectionPolicies are applied at the *Destination* level.
+//
+// For VirtualDestinations, traffic will not be sent to deployments that are unavailable by default.
+// An OutlierDetectionPolicy will add configuration to also eject a deployment that is returning too many 5xx HTTP status codes.
+message OutlierDetectionPolicySpec {
+
+  // Destinations to apply the policy to.
+  // If empty, the policy applies to all destinations in the workspace.
+  repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
+
+  // The details of the OutlierDetectionPolicy to apply to the selected destinations.
+  Config config = 2;
+
+  message Config {
+
+    // The number of 5xx errors before a destination is removed from the healthy connection pool. The default, if this field is not set, is 5.
+    google.protobuf.UInt32Value consecutive_errors = 1;
+
+    // The amount of time between analyzing destinations for ejection.
+    // Set this value as an integer plus a unit of time, in the format `1h`, `1m`, `1s`, or `1ms`. The value must be at least `1ms`, and defaults to `10s`.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+    google.protobuf.Duration interval = 2;
+
+    // The minimum time duration for ejection, or the time when a destination is considered unhealthy and not used for load balancing.
+    // Set this value as an integer plus a unit of time, in the format `1h`, `1m`, `1s`, or `1ms`. The value must be at least `1ms`, and defaults to `30s`.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+    google.protobuf.Duration base_ejection_time = 3;
+
+    // The maximum percentage of destinations that can be removed from the healthy connection pool at a time.
+    // For example, if you have 10 total destinations that the policy selects, and set this value to 50 percent, 5 destinations can be removed at once.
+    // At least 1 destination can always be removed, regardless of the value you set. You can set this value between `0` and `100`, with a default of `100`.
+    uint32 max_ejection_percent = 4;
+
+    // Number of gateway errors before a host is ejected from the connection pool.
+    // When the upstream host is accessed over HTTP, a 502, 503, or 504 return
+    // code qualifies as a gateway error. When the upstream host is accessed over
+    // an opaque TCP connection, connect timeouts and connection error/failure
+    // events qualify as a gateway error.
+    // This feature is disabled by default or when set to the value 0.
+    //
+    // Note that consecutive_gateway_errors and consecutive_errors can be
+    // used separately or together. Because the errors counted by
+    // consecutive_gateway_errors are also included in consecutive_errors,
+    // if the value of consecutive_gateway_errors is greater than or equal to
+    // the value of consecutive_errors, consecutive_gateway_errors will have
+    // no effect.
+    google.protobuf.UInt32Value consecutive_gateway_errors = 5;
+
+  }
+
+}
+
+// The status of the policy after it is applied to your Gloo environment.
+message OutlierDetectionPolicyStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of destination ports selected by the policy.
+  uint32 num_selected_destination_ports = 2;
+}
+
+message OutlierDetectionPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of destination ports selected by the policy.
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
+}

@@ -1,0 +1,182 @@
+// Add a Wasm filter to the Envoy sidecar proxy, for use cases such as
+// customizing the endpoints and thresholds for your workloads.
+// WasmDeploymentPolicies are applied at the *Workload* level.
+//
+// {{% notice note %}}
+// To apply Wasm filters, you must first enable the Envoy sidecar proxies
+// on your workloads to fetch Wasm filters from an Envoy cluster. For more information,
+// see [Enable the Envoy sidecar to fetch Wasm filters](https://docs.solo.io/gloo-mesh-enterprise/latest/policies/wasm/wasm-policy/#enable-filter).
+// {{% /notice %}}
+//
+// **Example**: In this example, a filter adds a custom header
+// to the response from the ratings service in the Bookinfo application.
+// ```yaml
+// {{% readfile file="content/mesh/static/content/examples/manual/wasm-deployment-policy_bookinfo_wasm-deployment-policy.yaml" %}}
+// ```
+syntax = "proto3";
+
+package extensions.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/any.proto";
+import "networking/v1alpha3/envoy_filter.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/extensions.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Specifications for the policy.
+message WasmDeploymentPolicySpec {
+
+  // Select the workloads to apply the Wasm filter to.
+  // If empty, the policy applies to all workloads in the workspace.
+  repeated .common.gloo.solo.io.WorkloadSelector apply_to_workloads = 1;
+
+  // Details of the policy specifying the Wasm filters to apply to the selected workloads.
+  Config config = 2;
+
+  // Details of the policy specifying the Wasm filters to apply to the selected workloads.
+  message Config {
+
+    // Wasm filter parameters.
+    repeated WasmFilter filters = 2;
+
+    // If you apply multiple Wasm filters to a single workload, add a `weight`
+    // to specify the order in which the filters are applied.
+    // Deployed Wasm filters are sorted in order of highest to lowest weight.
+    // Wasm filters with equal weights are sorted non-deterministically.
+    // Note that all Wasm filters are inserted immediately before the Envoy router filter
+    // in the HTTP Connection Manager's HTTP Filter Chain.
+    uint32 weight = 3;
+
+
+    // Specify the Wasm filter to deploy. 
+    message WasmFilter {
+
+      // Required: The filter source. Several options are available for providing
+      // a source of the Wasm filter file.
+      oneof filter_source {
+
+        // Select `local_path_source` to deploy the filter from a file accessible
+        // to the workload proxy. Note that Gloo Mesh cannot verify
+        // whether the target workload proxy containers contain the given path.
+        // If filters do not load, check the sidecar proxy logs.
+        // <!--TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status-->
+        string local_path_source = 1;
+
+        // Select `http_uri_source` to deploy the filter from an HTTP/S URI accessible
+        // to the workload proxy. Note that Gloo Mesh cannot verify
+        // whether the target workload proxy containers have HTTP access the given URI.
+        // If filters do not load, check the sidecar proxy logs.
+        // <!--TODO(ilackarms): see if we can somehow verify the filter exists in the proxy container and surface that on the WasmDeployment status-->
+        // <!--TODO(ilackarms): we may need to provide options for customizing the Cluster given to envoy along with the HTTP Fetch URI. currently Gloo Mesh will create a simple plaintext HTTP cluster from the Host/Port specified in the URI.-->
+        UriSource http_uri_source = 2;
+
+        // Fetch the image from a [Wasm OCI Registry](https://webassemblyhub.io/).
+        // Images can be built and pushed to registries using `meshctl` and
+        // [`wasme` CLI tool](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/getting_started/).
+        // For more info, check out the [WebAssembly Hub](https://docs.solo.io/web-assembly-hub/latest).
+        WasmImageSource wasm_image_source = 3;
+      }
+
+      // The source of a static or dynamic filter configuration.
+      // Equivalent to `proxy_on_configuration`.
+      oneof filter_config_source {
+
+        // Provide configuration as a static configuration source.
+        // <ul><li>`google.protobuf.Struct` is serialized as JSON before it is passed to the plugin.</li>
+        // <li>`google.protobuf.BytesValue` and `google.protobuf.StringValue` are passed directly without the wrapper.</li></ul>
+        //
+        // For information about the value format, see the
+        // [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/any).
+        .google.protobuf.Any static_filter_config = 4;
+
+        // NOTE: **Not currently implemented.** This field serves as a placeholder.
+        // Provide configuration from a dynamic configuration source.
+        // This setting connects proxies to a configuration server to update filter
+        // configuration instead of using a filter provided in the policy.
+        // <ul><li>`google.protobuf.Struct` is serialized as JSON before it is passed to the plugin.</li>
+        // <li>`google.protobuf.BytesValue` and `google.protobuf.StringValue` are passed directly without the wrapper.</li></ul>
+        //
+        // <!--TODO(ilackarms): implement with dynamic filter config source (FCDS) https://github.com/envoyproxy/envoy/issues/7867-->
+        string dynamic_filter_config = 8;
+      }
+
+      // The `rootId` must match the `rootId` defined in the filter. If omitted,
+      // Gloo Mesh pulls and sets the image from the `filter_conf` contained
+      // in the image config. Note that if the `filter_source` is not set to
+      // `wasm_image_source`, this field is required.
+      string root_id = 5;
+
+      // Optional: A VM ID, used along with a hash of the Wasm code (or the name of the
+      // registered Null VM plugin), to determine which VM loads the Wasm filter.
+      // All filters on the same workload that use the same `vmId` and code within
+      // use the same VM.
+      //
+      // Note that sharing a VM between plugins can reduce memory
+      // utilization and make sharing of data easier, which may have security implications.
+      string vm_id = 6;
+
+      // The context that the filter is attached to:
+      // <ul><li>Any workload context (`ANY`)</li>
+      // <li>A gateway (`GATEWAY`)</li>
+      // <li>Inbound traffic to a sidecar proxy (`SIDECAR_INBOUND`)</li>
+      // <li>Outbound traffic from a sidecar (`SIDECAR_OUTBOUND`)</li></ul>
+      //
+      // By default, the value is `ANY` to permit any context.
+      .istio.networking.v1alpha3.EnvoyFilter.PatchContext filter_context = 7;
+
+      // In the Envoy HTTP Filter Chain, the filter that the Wasm filter is inserted
+      // immediately before. Note that not all filters might be applied to a
+      // particular workload. Default value: `envoy.router`.
+      string insert_before_filter = 9;
+
+
+      // Options for fetching Wasm filters from an HTTP URI.
+      message UriSource {
+
+        // The HTTP URI from which to fetch the filter.
+        string uri = 1;
+
+        // Required: The sha256 checksum of the filter binary.
+        // This value is verified by the proxy.
+        string sha = 2;
+      }
+
+      // Options for fetching the Wasm image from a
+      // [Wasm-compatible OCI Registry](https://webassemblyhub.io/).
+      // Images can be built and pushed to registries using `meshctl` and `wasme`.
+      message WasmImageSource {
+
+        // The full tag of the Wasm image. The tag must include the registry
+        // address at the beginning, such as `webassemblyhub.io/ilackarms/helloworld:v0.1`.
+        string wasm_image_tag = 1;
+      }
+
+    }
+
+  }
+}
+
+// The status of the policy after it is applied to your Gloo environment.
+message WasmDeploymentPolicyStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of workloads selected by the policy.
+  uint32 num_selected_workloads = 2;
+}
+
+// The report shows the resources that the policy selects after the policy is successfully applied.
+message WasmDeploymentPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of workloads selected by the policy.
+  repeated .common.gloo.solo.io.WorkloadReference selected_workloads = 2;
+}

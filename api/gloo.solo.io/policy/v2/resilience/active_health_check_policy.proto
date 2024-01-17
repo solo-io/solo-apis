@@ -1,0 +1,68 @@
+// {{% readfile file="static/content/policies/ov_healthcheck" markdown="true"%}}
+// If an upstream service is unavailable, the service is removed from the
+// load balancing pool until health is re-established. Active healthcheck 
+// policies are applied at the *Destination* level. For more information,
+// see the [Envoy healthcheck configuration](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/health_checking).
+//
+// **Example**: For detailed information about the settings in this example,
+// see [Configure active healthcheck policies](https://docs.solo.io/gloo-gateway/main/policies/healthcheck/#configure-active-healthcheck-policies).
+// ```yaml
+// {{% readfile file="/content/gateway/static/content/examples/generated/int/ahcp_fail_http/cluster-1/active-health-check-policy_bookinfo_active-health-check-policy-httbin-unhealthy.yaml" %}}
+// ```
+syntax = "proto3";
+
+package resilience.policy.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "envoy/config/core/v3/health_check.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
+
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Specifications for the policy.
+message ActiveHealthCheckPolicySpec {
+
+  // Destinations to actively health check.
+  // If empty, no healthchecks are performed.
+  repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
+
+  // Details of the healthcheck policy to apply to the selected destinations.
+  Config config = 2;
+
+  // Details of the healthcheck policy to apply to the selected destinations.
+  message Config {
+    // Configuration for the Envoy healthcheck. For more info, see the
+    // [Envoy healthcheck config reference](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/endpoint/v3/endpoint_components.proto#config-endpoint-v3-endpoint-healthcheckconfig).
+    .envoy.config.core.v3.HealthCheck health_check = 1 [(.solo.io.cue.opt).disable_openapi_validation = true];
+
+    // A list of references to virtual gateways that perform the healthchecks.
+    repeated .common.gloo.solo.io.ObjectReference virtual_gateways = 5;
+  }
+
+}
+
+// The status of the policy after it is applied to your Gloo environment.
+message ActiveHealthCheckPolicyStatus {
+  // The state and workspace conditions of the applied policy.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of destination ports selected by the policy.
+  uint32 num_selected_destination_ports = 2;
+}
+
+// The report shows the resources that the policy selects after the policy is successfully applied.
+message ActiveHealthCheckPolicyReport {
+  // A list of workspaces in which the policy can apply to destinations.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // Destination ports selected by the policy.
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
+}

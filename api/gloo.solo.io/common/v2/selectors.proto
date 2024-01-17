@@ -1,0 +1,279 @@
+syntax = "proto3";
+
+package common.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/port.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/cloud_provider_options.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// selects zero or more Kubernetes API resources by matching on labels, name, namespace, cluster, and workspace.
+message ObjectSelector {
+  // labels matching those of the object
+  map<string, string> labels = 1;
+
+  // Only select objects with the matching name. If omitted, Gloo selects
+  // matching objects with any name available in the parent object's workspace.
+  string name = 2;
+
+  // Only select objects in the matching namespace. If omitted, Gloo selects
+  // matching objects across all namespaces available in the parent object's workspace.
+  string namespace = 3;
+
+  // Only select objects in the matching cluster. If omitted, Gloo selects
+  // matching objects across all clusters available in the parent object's workspace.
+  string cluster = 4;
+
+  // Only select objects in the given workspace. If omitted, Gloo selects
+  // matching objects across all workspaces available in the parent object's workspace.
+  string workspace = 5;
+}
+
+// DestinationSelector is a selector for matching routable destinations for routes.
+// DestinationSelectors can select a variety of object types. The behavior of the route action
+// will vary depending on the type of destination selected. Defaults to the kubernetes `v1/Service`.
+// Currently supported destination types:
+// - v1 Service
+// - networking.gloo.solo.io/v2 VirtualDestination (route traffic to a group of backing destinations)
+// - networking.gloo.solo.io/v2 ExternalService (route traffic to a static set of service endpoints external to the mesh)
+message DestinationSelector {
+
+  // The selector used to match destination objects by their metadata
+  ObjectSelector selector = 1;
+
+  // The kind of destination being selected. defaults to Kubernetes Service.
+  DestinationKind kind = 2;
+
+  // The port on the Destination which receives traffic.
+  // All ports on the Destination will be selected if left empty.
+  PortSelector port = 3;
+
+  // <!-- TODO(ilackarms): support subsets here-->
+  // Select subsets of the destination.
+  //    map<string, string> subset = 5;
+}
+
+// Supported Kinds which can be selected by routes.
+enum DestinationKind {
+  // Select a Kubernetes Service
+  SERVICE = 0;
+  // Select a Virtual Destination
+  VIRTUAL_DESTINATION = 1;
+  // Select an External Service
+  EXTERNAL_SERVICE = 2;
+}
+
+// RouteDestinationSelector is a Selector specifically built for individual destinations on individual Routes inside of RouteTables.
+message RouteDestinationSelector {
+  // select routes based on their labels.
+  // these labels can be used to match route tables or individual routes within route tables.
+  // If empty, configuration will apply to all specified destinations on all routes in the workspace.
+  RouteLabelSelector route = 1;
+
+  // for the selected routes, select destinations on which to apply this policy
+  repeated DestinationSelector on_destinations = 2;
+}
+
+// RouteLabelSelector is used to select the details of a route primarily by label. The selection may be further
+// restricted by namespace, cluster, and workspace.
+message RouteLabelSelector {
+  // Select routes including all specified labels on the route or route table.
+  map<string, string> labels = 1;
+
+  // Only select routes attached to route tables matching the namespace.
+  string namespace = 3;
+
+  // Only select routes attached to route tables matching the cluster.
+  string cluster = 4;
+
+  // Only select routes attached to route tables matching the workspace.
+  string workspace = 5;
+}
+
+// RouteSelector is a Selector specifically built for individual Routes inside of RouteTables.
+//
+// This selector can be used to select individual routes or entire route tables using the same label selector.
+message RouteSelector {
+
+  // routes can be selected based on properties of routes or the destinations to which the routes point (if they are using `forwardTo` actions).
+  oneof selector_type {
+    // select routes based on their labels.
+    // these labels can be used to match route tables or individual routes within route tables.
+    RouteLabelSelector route = 1;
+
+    // select routes with `forwardTo` actions based on their destinations.
+    // this can be used to apply policy to routes regardless of
+    // their labels
+    DestinationSelector with_destinations = 2;
+
+  }
+}
+
+message RouteFilter {
+  // Optional: filter out route tables that specify CloudProvider functionality, if provided.
+  .common.gloo.solo.io.CloudProviderFilterOptions cloud_provider = 3;
+}
+
+// ListenerSelector is a selector for a listener on a VirtualGateway.
+message ListenerSelector {
+  // The virtual gateway on which to select a listener.
+  ObjectSelector virtual_gateway = 1;
+
+  // The port to select on the selected listener.
+  PortSelector port = 2;
+}
+
+// WorkloadSelector is a Selector specifically built for selecting individual workloads.
+// Workloads must have injected (sidecars) or be standalone proxies (gateways) to be selected by Gloo Mesh policies.
+//
+// This selector can be used to select pods or injected external endpoints (vms).
+message WorkloadSelector {
+
+  // Selector used to match Workload objects by their metadata.
+  ObjectSelector selector = 1;
+
+  // The kind of workload being selected. Defaults to Kube.
+  WorkloadKind kind = 2;
+
+  // The port to select on the selected workloads.
+  // Only applies to policies which select specific workload ports, such as the WasmDeploymentPolicy.
+  PortSelector port = 4;
+
+  enum WorkloadKind {
+    // Select kubernetes workloads (deployment, statefulset, daemonset, etc.).
+    KUBE = 0;
+
+    // Select vms which are external, non-kube workloads.
+    VM = 1;
+  }
+}
+
+// IdentitySelector is a Selector specifically built for selecting client identities for security policies.
+message IdentitySelector {
+
+  // Select kubernetes service accounts as identities.
+  // When selecting a service account that will be created in the future for use in a AuthorizationPolicy, ONLY provide the name, namespace and cluster where the service account will exist in the selector.
+  // Providing labels and/or the workspace, or omitting the name, namespace or cluster for a service account that does not exist in the selector will not result in that service account being added to the resulting AuthorizationPolicy.
+  ObjectSelector service_account_selector = 1;
+
+  // Select external workloads.
+  ObjectSelector external_workload_selector = 3;
+
+  // Select identities based on properties of the request. If multiple fields are set, they are ANDed together.
+  // More information about the individual values can be found here: https://istio.io/latest/docs/reference/config/security/authorization-policy/#Source
+  RequestIdentityMatcher request_identity_matcher = 2;
+
+  message RequestIdentityMatcher {
+
+    /*
+        Optional: A list of identities to match the request identity ("iss/sub" from the JWT).
+        If omitted all request identity values will be accepted.
+     */
+    repeated string requestPrincipals = 3;
+
+    /*
+        Optional: A list of identities to negative match the request identity.
+     */
+    repeated string notRequestPrincipals = 4;
+  }
+}
+
+// Select clusters and namespaces for a workspace
+message ClusterSelector {
+  // Optional: Name of the cluster to select.
+  // Use * to match name patterns in multiple clusters name.
+  string name = 1;
+
+  // Optional: Include workload clusters in the workspace by using a selector.
+  // The selector matches the selector values in the KubernetesCluster resource on the management cluster.
+  // Selector is a map of {key,value} pairs. A single {key,value} in the selector
+  // map is equivalent to an element of labelRequirements, whose key field is "key", the
+  // operator is "In", and the values array contains only "value". The requirements are ANDed.
+  map<string, string> selector = 2;
+
+  // Select the namespaces in the cluster(s) to include in the workspace. If you do not select any namespaces, the workspace is empty and results in an error.
+  repeated NamespaceSelector namespaces = 4;
+
+  // Optional: Read Gloo configuration from specific clusters and namespaces that are included in a workspace.
+  // If this field is omitted and not explicitly set for any cluster or namespace in a workspace, config_enabled is
+  // automatically set to true, and Gloo configuration is read for all clusters and namespaces in that workspace.
+  // If set to true on a specific namespace or cluster, Gloo configuration is read for that particular namespace or cluster,
+  // but ignored from all other namespaces and clusters in that workspace that do not explicitly set config_enabled to true.
+  bool config_enabled = 5;
+
+  // Select namespaces for the selected cluster(s)
+  message NamespaceSelector {
+    // Name of the namespace to select.
+    // Can use * to match name patterns in multiple namespaces.
+    // Note: When this field is used in conjunction with "labels", both conditions are ANDed together.
+    string name = 1;
+
+    // Optional: Enable configuration from this namespace. (default: true unless explicitly enabled for any selected clusters or namespaces)
+    bool config_enabled = 2;
+
+    // Optional: Select groups of namespaces via labels.
+    // Leaving this field empty will NOT select all namespaces, but rather be ignored.
+    // Note: When this field is used in conjunction with "name", both conditions are ANDed together.
+    map<string, string> labels = 3;
+  }
+}
+
+// MeshSelector is a Selector built for selecting instances of Mesh control planes. A control plane is understood to have a single domain and provide a single root of trust for the data plane proxies it is managing. Each revision of Istiod maps
+message MeshSelector {
+
+  // includes all supported meshes (e.g. Istio)
+  oneof mesh_type {
+    // options for selecting istio Mesh control planes.
+    Istio istio = 1;
+
+    // <!-- TODO: add other supported mesh types here-->
+
+  }
+
+  message Istio {
+    // istio.io/revision of Istio to select. regex supported.
+    // omit to select across all revisions.
+    string revision = 1;
+
+    // match the name of the namespace where istiod is deployed.
+    // omit to select across all namespaces.
+    string namespace = 2;
+
+    // match the labels of the cluster where istiod is deployed.
+    // omit to select across all clusters.
+    map<string, string> cluster_selector = 3;
+
+    // select via the labels of the istiod deployment.
+    // omit to select across all labels.
+    map<string, string> selector = 4;
+
+  }
+}
+
+// WorkspaceSelector is a selector for workspaces.
+message WorkspaceSelector {
+
+  // Optional: Name of the workspace to select.
+  // Use * to match name patterns in multiple workspace names.
+  string name = 1;
+
+  // Optional: Select workspaces based on their labels,
+  // such as setting `selector` to `team: backend`.
+  map<string, string> selector = 2;
+
+}
+
+// TargetRef is mirrored from the Kubernetes Gateway API.
+// $hide_from_docs
+message TargetRef {
+  string group = 1;
+  string kind = 2;
+  string name = 3;
+  string namespace = 4;
+  string section_name = 5;
+}

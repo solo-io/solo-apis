@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package common.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+// Prioritized phase is the phase at which a given policy should be applied.
+// The 2 pre-defined phases are "pre" and "post" AuthZ. In addition to the phase, you can
+// specify a priority to indicate at what point this policy should be applied relative to other policies
+// defined in the same phase.
+// For Example, if you have the following policies defined with phases and priorities:
+// ```
+// 1.
+// phase:
+//   preAuthz:
+//     priority: 1
+// 2.
+// phase:
+//   preAuthz:
+//     priority: -1
+// 3.
+// phase:
+//   preAuthz: {}
+// ```
+// The policies will be run in the following order: `(2, 3, 1)`.
+//
+// Note: The default phase is defined per policy type which you can find in the policy reference documentation.
+// The following policies currently implement prioritized staging:
+// - RateLimit
+// - JwtAuth
+// - Transformation
+message PrioritizedPhase {
+
+  // A message that describes each individual phase.
+  message Phase {
+    // The priority at which this policy should be applied relative to other policies defined in the same phase.
+    // The lowest priority will be run first and the default priority value is 0.
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/int32-value).
+    google.protobuf.Int32Value priority = 1;
+  }
+
+  oneof phase {
+    // Apply this policy before Authorization policies are applied.
+    Phase pre_authz = 1;
+
+    // Apply this policy after Authorization policies are applied.
+    Phase post_authz = 2;
+  }
+
+}
