@@ -778,11 +778,14 @@ type ClusterSelector struct {
 	Selector map[string]string `protobuf:"bytes,2,rep,name=selector,proto3" json:"selector,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Select the namespaces in the cluster(s) to include in the workspace. If you do not select any namespaces, the workspace is empty and results in an error.
 	Namespaces []*ClusterSelector_NamespaceSelector `protobuf:"bytes,4,rep,name=namespaces,proto3" json:"namespaces,omitempty"`
-	// Optional: Read Gloo configuration from specific clusters and namespaces that are included in a workspace.
-	// If this field is omitted and not explicitly set for any cluster or namespace in a workspace, configEnabled is
-	// automatically set to true, and Gloo configuration is read for all clusters and namespaces in that workspace.
-	// If set to true on a specific namespace or cluster, Gloo configuration is read for that particular namespace or cluster,
-	// but ignored from all other namespaces and clusters in that workspace that do not explicitly set configEnabled to true.
+	// Optional: Read Gloo configuration from specific clusters and namespaces that are included
+	// in a workspace. If you omit this field for any cluster in a workspace, it is set to `true`
+	// by default, and Gloo configuration is read for all clusters and namespaces in that workspace.
+	// If you explicitly set this field to either true or false on a specific cluster, you must also explicitly set
+	// the field for every other cluster that is listed in that workspace. For example, if you have a workspace that spans
+	// namespaces in three clusters, but you want to read Gloo configuration from the namespaces in only one of the
+	// clusters, you must explicitly set `configEnabled: true` for the cluster to read from,
+	// and explicitly set `configEnabled: false` for the other two clusters.
 	ConfigEnabled bool `protobuf:"varint,5,opt,name=config_enabled,json=configEnabled,proto3" json:"config_enabled,omitempty"`
 }
 
@@ -1045,7 +1048,13 @@ type ClusterSelector_NamespaceSelector struct {
 	// Can use * to match name patterns in multiple namespaces.
 	// Note: When this field is used in conjunction with "labels", both conditions are ANDed together.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Optional: Enable configuration from this namespace. (default: true unless explicitly enabled for any selected clusters or namespaces)
+	// Optional: Read Gloo configuration from this namespace. If you omit this field for any other namespace
+	// in the cluster, it is set to `true` by default, and Gloo configuration is read for all namespaces
+	// in that cluster. If you explicitly set this field to either true or false for one namespace, you must
+	// also explicitly set the field for every other namespace that is listed in the workspace for that cluster.
+	// For example, if you have a cluster in your workspace that has three namespaces, but you want to read Gloo
+	// configuration from only one of the namespaces in the cluster, you must explicitly set `configEnabled: true`
+	// for the namespace to read from, and explicitly set `configEnabled: false` for the other two namespaces.
 	ConfigEnabled bool `protobuf:"varint,2,opt,name=config_enabled,json=configEnabled,proto3" json:"config_enabled,omitempty"`
 	// Optional: Select groups of namespaces via labels.
 	// Leaving this field empty will NOT select all namespaces, but rather be ignored.
