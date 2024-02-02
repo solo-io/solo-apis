@@ -20,8 +20,8 @@ package tools
 import (
 	_ "github.com/envoyproxy/protoc-gen-validate"
 	_ "github.com/gogo/protobuf/gogoproto"
-	_ "go.uber.org/mock/mockgen"
 	_ "github.com/solo-io/protoc-gen-ext"
+	_ "go.uber.org/mock/mockgen"
 	_ "golang.org/x/tools/cmd/goimports"
 	_ "istio.io/tools/cmd/protoc-gen-jsonshim"
 	_ "k8s.io/code-generator"
