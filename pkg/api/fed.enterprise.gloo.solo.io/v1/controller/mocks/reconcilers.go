@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	gomock "github.com/golang/mock/gomock"
+	gomock "go.uber.org/mock/gomock"
 	reconcile "github.com/solo-io/skv2/pkg/reconcile"
 	v1 "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1"
 	controller "github.com/solo-io/solo-apis/pkg/api/fed.enterprise.gloo.solo.io/v1/controller"
