@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	gomock "github.com/golang/mock/gomock"
+	gomock "go.uber.org/mock/gomock"
 	v1 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
