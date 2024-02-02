@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	gomock "go.uber.org/mock/gomock"
+	gomock "github.com/golang/mock/gomock"
 	v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
 	controller "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1/controller"
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"

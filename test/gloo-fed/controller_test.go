@@ -3,7 +3,7 @@ package gloo_fed_test
 import (
 	"context"
 
-	"go.uber.org/mock/gomock"
+	"github.com/golang/mock/gomock"
 	"github.com/solo-io/skv2/pkg/controllerutils"
 	"github.com/solo-io/skv2/pkg/resource"
 	mock_resource "github.com/solo-io/skv2/pkg/resource/mocks"
