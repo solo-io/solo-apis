@@ -3,13 +3,13 @@ package gloo_fed_test
 import (
 	"context"
 
+	"github.com/golang/mock/gomock"
 	"github.com/solo-io/skv2/pkg/controllerutils"
 	"github.com/solo-io/skv2/pkg/resource"
 	mock_resource "github.com/solo-io/skv2/pkg/resource/mocks"
 	v1 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
 	"github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1/types"
 	multicluster_types "github.com/solo-io/solo-apis/pkg/api/multicluster.solo.io/v1alpha1/types"
-	"go.uber.org/mock/gomock"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
