@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package internal.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "google/protobuf/wrappers.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2alpha1";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+// SpireRegistrationEntrySpec describes a registration entry in SPIRE server.
+// It is a subset of the upstream RegistrationEntry API:
+// https://github.com/spiffe/spire/blob/v1.6.3/proto/spire/common/common.proto#L62
+message SpireRegistrationEntrySpec {
+
+    // A list of selectors.
+    repeated Selector selectors = 1;
+
+    // The SPIFFE ID of an entity that is authorized to attest the validity of a selector.
+    string parent_id = 2;
+
+    // The SPIFFE ID is a structured string used to identify a resource or caller.
+    // It is defined as a URI comprising a “trust domain” and an associated path.
+    string spiffe_id = 3;
+
+    // Time to live for X509-SVIDs generated from this entry.
+    google.protobuf.UInt32Value x509_svid_ttl = 4;
+
+    // DNS entries.
+    repeated string dns_names = 5;
+
+    // Selector describes the conditions under which a registration entry is matched.
+    message Selector {
+      // A selector type represents the type of attestation used in attesting the entity.
+      string type = 1;
+
+      // The value to be attested.
+      string value = 2;
+    }
+}
+
+// The status of the SpireRegistrationEntry after it is applied to your Gloo environment.
+message SpireRegistrationEntryStatus {
+
+  .common.gloo.solo.io.Status common = 1;
+}
+

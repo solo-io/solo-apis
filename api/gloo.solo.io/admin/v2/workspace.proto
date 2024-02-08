@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package admin.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// `Workspace` describes a logical grouping of Kubernetes namespaces within the clusters that are part of
+// a virtual mesh. Workspace can be treated as a boundary for configuration and service discovery.
+// The specification describes how to select namespaces or/and clusters for a given workspace.
+//
+// The workspace-wide settings such as `importFrom`, `exportTo` are configured in the `WorkspaceSettings`
+// object. Refer to the `WorkspaceSettings` documentation for details.
+//
+// The following example creates the `web` workspace that selects all workload clusters and all namespaces
+// within those clusters to be part of the workspace.
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: Workspace
+// metadata:
+//   name: web
+//   namespace: gloo-mesh
+// spec:
+//   workloadClusters:
+//     - name: "*"
+//       namespaces:
+//       - name: "*"
+// ```
+//
+// The following configuration creates the `web` workspace that selects the `web` namespace from all workload
+// clusters that have the label of `region: us-east` to be part of the workspace. Refer to the `KubernetesCluster`
+// documentation for examples on how to label your KubernetesCluster resource.
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: Workspace
+// metadata:
+//   name: web
+//   namespace: gloo-mesh
+// spec:
+//   workloadClusters:
+//     - selector:
+//         region: us-east
+//       namespaces:
+//         - name: web
+// ```
+//
+// The following example creates the `policy` namespace that does NOT have any workload clusters.
+// This workspace also has the `gloo.solo.io/global` label which other workspaces
+// can use to import this workspace by label in their `WorkspaceSettings` resource.
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: Workspace
+// metadata:
+//   name: policy
+//   namespace: gloo-mesh
+//   labels:
+//     gloo.solo.io/global: 'true'
+// ```
+//
+// The example below creates the `backend` workspace that select any namespace that starts with `ns1` in `cluster1`
+// and any namespace that starts with `ns2` in `cluster2`. It has the `gloo.solo.io/exportToGateway` label,
+// which other workspaces can use to import this workspace by label in their `WorkspaceSettings` resource.
+// Refer to the `KubernetesCluster` documentation for examples on how to name your KubernetesCluster resource.
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: Workspace
+// metadata:
+//   name: backend
+//   namespace: gloo-mesh
+//   labels:
+//     gloo.solo.io/exportToGateway: tier1
+//     team: backend
+// spec:
+//   workloadClusters:
+//     - name: cluster1
+//       namespaces:
+//         - name: ns1*
+//     - name: cluster2
+//       namespaces:
+//         - name: ns2*
+// ```
+//
+message WorkspaceSpec {
+
+  // Optional: Select workload clusters and namespaces for the workload clusters that are part of the workspace.
+  // When this is not specified, the workspace contains no workload clusters.
+  repeated .common.gloo.solo.io.ClusterSelector workload_clusters = 2;
+}
+
+message WorkspaceStatus {
+
+    // The state and workspace conditions of the applied policy.
+    .common.gloo.solo.io.Status common = 1;
+
+    // The workspacesettings object configuring this workspace.
+    .common.gloo.solo.io.ObjectReference workspace_settings = 2;
+
+    // The number of selected Kubernetes clusters.
+    uint32 num_selected_clusters = 3;
+
+    // The number of selected namespaces.
+    uint32 num_selected_namespaces = 4;
+
+    // The number of resources that the workspace imports and exports, sorted by type (imported, exported, private).
+    map<string, SourceType> num_resources = 5;
+
+    // The number of policy resources in this workspace, sorted by type (security, trafficcontrol, resilience, observability).
+    map<string, uint32> policy_counts = 6;
+
+    // The number of destination resources in this workspace, sorted by type (Kubernetes service, virtual destination, external service).
+    map<string, uint32> destination_counts = 7;
+
+    // The number of workspaces imported into this workspace.
+    uint32 num_imported_workspaces = 8;
+
+    // $hide_from_docs
+    message SourceType {
+        uint32 imported = 1;
+        uint32 exported = 2;
+        uint32 private = 3;
+    }
+}
+
+message WorkspaceReport {
+    .common.gloo.solo.io.Report report = 1;
+
+    // The workspacesettings object configuring this workspace.
+    .common.gloo.solo.io.ObjectReference workspace_settings = 2;
+
+    // A list of clusters that this workspace selects. These cluster objects contain the namespaces that the workspace owns within them.
+    repeated SelectedCluster selected_clusters = 3;
+
+    // Represents a cluster that was successfully associated to a workspace based on the WorkspaceSpec.
+    message SelectedCluster {
+        // Name of a cluster that this workspace selects.
+        string name = 1;
+
+        // Namespaces inside the cluster that this workspace owns.
+        repeated string namespaces = 2;
+    }
+
+    // A list of resources that the workspace imports and exports, sorted by type (imported, exported, private).
+    map<string, SourceType> resources = 4;
+
+    // A reference of policy resources in this workspace, sorted by type (security, trafficcontrol, resilience, observability).
+    map<string, ObjectReferences> policy_counts = 5;
+
+    // A refernce of destination resources in this workspace, sorted by type (Kubernetes service, virtual destination, external service)
+    map<string, ObjectReferences> destination_counts = 6;
+
+    // A list of workspaces from which resources are imported into this workspace.
+    repeated string imported_workspaces = 7;
+
+    // Represents whether a resource is imported, exported, or private to a workspace.
+    message SourceType {
+        ObjectReferences imported = 1;
+        ObjectReferences exported = 2;
+        ObjectReferences private = 3;
+    }
+
+    // Represents a list of object references.
+    message ObjectReferences {
+        repeated .common.gloo.solo.io.ObjectReference object_references = 1;
+    }
+}

@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+package networking.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/port.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// ExternalService defines a destination for routing which exist outside the mesh.
+// This could for example be a web API or a set of virtual machines that are not running in Kubernetes.
+// When an ExternalService is defined for a given workspace, it can be used as a
+// Destination in Routes, as well as called directly via its specified hostname.
+// Resolution of the IP addresses for external services can be done via DNS
+// or provided statically using the ExternalEndpoint object.
+message ExternalServiceSpec {
+
+  // (mutually exclusive with addresses): The List of hostnames which will resolve to this service.
+  // These hosts must be unique among all ExternalServices and VirtualHosts within a workspace.
+  // Both FQDN and wildcard prefix domains are supported.
+  // TLS origination to ExternalServices is supported with use of the ClientsideTls property.
+  repeated string hosts = 1;
+
+  // (mutually exclusive with hosts): The List of ipv4 or ipv6 addresses which will be associated to this service. Can be CIDR prefixes.
+  // These addresses must be unique among all ExternalServices within a workspace.
+  repeated string addresses = 5;
+
+  // The associated ports of the external service.
+  repeated Port ports = 2;
+
+  // Selecting ExternalEndpoints will provide the addresses used for routing traffic to on the ExternalService's hosts.
+  // An empty selector will not select any endpoints.
+  // If no endpoints are selected, requests will be routed to the provided hosts using dns resolution.
+  map<string, string> selector = 3;
+
+  // A list of alternate names to verify the subject identity in the
+  // certificate. If specified, the proxy will verify that the server
+  // certificate's subject alt name matches one of the specified values.
+  // Only applicable when using TLS to communicate with the ExternalService.
+  repeated string subject_alt_names = 4;
+
+  // Port establishes a new port that will be exposed on an ExternalService.
+  message Port {
+
+    // The port number. Must be a valid, non-negative integer port number.
+    uint32 number = 1;
+
+    // (optional): The port number or name used to match the corresponding port on the ExternalService's backing ExternalEndpoints.
+    // All of the backing ExternalEndpoints for this ExternalService must contain
+    // this port, matching by name or number.
+    // If no backing ExternalEndpoints are provided, a name selector is invalid,
+    // and requests will be routed to the provided hosts on the port number specified.
+    // If unspecified, will default to the value of the port number field above.
+    .common.gloo.solo.io.PortSelector target_port = 2;
+
+    // A label for the port, eg "http".
+    string name = 3;
+
+    // The protocol used in communication with this destination
+    // MUST be one of the following: HTTP, HTTPS, GRPC, HTTP2, MONGO, TCP, TLS.
+    string protocol = 4;
+
+    // The tls config for the given port.
+    // If the protocol is HTTPS or TLS, the ExternalService will be configured to use TLS automatically.
+    // If used in conjunction with targetPort this can be used for TLS Origination.
+    // For example, port: 80, targetPort: 443, with ClientsideTls will cause port 80 traffic from workloads to be forwarded to 443 resulting in HTTPS traffic over the internet with TLS originating at the sidecar proxy.
+    TlsConfig clientside_tls = 5;
+
+    // A list of egress VirtualGateways via which this ExternalService is reachable.
+    // This is required in meshes that are configured to deny all traffic that is not explicitly allowed.
+    // Requires the ExternalService to use Hosts rather than Addresses.
+    // Currently only supported for ExternalService ports with HTTP, HTTP2, and HTTPS protocols.
+    EgressGatewayRoutes egress_gateway_routes = 6;
+
+    message TlsConfig {
+
+      // SNI string to present to the server during TLS handshake.
+      // If there is a single host in the hosts list, this will be used as the SNI string.
+      string sni = 1;
+
+      // tls mode passed to corresponding DestinationRules' tls traffic policy
+      // MUST be one of the following: SIMPLE, MUTUAL, ISTIO_MUTUAL, DISABLED
+      TLSMode mode = 2;
+
+      // REQUIRED if mode is `MUTUAL`.
+      // Should be empty if mode is `ISTIO_MUTUAL`.
+      // The file path to the client-side TLS certificate to use, which should be mounted onto the proxy of the specific workload communicating with the external service.
+      string client_certificate = 3;
+
+      // REQUIRED if mode is `MUTUAL`.
+      // Should be empty if mode is `ISTIO_MUTUAL`.
+      // The file path to the client’s private key, which should be mounted onto the proxy of the specific workload communicating with the external service.
+      string private_key = 4;
+
+      // Should be empty if mode is `ISTIO_MUTUAL`.
+      // The file path to the file containing CA certificates used to verify server certificates, which should be mounted onto the proxy of the specific workload communicating with the external service.
+      // If omitted, the proxy will not verify the server’s certificate.
+      string ca_certificates = 5;
+
+      enum TLSMode {
+        SIMPLE = 0;
+        DISABLE = 1;
+        MUTUAL = 2;
+        ISTIO_MUTUAL = 3;
+      }
+    }
+
+    message EgressGatewayRoutes {
+
+      // The port number to match for traffic originating from the mesh.
+      // default to 80.
+      // must be unique for each ExternalService port.
+      // Note that if this field matches any ExternalService non-egress port (spec.ports.number),
+      // requests to this port may not be routed through the egress gateway.
+      uint32 port_match = 1;
+
+      // Reference to the virtual gateways to use for egress.
+      // Multiple gateways selected in this way will have egress traffic load-balanced across them.
+      repeated .common.gloo.solo.io.ObjectReference virtual_gateway_refs = 2;
+
+    }
+  }
+}
+
+// The status of the resource after it is applied to your Gloo environment.
+message ExternalServiceStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // A map of policy GVK to policy references for all policies that are applied on this
+  // resource.
+  map<string, uint32> num_applied_destination_policies = 2;
+
+  // The number of external endpoints selected by this ExternalService.
+  uint32 num_selected_external_endpoints = 3;
+
+  // The name of the workspace that owns this ExternalService.
+  string owned_by_workspace = 4;
+
+  // The number of VirtualGateways selected by this ExternalService.
+  uint32 num_selected_virtual_gateways = 5;
+}
+
+message ExternalServiceReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A map of policy GVK to policy references for all the policies that are
+  // applied on this resource.
+  map<string, .common.gloo.solo.io.AppliedDestinationPortPolicies> applied_destination_policies = 2;
+
+  // The list of endpoints selected by this ExternalService.
+  repeated .common.gloo.solo.io.ObjectReference selected_external_endpoints = 3;
+
+  // The name of the workspace that owns the ExternalService.
+  string owner_workspace = 4;
+
+  // The list of VirtualGateways selected by this ExternalService.
+  repeated .common.gloo.solo.io.ObjectReference selected_virtual_gateways = 5;
+}

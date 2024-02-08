@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package common.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/string_match.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+// Specify TCP request matchers. Matchers are criteria such as a port to match with an incoming request.
+message TCPRequestMatcher {
+
+  // Specify the port on the host defined in the route table to match with incoming TCP requests.
+  uint32 port = 1;
+}

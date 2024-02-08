@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package resilience.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "google/protobuf/wrappers.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/keepalive.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// ListenerConnectionPolicy is used to set configuration for gateway listeners.
+//
+// ```
+// apiVersion: trafficcontrol.policy.gloo.solo.io/v2
+// kind: ListenerConnectionPolicy
+// metadata:
+//   name: my-policy
+//   namespace: bookinfo
+// spec:
+//   config:
+//     perConnectionBufferLimitBytes: 16384
+//   applyToListeners:
+//   - virtualGateway:
+//       name: virtual-gateway
+//       namespace: bookinfo
+//       cluster: my-cluster
+//     port:
+//       number: 443
+// ```
+message ListenerConnectionPolicySpec {
+  // The VirtualGateway(s) and Port(s) to which this policy applies.
+  repeated .common.gloo.solo.io.ListenerSelector apply_to_listeners = 1;
+
+  // The configuration to apply to the selected listeners.
+  message Config {
+    // Required: Soft limit on size of the listener’s new connection read
+    // and write buffers. 
+    // Default value set by Envoy is 1MiB.
+    google.protobuf.UInt32Value per_connection_buffer_limit_bytes = 1;
+
+    // Sets the TCP keep-alive settings to apply to selected listeners.
+    .common.gloo.solo.io.TCPKeepalive tcp_keepalive = 2;
+  }
+
+  Config config = 2;
+}
+
+// The status of the policy after it is applied to your Gloo environment.
+message ListenerConnectionPolicyStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+  
+  // The number of virtual gateway listeners selected by the policy.
+  uint32 num_selected_listeners = 2;
+}
+
+message ListenerConnectionPolicyReport {
+  // A list of workspaces in which the policy can apply to workloads.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of virtual gateway listeners selected by the policy.
+  repeated .common.gloo.solo.io.ListenerPortReference selected_listeners = 2;
+}

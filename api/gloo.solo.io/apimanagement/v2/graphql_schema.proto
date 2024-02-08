@@ -1,0 +1,179 @@
+syntax = "proto3";
+
+package apimanagement.gloo.solo.io;
+
+import "encoding/protobuf/cue/cue.proto";
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
+
+
+option go_package = "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+message GraphQLSchemaSpec {
+  // Required: Reference to the ApiSchema object which is of type GraphQL schema, which contains the [GraphQL SDL](https://graphql.org/learn/schema/)
+  // defining this GraphQL schema.
+  .core.skv2.solo.io.ClusterObjectRef schema_ref = 1;
+
+  oneof graphql_type {
+    // Configuration to delegate resolving this GraphQL request to an external GraphQL server, which can be
+    // another GlooGraphQL instance or another instance of a GraphQL server. The external GraphQL server must
+    // be compliant with the [June 2018 GraphQL specification](https://spec.graphql.org/June2018/).
+    ProxiedGraphQL proxied = 3;
+
+    // List of references to GraphQLResolverMap resources. GraphQLResolverMaps
+    // contain a mapping from GraphQL fields to resolver configuration, so that those fields can be resolved
+    // locally by this GraphQL-envoy instance.
+    // Order of the references listed below does matter as resolver maps listed first
+    // will be given priority over later ones when tie-breaking field resolver configurations.
+    ResolvedGraphQL resolved = 4;
+  }
+
+  message ResolvedGraphQL {
+    // List of references to GraphQLResolverMap resources. GraphQLResolverMaps
+    // contain a mapping from GraphQL fields to resolver configuration, so that those fields can be resolved
+    // locally by this GraphQL-envoy instance.
+    // Order of the references listed below does matter as resolver maps listed first
+    // will be given priority over later ones when tie-breaking field resolver configurations.
+    repeated .core.skv2.solo.io.ClusterObjectRef resolver_map_refs = 1;
+
+    Options options = 2;
+
+    // Set additional options on the references to GraphQLResolverMap resources.
+    // As as simple example for the `mex_depth` option, if the schema is
+    // ```gql
+    // type Query {
+    //   employee: Employee
+    // }
+    //
+    // type Employee {
+    //   manager: Employee
+    //   name: String
+    // }
+    // ```
+    // and we set a `max_depth` of `3` and we run a query
+    // ```gql
+    // query {             # query depth : 0
+    //   employee {        # query depth : 1
+    //     manager {       # query depth : 2
+    //       name          # query depth : 3
+    //       manager {     # query depth : 3
+    //         name        # query depth : 4
+    //       }
+    //     }
+    //   }
+    // }
+    // ```
+    // the graphql server will respond with a response:
+    // ```json
+    // { "data" : {
+    //     "employee" : {
+    //       "manager" : {
+    //         "name" : "Manager 1",
+    //         "manager"  : {
+    //           "name" : null
+    //   }}}},
+    //   "errors": [
+    //      {"message": "field 'name' exceeds the max operation depth of 3 for this schema"}
+    //    ]
+    // }
+    // ```
+    message Options {
+      // Max GraphQL operation (query/mutation/subscription) depth. This sets a limitation on the max nesting on a query that runs against this schema.
+      // any GraphQL operation that runs past the `max_depth` will add an error message to the response and will return as `null`.
+      // If not configured, or the value is 0, the query depth will be unbounded.
+      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
+      google.protobuf.UInt32Value max_depth = 1;
+
+      // Enable introspection queries on the GraphQL API served by this GraphQLSchema resource.
+      // Introspection queries are used by GraphQL developers to understand the schema of the GraphQL API and create
+      // queries that are valid against the schema. Introspection is disabled by default, and should be disabled for
+      // production environments.
+      bool enable_introspection = 2;
+    }
+  }
+
+  message ProxiedGraphQL {
+    // List of destinations that can server GraphQL requests. The external GraphQL server must
+    // be compliant with the [June 2018 GraphQL specification](https://spec.graphql.org/June2018).
+    // Though this is a list, only the first referenced destination will be used until fail-over and load balancing
+    // is supported between multiple GraphQL destinations.
+    repeated .common.gloo.solo.io.DestinationReference graphql_servers = 1;
+
+    // Declare variables that are used in variable transformations in the fields below for the GraphQL request to a remote server.
+    // The keys to this map are the name of the variables. See the variable transformations specifically
+    // for how to reference these variables.
+    map<string, RequestExtraction> variables = 2;
+
+    // map of header name to a transformation on extracted variables which are declared
+    // in the `variables` field.
+    // The transformation must result in a string value, or an error will be sent back to the client.
+    map<string, VariableTransformation> headers = 3;
+
+    // map of query parameter name to a transformation on extracted variables which are declared
+    // in the `variables` field.
+    // The transformation must result in a string value, or an error will be sent back to the client.
+    map<string, VariableTransformation> query_params = 4;
+
+    // The span name for the remote GraphQL request, used for tracing.
+    // If empty or omitted, the request span name will be set to the upstream cluster name.
+    string span_name = 5;
+
+    // Set the timeout of the HTTP request to the REST service (default 5s)
+    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+    google.protobuf.Duration timeout = 6;
+
+    Options options = 7;
+
+    message RequestExtraction {
+      oneof extraction {
+        // Extract the value from envoy dynamic metadata. The extracted value is an object.
+        DynamicMetadataExtraction dynamic_metadata = 1;
+
+        // Extract the value from the GraphQL HTTP request header. The extracted value is a string.
+        // If the header doesn't exist, an empty string will be used.
+        string request_header = 2;
+
+        // Assigns the variable to a JSON value specified here.
+        // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+        google.protobuf.Value json = 3 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
+      }
+    }
+
+    message Options {
+      // Enable introspection queries on the GraphQL API served by this GraphQLSchema resource.
+      // Introspection queries are used by GraphQL developers to understand the schema of the GraphQL API and create
+      // queries that are valid against the schema. This option allows for introspection queries to be sent to the
+      // proxied GraphQL server. Introspection is disabled by default and introspection queries will be responded with errors
+      // by the proxy. This should be disabled for production environments.
+      bool allow_introspection = 1;
+    }
+  }
+}
+
+message GraphQLSchemaStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The name of the workspace that owns the GraphQL schema.
+  string owned_by_workspace = 4;
+}
+
+message GraphQLSchemaReport {
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // The name of the workspace that owns the GraphQL schema.
+  string owner_workspace = 2;
+}

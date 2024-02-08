@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package trafficcontrol.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/envoy-gloo/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/phase.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// TransformationPolicy is used to transform HTTP requests and responses matching selected routes.
+// TransformationPolicies are applied at the *Route* level.
+message TransformationPolicySpec {
+
+  // Routes to apply the policy to.
+  // If empty, the policy applies to all workloads in the workspace.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // The details of the transformation policy to apply to the selected routes.
+  Config config = 2;
+
+  message Config {
+
+    // Specify the phase to indicate where this policy should be applied relative to other policies.
+    // If no phase is specified, the default will be post AuthZ.
+    .common.gloo.solo.io.PrioritizedPhase phase = 1;
+
+    // Transformation to be applied before the request is sent to the upstream service.
+    RequestTransformation request = 2;
+
+    message RequestTransformation {
+
+      // If set to **true**, recalculate the routing destination and select a new route for transformed requests. 
+      // For example, if you have a request that is transformed to match a new route, the new route is selected 
+      // when calculating the routing destination. The default value is **false**. 
+      bool recalculate_routing_destination = 1;
+
+      // transform HTTP body and headers using Inja templates.
+      // For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
+      envoy.api.v2.filter.http.TransformationTemplate inja_template = 2;
+
+      reserved 3; // Reserved for xslt
+    }
+
+    // Transform the response received from the upstream service before returning it to the client.
+    ResponseTransformation response = 3;
+
+    // Configure response transformations for a selected route
+    message ResponseTransformation {
+
+      // transform response body and headers using Inja templates.
+      // For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
+      envoy.api.v2.filter.http.TransformationTemplate inja_template = 1;
+
+      reserved 2; // Reserved for xslt
+    }
+  }
+}
+
+message TransformationPolicyStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of routes selected by the policy.
+  uint32 num_selected_routes = 2;
+}
+
+message TransformationPolicyReport {
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of references to all routes selected by the policy.
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
+}
