@@ -1,3 +1,11 @@
+// {{< readfile file="static/content/policies/ov_trimproxy" markdown="true">}}
+// For more information, see the [Trim proxy config guide](https://docs.solo.io/gloo-mesh-enterprise/latest/policies/trim-proxy-config/).
+//
+// **Example**: The following example policy trims the sidecar proxy config for the productpage workload,
+// removing the config for all destinations except the reviews app.
+// ```yaml
+// {{< readfile file="static/content/examples/generated/e2e/trim_proxy_config_policy_simple_trimmed_proxy/cluster-1/trim-proxy-config-policy_bookinfo_trim-1.yaml">}}
+// ```
 syntax = "proto3";
 
 package resilience.policy.gloo.solo.io;
