@@ -193,8 +193,14 @@ func (m *OutlierDetectionPolicySpec_Config) Equal(that interface{}) bool {
 		return false
 	}
 
-	if m.GetConsecutiveErrors() != target.GetConsecutiveErrors() {
-		return false
+	if h, ok := interface{}(m.GetConsecutiveErrors()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetConsecutiveErrors()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetConsecutiveErrors(), target.GetConsecutiveErrors()) {
+			return false
+		}
 	}
 
 	if h, ok := interface{}(m.GetInterval()).(equality.Equalizer); ok {
@@ -219,6 +225,16 @@ func (m *OutlierDetectionPolicySpec_Config) Equal(that interface{}) bool {
 
 	if m.GetMaxEjectionPercent() != target.GetMaxEjectionPercent() {
 		return false
+	}
+
+	if h, ok := interface{}(m.GetConsecutiveGatewayErrors()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetConsecutiveGatewayErrors()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetConsecutiveGatewayErrors(), target.GetConsecutiveGatewayErrors()) {
+			return false
+		}
 	}
 
 	return true

@@ -75,6 +75,28 @@ func (in *OutlierDetectionPolicyStatus) DeepCopyInto(out *OutlierDetectionPolicy
 	*out = *p
 }
 
+// DeepCopyInto for the AdaptiveRequestConcurrencyPolicy.Spec
+func (in *AdaptiveRequestConcurrencyPolicySpec) DeepCopyInto(out *AdaptiveRequestConcurrencyPolicySpec) {
+	var p *AdaptiveRequestConcurrencyPolicySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*AdaptiveRequestConcurrencyPolicySpec)
+	} else {
+		p = proto.Clone(in).(*AdaptiveRequestConcurrencyPolicySpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the AdaptiveRequestConcurrencyPolicy.Status
+func (in *AdaptiveRequestConcurrencyPolicyStatus) DeepCopyInto(out *AdaptiveRequestConcurrencyPolicyStatus) {
+	var p *AdaptiveRequestConcurrencyPolicyStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*AdaptiveRequestConcurrencyPolicyStatus)
+	} else {
+		p = proto.Clone(in).(*AdaptiveRequestConcurrencyPolicyStatus)
+	}
+	*out = *p
+}
+
 // DeepCopyInto for the FaultInjectionPolicy.Spec
 func (in *FaultInjectionPolicySpec) DeepCopyInto(out *FaultInjectionPolicySpec) {
 	var p *FaultInjectionPolicySpec

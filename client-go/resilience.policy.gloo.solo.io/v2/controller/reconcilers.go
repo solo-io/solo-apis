@@ -368,6 +368,123 @@ func (r genericOutlierDetectionPolicyFinalizer) Finalize(object ezkube.Object) e
 	return r.finalizingReconciler.FinalizeOutlierDetectionPolicy(obj)
 }
 
+// Reconcile Upsert events for the AdaptiveRequestConcurrencyPolicy Resource.
+// implemented by the user
+type AdaptiveRequestConcurrencyPolicyReconciler interface {
+	ReconcileAdaptiveRequestConcurrencyPolicy(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the AdaptiveRequestConcurrencyPolicy Resource.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type AdaptiveRequestConcurrencyPolicyDeletionReconciler interface {
+	ReconcileAdaptiveRequestConcurrencyPolicyDeletion(req reconcile.Request) error
+}
+
+type AdaptiveRequestConcurrencyPolicyReconcilerFuncs struct {
+	OnReconcileAdaptiveRequestConcurrencyPolicy         func(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) (reconcile.Result, error)
+	OnReconcileAdaptiveRequestConcurrencyPolicyDeletion func(req reconcile.Request) error
+}
+
+func (f *AdaptiveRequestConcurrencyPolicyReconcilerFuncs) ReconcileAdaptiveRequestConcurrencyPolicy(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) (reconcile.Result, error) {
+	if f.OnReconcileAdaptiveRequestConcurrencyPolicy == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileAdaptiveRequestConcurrencyPolicy(obj)
+}
+
+func (f *AdaptiveRequestConcurrencyPolicyReconcilerFuncs) ReconcileAdaptiveRequestConcurrencyPolicyDeletion(req reconcile.Request) error {
+	if f.OnReconcileAdaptiveRequestConcurrencyPolicyDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileAdaptiveRequestConcurrencyPolicyDeletion(req)
+}
+
+// Reconcile and finalize the AdaptiveRequestConcurrencyPolicy Resource
+// implemented by the user
+type AdaptiveRequestConcurrencyPolicyFinalizer interface {
+	AdaptiveRequestConcurrencyPolicyReconciler
+
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	AdaptiveRequestConcurrencyPolicyFinalizerName() string
+
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeAdaptiveRequestConcurrencyPolicy(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error
+}
+
+type AdaptiveRequestConcurrencyPolicyReconcileLoop interface {
+	RunAdaptiveRequestConcurrencyPolicyReconciler(ctx context.Context, rec AdaptiveRequestConcurrencyPolicyReconciler, predicates ...predicate.Predicate) error
+}
+
+type adaptiveRequestConcurrencyPolicyReconcileLoop struct {
+	loop reconcile.Loop
+}
+
+func NewAdaptiveRequestConcurrencyPolicyReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) AdaptiveRequestConcurrencyPolicyReconcileLoop {
+	return &adaptiveRequestConcurrencyPolicyReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy{}, options),
+	}
+}
+
+func (c *adaptiveRequestConcurrencyPolicyReconcileLoop) RunAdaptiveRequestConcurrencyPolicyReconciler(ctx context.Context, reconciler AdaptiveRequestConcurrencyPolicyReconciler, predicates ...predicate.Predicate) error {
+	genericReconciler := genericAdaptiveRequestConcurrencyPolicyReconciler{
+		reconciler: reconciler,
+	}
+
+	var reconcilerWrapper reconcile.Reconciler
+	if finalizingReconciler, ok := reconciler.(AdaptiveRequestConcurrencyPolicyFinalizer); ok {
+		reconcilerWrapper = genericAdaptiveRequestConcurrencyPolicyFinalizer{
+			genericAdaptiveRequestConcurrencyPolicyReconciler: genericReconciler,
+			finalizingReconciler:                              finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
+	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
+}
+
+// genericAdaptiveRequestConcurrencyPolicyHandler implements a generic reconcile.Reconciler
+type genericAdaptiveRequestConcurrencyPolicyReconciler struct {
+	reconciler AdaptiveRequestConcurrencyPolicyReconciler
+}
+
+func (r genericAdaptiveRequestConcurrencyPolicyReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: AdaptiveRequestConcurrencyPolicy handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileAdaptiveRequestConcurrencyPolicy(obj)
+}
+
+func (r genericAdaptiveRequestConcurrencyPolicyReconciler) ReconcileDeletion(request reconcile.Request) error {
+	if deletionReconciler, ok := r.reconciler.(AdaptiveRequestConcurrencyPolicyDeletionReconciler); ok {
+		return deletionReconciler.ReconcileAdaptiveRequestConcurrencyPolicyDeletion(request)
+	}
+	return nil
+}
+
+// genericAdaptiveRequestConcurrencyPolicyFinalizer implements a generic reconcile.FinalizingReconciler
+type genericAdaptiveRequestConcurrencyPolicyFinalizer struct {
+	genericAdaptiveRequestConcurrencyPolicyReconciler
+	finalizingReconciler AdaptiveRequestConcurrencyPolicyFinalizer
+}
+
+func (r genericAdaptiveRequestConcurrencyPolicyFinalizer) FinalizerName() string {
+	return r.finalizingReconciler.AdaptiveRequestConcurrencyPolicyFinalizerName()
+}
+
+func (r genericAdaptiveRequestConcurrencyPolicyFinalizer) Finalize(object ezkube.Object) error {
+	obj, ok := object.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	if !ok {
+		return errors.Errorf("internal error: AdaptiveRequestConcurrencyPolicy handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeAdaptiveRequestConcurrencyPolicy(obj)
+}
+
 // Reconcile Upsert events for the FaultInjectionPolicy Resource.
 // implemented by the user
 type FaultInjectionPolicyReconciler interface {

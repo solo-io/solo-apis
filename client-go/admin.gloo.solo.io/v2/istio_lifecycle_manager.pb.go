@@ -7,7 +7,7 @@
 // For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% versioned_link_path fromRoot="/setup/install/gloo_mesh_managed/" %}}) guide.
 //
 // **Example**: This example creates an `istiod` control plane in the `istio-system` namespace of two workload clusters
-// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`), image tag (`$ISTIO_IMAGE`),
+// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo distribution of Istio revision (`$REVISION`), image tag (`$ISTIO_IMAGE`),
 // and repo key (`$REPO`).
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
@@ -17,7 +17,7 @@
 //   namespace: gloo-mesh
 // spec:
 //   installations:
-//   # The revision for this installation, such as 1-18-3
+//   # The revision for this installation
 //   - revision: $REVISION
 //     # List all workload clusters to install Istio into
 //     clusters:
@@ -30,10 +30,10 @@
 //       # Only the control plane components are installed
 //       # (https://istio.io/latest/docs/setup/additional-setup/config-profiles/)
 //       profile: minimal
-//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # Solo.io Istio distribution repository; required for the Solo distribution of Istio.
 //       # You get the repo key from your Solo Account Representative.
 //       hub: $REPO
-//       # Any Solo Istio tag
+//       # Any tag for the Solo distribution of Istio
 //       tag: $ISTIO_IMAGE
 //       namespace: istio-system
 //       # Mesh configuration
@@ -47,13 +47,6 @@
 //         defaultConfig:
 //           # Wait for the istio-proxy to start before starting application pods
 //           holdApplicationUntilProxyStarts: true
-//           # Legacy metrics pipeline only, in Gloo Istio 1.17 and earlier:
-//           # Enable the legacy Gloo metrics service. For more info, see https://docs.solo.io/gloo-mesh/latest/observability/pipeline/.
-//           envoyMetricsService:
-//             address: gloo-mesh-agent.gloo-mesh:9977
-//           # Legacy metrics pipeline only, in Gloo Istio 1.17 and earlier: Enable Gloo access logging.
-//           envoyAccessLogService:
-//             address: gloo-mesh-agent.gloo-mesh:9977
 //           proxyMetadata:
 //             # For known hosts, enable the Istio agent to handle DNS requests for any custom ServiceEntry, such as non-Kubernetes services.
 //             # Unknown hosts are automatically resolved using upstream DNS servers in resolv.conf (for proxy-dns)
@@ -456,9 +449,9 @@ type IstioInstallation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Istio revision for this installation, such as '1-18-3'.
+	// Istio revision for this installation.
 	// Label workload resources with 'istio.io/rev=$REVISION' to use this installation.
-	// When set to `auto`, Gloo installs the control plane with the default supported version of Solo Istio.
+	// When set to `auto`, Gloo installs the control plane with the default supported version of the Solo distribution of Istio.
 	Revision string `protobuf:"bytes,1,opt,name=revision,proto3" json:"revision,omitempty"`
 	// Clusters to install the Istio control planes in.
 	Clusters []*IstioClusterSelector `protobuf:"bytes,2,rep,name=clusters,proto3" json:"clusters,omitempty"`

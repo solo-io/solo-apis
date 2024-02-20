@@ -338,6 +338,113 @@ func (h genericOutlierDetectionPolicyHandler) Generic(object client.Object) erro
 	return h.handler.GenericOutlierDetectionPolicy(obj)
 }
 
+// Handle events for the AdaptiveRequestConcurrencyPolicy Resource
+// DEPRECATED: Prefer reconciler pattern.
+type AdaptiveRequestConcurrencyPolicyEventHandler interface {
+	CreateAdaptiveRequestConcurrencyPolicy(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error
+	UpdateAdaptiveRequestConcurrencyPolicy(old, new *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error
+	DeleteAdaptiveRequestConcurrencyPolicy(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error
+	GenericAdaptiveRequestConcurrencyPolicy(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error
+}
+
+type AdaptiveRequestConcurrencyPolicyEventHandlerFuncs struct {
+	OnCreate  func(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error
+	OnUpdate  func(old, new *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error
+	OnDelete  func(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error
+	OnGeneric func(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error
+}
+
+func (f *AdaptiveRequestConcurrencyPolicyEventHandlerFuncs) CreateAdaptiveRequestConcurrencyPolicy(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *AdaptiveRequestConcurrencyPolicyEventHandlerFuncs) DeleteAdaptiveRequestConcurrencyPolicy(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *AdaptiveRequestConcurrencyPolicyEventHandlerFuncs) UpdateAdaptiveRequestConcurrencyPolicy(objOld, objNew *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *AdaptiveRequestConcurrencyPolicyEventHandlerFuncs) GenericAdaptiveRequestConcurrencyPolicy(obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type AdaptiveRequestConcurrencyPolicyEventWatcher interface {
+	AddEventHandler(ctx context.Context, h AdaptiveRequestConcurrencyPolicyEventHandler, predicates ...predicate.Predicate) error
+}
+
+type adaptiveRequestConcurrencyPolicyEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewAdaptiveRequestConcurrencyPolicyEventWatcher(name string, mgr manager.Manager) AdaptiveRequestConcurrencyPolicyEventWatcher {
+	return &adaptiveRequestConcurrencyPolicyEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy{}),
+	}
+}
+
+func (c *adaptiveRequestConcurrencyPolicyEventWatcher) AddEventHandler(ctx context.Context, h AdaptiveRequestConcurrencyPolicyEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericAdaptiveRequestConcurrencyPolicyHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericAdaptiveRequestConcurrencyPolicyHandler implements a generic events.EventHandler
+type genericAdaptiveRequestConcurrencyPolicyHandler struct {
+	handler AdaptiveRequestConcurrencyPolicyEventHandler
+}
+
+func (h genericAdaptiveRequestConcurrencyPolicyHandler) Create(object client.Object) error {
+	obj, ok := object.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	if !ok {
+		return errors.Errorf("internal error: AdaptiveRequestConcurrencyPolicy handler received event for %T", object)
+	}
+	return h.handler.CreateAdaptiveRequestConcurrencyPolicy(obj)
+}
+
+func (h genericAdaptiveRequestConcurrencyPolicyHandler) Delete(object client.Object) error {
+	obj, ok := object.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	if !ok {
+		return errors.Errorf("internal error: AdaptiveRequestConcurrencyPolicy handler received event for %T", object)
+	}
+	return h.handler.DeleteAdaptiveRequestConcurrencyPolicy(obj)
+}
+
+func (h genericAdaptiveRequestConcurrencyPolicyHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	if !ok {
+		return errors.Errorf("internal error: AdaptiveRequestConcurrencyPolicy handler received event for %T", old)
+	}
+	objNew, ok := new.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	if !ok {
+		return errors.Errorf("internal error: AdaptiveRequestConcurrencyPolicy handler received event for %T", new)
+	}
+	return h.handler.UpdateAdaptiveRequestConcurrencyPolicy(objOld, objNew)
+}
+
+func (h genericAdaptiveRequestConcurrencyPolicyHandler) Generic(object client.Object) error {
+	obj, ok := object.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	if !ok {
+		return errors.Errorf("internal error: AdaptiveRequestConcurrencyPolicy handler received event for %T", object)
+	}
+	return h.handler.GenericAdaptiveRequestConcurrencyPolicy(obj)
+}
+
 // Handle events for the FaultInjectionPolicy Resource
 // DEPRECATED: Prefer reconciler pattern.
 type FaultInjectionPolicyEventHandler interface {

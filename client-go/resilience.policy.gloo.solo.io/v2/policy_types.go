@@ -31,6 +31,14 @@ func (o *OutlierDetectionPolicy) GetDestinationSelectors() []*commonv2.Destinati
 	return o.Spec.ApplyToDestinations
 }
 
+// IsPolicy implements Policy interface for AdaptiveRequestConcurrencyPolicy
+func (o *AdaptiveRequestConcurrencyPolicy) IsPolicy() {}
+
+// GetDestinationSelectors returns the destination selectors of the AdaptiveRequestConcurrencyPolicy policy
+func (o *AdaptiveRequestConcurrencyPolicy) GetDestinationSelectors() []*commonv2.DestinationSelector {
+	return o.Spec.ApplyToDestinations
+}
+
 // IsPolicy implements Policy interface for FaultInjectionPolicy
 func (o *FaultInjectionPolicy) IsPolicy() {}
 

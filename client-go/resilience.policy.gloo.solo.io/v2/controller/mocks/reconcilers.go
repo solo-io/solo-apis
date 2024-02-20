@@ -565,6 +565,189 @@ func (mr *MockOutlierDetectionPolicyReconcileLoopMockRecorder) RunOutlierDetecti
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunOutlierDetectionPolicyReconciler", reflect.TypeOf((*MockOutlierDetectionPolicyReconcileLoop)(nil).RunOutlierDetectionPolicyReconciler), varargs...)
 }
 
+// MockAdaptiveRequestConcurrencyPolicyReconciler is a mock of AdaptiveRequestConcurrencyPolicyReconciler interface.
+type MockAdaptiveRequestConcurrencyPolicyReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockAdaptiveRequestConcurrencyPolicyReconcilerMockRecorder
+}
+
+// MockAdaptiveRequestConcurrencyPolicyReconcilerMockRecorder is the mock recorder for MockAdaptiveRequestConcurrencyPolicyReconciler.
+type MockAdaptiveRequestConcurrencyPolicyReconcilerMockRecorder struct {
+	mock *MockAdaptiveRequestConcurrencyPolicyReconciler
+}
+
+// NewMockAdaptiveRequestConcurrencyPolicyReconciler creates a new mock instance.
+func NewMockAdaptiveRequestConcurrencyPolicyReconciler(ctrl *gomock.Controller) *MockAdaptiveRequestConcurrencyPolicyReconciler {
+	mock := &MockAdaptiveRequestConcurrencyPolicyReconciler{ctrl: ctrl}
+	mock.recorder = &MockAdaptiveRequestConcurrencyPolicyReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockAdaptiveRequestConcurrencyPolicyReconciler) EXPECT() *MockAdaptiveRequestConcurrencyPolicyReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileAdaptiveRequestConcurrencyPolicy mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyReconciler) ReconcileAdaptiveRequestConcurrencyPolicy(obj *v2.AdaptiveRequestConcurrencyPolicy) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileAdaptiveRequestConcurrencyPolicy", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileAdaptiveRequestConcurrencyPolicy indicates an expected call of ReconcileAdaptiveRequestConcurrencyPolicy.
+func (mr *MockAdaptiveRequestConcurrencyPolicyReconcilerMockRecorder) ReconcileAdaptiveRequestConcurrencyPolicy(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileAdaptiveRequestConcurrencyPolicy", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyReconciler)(nil).ReconcileAdaptiveRequestConcurrencyPolicy), obj)
+}
+
+// MockAdaptiveRequestConcurrencyPolicyDeletionReconciler is a mock of AdaptiveRequestConcurrencyPolicyDeletionReconciler interface.
+type MockAdaptiveRequestConcurrencyPolicyDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockAdaptiveRequestConcurrencyPolicyDeletionReconcilerMockRecorder
+}
+
+// MockAdaptiveRequestConcurrencyPolicyDeletionReconcilerMockRecorder is the mock recorder for MockAdaptiveRequestConcurrencyPolicyDeletionReconciler.
+type MockAdaptiveRequestConcurrencyPolicyDeletionReconcilerMockRecorder struct {
+	mock *MockAdaptiveRequestConcurrencyPolicyDeletionReconciler
+}
+
+// NewMockAdaptiveRequestConcurrencyPolicyDeletionReconciler creates a new mock instance.
+func NewMockAdaptiveRequestConcurrencyPolicyDeletionReconciler(ctrl *gomock.Controller) *MockAdaptiveRequestConcurrencyPolicyDeletionReconciler {
+	mock := &MockAdaptiveRequestConcurrencyPolicyDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockAdaptiveRequestConcurrencyPolicyDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockAdaptiveRequestConcurrencyPolicyDeletionReconciler) EXPECT() *MockAdaptiveRequestConcurrencyPolicyDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileAdaptiveRequestConcurrencyPolicyDeletion mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyDeletionReconciler) ReconcileAdaptiveRequestConcurrencyPolicyDeletion(req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileAdaptiveRequestConcurrencyPolicyDeletion", req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileAdaptiveRequestConcurrencyPolicyDeletion indicates an expected call of ReconcileAdaptiveRequestConcurrencyPolicyDeletion.
+func (mr *MockAdaptiveRequestConcurrencyPolicyDeletionReconcilerMockRecorder) ReconcileAdaptiveRequestConcurrencyPolicyDeletion(req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileAdaptiveRequestConcurrencyPolicyDeletion", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyDeletionReconciler)(nil).ReconcileAdaptiveRequestConcurrencyPolicyDeletion), req)
+}
+
+// MockAdaptiveRequestConcurrencyPolicyFinalizer is a mock of AdaptiveRequestConcurrencyPolicyFinalizer interface.
+type MockAdaptiveRequestConcurrencyPolicyFinalizer struct {
+	ctrl     *gomock.Controller
+	recorder *MockAdaptiveRequestConcurrencyPolicyFinalizerMockRecorder
+}
+
+// MockAdaptiveRequestConcurrencyPolicyFinalizerMockRecorder is the mock recorder for MockAdaptiveRequestConcurrencyPolicyFinalizer.
+type MockAdaptiveRequestConcurrencyPolicyFinalizerMockRecorder struct {
+	mock *MockAdaptiveRequestConcurrencyPolicyFinalizer
+}
+
+// NewMockAdaptiveRequestConcurrencyPolicyFinalizer creates a new mock instance.
+func NewMockAdaptiveRequestConcurrencyPolicyFinalizer(ctrl *gomock.Controller) *MockAdaptiveRequestConcurrencyPolicyFinalizer {
+	mock := &MockAdaptiveRequestConcurrencyPolicyFinalizer{ctrl: ctrl}
+	mock.recorder = &MockAdaptiveRequestConcurrencyPolicyFinalizerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockAdaptiveRequestConcurrencyPolicyFinalizer) EXPECT() *MockAdaptiveRequestConcurrencyPolicyFinalizerMockRecorder {
+	return m.recorder
+}
+
+// AdaptiveRequestConcurrencyPolicyFinalizerName mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyFinalizer) AdaptiveRequestConcurrencyPolicyFinalizerName() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AdaptiveRequestConcurrencyPolicyFinalizerName")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// AdaptiveRequestConcurrencyPolicyFinalizerName indicates an expected call of AdaptiveRequestConcurrencyPolicyFinalizerName.
+func (mr *MockAdaptiveRequestConcurrencyPolicyFinalizerMockRecorder) AdaptiveRequestConcurrencyPolicyFinalizerName() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdaptiveRequestConcurrencyPolicyFinalizerName", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyFinalizer)(nil).AdaptiveRequestConcurrencyPolicyFinalizerName))
+}
+
+// FinalizeAdaptiveRequestConcurrencyPolicy mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyFinalizer) FinalizeAdaptiveRequestConcurrencyPolicy(obj *v2.AdaptiveRequestConcurrencyPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FinalizeAdaptiveRequestConcurrencyPolicy", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// FinalizeAdaptiveRequestConcurrencyPolicy indicates an expected call of FinalizeAdaptiveRequestConcurrencyPolicy.
+func (mr *MockAdaptiveRequestConcurrencyPolicyFinalizerMockRecorder) FinalizeAdaptiveRequestConcurrencyPolicy(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeAdaptiveRequestConcurrencyPolicy", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyFinalizer)(nil).FinalizeAdaptiveRequestConcurrencyPolicy), obj)
+}
+
+// ReconcileAdaptiveRequestConcurrencyPolicy mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyFinalizer) ReconcileAdaptiveRequestConcurrencyPolicy(obj *v2.AdaptiveRequestConcurrencyPolicy) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileAdaptiveRequestConcurrencyPolicy", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileAdaptiveRequestConcurrencyPolicy indicates an expected call of ReconcileAdaptiveRequestConcurrencyPolicy.
+func (mr *MockAdaptiveRequestConcurrencyPolicyFinalizerMockRecorder) ReconcileAdaptiveRequestConcurrencyPolicy(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileAdaptiveRequestConcurrencyPolicy", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyFinalizer)(nil).ReconcileAdaptiveRequestConcurrencyPolicy), obj)
+}
+
+// MockAdaptiveRequestConcurrencyPolicyReconcileLoop is a mock of AdaptiveRequestConcurrencyPolicyReconcileLoop interface.
+type MockAdaptiveRequestConcurrencyPolicyReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockAdaptiveRequestConcurrencyPolicyReconcileLoopMockRecorder
+}
+
+// MockAdaptiveRequestConcurrencyPolicyReconcileLoopMockRecorder is the mock recorder for MockAdaptiveRequestConcurrencyPolicyReconcileLoop.
+type MockAdaptiveRequestConcurrencyPolicyReconcileLoopMockRecorder struct {
+	mock *MockAdaptiveRequestConcurrencyPolicyReconcileLoop
+}
+
+// NewMockAdaptiveRequestConcurrencyPolicyReconcileLoop creates a new mock instance.
+func NewMockAdaptiveRequestConcurrencyPolicyReconcileLoop(ctrl *gomock.Controller) *MockAdaptiveRequestConcurrencyPolicyReconcileLoop {
+	mock := &MockAdaptiveRequestConcurrencyPolicyReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockAdaptiveRequestConcurrencyPolicyReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockAdaptiveRequestConcurrencyPolicyReconcileLoop) EXPECT() *MockAdaptiveRequestConcurrencyPolicyReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// RunAdaptiveRequestConcurrencyPolicyReconciler mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyReconcileLoop) RunAdaptiveRequestConcurrencyPolicyReconciler(ctx context.Context, rec controller.AdaptiveRequestConcurrencyPolicyReconciler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RunAdaptiveRequestConcurrencyPolicyReconciler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RunAdaptiveRequestConcurrencyPolicyReconciler indicates an expected call of RunAdaptiveRequestConcurrencyPolicyReconciler.
+func (mr *MockAdaptiveRequestConcurrencyPolicyReconcileLoopMockRecorder) RunAdaptiveRequestConcurrencyPolicyReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunAdaptiveRequestConcurrencyPolicyReconciler", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyReconcileLoop)(nil).RunAdaptiveRequestConcurrencyPolicyReconciler), varargs...)
+}
+
 // MockFaultInjectionPolicyReconciler is a mock of FaultInjectionPolicyReconciler interface.
 type MockFaultInjectionPolicyReconciler struct {
 	ctrl     *gomock.Controller

@@ -93,6 +93,28 @@ func (this *OutlierDetectionPolicyStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for AdaptiveRequestConcurrencyPolicySpec
+func (this *AdaptiveRequestConcurrencyPolicySpec) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for AdaptiveRequestConcurrencyPolicySpec
+func (this *AdaptiveRequestConcurrencyPolicySpec) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for AdaptiveRequestConcurrencyPolicyStatus
+func (this *AdaptiveRequestConcurrencyPolicyStatus) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for AdaptiveRequestConcurrencyPolicyStatus
+func (this *AdaptiveRequestConcurrencyPolicyStatus) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for FaultInjectionPolicySpec
 func (this *FaultInjectionPolicySpec) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)

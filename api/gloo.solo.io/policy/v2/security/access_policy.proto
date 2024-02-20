@@ -17,7 +17,7 @@
 //
 // **Examples**:
 // The following example is for a simple access policy that allows
-// only the productpage app to access the ratings app. 
+// the productpage app to access the ratings app. 
 // ```yaml
 // apiVersion: security.policy.gloo.solo.io/v2
 // kind: AccessPolicy
@@ -32,11 +32,11 @@
 //   config:
 //     authn:
 //       tlsMode: STRICT
-//     authz:
-//       allowedClients:
+//     authzList:
+//     - allowedClients:
 //       - serviceAccountSelector:
 //           labels:
-//             account: productpage
+//             app: productpage
 //       allowedPaths:
 //       - /ratings*
 // ```
@@ -60,8 +60,8 @@
 //   config:
 //     authn:
 //       tlsMode: STRICT
-//     authz:
-//       allowedIpBlocks:
+//     authzList:
+//     - allowedIpBlocks:
 //       - 112.114.230.1
 //       allowedPaths:
 //       - /ratings*
@@ -90,11 +90,11 @@
 //   config:
 //     authn:
 //       tlsMode: STRICT
-//     authz:
-//       allowedClients:
+//     authzList:
+//     - allowedClients:
 //       - serviceAccountSelector:
 //           labels:
-//             account: productpage
+//             app: productpage
 //       allowedPaths:
 //       - /ratings*
 //       match:
@@ -107,6 +107,54 @@
 //               values:
 //               - match
 //               - partial*
+// ```
+// 
+// You can have multiple `authzList` entries to control access to workloads.
+// A request is allowed when it matches at least one of the `authzList` entries (logically OR'd together).
+// 
+// For each entry, you can specify different requirements for allowed clients, paths, methods, IP blocks, and other configuration settings.
+// Then, a request is allowed only when ALL of the requirements are met (logically AND'd together).
+// 
+// In the following example:
+// * The product page app is allowed to send GET requests to the ratings app along the `/ratings*` wildcard path.
+// * The product page app is allowed to send PATCH requests to the ratings app along the `/ratings/2*` wildcard path.
+// * The reviews app is allowed to access the ratings app.
+// 
+// ```yaml
+// apiVersion: security.policy.gloo.solo.io/v2
+// kind: AccessPolicy
+// metadata:
+//   name: ratings-access
+//   namespace: bookinfo
+// spec:
+//   applyToWorkloads:
+//   - selector:
+//       labels:
+//         app: ratings
+//   config:
+//     authn:
+//       tlsMode: STRICT
+//     authzList:
+//     - allowedClients:
+//       - serviceAccountSelector:
+//           labels:
+//             app: productpage
+//       allowedPaths:
+//       - /ratings*
+//       allowedMethods:
+//       - GET
+//     - allowedClients:
+//       - serviceAccountSelector:
+//           labels:
+//             app: productpage
+//       allowedPaths:
+//       - /ratings/2*
+//       allowedMethods:
+//       - PATCH
+//     - allowedClients:
+//       - serviceAccountSelector:
+//           labels:
+//             app: reviews
 // ```
 syntax = "proto3";
 
@@ -219,8 +267,15 @@ message AccessPolicySpec {
       };
     }
 
-    // How clients are authorized to access the workload.
-    // A request is allowed when it matches ALL of the requirements specified (logically AND'd together).
+    
+    // Configure access to workloads.
+    // 
+    // You can have multiple `authzList` entries.
+    // A request is allowed when it matches at least one of the `authzList` entries (logically OR'd together).
+    //
+    // For each entry, you can specify different requirements for allowed clients, paths, methods, IP blocks, and other configuration settings. 
+    // Then, a request is allowed only when ALL of the requirements are met (logically AND'd together).
+    // 
     // If the policy uses `applyToWorkloads`, you can also allow NO requests by setting this value to the empty object `{}`,
     // which will serve as a fallback when requests do not match another `authz` case for the given workload.
     message Authorization {

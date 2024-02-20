@@ -15,6 +15,8 @@ import (
 
 	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
 
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
 
@@ -123,7 +125,11 @@ func (m *OutlierDetectionPolicySpec_Config) Clone() proto.Message {
 	}
 	target = &OutlierDetectionPolicySpec_Config{}
 
-	target.ConsecutiveErrors = m.GetConsecutiveErrors()
+	if h, ok := interface{}(m.GetConsecutiveErrors()).(clone.Cloner); ok {
+		target.ConsecutiveErrors = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	} else {
+		target.ConsecutiveErrors = proto.Clone(m.GetConsecutiveErrors()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	}
 
 	if h, ok := interface{}(m.GetInterval()).(clone.Cloner); ok {
 		target.Interval = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
@@ -138,6 +144,12 @@ func (m *OutlierDetectionPolicySpec_Config) Clone() proto.Message {
 	}
 
 	target.MaxEjectionPercent = m.GetMaxEjectionPercent()
+
+	if h, ok := interface{}(m.GetConsecutiveGatewayErrors()).(clone.Cloner); ok {
+		target.ConsecutiveGatewayErrors = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	} else {
+		target.ConsecutiveGatewayErrors = proto.Clone(m.GetConsecutiveGatewayErrors()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+	}
 
 	return target
 }

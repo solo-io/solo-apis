@@ -565,11 +565,14 @@ type WorkspaceSettingsSpec_Options struct {
 	// on any individual virtual destination. The settings defined here apply to both user-provided
 	// VirtualDestinations and those generated internally when federation is enabled.
 	VirtualDestClientMode *v2.ClientMode `protobuf:"bytes,4,opt,name=virtual_dest_client_mode,json=virtualDestClientMode,proto3" json:"virtual_dest_client_mode,omitempty"`
-	// When enabled, trim all proxy config in the workspace to eliminate outbound destinations.
+	// When enabled, trim the outbound config from the Istio sidecar proxies
+	// of all destinations in the workspace (including imported destinations).
 	// Without the outbound destination config, the Istio sidecar proxies cannot talk to other destinations in the workspace by default.
-	// You can add back in the proxy config for all destinations within or imported to the workspace by enabling the `serviceIsolation.trimProxyConfig` setting.
-	// To select specific destinations that you want the sidecar proxies to talk to, add these destinations with a `TrimProxyConfigPolicy`.
-	// This way, you reduce the size of the proxy config to improve performance and have fine-grained control over the allowed destinations.
+	// This way, you reduce the size of the proxy config to improve performance.
+	// You can add destinations back into the sidecar proxy config
+	// by enabling the `serviceIsolation.trimProxyConfig` field in the workspace settings or by using a `TrimProxyConfigPolicy`.
+	// The preferred way is the `TrimProxyConfigPolicy`, which gives you more fine-grained control over the allowed destinations than the workspace-wide `serviceIsolation.trimProxyConfig` setting.
+	// For more information, see the [Trim proxy config guide](https://docs.solo.io/gloo-mesh-enterprise/latest/policies/trim-proxy-config/).
 	TrimAllProxyConfig bool `protobuf:"varint,5,opt,name=trim_all_proxy_config,json=trimAllProxyConfig,proto3" json:"trim_all_proxy_config,omitempty"`
 }
 
@@ -738,8 +741,9 @@ type WorkspaceSettingsSpec_Options_ServiceIsolation struct {
 	// Automatically enables strict mTLS and blocks any access from non-importing workspaces into any destination in the current workspaces.
 	// Default value is disabled.
 	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	// When enabled, proxy config will be trimmed to eliminate unnecessary config updates.
-	// In Istio this will be implemented using the Sidecar resource.
+	// When enabled, trim the outbound config from the Istio sidecar proxies for any destination outside the workspace.
+	// The sidecar proxies keep the configuration for all destinations in the workspace (including imported destinations).
+	// To trim proxies for specific destinations with the workspace, you can use the `TrimProxyConfigPolicy` instead.
 	TrimProxyConfig *wrappers.BoolValue `protobuf:"bytes,2,opt,name=trim_proxy_config,json=trimProxyConfig,proto3" json:"trim_proxy_config,omitempty"`
 	// Optional: When NetworkPolicy translation is enabled, by default, all available layers will be used to enforce Service Isolation.
 	// You can optionally explicitly define which available layers will enforce Service Isolation. Only the layers set here will be used.

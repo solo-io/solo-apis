@@ -9,7 +9,7 @@
 // **Examples**:
 //
 // **East-west** (Gloo Mesh license): This example creates an east-west gateway named `istio-eastwestgateway` in the `gloo-mesh-gateways`
-// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`),
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo distribution of Istio revision (`$REVISION`),
 // image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
@@ -19,7 +19,7 @@
 //   namespace: gloo-mesh
 // spec:
 //   installations:
-//   # The revision for this installation, such as 1-18-3
+//   # The revision for this installation
 //   - gatewayRevision: $REVISION
 //     # List all workload clusters to install Istio into
 //     clusters:
@@ -31,7 +31,7 @@
 //     istioOperatorSpec:
 //       # No control plane components are installed
 //       profile: empty
-//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # Solo.io Istio distribution repository; required for the Solo distribution of Istio.
 //       # You get the repo key from your Solo Account Representative.
 //       hub: $REPO
 //       # The Solo.io Gloo Istio version
@@ -76,7 +76,7 @@
 // ```
 //
 // **Ingress** (Gloo Gateway license): This example creates an ingress gateway named `istio-ingressgateway` in the `gloo-mesh-gateways`
-// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`),
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo distribution of Istio revision (`$REVISION`),
 // image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
@@ -86,7 +86,7 @@
 //   namespace: gloo-mesh
 // spec:
 //   installations:
-//   # The revision for this installation, such as 1-18-3
+//   # The revision for this installation
 //   - gatewayRevision: $REVISION
 //     # List all workload clusters to install Istio into
 //     clusters:
@@ -98,7 +98,7 @@
 //     istioOperatorSpec:
 //       # No control plane components are installed
 //       profile: empty
-//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # Solo.io Istio distribution repository; required for the Solo distribution of Istio.
 //       # You get the repo key from your Solo Account Representative.
 //       hub: $REPO
 //       # The Solo.io Istio version tag
@@ -141,7 +141,7 @@
 // ```
 //
 // **Egress**: This example creates an egress gateway named `istio-egressgateway` in the `gloo-mesh-gateways` namespace of two workload clusters,
-// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`), image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo distribution of Istio revision (`$REVISION`), image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
 // For more information, see the 
 // [Block egress traffic with an egress gateway]({{% versioned_link_path fromRoot="/routing/forward-requests/external-service/egress-gateway/" %}}) guide.
 // ```yaml
@@ -152,7 +152,7 @@
 //   namespace: gloo-mesh
 // spec:
 //   installations:
-//       # The revision for this installation, such as 1-18-3
+//       # The revision for this installation
 //     - gatewayRevision: $REVISION
 //       # List all workload clusters to install Istio into
 //       clusters:
@@ -288,14 +288,14 @@ message GatewayClusterSelector {
 // Any components that are not related to the gateway are ignored.
 // You can provide only one type of gateway installation per revision in a cluster.
 // For example, in a workload cluster `cluster2`, you can install only one east-west
-// gateway that runs revision `1-18-3`.
+// gateway that runs revision `1-19-5`.
 message GatewayInstallation {
   // Optional: The revision of an Istio control plane in the cluster that this gateway should also use.
   // If a control plane installation of this revision is not found, no gateway is created.
   string control_plane_revision = 1;
 
-  // Istio revision for this gateway installation, such as '1-18-3'.
-  // When set to `auto`, Gloo installs the gateway with the default supported version of Solo Istio.
+  // Istio revision for this gateway installation.
+  // When set to `auto`, Gloo installs the gateway with the default supported version of the Solo distribution of Istio.
   string gateway_revision = 2;
 
   // Clusters to install the Istio gateways in.
