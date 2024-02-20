@@ -98,6 +98,7 @@ message Insight {
       SYS0009Data SYS0009 = 22;
       SYS0010Data SYS0010 = 23;
       SYS0011Data SYS0011 = 24;
+      SYS0012Data SYS0012 = 25;
       SYS0014Data SYS0014 = 27;
       SYS0015Data SYS0015 = 28;
       SYS0019Data SYS0019 = 29; // Adding so UI works for mock - might change later
@@ -214,10 +215,8 @@ message Insight {
     int32 total_services = 6;
   }
 
-  // zero trust - workloads receiving mesh encrypted traffic
   message SYS0012Data {
-    int32 mtls_encrypted_workloads = 1;
-    int32 total_workloads = 2;
+    bool in_mesh = 1;
   }
 
   // zero trust - kubernetes external services accessed

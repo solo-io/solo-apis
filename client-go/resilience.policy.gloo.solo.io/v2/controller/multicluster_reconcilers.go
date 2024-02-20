@@ -231,6 +231,77 @@ func (g genericOutlierDetectionPolicyMulticlusterReconciler) Reconcile(cluster s
 	return g.reconciler.ReconcileOutlierDetectionPolicy(cluster, obj)
 }
 
+// Reconcile Upsert events for the AdaptiveRequestConcurrencyPolicy Resource across clusters.
+// implemented by the user
+type MulticlusterAdaptiveRequestConcurrencyPolicyReconciler interface {
+	ReconcileAdaptiveRequestConcurrencyPolicy(clusterName string, obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the AdaptiveRequestConcurrencyPolicy Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterAdaptiveRequestConcurrencyPolicyDeletionReconciler interface {
+	ReconcileAdaptiveRequestConcurrencyPolicyDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterAdaptiveRequestConcurrencyPolicyReconcilerFuncs struct {
+	OnReconcileAdaptiveRequestConcurrencyPolicy         func(clusterName string, obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) (reconcile.Result, error)
+	OnReconcileAdaptiveRequestConcurrencyPolicyDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterAdaptiveRequestConcurrencyPolicyReconcilerFuncs) ReconcileAdaptiveRequestConcurrencyPolicy(clusterName string, obj *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) (reconcile.Result, error) {
+	if f.OnReconcileAdaptiveRequestConcurrencyPolicy == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileAdaptiveRequestConcurrencyPolicy(clusterName, obj)
+}
+
+func (f *MulticlusterAdaptiveRequestConcurrencyPolicyReconcilerFuncs) ReconcileAdaptiveRequestConcurrencyPolicyDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileAdaptiveRequestConcurrencyPolicyDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileAdaptiveRequestConcurrencyPolicyDeletion(clusterName, req)
+}
+
+type MulticlusterAdaptiveRequestConcurrencyPolicyReconcileLoop interface {
+	// AddMulticlusterAdaptiveRequestConcurrencyPolicyReconciler adds a MulticlusterAdaptiveRequestConcurrencyPolicyReconciler to the MulticlusterAdaptiveRequestConcurrencyPolicyReconcileLoop.
+	AddMulticlusterAdaptiveRequestConcurrencyPolicyReconciler(ctx context.Context, rec MulticlusterAdaptiveRequestConcurrencyPolicyReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterAdaptiveRequestConcurrencyPolicyReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterAdaptiveRequestConcurrencyPolicyReconcileLoop) AddMulticlusterAdaptiveRequestConcurrencyPolicyReconciler(ctx context.Context, rec MulticlusterAdaptiveRequestConcurrencyPolicyReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericAdaptiveRequestConcurrencyPolicyMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterAdaptiveRequestConcurrencyPolicyReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterAdaptiveRequestConcurrencyPolicyReconcileLoop {
+	return &multiclusterAdaptiveRequestConcurrencyPolicyReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy{}, options)}
+}
+
+type genericAdaptiveRequestConcurrencyPolicyMulticlusterReconciler struct {
+	reconciler MulticlusterAdaptiveRequestConcurrencyPolicyReconciler
+}
+
+func (g genericAdaptiveRequestConcurrencyPolicyMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterAdaptiveRequestConcurrencyPolicyDeletionReconciler); ok {
+		return deletionReconciler.ReconcileAdaptiveRequestConcurrencyPolicyDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericAdaptiveRequestConcurrencyPolicyMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: AdaptiveRequestConcurrencyPolicy handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileAdaptiveRequestConcurrencyPolicy(cluster, obj)
+}
+
 // Reconcile Upsert events for the FaultInjectionPolicy Resource across clusters.
 // implemented by the user
 type MulticlusterFaultInjectionPolicyReconciler interface {

@@ -378,6 +378,127 @@ func (mr *MockOutlierDetectionPolicyEventWatcherMockRecorder) AddEventHandler(ct
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockOutlierDetectionPolicyEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
+// MockAdaptiveRequestConcurrencyPolicyEventHandler is a mock of AdaptiveRequestConcurrencyPolicyEventHandler interface.
+type MockAdaptiveRequestConcurrencyPolicyEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockAdaptiveRequestConcurrencyPolicyEventHandlerMockRecorder
+}
+
+// MockAdaptiveRequestConcurrencyPolicyEventHandlerMockRecorder is the mock recorder for MockAdaptiveRequestConcurrencyPolicyEventHandler.
+type MockAdaptiveRequestConcurrencyPolicyEventHandlerMockRecorder struct {
+	mock *MockAdaptiveRequestConcurrencyPolicyEventHandler
+}
+
+// NewMockAdaptiveRequestConcurrencyPolicyEventHandler creates a new mock instance.
+func NewMockAdaptiveRequestConcurrencyPolicyEventHandler(ctrl *gomock.Controller) *MockAdaptiveRequestConcurrencyPolicyEventHandler {
+	mock := &MockAdaptiveRequestConcurrencyPolicyEventHandler{ctrl: ctrl}
+	mock.recorder = &MockAdaptiveRequestConcurrencyPolicyEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockAdaptiveRequestConcurrencyPolicyEventHandler) EXPECT() *MockAdaptiveRequestConcurrencyPolicyEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateAdaptiveRequestConcurrencyPolicy mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyEventHandler) CreateAdaptiveRequestConcurrencyPolicy(obj *v2.AdaptiveRequestConcurrencyPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateAdaptiveRequestConcurrencyPolicy", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateAdaptiveRequestConcurrencyPolicy indicates an expected call of CreateAdaptiveRequestConcurrencyPolicy.
+func (mr *MockAdaptiveRequestConcurrencyPolicyEventHandlerMockRecorder) CreateAdaptiveRequestConcurrencyPolicy(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateAdaptiveRequestConcurrencyPolicy", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyEventHandler)(nil).CreateAdaptiveRequestConcurrencyPolicy), obj)
+}
+
+// DeleteAdaptiveRequestConcurrencyPolicy mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyEventHandler) DeleteAdaptiveRequestConcurrencyPolicy(obj *v2.AdaptiveRequestConcurrencyPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteAdaptiveRequestConcurrencyPolicy", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAdaptiveRequestConcurrencyPolicy indicates an expected call of DeleteAdaptiveRequestConcurrencyPolicy.
+func (mr *MockAdaptiveRequestConcurrencyPolicyEventHandlerMockRecorder) DeleteAdaptiveRequestConcurrencyPolicy(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAdaptiveRequestConcurrencyPolicy", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyEventHandler)(nil).DeleteAdaptiveRequestConcurrencyPolicy), obj)
+}
+
+// GenericAdaptiveRequestConcurrencyPolicy mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyEventHandler) GenericAdaptiveRequestConcurrencyPolicy(obj *v2.AdaptiveRequestConcurrencyPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericAdaptiveRequestConcurrencyPolicy", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericAdaptiveRequestConcurrencyPolicy indicates an expected call of GenericAdaptiveRequestConcurrencyPolicy.
+func (mr *MockAdaptiveRequestConcurrencyPolicyEventHandlerMockRecorder) GenericAdaptiveRequestConcurrencyPolicy(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericAdaptiveRequestConcurrencyPolicy", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyEventHandler)(nil).GenericAdaptiveRequestConcurrencyPolicy), obj)
+}
+
+// UpdateAdaptiveRequestConcurrencyPolicy mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyEventHandler) UpdateAdaptiveRequestConcurrencyPolicy(old, new *v2.AdaptiveRequestConcurrencyPolicy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateAdaptiveRequestConcurrencyPolicy", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateAdaptiveRequestConcurrencyPolicy indicates an expected call of UpdateAdaptiveRequestConcurrencyPolicy.
+func (mr *MockAdaptiveRequestConcurrencyPolicyEventHandlerMockRecorder) UpdateAdaptiveRequestConcurrencyPolicy(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateAdaptiveRequestConcurrencyPolicy", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyEventHandler)(nil).UpdateAdaptiveRequestConcurrencyPolicy), old, new)
+}
+
+// MockAdaptiveRequestConcurrencyPolicyEventWatcher is a mock of AdaptiveRequestConcurrencyPolicyEventWatcher interface.
+type MockAdaptiveRequestConcurrencyPolicyEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockAdaptiveRequestConcurrencyPolicyEventWatcherMockRecorder
+}
+
+// MockAdaptiveRequestConcurrencyPolicyEventWatcherMockRecorder is the mock recorder for MockAdaptiveRequestConcurrencyPolicyEventWatcher.
+type MockAdaptiveRequestConcurrencyPolicyEventWatcherMockRecorder struct {
+	mock *MockAdaptiveRequestConcurrencyPolicyEventWatcher
+}
+
+// NewMockAdaptiveRequestConcurrencyPolicyEventWatcher creates a new mock instance.
+func NewMockAdaptiveRequestConcurrencyPolicyEventWatcher(ctrl *gomock.Controller) *MockAdaptiveRequestConcurrencyPolicyEventWatcher {
+	mock := &MockAdaptiveRequestConcurrencyPolicyEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockAdaptiveRequestConcurrencyPolicyEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockAdaptiveRequestConcurrencyPolicyEventWatcher) EXPECT() *MockAdaptiveRequestConcurrencyPolicyEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicyEventWatcher) AddEventHandler(ctx context.Context, h controller.AdaptiveRequestConcurrencyPolicyEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockAdaptiveRequestConcurrencyPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicyEventWatcher)(nil).AddEventHandler), varargs...)
+}
+
 // MockFaultInjectionPolicyEventHandler is a mock of FaultInjectionPolicyEventHandler interface.
 type MockFaultInjectionPolicyEventHandler struct {
 	ctrl     *gomock.Controller

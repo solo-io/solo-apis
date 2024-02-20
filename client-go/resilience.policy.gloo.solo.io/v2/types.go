@@ -118,6 +118,41 @@ type OutlierDetectionPolicyList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for AdaptiveRequestConcurrencyPolicy
+var AdaptiveRequestConcurrencyPolicyGVK = schema.GroupVersionKind{
+	Group:   "resilience.policy.gloo.solo.io",
+	Version: "v2",
+	Kind:    "AdaptiveRequestConcurrencyPolicy",
+}
+
+// AdaptiveRequestConcurrencyPolicy is the Schema for the adaptiveRequestConcurrencyPolicy API
+type AdaptiveRequestConcurrencyPolicy struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   AdaptiveRequestConcurrencyPolicySpec   `json:"spec,omitempty"`
+	Status AdaptiveRequestConcurrencyPolicyStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (AdaptiveRequestConcurrencyPolicy) GVK() schema.GroupVersionKind {
+	return AdaptiveRequestConcurrencyPolicyGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// AdaptiveRequestConcurrencyPolicyList contains a list of AdaptiveRequestConcurrencyPolicy
+type AdaptiveRequestConcurrencyPolicyList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []AdaptiveRequestConcurrencyPolicy `json:"items"`
+}
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
 // GroupVersionKind for FaultInjectionPolicy
 var FaultInjectionPolicyGVK = schema.GroupVersionKind{
 	Group:   "resilience.policy.gloo.solo.io",
@@ -327,6 +362,7 @@ func init() {
 	SchemeBuilder.Register(&GraphQLPersistedQueryCachePolicy{}, &GraphQLPersistedQueryCachePolicyList{})
 	SchemeBuilder.Register(&FailoverPolicy{}, &FailoverPolicyList{})
 	SchemeBuilder.Register(&OutlierDetectionPolicy{}, &OutlierDetectionPolicyList{})
+	SchemeBuilder.Register(&AdaptiveRequestConcurrencyPolicy{}, &AdaptiveRequestConcurrencyPolicyList{})
 	SchemeBuilder.Register(&FaultInjectionPolicy{}, &FaultInjectionPolicyList{})
 	SchemeBuilder.Register(&RetryTimeoutPolicy{}, &RetryTimeoutPolicyList{})
 	SchemeBuilder.Register(&ConnectionPolicy{}, &ConnectionPolicyList{})

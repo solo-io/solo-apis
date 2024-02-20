@@ -12,6 +12,9 @@ func (o *FailoverPolicy) IsConfigObject() {}
 // IsConfigObject implements ConfigObject interface for OutlierDetectionPolicy
 func (o *OutlierDetectionPolicy) IsConfigObject() {}
 
+// IsConfigObject implements ConfigObject interface for AdaptiveRequestConcurrencyPolicy
+func (o *AdaptiveRequestConcurrencyPolicy) IsConfigObject() {}
+
 // IsConfigObject implements ConfigObject interface for FaultInjectionPolicy
 func (o *FaultInjectionPolicy) IsConfigObject() {}
 
