@@ -68,6 +68,30 @@ func (m *DiscoveredCNISpec) Equal(that interface{}) bool {
 		return false
 	}
 
+	switch m.Config.(type) {
+
+	case *DiscoveredCNISpec_CiliumConfig_:
+		if _, ok := target.Config.(*DiscoveredCNISpec_CiliumConfig_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetCiliumConfig()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetCiliumConfig()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetCiliumConfig(), target.GetCiliumConfig()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Config != target.Config {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -94,6 +118,41 @@ func (m *DiscoveredCNIStatus) Equal(that interface{}) bool {
 
 	if m.GetObservedGeneration() != target.GetObservedGeneration() {
 		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *DiscoveredCNISpec_CiliumConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*DiscoveredCNISpec_CiliumConfig)
+	if !ok {
+		that2, ok := that.(DiscoveredCNISpec_CiliumConfig)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetData()) != len(target.GetData()) {
+		return false
+	}
+	for k, v := range m.GetData() {
+
+		if strings.Compare(v, target.GetData()[k]) != 0 {
+			return false
+		}
+
 	}
 
 	return true

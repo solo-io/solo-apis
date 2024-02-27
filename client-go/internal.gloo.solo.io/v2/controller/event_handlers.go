@@ -872,3 +872,110 @@ func (h genericPortalConfigHandler) Generic(object client.Object) error {
 	}
 	return h.handler.GenericPortalConfig(obj)
 }
+
+// Handle events for the ClusterIstioInstallation Resource
+// DEPRECATED: Prefer reconciler pattern.
+type ClusterIstioInstallationEventHandler interface {
+	CreateClusterIstioInstallation(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error
+	UpdateClusterIstioInstallation(old, new *internal_gloo_solo_io_v2.ClusterIstioInstallation) error
+	DeleteClusterIstioInstallation(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error
+	GenericClusterIstioInstallation(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error
+}
+
+type ClusterIstioInstallationEventHandlerFuncs struct {
+	OnCreate  func(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error
+	OnUpdate  func(old, new *internal_gloo_solo_io_v2.ClusterIstioInstallation) error
+	OnDelete  func(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error
+	OnGeneric func(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error
+}
+
+func (f *ClusterIstioInstallationEventHandlerFuncs) CreateClusterIstioInstallation(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *ClusterIstioInstallationEventHandlerFuncs) DeleteClusterIstioInstallation(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *ClusterIstioInstallationEventHandlerFuncs) UpdateClusterIstioInstallation(objOld, objNew *internal_gloo_solo_io_v2.ClusterIstioInstallation) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *ClusterIstioInstallationEventHandlerFuncs) GenericClusterIstioInstallation(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type ClusterIstioInstallationEventWatcher interface {
+	AddEventHandler(ctx context.Context, h ClusterIstioInstallationEventHandler, predicates ...predicate.Predicate) error
+}
+
+type clusterIstioInstallationEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewClusterIstioInstallationEventWatcher(name string, mgr manager.Manager) ClusterIstioInstallationEventWatcher {
+	return &clusterIstioInstallationEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &internal_gloo_solo_io_v2.ClusterIstioInstallation{}),
+	}
+}
+
+func (c *clusterIstioInstallationEventWatcher) AddEventHandler(ctx context.Context, h ClusterIstioInstallationEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericClusterIstioInstallationHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericClusterIstioInstallationHandler implements a generic events.EventHandler
+type genericClusterIstioInstallationHandler struct {
+	handler ClusterIstioInstallationEventHandler
+}
+
+func (h genericClusterIstioInstallationHandler) Create(object client.Object) error {
+	obj, ok := object.(*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	if !ok {
+		return errors.Errorf("internal error: ClusterIstioInstallation handler received event for %T", object)
+	}
+	return h.handler.CreateClusterIstioInstallation(obj)
+}
+
+func (h genericClusterIstioInstallationHandler) Delete(object client.Object) error {
+	obj, ok := object.(*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	if !ok {
+		return errors.Errorf("internal error: ClusterIstioInstallation handler received event for %T", object)
+	}
+	return h.handler.DeleteClusterIstioInstallation(obj)
+}
+
+func (h genericClusterIstioInstallationHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	if !ok {
+		return errors.Errorf("internal error: ClusterIstioInstallation handler received event for %T", old)
+	}
+	objNew, ok := new.(*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	if !ok {
+		return errors.Errorf("internal error: ClusterIstioInstallation handler received event for %T", new)
+	}
+	return h.handler.UpdateClusterIstioInstallation(objOld, objNew)
+}
+
+func (h genericClusterIstioInstallationHandler) Generic(object client.Object) error {
+	obj, ok := object.(*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	if !ok {
+		return errors.Errorf("internal error: ClusterIstioInstallation handler received event for %T", object)
+	}
+	return h.handler.GenericClusterIstioInstallation(obj)
+}

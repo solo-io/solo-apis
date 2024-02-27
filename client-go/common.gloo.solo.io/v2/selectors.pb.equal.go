@@ -613,50 +613,6 @@ func (m *WorkspaceSelector) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *TargetRef) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*TargetRef)
-	if !ok {
-		that2, ok := that.(TargetRef)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetGroup(), target.GetGroup()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetKind(), target.GetKind()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetName(), target.GetName()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetNamespace(), target.GetNamespace()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetSectionName(), target.GetSectionName()) != 0 {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
 func (m *IdentitySelector_RequestIdentityMatcher) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil

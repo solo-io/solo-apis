@@ -12,6 +12,9 @@ type FailoverPolicySlice []*FailoverPolicy
 // OutlierDetectionPolicySlice represents a slice of *OutlierDetectionPolicy
 type OutlierDetectionPolicySlice []*OutlierDetectionPolicy
 
+// AdaptiveRequestConcurrencyPolicySlice represents a slice of *AdaptiveRequestConcurrencyPolicy
+type AdaptiveRequestConcurrencyPolicySlice []*AdaptiveRequestConcurrencyPolicy
+
 // FaultInjectionPolicySlice represents a slice of *FaultInjectionPolicy
 type FaultInjectionPolicySlice []*FaultInjectionPolicy
 

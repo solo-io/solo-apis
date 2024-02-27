@@ -89,6 +89,20 @@ func (mr *MockClientsetMockRecorder) CertificateRequests() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CertificateRequests", reflect.TypeOf((*MockClientset)(nil).CertificateRequests))
 }
 
+// ClusterIstioInstallations mocks base method.
+func (m *MockClientset) ClusterIstioInstallations() v2.ClusterIstioInstallationClient {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ClusterIstioInstallations")
+	ret0, _ := ret[0].(v2.ClusterIstioInstallationClient)
+	return ret0
+}
+
+// ClusterIstioInstallations indicates an expected call of ClusterIstioInstallations.
+func (mr *MockClientsetMockRecorder) ClusterIstioInstallations() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClusterIstioInstallations", reflect.TypeOf((*MockClientset)(nil).ClusterIstioInstallations))
+}
+
 // DiscoveredCNIS mocks base method.
 func (m *MockClientset) DiscoveredCNIS() v2.DiscoveredCNIClient {
 	m.ctrl.T.Helper()
@@ -4217,4 +4231,508 @@ func (m *MockMulticlusterPortalConfigClient) Cluster(cluster string) (v2.PortalC
 func (mr *MockMulticlusterPortalConfigClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterPortalConfigClient)(nil).Cluster), cluster)
+}
+
+// MockClusterIstioInstallationReader is a mock of ClusterIstioInstallationReader interface.
+type MockClusterIstioInstallationReader struct {
+	ctrl     *gomock.Controller
+	recorder *MockClusterIstioInstallationReaderMockRecorder
+}
+
+// MockClusterIstioInstallationReaderMockRecorder is the mock recorder for MockClusterIstioInstallationReader.
+type MockClusterIstioInstallationReaderMockRecorder struct {
+	mock *MockClusterIstioInstallationReader
+}
+
+// NewMockClusterIstioInstallationReader creates a new mock instance.
+func NewMockClusterIstioInstallationReader(ctrl *gomock.Controller) *MockClusterIstioInstallationReader {
+	mock := &MockClusterIstioInstallationReader{ctrl: ctrl}
+	mock.recorder = &MockClusterIstioInstallationReaderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockClusterIstioInstallationReader) EXPECT() *MockClusterIstioInstallationReaderMockRecorder {
+	return m.recorder
+}
+
+// GetClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationReader) GetClusterIstioInstallation(ctx context.Context, key client.ObjectKey) (*v2.ClusterIstioInstallation, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetClusterIstioInstallation", ctx, key)
+	ret0, _ := ret[0].(*v2.ClusterIstioInstallation)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetClusterIstioInstallation indicates an expected call of GetClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationReaderMockRecorder) GetClusterIstioInstallation(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationReader)(nil).GetClusterIstioInstallation), ctx, key)
+}
+
+// ListClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationReader) ListClusterIstioInstallation(ctx context.Context, opts ...client.ListOption) (*v2.ClusterIstioInstallationList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(*v2.ClusterIstioInstallationList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListClusterIstioInstallation indicates an expected call of ListClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationReaderMockRecorder) ListClusterIstioInstallation(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationReader)(nil).ListClusterIstioInstallation), varargs...)
+}
+
+// MockClusterIstioInstallationWriter is a mock of ClusterIstioInstallationWriter interface.
+type MockClusterIstioInstallationWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockClusterIstioInstallationWriterMockRecorder
+}
+
+// MockClusterIstioInstallationWriterMockRecorder is the mock recorder for MockClusterIstioInstallationWriter.
+type MockClusterIstioInstallationWriterMockRecorder struct {
+	mock *MockClusterIstioInstallationWriter
+}
+
+// NewMockClusterIstioInstallationWriter creates a new mock instance.
+func NewMockClusterIstioInstallationWriter(ctrl *gomock.Controller) *MockClusterIstioInstallationWriter {
+	mock := &MockClusterIstioInstallationWriter{ctrl: ctrl}
+	mock.recorder = &MockClusterIstioInstallationWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockClusterIstioInstallationWriter) EXPECT() *MockClusterIstioInstallationWriterMockRecorder {
+	return m.recorder
+}
+
+// CreateClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationWriter) CreateClusterIstioInstallation(ctx context.Context, obj *v2.ClusterIstioInstallation, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateClusterIstioInstallation indicates an expected call of CreateClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationWriterMockRecorder) CreateClusterIstioInstallation(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationWriter)(nil).CreateClusterIstioInstallation), varargs...)
+}
+
+// DeleteAllOfClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationWriter) DeleteAllOfClusterIstioInstallation(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfClusterIstioInstallation indicates an expected call of DeleteAllOfClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationWriterMockRecorder) DeleteAllOfClusterIstioInstallation(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationWriter)(nil).DeleteAllOfClusterIstioInstallation), varargs...)
+}
+
+// DeleteClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationWriter) DeleteClusterIstioInstallation(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteClusterIstioInstallation indicates an expected call of DeleteClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationWriterMockRecorder) DeleteClusterIstioInstallation(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationWriter)(nil).DeleteClusterIstioInstallation), varargs...)
+}
+
+// PatchClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationWriter) PatchClusterIstioInstallation(ctx context.Context, obj *v2.ClusterIstioInstallation, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchClusterIstioInstallation indicates an expected call of PatchClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationWriterMockRecorder) PatchClusterIstioInstallation(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationWriter)(nil).PatchClusterIstioInstallation), varargs...)
+}
+
+// UpdateClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationWriter) UpdateClusterIstioInstallation(ctx context.Context, obj *v2.ClusterIstioInstallation, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateClusterIstioInstallation indicates an expected call of UpdateClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationWriterMockRecorder) UpdateClusterIstioInstallation(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationWriter)(nil).UpdateClusterIstioInstallation), varargs...)
+}
+
+// UpsertClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationWriter) UpsertClusterIstioInstallation(ctx context.Context, obj *v2.ClusterIstioInstallation, transitionFuncs ...v2.ClusterIstioInstallationTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertClusterIstioInstallation indicates an expected call of UpsertClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationWriterMockRecorder) UpsertClusterIstioInstallation(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationWriter)(nil).UpsertClusterIstioInstallation), varargs...)
+}
+
+// MockClusterIstioInstallationStatusWriter is a mock of ClusterIstioInstallationStatusWriter interface.
+type MockClusterIstioInstallationStatusWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockClusterIstioInstallationStatusWriterMockRecorder
+}
+
+// MockClusterIstioInstallationStatusWriterMockRecorder is the mock recorder for MockClusterIstioInstallationStatusWriter.
+type MockClusterIstioInstallationStatusWriterMockRecorder struct {
+	mock *MockClusterIstioInstallationStatusWriter
+}
+
+// NewMockClusterIstioInstallationStatusWriter creates a new mock instance.
+func NewMockClusterIstioInstallationStatusWriter(ctrl *gomock.Controller) *MockClusterIstioInstallationStatusWriter {
+	mock := &MockClusterIstioInstallationStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockClusterIstioInstallationStatusWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockClusterIstioInstallationStatusWriter) EXPECT() *MockClusterIstioInstallationStatusWriterMockRecorder {
+	return m.recorder
+}
+
+// PatchClusterIstioInstallationStatus mocks base method.
+func (m *MockClusterIstioInstallationStatusWriter) PatchClusterIstioInstallationStatus(ctx context.Context, obj *v2.ClusterIstioInstallation, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchClusterIstioInstallationStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchClusterIstioInstallationStatus indicates an expected call of PatchClusterIstioInstallationStatus.
+func (mr *MockClusterIstioInstallationStatusWriterMockRecorder) PatchClusterIstioInstallationStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchClusterIstioInstallationStatus", reflect.TypeOf((*MockClusterIstioInstallationStatusWriter)(nil).PatchClusterIstioInstallationStatus), varargs...)
+}
+
+// UpdateClusterIstioInstallationStatus mocks base method.
+func (m *MockClusterIstioInstallationStatusWriter) UpdateClusterIstioInstallationStatus(ctx context.Context, obj *v2.ClusterIstioInstallation, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateClusterIstioInstallationStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateClusterIstioInstallationStatus indicates an expected call of UpdateClusterIstioInstallationStatus.
+func (mr *MockClusterIstioInstallationStatusWriterMockRecorder) UpdateClusterIstioInstallationStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateClusterIstioInstallationStatus", reflect.TypeOf((*MockClusterIstioInstallationStatusWriter)(nil).UpdateClusterIstioInstallationStatus), varargs...)
+}
+
+// MockClusterIstioInstallationClient is a mock of ClusterIstioInstallationClient interface.
+type MockClusterIstioInstallationClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockClusterIstioInstallationClientMockRecorder
+}
+
+// MockClusterIstioInstallationClientMockRecorder is the mock recorder for MockClusterIstioInstallationClient.
+type MockClusterIstioInstallationClientMockRecorder struct {
+	mock *MockClusterIstioInstallationClient
+}
+
+// NewMockClusterIstioInstallationClient creates a new mock instance.
+func NewMockClusterIstioInstallationClient(ctrl *gomock.Controller) *MockClusterIstioInstallationClient {
+	mock := &MockClusterIstioInstallationClient{ctrl: ctrl}
+	mock.recorder = &MockClusterIstioInstallationClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockClusterIstioInstallationClient) EXPECT() *MockClusterIstioInstallationClientMockRecorder {
+	return m.recorder
+}
+
+// CreateClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationClient) CreateClusterIstioInstallation(ctx context.Context, obj *v2.ClusterIstioInstallation, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateClusterIstioInstallation indicates an expected call of CreateClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationClientMockRecorder) CreateClusterIstioInstallation(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).CreateClusterIstioInstallation), varargs...)
+}
+
+// DeleteAllOfClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationClient) DeleteAllOfClusterIstioInstallation(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfClusterIstioInstallation indicates an expected call of DeleteAllOfClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationClientMockRecorder) DeleteAllOfClusterIstioInstallation(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).DeleteAllOfClusterIstioInstallation), varargs...)
+}
+
+// DeleteClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationClient) DeleteClusterIstioInstallation(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteClusterIstioInstallation indicates an expected call of DeleteClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationClientMockRecorder) DeleteClusterIstioInstallation(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).DeleteClusterIstioInstallation), varargs...)
+}
+
+// GetClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationClient) GetClusterIstioInstallation(ctx context.Context, key client.ObjectKey) (*v2.ClusterIstioInstallation, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetClusterIstioInstallation", ctx, key)
+	ret0, _ := ret[0].(*v2.ClusterIstioInstallation)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetClusterIstioInstallation indicates an expected call of GetClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationClientMockRecorder) GetClusterIstioInstallation(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).GetClusterIstioInstallation), ctx, key)
+}
+
+// ListClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationClient) ListClusterIstioInstallation(ctx context.Context, opts ...client.ListOption) (*v2.ClusterIstioInstallationList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(*v2.ClusterIstioInstallationList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListClusterIstioInstallation indicates an expected call of ListClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationClientMockRecorder) ListClusterIstioInstallation(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).ListClusterIstioInstallation), varargs...)
+}
+
+// PatchClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationClient) PatchClusterIstioInstallation(ctx context.Context, obj *v2.ClusterIstioInstallation, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchClusterIstioInstallation indicates an expected call of PatchClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationClientMockRecorder) PatchClusterIstioInstallation(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).PatchClusterIstioInstallation), varargs...)
+}
+
+// PatchClusterIstioInstallationStatus mocks base method.
+func (m *MockClusterIstioInstallationClient) PatchClusterIstioInstallationStatus(ctx context.Context, obj *v2.ClusterIstioInstallation, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchClusterIstioInstallationStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchClusterIstioInstallationStatus indicates an expected call of PatchClusterIstioInstallationStatus.
+func (mr *MockClusterIstioInstallationClientMockRecorder) PatchClusterIstioInstallationStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchClusterIstioInstallationStatus", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).PatchClusterIstioInstallationStatus), varargs...)
+}
+
+// UpdateClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationClient) UpdateClusterIstioInstallation(ctx context.Context, obj *v2.ClusterIstioInstallation, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateClusterIstioInstallation indicates an expected call of UpdateClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationClientMockRecorder) UpdateClusterIstioInstallation(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).UpdateClusterIstioInstallation), varargs...)
+}
+
+// UpdateClusterIstioInstallationStatus mocks base method.
+func (m *MockClusterIstioInstallationClient) UpdateClusterIstioInstallationStatus(ctx context.Context, obj *v2.ClusterIstioInstallation, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateClusterIstioInstallationStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateClusterIstioInstallationStatus indicates an expected call of UpdateClusterIstioInstallationStatus.
+func (mr *MockClusterIstioInstallationClientMockRecorder) UpdateClusterIstioInstallationStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateClusterIstioInstallationStatus", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).UpdateClusterIstioInstallationStatus), varargs...)
+}
+
+// UpsertClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationClient) UpsertClusterIstioInstallation(ctx context.Context, obj *v2.ClusterIstioInstallation, transitionFuncs ...v2.ClusterIstioInstallationTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertClusterIstioInstallation", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertClusterIstioInstallation indicates an expected call of UpsertClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationClientMockRecorder) UpsertClusterIstioInstallation(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationClient)(nil).UpsertClusterIstioInstallation), varargs...)
+}
+
+// MockMulticlusterClusterIstioInstallationClient is a mock of MulticlusterClusterIstioInstallationClient interface.
+type MockMulticlusterClusterIstioInstallationClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterClusterIstioInstallationClientMockRecorder
+}
+
+// MockMulticlusterClusterIstioInstallationClientMockRecorder is the mock recorder for MockMulticlusterClusterIstioInstallationClient.
+type MockMulticlusterClusterIstioInstallationClientMockRecorder struct {
+	mock *MockMulticlusterClusterIstioInstallationClient
+}
+
+// NewMockMulticlusterClusterIstioInstallationClient creates a new mock instance.
+func NewMockMulticlusterClusterIstioInstallationClient(ctrl *gomock.Controller) *MockMulticlusterClusterIstioInstallationClient {
+	mock := &MockMulticlusterClusterIstioInstallationClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterClusterIstioInstallationClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterClusterIstioInstallationClient) EXPECT() *MockMulticlusterClusterIstioInstallationClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterClusterIstioInstallationClient) Cluster(cluster string) (v2.ClusterIstioInstallationClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v2.ClusterIstioInstallationClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterClusterIstioInstallationClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterClusterIstioInstallationClient)(nil).Cluster), cluster)
 }

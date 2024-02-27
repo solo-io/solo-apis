@@ -13,6 +13,8 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
+
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
 
@@ -28,12 +30,12 @@ var (
 )
 
 // Clone function
-func (m *ClusterIstioInstallation) Clone() proto.Message {
-	var target *ClusterIstioInstallation
+func (m *ClusterIstioInstallationSpec) Clone() proto.Message {
+	var target *ClusterIstioInstallationSpec
 	if m == nil {
 		return target
 	}
-	target = &ClusterIstioInstallation{}
+	target = &ClusterIstioInstallationSpec{}
 
 	if h, ok := interface{}(m.GetIstioOperatorSpec()).(clone.Cloner); ok {
 		target.IstioOperatorSpec = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.IstioOperatorSpec)
@@ -63,6 +65,102 @@ func (m *ClusterIstioInstallationStatus) Clone() proto.Message {
 	} else {
 		target.ObservedOperator = proto.Clone(m.GetObservedOperator()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.IstioOperatorSpec)
 	}
+
+	if h, ok := interface{}(m.GetHelm()).(clone.Cloner); ok {
+		target.Helm = h.Clone().(*ClusterIstioInstallationStatus_HelmStatus)
+	} else {
+		target.Helm = proto.Clone(m.GetHelm()).(*ClusterIstioInstallationStatus_HelmStatus)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ClusterIstioInstallationStatus_HelmStatus) Clone() proto.Message {
+	var target *ClusterIstioInstallationStatus_HelmStatus
+	if m == nil {
+		return target
+	}
+	target = &ClusterIstioInstallationStatus_HelmStatus{}
+
+	if m.GetUpgradeInstall() != nil {
+		target.UpgradeInstall = make([]*ClusterIstioInstallationStatus_HelmReleaseGrouping, len(m.GetUpgradeInstall()))
+		for idx, v := range m.GetUpgradeInstall() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.UpgradeInstall[idx] = h.Clone().(*ClusterIstioInstallationStatus_HelmReleaseGrouping)
+			} else {
+				target.UpgradeInstall[idx] = proto.Clone(v).(*ClusterIstioInstallationStatus_HelmReleaseGrouping)
+			}
+
+		}
+	}
+
+	if m.GetUninstall() != nil {
+		target.Uninstall = make([]*ClusterIstioInstallationStatus_HelmReleaseGrouping, len(m.GetUninstall()))
+		for idx, v := range m.GetUninstall() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Uninstall[idx] = h.Clone().(*ClusterIstioInstallationStatus_HelmReleaseGrouping)
+			} else {
+				target.Uninstall[idx] = proto.Clone(v).(*ClusterIstioInstallationStatus_HelmReleaseGrouping)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ClusterIstioInstallationStatus_HelmReleaseGrouping) Clone() proto.Message {
+	var target *ClusterIstioInstallationStatus_HelmReleaseGrouping
+	if m == nil {
+		return target
+	}
+	target = &ClusterIstioInstallationStatus_HelmReleaseGrouping{}
+
+	if m.GetReleases() != nil {
+		target.Releases = make([]*ClusterIstioInstallationStatus_HelmRelease, len(m.GetReleases()))
+		for idx, v := range m.GetReleases() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Releases[idx] = h.Clone().(*ClusterIstioInstallationStatus_HelmRelease)
+			} else {
+				target.Releases[idx] = proto.Clone(v).(*ClusterIstioInstallationStatus_HelmRelease)
+			}
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetValues()).(clone.Cloner); ok {
+		target.Values = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
+	} else {
+		target.Values = proto.Clone(m.GetValues()).(*github_com_golang_protobuf_ptypes_struct.Struct)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ClusterIstioInstallationStatus_HelmRelease) Clone() proto.Message {
+	var target *ClusterIstioInstallationStatus_HelmRelease
+	if m == nil {
+		return target
+	}
+	target = &ClusterIstioInstallationStatus_HelmRelease{}
+
+	target.Name = m.GetName()
+
+	target.Namespace = m.GetNamespace()
+
+	target.HelmRevision = m.GetHelmRevision()
+
+	target.ChartUrl = m.GetChartUrl()
+
+	target.Version = m.GetVersion()
+
+	target.State = m.GetState()
 
 	return target
 }

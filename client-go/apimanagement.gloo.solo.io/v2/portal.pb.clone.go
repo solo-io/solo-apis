@@ -61,19 +61,6 @@ func (m *PortalSpec) Clone() proto.Message {
 		}
 	}
 
-	if m.GetRouteMetadata() != nil {
-		target.RouteMetadata = make([]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectSelector, len(m.GetRouteMetadata()))
-		for idx, v := range m.GetRouteMetadata() {
-
-			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.RouteMetadata[idx] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectSelector)
-			} else {
-				target.RouteMetadata[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectSelector)
-			}
-
-		}
-	}
-
 	if m.GetUsagePlans() != nil {
 		target.UsagePlans = make([]*PortalSpec_UsagePlan, len(m.GetUsagePlans()))
 		for idx, v := range m.GetUsagePlans() {

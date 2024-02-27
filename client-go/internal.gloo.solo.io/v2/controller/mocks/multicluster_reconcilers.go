@@ -935,3 +935,118 @@ func (mr *MockMulticlusterPortalConfigReconcileLoopMockRecorder) AddMulticluster
 	varargs := append([]interface{}{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterPortalConfigReconciler", reflect.TypeOf((*MockMulticlusterPortalConfigReconcileLoop)(nil).AddMulticlusterPortalConfigReconciler), varargs...)
 }
+
+// MockMulticlusterClusterIstioInstallationReconciler is a mock of MulticlusterClusterIstioInstallationReconciler interface.
+type MockMulticlusterClusterIstioInstallationReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterClusterIstioInstallationReconcilerMockRecorder
+}
+
+// MockMulticlusterClusterIstioInstallationReconcilerMockRecorder is the mock recorder for MockMulticlusterClusterIstioInstallationReconciler.
+type MockMulticlusterClusterIstioInstallationReconcilerMockRecorder struct {
+	mock *MockMulticlusterClusterIstioInstallationReconciler
+}
+
+// NewMockMulticlusterClusterIstioInstallationReconciler creates a new mock instance.
+func NewMockMulticlusterClusterIstioInstallationReconciler(ctrl *gomock.Controller) *MockMulticlusterClusterIstioInstallationReconciler {
+	mock := &MockMulticlusterClusterIstioInstallationReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterClusterIstioInstallationReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterClusterIstioInstallationReconciler) EXPECT() *MockMulticlusterClusterIstioInstallationReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileClusterIstioInstallation mocks base method.
+func (m *MockMulticlusterClusterIstioInstallationReconciler) ReconcileClusterIstioInstallation(clusterName string, obj *v2.ClusterIstioInstallation) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileClusterIstioInstallation", clusterName, obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileClusterIstioInstallation indicates an expected call of ReconcileClusterIstioInstallation.
+func (mr *MockMulticlusterClusterIstioInstallationReconcilerMockRecorder) ReconcileClusterIstioInstallation(clusterName, obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileClusterIstioInstallation", reflect.TypeOf((*MockMulticlusterClusterIstioInstallationReconciler)(nil).ReconcileClusterIstioInstallation), clusterName, obj)
+}
+
+// MockMulticlusterClusterIstioInstallationDeletionReconciler is a mock of MulticlusterClusterIstioInstallationDeletionReconciler interface.
+type MockMulticlusterClusterIstioInstallationDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterClusterIstioInstallationDeletionReconcilerMockRecorder
+}
+
+// MockMulticlusterClusterIstioInstallationDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterClusterIstioInstallationDeletionReconciler.
+type MockMulticlusterClusterIstioInstallationDeletionReconcilerMockRecorder struct {
+	mock *MockMulticlusterClusterIstioInstallationDeletionReconciler
+}
+
+// NewMockMulticlusterClusterIstioInstallationDeletionReconciler creates a new mock instance.
+func NewMockMulticlusterClusterIstioInstallationDeletionReconciler(ctrl *gomock.Controller) *MockMulticlusterClusterIstioInstallationDeletionReconciler {
+	mock := &MockMulticlusterClusterIstioInstallationDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterClusterIstioInstallationDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterClusterIstioInstallationDeletionReconciler) EXPECT() *MockMulticlusterClusterIstioInstallationDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileClusterIstioInstallationDeletion mocks base method.
+func (m *MockMulticlusterClusterIstioInstallationDeletionReconciler) ReconcileClusterIstioInstallationDeletion(clusterName string, req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileClusterIstioInstallationDeletion", clusterName, req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileClusterIstioInstallationDeletion indicates an expected call of ReconcileClusterIstioInstallationDeletion.
+func (mr *MockMulticlusterClusterIstioInstallationDeletionReconcilerMockRecorder) ReconcileClusterIstioInstallationDeletion(clusterName, req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileClusterIstioInstallationDeletion", reflect.TypeOf((*MockMulticlusterClusterIstioInstallationDeletionReconciler)(nil).ReconcileClusterIstioInstallationDeletion), clusterName, req)
+}
+
+// MockMulticlusterClusterIstioInstallationReconcileLoop is a mock of MulticlusterClusterIstioInstallationReconcileLoop interface.
+type MockMulticlusterClusterIstioInstallationReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterClusterIstioInstallationReconcileLoopMockRecorder
+}
+
+// MockMulticlusterClusterIstioInstallationReconcileLoopMockRecorder is the mock recorder for MockMulticlusterClusterIstioInstallationReconcileLoop.
+type MockMulticlusterClusterIstioInstallationReconcileLoopMockRecorder struct {
+	mock *MockMulticlusterClusterIstioInstallationReconcileLoop
+}
+
+// NewMockMulticlusterClusterIstioInstallationReconcileLoop creates a new mock instance.
+func NewMockMulticlusterClusterIstioInstallationReconcileLoop(ctrl *gomock.Controller) *MockMulticlusterClusterIstioInstallationReconcileLoop {
+	mock := &MockMulticlusterClusterIstioInstallationReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterClusterIstioInstallationReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterClusterIstioInstallationReconcileLoop) EXPECT() *MockMulticlusterClusterIstioInstallationReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// AddMulticlusterClusterIstioInstallationReconciler mocks base method.
+func (m *MockMulticlusterClusterIstioInstallationReconcileLoop) AddMulticlusterClusterIstioInstallationReconciler(ctx context.Context, rec controller.MulticlusterClusterIstioInstallationReconciler, predicates ...predicate.Predicate) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "AddMulticlusterClusterIstioInstallationReconciler", varargs...)
+}
+
+// AddMulticlusterClusterIstioInstallationReconciler indicates an expected call of AddMulticlusterClusterIstioInstallationReconciler.
+func (mr *MockMulticlusterClusterIstioInstallationReconcileLoopMockRecorder) AddMulticlusterClusterIstioInstallationReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterClusterIstioInstallationReconciler", reflect.TypeOf((*MockMulticlusterClusterIstioInstallationReconcileLoop)(nil).AddMulticlusterClusterIstioInstallationReconciler), varargs...)
+}

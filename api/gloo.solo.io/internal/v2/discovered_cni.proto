@@ -29,16 +29,28 @@ message DiscoveredCNISpec {
   // the port number used to service CNI metrics.
   uint32 metrics_port_number = 4;
 
+  // The configuration pertaining to the CNI.
+  oneof Config {
+      // Cilium CNI configuration.
+      CiliumConfig cilium_config = 5;
+  }
+
   enum CNIProvider {
     CILIUM = 0;
     CALICO = 1;
+  }
+
+  // Cilium CNI configuration.
+  message CiliumConfig {
+    // Cilium CNI ConfigMap data.
+    map<string, string> data = 1;
   }
 }
 
 message DiscoveredCNIStatus {
 
-  // The observed generation of the DiscoveredGateway.
-  // When this matches the DiscoveredGateway metadata.generation, it indicates that Gloo Mesh
-  // has processed the latest version of the DiscoveredGateway.
+  // The observed generation of the DiscoveredCNI.
+  // When this matches the DiscoveredCNI metadata.generation, it indicates that Gloo Mesh
+  // has processed the latest version of the DiscoveredCNI.
   int64 observed_generation = 1;
 }

@@ -141,28 +141,6 @@ func (in *PortalGroupStatus) DeepCopyInto(out *PortalGroupStatus) {
 	*out = *p
 }
 
-// DeepCopyInto for the ApiProduct.Spec
-func (in *ApiProductSpec) DeepCopyInto(out *ApiProductSpec) {
-	var p *ApiProductSpec
-	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*ApiProductSpec)
-	} else {
-		p = proto.Clone(in).(*ApiProductSpec)
-	}
-	*out = *p
-}
-
-// DeepCopyInto for the ApiProduct.Status
-func (in *ApiProductStatus) DeepCopyInto(out *ApiProductStatus) {
-	var p *ApiProductStatus
-	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*ApiProductStatus)
-	} else {
-		p = proto.Clone(in).(*ApiProductStatus)
-	}
-	*out = *p
-}
-
 // DeepCopyInto for the ApiSchemaDiscovery.Spec
 func (in *ApiSchemaDiscoverySpec) DeepCopyInto(out *ApiSchemaDiscoverySpec) {
 	var p *ApiSchemaDiscoverySpec

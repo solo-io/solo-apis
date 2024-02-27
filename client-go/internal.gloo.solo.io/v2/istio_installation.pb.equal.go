@@ -26,14 +26,14 @@ var (
 )
 
 // Equal function
-func (m *ClusterIstioInstallation) Equal(that interface{}) bool {
+func (m *ClusterIstioInstallationSpec) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*ClusterIstioInstallation)
+	target, ok := that.(*ClusterIstioInstallationSpec)
 	if !ok {
-		that2, ok := that.(ClusterIstioInstallation)
+		that2, ok := that.(ClusterIstioInstallationSpec)
 		if ok {
 			target = &that2
 		} else {
@@ -100,6 +100,173 @@ func (m *ClusterIstioInstallationStatus) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetObservedOperator(), target.GetObservedOperator()) {
 			return false
 		}
+	}
+
+	if h, ok := interface{}(m.GetHelm()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetHelm()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetHelm(), target.GetHelm()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ClusterIstioInstallationStatus_HelmStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ClusterIstioInstallationStatus_HelmStatus)
+	if !ok {
+		that2, ok := that.(ClusterIstioInstallationStatus_HelmStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetUpgradeInstall()) != len(target.GetUpgradeInstall()) {
+		return false
+	}
+	for idx, v := range m.GetUpgradeInstall() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetUpgradeInstall()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetUpgradeInstall()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetUninstall()) != len(target.GetUninstall()) {
+		return false
+	}
+	for idx, v := range m.GetUninstall() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetUninstall()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetUninstall()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ClusterIstioInstallationStatus_HelmReleaseGrouping) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ClusterIstioInstallationStatus_HelmReleaseGrouping)
+	if !ok {
+		that2, ok := that.(ClusterIstioInstallationStatus_HelmReleaseGrouping)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetReleases()) != len(target.GetReleases()) {
+		return false
+	}
+	for idx, v := range m.GetReleases() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetReleases()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetReleases()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetValues()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetValues()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetValues(), target.GetValues()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ClusterIstioInstallationStatus_HelmRelease) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ClusterIstioInstallationStatus_HelmRelease)
+	if !ok {
+		that2, ok := that.(ClusterIstioInstallationStatus_HelmRelease)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetName(), target.GetName()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetNamespace(), target.GetNamespace()) != 0 {
+		return false
+	}
+
+	if m.GetHelmRevision() != target.GetHelmRevision() {
+		return false
+	}
+
+	if strings.Compare(m.GetChartUrl(), target.GetChartUrl()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetVersion(), target.GetVersion()) != 0 {
+		return false
+	}
+
+	if m.GetState() != target.GetState() {
+		return false
 	}
 
 	return true

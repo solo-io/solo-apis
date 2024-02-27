@@ -184,3 +184,25 @@ func (in *PortalConfigStatus) DeepCopyInto(out *PortalConfigStatus) {
 	}
 	*out = *p
 }
+
+// DeepCopyInto for the ClusterIstioInstallation.Spec
+func (in *ClusterIstioInstallationSpec) DeepCopyInto(out *ClusterIstioInstallationSpec) {
+	var p *ClusterIstioInstallationSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ClusterIstioInstallationSpec)
+	} else {
+		p = proto.Clone(in).(*ClusterIstioInstallationSpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the ClusterIstioInstallation.Status
+func (in *ClusterIstioInstallationStatus) DeepCopyInto(out *ClusterIstioInstallationStatus) {
+	var p *ClusterIstioInstallationStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ClusterIstioInstallationStatus)
+	} else {
+		p = proto.Clone(in).(*ClusterIstioInstallationStatus)
+	}
+	*out = *p
+}

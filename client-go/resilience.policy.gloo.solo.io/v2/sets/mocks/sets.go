@@ -784,6 +784,262 @@ func (mr *MockOutlierDetectionPolicySetMockRecorder) UnsortedList(filterResource
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockOutlierDetectionPolicySet)(nil).UnsortedList), filterResource...)
 }
 
+// MockAdaptiveRequestConcurrencyPolicySet is a mock of AdaptiveRequestConcurrencyPolicySet interface.
+type MockAdaptiveRequestConcurrencyPolicySet struct {
+	ctrl     *gomock.Controller
+	recorder *MockAdaptiveRequestConcurrencyPolicySetMockRecorder
+}
+
+// MockAdaptiveRequestConcurrencyPolicySetMockRecorder is the mock recorder for MockAdaptiveRequestConcurrencyPolicySet.
+type MockAdaptiveRequestConcurrencyPolicySetMockRecorder struct {
+	mock *MockAdaptiveRequestConcurrencyPolicySet
+}
+
+// NewMockAdaptiveRequestConcurrencyPolicySet creates a new mock instance.
+func NewMockAdaptiveRequestConcurrencyPolicySet(ctrl *gomock.Controller) *MockAdaptiveRequestConcurrencyPolicySet {
+	mock := &MockAdaptiveRequestConcurrencyPolicySet{ctrl: ctrl}
+	mock.recorder = &MockAdaptiveRequestConcurrencyPolicySetMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) EXPECT() *MockAdaptiveRequestConcurrencyPolicySetMockRecorder {
+	return m.recorder
+}
+
+// Clone mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Clone() v2sets.AdaptiveRequestConcurrencyPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2sets.AdaptiveRequestConcurrencyPolicySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Delete(adaptiveRequestConcurrencyPolicy ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", adaptiveRequestConcurrencyPolicy)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Delete(adaptiveRequestConcurrencyPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Delete), adaptiveRequestConcurrencyPolicy)
+}
+
+// Delta mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Delta(newSet v2sets.AdaptiveRequestConcurrencyPolicySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Difference(set v2sets.AdaptiveRequestConcurrencyPolicySet) v2sets.AdaptiveRequestConcurrencyPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2sets.AdaptiveRequestConcurrencyPolicySet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Equal(adaptiveRequestConcurrencyPolicySet v2sets.AdaptiveRequestConcurrencyPolicySet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", adaptiveRequestConcurrencyPolicySet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Equal(adaptiveRequestConcurrencyPolicySet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Equal), adaptiveRequestConcurrencyPolicySet)
+}
+
+// Find mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Find(id ezkube.ResourceId) (*v2.AdaptiveRequestConcurrencyPolicy, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2.AdaptiveRequestConcurrencyPolicy)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Has(adaptiveRequestConcurrencyPolicy ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", adaptiveRequestConcurrencyPolicy)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Has(adaptiveRequestConcurrencyPolicy interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Has), adaptiveRequestConcurrencyPolicy)
+}
+
+// Insert mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Insert(adaptiveRequestConcurrencyPolicy ...*v2.AdaptiveRequestConcurrencyPolicy) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range adaptiveRequestConcurrencyPolicy {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Insert(adaptiveRequestConcurrencyPolicy ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Insert), adaptiveRequestConcurrencyPolicy...)
+}
+
+// Intersection mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Intersection(set v2sets.AdaptiveRequestConcurrencyPolicySet) v2sets.AdaptiveRequestConcurrencyPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2sets.AdaptiveRequestConcurrencyPolicySet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Keys() sets0.String {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Keys")
+	ret0, _ := ret[0].(sets0.String)
+	return ret0
+}
+
+// Keys indicates an expected call of Keys.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Keys() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Keys))
+}
+
+// Length mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Length))
+}
+
+// List mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) List(filterResource ...func(*v2.AdaptiveRequestConcurrencyPolicy) bool) []*v2.AdaptiveRequestConcurrencyPolicy {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "List", varargs...)
+	ret0, _ := ret[0].([]*v2.AdaptiveRequestConcurrencyPolicy)
+	return ret0
+}
+
+// List indicates an expected call of List.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).List), filterResource...)
+}
+
+// Map mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Map() map[string]*v2.AdaptiveRequestConcurrencyPolicy {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2.AdaptiveRequestConcurrencyPolicy)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) Union(set v2sets.AdaptiveRequestConcurrencyPolicySet) v2sets.AdaptiveRequestConcurrencyPolicySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2sets.AdaptiveRequestConcurrencyPolicySet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
+func (m *MockAdaptiveRequestConcurrencyPolicySet) UnsortedList(filterResource ...func(*v2.AdaptiveRequestConcurrencyPolicy) bool) []*v2.AdaptiveRequestConcurrencyPolicy {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v2.AdaptiveRequestConcurrencyPolicy)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList.
+func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockAdaptiveRequestConcurrencyPolicySet)(nil).UnsortedList), filterResource...)
+}
+
 // MockFaultInjectionPolicySet is a mock of FaultInjectionPolicySet interface.
 type MockFaultInjectionPolicySet struct {
 	ctrl     *gomock.Controller

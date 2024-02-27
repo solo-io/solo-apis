@@ -4,6 +4,7 @@ package internal.gloo.solo.io;
 
 import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
+import "google/protobuf/struct.proto";
 import "k8s.io/api/core/v1/generated.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_operator.proto";
 
@@ -14,10 +15,10 @@ option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
 // $hide_from_docs
-message ClusterIstioInstallation {
+message ClusterIstioInstallationSpec {
   // IstioOperator specification for the control plane.
   // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
-  .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 1;
+   .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 1;
 }
 
 // $hide_from_docs
@@ -32,26 +33,72 @@ message ClusterIstioInstallationStatus {
   string observed_revision = 3;
 
   // The IstioOperator spec that is currently deployed for this revision. 
+  // TODO(birkland) may want helm values instead, 
   .common.gloo.solo.io.IstioOperatorSpec observed_operator = 4;
+
+  // For helm-based installations, report the content and status of each
+  HelmStatus helm = 5;
 
   // The current state of the installation.
   enum State {
+
+    // Not acted upon yet
+    PENDING = 0;
+
     // Waiting for resources to be installed.
-    INSTALLING = 0;
+    INSTALLING = 1;
 
     // Waiting for upgrade to complete.
-    UPGRADING = 1;
+    UPGRADING = 2;
 
     // Waiting for resources to be uninstalled.
-    UNINSTALLING = 2;
+    UNINSTALLING = 3;
 
-    // Waiting for user input to correct a problem or advance canary.
-    ACTION_REQUIRED = 3;
+    // The installation or upgrade process is finished.
+    FINISHED = 4;
 
-    // The desired installation state on the cluster has been achieved.
-    SYNCED = 4;
+    // The installation or upgrade process has failed.
+    FAILED = 5;
+  }
 
-    // An unrecoverable error was observed.
-    ERROR = 5;
+  // $hide_from_docs
+  message HelmStatus {
+
+    // Releases created or updated by this Istio installation
+    repeated HelmReleaseGrouping upgrade_install = 1;
+
+    repeated HelmReleaseGrouping uninstall = 2;
+  }
+
+  // $hide_from_docs
+  message HelmReleaseGrouping {
+
+    // Helm releases that share common values
+    repeated HelmRelease releases = 1;
+
+    // Values used for all releases in this batch
+    google.protobuf.Struct values = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
+  }
+
+  // $hide_from_docs
+  message HelmRelease {
+
+    // Helm release name
+    string name = 1;
+
+    // Namespace where helm release resides
+    string namespace = 2;
+
+    // Helm release revision once applying this istio instalation is finished
+    int32 helm_revision = 3;
+
+    // URL to the chart used for this release (typically an OCI repo)
+    string chart_url = 4;
+
+    // Helm chart version for this release
+    string version = 5;
+
+    // State of an individual helm release
+    State state = 6;
   }
 }

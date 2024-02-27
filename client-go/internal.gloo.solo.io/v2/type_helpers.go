@@ -26,3 +26,6 @@ type DiscoveredCNISlice []*DiscoveredCNI
 
 // PortalConfigSlice represents a slice of *PortalConfig
 type PortalConfigSlice []*PortalConfig
+
+// ClusterIstioInstallationSlice represents a slice of *ClusterIstioInstallation
+type ClusterIstioInstallationSlice []*ClusterIstioInstallation

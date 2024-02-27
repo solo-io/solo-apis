@@ -55,6 +55,8 @@ type Clientset interface {
 	DiscoveredCNIS() DiscoveredCNIClient
 	// clienset for the internal.gloo.solo.io/v2/v2 APIs
 	PortalConfigs() PortalConfigClient
+	// clienset for the internal.gloo.solo.io/v2/v2 APIs
+	ClusterIstioInstallations() ClusterIstioInstallationClient
 }
 
 type clientSet struct {
@@ -117,6 +119,11 @@ func (c *clientSet) DiscoveredCNIS() DiscoveredCNIClient {
 // clienset for the internal.gloo.solo.io/v2/v2 APIs
 func (c *clientSet) PortalConfigs() PortalConfigClient {
 	return NewPortalConfigClient(c.client)
+}
+
+// clienset for the internal.gloo.solo.io/v2/v2 APIs
+func (c *clientSet) ClusterIstioInstallations() ClusterIstioInstallationClient {
+	return NewClusterIstioInstallationClient(c.client)
 }
 
 // Reader knows how to read and list IssuedCertificates.
@@ -1253,4 +1260,146 @@ func (m *multiclusterPortalConfigClient) Cluster(cluster string) (PortalConfigCl
 		return nil, err
 	}
 	return NewPortalConfigClient(client), nil
+}
+
+// Reader knows how to read and list ClusterIstioInstallations.
+type ClusterIstioInstallationReader interface {
+	// Get retrieves a ClusterIstioInstallation for the given object key
+	GetClusterIstioInstallation(ctx context.Context, key client.ObjectKey) (*ClusterIstioInstallation, error)
+
+	// List retrieves list of ClusterIstioInstallations for a given namespace and list options.
+	ListClusterIstioInstallation(ctx context.Context, opts ...client.ListOption) (*ClusterIstioInstallationList, error)
+}
+
+// ClusterIstioInstallationTransitionFunction instructs the ClusterIstioInstallationWriter how to transition between an existing
+// ClusterIstioInstallation object and a desired on an Upsert
+type ClusterIstioInstallationTransitionFunction func(existing, desired *ClusterIstioInstallation) error
+
+// Writer knows how to create, delete, and update ClusterIstioInstallations.
+type ClusterIstioInstallationWriter interface {
+	// Create saves the ClusterIstioInstallation object.
+	CreateClusterIstioInstallation(ctx context.Context, obj *ClusterIstioInstallation, opts ...client.CreateOption) error
+
+	// Delete deletes the ClusterIstioInstallation object.
+	DeleteClusterIstioInstallation(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given ClusterIstioInstallation object.
+	UpdateClusterIstioInstallation(ctx context.Context, obj *ClusterIstioInstallation, opts ...client.UpdateOption) error
+
+	// Patch patches the given ClusterIstioInstallation object.
+	PatchClusterIstioInstallation(ctx context.Context, obj *ClusterIstioInstallation, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all ClusterIstioInstallation objects matching the given options.
+	DeleteAllOfClusterIstioInstallation(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the ClusterIstioInstallation object.
+	UpsertClusterIstioInstallation(ctx context.Context, obj *ClusterIstioInstallation, transitionFuncs ...ClusterIstioInstallationTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a ClusterIstioInstallation object.
+type ClusterIstioInstallationStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given ClusterIstioInstallation object.
+	UpdateClusterIstioInstallationStatus(ctx context.Context, obj *ClusterIstioInstallation, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given ClusterIstioInstallation object's subresource.
+	PatchClusterIstioInstallationStatus(ctx context.Context, obj *ClusterIstioInstallation, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on ClusterIstioInstallations.
+type ClusterIstioInstallationClient interface {
+	ClusterIstioInstallationReader
+	ClusterIstioInstallationWriter
+	ClusterIstioInstallationStatusWriter
+}
+
+type clusterIstioInstallationClient struct {
+	client client.Client
+}
+
+func NewClusterIstioInstallationClient(client client.Client) *clusterIstioInstallationClient {
+	return &clusterIstioInstallationClient{client: client}
+}
+
+func (c *clusterIstioInstallationClient) GetClusterIstioInstallation(ctx context.Context, key client.ObjectKey) (*ClusterIstioInstallation, error) {
+	obj := &ClusterIstioInstallation{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *clusterIstioInstallationClient) ListClusterIstioInstallation(ctx context.Context, opts ...client.ListOption) (*ClusterIstioInstallationList, error) {
+	list := &ClusterIstioInstallationList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *clusterIstioInstallationClient) CreateClusterIstioInstallation(ctx context.Context, obj *ClusterIstioInstallation, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *clusterIstioInstallationClient) DeleteClusterIstioInstallation(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &ClusterIstioInstallation{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *clusterIstioInstallationClient) UpdateClusterIstioInstallation(ctx context.Context, obj *ClusterIstioInstallation, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *clusterIstioInstallationClient) PatchClusterIstioInstallation(ctx context.Context, obj *ClusterIstioInstallation, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *clusterIstioInstallationClient) DeleteAllOfClusterIstioInstallation(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &ClusterIstioInstallation{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *clusterIstioInstallationClient) UpsertClusterIstioInstallation(ctx context.Context, obj *ClusterIstioInstallation, transitionFuncs ...ClusterIstioInstallationTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*ClusterIstioInstallation), desired.(*ClusterIstioInstallation)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *clusterIstioInstallationClient) UpdateClusterIstioInstallationStatus(ctx context.Context, obj *ClusterIstioInstallation, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *clusterIstioInstallationClient) PatchClusterIstioInstallationStatus(ctx context.Context, obj *ClusterIstioInstallation, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides ClusterIstioInstallationClients for multiple clusters.
+type MulticlusterClusterIstioInstallationClient interface {
+	// Cluster returns a ClusterIstioInstallationClient for the given cluster
+	Cluster(cluster string) (ClusterIstioInstallationClient, error)
+}
+
+type multiclusterClusterIstioInstallationClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterClusterIstioInstallationClient(client multicluster.Client) MulticlusterClusterIstioInstallationClient {
+	return &multiclusterClusterIstioInstallationClient{client: client}
+}
+
+func (m *multiclusterClusterIstioInstallationClient) Cluster(cluster string) (ClusterIstioInstallationClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewClusterIstioInstallationClient(client), nil
 }

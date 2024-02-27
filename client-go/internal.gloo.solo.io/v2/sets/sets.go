@@ -1796,3 +1796,226 @@ func (s *portalConfigSet) Clone() PortalConfigSet {
 	}
 	return &portalConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
+
+type ClusterIstioInstallationSet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*internal_gloo_solo_io_v2.ClusterIstioInstallation) bool) []*internal_gloo_solo_io_v2.ClusterIstioInstallation
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.ClusterIstioInstallation) bool) []*internal_gloo_solo_io_v2.ClusterIstioInstallation
+	// Return the Set as a map of key to resource.
+	Map() map[string]*internal_gloo_solo_io_v2.ClusterIstioInstallation
+	// Insert a resource into the set.
+	Insert(clusterIstioInstallation ...*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(clusterIstioInstallationSet ClusterIstioInstallationSet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(clusterIstioInstallation ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(clusterIstioInstallation ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set ClusterIstioInstallationSet) ClusterIstioInstallationSet
+	// Return the difference with the provided set
+	Difference(set ClusterIstioInstallationSet) ClusterIstioInstallationSet
+	// Return the intersection with the provided set
+	Intersection(set ClusterIstioInstallationSet) ClusterIstioInstallationSet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*internal_gloo_solo_io_v2.ClusterIstioInstallation, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another ClusterIstioInstallationSet
+	Delta(newSet ClusterIstioInstallationSet) sksets.ResourceDelta
+	// Create a deep copy of the current ClusterIstioInstallationSet
+	Clone() ClusterIstioInstallationSet
+}
+
+func makeGenericClusterIstioInstallationSet(clusterIstioInstallationList []*internal_gloo_solo_io_v2.ClusterIstioInstallation) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range clusterIstioInstallationList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type clusterIstioInstallationSet struct {
+	set sksets.ResourceSet
+}
+
+func NewClusterIstioInstallationSet(clusterIstioInstallationList ...*internal_gloo_solo_io_v2.ClusterIstioInstallation) ClusterIstioInstallationSet {
+	return &clusterIstioInstallationSet{set: makeGenericClusterIstioInstallationSet(clusterIstioInstallationList)}
+}
+
+func NewClusterIstioInstallationSetFromList(clusterIstioInstallationList *internal_gloo_solo_io_v2.ClusterIstioInstallationList) ClusterIstioInstallationSet {
+	list := make([]*internal_gloo_solo_io_v2.ClusterIstioInstallation, 0, len(clusterIstioInstallationList.Items))
+	for idx := range clusterIstioInstallationList.Items {
+		list = append(list, &clusterIstioInstallationList.Items[idx])
+	}
+	return &clusterIstioInstallationSet{set: makeGenericClusterIstioInstallationSet(list)}
+}
+
+func (s *clusterIstioInstallationSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *clusterIstioInstallationSet) List(filterResource ...func(*internal_gloo_solo_io_v2.ClusterIstioInstallation) bool) []*internal_gloo_solo_io_v2.ClusterIstioInstallation {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*internal_gloo_solo_io_v2.ClusterIstioInstallation))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	clusterIstioInstallationList := make([]*internal_gloo_solo_io_v2.ClusterIstioInstallation, 0, len(objs))
+	for _, obj := range objs {
+		clusterIstioInstallationList = append(clusterIstioInstallationList, obj.(*internal_gloo_solo_io_v2.ClusterIstioInstallation))
+	}
+	return clusterIstioInstallationList
+}
+
+func (s *clusterIstioInstallationSet) UnsortedList(filterResource ...func(*internal_gloo_solo_io_v2.ClusterIstioInstallation) bool) []*internal_gloo_solo_io_v2.ClusterIstioInstallation {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*internal_gloo_solo_io_v2.ClusterIstioInstallation))
+		})
+	}
+
+	var clusterIstioInstallationList []*internal_gloo_solo_io_v2.ClusterIstioInstallation
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		clusterIstioInstallationList = append(clusterIstioInstallationList, obj.(*internal_gloo_solo_io_v2.ClusterIstioInstallation))
+	}
+	return clusterIstioInstallationList
+}
+
+func (s *clusterIstioInstallationSet) Map() map[string]*internal_gloo_solo_io_v2.ClusterIstioInstallation {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*internal_gloo_solo_io_v2.ClusterIstioInstallation{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	}
+	return newMap
+}
+
+func (s *clusterIstioInstallationSet) Insert(
+	clusterIstioInstallationList ...*internal_gloo_solo_io_v2.ClusterIstioInstallation,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range clusterIstioInstallationList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *clusterIstioInstallationSet) Has(clusterIstioInstallation ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(clusterIstioInstallation)
+}
+
+func (s *clusterIstioInstallationSet) Equal(
+	clusterIstioInstallationSet ClusterIstioInstallationSet,
+) bool {
+	if s == nil {
+		return clusterIstioInstallationSet == nil
+	}
+	return s.Generic().Equal(clusterIstioInstallationSet.Generic())
+}
+
+func (s *clusterIstioInstallationSet) Delete(ClusterIstioInstallation ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(ClusterIstioInstallation)
+}
+
+func (s *clusterIstioInstallationSet) Union(set ClusterIstioInstallationSet) ClusterIstioInstallationSet {
+	if s == nil {
+		return set
+	}
+	return NewClusterIstioInstallationSet(append(s.List(), set.List()...)...)
+}
+
+func (s *clusterIstioInstallationSet) Difference(set ClusterIstioInstallationSet) ClusterIstioInstallationSet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &clusterIstioInstallationSet{set: newSet}
+}
+
+func (s *clusterIstioInstallationSet) Intersection(set ClusterIstioInstallationSet) ClusterIstioInstallationSet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var clusterIstioInstallationList []*internal_gloo_solo_io_v2.ClusterIstioInstallation
+	for _, obj := range newSet.List() {
+		clusterIstioInstallationList = append(clusterIstioInstallationList, obj.(*internal_gloo_solo_io_v2.ClusterIstioInstallation))
+	}
+	return NewClusterIstioInstallationSet(clusterIstioInstallationList...)
+}
+
+func (s *clusterIstioInstallationSet) Find(id ezkube.ResourceId) (*internal_gloo_solo_io_v2.ClusterIstioInstallation, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find ClusterIstioInstallation %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&internal_gloo_solo_io_v2.ClusterIstioInstallation{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*internal_gloo_solo_io_v2.ClusterIstioInstallation), nil
+}
+
+func (s *clusterIstioInstallationSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *clusterIstioInstallationSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *clusterIstioInstallationSet) Delta(newSet ClusterIstioInstallationSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *clusterIstioInstallationSet) Clone() ClusterIstioInstallationSet {
+	if s == nil {
+		return nil
+	}
+	return &clusterIstioInstallationSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}

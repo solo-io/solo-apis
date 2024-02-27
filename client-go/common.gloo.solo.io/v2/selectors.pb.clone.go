@@ -354,27 +354,6 @@ func (m *WorkspaceSelector) Clone() proto.Message {
 }
 
 // Clone function
-func (m *TargetRef) Clone() proto.Message {
-	var target *TargetRef
-	if m == nil {
-		return target
-	}
-	target = &TargetRef{}
-
-	target.Group = m.GetGroup()
-
-	target.Kind = m.GetKind()
-
-	target.Name = m.GetName()
-
-	target.Namespace = m.GetNamespace()
-
-	target.SectionName = m.GetSectionName()
-
-	return target
-}
-
-// Clone function
 func (m *IdentitySelector_RequestIdentityMatcher) Clone() proto.Message {
 	var target *IdentitySelector_RequestIdentityMatcher
 	if m == nil {

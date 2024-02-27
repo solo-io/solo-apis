@@ -101,6 +101,34 @@ func OutlierDetectionPolicyClientFromConfigFactoryProvider() OutlierDetectionPol
 	}
 }
 
+// Provider for AdaptiveRequestConcurrencyPolicyClient from Clientset
+func AdaptiveRequestConcurrencyPolicyClientFromClientsetProvider(clients resilience_policy_gloo_solo_io_v2.Clientset) resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicyClient {
+	return clients.AdaptiveRequestConcurrencyPolicies()
+}
+
+// Provider for AdaptiveRequestConcurrencyPolicy Client from Client
+func AdaptiveRequestConcurrencyPolicyClientProvider(client client.Client) resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicyClient {
+	return resilience_policy_gloo_solo_io_v2.NewAdaptiveRequestConcurrencyPolicyClient(client)
+}
+
+type AdaptiveRequestConcurrencyPolicyClientFactory func(client client.Client) resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicyClient
+
+func AdaptiveRequestConcurrencyPolicyClientFactoryProvider() AdaptiveRequestConcurrencyPolicyClientFactory {
+	return AdaptiveRequestConcurrencyPolicyClientProvider
+}
+
+type AdaptiveRequestConcurrencyPolicyClientFromConfigFactory func(cfg *rest.Config) (resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicyClient, error)
+
+func AdaptiveRequestConcurrencyPolicyClientFromConfigFactoryProvider() AdaptiveRequestConcurrencyPolicyClientFromConfigFactory {
+	return func(cfg *rest.Config) (resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicyClient, error) {
+		clients, err := resilience_policy_gloo_solo_io_v2.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.AdaptiveRequestConcurrencyPolicies(), nil
+	}
+}
+
 // Provider for FaultInjectionPolicyClient from Clientset
 func FaultInjectionPolicyClientFromClientsetProvider(clients resilience_policy_gloo_solo_io_v2.Clientset) resilience_policy_gloo_solo_io_v2.FaultInjectionPolicyClient {
 	return clients.FaultInjectionPolicies()

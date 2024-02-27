@@ -188,6 +188,66 @@ func (in *OutlierDetectionPolicyList) DeepCopyObject() runtime.Object {
 	return nil
 }
 
+// Generated Deepcopy methods for AdaptiveRequestConcurrencyPolicy
+
+func (in *AdaptiveRequestConcurrencyPolicy) DeepCopyInto(out *AdaptiveRequestConcurrencyPolicy) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *AdaptiveRequestConcurrencyPolicy) DeepCopy() *AdaptiveRequestConcurrencyPolicy {
+	if in == nil {
+		return nil
+	}
+	out := new(AdaptiveRequestConcurrencyPolicy)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *AdaptiveRequestConcurrencyPolicy) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *AdaptiveRequestConcurrencyPolicyList) DeepCopyInto(out *AdaptiveRequestConcurrencyPolicyList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]AdaptiveRequestConcurrencyPolicy, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *AdaptiveRequestConcurrencyPolicyList) DeepCopy() *AdaptiveRequestConcurrencyPolicyList {
+	if in == nil {
+		return nil
+	}
+	out := new(AdaptiveRequestConcurrencyPolicyList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *AdaptiveRequestConcurrencyPolicyList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
 // Generated Deepcopy methods for FaultInjectionPolicy
 
 func (in *FaultInjectionPolicy) DeepCopyInto(out *FaultInjectionPolicy) {

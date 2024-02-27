@@ -240,3 +240,31 @@ func PortalConfigClientFromConfigFactoryProvider() PortalConfigClientFromConfigF
 		return clients.PortalConfigs(), nil
 	}
 }
+
+// Provider for ClusterIstioInstallationClient from Clientset
+func ClusterIstioInstallationClientFromClientsetProvider(clients internal_gloo_solo_io_v2.Clientset) internal_gloo_solo_io_v2.ClusterIstioInstallationClient {
+	return clients.ClusterIstioInstallations()
+}
+
+// Provider for ClusterIstioInstallation Client from Client
+func ClusterIstioInstallationClientProvider(client client.Client) internal_gloo_solo_io_v2.ClusterIstioInstallationClient {
+	return internal_gloo_solo_io_v2.NewClusterIstioInstallationClient(client)
+}
+
+type ClusterIstioInstallationClientFactory func(client client.Client) internal_gloo_solo_io_v2.ClusterIstioInstallationClient
+
+func ClusterIstioInstallationClientFactoryProvider() ClusterIstioInstallationClientFactory {
+	return ClusterIstioInstallationClientProvider
+}
+
+type ClusterIstioInstallationClientFromConfigFactory func(cfg *rest.Config) (internal_gloo_solo_io_v2.ClusterIstioInstallationClient, error)
+
+func ClusterIstioInstallationClientFromConfigFactoryProvider() ClusterIstioInstallationClientFromConfigFactory {
+	return func(cfg *rest.Config) (internal_gloo_solo_io_v2.ClusterIstioInstallationClient, error) {
+		clients, err := internal_gloo_solo_io_v2.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.ClusterIstioInstallations(), nil
+	}
+}
