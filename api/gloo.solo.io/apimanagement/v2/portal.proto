@@ -152,10 +152,6 @@ message PortalSpec {
   // The route table might also have 'portalMetadata' key-value fields that you want to display in the developer portal for end users.
   repeated .common.gloo.solo.io.ObjectSelector apis = 2;
 
-  // A list of route metadata which select the routes to the APIs you want the developer portal to expose.
-  // $hide_from_docs
-  repeated .common.gloo.solo.io.ObjectSelector route_metadata = 6;
-
   // The usage plans to control access to the APIs that the developer portal exposes.
   repeated UsagePlan usage_plans = 3;
 

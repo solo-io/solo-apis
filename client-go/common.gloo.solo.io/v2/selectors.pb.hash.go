@@ -703,42 +703,6 @@ func (m *WorkspaceSelector) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *TargetRef) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.TargetRef")); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetGroup())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetKind())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetName())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetNamespace())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetSectionName())); err != nil {
-		return 0, err
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
 func (m *IdentitySelector_RequestIdentityMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil

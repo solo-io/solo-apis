@@ -288,6 +288,41 @@ type PortalConfigList struct {
 	Items           []PortalConfig `json:"items"`
 }
 
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
+// GroupVersionKind for ClusterIstioInstallation
+var ClusterIstioInstallationGVK = schema.GroupVersionKind{
+	Group:   "internal.gloo.solo.io",
+	Version: "v2",
+	Kind:    "ClusterIstioInstallation",
+}
+
+// ClusterIstioInstallation is the Schema for the clusterIstioInstallation API
+type ClusterIstioInstallation struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   ClusterIstioInstallationSpec   `json:"spec,omitempty"`
+	Status ClusterIstioInstallationStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (ClusterIstioInstallation) GVK() schema.GroupVersionKind {
+	return ClusterIstioInstallationGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ClusterIstioInstallationList contains a list of ClusterIstioInstallation
+type ClusterIstioInstallationList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ClusterIstioInstallation `json:"items"`
+}
+
 func init() {
 	SchemeBuilder.Register(&IssuedCertificate{}, &IssuedCertificateList{})
 	SchemeBuilder.Register(&CertificateRequest{}, &CertificateRequestList{})
@@ -297,4 +332,5 @@ func init() {
 	SchemeBuilder.Register(&Mesh{}, &MeshList{})
 	SchemeBuilder.Register(&DiscoveredCNI{}, &DiscoveredCNIList{})
 	SchemeBuilder.Register(&PortalConfig{}, &PortalConfigList{})
+	SchemeBuilder.Register(&ClusterIstioInstallation{}, &ClusterIstioInstallationList{})
 }

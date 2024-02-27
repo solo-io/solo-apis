@@ -982,3 +982,124 @@ func (mr *MockPortalConfigEventWatcherMockRecorder) AddEventHandler(ctx, h inter
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockPortalConfigEventWatcher)(nil).AddEventHandler), varargs...)
 }
+
+// MockClusterIstioInstallationEventHandler is a mock of ClusterIstioInstallationEventHandler interface.
+type MockClusterIstioInstallationEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockClusterIstioInstallationEventHandlerMockRecorder
+}
+
+// MockClusterIstioInstallationEventHandlerMockRecorder is the mock recorder for MockClusterIstioInstallationEventHandler.
+type MockClusterIstioInstallationEventHandlerMockRecorder struct {
+	mock *MockClusterIstioInstallationEventHandler
+}
+
+// NewMockClusterIstioInstallationEventHandler creates a new mock instance.
+func NewMockClusterIstioInstallationEventHandler(ctrl *gomock.Controller) *MockClusterIstioInstallationEventHandler {
+	mock := &MockClusterIstioInstallationEventHandler{ctrl: ctrl}
+	mock.recorder = &MockClusterIstioInstallationEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockClusterIstioInstallationEventHandler) EXPECT() *MockClusterIstioInstallationEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationEventHandler) CreateClusterIstioInstallation(obj *v2.ClusterIstioInstallation) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateClusterIstioInstallation", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateClusterIstioInstallation indicates an expected call of CreateClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationEventHandlerMockRecorder) CreateClusterIstioInstallation(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationEventHandler)(nil).CreateClusterIstioInstallation), obj)
+}
+
+// DeleteClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationEventHandler) DeleteClusterIstioInstallation(obj *v2.ClusterIstioInstallation) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteClusterIstioInstallation", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteClusterIstioInstallation indicates an expected call of DeleteClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationEventHandlerMockRecorder) DeleteClusterIstioInstallation(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationEventHandler)(nil).DeleteClusterIstioInstallation), obj)
+}
+
+// GenericClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationEventHandler) GenericClusterIstioInstallation(obj *v2.ClusterIstioInstallation) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericClusterIstioInstallation", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericClusterIstioInstallation indicates an expected call of GenericClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationEventHandlerMockRecorder) GenericClusterIstioInstallation(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationEventHandler)(nil).GenericClusterIstioInstallation), obj)
+}
+
+// UpdateClusterIstioInstallation mocks base method.
+func (m *MockClusterIstioInstallationEventHandler) UpdateClusterIstioInstallation(old, new *v2.ClusterIstioInstallation) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateClusterIstioInstallation", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateClusterIstioInstallation indicates an expected call of UpdateClusterIstioInstallation.
+func (mr *MockClusterIstioInstallationEventHandlerMockRecorder) UpdateClusterIstioInstallation(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateClusterIstioInstallation", reflect.TypeOf((*MockClusterIstioInstallationEventHandler)(nil).UpdateClusterIstioInstallation), old, new)
+}
+
+// MockClusterIstioInstallationEventWatcher is a mock of ClusterIstioInstallationEventWatcher interface.
+type MockClusterIstioInstallationEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockClusterIstioInstallationEventWatcherMockRecorder
+}
+
+// MockClusterIstioInstallationEventWatcherMockRecorder is the mock recorder for MockClusterIstioInstallationEventWatcher.
+type MockClusterIstioInstallationEventWatcherMockRecorder struct {
+	mock *MockClusterIstioInstallationEventWatcher
+}
+
+// NewMockClusterIstioInstallationEventWatcher creates a new mock instance.
+func NewMockClusterIstioInstallationEventWatcher(ctrl *gomock.Controller) *MockClusterIstioInstallationEventWatcher {
+	mock := &MockClusterIstioInstallationEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockClusterIstioInstallationEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockClusterIstioInstallationEventWatcher) EXPECT() *MockClusterIstioInstallationEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockClusterIstioInstallationEventWatcher) AddEventHandler(ctx context.Context, h controller.ClusterIstioInstallationEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockClusterIstioInstallationEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockClusterIstioInstallationEventWatcher)(nil).AddEventHandler), varargs...)
+}

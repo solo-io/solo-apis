@@ -47,6 +47,22 @@ func (m *DiscoveredCNISpec) Clone() proto.Message {
 
 	target.MetricsPortNumber = m.GetMetricsPortNumber()
 
+	switch m.Config.(type) {
+
+	case *DiscoveredCNISpec_CiliumConfig_:
+
+		if h, ok := interface{}(m.GetCiliumConfig()).(clone.Cloner); ok {
+			target.Config = &DiscoveredCNISpec_CiliumConfig_{
+				CiliumConfig: h.Clone().(*DiscoveredCNISpec_CiliumConfig),
+			}
+		} else {
+			target.Config = &DiscoveredCNISpec_CiliumConfig_{
+				CiliumConfig: proto.Clone(m.GetCiliumConfig()).(*DiscoveredCNISpec_CiliumConfig),
+			}
+		}
+
+	}
+
 	return target
 }
 
@@ -59,6 +75,26 @@ func (m *DiscoveredCNIStatus) Clone() proto.Message {
 	target = &DiscoveredCNIStatus{}
 
 	target.ObservedGeneration = m.GetObservedGeneration()
+
+	return target
+}
+
+// Clone function
+func (m *DiscoveredCNISpec_CiliumConfig) Clone() proto.Message {
+	var target *DiscoveredCNISpec_CiliumConfig
+	if m == nil {
+		return target
+	}
+	target = &DiscoveredCNISpec_CiliumConfig{}
+
+	if m.GetData() != nil {
+		target.Data = make(map[string]string, len(m.GetData()))
+		for k, v := range m.GetData() {
+
+			target.Data[k] = v
+
+		}
+	}
 
 	return target
 }

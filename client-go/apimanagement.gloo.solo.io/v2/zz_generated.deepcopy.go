@@ -368,66 +368,6 @@ func (in *PortalGroupList) DeepCopyObject() runtime.Object {
 	return nil
 }
 
-// Generated Deepcopy methods for ApiProduct
-
-func (in *ApiProduct) DeepCopyInto(out *ApiProduct) {
-	out.TypeMeta = in.TypeMeta
-	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
-
-	// deepcopy spec
-	in.Spec.DeepCopyInto(&out.Spec)
-	// deepcopy status
-	in.Status.DeepCopyInto(&out.Status)
-
-	return
-}
-
-func (in *ApiProduct) DeepCopy() *ApiProduct {
-	if in == nil {
-		return nil
-	}
-	out := new(ApiProduct)
-	in.DeepCopyInto(out)
-	return out
-}
-
-func (in *ApiProduct) DeepCopyObject() runtime.Object {
-	if c := in.DeepCopy(); c != nil {
-		return c
-	}
-	return nil
-}
-
-func (in *ApiProductList) DeepCopyInto(out *ApiProductList) {
-	*out = *in
-	out.TypeMeta = in.TypeMeta
-	in.ListMeta.DeepCopyInto(&out.ListMeta)
-	if in.Items != nil {
-		in, out := &in.Items, &out.Items
-		*out = make([]ApiProduct, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	return
-}
-
-func (in *ApiProductList) DeepCopy() *ApiProductList {
-	if in == nil {
-		return nil
-	}
-	out := new(ApiProductList)
-	in.DeepCopyInto(out)
-	return out
-}
-
-func (in *ApiProductList) DeepCopyObject() runtime.Object {
-	if c := in.DeepCopy(); c != nil {
-		return c
-	}
-	return nil
-}
-
 // Generated Deepcopy methods for ApiSchemaDiscovery
 
 func (in *ApiSchemaDiscovery) DeepCopyInto(out *ApiSchemaDiscovery) {

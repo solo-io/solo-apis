@@ -487,3 +487,63 @@ func (in *PortalConfigList) DeepCopyObject() runtime.Object {
 	}
 	return nil
 }
+
+// Generated Deepcopy methods for ClusterIstioInstallation
+
+func (in *ClusterIstioInstallation) DeepCopyInto(out *ClusterIstioInstallation) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *ClusterIstioInstallation) DeepCopy() *ClusterIstioInstallation {
+	if in == nil {
+		return nil
+	}
+	out := new(ClusterIstioInstallation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *ClusterIstioInstallation) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *ClusterIstioInstallationList) DeepCopyInto(out *ClusterIstioInstallationList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]ClusterIstioInstallation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *ClusterIstioInstallationList) DeepCopy() *ClusterIstioInstallationList {
+	if in == nil {
+		return nil
+	}
+	out := new(ClusterIstioInstallationList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *ClusterIstioInstallationList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}

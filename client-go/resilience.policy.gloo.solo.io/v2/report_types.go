@@ -12,6 +12,9 @@ func (o *FailoverPolicyReport) IsReport() {}
 // IsReport implements Reportable interface for OutlierDetectionPolicyReport
 func (o *OutlierDetectionPolicyReport) IsReport() {}
 
+// IsReport implements Reportable interface for AdaptiveRequestConcurrencyPolicyReport
+func (o *AdaptiveRequestConcurrencyPolicyReport) IsReport() {}
+
 // IsReport implements Reportable interface for FaultInjectionPolicyReport
 func (o *FaultInjectionPolicyReport) IsReport() {}
 

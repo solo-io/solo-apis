@@ -80,23 +80,6 @@ func (m *PortalSpec) Equal(that interface{}) bool {
 
 	}
 
-	if len(m.GetRouteMetadata()) != len(target.GetRouteMetadata()) {
-		return false
-	}
-	for idx, v := range m.GetRouteMetadata() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetRouteMetadata()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetRouteMetadata()[idx]) {
-				return false
-			}
-		}
-
-	}
-
 	if len(m.GetUsagePlans()) != len(target.GetUsagePlans()) {
 		return false
 	}

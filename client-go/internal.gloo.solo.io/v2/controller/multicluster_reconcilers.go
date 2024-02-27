@@ -585,3 +585,74 @@ func (g genericPortalConfigMulticlusterReconciler) Reconcile(cluster string, obj
 	}
 	return g.reconciler.ReconcilePortalConfig(cluster, obj)
 }
+
+// Reconcile Upsert events for the ClusterIstioInstallation Resource across clusters.
+// implemented by the user
+type MulticlusterClusterIstioInstallationReconciler interface {
+	ReconcileClusterIstioInstallation(clusterName string, obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the ClusterIstioInstallation Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterClusterIstioInstallationDeletionReconciler interface {
+	ReconcileClusterIstioInstallationDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterClusterIstioInstallationReconcilerFuncs struct {
+	OnReconcileClusterIstioInstallation         func(clusterName string, obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) (reconcile.Result, error)
+	OnReconcileClusterIstioInstallationDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterClusterIstioInstallationReconcilerFuncs) ReconcileClusterIstioInstallation(clusterName string, obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) (reconcile.Result, error) {
+	if f.OnReconcileClusterIstioInstallation == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileClusterIstioInstallation(clusterName, obj)
+}
+
+func (f *MulticlusterClusterIstioInstallationReconcilerFuncs) ReconcileClusterIstioInstallationDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileClusterIstioInstallationDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileClusterIstioInstallationDeletion(clusterName, req)
+}
+
+type MulticlusterClusterIstioInstallationReconcileLoop interface {
+	// AddMulticlusterClusterIstioInstallationReconciler adds a MulticlusterClusterIstioInstallationReconciler to the MulticlusterClusterIstioInstallationReconcileLoop.
+	AddMulticlusterClusterIstioInstallationReconciler(ctx context.Context, rec MulticlusterClusterIstioInstallationReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterClusterIstioInstallationReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterClusterIstioInstallationReconcileLoop) AddMulticlusterClusterIstioInstallationReconciler(ctx context.Context, rec MulticlusterClusterIstioInstallationReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericClusterIstioInstallationMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterClusterIstioInstallationReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterClusterIstioInstallationReconcileLoop {
+	return &multiclusterClusterIstioInstallationReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &internal_gloo_solo_io_v2.ClusterIstioInstallation{}, options)}
+}
+
+type genericClusterIstioInstallationMulticlusterReconciler struct {
+	reconciler MulticlusterClusterIstioInstallationReconciler
+}
+
+func (g genericClusterIstioInstallationMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterClusterIstioInstallationDeletionReconciler); ok {
+		return deletionReconciler.ReconcileClusterIstioInstallationDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericClusterIstioInstallationMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: ClusterIstioInstallation handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileClusterIstioInstallation(cluster, obj)
+}

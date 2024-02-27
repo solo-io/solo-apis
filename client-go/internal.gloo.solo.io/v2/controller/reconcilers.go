@@ -952,3 +952,120 @@ func (r genericPortalConfigFinalizer) Finalize(object ezkube.Object) error {
 	}
 	return r.finalizingReconciler.FinalizePortalConfig(obj)
 }
+
+// Reconcile Upsert events for the ClusterIstioInstallation Resource.
+// implemented by the user
+type ClusterIstioInstallationReconciler interface {
+	ReconcileClusterIstioInstallation(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the ClusterIstioInstallation Resource.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type ClusterIstioInstallationDeletionReconciler interface {
+	ReconcileClusterIstioInstallationDeletion(req reconcile.Request) error
+}
+
+type ClusterIstioInstallationReconcilerFuncs struct {
+	OnReconcileClusterIstioInstallation         func(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) (reconcile.Result, error)
+	OnReconcileClusterIstioInstallationDeletion func(req reconcile.Request) error
+}
+
+func (f *ClusterIstioInstallationReconcilerFuncs) ReconcileClusterIstioInstallation(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) (reconcile.Result, error) {
+	if f.OnReconcileClusterIstioInstallation == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileClusterIstioInstallation(obj)
+}
+
+func (f *ClusterIstioInstallationReconcilerFuncs) ReconcileClusterIstioInstallationDeletion(req reconcile.Request) error {
+	if f.OnReconcileClusterIstioInstallationDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileClusterIstioInstallationDeletion(req)
+}
+
+// Reconcile and finalize the ClusterIstioInstallation Resource
+// implemented by the user
+type ClusterIstioInstallationFinalizer interface {
+	ClusterIstioInstallationReconciler
+
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	ClusterIstioInstallationFinalizerName() string
+
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeClusterIstioInstallation(obj *internal_gloo_solo_io_v2.ClusterIstioInstallation) error
+}
+
+type ClusterIstioInstallationReconcileLoop interface {
+	RunClusterIstioInstallationReconciler(ctx context.Context, rec ClusterIstioInstallationReconciler, predicates ...predicate.Predicate) error
+}
+
+type clusterIstioInstallationReconcileLoop struct {
+	loop reconcile.Loop
+}
+
+func NewClusterIstioInstallationReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) ClusterIstioInstallationReconcileLoop {
+	return &clusterIstioInstallationReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &internal_gloo_solo_io_v2.ClusterIstioInstallation{}, options),
+	}
+}
+
+func (c *clusterIstioInstallationReconcileLoop) RunClusterIstioInstallationReconciler(ctx context.Context, reconciler ClusterIstioInstallationReconciler, predicates ...predicate.Predicate) error {
+	genericReconciler := genericClusterIstioInstallationReconciler{
+		reconciler: reconciler,
+	}
+
+	var reconcilerWrapper reconcile.Reconciler
+	if finalizingReconciler, ok := reconciler.(ClusterIstioInstallationFinalizer); ok {
+		reconcilerWrapper = genericClusterIstioInstallationFinalizer{
+			genericClusterIstioInstallationReconciler: genericReconciler,
+			finalizingReconciler:                      finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
+	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
+}
+
+// genericClusterIstioInstallationHandler implements a generic reconcile.Reconciler
+type genericClusterIstioInstallationReconciler struct {
+	reconciler ClusterIstioInstallationReconciler
+}
+
+func (r genericClusterIstioInstallationReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: ClusterIstioInstallation handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileClusterIstioInstallation(obj)
+}
+
+func (r genericClusterIstioInstallationReconciler) ReconcileDeletion(request reconcile.Request) error {
+	if deletionReconciler, ok := r.reconciler.(ClusterIstioInstallationDeletionReconciler); ok {
+		return deletionReconciler.ReconcileClusterIstioInstallationDeletion(request)
+	}
+	return nil
+}
+
+// genericClusterIstioInstallationFinalizer implements a generic reconcile.FinalizingReconciler
+type genericClusterIstioInstallationFinalizer struct {
+	genericClusterIstioInstallationReconciler
+	finalizingReconciler ClusterIstioInstallationFinalizer
+}
+
+func (r genericClusterIstioInstallationFinalizer) FinalizerName() string {
+	return r.finalizingReconciler.ClusterIstioInstallationFinalizerName()
+}
+
+func (r genericClusterIstioInstallationFinalizer) Finalize(object ezkube.Object) error {
+	obj, ok := object.(*internal_gloo_solo_io_v2.ClusterIstioInstallation)
+	if !ok {
+		return errors.Errorf("internal error: ClusterIstioInstallation handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeClusterIstioInstallation(obj)
+}

@@ -11,7 +11,6 @@ import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/cloud_provider_options.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/portal_metadata.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/tcp_matchers.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/tls_matchers.proto";
 import "github.com/solo-io/skv2/api/core/v1/core.proto";
@@ -217,12 +216,17 @@ message RouteTableSpec {
   // set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors.selector.labels` to `app: foo`.
   repeated .common.gloo.solo.io.ObjectReference virtual_gateways = 5;
 
-  // Optional: Selectors for source workloads (with sidecars) which will route traffic by this route table.
+  // Optional: Selectors for source workloads (with sidecars) which route traffic for this route table.
   // Only valid for route tables which define at least one host.
-  // If no workloadSelectors or virtualGateways are specified, all workloads in the workspace will automatically be selected.
-  // If VirtualGateways are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.
-  // *Note*: This field must be empty for a delegated RouteTable.
-  // *Note*: Selection of external workloads (VMs) is currently not supported.
+  // If no `workloadSelectors` or `virtualGateways` are specified, all workloads in the workspace are automatically selected.
+  // If `virtualGateways` are specified, set `workloadSelectors: - {}` to select all workloads in the workspace. 
+  //
+  // **Note**: This field must be empty for a delegated route table.
+  //
+  // **Note**: Selection of external workloads (VMs) is currently not supported. 
+  //
+  // **Note**: You can select workloads by using labels only. Selecting workloads by using other references, such as 
+  // the name, namespace, or cluster is not supported.  
   repeated .common.gloo.solo.io.WorkloadSelector workload_selectors = 6;
 
   //  Optional: Selectors for destinations that shall route traffic by this route table via producer-side side policy (e.g on waypoints)
@@ -261,7 +265,7 @@ message RouteTableSpec {
   // Optional: If this route table bundles APIs that you want to expose in a developer portal, you can set portal metadata.
   // Portal metadata is a set of key-value pairs that describe your APIs.
   // Later, your developer portal displays this information in the end-user facing API documentation.
-   .common.gloo.solo.io.PortalMetadata portal_metadata = 7;
+  PortalMetadata portal_metadata = 7;
 }
 
 // Use HTTP routes to control Layer 7 application level traffic to your services. To configure HTTP routes, you pair together
@@ -539,6 +543,49 @@ message DelegateAction {
     //
     ROUTE_SPECIFICITY = 1;
   }
+}
+
+// With [Portal](https://docs.solo.io/gloo-gateway/main/portal/) installed as part of Gloo Platform,
+// you can use route tables to bundle together individual routes into an API product.
+// When the Portal resource selects your route table, Gloo automatically generates an OpenAPI specification for the API product,
+// which includes all of the routes. You can use this `PortalMetadata` setting to customize details about your API product,
+// such as by providing a title, description, terms of service, licensing, and lifecycle management information.
+// After you deploy a frontend application for your portal, your end users can review the metadata in the portal to help them use your API products.
+message PortalMetadata {
+  // This field is required to enable the Portal feature.
+  // Group APIs from multiple route tables together as an API product in the portal.
+  // For example, you might have separate route tables that route to different `v1` and `v2` versions of your `billing` services that have their own OpenAPI specs.
+  // By setting the `apiProductId` metadata to the same `billing-api` value in each route table,
+  // the [/apis](https://docs.solo.io/gloo-gateway/main/portal/openapi/redocly/#tag/APIs/operation/ListAPIs) endpoint in the portal server returns the same `apiProduct` in the response.
+  // Then, these APIs are grouped together and shown as a single `billing` API product with multiple `v1` and `v2` versions in the frontend portal for your end users to discover and use.
+  string api_product_id = 1;
+  // Optional: Give a name for the API product to display in the frontend portal. If omitted, the `apiProductId` value is used as the display name.
+  // If `api_product_display_name` is set to a different value in each route table that has the same `apiProductId` value,
+  // then the `api_product_display_name` value from the route table with the oldest creation timestamp is used.
+  string api_product_display_name = 2;
+  // This field is required to enable the Portal feature.
+  // The version of the API in context of the api product.
+  // You cannot have multiple `apiVersion` values for the same `apiProductId` value, and you must set `apiProductId` to use `apiVersion`.
+  // For example, if you have two route tables that both set `apiProductId` to `billing-api`, then one route table can also set `apiVersion` to `v1` and the other to `v2`.
+  // But both route tables cannot set the `apiVersion` to `v1`.
+  string api_version = 3;
+  // The title of the openAPI specification for this API.
+  string title = 4;
+  // The description of the openAPI specification for this API.
+  string description = 5;
+  // The terms of service of the openAPI specification for this API.
+  string terms_of_service = 6;
+  // The contact information of the openAPI specification for this API.
+  string contact = 7;
+  // The license of the openAPI specification for this API.
+  string license = 8;
+  // Describes the current lifecycle stage of the API.
+  string lifecycle = 9;
+  // Provide key-value pairs of any custom metadata that you want to show end users in the frontend portal for this API product.
+  // In particular, you might provide information about your API lifecycle management policies,
+  // such as `phase=supported`, `phase=deprecated`, `compatibility=backwards`, or other product information.
+  // Furthermore, the key-value pairs are added to the API Usage & Analytics data for incoming requests to this API product.
+  map<string, string> custom_metadata = 10;
 }
 
 message RouteTableStatus {

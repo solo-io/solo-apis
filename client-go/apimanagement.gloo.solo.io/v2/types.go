@@ -223,41 +223,6 @@ type PortalGroupList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
-// GroupVersionKind for ApiProduct
-var ApiProductGVK = schema.GroupVersionKind{
-	Group:   "apimanagement.gloo.solo.io",
-	Version: "v2",
-	Kind:    "ApiProduct",
-}
-
-// ApiProduct is the Schema for the apiProduct API
-type ApiProduct struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   ApiProductSpec   `json:"spec,omitempty"`
-	Status ApiProductStatus `json:"status,omitempty"`
-}
-
-// GVK returns the GroupVersionKind associated with the resource type.
-func (ApiProduct) GVK() schema.GroupVersionKind {
-	return ApiProductGVK
-}
-
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// ApiProductList contains a list of ApiProduct
-type ApiProductList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ApiProduct `json:"items"`
-}
-
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +k8s:openapi-gen=true
-// +kubebuilder:subresource:status
-
 // GroupVersionKind for ApiSchemaDiscovery
 var ApiSchemaDiscoveryGVK = schema.GroupVersionKind{
 	Group:   "apimanagement.gloo.solo.io",
@@ -295,6 +260,5 @@ func init() {
 	SchemeBuilder.Register(&ApiDoc{}, &ApiDocList{})
 	SchemeBuilder.Register(&Portal{}, &PortalList{})
 	SchemeBuilder.Register(&PortalGroup{}, &PortalGroupList{})
-	SchemeBuilder.Register(&ApiProduct{}, &ApiProductList{})
 	SchemeBuilder.Register(&ApiSchemaDiscovery{}, &ApiSchemaDiscoveryList{})
 }

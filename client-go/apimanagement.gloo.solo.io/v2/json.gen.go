@@ -159,28 +159,6 @@ func (this *PortalGroupStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
 
-// MarshalJSON is a custom marshaler for ApiProductSpec
-func (this *ApiProductSpec) MarshalJSON() ([]byte, error) {
-	str, err := marshaller.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for ApiProductSpec
-func (this *ApiProductSpec) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
-}
-
-// MarshalJSON is a custom marshaler for ApiProductStatus
-func (this *ApiProductStatus) MarshalJSON() ([]byte, error) {
-	str, err := marshaller.MarshalToString(this)
-	return []byte(str), err
-}
-
-// UnmarshalJSON is a custom unmarshaler for ApiProductStatus
-func (this *ApiProductStatus) UnmarshalJSON(b []byte) error {
-	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
-}
-
 // MarshalJSON is a custom marshaler for ApiSchemaDiscoverySpec
 func (this *ApiSchemaDiscoverySpec) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)

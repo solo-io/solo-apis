@@ -682,6 +682,229 @@ func (s *outlierDetectionPolicySet) Clone() OutlierDetectionPolicySet {
 	return &outlierDetectionPolicySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
+type AdaptiveRequestConcurrencyPolicySet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) bool) []*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) bool) []*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy
+	// Return the Set as a map of key to resource.
+	Map() map[string]*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy
+	// Insert a resource into the set.
+	Insert(adaptiveRequestConcurrencyPolicy ...*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(adaptiveRequestConcurrencyPolicySet AdaptiveRequestConcurrencyPolicySet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(adaptiveRequestConcurrencyPolicy ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(adaptiveRequestConcurrencyPolicy ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set AdaptiveRequestConcurrencyPolicySet) AdaptiveRequestConcurrencyPolicySet
+	// Return the difference with the provided set
+	Difference(set AdaptiveRequestConcurrencyPolicySet) AdaptiveRequestConcurrencyPolicySet
+	// Return the intersection with the provided set
+	Intersection(set AdaptiveRequestConcurrencyPolicySet) AdaptiveRequestConcurrencyPolicySet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another AdaptiveRequestConcurrencyPolicySet
+	Delta(newSet AdaptiveRequestConcurrencyPolicySet) sksets.ResourceDelta
+	// Create a deep copy of the current AdaptiveRequestConcurrencyPolicySet
+	Clone() AdaptiveRequestConcurrencyPolicySet
+}
+
+func makeGenericAdaptiveRequestConcurrencyPolicySet(adaptiveRequestConcurrencyPolicyList []*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range adaptiveRequestConcurrencyPolicyList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type adaptiveRequestConcurrencyPolicySet struct {
+	set sksets.ResourceSet
+}
+
+func NewAdaptiveRequestConcurrencyPolicySet(adaptiveRequestConcurrencyPolicyList ...*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) AdaptiveRequestConcurrencyPolicySet {
+	return &adaptiveRequestConcurrencyPolicySet{set: makeGenericAdaptiveRequestConcurrencyPolicySet(adaptiveRequestConcurrencyPolicyList)}
+}
+
+func NewAdaptiveRequestConcurrencyPolicySetFromList(adaptiveRequestConcurrencyPolicyList *resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicyList) AdaptiveRequestConcurrencyPolicySet {
+	list := make([]*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy, 0, len(adaptiveRequestConcurrencyPolicyList.Items))
+	for idx := range adaptiveRequestConcurrencyPolicyList.Items {
+		list = append(list, &adaptiveRequestConcurrencyPolicyList.Items[idx])
+	}
+	return &adaptiveRequestConcurrencyPolicySet{set: makeGenericAdaptiveRequestConcurrencyPolicySet(list)}
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) List(filterResource ...func(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) bool) []*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	adaptiveRequestConcurrencyPolicyList := make([]*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy, 0, len(objs))
+	for _, obj := range objs {
+		adaptiveRequestConcurrencyPolicyList = append(adaptiveRequestConcurrencyPolicyList, obj.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy))
+	}
+	return adaptiveRequestConcurrencyPolicyList
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) UnsortedList(filterResource ...func(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy) bool) []*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy))
+		})
+	}
+
+	var adaptiveRequestConcurrencyPolicyList []*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		adaptiveRequestConcurrencyPolicyList = append(adaptiveRequestConcurrencyPolicyList, obj.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy))
+	}
+	return adaptiveRequestConcurrencyPolicyList
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Map() map[string]*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy)
+	}
+	return newMap
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Insert(
+	adaptiveRequestConcurrencyPolicyList ...*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range adaptiveRequestConcurrencyPolicyList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Has(adaptiveRequestConcurrencyPolicy ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(adaptiveRequestConcurrencyPolicy)
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Equal(
+	adaptiveRequestConcurrencyPolicySet AdaptiveRequestConcurrencyPolicySet,
+) bool {
+	if s == nil {
+		return adaptiveRequestConcurrencyPolicySet == nil
+	}
+	return s.Generic().Equal(adaptiveRequestConcurrencyPolicySet.Generic())
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Delete(AdaptiveRequestConcurrencyPolicy ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(AdaptiveRequestConcurrencyPolicy)
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Union(set AdaptiveRequestConcurrencyPolicySet) AdaptiveRequestConcurrencyPolicySet {
+	if s == nil {
+		return set
+	}
+	return NewAdaptiveRequestConcurrencyPolicySet(append(s.List(), set.List()...)...)
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Difference(set AdaptiveRequestConcurrencyPolicySet) AdaptiveRequestConcurrencyPolicySet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &adaptiveRequestConcurrencyPolicySet{set: newSet}
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Intersection(set AdaptiveRequestConcurrencyPolicySet) AdaptiveRequestConcurrencyPolicySet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var adaptiveRequestConcurrencyPolicyList []*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy
+	for _, obj := range newSet.List() {
+		adaptiveRequestConcurrencyPolicyList = append(adaptiveRequestConcurrencyPolicyList, obj.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy))
+	}
+	return NewAdaptiveRequestConcurrencyPolicySet(adaptiveRequestConcurrencyPolicyList...)
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Find(id ezkube.ResourceId) (*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find AdaptiveRequestConcurrencyPolicy %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*resilience_policy_gloo_solo_io_v2.AdaptiveRequestConcurrencyPolicy), nil
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Delta(newSet AdaptiveRequestConcurrencyPolicySet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *adaptiveRequestConcurrencyPolicySet) Clone() AdaptiveRequestConcurrencyPolicySet {
+	if s == nil {
+		return nil
+	}
+	return &adaptiveRequestConcurrencyPolicySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
 type FaultInjectionPolicySet interface {
 	// Get the set stored keys
 	Keys() sets.String

@@ -319,13 +319,13 @@ message Extraction {
     google.protobuf.Value json = 6 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
 
     // In the future, we may want to allow for nested extractions along with transformations.
-    // See https://github.com/solo-io/solo-apis/pull/4354#discussion_r919055587 for discussion
+    // See https://github.com/solo-io/gloo-mesh-enterprise/pull/4354#discussion_r919055587 for discussion
     //          Extraction variables = 8;
 
   }
 
   // In the future, we may want to also include a Transformation here so we can declare the value of the variables
-  // to some transformed value. see https://github.com/solo-io/solo-apis/pull/4354#discussion_r919055587 for discussion.
+  // to some transformed value. see https://github.com/solo-io/gloo-mesh-enterprise/pull/4354#discussion_r919055587 for discussion.
   // Transformation transformation = 9;
 
 }

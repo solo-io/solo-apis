@@ -46,6 +46,8 @@ type Clientset interface {
 	// clienset for the resilience.policy.gloo.solo.io/v2/v2 APIs
 	OutlierDetectionPolicies() OutlierDetectionPolicyClient
 	// clienset for the resilience.policy.gloo.solo.io/v2/v2 APIs
+	AdaptiveRequestConcurrencyPolicies() AdaptiveRequestConcurrencyPolicyClient
+	// clienset for the resilience.policy.gloo.solo.io/v2/v2 APIs
 	FaultInjectionPolicies() FaultInjectionPolicyClient
 	// clienset for the resilience.policy.gloo.solo.io/v2/v2 APIs
 	RetryTimeoutPolicies() RetryTimeoutPolicyClient
@@ -94,6 +96,11 @@ func (c *clientSet) FailoverPolicies() FailoverPolicyClient {
 // clienset for the resilience.policy.gloo.solo.io/v2/v2 APIs
 func (c *clientSet) OutlierDetectionPolicies() OutlierDetectionPolicyClient {
 	return NewOutlierDetectionPolicyClient(c.client)
+}
+
+// clienset for the resilience.policy.gloo.solo.io/v2/v2 APIs
+func (c *clientSet) AdaptiveRequestConcurrencyPolicies() AdaptiveRequestConcurrencyPolicyClient {
+	return NewAdaptiveRequestConcurrencyPolicyClient(c.client)
 }
 
 // clienset for the resilience.policy.gloo.solo.io/v2/v2 APIs
@@ -550,6 +557,148 @@ func (m *multiclusterOutlierDetectionPolicyClient) Cluster(cluster string) (Outl
 		return nil, err
 	}
 	return NewOutlierDetectionPolicyClient(client), nil
+}
+
+// Reader knows how to read and list AdaptiveRequestConcurrencyPolicys.
+type AdaptiveRequestConcurrencyPolicyReader interface {
+	// Get retrieves a AdaptiveRequestConcurrencyPolicy for the given object key
+	GetAdaptiveRequestConcurrencyPolicy(ctx context.Context, key client.ObjectKey) (*AdaptiveRequestConcurrencyPolicy, error)
+
+	// List retrieves list of AdaptiveRequestConcurrencyPolicys for a given namespace and list options.
+	ListAdaptiveRequestConcurrencyPolicy(ctx context.Context, opts ...client.ListOption) (*AdaptiveRequestConcurrencyPolicyList, error)
+}
+
+// AdaptiveRequestConcurrencyPolicyTransitionFunction instructs the AdaptiveRequestConcurrencyPolicyWriter how to transition between an existing
+// AdaptiveRequestConcurrencyPolicy object and a desired on an Upsert
+type AdaptiveRequestConcurrencyPolicyTransitionFunction func(existing, desired *AdaptiveRequestConcurrencyPolicy) error
+
+// Writer knows how to create, delete, and update AdaptiveRequestConcurrencyPolicys.
+type AdaptiveRequestConcurrencyPolicyWriter interface {
+	// Create saves the AdaptiveRequestConcurrencyPolicy object.
+	CreateAdaptiveRequestConcurrencyPolicy(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, opts ...client.CreateOption) error
+
+	// Delete deletes the AdaptiveRequestConcurrencyPolicy object.
+	DeleteAdaptiveRequestConcurrencyPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given AdaptiveRequestConcurrencyPolicy object.
+	UpdateAdaptiveRequestConcurrencyPolicy(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, opts ...client.UpdateOption) error
+
+	// Patch patches the given AdaptiveRequestConcurrencyPolicy object.
+	PatchAdaptiveRequestConcurrencyPolicy(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all AdaptiveRequestConcurrencyPolicy objects matching the given options.
+	DeleteAllOfAdaptiveRequestConcurrencyPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the AdaptiveRequestConcurrencyPolicy object.
+	UpsertAdaptiveRequestConcurrencyPolicy(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, transitionFuncs ...AdaptiveRequestConcurrencyPolicyTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a AdaptiveRequestConcurrencyPolicy object.
+type AdaptiveRequestConcurrencyPolicyStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given AdaptiveRequestConcurrencyPolicy object.
+	UpdateAdaptiveRequestConcurrencyPolicyStatus(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given AdaptiveRequestConcurrencyPolicy object's subresource.
+	PatchAdaptiveRequestConcurrencyPolicyStatus(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on AdaptiveRequestConcurrencyPolicys.
+type AdaptiveRequestConcurrencyPolicyClient interface {
+	AdaptiveRequestConcurrencyPolicyReader
+	AdaptiveRequestConcurrencyPolicyWriter
+	AdaptiveRequestConcurrencyPolicyStatusWriter
+}
+
+type adaptiveRequestConcurrencyPolicyClient struct {
+	client client.Client
+}
+
+func NewAdaptiveRequestConcurrencyPolicyClient(client client.Client) *adaptiveRequestConcurrencyPolicyClient {
+	return &adaptiveRequestConcurrencyPolicyClient{client: client}
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) GetAdaptiveRequestConcurrencyPolicy(ctx context.Context, key client.ObjectKey) (*AdaptiveRequestConcurrencyPolicy, error) {
+	obj := &AdaptiveRequestConcurrencyPolicy{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) ListAdaptiveRequestConcurrencyPolicy(ctx context.Context, opts ...client.ListOption) (*AdaptiveRequestConcurrencyPolicyList, error) {
+	list := &AdaptiveRequestConcurrencyPolicyList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) CreateAdaptiveRequestConcurrencyPolicy(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) DeleteAdaptiveRequestConcurrencyPolicy(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &AdaptiveRequestConcurrencyPolicy{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) UpdateAdaptiveRequestConcurrencyPolicy(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) PatchAdaptiveRequestConcurrencyPolicy(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) DeleteAllOfAdaptiveRequestConcurrencyPolicy(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &AdaptiveRequestConcurrencyPolicy{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) UpsertAdaptiveRequestConcurrencyPolicy(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, transitionFuncs ...AdaptiveRequestConcurrencyPolicyTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*AdaptiveRequestConcurrencyPolicy), desired.(*AdaptiveRequestConcurrencyPolicy)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) UpdateAdaptiveRequestConcurrencyPolicyStatus(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *adaptiveRequestConcurrencyPolicyClient) PatchAdaptiveRequestConcurrencyPolicyStatus(ctx context.Context, obj *AdaptiveRequestConcurrencyPolicy, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides AdaptiveRequestConcurrencyPolicyClients for multiple clusters.
+type MulticlusterAdaptiveRequestConcurrencyPolicyClient interface {
+	// Cluster returns a AdaptiveRequestConcurrencyPolicyClient for the given cluster
+	Cluster(cluster string) (AdaptiveRequestConcurrencyPolicyClient, error)
+}
+
+type multiclusterAdaptiveRequestConcurrencyPolicyClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterAdaptiveRequestConcurrencyPolicyClient(client multicluster.Client) MulticlusterAdaptiveRequestConcurrencyPolicyClient {
+	return &multiclusterAdaptiveRequestConcurrencyPolicyClient{client: client}
+}
+
+func (m *multiclusterAdaptiveRequestConcurrencyPolicyClient) Cluster(cluster string) (AdaptiveRequestConcurrencyPolicyClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewAdaptiveRequestConcurrencyPolicyClient(client), nil
 }
 
 // Reader knows how to read and list FaultInjectionPolicys.
