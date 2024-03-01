@@ -49,9 +49,6 @@ func (m *RateLimitConfigSpec) Equal(that interface{}) bool {
 	switch m.ConfigType.(type) {
 
 	case *RateLimitConfigSpec_Raw_:
-		if _, ok := target.ConfigType.(*RateLimitConfigSpec_Raw_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRaw()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRaw()) {
@@ -63,11 +60,6 @@ func (m *RateLimitConfigSpec) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.ConfigType != target.ConfigType {
-			return false
-		}
 	}
 
 	return true
@@ -428,9 +420,6 @@ func (m *Action) Equal(that interface{}) bool {
 	switch m.ActionSpecifier.(type) {
 
 	case *Action_SourceCluster_:
-		if _, ok := target.ActionSpecifier.(*Action_SourceCluster_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetSourceCluster()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSourceCluster()) {
@@ -443,9 +432,6 @@ func (m *Action) Equal(that interface{}) bool {
 		}
 
 	case *Action_DestinationCluster_:
-		if _, ok := target.ActionSpecifier.(*Action_DestinationCluster_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetDestinationCluster()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetDestinationCluster()) {
@@ -458,9 +444,6 @@ func (m *Action) Equal(that interface{}) bool {
 		}
 
 	case *Action_RequestHeaders_:
-		if _, ok := target.ActionSpecifier.(*Action_RequestHeaders_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRequestHeaders()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRequestHeaders()) {
@@ -473,9 +456,6 @@ func (m *Action) Equal(that interface{}) bool {
 		}
 
 	case *Action_RemoteAddress_:
-		if _, ok := target.ActionSpecifier.(*Action_RemoteAddress_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRemoteAddress()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRemoteAddress()) {
@@ -488,9 +468,6 @@ func (m *Action) Equal(that interface{}) bool {
 		}
 
 	case *Action_GenericKey_:
-		if _, ok := target.ActionSpecifier.(*Action_GenericKey_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetGenericKey()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetGenericKey()) {
@@ -503,9 +480,6 @@ func (m *Action) Equal(that interface{}) bool {
 		}
 
 	case *Action_HeaderValueMatch_:
-		if _, ok := target.ActionSpecifier.(*Action_HeaderValueMatch_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetHeaderValueMatch()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetHeaderValueMatch()) {
@@ -518,9 +492,6 @@ func (m *Action) Equal(that interface{}) bool {
 		}
 
 	case *Action_Metadata:
-		if _, ok := target.ActionSpecifier.(*Action_Metadata); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetMetadata()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetMetadata()) {
@@ -532,11 +503,6 @@ func (m *Action) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.ActionSpecifier != target.ActionSpecifier {
-			return false
-		}
 	}
 
 	return true
@@ -612,9 +578,6 @@ func (m *Override) Equal(that interface{}) bool {
 	switch m.OverrideSpecifier.(type) {
 
 	case *Override_DynamicMetadata_:
-		if _, ok := target.OverrideSpecifier.(*Override_DynamicMetadata_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetDynamicMetadata()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetDynamicMetadata()) {
@@ -626,11 +589,6 @@ func (m *Override) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.OverrideSpecifier != target.OverrideSpecifier {
-			return false
-		}
 	}
 
 	return true
@@ -930,27 +888,18 @@ func (m *Action_HeaderValueMatch_HeaderMatcher) Equal(that interface{}) bool {
 	switch m.HeaderMatchSpecifier.(type) {
 
 	case *Action_HeaderValueMatch_HeaderMatcher_ExactMatch:
-		if _, ok := target.HeaderMatchSpecifier.(*Action_HeaderValueMatch_HeaderMatcher_ExactMatch); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetExactMatch(), target.GetExactMatch()) != 0 {
 			return false
 		}
 
 	case *Action_HeaderValueMatch_HeaderMatcher_RegexMatch:
-		if _, ok := target.HeaderMatchSpecifier.(*Action_HeaderValueMatch_HeaderMatcher_RegexMatch); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetRegexMatch(), target.GetRegexMatch()) != 0 {
 			return false
 		}
 
 	case *Action_HeaderValueMatch_HeaderMatcher_RangeMatch:
-		if _, ok := target.HeaderMatchSpecifier.(*Action_HeaderValueMatch_HeaderMatcher_RangeMatch); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRangeMatch()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRangeMatch()) {
@@ -963,37 +912,23 @@ func (m *Action_HeaderValueMatch_HeaderMatcher) Equal(that interface{}) bool {
 		}
 
 	case *Action_HeaderValueMatch_HeaderMatcher_PresentMatch:
-		if _, ok := target.HeaderMatchSpecifier.(*Action_HeaderValueMatch_HeaderMatcher_PresentMatch); !ok {
-			return false
-		}
 
 		if m.GetPresentMatch() != target.GetPresentMatch() {
 			return false
 		}
 
 	case *Action_HeaderValueMatch_HeaderMatcher_PrefixMatch:
-		if _, ok := target.HeaderMatchSpecifier.(*Action_HeaderValueMatch_HeaderMatcher_PrefixMatch); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetPrefixMatch(), target.GetPrefixMatch()) != 0 {
 			return false
 		}
 
 	case *Action_HeaderValueMatch_HeaderMatcher_SuffixMatch:
-		if _, ok := target.HeaderMatchSpecifier.(*Action_HeaderValueMatch_HeaderMatcher_SuffixMatch); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetSuffixMatch(), target.GetSuffixMatch()) != 0 {
 			return false
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.HeaderMatchSpecifier != target.HeaderMatchSpecifier {
-			return false
-		}
 	}
 
 	return true
@@ -1100,19 +1035,11 @@ func (m *MetaData_MetadataKey_PathSegment) Equal(that interface{}) bool {
 	switch m.Segment.(type) {
 
 	case *MetaData_MetadataKey_PathSegment_Key:
-		if _, ok := target.Segment.(*MetaData_MetadataKey_PathSegment_Key); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetKey(), target.GetKey()) != 0 {
 			return false
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.Segment != target.Segment {
-			return false
-		}
 	}
 
 	return true

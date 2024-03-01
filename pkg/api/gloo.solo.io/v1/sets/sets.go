@@ -171,7 +171,7 @@ func (s *settingsSet) Union(set SettingsSet) SettingsSet {
 	if s == nil {
 		return set
 	}
-	return NewSettingsSet(append(s.List(), set.List()...)...)
+	return &settingsMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *settingsSet) Difference(set SettingsSet) SettingsSet {
@@ -233,7 +233,179 @@ func (s *settingsSet) Clone() SettingsSet {
 	if s == nil {
 		return nil
 	}
-	return &settingsSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &settingsMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type settingsMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewSettingsMergedSet(settingsList ...*gloo_solo_io_v1.Settings) SettingsSet {
+	return &settingsMergedSet{sets: []sksets.ResourceSet{makeGenericSettingsSet(settingsList)}}
+}
+
+func NewSettingsMergedSetFromList(settingsList *gloo_solo_io_v1.SettingsList) SettingsSet {
+	list := make([]*gloo_solo_io_v1.Settings, 0, len(settingsList.Items))
+	for idx := range settingsList.Items {
+		list = append(list, &settingsList.Items[idx])
+	}
+	return &settingsMergedSet{sets: []sksets.ResourceSet{makeGenericSettingsSet(list)}}
+}
+
+func (s *settingsMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *settingsMergedSet) List(filterResource ...func(*gloo_solo_io_v1.Settings) bool) []*gloo_solo_io_v1.Settings {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Settings))
+		})
+	}
+	settingsList := []*gloo_solo_io_v1.Settings{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			settingsList = append(settingsList, obj.(*gloo_solo_io_v1.Settings))
+		}
+	}
+	return settingsList
+}
+
+func (s *settingsMergedSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Settings) bool) []*gloo_solo_io_v1.Settings {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Settings))
+		})
+	}
+
+	settingsList := []*gloo_solo_io_v1.Settings{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			settingsList = append(settingsList, obj.(*gloo_solo_io_v1.Settings))
+		}
+	}
+	return settingsList
+}
+
+func (s *settingsMergedSet) Map() map[string]*gloo_solo_io_v1.Settings {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*gloo_solo_io_v1.Settings{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*gloo_solo_io_v1.Settings)
+		}
+	}
+	return newMap
+}
+
+func (s *settingsMergedSet) Insert(
+	settingsList ...*gloo_solo_io_v1.Settings,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericSettingsSet(settingsList))
+	}
+	for _, obj := range settingsList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *settingsMergedSet) Has(settings ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(settings) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *settingsMergedSet) Equal(
+	settingsSet SettingsSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *settingsMergedSet) Delete(Settings ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *settingsMergedSet) Union(set SettingsSet) SettingsSet {
+	return &settingsMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *settingsMergedSet) Difference(set SettingsSet) SettingsSet {
+	panic("unimplemented")
+}
+
+func (s *settingsMergedSet) Intersection(set SettingsSet) SettingsSet {
+	panic("unimplemented")
+}
+
+func (s *settingsMergedSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Settings, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find Settings %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&gloo_solo_io_v1.Settings{}, id)
+		if err == nil {
+			return obj.(*gloo_solo_io_v1.Settings), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *settingsMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *settingsMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *settingsMergedSet) Delta(newSet SettingsSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *settingsMergedSet) Clone() SettingsSet {
+	if s == nil {
+		return nil
+	}
+	return &settingsMergedSet{sets: s.sets[:]}
 }
 
 type UpstreamSet interface {
@@ -394,7 +566,7 @@ func (s *upstreamSet) Union(set UpstreamSet) UpstreamSet {
 	if s == nil {
 		return set
 	}
-	return NewUpstreamSet(append(s.List(), set.List()...)...)
+	return &upstreamMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *upstreamSet) Difference(set UpstreamSet) UpstreamSet {
@@ -456,7 +628,179 @@ func (s *upstreamSet) Clone() UpstreamSet {
 	if s == nil {
 		return nil
 	}
-	return &upstreamSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &upstreamMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type upstreamMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewUpstreamMergedSet(upstreamList ...*gloo_solo_io_v1.Upstream) UpstreamSet {
+	return &upstreamMergedSet{sets: []sksets.ResourceSet{makeGenericUpstreamSet(upstreamList)}}
+}
+
+func NewUpstreamMergedSetFromList(upstreamList *gloo_solo_io_v1.UpstreamList) UpstreamSet {
+	list := make([]*gloo_solo_io_v1.Upstream, 0, len(upstreamList.Items))
+	for idx := range upstreamList.Items {
+		list = append(list, &upstreamList.Items[idx])
+	}
+	return &upstreamMergedSet{sets: []sksets.ResourceSet{makeGenericUpstreamSet(list)}}
+}
+
+func (s *upstreamMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *upstreamMergedSet) List(filterResource ...func(*gloo_solo_io_v1.Upstream) bool) []*gloo_solo_io_v1.Upstream {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Upstream))
+		})
+	}
+	upstreamList := []*gloo_solo_io_v1.Upstream{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			upstreamList = append(upstreamList, obj.(*gloo_solo_io_v1.Upstream))
+		}
+	}
+	return upstreamList
+}
+
+func (s *upstreamMergedSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Upstream) bool) []*gloo_solo_io_v1.Upstream {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Upstream))
+		})
+	}
+
+	upstreamList := []*gloo_solo_io_v1.Upstream{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			upstreamList = append(upstreamList, obj.(*gloo_solo_io_v1.Upstream))
+		}
+	}
+	return upstreamList
+}
+
+func (s *upstreamMergedSet) Map() map[string]*gloo_solo_io_v1.Upstream {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*gloo_solo_io_v1.Upstream{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*gloo_solo_io_v1.Upstream)
+		}
+	}
+	return newMap
+}
+
+func (s *upstreamMergedSet) Insert(
+	upstreamList ...*gloo_solo_io_v1.Upstream,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericUpstreamSet(upstreamList))
+	}
+	for _, obj := range upstreamList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *upstreamMergedSet) Has(upstream ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(upstream) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *upstreamMergedSet) Equal(
+	upstreamSet UpstreamSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *upstreamMergedSet) Delete(Upstream ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *upstreamMergedSet) Union(set UpstreamSet) UpstreamSet {
+	return &upstreamMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *upstreamMergedSet) Difference(set UpstreamSet) UpstreamSet {
+	panic("unimplemented")
+}
+
+func (s *upstreamMergedSet) Intersection(set UpstreamSet) UpstreamSet {
+	panic("unimplemented")
+}
+
+func (s *upstreamMergedSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Upstream, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find Upstream %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&gloo_solo_io_v1.Upstream{}, id)
+		if err == nil {
+			return obj.(*gloo_solo_io_v1.Upstream), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *upstreamMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *upstreamMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *upstreamMergedSet) Delta(newSet UpstreamSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *upstreamMergedSet) Clone() UpstreamSet {
+	if s == nil {
+		return nil
+	}
+	return &upstreamMergedSet{sets: s.sets[:]}
 }
 
 type UpstreamGroupSet interface {
@@ -617,7 +961,7 @@ func (s *upstreamGroupSet) Union(set UpstreamGroupSet) UpstreamGroupSet {
 	if s == nil {
 		return set
 	}
-	return NewUpstreamGroupSet(append(s.List(), set.List()...)...)
+	return &upstreamGroupMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *upstreamGroupSet) Difference(set UpstreamGroupSet) UpstreamGroupSet {
@@ -679,7 +1023,179 @@ func (s *upstreamGroupSet) Clone() UpstreamGroupSet {
 	if s == nil {
 		return nil
 	}
-	return &upstreamGroupSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &upstreamGroupMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type upstreamGroupMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewUpstreamGroupMergedSet(upstreamGroupList ...*gloo_solo_io_v1.UpstreamGroup) UpstreamGroupSet {
+	return &upstreamGroupMergedSet{sets: []sksets.ResourceSet{makeGenericUpstreamGroupSet(upstreamGroupList)}}
+}
+
+func NewUpstreamGroupMergedSetFromList(upstreamGroupList *gloo_solo_io_v1.UpstreamGroupList) UpstreamGroupSet {
+	list := make([]*gloo_solo_io_v1.UpstreamGroup, 0, len(upstreamGroupList.Items))
+	for idx := range upstreamGroupList.Items {
+		list = append(list, &upstreamGroupList.Items[idx])
+	}
+	return &upstreamGroupMergedSet{sets: []sksets.ResourceSet{makeGenericUpstreamGroupSet(list)}}
+}
+
+func (s *upstreamGroupMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *upstreamGroupMergedSet) List(filterResource ...func(*gloo_solo_io_v1.UpstreamGroup) bool) []*gloo_solo_io_v1.UpstreamGroup {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.UpstreamGroup))
+		})
+	}
+	upstreamGroupList := []*gloo_solo_io_v1.UpstreamGroup{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			upstreamGroupList = append(upstreamGroupList, obj.(*gloo_solo_io_v1.UpstreamGroup))
+		}
+	}
+	return upstreamGroupList
+}
+
+func (s *upstreamGroupMergedSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.UpstreamGroup) bool) []*gloo_solo_io_v1.UpstreamGroup {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.UpstreamGroup))
+		})
+	}
+
+	upstreamGroupList := []*gloo_solo_io_v1.UpstreamGroup{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			upstreamGroupList = append(upstreamGroupList, obj.(*gloo_solo_io_v1.UpstreamGroup))
+		}
+	}
+	return upstreamGroupList
+}
+
+func (s *upstreamGroupMergedSet) Map() map[string]*gloo_solo_io_v1.UpstreamGroup {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*gloo_solo_io_v1.UpstreamGroup{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*gloo_solo_io_v1.UpstreamGroup)
+		}
+	}
+	return newMap
+}
+
+func (s *upstreamGroupMergedSet) Insert(
+	upstreamGroupList ...*gloo_solo_io_v1.UpstreamGroup,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericUpstreamGroupSet(upstreamGroupList))
+	}
+	for _, obj := range upstreamGroupList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *upstreamGroupMergedSet) Has(upstreamGroup ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(upstreamGroup) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *upstreamGroupMergedSet) Equal(
+	upstreamGroupSet UpstreamGroupSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *upstreamGroupMergedSet) Delete(UpstreamGroup ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *upstreamGroupMergedSet) Union(set UpstreamGroupSet) UpstreamGroupSet {
+	return &upstreamGroupMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *upstreamGroupMergedSet) Difference(set UpstreamGroupSet) UpstreamGroupSet {
+	panic("unimplemented")
+}
+
+func (s *upstreamGroupMergedSet) Intersection(set UpstreamGroupSet) UpstreamGroupSet {
+	panic("unimplemented")
+}
+
+func (s *upstreamGroupMergedSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.UpstreamGroup, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find UpstreamGroup %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&gloo_solo_io_v1.UpstreamGroup{}, id)
+		if err == nil {
+			return obj.(*gloo_solo_io_v1.UpstreamGroup), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *upstreamGroupMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *upstreamGroupMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *upstreamGroupMergedSet) Delta(newSet UpstreamGroupSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *upstreamGroupMergedSet) Clone() UpstreamGroupSet {
+	if s == nil {
+		return nil
+	}
+	return &upstreamGroupMergedSet{sets: s.sets[:]}
 }
 
 type ProxySet interface {
@@ -840,7 +1356,7 @@ func (s *proxySet) Union(set ProxySet) ProxySet {
 	if s == nil {
 		return set
 	}
-	return NewProxySet(append(s.List(), set.List()...)...)
+	return &proxyMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *proxySet) Difference(set ProxySet) ProxySet {
@@ -902,5 +1418,177 @@ func (s *proxySet) Clone() ProxySet {
 	if s == nil {
 		return nil
 	}
-	return &proxySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &proxyMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type proxyMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewProxyMergedSet(proxyList ...*gloo_solo_io_v1.Proxy) ProxySet {
+	return &proxyMergedSet{sets: []sksets.ResourceSet{makeGenericProxySet(proxyList)}}
+}
+
+func NewProxyMergedSetFromList(proxyList *gloo_solo_io_v1.ProxyList) ProxySet {
+	list := make([]*gloo_solo_io_v1.Proxy, 0, len(proxyList.Items))
+	for idx := range proxyList.Items {
+		list = append(list, &proxyList.Items[idx])
+	}
+	return &proxyMergedSet{sets: []sksets.ResourceSet{makeGenericProxySet(list)}}
+}
+
+func (s *proxyMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *proxyMergedSet) List(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*gloo_solo_io_v1.Proxy {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Proxy))
+		})
+	}
+	proxyList := []*gloo_solo_io_v1.Proxy{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			proxyList = append(proxyList, obj.(*gloo_solo_io_v1.Proxy))
+		}
+	}
+	return proxyList
+}
+
+func (s *proxyMergedSet) UnsortedList(filterResource ...func(*gloo_solo_io_v1.Proxy) bool) []*gloo_solo_io_v1.Proxy {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gloo_solo_io_v1.Proxy))
+		})
+	}
+
+	proxyList := []*gloo_solo_io_v1.Proxy{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			proxyList = append(proxyList, obj.(*gloo_solo_io_v1.Proxy))
+		}
+	}
+	return proxyList
+}
+
+func (s *proxyMergedSet) Map() map[string]*gloo_solo_io_v1.Proxy {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*gloo_solo_io_v1.Proxy{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*gloo_solo_io_v1.Proxy)
+		}
+	}
+	return newMap
+}
+
+func (s *proxyMergedSet) Insert(
+	proxyList ...*gloo_solo_io_v1.Proxy,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericProxySet(proxyList))
+	}
+	for _, obj := range proxyList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *proxyMergedSet) Has(proxy ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(proxy) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *proxyMergedSet) Equal(
+	proxySet ProxySet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *proxyMergedSet) Delete(Proxy ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *proxyMergedSet) Union(set ProxySet) ProxySet {
+	return &proxyMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *proxyMergedSet) Difference(set ProxySet) ProxySet {
+	panic("unimplemented")
+}
+
+func (s *proxyMergedSet) Intersection(set ProxySet) ProxySet {
+	panic("unimplemented")
+}
+
+func (s *proxyMergedSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Proxy, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find Proxy %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&gloo_solo_io_v1.Proxy{}, id)
+		if err == nil {
+			return obj.(*gloo_solo_io_v1.Proxy), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *proxyMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *proxyMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *proxyMergedSet) Delta(newSet ProxySet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *proxyMergedSet) Clone() ProxySet {
+	if s == nil {
+		return nil
+	}
+	return &proxyMergedSet{sets: s.sets[:]}
 }

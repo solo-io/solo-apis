@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -39,20 +39,14 @@ func (m *FilterConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetDnsCacheConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DnsCacheConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDnsCacheConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDnsCacheConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DnsCacheConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -64,20 +58,14 @@ func (m *FilterConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetSslConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("SslConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSslConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetSslConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("SslConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -100,20 +88,14 @@ func (m *DnsCacheCircuitBreakers) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetMaxPendingRequests()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MaxPendingRequests")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMaxPendingRequests(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMaxPendingRequests(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MaxPendingRequests")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -141,100 +123,70 @@ func (m *DnsCacheConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetDnsRefreshRate()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DnsRefreshRate")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDnsRefreshRate(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDnsRefreshRate(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DnsRefreshRate")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetHostTtl()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("HostTtl")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetHostTtl(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetHostTtl(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("HostTtl")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetMaxHosts()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MaxHosts")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMaxHosts(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMaxHosts(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MaxHosts")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetDnsFailureRefreshRate()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DnsFailureRefreshRate")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDnsFailureRefreshRate(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDnsFailureRefreshRate(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DnsFailureRefreshRate")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetDnsCacheCircuitBreaker()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DnsCacheCircuitBreaker")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDnsCacheCircuitBreaker(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDnsCacheCircuitBreaker(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DnsCacheCircuitBreaker")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -243,20 +195,14 @@ func (m *DnsCacheConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetPreresolveHostnames() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -265,20 +211,14 @@ func (m *DnsCacheConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetDnsQueryTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DnsQueryTimeout")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDnsQueryTimeout(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDnsQueryTimeout(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DnsQueryTimeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -289,20 +229,14 @@ func (m *DnsCacheConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	case *DnsCacheConfig_CaresDns:
 
 		if h, ok := interface{}(m.GetCaresDns()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("CaresDns")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetCaresDns(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetCaresDns(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("CaresDns")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -311,20 +245,14 @@ func (m *DnsCacheConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	case *DnsCacheConfig_AppleDns:
 
 		if h, ok := interface{}(m.GetAppleDns()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("AppleDns")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetAppleDns(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetAppleDns(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("AppleDns")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -349,40 +277,28 @@ func (m *RefreshRate) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetBaseInterval()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("BaseInterval")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetBaseInterval(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetBaseInterval(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("BaseInterval")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetMaxInterval()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MaxInterval")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMaxInterval(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMaxInterval(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MaxInterval")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -465,20 +381,14 @@ func (m *CaresDnsResolverConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetResolvers() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -487,20 +397,14 @@ func (m *CaresDnsResolverConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetDnsResolverOptions()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DnsResolverOptions")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDnsResolverOptions(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDnsResolverOptions(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DnsResolverOptions")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

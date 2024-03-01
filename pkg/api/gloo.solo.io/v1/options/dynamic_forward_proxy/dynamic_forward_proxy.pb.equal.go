@@ -212,9 +212,6 @@ func (m *DnsCacheConfig) Equal(that interface{}) bool {
 	switch m.DnsCacheType.(type) {
 
 	case *DnsCacheConfig_CaresDns:
-		if _, ok := target.DnsCacheType.(*DnsCacheConfig_CaresDns); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetCaresDns()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetCaresDns()) {
@@ -227,9 +224,6 @@ func (m *DnsCacheConfig) Equal(that interface{}) bool {
 		}
 
 	case *DnsCacheConfig_AppleDns:
-		if _, ok := target.DnsCacheType.(*DnsCacheConfig_AppleDns); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetAppleDns()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetAppleDns()) {
@@ -241,11 +235,6 @@ func (m *DnsCacheConfig) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.DnsCacheType != target.DnsCacheType {
-			return false
-		}
 	}
 
 	return true
@@ -319,28 +308,17 @@ func (m *PerRouteConfig) Equal(that interface{}) bool {
 	switch m.HostRewriteSpecifier.(type) {
 
 	case *PerRouteConfig_HostRewrite:
-		if _, ok := target.HostRewriteSpecifier.(*PerRouteConfig_HostRewrite); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetHostRewrite(), target.GetHostRewrite()) != 0 {
 			return false
 		}
 
 	case *PerRouteConfig_AutoHostRewriteHeader:
-		if _, ok := target.HostRewriteSpecifier.(*PerRouteConfig_AutoHostRewriteHeader); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetAutoHostRewriteHeader(), target.GetAutoHostRewriteHeader()) != 0 {
 			return false
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.HostRewriteSpecifier != target.HostRewriteSpecifier {
-			return false
-		}
 	}
 
 	return true

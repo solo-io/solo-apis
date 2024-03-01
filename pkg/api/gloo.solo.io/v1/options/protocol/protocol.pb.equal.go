@@ -115,28 +115,17 @@ func (m *Http1ProtocolOptions) Equal(that interface{}) bool {
 	switch m.HeaderFormat.(type) {
 
 	case *Http1ProtocolOptions_ProperCaseHeaderKeyFormat:
-		if _, ok := target.HeaderFormat.(*Http1ProtocolOptions_ProperCaseHeaderKeyFormat); !ok {
-			return false
-		}
 
 		if m.GetProperCaseHeaderKeyFormat() != target.GetProperCaseHeaderKeyFormat() {
 			return false
 		}
 
 	case *Http1ProtocolOptions_PreserveCaseHeaderKeyFormat:
-		if _, ok := target.HeaderFormat.(*Http1ProtocolOptions_PreserveCaseHeaderKeyFormat); !ok {
-			return false
-		}
 
 		if m.GetPreserveCaseHeaderKeyFormat() != target.GetPreserveCaseHeaderKeyFormat() {
 			return false
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.HeaderFormat != target.HeaderFormat {
-			return false
-		}
 	}
 
 	return true

@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -39,80 +39,56 @@ func (m *TcpProxySettings) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetMaxConnectAttempts()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MaxConnectAttempts")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMaxConnectAttempts(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMaxConnectAttempts(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MaxConnectAttempts")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetIdleTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("IdleTimeout")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetIdleTimeout(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetIdleTimeout(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("IdleTimeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetTunnelingConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("TunnelingConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTunnelingConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetTunnelingConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("TunnelingConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetAccessLogFlushInterval()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("AccessLogFlushInterval")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetAccessLogFlushInterval(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetAccessLogFlushInterval(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("AccessLogFlushInterval")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -135,40 +111,28 @@ func (m *HeaderValueOption) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetHeader()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Header")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetHeader(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetHeader(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Header")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetAppend()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Append")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetAppend(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetAppend(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Append")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -221,20 +185,14 @@ func (m *TcpProxySettings_TunnelingConfig) Hash(hasher hash.Hash64) (uint64, err
 	for _, v := range m.GetHeadersToAdd() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}

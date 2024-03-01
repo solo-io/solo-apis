@@ -100,9 +100,6 @@ func (m *AccessLog) Equal(that interface{}) bool {
 	switch m.OutputDestination.(type) {
 
 	case *AccessLog_FileSink:
-		if _, ok := target.OutputDestination.(*AccessLog_FileSink); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetFileSink()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetFileSink()) {
@@ -115,9 +112,6 @@ func (m *AccessLog) Equal(that interface{}) bool {
 		}
 
 	case *AccessLog_GrpcService:
-		if _, ok := target.OutputDestination.(*AccessLog_GrpcService); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetGrpcService()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetGrpcService()) {
@@ -129,11 +123,6 @@ func (m *AccessLog) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.OutputDestination != target.OutputDestination {
-			return false
-		}
 	}
 
 	return true
@@ -167,18 +156,12 @@ func (m *FileSink) Equal(that interface{}) bool {
 	switch m.OutputFormat.(type) {
 
 	case *FileSink_StringFormat:
-		if _, ok := target.OutputFormat.(*FileSink_StringFormat); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetStringFormat(), target.GetStringFormat()) != 0 {
 			return false
 		}
 
 	case *FileSink_JsonFormat:
-		if _, ok := target.OutputFormat.(*FileSink_JsonFormat); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetJsonFormat()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetJsonFormat()) {
@@ -190,11 +173,6 @@ func (m *FileSink) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.OutputFormat != target.OutputFormat {
-			return false
-		}
 	}
 
 	return true
@@ -261,19 +239,11 @@ func (m *GrpcService) Equal(that interface{}) bool {
 	switch m.ServiceRef.(type) {
 
 	case *GrpcService_StaticClusterName:
-		if _, ok := target.ServiceRef.(*GrpcService_StaticClusterName); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetStaticClusterName(), target.GetStaticClusterName()) != 0 {
 			return false
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.ServiceRef != target.ServiceRef {
-			return false
-		}
 	}
 
 	return true
@@ -303,9 +273,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 	switch m.FilterSpecifier.(type) {
 
 	case *AccessLogFilter_StatusCodeFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_StatusCodeFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetStatusCodeFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetStatusCodeFilter()) {
@@ -318,9 +285,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 		}
 
 	case *AccessLogFilter_DurationFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_DurationFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetDurationFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetDurationFilter()) {
@@ -333,9 +297,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 		}
 
 	case *AccessLogFilter_NotHealthCheckFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_NotHealthCheckFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetNotHealthCheckFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetNotHealthCheckFilter()) {
@@ -348,9 +309,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 		}
 
 	case *AccessLogFilter_TraceableFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_TraceableFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetTraceableFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetTraceableFilter()) {
@@ -363,9 +321,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 		}
 
 	case *AccessLogFilter_RuntimeFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_RuntimeFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRuntimeFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRuntimeFilter()) {
@@ -378,9 +333,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 		}
 
 	case *AccessLogFilter_AndFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_AndFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetAndFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetAndFilter()) {
@@ -393,9 +345,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 		}
 
 	case *AccessLogFilter_OrFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_OrFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetOrFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetOrFilter()) {
@@ -408,9 +357,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 		}
 
 	case *AccessLogFilter_HeaderFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_HeaderFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetHeaderFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetHeaderFilter()) {
@@ -423,9 +369,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 		}
 
 	case *AccessLogFilter_ResponseFlagFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_ResponseFlagFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetResponseFlagFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetResponseFlagFilter()) {
@@ -438,9 +381,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 		}
 
 	case *AccessLogFilter_GrpcStatusFilter:
-		if _, ok := target.FilterSpecifier.(*AccessLogFilter_GrpcStatusFilter); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetGrpcStatusFilter()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetGrpcStatusFilter()) {
@@ -452,11 +392,6 @@ func (m *AccessLogFilter) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.FilterSpecifier != target.FilterSpecifier {
-			return false
-		}
 	}
 
 	return true

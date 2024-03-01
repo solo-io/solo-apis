@@ -15,30 +15,30 @@ import (
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
-// MockGraphQLApiReconciler is a mock of GraphQLApiReconciler interface.
+// MockGraphQLApiReconciler is a mock of GraphQLApiReconciler interface
 type MockGraphQLApiReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLApiReconcilerMockRecorder
 }
 
-// MockGraphQLApiReconcilerMockRecorder is the mock recorder for MockGraphQLApiReconciler.
+// MockGraphQLApiReconcilerMockRecorder is the mock recorder for MockGraphQLApiReconciler
 type MockGraphQLApiReconcilerMockRecorder struct {
 	mock *MockGraphQLApiReconciler
 }
 
-// NewMockGraphQLApiReconciler creates a new mock instance.
+// NewMockGraphQLApiReconciler creates a new mock instance
 func NewMockGraphQLApiReconciler(ctrl *gomock.Controller) *MockGraphQLApiReconciler {
 	mock := &MockGraphQLApiReconciler{ctrl: ctrl}
 	mock.recorder = &MockGraphQLApiReconcilerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockGraphQLApiReconciler) EXPECT() *MockGraphQLApiReconcilerMockRecorder {
 	return m.recorder
 }
 
-// ReconcileGraphQLApi mocks base method.
+// ReconcileGraphQLApi mocks base method
 func (m *MockGraphQLApiReconciler) ReconcileGraphQLApi(obj *v1beta1.GraphQLApi) (reconcile.Result, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReconcileGraphQLApi", obj)
@@ -47,36 +47,36 @@ func (m *MockGraphQLApiReconciler) ReconcileGraphQLApi(obj *v1beta1.GraphQLApi) 
 	return ret0, ret1
 }
 
-// ReconcileGraphQLApi indicates an expected call of ReconcileGraphQLApi.
+// ReconcileGraphQLApi indicates an expected call of ReconcileGraphQLApi
 func (mr *MockGraphQLApiReconcilerMockRecorder) ReconcileGraphQLApi(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileGraphQLApi", reflect.TypeOf((*MockGraphQLApiReconciler)(nil).ReconcileGraphQLApi), obj)
 }
 
-// MockGraphQLApiDeletionReconciler is a mock of GraphQLApiDeletionReconciler interface.
+// MockGraphQLApiDeletionReconciler is a mock of GraphQLApiDeletionReconciler interface
 type MockGraphQLApiDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLApiDeletionReconcilerMockRecorder
 }
 
-// MockGraphQLApiDeletionReconcilerMockRecorder is the mock recorder for MockGraphQLApiDeletionReconciler.
+// MockGraphQLApiDeletionReconcilerMockRecorder is the mock recorder for MockGraphQLApiDeletionReconciler
 type MockGraphQLApiDeletionReconcilerMockRecorder struct {
 	mock *MockGraphQLApiDeletionReconciler
 }
 
-// NewMockGraphQLApiDeletionReconciler creates a new mock instance.
+// NewMockGraphQLApiDeletionReconciler creates a new mock instance
 func NewMockGraphQLApiDeletionReconciler(ctrl *gomock.Controller) *MockGraphQLApiDeletionReconciler {
 	mock := &MockGraphQLApiDeletionReconciler{ctrl: ctrl}
 	mock.recorder = &MockGraphQLApiDeletionReconcilerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockGraphQLApiDeletionReconciler) EXPECT() *MockGraphQLApiDeletionReconcilerMockRecorder {
 	return m.recorder
 }
 
-// ReconcileGraphQLApiDeletion mocks base method.
+// ReconcileGraphQLApiDeletion mocks base method
 func (m *MockGraphQLApiDeletionReconciler) ReconcileGraphQLApiDeletion(req reconcile.Request) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReconcileGraphQLApiDeletion", req)
@@ -84,64 +84,36 @@ func (m *MockGraphQLApiDeletionReconciler) ReconcileGraphQLApiDeletion(req recon
 	return ret0
 }
 
-// ReconcileGraphQLApiDeletion indicates an expected call of ReconcileGraphQLApiDeletion.
+// ReconcileGraphQLApiDeletion indicates an expected call of ReconcileGraphQLApiDeletion
 func (mr *MockGraphQLApiDeletionReconcilerMockRecorder) ReconcileGraphQLApiDeletion(req interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileGraphQLApiDeletion", reflect.TypeOf((*MockGraphQLApiDeletionReconciler)(nil).ReconcileGraphQLApiDeletion), req)
 }
 
-// MockGraphQLApiFinalizer is a mock of GraphQLApiFinalizer interface.
+// MockGraphQLApiFinalizer is a mock of GraphQLApiFinalizer interface
 type MockGraphQLApiFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLApiFinalizerMockRecorder
 }
 
-// MockGraphQLApiFinalizerMockRecorder is the mock recorder for MockGraphQLApiFinalizer.
+// MockGraphQLApiFinalizerMockRecorder is the mock recorder for MockGraphQLApiFinalizer
 type MockGraphQLApiFinalizerMockRecorder struct {
 	mock *MockGraphQLApiFinalizer
 }
 
-// NewMockGraphQLApiFinalizer creates a new mock instance.
+// NewMockGraphQLApiFinalizer creates a new mock instance
 func NewMockGraphQLApiFinalizer(ctrl *gomock.Controller) *MockGraphQLApiFinalizer {
 	mock := &MockGraphQLApiFinalizer{ctrl: ctrl}
 	mock.recorder = &MockGraphQLApiFinalizerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockGraphQLApiFinalizer) EXPECT() *MockGraphQLApiFinalizerMockRecorder {
 	return m.recorder
 }
 
-// FinalizeGraphQLApi mocks base method.
-func (m *MockGraphQLApiFinalizer) FinalizeGraphQLApi(obj *v1beta1.GraphQLApi) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FinalizeGraphQLApi", obj)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// FinalizeGraphQLApi indicates an expected call of FinalizeGraphQLApi.
-func (mr *MockGraphQLApiFinalizerMockRecorder) FinalizeGraphQLApi(obj interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeGraphQLApi", reflect.TypeOf((*MockGraphQLApiFinalizer)(nil).FinalizeGraphQLApi), obj)
-}
-
-// GraphQLApiFinalizerName mocks base method.
-func (m *MockGraphQLApiFinalizer) GraphQLApiFinalizerName() string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GraphQLApiFinalizerName")
-	ret0, _ := ret[0].(string)
-	return ret0
-}
-
-// GraphQLApiFinalizerName indicates an expected call of GraphQLApiFinalizerName.
-func (mr *MockGraphQLApiFinalizerMockRecorder) GraphQLApiFinalizerName() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GraphQLApiFinalizerName", reflect.TypeOf((*MockGraphQLApiFinalizer)(nil).GraphQLApiFinalizerName))
-}
-
-// ReconcileGraphQLApi mocks base method.
+// ReconcileGraphQLApi mocks base method
 func (m *MockGraphQLApiFinalizer) ReconcileGraphQLApi(obj *v1beta1.GraphQLApi) (reconcile.Result, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReconcileGraphQLApi", obj)
@@ -150,36 +122,64 @@ func (m *MockGraphQLApiFinalizer) ReconcileGraphQLApi(obj *v1beta1.GraphQLApi) (
 	return ret0, ret1
 }
 
-// ReconcileGraphQLApi indicates an expected call of ReconcileGraphQLApi.
+// ReconcileGraphQLApi indicates an expected call of ReconcileGraphQLApi
 func (mr *MockGraphQLApiFinalizerMockRecorder) ReconcileGraphQLApi(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileGraphQLApi", reflect.TypeOf((*MockGraphQLApiFinalizer)(nil).ReconcileGraphQLApi), obj)
 }
 
-// MockGraphQLApiReconcileLoop is a mock of GraphQLApiReconcileLoop interface.
+// GraphQLApiFinalizerName mocks base method
+func (m *MockGraphQLApiFinalizer) GraphQLApiFinalizerName() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GraphQLApiFinalizerName")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// GraphQLApiFinalizerName indicates an expected call of GraphQLApiFinalizerName
+func (mr *MockGraphQLApiFinalizerMockRecorder) GraphQLApiFinalizerName() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GraphQLApiFinalizerName", reflect.TypeOf((*MockGraphQLApiFinalizer)(nil).GraphQLApiFinalizerName))
+}
+
+// FinalizeGraphQLApi mocks base method
+func (m *MockGraphQLApiFinalizer) FinalizeGraphQLApi(obj *v1beta1.GraphQLApi) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FinalizeGraphQLApi", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// FinalizeGraphQLApi indicates an expected call of FinalizeGraphQLApi
+func (mr *MockGraphQLApiFinalizerMockRecorder) FinalizeGraphQLApi(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeGraphQLApi", reflect.TypeOf((*MockGraphQLApiFinalizer)(nil).FinalizeGraphQLApi), obj)
+}
+
+// MockGraphQLApiReconcileLoop is a mock of GraphQLApiReconcileLoop interface
 type MockGraphQLApiReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLApiReconcileLoopMockRecorder
 }
 
-// MockGraphQLApiReconcileLoopMockRecorder is the mock recorder for MockGraphQLApiReconcileLoop.
+// MockGraphQLApiReconcileLoopMockRecorder is the mock recorder for MockGraphQLApiReconcileLoop
 type MockGraphQLApiReconcileLoopMockRecorder struct {
 	mock *MockGraphQLApiReconcileLoop
 }
 
-// NewMockGraphQLApiReconcileLoop creates a new mock instance.
+// NewMockGraphQLApiReconcileLoop creates a new mock instance
 func NewMockGraphQLApiReconcileLoop(ctrl *gomock.Controller) *MockGraphQLApiReconcileLoop {
 	mock := &MockGraphQLApiReconcileLoop{ctrl: ctrl}
 	mock.recorder = &MockGraphQLApiReconcileLoopMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockGraphQLApiReconcileLoop) EXPECT() *MockGraphQLApiReconcileLoopMockRecorder {
 	return m.recorder
 }
 
-// RunGraphQLApiReconciler mocks base method.
+// RunGraphQLApiReconciler mocks base method
 func (m *MockGraphQLApiReconcileLoop) RunGraphQLApiReconciler(ctx context.Context, rec controller.GraphQLApiReconciler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, rec}
@@ -191,7 +191,7 @@ func (m *MockGraphQLApiReconcileLoop) RunGraphQLApiReconciler(ctx context.Contex
 	return ret0
 }
 
-// RunGraphQLApiReconciler indicates an expected call of RunGraphQLApiReconciler.
+// RunGraphQLApiReconciler indicates an expected call of RunGraphQLApiReconciler
 func (mr *MockGraphQLApiReconcileLoopMockRecorder) RunGraphQLApiReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, rec}, predicates...)

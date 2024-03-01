@@ -171,7 +171,7 @@ func (s *graphQLApiSet) Union(set GraphQLApiSet) GraphQLApiSet {
 	if s == nil {
 		return set
 	}
-	return NewGraphQLApiSet(append(s.List(), set.List()...)...)
+	return &graphQLApiMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *graphQLApiSet) Difference(set GraphQLApiSet) GraphQLApiSet {
@@ -233,5 +233,177 @@ func (s *graphQLApiSet) Clone() GraphQLApiSet {
 	if s == nil {
 		return nil
 	}
-	return &graphQLApiSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &graphQLApiMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type graphQLApiMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewGraphQLApiMergedSet(graphQLApiList ...*graphql_gloo_solo_io_v1beta1.GraphQLApi) GraphQLApiSet {
+	return &graphQLApiMergedSet{sets: []sksets.ResourceSet{makeGenericGraphQLApiSet(graphQLApiList)}}
+}
+
+func NewGraphQLApiMergedSetFromList(graphQLApiList *graphql_gloo_solo_io_v1beta1.GraphQLApiList) GraphQLApiSet {
+	list := make([]*graphql_gloo_solo_io_v1beta1.GraphQLApi, 0, len(graphQLApiList.Items))
+	for idx := range graphQLApiList.Items {
+		list = append(list, &graphQLApiList.Items[idx])
+	}
+	return &graphQLApiMergedSet{sets: []sksets.ResourceSet{makeGenericGraphQLApiSet(list)}}
+}
+
+func (s *graphQLApiMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *graphQLApiMergedSet) List(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
+		})
+	}
+	graphQLApiList := []*graphql_gloo_solo_io_v1beta1.GraphQLApi{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
+		}
+	}
+	return graphQLApiList
+}
+
+func (s *graphQLApiMergedSet) UnsortedList(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
+		})
+	}
+
+	graphQLApiList := []*graphql_gloo_solo_io_v1beta1.GraphQLApi{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
+		}
+	}
+	return graphQLApiList
+}
+
+func (s *graphQLApiMergedSet) Map() map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
+		}
+	}
+	return newMap
+}
+
+func (s *graphQLApiMergedSet) Insert(
+	graphQLApiList ...*graphql_gloo_solo_io_v1beta1.GraphQLApi,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericGraphQLApiSet(graphQLApiList))
+	}
+	for _, obj := range graphQLApiList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *graphQLApiMergedSet) Has(graphQLApi ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(graphQLApi) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *graphQLApiMergedSet) Equal(
+	graphQLApiSet GraphQLApiSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *graphQLApiMergedSet) Delete(GraphQLApi ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *graphQLApiMergedSet) Union(set GraphQLApiSet) GraphQLApiSet {
+	return &graphQLApiMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *graphQLApiMergedSet) Difference(set GraphQLApiSet) GraphQLApiSet {
+	panic("unimplemented")
+}
+
+func (s *graphQLApiMergedSet) Intersection(set GraphQLApiSet) GraphQLApiSet {
+	panic("unimplemented")
+}
+
+func (s *graphQLApiMergedSet) Find(id ezkube.ResourceId) (*graphql_gloo_solo_io_v1beta1.GraphQLApi, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find GraphQLApi %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&graphql_gloo_solo_io_v1beta1.GraphQLApi{}, id)
+		if err == nil {
+			return obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *graphQLApiMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *graphQLApiMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *graphQLApiMergedSet) Delta(newSet GraphQLApiSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *graphQLApiMergedSet) Clone() GraphQLApiSet {
+	if s == nil {
+		return nil
+	}
+	return &graphQLApiMergedSet{sets: s.sets[:]}
 }

@@ -171,7 +171,7 @@ func (s *federatedRateLimitConfigSet) Union(set FederatedRateLimitConfigSet) Fed
 	if s == nil {
 		return set
 	}
-	return NewFederatedRateLimitConfigSet(append(s.List(), set.List()...)...)
+	return &federatedRateLimitConfigMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *federatedRateLimitConfigSet) Difference(set FederatedRateLimitConfigSet) FederatedRateLimitConfigSet {
@@ -233,5 +233,177 @@ func (s *federatedRateLimitConfigSet) Clone() FederatedRateLimitConfigSet {
 	if s == nil {
 		return nil
 	}
-	return &federatedRateLimitConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &federatedRateLimitConfigMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type federatedRateLimitConfigMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewFederatedRateLimitConfigMergedSet(federatedRateLimitConfigList ...*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) FederatedRateLimitConfigSet {
+	return &federatedRateLimitConfigMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedRateLimitConfigSet(federatedRateLimitConfigList)}}
+}
+
+func NewFederatedRateLimitConfigMergedSetFromList(federatedRateLimitConfigList *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfigList) FederatedRateLimitConfigSet {
+	list := make([]*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig, 0, len(federatedRateLimitConfigList.Items))
+	for idx := range federatedRateLimitConfigList.Items {
+		list = append(list, &federatedRateLimitConfigList.Items[idx])
+	}
+	return &federatedRateLimitConfigMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedRateLimitConfigSet(list)}}
+}
+
+func (s *federatedRateLimitConfigMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *federatedRateLimitConfigMergedSet) List(filterResource ...func(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) bool) []*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig))
+		})
+	}
+	federatedRateLimitConfigList := []*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			federatedRateLimitConfigList = append(federatedRateLimitConfigList, obj.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig))
+		}
+	}
+	return federatedRateLimitConfigList
+}
+
+func (s *federatedRateLimitConfigMergedSet) UnsortedList(filterResource ...func(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig) bool) []*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig))
+		})
+	}
+
+	federatedRateLimitConfigList := []*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			federatedRateLimitConfigList = append(federatedRateLimitConfigList, obj.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig))
+		}
+	}
+	return federatedRateLimitConfigList
+}
+
+func (s *federatedRateLimitConfigMergedSet) Map() map[string]*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig)
+		}
+	}
+	return newMap
+}
+
+func (s *federatedRateLimitConfigMergedSet) Insert(
+	federatedRateLimitConfigList ...*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericFederatedRateLimitConfigSet(federatedRateLimitConfigList))
+	}
+	for _, obj := range federatedRateLimitConfigList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *federatedRateLimitConfigMergedSet) Has(federatedRateLimitConfig ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(federatedRateLimitConfig) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *federatedRateLimitConfigMergedSet) Equal(
+	federatedRateLimitConfigSet FederatedRateLimitConfigSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *federatedRateLimitConfigMergedSet) Delete(FederatedRateLimitConfig ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *federatedRateLimitConfigMergedSet) Union(set FederatedRateLimitConfigSet) FederatedRateLimitConfigSet {
+	return &federatedRateLimitConfigMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *federatedRateLimitConfigMergedSet) Difference(set FederatedRateLimitConfigSet) FederatedRateLimitConfigSet {
+	panic("unimplemented")
+}
+
+func (s *federatedRateLimitConfigMergedSet) Intersection(set FederatedRateLimitConfigSet) FederatedRateLimitConfigSet {
+	panic("unimplemented")
+}
+
+func (s *federatedRateLimitConfigMergedSet) Find(id ezkube.ResourceId) (*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedRateLimitConfig %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig{}, id)
+		if err == nil {
+			return obj.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *federatedRateLimitConfigMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *federatedRateLimitConfigMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *federatedRateLimitConfigMergedSet) Delta(newSet FederatedRateLimitConfigSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *federatedRateLimitConfigMergedSet) Clone() FederatedRateLimitConfigSet {
+	if s == nil {
+		return nil
+	}
+	return &federatedRateLimitConfigMergedSet{sets: s.sets[:]}
 }

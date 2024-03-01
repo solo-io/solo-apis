@@ -171,7 +171,7 @@ func (s *multiClusterRoleSet) Union(set MultiClusterRoleSet) MultiClusterRoleSet
 	if s == nil {
 		return set
 	}
-	return NewMultiClusterRoleSet(append(s.List(), set.List()...)...)
+	return &multiClusterRoleMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *multiClusterRoleSet) Difference(set MultiClusterRoleSet) MultiClusterRoleSet {
@@ -233,5 +233,177 @@ func (s *multiClusterRoleSet) Clone() MultiClusterRoleSet {
 	if s == nil {
 		return nil
 	}
-	return &multiClusterRoleSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &multiClusterRoleMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type multiClusterRoleMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewMultiClusterRoleMergedSet(multiClusterRoleList ...*multicluster_solo_io_v1alpha1.MultiClusterRole) MultiClusterRoleSet {
+	return &multiClusterRoleMergedSet{sets: []sksets.ResourceSet{makeGenericMultiClusterRoleSet(multiClusterRoleList)}}
+}
+
+func NewMultiClusterRoleMergedSetFromList(multiClusterRoleList *multicluster_solo_io_v1alpha1.MultiClusterRoleList) MultiClusterRoleSet {
+	list := make([]*multicluster_solo_io_v1alpha1.MultiClusterRole, 0, len(multiClusterRoleList.Items))
+	for idx := range multiClusterRoleList.Items {
+		list = append(list, &multiClusterRoleList.Items[idx])
+	}
+	return &multiClusterRoleMergedSet{sets: []sksets.ResourceSet{makeGenericMultiClusterRoleSet(list)}}
+}
+
+func (s *multiClusterRoleMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *multiClusterRoleMergedSet) List(filterResource ...func(*multicluster_solo_io_v1alpha1.MultiClusterRole) bool) []*multicluster_solo_io_v1alpha1.MultiClusterRole {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
+		})
+	}
+	multiClusterRoleList := []*multicluster_solo_io_v1alpha1.MultiClusterRole{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			multiClusterRoleList = append(multiClusterRoleList, obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
+		}
+	}
+	return multiClusterRoleList
+}
+
+func (s *multiClusterRoleMergedSet) UnsortedList(filterResource ...func(*multicluster_solo_io_v1alpha1.MultiClusterRole) bool) []*multicluster_solo_io_v1alpha1.MultiClusterRole {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
+		})
+	}
+
+	multiClusterRoleList := []*multicluster_solo_io_v1alpha1.MultiClusterRole{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			multiClusterRoleList = append(multiClusterRoleList, obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
+		}
+	}
+	return multiClusterRoleList
+}
+
+func (s *multiClusterRoleMergedSet) Map() map[string]*multicluster_solo_io_v1alpha1.MultiClusterRole {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*multicluster_solo_io_v1alpha1.MultiClusterRole{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*multicluster_solo_io_v1alpha1.MultiClusterRole)
+		}
+	}
+	return newMap
+}
+
+func (s *multiClusterRoleMergedSet) Insert(
+	multiClusterRoleList ...*multicluster_solo_io_v1alpha1.MultiClusterRole,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericMultiClusterRoleSet(multiClusterRoleList))
+	}
+	for _, obj := range multiClusterRoleList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *multiClusterRoleMergedSet) Has(multiClusterRole ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(multiClusterRole) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *multiClusterRoleMergedSet) Equal(
+	multiClusterRoleSet MultiClusterRoleSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *multiClusterRoleMergedSet) Delete(MultiClusterRole ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *multiClusterRoleMergedSet) Union(set MultiClusterRoleSet) MultiClusterRoleSet {
+	return &multiClusterRoleMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *multiClusterRoleMergedSet) Difference(set MultiClusterRoleSet) MultiClusterRoleSet {
+	panic("unimplemented")
+}
+
+func (s *multiClusterRoleMergedSet) Intersection(set MultiClusterRoleSet) MultiClusterRoleSet {
+	panic("unimplemented")
+}
+
+func (s *multiClusterRoleMergedSet) Find(id ezkube.ResourceId) (*multicluster_solo_io_v1alpha1.MultiClusterRole, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find MultiClusterRole %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&multicluster_solo_io_v1alpha1.MultiClusterRole{}, id)
+		if err == nil {
+			return obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *multiClusterRoleMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *multiClusterRoleMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *multiClusterRoleMergedSet) Delta(newSet MultiClusterRoleSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *multiClusterRoleMergedSet) Clone() MultiClusterRoleSet {
+	if s == nil {
+		return nil
+	}
+	return &multiClusterRoleMergedSet{sets: s.sets[:]}
 }

@@ -171,7 +171,7 @@ func (s *glooInstanceSet) Union(set GlooInstanceSet) GlooInstanceSet {
 	if s == nil {
 		return set
 	}
-	return NewGlooInstanceSet(append(s.List(), set.List()...)...)
+	return &glooInstanceMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *glooInstanceSet) Difference(set GlooInstanceSet) GlooInstanceSet {
@@ -233,7 +233,179 @@ func (s *glooInstanceSet) Clone() GlooInstanceSet {
 	if s == nil {
 		return nil
 	}
-	return &glooInstanceSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &glooInstanceMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type glooInstanceMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewGlooInstanceMergedSet(glooInstanceList ...*fed_solo_io_v1.GlooInstance) GlooInstanceSet {
+	return &glooInstanceMergedSet{sets: []sksets.ResourceSet{makeGenericGlooInstanceSet(glooInstanceList)}}
+}
+
+func NewGlooInstanceMergedSetFromList(glooInstanceList *fed_solo_io_v1.GlooInstanceList) GlooInstanceSet {
+	list := make([]*fed_solo_io_v1.GlooInstance, 0, len(glooInstanceList.Items))
+	for idx := range glooInstanceList.Items {
+		list = append(list, &glooInstanceList.Items[idx])
+	}
+	return &glooInstanceMergedSet{sets: []sksets.ResourceSet{makeGenericGlooInstanceSet(list)}}
+}
+
+func (s *glooInstanceMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *glooInstanceMergedSet) List(filterResource ...func(*fed_solo_io_v1.GlooInstance) bool) []*fed_solo_io_v1.GlooInstance {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_solo_io_v1.GlooInstance))
+		})
+	}
+	glooInstanceList := []*fed_solo_io_v1.GlooInstance{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			glooInstanceList = append(glooInstanceList, obj.(*fed_solo_io_v1.GlooInstance))
+		}
+	}
+	return glooInstanceList
+}
+
+func (s *glooInstanceMergedSet) UnsortedList(filterResource ...func(*fed_solo_io_v1.GlooInstance) bool) []*fed_solo_io_v1.GlooInstance {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_solo_io_v1.GlooInstance))
+		})
+	}
+
+	glooInstanceList := []*fed_solo_io_v1.GlooInstance{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			glooInstanceList = append(glooInstanceList, obj.(*fed_solo_io_v1.GlooInstance))
+		}
+	}
+	return glooInstanceList
+}
+
+func (s *glooInstanceMergedSet) Map() map[string]*fed_solo_io_v1.GlooInstance {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*fed_solo_io_v1.GlooInstance{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*fed_solo_io_v1.GlooInstance)
+		}
+	}
+	return newMap
+}
+
+func (s *glooInstanceMergedSet) Insert(
+	glooInstanceList ...*fed_solo_io_v1.GlooInstance,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericGlooInstanceSet(glooInstanceList))
+	}
+	for _, obj := range glooInstanceList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *glooInstanceMergedSet) Has(glooInstance ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(glooInstance) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *glooInstanceMergedSet) Equal(
+	glooInstanceSet GlooInstanceSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *glooInstanceMergedSet) Delete(GlooInstance ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *glooInstanceMergedSet) Union(set GlooInstanceSet) GlooInstanceSet {
+	return &glooInstanceMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *glooInstanceMergedSet) Difference(set GlooInstanceSet) GlooInstanceSet {
+	panic("unimplemented")
+}
+
+func (s *glooInstanceMergedSet) Intersection(set GlooInstanceSet) GlooInstanceSet {
+	panic("unimplemented")
+}
+
+func (s *glooInstanceMergedSet) Find(id ezkube.ResourceId) (*fed_solo_io_v1.GlooInstance, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find GlooInstance %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&fed_solo_io_v1.GlooInstance{}, id)
+		if err == nil {
+			return obj.(*fed_solo_io_v1.GlooInstance), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *glooInstanceMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *glooInstanceMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *glooInstanceMergedSet) Delta(newSet GlooInstanceSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *glooInstanceMergedSet) Clone() GlooInstanceSet {
+	if s == nil {
+		return nil
+	}
+	return &glooInstanceMergedSet{sets: s.sets[:]}
 }
 
 type FailoverSchemeSet interface {
@@ -394,7 +566,7 @@ func (s *failoverSchemeSet) Union(set FailoverSchemeSet) FailoverSchemeSet {
 	if s == nil {
 		return set
 	}
-	return NewFailoverSchemeSet(append(s.List(), set.List()...)...)
+	return &failoverSchemeMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *failoverSchemeSet) Difference(set FailoverSchemeSet) FailoverSchemeSet {
@@ -456,5 +628,177 @@ func (s *failoverSchemeSet) Clone() FailoverSchemeSet {
 	if s == nil {
 		return nil
 	}
-	return &failoverSchemeSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &failoverSchemeMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type failoverSchemeMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewFailoverSchemeMergedSet(failoverSchemeList ...*fed_solo_io_v1.FailoverScheme) FailoverSchemeSet {
+	return &failoverSchemeMergedSet{sets: []sksets.ResourceSet{makeGenericFailoverSchemeSet(failoverSchemeList)}}
+}
+
+func NewFailoverSchemeMergedSetFromList(failoverSchemeList *fed_solo_io_v1.FailoverSchemeList) FailoverSchemeSet {
+	list := make([]*fed_solo_io_v1.FailoverScheme, 0, len(failoverSchemeList.Items))
+	for idx := range failoverSchemeList.Items {
+		list = append(list, &failoverSchemeList.Items[idx])
+	}
+	return &failoverSchemeMergedSet{sets: []sksets.ResourceSet{makeGenericFailoverSchemeSet(list)}}
+}
+
+func (s *failoverSchemeMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *failoverSchemeMergedSet) List(filterResource ...func(*fed_solo_io_v1.FailoverScheme) bool) []*fed_solo_io_v1.FailoverScheme {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_solo_io_v1.FailoverScheme))
+		})
+	}
+	failoverSchemeList := []*fed_solo_io_v1.FailoverScheme{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			failoverSchemeList = append(failoverSchemeList, obj.(*fed_solo_io_v1.FailoverScheme))
+		}
+	}
+	return failoverSchemeList
+}
+
+func (s *failoverSchemeMergedSet) UnsortedList(filterResource ...func(*fed_solo_io_v1.FailoverScheme) bool) []*fed_solo_io_v1.FailoverScheme {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_solo_io_v1.FailoverScheme))
+		})
+	}
+
+	failoverSchemeList := []*fed_solo_io_v1.FailoverScheme{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			failoverSchemeList = append(failoverSchemeList, obj.(*fed_solo_io_v1.FailoverScheme))
+		}
+	}
+	return failoverSchemeList
+}
+
+func (s *failoverSchemeMergedSet) Map() map[string]*fed_solo_io_v1.FailoverScheme {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*fed_solo_io_v1.FailoverScheme{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*fed_solo_io_v1.FailoverScheme)
+		}
+	}
+	return newMap
+}
+
+func (s *failoverSchemeMergedSet) Insert(
+	failoverSchemeList ...*fed_solo_io_v1.FailoverScheme,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericFailoverSchemeSet(failoverSchemeList))
+	}
+	for _, obj := range failoverSchemeList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *failoverSchemeMergedSet) Has(failoverScheme ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(failoverScheme) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *failoverSchemeMergedSet) Equal(
+	failoverSchemeSet FailoverSchemeSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *failoverSchemeMergedSet) Delete(FailoverScheme ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *failoverSchemeMergedSet) Union(set FailoverSchemeSet) FailoverSchemeSet {
+	return &failoverSchemeMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *failoverSchemeMergedSet) Difference(set FailoverSchemeSet) FailoverSchemeSet {
+	panic("unimplemented")
+}
+
+func (s *failoverSchemeMergedSet) Intersection(set FailoverSchemeSet) FailoverSchemeSet {
+	panic("unimplemented")
+}
+
+func (s *failoverSchemeMergedSet) Find(id ezkube.ResourceId) (*fed_solo_io_v1.FailoverScheme, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FailoverScheme %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&fed_solo_io_v1.FailoverScheme{}, id)
+		if err == nil {
+			return obj.(*fed_solo_io_v1.FailoverScheme), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *failoverSchemeMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *failoverSchemeMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *failoverSchemeMergedSet) Delta(newSet FailoverSchemeSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *failoverSchemeMergedSet) Clone() FailoverSchemeSet {
+	if s == nil {
+		return nil
+	}
+	return &failoverSchemeMergedSet{sets: s.sets[:]}
 }

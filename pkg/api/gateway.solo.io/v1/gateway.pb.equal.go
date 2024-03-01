@@ -102,9 +102,6 @@ func (m *GatewaySpec) Equal(that interface{}) bool {
 	switch m.GatewayType.(type) {
 
 	case *GatewaySpec_HttpGateway:
-		if _, ok := target.GatewayType.(*GatewaySpec_HttpGateway); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetHttpGateway()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetHttpGateway()) {
@@ -117,9 +114,6 @@ func (m *GatewaySpec) Equal(that interface{}) bool {
 		}
 
 	case *GatewaySpec_TcpGateway:
-		if _, ok := target.GatewayType.(*GatewaySpec_TcpGateway); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetTcpGateway()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetTcpGateway()) {
@@ -132,9 +126,6 @@ func (m *GatewaySpec) Equal(that interface{}) bool {
 		}
 
 	case *GatewaySpec_HybridGateway:
-		if _, ok := target.GatewayType.(*GatewaySpec_HybridGateway); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetHybridGateway()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetHybridGateway()) {
@@ -146,11 +137,6 @@ func (m *GatewaySpec) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.GatewayType != target.GatewayType {
-			return false
-		}
 	}
 
 	return true
@@ -316,9 +302,6 @@ func (m *DelegatedHttpGateway) Equal(that interface{}) bool {
 	switch m.SelectionType.(type) {
 
 	case *DelegatedHttpGateway_Ref:
-		if _, ok := target.SelectionType.(*DelegatedHttpGateway_Ref); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRef()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRef()) {
@@ -331,9 +314,6 @@ func (m *DelegatedHttpGateway) Equal(that interface{}) bool {
 		}
 
 	case *DelegatedHttpGateway_Selector:
-		if _, ok := target.SelectionType.(*DelegatedHttpGateway_Selector); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetSelector()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSelector()) {
@@ -345,11 +325,6 @@ func (m *DelegatedHttpGateway) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.SelectionType != target.SelectionType {
-			return false
-		}
 	}
 
 	return true
@@ -379,9 +354,6 @@ func (m *DelegatedTcpGateway) Equal(that interface{}) bool {
 	switch m.SelectionType.(type) {
 
 	case *DelegatedTcpGateway_Ref:
-		if _, ok := target.SelectionType.(*DelegatedTcpGateway_Ref); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRef()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRef()) {
@@ -394,9 +366,6 @@ func (m *DelegatedTcpGateway) Equal(that interface{}) bool {
 		}
 
 	case *DelegatedTcpGateway_Selector:
-		if _, ok := target.SelectionType.(*DelegatedTcpGateway_Selector); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetSelector()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSelector()) {
@@ -408,11 +377,6 @@ func (m *DelegatedTcpGateway) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.SelectionType != target.SelectionType {
-			return false
-		}
 	}
 
 	return true
@@ -452,9 +416,6 @@ func (m *MatchedGateway) Equal(that interface{}) bool {
 	switch m.GatewayType.(type) {
 
 	case *MatchedGateway_HttpGateway:
-		if _, ok := target.GatewayType.(*MatchedGateway_HttpGateway); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetHttpGateway()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetHttpGateway()) {
@@ -467,9 +428,6 @@ func (m *MatchedGateway) Equal(that interface{}) bool {
 		}
 
 	case *MatchedGateway_TcpGateway:
-		if _, ok := target.GatewayType.(*MatchedGateway_TcpGateway); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetTcpGateway()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetTcpGateway()) {
@@ -481,11 +439,6 @@ func (m *MatchedGateway) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.GatewayType != target.GatewayType {
-			return false
-		}
 	}
 
 	return true

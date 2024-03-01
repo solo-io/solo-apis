@@ -15,171 +15,30 @@ import (
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
 )
 
-// MockGlooInstanceSet is a mock of GlooInstanceSet interface.
+// MockGlooInstanceSet is a mock of GlooInstanceSet interface
 type MockGlooInstanceSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockGlooInstanceSetMockRecorder
 }
 
-// MockGlooInstanceSetMockRecorder is the mock recorder for MockGlooInstanceSet.
+// MockGlooInstanceSetMockRecorder is the mock recorder for MockGlooInstanceSet
 type MockGlooInstanceSetMockRecorder struct {
 	mock *MockGlooInstanceSet
 }
 
-// NewMockGlooInstanceSet creates a new mock instance.
+// NewMockGlooInstanceSet creates a new mock instance
 func NewMockGlooInstanceSet(ctrl *gomock.Controller) *MockGlooInstanceSet {
 	mock := &MockGlooInstanceSet{ctrl: ctrl}
 	mock.recorder = &MockGlooInstanceSetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockGlooInstanceSet) EXPECT() *MockGlooInstanceSetMockRecorder {
 	return m.recorder
 }
 
-// Clone mocks base method.
-func (m *MockGlooInstanceSet) Clone() v1sets.GlooInstanceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v1sets.GlooInstanceSet)
-	return ret0
-}
-
-// Clone indicates an expected call of Clone.
-func (mr *MockGlooInstanceSetMockRecorder) Clone() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockGlooInstanceSet)(nil).Clone))
-}
-
-// Delete mocks base method.
-func (m *MockGlooInstanceSet) Delete(glooInstance ezkube.ResourceId) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", glooInstance)
-}
-
-// Delete indicates an expected call of Delete.
-func (mr *MockGlooInstanceSetMockRecorder) Delete(glooInstance interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockGlooInstanceSet)(nil).Delete), glooInstance)
-}
-
-// Delta mocks base method.
-func (m *MockGlooInstanceSet) Delta(newSet v1sets.GlooInstanceSet) sets.ResourceDelta {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delta", newSet)
-	ret0, _ := ret[0].(sets.ResourceDelta)
-	return ret0
-}
-
-// Delta indicates an expected call of Delta.
-func (mr *MockGlooInstanceSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockGlooInstanceSet)(nil).Delta), newSet)
-}
-
-// Difference mocks base method.
-func (m *MockGlooInstanceSet) Difference(set v1sets.GlooInstanceSet) v1sets.GlooInstanceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1sets.GlooInstanceSet)
-	return ret0
-}
-
-// Difference indicates an expected call of Difference.
-func (mr *MockGlooInstanceSetMockRecorder) Difference(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockGlooInstanceSet)(nil).Difference), set)
-}
-
-// Equal mocks base method.
-func (m *MockGlooInstanceSet) Equal(glooInstanceSet v1sets.GlooInstanceSet) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", glooInstanceSet)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Equal indicates an expected call of Equal.
-func (mr *MockGlooInstanceSetMockRecorder) Equal(glooInstanceSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockGlooInstanceSet)(nil).Equal), glooInstanceSet)
-}
-
-// Find mocks base method.
-func (m *MockGlooInstanceSet) Find(id ezkube.ResourceId) (*v1.GlooInstance, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v1.GlooInstance)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Find indicates an expected call of Find.
-func (mr *MockGlooInstanceSetMockRecorder) Find(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockGlooInstanceSet)(nil).Find), id)
-}
-
-// Generic mocks base method.
-func (m *MockGlooInstanceSet) Generic() sets.ResourceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generic")
-	ret0, _ := ret[0].(sets.ResourceSet)
-	return ret0
-}
-
-// Generic indicates an expected call of Generic.
-func (mr *MockGlooInstanceSetMockRecorder) Generic() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockGlooInstanceSet)(nil).Generic))
-}
-
-// Has mocks base method.
-func (m *MockGlooInstanceSet) Has(glooInstance ezkube.ResourceId) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", glooInstance)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Has indicates an expected call of Has.
-func (mr *MockGlooInstanceSetMockRecorder) Has(glooInstance interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockGlooInstanceSet)(nil).Has), glooInstance)
-}
-
-// Insert mocks base method.
-func (m *MockGlooInstanceSet) Insert(glooInstance ...*v1.GlooInstance) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{}
-	for _, a := range glooInstance {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Insert", varargs...)
-}
-
-// Insert indicates an expected call of Insert.
-func (mr *MockGlooInstanceSetMockRecorder) Insert(glooInstance ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockGlooInstanceSet)(nil).Insert), glooInstance...)
-}
-
-// Intersection mocks base method.
-func (m *MockGlooInstanceSet) Intersection(set v1sets.GlooInstanceSet) v1sets.GlooInstanceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1sets.GlooInstanceSet)
-	return ret0
-}
-
-// Intersection indicates an expected call of Intersection.
-func (mr *MockGlooInstanceSetMockRecorder) Intersection(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockGlooInstanceSet)(nil).Intersection), set)
-}
-
-// Keys mocks base method.
+// Keys mocks base method
 func (m *MockGlooInstanceSet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -187,27 +46,13 @@ func (m *MockGlooInstanceSet) Keys() sets0.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys.
+// Keys indicates an expected call of Keys
 func (mr *MockGlooInstanceSetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockGlooInstanceSet)(nil).Keys))
 }
 
-// Length mocks base method.
-func (m *MockGlooInstanceSet) Length() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Length")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// Length indicates an expected call of Length.
-func (mr *MockGlooInstanceSetMockRecorder) Length() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockGlooInstanceSet)(nil).Length))
-}
-
-// List mocks base method.
+// List mocks base method
 func (m *MockGlooInstanceSet) List(filterResource ...func(*v1.GlooInstance) bool) []*v1.GlooInstance {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -219,41 +64,13 @@ func (m *MockGlooInstanceSet) List(filterResource ...func(*v1.GlooInstance) bool
 	return ret0
 }
 
-// List indicates an expected call of List.
+// List indicates an expected call of List
 func (mr *MockGlooInstanceSetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockGlooInstanceSet)(nil).List), filterResource...)
 }
 
-// Map mocks base method.
-func (m *MockGlooInstanceSet) Map() map[string]*v1.GlooInstance {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v1.GlooInstance)
-	return ret0
-}
-
-// Map indicates an expected call of Map.
-func (mr *MockGlooInstanceSetMockRecorder) Map() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockGlooInstanceSet)(nil).Map))
-}
-
-// Union mocks base method.
-func (m *MockGlooInstanceSet) Union(set v1sets.GlooInstanceSet) v1sets.GlooInstanceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1sets.GlooInstanceSet)
-	return ret0
-}
-
-// Union indicates an expected call of Union.
-func (mr *MockGlooInstanceSetMockRecorder) Union(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockGlooInstanceSet)(nil).Union), set)
-}
-
-// UnsortedList mocks base method.
+// UnsortedList mocks base method
 func (m *MockGlooInstanceSet) UnsortedList(filterResource ...func(*v1.GlooInstance) bool) []*v1.GlooInstance {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -265,177 +82,219 @@ func (m *MockGlooInstanceSet) UnsortedList(filterResource ...func(*v1.GlooInstan
 	return ret0
 }
 
-// UnsortedList indicates an expected call of UnsortedList.
+// UnsortedList indicates an expected call of UnsortedList
 func (mr *MockGlooInstanceSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockGlooInstanceSet)(nil).UnsortedList), filterResource...)
 }
 
-// MockFailoverSchemeSet is a mock of FailoverSchemeSet interface.
-type MockFailoverSchemeSet struct {
-	ctrl     *gomock.Controller
-	recorder *MockFailoverSchemeSetMockRecorder
-}
-
-// MockFailoverSchemeSetMockRecorder is the mock recorder for MockFailoverSchemeSet.
-type MockFailoverSchemeSetMockRecorder struct {
-	mock *MockFailoverSchemeSet
-}
-
-// NewMockFailoverSchemeSet creates a new mock instance.
-func NewMockFailoverSchemeSet(ctrl *gomock.Controller) *MockFailoverSchemeSet {
-	mock := &MockFailoverSchemeSet{ctrl: ctrl}
-	mock.recorder = &MockFailoverSchemeSetMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockFailoverSchemeSet) EXPECT() *MockFailoverSchemeSetMockRecorder {
-	return m.recorder
-}
-
-// Clone mocks base method.
-func (m *MockFailoverSchemeSet) Clone() v1sets.FailoverSchemeSet {
+// Map mocks base method
+func (m *MockGlooInstanceSet) Map() map[string]*v1.GlooInstance {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v1sets.FailoverSchemeSet)
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v1.GlooInstance)
 	return ret0
 }
 
-// Clone indicates an expected call of Clone.
-func (mr *MockFailoverSchemeSetMockRecorder) Clone() *gomock.Call {
+// Map indicates an expected call of Map
+func (mr *MockGlooInstanceSetMockRecorder) Map() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Clone))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockGlooInstanceSet)(nil).Map))
 }
 
-// Delete mocks base method.
-func (m *MockFailoverSchemeSet) Delete(failoverScheme ezkube.ResourceId) {
+// Insert mocks base method
+func (m *MockGlooInstanceSet) Insert(glooInstance ...*v1.GlooInstance) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", failoverScheme)
+	varargs := []interface{}{}
+	for _, a := range glooInstance {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
 }
 
-// Delete indicates an expected call of Delete.
-func (mr *MockFailoverSchemeSetMockRecorder) Delete(failoverScheme interface{}) *gomock.Call {
+// Insert indicates an expected call of Insert
+func (mr *MockGlooInstanceSetMockRecorder) Insert(glooInstance ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Delete), failoverScheme)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockGlooInstanceSet)(nil).Insert), glooInstance...)
 }
 
-// Delta mocks base method.
-func (m *MockFailoverSchemeSet) Delta(newSet v1sets.FailoverSchemeSet) sets.ResourceDelta {
+// Equal mocks base method
+func (m *MockGlooInstanceSet) Equal(glooInstanceSet v1sets.GlooInstanceSet) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delta", newSet)
-	ret0, _ := ret[0].(sets.ResourceDelta)
-	return ret0
-}
-
-// Delta indicates an expected call of Delta.
-func (mr *MockFailoverSchemeSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Delta), newSet)
-}
-
-// Difference mocks base method.
-func (m *MockFailoverSchemeSet) Difference(set v1sets.FailoverSchemeSet) v1sets.FailoverSchemeSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1sets.FailoverSchemeSet)
-	return ret0
-}
-
-// Difference indicates an expected call of Difference.
-func (mr *MockFailoverSchemeSetMockRecorder) Difference(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Difference), set)
-}
-
-// Equal mocks base method.
-func (m *MockFailoverSchemeSet) Equal(failoverSchemeSet v1sets.FailoverSchemeSet) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", failoverSchemeSet)
+	ret := m.ctrl.Call(m, "Equal", glooInstanceSet)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
-// Equal indicates an expected call of Equal.
-func (mr *MockFailoverSchemeSetMockRecorder) Equal(failoverSchemeSet interface{}) *gomock.Call {
+// Equal indicates an expected call of Equal
+func (mr *MockGlooInstanceSetMockRecorder) Equal(glooInstanceSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Equal), failoverSchemeSet)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockGlooInstanceSet)(nil).Equal), glooInstanceSet)
 }
 
-// Find mocks base method.
-func (m *MockFailoverSchemeSet) Find(id ezkube.ResourceId) (*v1.FailoverScheme, error) {
+// Has mocks base method
+func (m *MockGlooInstanceSet) Has(glooInstance ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", glooInstance)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has
+func (mr *MockGlooInstanceSetMockRecorder) Has(glooInstance interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockGlooInstanceSet)(nil).Has), glooInstance)
+}
+
+// Delete mocks base method
+func (m *MockGlooInstanceSet) Delete(glooInstance ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", glooInstance)
+}
+
+// Delete indicates an expected call of Delete
+func (mr *MockGlooInstanceSetMockRecorder) Delete(glooInstance interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockGlooInstanceSet)(nil).Delete), glooInstance)
+}
+
+// Union mocks base method
+func (m *MockGlooInstanceSet) Union(set v1sets.GlooInstanceSet) v1sets.GlooInstanceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v1sets.GlooInstanceSet)
+	return ret0
+}
+
+// Union indicates an expected call of Union
+func (mr *MockGlooInstanceSetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockGlooInstanceSet)(nil).Union), set)
+}
+
+// Difference mocks base method
+func (m *MockGlooInstanceSet) Difference(set v1sets.GlooInstanceSet) v1sets.GlooInstanceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v1sets.GlooInstanceSet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference
+func (mr *MockGlooInstanceSetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockGlooInstanceSet)(nil).Difference), set)
+}
+
+// Intersection mocks base method
+func (m *MockGlooInstanceSet) Intersection(set v1sets.GlooInstanceSet) v1sets.GlooInstanceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v1sets.GlooInstanceSet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection
+func (mr *MockGlooInstanceSetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockGlooInstanceSet)(nil).Intersection), set)
+}
+
+// Find mocks base method
+func (m *MockGlooInstanceSet) Find(id ezkube.ResourceId) (*v1.GlooInstance, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v1.FailoverScheme)
+	ret0, _ := ret[0].(*v1.GlooInstance)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Find indicates an expected call of Find.
-func (mr *MockFailoverSchemeSetMockRecorder) Find(id interface{}) *gomock.Call {
+// Find indicates an expected call of Find
+func (mr *MockGlooInstanceSetMockRecorder) Find(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Find), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockGlooInstanceSet)(nil).Find), id)
 }
 
-// Generic mocks base method.
-func (m *MockFailoverSchemeSet) Generic() sets.ResourceSet {
+// Length mocks base method
+func (m *MockGlooInstanceSet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length
+func (mr *MockGlooInstanceSetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockGlooInstanceSet)(nil).Length))
+}
+
+// Generic mocks base method
+func (m *MockGlooInstanceSet) Generic() sets.ResourceSet {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Generic")
 	ret0, _ := ret[0].(sets.ResourceSet)
 	return ret0
 }
 
-// Generic indicates an expected call of Generic.
-func (mr *MockFailoverSchemeSetMockRecorder) Generic() *gomock.Call {
+// Generic indicates an expected call of Generic
+func (mr *MockGlooInstanceSetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Generic))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockGlooInstanceSet)(nil).Generic))
 }
 
-// Has mocks base method.
-func (m *MockFailoverSchemeSet) Has(failoverScheme ezkube.ResourceId) bool {
+// Delta mocks base method
+func (m *MockGlooInstanceSet) Delta(newSet v1sets.GlooInstanceSet) sets.ResourceDelta {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", failoverScheme)
-	ret0, _ := ret[0].(bool)
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
 	return ret0
 }
 
-// Has indicates an expected call of Has.
-func (mr *MockFailoverSchemeSetMockRecorder) Has(failoverScheme interface{}) *gomock.Call {
+// Delta indicates an expected call of Delta
+func (mr *MockGlooInstanceSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Has), failoverScheme)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockGlooInstanceSet)(nil).Delta), newSet)
 }
 
-// Insert mocks base method.
-func (m *MockFailoverSchemeSet) Insert(failoverScheme ...*v1.FailoverScheme) {
+// Clone mocks base method
+func (m *MockGlooInstanceSet) Clone() v1sets.GlooInstanceSet {
 	m.ctrl.T.Helper()
-	varargs := []interface{}{}
-	for _, a := range failoverScheme {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Insert", varargs...)
-}
-
-// Insert indicates an expected call of Insert.
-func (mr *MockFailoverSchemeSetMockRecorder) Insert(failoverScheme ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Insert), failoverScheme...)
-}
-
-// Intersection mocks base method.
-func (m *MockFailoverSchemeSet) Intersection(set v1sets.FailoverSchemeSet) v1sets.FailoverSchemeSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1sets.FailoverSchemeSet)
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.GlooInstanceSet)
 	return ret0
 }
 
-// Intersection indicates an expected call of Intersection.
-func (mr *MockFailoverSchemeSetMockRecorder) Intersection(set interface{}) *gomock.Call {
+// Clone indicates an expected call of Clone
+func (mr *MockGlooInstanceSetMockRecorder) Clone() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Intersection), set)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockGlooInstanceSet)(nil).Clone))
 }
 
-// Keys mocks base method.
+// MockFailoverSchemeSet is a mock of FailoverSchemeSet interface
+type MockFailoverSchemeSet struct {
+	ctrl     *gomock.Controller
+	recorder *MockFailoverSchemeSetMockRecorder
+}
+
+// MockFailoverSchemeSetMockRecorder is the mock recorder for MockFailoverSchemeSet
+type MockFailoverSchemeSetMockRecorder struct {
+	mock *MockFailoverSchemeSet
+}
+
+// NewMockFailoverSchemeSet creates a new mock instance
+func NewMockFailoverSchemeSet(ctrl *gomock.Controller) *MockFailoverSchemeSet {
+	mock := &MockFailoverSchemeSet{ctrl: ctrl}
+	mock.recorder = &MockFailoverSchemeSetMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use
+func (m *MockFailoverSchemeSet) EXPECT() *MockFailoverSchemeSetMockRecorder {
+	return m.recorder
+}
+
+// Keys mocks base method
 func (m *MockFailoverSchemeSet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -443,27 +302,13 @@ func (m *MockFailoverSchemeSet) Keys() sets0.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys.
+// Keys indicates an expected call of Keys
 func (mr *MockFailoverSchemeSetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Keys))
 }
 
-// Length mocks base method.
-func (m *MockFailoverSchemeSet) Length() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Length")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// Length indicates an expected call of Length.
-func (mr *MockFailoverSchemeSetMockRecorder) Length() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Length))
-}
-
-// List mocks base method.
+// List mocks base method
 func (m *MockFailoverSchemeSet) List(filterResource ...func(*v1.FailoverScheme) bool) []*v1.FailoverScheme {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -475,41 +320,13 @@ func (m *MockFailoverSchemeSet) List(filterResource ...func(*v1.FailoverScheme) 
 	return ret0
 }
 
-// List indicates an expected call of List.
+// List indicates an expected call of List
 func (mr *MockFailoverSchemeSetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockFailoverSchemeSet)(nil).List), filterResource...)
 }
 
-// Map mocks base method.
-func (m *MockFailoverSchemeSet) Map() map[string]*v1.FailoverScheme {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v1.FailoverScheme)
-	return ret0
-}
-
-// Map indicates an expected call of Map.
-func (mr *MockFailoverSchemeSetMockRecorder) Map() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Map))
-}
-
-// Union mocks base method.
-func (m *MockFailoverSchemeSet) Union(set v1sets.FailoverSchemeSet) v1sets.FailoverSchemeSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1sets.FailoverSchemeSet)
-	return ret0
-}
-
-// Union indicates an expected call of Union.
-func (mr *MockFailoverSchemeSetMockRecorder) Union(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Union), set)
-}
-
-// UnsortedList mocks base method.
+// UnsortedList mocks base method
 func (m *MockFailoverSchemeSet) UnsortedList(filterResource ...func(*v1.FailoverScheme) bool) []*v1.FailoverScheme {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -521,8 +338,191 @@ func (m *MockFailoverSchemeSet) UnsortedList(filterResource ...func(*v1.Failover
 	return ret0
 }
 
-// UnsortedList indicates an expected call of UnsortedList.
+// UnsortedList indicates an expected call of UnsortedList
 func (mr *MockFailoverSchemeSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockFailoverSchemeSet)(nil).UnsortedList), filterResource...)
+}
+
+// Map mocks base method
+func (m *MockFailoverSchemeSet) Map() map[string]*v1.FailoverScheme {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v1.FailoverScheme)
+	return ret0
+}
+
+// Map indicates an expected call of Map
+func (mr *MockFailoverSchemeSetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Map))
+}
+
+// Insert mocks base method
+func (m *MockFailoverSchemeSet) Insert(failoverScheme ...*v1.FailoverScheme) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range failoverScheme {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert
+func (mr *MockFailoverSchemeSetMockRecorder) Insert(failoverScheme ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Insert), failoverScheme...)
+}
+
+// Equal mocks base method
+func (m *MockFailoverSchemeSet) Equal(failoverSchemeSet v1sets.FailoverSchemeSet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", failoverSchemeSet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal
+func (mr *MockFailoverSchemeSetMockRecorder) Equal(failoverSchemeSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Equal), failoverSchemeSet)
+}
+
+// Has mocks base method
+func (m *MockFailoverSchemeSet) Has(failoverScheme ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", failoverScheme)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has
+func (mr *MockFailoverSchemeSetMockRecorder) Has(failoverScheme interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Has), failoverScheme)
+}
+
+// Delete mocks base method
+func (m *MockFailoverSchemeSet) Delete(failoverScheme ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", failoverScheme)
+}
+
+// Delete indicates an expected call of Delete
+func (mr *MockFailoverSchemeSetMockRecorder) Delete(failoverScheme interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Delete), failoverScheme)
+}
+
+// Union mocks base method
+func (m *MockFailoverSchemeSet) Union(set v1sets.FailoverSchemeSet) v1sets.FailoverSchemeSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v1sets.FailoverSchemeSet)
+	return ret0
+}
+
+// Union indicates an expected call of Union
+func (mr *MockFailoverSchemeSetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Union), set)
+}
+
+// Difference mocks base method
+func (m *MockFailoverSchemeSet) Difference(set v1sets.FailoverSchemeSet) v1sets.FailoverSchemeSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v1sets.FailoverSchemeSet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference
+func (mr *MockFailoverSchemeSetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Difference), set)
+}
+
+// Intersection mocks base method
+func (m *MockFailoverSchemeSet) Intersection(set v1sets.FailoverSchemeSet) v1sets.FailoverSchemeSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v1sets.FailoverSchemeSet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection
+func (mr *MockFailoverSchemeSetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Intersection), set)
+}
+
+// Find mocks base method
+func (m *MockFailoverSchemeSet) Find(id ezkube.ResourceId) (*v1.FailoverScheme, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v1.FailoverScheme)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find
+func (mr *MockFailoverSchemeSetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Find), id)
+}
+
+// Length mocks base method
+func (m *MockFailoverSchemeSet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length
+func (mr *MockFailoverSchemeSetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Length))
+}
+
+// Generic mocks base method
+func (m *MockFailoverSchemeSet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic
+func (mr *MockFailoverSchemeSetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Generic))
+}
+
+// Delta mocks base method
+func (m *MockFailoverSchemeSet) Delta(newSet v1sets.FailoverSchemeSet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta
+func (mr *MockFailoverSchemeSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockFailoverSchemeSet) Clone() v1sets.FailoverSchemeSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1sets.FailoverSchemeSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockFailoverSchemeSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Clone))
 }

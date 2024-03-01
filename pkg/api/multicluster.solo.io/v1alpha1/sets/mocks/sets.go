@@ -15,171 +15,30 @@ import (
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
 )
 
-// MockMultiClusterRoleSet is a mock of MultiClusterRoleSet interface.
+// MockMultiClusterRoleSet is a mock of MultiClusterRoleSet interface
 type MockMultiClusterRoleSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockMultiClusterRoleSetMockRecorder
 }
 
-// MockMultiClusterRoleSetMockRecorder is the mock recorder for MockMultiClusterRoleSet.
+// MockMultiClusterRoleSetMockRecorder is the mock recorder for MockMultiClusterRoleSet
 type MockMultiClusterRoleSetMockRecorder struct {
 	mock *MockMultiClusterRoleSet
 }
 
-// NewMockMultiClusterRoleSet creates a new mock instance.
+// NewMockMultiClusterRoleSet creates a new mock instance
 func NewMockMultiClusterRoleSet(ctrl *gomock.Controller) *MockMultiClusterRoleSet {
 	mock := &MockMultiClusterRoleSet{ctrl: ctrl}
 	mock.recorder = &MockMultiClusterRoleSetMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockMultiClusterRoleSet) EXPECT() *MockMultiClusterRoleSetMockRecorder {
 	return m.recorder
 }
 
-// Clone mocks base method.
-func (m *MockMultiClusterRoleSet) Clone() v1alpha1sets.MultiClusterRoleSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Clone")
-	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
-	return ret0
-}
-
-// Clone indicates an expected call of Clone.
-func (mr *MockMultiClusterRoleSetMockRecorder) Clone() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Clone))
-}
-
-// Delete mocks base method.
-func (m *MockMultiClusterRoleSet) Delete(multiClusterRole ezkube.ResourceId) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", multiClusterRole)
-}
-
-// Delete indicates an expected call of Delete.
-func (mr *MockMultiClusterRoleSetMockRecorder) Delete(multiClusterRole interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Delete), multiClusterRole)
-}
-
-// Delta mocks base method.
-func (m *MockMultiClusterRoleSet) Delta(newSet v1alpha1sets.MultiClusterRoleSet) sets.ResourceDelta {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delta", newSet)
-	ret0, _ := ret[0].(sets.ResourceDelta)
-	return ret0
-}
-
-// Delta indicates an expected call of Delta.
-func (mr *MockMultiClusterRoleSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Delta), newSet)
-}
-
-// Difference mocks base method.
-func (m *MockMultiClusterRoleSet) Difference(set v1alpha1sets.MultiClusterRoleSet) v1alpha1sets.MultiClusterRoleSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Difference", set)
-	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
-	return ret0
-}
-
-// Difference indicates an expected call of Difference.
-func (mr *MockMultiClusterRoleSetMockRecorder) Difference(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Difference), set)
-}
-
-// Equal mocks base method.
-func (m *MockMultiClusterRoleSet) Equal(multiClusterRoleSet v1alpha1sets.MultiClusterRoleSet) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", multiClusterRoleSet)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Equal indicates an expected call of Equal.
-func (mr *MockMultiClusterRoleSetMockRecorder) Equal(multiClusterRoleSet interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Equal), multiClusterRoleSet)
-}
-
-// Find mocks base method.
-func (m *MockMultiClusterRoleSet) Find(id ezkube.ResourceId) (*v1alpha1.MultiClusterRole, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", id)
-	ret0, _ := ret[0].(*v1alpha1.MultiClusterRole)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Find indicates an expected call of Find.
-func (mr *MockMultiClusterRoleSetMockRecorder) Find(id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Find), id)
-}
-
-// Generic mocks base method.
-func (m *MockMultiClusterRoleSet) Generic() sets.ResourceSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generic")
-	ret0, _ := ret[0].(sets.ResourceSet)
-	return ret0
-}
-
-// Generic indicates an expected call of Generic.
-func (mr *MockMultiClusterRoleSetMockRecorder) Generic() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Generic))
-}
-
-// Has mocks base method.
-func (m *MockMultiClusterRoleSet) Has(multiClusterRole ezkube.ResourceId) bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", multiClusterRole)
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// Has indicates an expected call of Has.
-func (mr *MockMultiClusterRoleSetMockRecorder) Has(multiClusterRole interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Has), multiClusterRole)
-}
-
-// Insert mocks base method.
-func (m *MockMultiClusterRoleSet) Insert(multiClusterRole ...*v1alpha1.MultiClusterRole) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{}
-	for _, a := range multiClusterRole {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Insert", varargs...)
-}
-
-// Insert indicates an expected call of Insert.
-func (mr *MockMultiClusterRoleSetMockRecorder) Insert(multiClusterRole ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Insert), multiClusterRole...)
-}
-
-// Intersection mocks base method.
-func (m *MockMultiClusterRoleSet) Intersection(set v1alpha1sets.MultiClusterRoleSet) v1alpha1sets.MultiClusterRoleSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Intersection", set)
-	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
-	return ret0
-}
-
-// Intersection indicates an expected call of Intersection.
-func (mr *MockMultiClusterRoleSetMockRecorder) Intersection(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Intersection), set)
-}
-
-// Keys mocks base method.
+// Keys mocks base method
 func (m *MockMultiClusterRoleSet) Keys() sets0.String {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys")
@@ -187,27 +46,13 @@ func (m *MockMultiClusterRoleSet) Keys() sets0.String {
 	return ret0
 }
 
-// Keys indicates an expected call of Keys.
+// Keys indicates an expected call of Keys
 func (mr *MockMultiClusterRoleSetMockRecorder) Keys() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Keys))
 }
 
-// Length mocks base method.
-func (m *MockMultiClusterRoleSet) Length() int {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Length")
-	ret0, _ := ret[0].(int)
-	return ret0
-}
-
-// Length indicates an expected call of Length.
-func (mr *MockMultiClusterRoleSetMockRecorder) Length() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Length))
-}
-
-// List mocks base method.
+// List mocks base method
 func (m *MockMultiClusterRoleSet) List(filterResource ...func(*v1alpha1.MultiClusterRole) bool) []*v1alpha1.MultiClusterRole {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -219,41 +64,13 @@ func (m *MockMultiClusterRoleSet) List(filterResource ...func(*v1alpha1.MultiClu
 	return ret0
 }
 
-// List indicates an expected call of List.
+// List indicates an expected call of List
 func (mr *MockMultiClusterRoleSetMockRecorder) List(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).List), filterResource...)
 }
 
-// Map mocks base method.
-func (m *MockMultiClusterRoleSet) Map() map[string]*v1alpha1.MultiClusterRole {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Map")
-	ret0, _ := ret[0].(map[string]*v1alpha1.MultiClusterRole)
-	return ret0
-}
-
-// Map indicates an expected call of Map.
-func (mr *MockMultiClusterRoleSetMockRecorder) Map() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Map))
-}
-
-// Union mocks base method.
-func (m *MockMultiClusterRoleSet) Union(set v1alpha1sets.MultiClusterRoleSet) v1alpha1sets.MultiClusterRoleSet {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Union", set)
-	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
-	return ret0
-}
-
-// Union indicates an expected call of Union.
-func (mr *MockMultiClusterRoleSetMockRecorder) Union(set interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Union), set)
-}
-
-// UnsortedList mocks base method.
+// UnsortedList mocks base method
 func (m *MockMultiClusterRoleSet) UnsortedList(filterResource ...func(*v1alpha1.MultiClusterRole) bool) []*v1alpha1.MultiClusterRole {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
@@ -265,8 +82,191 @@ func (m *MockMultiClusterRoleSet) UnsortedList(filterResource ...func(*v1alpha1.
 	return ret0
 }
 
-// UnsortedList indicates an expected call of UnsortedList.
+// UnsortedList indicates an expected call of UnsortedList
 func (mr *MockMultiClusterRoleSetMockRecorder) UnsortedList(filterResource ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).UnsortedList), filterResource...)
+}
+
+// Map mocks base method
+func (m *MockMultiClusterRoleSet) Map() map[string]*v1alpha1.MultiClusterRole {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v1alpha1.MultiClusterRole)
+	return ret0
+}
+
+// Map indicates an expected call of Map
+func (mr *MockMultiClusterRoleSetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Map))
+}
+
+// Insert mocks base method
+func (m *MockMultiClusterRoleSet) Insert(multiClusterRole ...*v1alpha1.MultiClusterRole) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{}
+	for _, a := range multiClusterRole {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert
+func (mr *MockMultiClusterRoleSetMockRecorder) Insert(multiClusterRole ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Insert), multiClusterRole...)
+}
+
+// Equal mocks base method
+func (m *MockMultiClusterRoleSet) Equal(multiClusterRoleSet v1alpha1sets.MultiClusterRoleSet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", multiClusterRoleSet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal
+func (mr *MockMultiClusterRoleSetMockRecorder) Equal(multiClusterRoleSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Equal), multiClusterRoleSet)
+}
+
+// Has mocks base method
+func (m *MockMultiClusterRoleSet) Has(multiClusterRole ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", multiClusterRole)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has
+func (mr *MockMultiClusterRoleSetMockRecorder) Has(multiClusterRole interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Has), multiClusterRole)
+}
+
+// Delete mocks base method
+func (m *MockMultiClusterRoleSet) Delete(multiClusterRole ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", multiClusterRole)
+}
+
+// Delete indicates an expected call of Delete
+func (mr *MockMultiClusterRoleSetMockRecorder) Delete(multiClusterRole interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Delete), multiClusterRole)
+}
+
+// Union mocks base method
+func (m *MockMultiClusterRoleSet) Union(set v1alpha1sets.MultiClusterRoleSet) v1alpha1sets.MultiClusterRoleSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
+	return ret0
+}
+
+// Union indicates an expected call of Union
+func (mr *MockMultiClusterRoleSetMockRecorder) Union(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Union), set)
+}
+
+// Difference mocks base method
+func (m *MockMultiClusterRoleSet) Difference(set v1alpha1sets.MultiClusterRoleSet) v1alpha1sets.MultiClusterRoleSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference
+func (mr *MockMultiClusterRoleSetMockRecorder) Difference(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Difference), set)
+}
+
+// Intersection mocks base method
+func (m *MockMultiClusterRoleSet) Intersection(set v1alpha1sets.MultiClusterRoleSet) v1alpha1sets.MultiClusterRoleSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection
+func (mr *MockMultiClusterRoleSetMockRecorder) Intersection(set interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Intersection), set)
+}
+
+// Find mocks base method
+func (m *MockMultiClusterRoleSet) Find(id ezkube.ResourceId) (*v1alpha1.MultiClusterRole, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v1alpha1.MultiClusterRole)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find
+func (mr *MockMultiClusterRoleSetMockRecorder) Find(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Find), id)
+}
+
+// Length mocks base method
+func (m *MockMultiClusterRoleSet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length
+func (mr *MockMultiClusterRoleSetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Length))
+}
+
+// Generic mocks base method
+func (m *MockMultiClusterRoleSet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic
+func (mr *MockMultiClusterRoleSetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Generic))
+}
+
+// Delta mocks base method
+func (m *MockMultiClusterRoleSet) Delta(newSet v1alpha1sets.MultiClusterRoleSet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta
+func (mr *MockMultiClusterRoleSetMockRecorder) Delta(newSet interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Delta), newSet)
+}
+
+// Clone mocks base method
+func (m *MockMultiClusterRoleSet) Clone() v1alpha1sets.MultiClusterRoleSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v1alpha1sets.MultiClusterRoleSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone
+func (mr *MockMultiClusterRoleSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockMultiClusterRoleSet)(nil).Clone))
 }

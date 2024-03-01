@@ -14,30 +14,30 @@ import (
 	predicate "sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
-// MockFederatedRateLimitConfigEventHandler is a mock of FederatedRateLimitConfigEventHandler interface.
+// MockFederatedRateLimitConfigEventHandler is a mock of FederatedRateLimitConfigEventHandler interface
 type MockFederatedRateLimitConfigEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockFederatedRateLimitConfigEventHandlerMockRecorder
 }
 
-// MockFederatedRateLimitConfigEventHandlerMockRecorder is the mock recorder for MockFederatedRateLimitConfigEventHandler.
+// MockFederatedRateLimitConfigEventHandlerMockRecorder is the mock recorder for MockFederatedRateLimitConfigEventHandler
 type MockFederatedRateLimitConfigEventHandlerMockRecorder struct {
 	mock *MockFederatedRateLimitConfigEventHandler
 }
 
-// NewMockFederatedRateLimitConfigEventHandler creates a new mock instance.
+// NewMockFederatedRateLimitConfigEventHandler creates a new mock instance
 func NewMockFederatedRateLimitConfigEventHandler(ctrl *gomock.Controller) *MockFederatedRateLimitConfigEventHandler {
 	mock := &MockFederatedRateLimitConfigEventHandler{ctrl: ctrl}
 	mock.recorder = &MockFederatedRateLimitConfigEventHandlerMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockFederatedRateLimitConfigEventHandler) EXPECT() *MockFederatedRateLimitConfigEventHandlerMockRecorder {
 	return m.recorder
 }
 
-// CreateFederatedRateLimitConfig mocks base method.
+// CreateFederatedRateLimitConfig mocks base method
 func (m *MockFederatedRateLimitConfigEventHandler) CreateFederatedRateLimitConfig(obj *v1alpha1.FederatedRateLimitConfig) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateFederatedRateLimitConfig", obj)
@@ -45,41 +45,13 @@ func (m *MockFederatedRateLimitConfigEventHandler) CreateFederatedRateLimitConfi
 	return ret0
 }
 
-// CreateFederatedRateLimitConfig indicates an expected call of CreateFederatedRateLimitConfig.
+// CreateFederatedRateLimitConfig indicates an expected call of CreateFederatedRateLimitConfig
 func (mr *MockFederatedRateLimitConfigEventHandlerMockRecorder) CreateFederatedRateLimitConfig(obj interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFederatedRateLimitConfig", reflect.TypeOf((*MockFederatedRateLimitConfigEventHandler)(nil).CreateFederatedRateLimitConfig), obj)
 }
 
-// DeleteFederatedRateLimitConfig mocks base method.
-func (m *MockFederatedRateLimitConfigEventHandler) DeleteFederatedRateLimitConfig(obj *v1alpha1.FederatedRateLimitConfig) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteFederatedRateLimitConfig", obj)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteFederatedRateLimitConfig indicates an expected call of DeleteFederatedRateLimitConfig.
-func (mr *MockFederatedRateLimitConfigEventHandlerMockRecorder) DeleteFederatedRateLimitConfig(obj interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFederatedRateLimitConfig", reflect.TypeOf((*MockFederatedRateLimitConfigEventHandler)(nil).DeleteFederatedRateLimitConfig), obj)
-}
-
-// GenericFederatedRateLimitConfig mocks base method.
-func (m *MockFederatedRateLimitConfigEventHandler) GenericFederatedRateLimitConfig(obj *v1alpha1.FederatedRateLimitConfig) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GenericFederatedRateLimitConfig", obj)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// GenericFederatedRateLimitConfig indicates an expected call of GenericFederatedRateLimitConfig.
-func (mr *MockFederatedRateLimitConfigEventHandlerMockRecorder) GenericFederatedRateLimitConfig(obj interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericFederatedRateLimitConfig", reflect.TypeOf((*MockFederatedRateLimitConfigEventHandler)(nil).GenericFederatedRateLimitConfig), obj)
-}
-
-// UpdateFederatedRateLimitConfig mocks base method.
+// UpdateFederatedRateLimitConfig mocks base method
 func (m *MockFederatedRateLimitConfigEventHandler) UpdateFederatedRateLimitConfig(old, new *v1alpha1.FederatedRateLimitConfig) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateFederatedRateLimitConfig", old, new)
@@ -87,36 +59,64 @@ func (m *MockFederatedRateLimitConfigEventHandler) UpdateFederatedRateLimitConfi
 	return ret0
 }
 
-// UpdateFederatedRateLimitConfig indicates an expected call of UpdateFederatedRateLimitConfig.
+// UpdateFederatedRateLimitConfig indicates an expected call of UpdateFederatedRateLimitConfig
 func (mr *MockFederatedRateLimitConfigEventHandlerMockRecorder) UpdateFederatedRateLimitConfig(old, new interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFederatedRateLimitConfig", reflect.TypeOf((*MockFederatedRateLimitConfigEventHandler)(nil).UpdateFederatedRateLimitConfig), old, new)
 }
 
-// MockFederatedRateLimitConfigEventWatcher is a mock of FederatedRateLimitConfigEventWatcher interface.
+// DeleteFederatedRateLimitConfig mocks base method
+func (m *MockFederatedRateLimitConfigEventHandler) DeleteFederatedRateLimitConfig(obj *v1alpha1.FederatedRateLimitConfig) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteFederatedRateLimitConfig", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteFederatedRateLimitConfig indicates an expected call of DeleteFederatedRateLimitConfig
+func (mr *MockFederatedRateLimitConfigEventHandlerMockRecorder) DeleteFederatedRateLimitConfig(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFederatedRateLimitConfig", reflect.TypeOf((*MockFederatedRateLimitConfigEventHandler)(nil).DeleteFederatedRateLimitConfig), obj)
+}
+
+// GenericFederatedRateLimitConfig mocks base method
+func (m *MockFederatedRateLimitConfigEventHandler) GenericFederatedRateLimitConfig(obj *v1alpha1.FederatedRateLimitConfig) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericFederatedRateLimitConfig", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericFederatedRateLimitConfig indicates an expected call of GenericFederatedRateLimitConfig
+func (mr *MockFederatedRateLimitConfigEventHandlerMockRecorder) GenericFederatedRateLimitConfig(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericFederatedRateLimitConfig", reflect.TypeOf((*MockFederatedRateLimitConfigEventHandler)(nil).GenericFederatedRateLimitConfig), obj)
+}
+
+// MockFederatedRateLimitConfigEventWatcher is a mock of FederatedRateLimitConfigEventWatcher interface
 type MockFederatedRateLimitConfigEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockFederatedRateLimitConfigEventWatcherMockRecorder
 }
 
-// MockFederatedRateLimitConfigEventWatcherMockRecorder is the mock recorder for MockFederatedRateLimitConfigEventWatcher.
+// MockFederatedRateLimitConfigEventWatcherMockRecorder is the mock recorder for MockFederatedRateLimitConfigEventWatcher
 type MockFederatedRateLimitConfigEventWatcherMockRecorder struct {
 	mock *MockFederatedRateLimitConfigEventWatcher
 }
 
-// NewMockFederatedRateLimitConfigEventWatcher creates a new mock instance.
+// NewMockFederatedRateLimitConfigEventWatcher creates a new mock instance
 func NewMockFederatedRateLimitConfigEventWatcher(ctrl *gomock.Controller) *MockFederatedRateLimitConfigEventWatcher {
 	mock := &MockFederatedRateLimitConfigEventWatcher{ctrl: ctrl}
 	mock.recorder = &MockFederatedRateLimitConfigEventWatcherMockRecorder{mock}
 	return mock
 }
 
-// EXPECT returns an object that allows the caller to indicate expected use.
+// EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockFederatedRateLimitConfigEventWatcher) EXPECT() *MockFederatedRateLimitConfigEventWatcherMockRecorder {
 	return m.recorder
 }
 
-// AddEventHandler mocks base method.
+// AddEventHandler mocks base method
 func (m *MockFederatedRateLimitConfigEventWatcher) AddEventHandler(ctx context.Context, h controller.FederatedRateLimitConfigEventHandler, predicates ...predicate.Predicate) error {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, h}
@@ -128,7 +128,7 @@ func (m *MockFederatedRateLimitConfigEventWatcher) AddEventHandler(ctx context.C
 	return ret0
 }
 
-// AddEventHandler indicates an expected call of AddEventHandler.
+// AddEventHandler indicates an expected call of AddEventHandler
 func (mr *MockFederatedRateLimitConfigEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)

@@ -171,7 +171,7 @@ func (s *authConfigSet) Union(set AuthConfigSet) AuthConfigSet {
 	if s == nil {
 		return set
 	}
-	return NewAuthConfigSet(append(s.List(), set.List()...)...)
+	return &authConfigMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *authConfigSet) Difference(set AuthConfigSet) AuthConfigSet {
@@ -233,5 +233,177 @@ func (s *authConfigSet) Clone() AuthConfigSet {
 	if s == nil {
 		return nil
 	}
-	return &authConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &authConfigMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type authConfigMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewAuthConfigMergedSet(authConfigList ...*enterprise_gloo_solo_io_v1.AuthConfig) AuthConfigSet {
+	return &authConfigMergedSet{sets: []sksets.ResourceSet{makeGenericAuthConfigSet(authConfigList)}}
+}
+
+func NewAuthConfigMergedSetFromList(authConfigList *enterprise_gloo_solo_io_v1.AuthConfigList) AuthConfigSet {
+	list := make([]*enterprise_gloo_solo_io_v1.AuthConfig, 0, len(authConfigList.Items))
+	for idx := range authConfigList.Items {
+		list = append(list, &authConfigList.Items[idx])
+	}
+	return &authConfigMergedSet{sets: []sksets.ResourceSet{makeGenericAuthConfigSet(list)}}
+}
+
+func (s *authConfigMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *authConfigMergedSet) List(filterResource ...func(*enterprise_gloo_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_solo_io_v1.AuthConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
+		})
+	}
+	authConfigList := []*enterprise_gloo_solo_io_v1.AuthConfig{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			authConfigList = append(authConfigList, obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
+		}
+	}
+	return authConfigList
+}
+
+func (s *authConfigMergedSet) UnsortedList(filterResource ...func(*enterprise_gloo_solo_io_v1.AuthConfig) bool) []*enterprise_gloo_solo_io_v1.AuthConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
+		})
+	}
+
+	authConfigList := []*enterprise_gloo_solo_io_v1.AuthConfig{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			authConfigList = append(authConfigList, obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
+		}
+	}
+	return authConfigList
+}
+
+func (s *authConfigMergedSet) Map() map[string]*enterprise_gloo_solo_io_v1.AuthConfig {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*enterprise_gloo_solo_io_v1.AuthConfig{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*enterprise_gloo_solo_io_v1.AuthConfig)
+		}
+	}
+	return newMap
+}
+
+func (s *authConfigMergedSet) Insert(
+	authConfigList ...*enterprise_gloo_solo_io_v1.AuthConfig,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericAuthConfigSet(authConfigList))
+	}
+	for _, obj := range authConfigList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *authConfigMergedSet) Has(authConfig ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(authConfig) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *authConfigMergedSet) Equal(
+	authConfigSet AuthConfigSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *authConfigMergedSet) Delete(AuthConfig ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *authConfigMergedSet) Union(set AuthConfigSet) AuthConfigSet {
+	return &authConfigMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *authConfigMergedSet) Difference(set AuthConfigSet) AuthConfigSet {
+	panic("unimplemented")
+}
+
+func (s *authConfigMergedSet) Intersection(set AuthConfigSet) AuthConfigSet {
+	panic("unimplemented")
+}
+
+func (s *authConfigMergedSet) Find(id ezkube.ResourceId) (*enterprise_gloo_solo_io_v1.AuthConfig, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find AuthConfig %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&enterprise_gloo_solo_io_v1.AuthConfig{}, id)
+		if err == nil {
+			return obj.(*enterprise_gloo_solo_io_v1.AuthConfig), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *authConfigMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *authConfigMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *authConfigMergedSet) Delta(newSet AuthConfigSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *authConfigMergedSet) Clone() AuthConfigSet {
+	if s == nil {
+		return nil
+	}
+	return &authConfigMergedSet{sets: s.sets[:]}
 }

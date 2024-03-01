@@ -171,7 +171,7 @@ func (s *federatedAuthConfigSet) Union(set FederatedAuthConfigSet) FederatedAuth
 	if s == nil {
 		return set
 	}
-	return NewFederatedAuthConfigSet(append(s.List(), set.List()...)...)
+	return &federatedAuthConfigMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
 }
 
 func (s *federatedAuthConfigSet) Difference(set FederatedAuthConfigSet) FederatedAuthConfigSet {
@@ -233,5 +233,177 @@ func (s *federatedAuthConfigSet) Clone() FederatedAuthConfigSet {
 	if s == nil {
 		return nil
 	}
-	return &federatedAuthConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &federatedAuthConfigMergedSet{sets: []sksets.ResourceSet{s.Generic()}}
+}
+
+type federatedAuthConfigMergedSet struct {
+	sets []sksets.ResourceSet
+}
+
+func NewFederatedAuthConfigMergedSet(federatedAuthConfigList ...*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) FederatedAuthConfigSet {
+	return &federatedAuthConfigMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedAuthConfigSet(federatedAuthConfigList)}}
+}
+
+func NewFederatedAuthConfigMergedSetFromList(federatedAuthConfigList *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigList) FederatedAuthConfigSet {
+	list := make([]*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig, 0, len(federatedAuthConfigList.Items))
+	for idx := range federatedAuthConfigList.Items {
+		list = append(list, &federatedAuthConfigList.Items[idx])
+	}
+	return &federatedAuthConfigMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedAuthConfigSet(list)}}
+}
+
+func (s *federatedAuthConfigMergedSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
+		toRet = toRet.Union(set.Keys())
+	}
+	return toRet
+}
+
+func (s *federatedAuthConfigMergedSet) List(filterResource ...func(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) bool) []*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig))
+		})
+	}
+	federatedAuthConfigList := []*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig{}
+	for _, set := range s.sets {
+		for _, obj := range set.List(genericFilters...) {
+			federatedAuthConfigList = append(federatedAuthConfigList, obj.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig))
+		}
+	}
+	return federatedAuthConfigList
+}
+
+func (s *federatedAuthConfigMergedSet) UnsortedList(filterResource ...func(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) bool) []*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig))
+		})
+	}
+
+	federatedAuthConfigList := []*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig{}
+	for _, set := range s.sets {
+		for _, obj := range set.UnsortedList(genericFilters...) {
+			federatedAuthConfigList = append(federatedAuthConfigList, obj.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig))
+		}
+	}
+	return federatedAuthConfigList
+}
+
+func (s *federatedAuthConfigMergedSet) Map() map[string]*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig{}
+	for _, set := range s.sets {
+		for k, v := range set.Map() {
+			newMap[k] = v.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
+		}
+	}
+	return newMap
+}
+
+func (s *federatedAuthConfigMergedSet) Insert(
+	federatedAuthConfigList ...*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig,
+) {
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericFederatedAuthConfigSet(federatedAuthConfigList))
+	}
+	for _, obj := range federatedAuthConfigList {
+		s.sets[0].Insert(obj)
+	}
+}
+
+func (s *federatedAuthConfigMergedSet) Has(federatedAuthConfig ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
+		if set.Has(federatedAuthConfig) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *federatedAuthConfigMergedSet) Equal(
+	federatedAuthConfigSet FederatedAuthConfigSet,
+) bool {
+	panic("unimplemented")
+}
+
+func (s *federatedAuthConfigMergedSet) Delete(FederatedAuthConfig ezkube.ResourceId) {
+	panic("unimplemented")
+}
+
+func (s *federatedAuthConfigMergedSet) Union(set FederatedAuthConfigSet) FederatedAuthConfigSet {
+	return &federatedAuthConfigMergedSet{sets: append(s.sets, set.Generic())}
+}
+
+func (s *federatedAuthConfigMergedSet) Difference(set FederatedAuthConfigSet) FederatedAuthConfigSet {
+	panic("unimplemented")
+}
+
+func (s *federatedAuthConfigMergedSet) Intersection(set FederatedAuthConfigSet) FederatedAuthConfigSet {
+	panic("unimplemented")
+}
+
+func (s *federatedAuthConfigMergedSet) Find(id ezkube.ResourceId) (*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedAuthConfig %v", sksets.Key(id))
+	}
+
+	var err error
+	for _, set := range s.sets {
+		var obj ezkube.ResourceId
+		obj, err = set.Find(&fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig{}, id)
+		if err == nil {
+			return obj.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig), nil
+		}
+	}
+
+	return nil, err
+}
+
+func (s *federatedAuthConfigMergedSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
+	for _, set := range s.sets {
+		totalLen += set.Length()
+	}
+	return totalLen
+}
+
+func (s *federatedAuthConfigMergedSet) Generic() sksets.ResourceSet {
+	panic("unimplemented")
+}
+
+func (s *federatedAuthConfigMergedSet) Delta(newSet FederatedAuthConfigSet) sksets.ResourceDelta {
+	panic("unimplemented")
+}
+
+func (s *federatedAuthConfigMergedSet) Clone() FederatedAuthConfigSet {
+	if s == nil {
+		return nil
+	}
+	return &federatedAuthConfigMergedSet{sets: s.sets[:]}
 }
