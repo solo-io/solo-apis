@@ -7,7 +7,7 @@
 // For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% versioned_link_path fromRoot="/setup/install/gloo_mesh_managed/" %}}) guide.
 //
 // **Example**: This example creates an `istiod` control plane in the `istio-system` namespace of two workload clusters
-// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`), image tag (`$ISTIO_IMAGE`),
+// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the revision for the Solo distribution of Istio (`$REVISION`), image tag (`$ISTIO_IMAGE`),
 // and repo key (`$REPO`).
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
@@ -30,10 +30,10 @@
 //       # Only the control plane components are installed
 //       # (https://istio.io/latest/docs/setup/additional-setup/config-profiles/)
 //       profile: minimal
-//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # Repository for the Solo distribution of Istio; required to use Solo images.
 //       # You get the repo key from your Solo Account Representative.
 //       hub: $REPO
-//       # Any Solo Istio tag
+//       # Tag for Solo distribution of Istio
 //       tag: $ISTIO_IMAGE
 //       namespace: istio-system
 //       # Mesh configuration
@@ -450,7 +450,7 @@ type IstioInstallation struct {
 
 	// Istio revision for this installation, such as '1-18-2'.
 	// Label workload resources with 'istio.io/rev=$REVISION' to use this installation.
-	// When set to `auto`, Gloo installs the control plane with the default supported version of Solo Istio.
+	// When set to `auto`, Gloo installs the control plane with the default supported Solo distribution of Istio.
 	Revision string `protobuf:"bytes,1,opt,name=revision,proto3" json:"revision,omitempty"`
 	// Clusters to install the Istio control planes in.
 	Clusters []*IstioClusterSelector `protobuf:"bytes,2,rep,name=clusters,proto3" json:"clusters,omitempty"`
