@@ -37,7 +37,7 @@ require (
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	istio.io/api v1.20.1
+	istio.io/api v1.20.3-0.20240116015448-5563f7225778
 	k8s.io/api v0.28.3
 	k8s.io/apimachinery v0.28.3
 	k8s.io/client-go v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible

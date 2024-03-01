@@ -61,7 +61,7 @@ message OutlierDetectionPolicySpec {
     // used separately or together. Because the errors counted by
     // consecutive_gateway_errors are also included in consecutive_errors,
     // if the value of consecutive_gateway_errors is greater than or equal to
-    // the value of consecutive_errors, consecutive_gateway_errors will have
+    // the value of consecutive_errors, consecutive_gateway_errors has
     // no effect.
     google.protobuf.UInt32Value consecutive_gateway_errors = 5;
 

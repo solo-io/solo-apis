@@ -235,7 +235,7 @@ type OutlierDetectionPolicySpec_Config struct {
 	// used separately or together. Because the errors counted by
 	// consecutive_gateway_errors are also included in consecutive_errors,
 	// if the value of consecutive_gateway_errors is greater than or equal to
-	// the value of consecutive_errors, consecutive_gateway_errors will have
+	// the value of consecutive_errors, consecutive_gateway_errors has
 	// no effect.
 	ConsecutiveGatewayErrors *wrappers.UInt32Value `protobuf:"bytes,5,opt,name=consecutive_gateway_errors,json=consecutiveGatewayErrors,proto3" json:"consecutive_gateway_errors,omitempty"`
 }
