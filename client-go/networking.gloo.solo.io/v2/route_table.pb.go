@@ -384,8 +384,16 @@ type RouteTableSpec struct {
 	// Only valid for route tables which define at least one host.
 	// If no workloadSelectors or virtualGateways are specified, all workloads in the workspace will automatically be selected.
 	// If VirtualGateways are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.
-	// *Note*: This field must be empty for a delegated RouteTable.
+	//
+	// **For delegated routes**: Delegated child route tables inherit the workload selectors of the parent route table, such as 'value:foo'.
+	// The delegated child route table can also have its own workload selectors, such as 'env:prod'.
+	// These workload selectors are logically AND'd together. As a result, the child route table routes traffic only to workloads with both 'value:foo' and 'env:prod' labels.
+	// Note that the child route table cannot override the parent's workload selectors, such as by setting 'value:bar'. In that case, the child route gets an error until the conflict is resolved.
+	//
 	// *Note*: Selection of external workloads (VMs) is currently not supported.
+	//
+	// **Note**: You can select workloads by using labels only. Selecting workloads by using other references, such as
+	// the name, namespace, or cluster is not supported.
 	WorkloadSelectors []*v2.WorkloadSelector `protobuf:"bytes,6,rep,name=workload_selectors,json=workloadSelectors,proto3" json:"workload_selectors,omitempty"`
 	//	Optional: Selectors for destinations that shall route traffic by this route table via producer-side side policy (e.g on waypoints)
 	//

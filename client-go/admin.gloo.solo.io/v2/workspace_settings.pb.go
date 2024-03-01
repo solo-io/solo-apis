@@ -651,7 +651,7 @@ type WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector struct {
 
 	// The type of the resource to import or export.
 	// The type must be a valid importable/exportable Kubernetes or Gloo Mesh resource type.
-	// Supported types: `RouteTable`, `Service`, `VirtualDestination`, `ExternalService`, `ApiDoc`, `GraphQLResolverMap`, `GraphQLSchema`, `GraphQLStitchedSchema`, `All` (all types).
+	// Supported types: `ROUTE_TABLE`, `SERVICE`, `VIRTUAL_DESTINATION`, `EXTERNAL_SERVICE`, `API_DOC`, `GRAPHQL_RESOLVER_MAP`, `GRAPHQL_SCHEMA`, `GRAPHQL_STITCHED_SCHEMA`, `EXTERNAL_WORKLOAD`, `ALL` (all types).
 	Kind WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind `protobuf:"varint,1,opt,name=kind,proto3,enum=admin.gloo.solo.io.WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind" json:"kind,omitempty"`
 	// labels matching those of the object
 	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
