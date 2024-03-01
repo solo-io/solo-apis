@@ -9,7 +9,7 @@
 // **Examples**:
 //
 // **East-west** (Gloo Mesh license): This example creates an east-west gateway named `istio-eastwestgateway` in the `gloo-mesh-gateways`
-// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`),
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the revision for the Solo distribution of Istio (`$REVISION`),
 // image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
@@ -31,7 +31,7 @@
 //     istioOperatorSpec:
 //       # No control plane components are installed
 //       profile: empty
-//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # Repository for the Solo distribution of Istio; required to use Solo images.
 //       # You get the repo key from your Solo Account Representative.
 //       hub: $REPO
 //       # The Solo.io Gloo Istio version
@@ -76,7 +76,7 @@
 // ```
 //
 // **Ingress** (Gloo Gateway license): This example creates an ingress gateway named `istio-ingressgateway` in the `gloo-mesh-gateways`
-// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`),
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the revision for the Solo distribution of Istio (`$REVISION`),
 // image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
@@ -98,10 +98,10 @@
 //     istioOperatorSpec:
 //       # No control plane components are installed
 //       profile: empty
-//       # Solo.io Istio distribution repository; required for Solo Istio.
+//       # Repository for the Solo distribution of Istio; required to use Solo images.
 //       # You get the repo key from your Solo Account Representative.
 //       hub: $REPO
-//       # The Solo.io Istio version tag
+//       # Tag for the Solo distribution of Istio
 //       tag: $ISTIO_IMAGE
 //       components:
 //         ingressGateways:
@@ -141,7 +141,7 @@
 // ```
 //
 // **Egress**: This example creates an egress gateway named `istio-egressgateway` in the `gloo-mesh-gateways` namespace of two workload clusters,
-// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo Istio revision (`$REVISION`), image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the revision for the Solo distribution of Istio (`$REVISION`), image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
 // For more information, see the
 // [Block egress traffic with an egress gateway]({{% versioned_link_path fromRoot="/routing/forward-requests/external-service/egress-gateway/" %}}) guide.
 // ```yaml
@@ -164,7 +164,7 @@
 //       istioOperatorSpec:
 //         # No control plane components are installed
 //         profile: minimal
-//         # Solo.io Istio distribution repository; required for Gloo Istio.
+//         # Repository for the Solo distribution of Istio; required to use Solo images.
 //         # You get the repo key from your Solo Account Representative.
 //         hub: $REPO
 //         # The Solo.io Gloo Istio version
@@ -490,7 +490,7 @@ type GatewayInstallation struct {
 	// If a control plane installation of this revision is not found, no gateway is created.
 	ControlPlaneRevision string `protobuf:"bytes,1,opt,name=control_plane_revision,json=controlPlaneRevision,proto3" json:"control_plane_revision,omitempty"`
 	// Istio revision for this gateway installation, such as '1-18-2'.
-	// When set to `auto`, Gloo installs the gateway with the default supported version of Solo Istio.
+	// When set to `auto`, Gloo installs the gateway with the default supported Solo distribution of Istio.
 	GatewayRevision string `protobuf:"bytes,2,opt,name=gateway_revision,json=gatewayRevision,proto3" json:"gateway_revision,omitempty"`
 	// Clusters to install the Istio gateways in.
 	Clusters []*GatewayClusterSelector `protobuf:"bytes,3,rep,name=clusters,proto3" json:"clusters,omitempty"`

@@ -38,7 +38,14 @@ const (
 	WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_VIRTUAL_DESTINATION WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind = 3
 	// Select ExternalService objects.
 	WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_EXTERNAL_SERVICE WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind = 4
-	// Select ApiDoc objects.
+	// Select ApiDoc objects. Please note that explicit import/export
+	// is only necessary for GraphQL ApiDocs that are referenced in
+	// graphql routes. ApiDocs that are used only in the context of the
+	// portal features (currently only OpenAPI ones) are implicitly
+	// imported/exported together with their corresponding destination,
+	// i.e. if a destination (e.g. a service) is visible to a RouteTable,
+	// the ApiDoc associated with it will be available when the RouteTable
+	// is referenced in a Portal.
 	WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_API_DOC WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind = 5
 	// Select GraphQLResolverMap objects.
 	WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_GRAPHQL_RESOLVER_MAP WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind = 6
@@ -644,7 +651,7 @@ type WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector struct {
 
 	// The type of the resource to import or export.
 	// The type must be a valid importable/exportable Kubernetes or Gloo Mesh resource type.
-	// Supported types: `RouteTable`, `Service`, `VirtualDestination`, `ExternalService`, `ApiDoc`, `GraphQLResolverMap`, `GraphQLSchema`, `GraphQLStitchedSchema`, `All` (all types).
+	// Supported types: `ROUTE_TABLE`, `SERVICE`, `VIRTUAL_DESTINATION`, `EXTERNAL_SERVICE`, `API_DOC`, `GRAPHQL_RESOLVER_MAP`, `GRAPHQL_SCHEMA`, `GRAPHQL_STITCHED_SCHEMA`, `EXTERNAL_WORKLOAD`, `ALL` (all types).
 	Kind WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind `protobuf:"varint,1,opt,name=kind,proto3,enum=admin.gloo.solo.io.WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector_ObjectKind" json:"kind,omitempty"`
 	// labels matching those of the object
 	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
