@@ -216,12 +216,17 @@ message RouteTableSpec {
   // set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors.selector.labels` to `app: foo`.
   repeated .common.gloo.solo.io.ObjectReference virtual_gateways = 5;
 
-  // Optional: Selectors for source workloads (with sidecars) which will route traffic by this route table.
+  // Optional: Selectors for source workloads (with sidecars) which route traffic for this route table.
   // Only valid for route tables which define at least one host.
-  // If no workloadSelectors or virtualGateways are specified, all workloads in the workspace will automatically be selected.
-  // If VirtualGateways are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.
-  // *Note*: This field must be empty for a delegated RouteTable.
-  // *Note*: Selection of external workloads (VMs) is currently not supported.
+  // If no `workloadSelectors` or `virtualGateways` are specified, all workloads in the workspace are automatically selected.
+  // If `virtualGateways` are specified, set `workloadSelectors: - {}` to select all workloads in the workspace. 
+  //
+  // **Note**: This field must be empty for a delegated route table.
+  //
+  // **Note**: Selection of external workloads (VMs) is currently not supported. 
+  //
+  // **Note**: You can select workloads by using labels only. Selecting workloads by using other references, such as 
+  // the name, namespace, or cluster is not supported.
   repeated .common.gloo.solo.io.WorkloadSelector workload_selectors = 6;
 
   //  Optional: Selectors for destinations that shall route traffic by this route table via producer-side side policy (e.g on waypoints) 

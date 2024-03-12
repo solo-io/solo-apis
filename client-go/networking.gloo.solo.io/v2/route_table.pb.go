@@ -380,12 +380,17 @@ type RouteTableSpec struct {
 	// sidecars of all the `app: foo` workloads for the workspace where the route table is deployed or imported:
 	// set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors.selector.labels` to `app: foo`.
 	VirtualGateways []*v2.ObjectReference `protobuf:"bytes,5,rep,name=virtual_gateways,json=virtualGateways,proto3" json:"virtual_gateways,omitempty"`
-	// Optional: Selectors for source workloads (with sidecars) which will route traffic by this route table.
+	// Optional: Selectors for source workloads (with sidecars) which route traffic for this route table.
 	// Only valid for route tables which define at least one host.
-	// If no workloadSelectors or virtualGateways are specified, all workloads in the workspace will automatically be selected.
-	// If VirtualGateways are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.
-	// *Note*: This field must be empty for a delegated RouteTable.
-	// *Note*: Selection of external workloads (VMs) is currently not supported.
+	// If no `workloadSelectors` or `virtualGateways` are specified, all workloads in the workspace are automatically selected.
+	// If `virtualGateways` are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.
+	//
+	// **Note**: This field must be empty for a delegated route table.
+	//
+	// **Note**: Selection of external workloads (VMs) is currently not supported.
+	//
+	// **Note**: You can select workloads by using labels only. Selecting workloads by using other references, such as
+	// the name, namespace, or cluster is not supported.
 	WorkloadSelectors []*v2.WorkloadSelector `protobuf:"bytes,6,rep,name=workload_selectors,json=workloadSelectors,proto3" json:"workload_selectors,omitempty"`
 	//	Optional: Selectors for destinations that shall route traffic by this route table via producer-side side policy (e.g on waypoints)
 	//
