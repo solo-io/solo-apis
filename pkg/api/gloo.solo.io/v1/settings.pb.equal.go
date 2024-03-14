@@ -2195,6 +2195,16 @@ func (m *GlooOptions_IstioOptions) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetEnableAutoMtls()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetEnableAutoMtls()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetEnableAutoMtls(), target.GetEnableAutoMtls()) {
+			return false
+		}
+	}
+
 	return true
 }
 
