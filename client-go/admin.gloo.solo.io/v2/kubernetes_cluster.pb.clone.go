@@ -37,6 +37,8 @@ func (m *KubernetesClusterSpec) Clone() proto.Message {
 
 	target.ClusterDomain = m.GetClusterDomain()
 
+	target.SkipWarming = m.GetSkipWarming()
+
 	return target
 }
 
