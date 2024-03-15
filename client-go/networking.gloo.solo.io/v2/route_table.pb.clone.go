@@ -142,6 +142,8 @@ func (m *RouteTableSpec) Clone() proto.Message {
 		target.PortalMetadata = proto.Clone(m.GetPortalMetadata()).(*PortalMetadata)
 	}
 
+	target.FailureMode = m.GetFailureMode()
+
 	return target
 }
 

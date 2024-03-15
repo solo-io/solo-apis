@@ -183,6 +183,10 @@ func (m *RouteTableSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetFailureMode() != target.GetFailureMode() {
+		return false
+	}
+
 	return true
 }
 

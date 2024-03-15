@@ -50,6 +50,10 @@ func (m *KubernetesClusterSpec) Equal(that interface{}) bool {
 		return false
 	}
 
+	if m.GetSkipWarming() != target.GetSkipWarming() {
+		return false
+	}
+
 	return true
 }
 

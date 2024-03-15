@@ -269,6 +269,28 @@ message RouteTableSpec {
   // Portal metadata is a set of key-value pairs that describe your APIs.
   // Later, your developer portal displays this information in the end-user facing API documentation.
   PortalMetadata portal_metadata = 7;
+
+  // The desired behavior when one or more routes in a route table are misconfigured.
+  // **Note**: If route delegation is used, the setting is supported on the parent route table only and controls the behavior for all of the child route tables.
+  // If set on a child route table, the setting is ignored.
+  FailureMode failure_mode = 11;
+
+  enum FailureMode {
+    // The default behavior for handling misconfigured routes in a route table.
+    // If you attempt to apply incorrect configuration to a route, the configuration is not applied in the cluster.
+    // Instead, the misconfigured route is replaced with a 500 HTTP direct response until the error is resolved.
+    // Other, correctly configured routes in the route table continue to route as configured and accept updates to their configuration.
+    ROUTE_REPLACEMENT = 0;
+    // If you attempt to apply incorrect configuration to a route, the configuration is not accepted
+    // and the route table continues to serve the route configuration from the last accepted configuration.
+    // Other, correctly configured routes in the route table also continue to serve the last accepted configuration.
+    // Updates to correctly configured routes are ignored until the error is resolved.
+    // Note that the same behavior applies when using route delegation;
+    // any misconfigured route on the parent route table or any child route table freezes the configuration for all routes in the route table tree until the error is resolved.
+    // Keep in mind that if you change the failure mode from `ROUTE_REPLACEMENT` to `FREEZE_CONFIG` while a route is in a misconfigured state,
+    // any replaced routes will maintain their 500 HTTP direct response as that is their behavior in the last accepted configuration.
+    FREEZE_CONFIG = 1;
+  }
 }
 
 // Use HTTP routes to control Layer 7 application level traffic to your services. To configure HTTP routes, you pair together
