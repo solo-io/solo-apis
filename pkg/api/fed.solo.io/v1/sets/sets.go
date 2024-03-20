@@ -11,6 +11,7 @@ import (
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	"github.com/solo-io/skv2/pkg/ezkube"
 	"k8s.io/apimachinery/pkg/util/sets"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type GlooInstanceSet interface {
@@ -48,30 +49,51 @@ type GlooInstanceSet interface {
 	Delta(newSet GlooInstanceSet) sksets.ResourceDelta
 	// Create a deep copy of the current GlooInstanceSet
 	Clone() GlooInstanceSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericGlooInstanceSet(glooInstanceList []*fed_solo_io_v1.GlooInstance) sksets.ResourceSet {
+func makeGenericGlooInstanceSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	glooInstanceList []*fed_solo_io_v1.GlooInstance,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range glooInstanceList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type glooInstanceSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewGlooInstanceSet(glooInstanceList ...*fed_solo_io_v1.GlooInstance) GlooInstanceSet {
-	return &glooInstanceSet{set: makeGenericGlooInstanceSet(glooInstanceList)}
+func NewGlooInstanceSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	glooInstanceList ...*fed_solo_io_v1.GlooInstance,
+) GlooInstanceSet {
+	return &glooInstanceSet{
+		set:      makeGenericGlooInstanceSet(sortFunc, glooInstanceList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewGlooInstanceSetFromList(glooInstanceList *fed_solo_io_v1.GlooInstanceList) GlooInstanceSet {
+func NewGlooInstanceSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	glooInstanceList *fed_solo_io_v1.GlooInstanceList,
+) GlooInstanceSet {
 	list := make([]*fed_solo_io_v1.GlooInstance, 0, len(glooInstanceList.Items))
 	for idx := range glooInstanceList.Items {
 		list = append(list, &glooInstanceList.Items[idx])
 	}
-	return &glooInstanceSet{set: makeGenericGlooInstanceSet(list)}
+	return &glooInstanceSet{
+		set:      makeGenericGlooInstanceSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *glooInstanceSet) Keys() sets.String {
@@ -126,7 +148,7 @@ func (s *glooInstanceSet) Map() map[string]*fed_solo_io_v1.GlooInstance {
 	}
 
 	newMap := map[string]*fed_solo_io_v1.GlooInstance{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*fed_solo_io_v1.GlooInstance)
 	}
 	return newMap
@@ -171,7 +193,7 @@ func (s *glooInstanceSet) Union(set GlooInstanceSet) GlooInstanceSet {
 	if s == nil {
 		return set
 	}
-	return NewGlooInstanceSet(append(s.List(), set.List()...)...)
+	return NewGlooInstanceSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *glooInstanceSet) Difference(set GlooInstanceSet) GlooInstanceSet {
@@ -191,7 +213,7 @@ func (s *glooInstanceSet) Intersection(set GlooInstanceSet) GlooInstanceSet {
 	for _, obj := range newSet.List() {
 		glooInstanceList = append(glooInstanceList, obj.(*fed_solo_io_v1.GlooInstance))
 	}
-	return NewGlooInstanceSet(glooInstanceList...)
+	return NewGlooInstanceSet(s.GetSortFunc(), glooInstanceList...)
 }
 
 func (s *glooInstanceSet) Find(id ezkube.ResourceId) (*fed_solo_io_v1.GlooInstance, error) {
@@ -233,7 +255,19 @@ func (s *glooInstanceSet) Clone() GlooInstanceSet {
 	if s == nil {
 		return nil
 	}
-	return &glooInstanceSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &glooInstanceSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *glooInstanceSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }
 
 type FailoverSchemeSet interface {
@@ -271,30 +305,51 @@ type FailoverSchemeSet interface {
 	Delta(newSet FailoverSchemeSet) sksets.ResourceDelta
 	// Create a deep copy of the current FailoverSchemeSet
 	Clone() FailoverSchemeSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericFailoverSchemeSet(failoverSchemeList []*fed_solo_io_v1.FailoverScheme) sksets.ResourceSet {
+func makeGenericFailoverSchemeSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	failoverSchemeList []*fed_solo_io_v1.FailoverScheme,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range failoverSchemeList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type failoverSchemeSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewFailoverSchemeSet(failoverSchemeList ...*fed_solo_io_v1.FailoverScheme) FailoverSchemeSet {
-	return &failoverSchemeSet{set: makeGenericFailoverSchemeSet(failoverSchemeList)}
+func NewFailoverSchemeSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	failoverSchemeList ...*fed_solo_io_v1.FailoverScheme,
+) FailoverSchemeSet {
+	return &failoverSchemeSet{
+		set:      makeGenericFailoverSchemeSet(sortFunc, failoverSchemeList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewFailoverSchemeSetFromList(failoverSchemeList *fed_solo_io_v1.FailoverSchemeList) FailoverSchemeSet {
+func NewFailoverSchemeSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	failoverSchemeList *fed_solo_io_v1.FailoverSchemeList,
+) FailoverSchemeSet {
 	list := make([]*fed_solo_io_v1.FailoverScheme, 0, len(failoverSchemeList.Items))
 	for idx := range failoverSchemeList.Items {
 		list = append(list, &failoverSchemeList.Items[idx])
 	}
-	return &failoverSchemeSet{set: makeGenericFailoverSchemeSet(list)}
+	return &failoverSchemeSet{
+		set:      makeGenericFailoverSchemeSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *failoverSchemeSet) Keys() sets.String {
@@ -349,7 +404,7 @@ func (s *failoverSchemeSet) Map() map[string]*fed_solo_io_v1.FailoverScheme {
 	}
 
 	newMap := map[string]*fed_solo_io_v1.FailoverScheme{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*fed_solo_io_v1.FailoverScheme)
 	}
 	return newMap
@@ -394,7 +449,7 @@ func (s *failoverSchemeSet) Union(set FailoverSchemeSet) FailoverSchemeSet {
 	if s == nil {
 		return set
 	}
-	return NewFailoverSchemeSet(append(s.List(), set.List()...)...)
+	return NewFailoverSchemeSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *failoverSchemeSet) Difference(set FailoverSchemeSet) FailoverSchemeSet {
@@ -414,7 +469,7 @@ func (s *failoverSchemeSet) Intersection(set FailoverSchemeSet) FailoverSchemeSe
 	for _, obj := range newSet.List() {
 		failoverSchemeList = append(failoverSchemeList, obj.(*fed_solo_io_v1.FailoverScheme))
 	}
-	return NewFailoverSchemeSet(failoverSchemeList...)
+	return NewFailoverSchemeSet(s.GetSortFunc(), failoverSchemeList...)
 }
 
 func (s *failoverSchemeSet) Find(id ezkube.ResourceId) (*fed_solo_io_v1.FailoverScheme, error) {
@@ -456,5 +511,17 @@ func (s *failoverSchemeSet) Clone() FailoverSchemeSet {
 	if s == nil {
 		return nil
 	}
-	return &failoverSchemeSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &failoverSchemeSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *failoverSchemeSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }

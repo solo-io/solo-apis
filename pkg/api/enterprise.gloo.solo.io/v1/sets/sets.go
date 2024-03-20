@@ -11,6 +11,7 @@ import (
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	"github.com/solo-io/skv2/pkg/ezkube"
 	"k8s.io/apimachinery/pkg/util/sets"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type AuthConfigSet interface {
@@ -48,30 +49,51 @@ type AuthConfigSet interface {
 	Delta(newSet AuthConfigSet) sksets.ResourceDelta
 	// Create a deep copy of the current AuthConfigSet
 	Clone() AuthConfigSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericAuthConfigSet(authConfigList []*enterprise_gloo_solo_io_v1.AuthConfig) sksets.ResourceSet {
+func makeGenericAuthConfigSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	authConfigList []*enterprise_gloo_solo_io_v1.AuthConfig,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range authConfigList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type authConfigSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewAuthConfigSet(authConfigList ...*enterprise_gloo_solo_io_v1.AuthConfig) AuthConfigSet {
-	return &authConfigSet{set: makeGenericAuthConfigSet(authConfigList)}
+func NewAuthConfigSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	authConfigList ...*enterprise_gloo_solo_io_v1.AuthConfig,
+) AuthConfigSet {
+	return &authConfigSet{
+		set:      makeGenericAuthConfigSet(sortFunc, authConfigList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewAuthConfigSetFromList(authConfigList *enterprise_gloo_solo_io_v1.AuthConfigList) AuthConfigSet {
+func NewAuthConfigSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	authConfigList *enterprise_gloo_solo_io_v1.AuthConfigList,
+) AuthConfigSet {
 	list := make([]*enterprise_gloo_solo_io_v1.AuthConfig, 0, len(authConfigList.Items))
 	for idx := range authConfigList.Items {
 		list = append(list, &authConfigList.Items[idx])
 	}
-	return &authConfigSet{set: makeGenericAuthConfigSet(list)}
+	return &authConfigSet{
+		set:      makeGenericAuthConfigSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *authConfigSet) Keys() sets.String {
@@ -126,7 +148,7 @@ func (s *authConfigSet) Map() map[string]*enterprise_gloo_solo_io_v1.AuthConfig 
 	}
 
 	newMap := map[string]*enterprise_gloo_solo_io_v1.AuthConfig{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	}
 	return newMap
@@ -171,7 +193,7 @@ func (s *authConfigSet) Union(set AuthConfigSet) AuthConfigSet {
 	if s == nil {
 		return set
 	}
-	return NewAuthConfigSet(append(s.List(), set.List()...)...)
+	return NewAuthConfigSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *authConfigSet) Difference(set AuthConfigSet) AuthConfigSet {
@@ -191,7 +213,7 @@ func (s *authConfigSet) Intersection(set AuthConfigSet) AuthConfigSet {
 	for _, obj := range newSet.List() {
 		authConfigList = append(authConfigList, obj.(*enterprise_gloo_solo_io_v1.AuthConfig))
 	}
-	return NewAuthConfigSet(authConfigList...)
+	return NewAuthConfigSet(s.GetSortFunc(), authConfigList...)
 }
 
 func (s *authConfigSet) Find(id ezkube.ResourceId) (*enterprise_gloo_solo_io_v1.AuthConfig, error) {
@@ -233,5 +255,17 @@ func (s *authConfigSet) Clone() AuthConfigSet {
 	if s == nil {
 		return nil
 	}
-	return &authConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &authConfigSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *authConfigSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }

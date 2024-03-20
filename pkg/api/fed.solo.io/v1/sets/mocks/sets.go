@@ -13,6 +13,7 @@ import (
 	v1 "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1"
 	v1sets "github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/sets"
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
+	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // MockGlooInstanceSet is a mock of GlooInstanceSet interface.
@@ -133,6 +134,20 @@ func (m *MockGlooInstanceSet) Generic() sets.ResourceSet {
 func (mr *MockGlooInstanceSetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockGlooInstanceSet)(nil).Generic))
+}
+
+// GetSortFunc mocks base method.
+func (m *MockGlooInstanceSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockGlooInstanceSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockGlooInstanceSet)(nil).GetSortFunc))
 }
 
 // Has mocks base method.
@@ -389,6 +404,20 @@ func (m *MockFailoverSchemeSet) Generic() sets.ResourceSet {
 func (mr *MockFailoverSchemeSetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockFailoverSchemeSet)(nil).Generic))
+}
+
+// GetSortFunc mocks base method.
+func (m *MockFailoverSchemeSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockFailoverSchemeSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockFailoverSchemeSet)(nil).GetSortFunc))
 }
 
 // Has mocks base method.

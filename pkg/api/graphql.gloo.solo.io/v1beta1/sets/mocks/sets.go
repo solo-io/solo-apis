@@ -13,6 +13,7 @@ import (
 	v1beta1 "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1"
 	v1beta1sets "github.com/solo-io/solo-apis/pkg/api/graphql.gloo.solo.io/v1beta1/sets"
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
+	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // MockGraphQLApiSet is a mock of GraphQLApiSet interface.
@@ -133,6 +134,20 @@ func (m *MockGraphQLApiSet) Generic() sets.ResourceSet {
 func (mr *MockGraphQLApiSetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockGraphQLApiSet)(nil).Generic))
+}
+
+// GetSortFunc mocks base method.
+func (m *MockGraphQLApiSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockGraphQLApiSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockGraphQLApiSet)(nil).GetSortFunc))
 }
 
 // Has mocks base method.

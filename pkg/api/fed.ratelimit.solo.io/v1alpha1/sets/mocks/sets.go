@@ -13,6 +13,7 @@ import (
 	v1alpha1 "github.com/solo-io/solo-apis/pkg/api/fed.ratelimit.solo.io/v1alpha1"
 	v1alpha1sets "github.com/solo-io/solo-apis/pkg/api/fed.ratelimit.solo.io/v1alpha1/sets"
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
+	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // MockFederatedRateLimitConfigSet is a mock of FederatedRateLimitConfigSet interface.
@@ -133,6 +134,20 @@ func (m *MockFederatedRateLimitConfigSet) Generic() sets.ResourceSet {
 func (mr *MockFederatedRateLimitConfigSetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockFederatedRateLimitConfigSet)(nil).Generic))
+}
+
+// GetSortFunc mocks base method.
+func (m *MockFederatedRateLimitConfigSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockFederatedRateLimitConfigSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockFederatedRateLimitConfigSet)(nil).GetSortFunc))
 }
 
 // Has mocks base method.

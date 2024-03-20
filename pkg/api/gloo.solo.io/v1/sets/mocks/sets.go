@@ -13,6 +13,7 @@ import (
 	v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 	v1sets "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/sets"
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
+	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // MockSettingsSet is a mock of SettingsSet interface.
@@ -133,6 +134,20 @@ func (m *MockSettingsSet) Generic() sets.ResourceSet {
 func (mr *MockSettingsSetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockSettingsSet)(nil).Generic))
+}
+
+// GetSortFunc mocks base method.
+func (m *MockSettingsSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockSettingsSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockSettingsSet)(nil).GetSortFunc))
 }
 
 // Has mocks base method.
@@ -391,6 +406,20 @@ func (mr *MockUpstreamSetMockRecorder) Generic() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockUpstreamSet)(nil).Generic))
 }
 
+// GetSortFunc mocks base method.
+func (m *MockUpstreamSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockUpstreamSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockUpstreamSet)(nil).GetSortFunc))
+}
+
 // Has mocks base method.
 func (m *MockUpstreamSet) Has(upstream ezkube.ResourceId) bool {
 	m.ctrl.T.Helper()
@@ -647,6 +676,20 @@ func (mr *MockUpstreamGroupSetMockRecorder) Generic() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockUpstreamGroupSet)(nil).Generic))
 }
 
+// GetSortFunc mocks base method.
+func (m *MockUpstreamGroupSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockUpstreamGroupSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockUpstreamGroupSet)(nil).GetSortFunc))
+}
+
 // Has mocks base method.
 func (m *MockUpstreamGroupSet) Has(upstreamGroup ezkube.ResourceId) bool {
 	m.ctrl.T.Helper()
@@ -901,6 +944,20 @@ func (m *MockProxySet) Generic() sets.ResourceSet {
 func (mr *MockProxySetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockProxySet)(nil).Generic))
+}
+
+// GetSortFunc mocks base method.
+func (m *MockProxySet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockProxySetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockProxySet)(nil).GetSortFunc))
 }
 
 // Has mocks base method.

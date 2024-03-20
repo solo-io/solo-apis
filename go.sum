@@ -938,6 +938,8 @@ github.com/google/btree v1.0.0/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ
 github.com/google/btree v1.0.1/go.mod h1:xXMiIv4Fb/0kKde4SpL7qlzvu5cMJDRkFDxJfI9uaxA=
 github.com/google/cel-go v0.16.1/go.mod h1:HXZKzB0LXqer5lHHgfWAnlYwJaQBDKMjxjulNQzhwhY=
 github.com/google/flatbuffers v2.0.8+incompatible/go.mod h1:1AeVuKshWv4vARoZatz6mlQ0JxURH0Kv5+zNeJKJCa8=
+github.com/google/gnostic v0.5.7-v3refs h1:FhTMOKj2VhjpouxvWJAV1TL304uMlb9zcDqkl6cEI54=
+github.com/google/gnostic v0.5.7-v3refs/go.mod h1:73MKFl6jIHelAJNaBGFzt3SPtZULs9dYrGFt8OiIsHQ=
 github.com/google/gnostic-models v0.6.8 h1:yo/ABAfM5IMRsS1VnXjTBvUb61tFIHozhlYvRgGre9I=
 github.com/google/gnostic-models v0.6.8/go.mod h1:5n7qKqH0f5wFt+aWF8CW6pZLLNOfYuF5OpfBSENuI8U=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=
@@ -1395,8 +1397,8 @@ github.com/solo-io/k8s-utils v0.6.0 h1:VF/EiQ0I2/EEqxitNvnQY9BWktYQf0oD0F4GQhGA1
 github.com/solo-io/k8s-utils v0.6.0/go.mod h1:cHiBkBOueJfqBRTxN7FA1xsX8s8XpIkVMXBsTXXZcVA=
 github.com/solo-io/protoc-gen-ext v0.0.18 h1:zSAL8NzWpJUGYoA5IyjHiKASNyHjR0uxBQ7eQS94i3A=
 github.com/solo-io/protoc-gen-ext v0.0.18/go.mod h1:iGyCvmKmhJNXs5MgBcYFBF0om7LDnCVD2WwhOZGnqeA=
-github.com/solo-io/skv2 v0.36.0 h1:Z1iCQou0Ei5K97UShAmB8xPYrFFZeseMZvef+kZ4Of0=
-github.com/solo-io/skv2 v0.36.0/go.mod h1:0GKILLOrQiTKvGsf7UEFZJiDxJHrp0yKJQ6NbHzn+vY=
+github.com/solo-io/skv2 v0.34.12-0.20240320135511-31efd046e20b h1:m17Ra8GxJPS9gehaE8Vf40SpggO960HDbyh3doToQIM=
+github.com/solo-io/skv2 v0.34.12-0.20240320135511-31efd046e20b/go.mod h1:O5akjsqc88aSQUNqRY5o6/O9q7y11KVHqikeg26echw=
 github.com/solo-io/solo-kit v0.34.0 h1:TbcxhR7qBr5UVjVG5QfoGawVdrEqBG14DLrgLmePfmo=
 github.com/solo-io/solo-kit v0.34.0/go.mod h1:HkrxDRo+uR0FZUJi+SGAUkbrUNWC6V0FD7GGXbtC0UU=
 github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=

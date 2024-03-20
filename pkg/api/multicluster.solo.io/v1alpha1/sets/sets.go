@@ -11,6 +11,7 @@ import (
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	"github.com/solo-io/skv2/pkg/ezkube"
 	"k8s.io/apimachinery/pkg/util/sets"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type MultiClusterRoleSet interface {
@@ -48,30 +49,51 @@ type MultiClusterRoleSet interface {
 	Delta(newSet MultiClusterRoleSet) sksets.ResourceDelta
 	// Create a deep copy of the current MultiClusterRoleSet
 	Clone() MultiClusterRoleSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericMultiClusterRoleSet(multiClusterRoleList []*multicluster_solo_io_v1alpha1.MultiClusterRole) sksets.ResourceSet {
+func makeGenericMultiClusterRoleSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	multiClusterRoleList []*multicluster_solo_io_v1alpha1.MultiClusterRole,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range multiClusterRoleList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type multiClusterRoleSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewMultiClusterRoleSet(multiClusterRoleList ...*multicluster_solo_io_v1alpha1.MultiClusterRole) MultiClusterRoleSet {
-	return &multiClusterRoleSet{set: makeGenericMultiClusterRoleSet(multiClusterRoleList)}
+func NewMultiClusterRoleSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	multiClusterRoleList ...*multicluster_solo_io_v1alpha1.MultiClusterRole,
+) MultiClusterRoleSet {
+	return &multiClusterRoleSet{
+		set:      makeGenericMultiClusterRoleSet(sortFunc, multiClusterRoleList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewMultiClusterRoleSetFromList(multiClusterRoleList *multicluster_solo_io_v1alpha1.MultiClusterRoleList) MultiClusterRoleSet {
+func NewMultiClusterRoleSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	multiClusterRoleList *multicluster_solo_io_v1alpha1.MultiClusterRoleList,
+) MultiClusterRoleSet {
 	list := make([]*multicluster_solo_io_v1alpha1.MultiClusterRole, 0, len(multiClusterRoleList.Items))
 	for idx := range multiClusterRoleList.Items {
 		list = append(list, &multiClusterRoleList.Items[idx])
 	}
-	return &multiClusterRoleSet{set: makeGenericMultiClusterRoleSet(list)}
+	return &multiClusterRoleSet{
+		set:      makeGenericMultiClusterRoleSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *multiClusterRoleSet) Keys() sets.String {
@@ -126,7 +148,7 @@ func (s *multiClusterRoleSet) Map() map[string]*multicluster_solo_io_v1alpha1.Mu
 	}
 
 	newMap := map[string]*multicluster_solo_io_v1alpha1.MultiClusterRole{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*multicluster_solo_io_v1alpha1.MultiClusterRole)
 	}
 	return newMap
@@ -171,7 +193,7 @@ func (s *multiClusterRoleSet) Union(set MultiClusterRoleSet) MultiClusterRoleSet
 	if s == nil {
 		return set
 	}
-	return NewMultiClusterRoleSet(append(s.List(), set.List()...)...)
+	return NewMultiClusterRoleSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *multiClusterRoleSet) Difference(set MultiClusterRoleSet) MultiClusterRoleSet {
@@ -191,7 +213,7 @@ func (s *multiClusterRoleSet) Intersection(set MultiClusterRoleSet) MultiCluster
 	for _, obj := range newSet.List() {
 		multiClusterRoleList = append(multiClusterRoleList, obj.(*multicluster_solo_io_v1alpha1.MultiClusterRole))
 	}
-	return NewMultiClusterRoleSet(multiClusterRoleList...)
+	return NewMultiClusterRoleSet(s.GetSortFunc(), multiClusterRoleList...)
 }
 
 func (s *multiClusterRoleSet) Find(id ezkube.ResourceId) (*multicluster_solo_io_v1alpha1.MultiClusterRole, error) {
@@ -233,5 +255,17 @@ func (s *multiClusterRoleSet) Clone() MultiClusterRoleSet {
 	if s == nil {
 		return nil
 	}
-	return &multiClusterRoleSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &multiClusterRoleSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *multiClusterRoleSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }
