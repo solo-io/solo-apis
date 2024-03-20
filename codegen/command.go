@@ -31,7 +31,8 @@ func Command() codegen.Command {
 			Local:    skv2Imports.Local,
 			External: skv2Imports.External,
 		},
-		RenderProtos: true,
-		Groups:       groups,
+		RenderProtos:            true,
+		Groups:                  groups,
+		EnabledAlphaApiFlagName: "enabledExperimentalApi",
 	}
 }

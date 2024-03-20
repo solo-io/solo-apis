@@ -13,6 +13,7 @@ import (
 	v1 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1"
 	v1sets "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1/sets"
 	sets0 "k8s.io/apimachinery/pkg/util/sets"
+	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // MockFederatedSettingsSet is a mock of FederatedSettingsSet interface.
@@ -133,6 +134,20 @@ func (m *MockFederatedSettingsSet) Generic() sets.ResourceSet {
 func (mr *MockFederatedSettingsSetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockFederatedSettingsSet)(nil).Generic))
+}
+
+// GetSortFunc mocks base method.
+func (m *MockFederatedSettingsSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockFederatedSettingsSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockFederatedSettingsSet)(nil).GetSortFunc))
 }
 
 // Has mocks base method.
@@ -391,6 +406,20 @@ func (mr *MockFederatedUpstreamSetMockRecorder) Generic() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockFederatedUpstreamSet)(nil).Generic))
 }
 
+// GetSortFunc mocks base method.
+func (m *MockFederatedUpstreamSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockFederatedUpstreamSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockFederatedUpstreamSet)(nil).GetSortFunc))
+}
+
 // Has mocks base method.
 func (m *MockFederatedUpstreamSet) Has(federatedUpstream ezkube.ResourceId) bool {
 	m.ctrl.T.Helper()
@@ -645,6 +674,20 @@ func (m *MockFederatedUpstreamGroupSet) Generic() sets.ResourceSet {
 func (mr *MockFederatedUpstreamGroupSetMockRecorder) Generic() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockFederatedUpstreamGroupSet)(nil).Generic))
+}
+
+// GetSortFunc mocks base method.
+func (m *MockFederatedUpstreamGroupSet) GetSortFunc() func(client.Object, client.Object) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSortFunc")
+	ret0, _ := ret[0].(func(client.Object, client.Object) bool)
+	return ret0
+}
+
+// GetSortFunc indicates an expected call of GetSortFunc.
+func (mr *MockFederatedUpstreamGroupSetMockRecorder) GetSortFunc() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSortFunc", reflect.TypeOf((*MockFederatedUpstreamGroupSet)(nil).GetSortFunc))
 }
 
 // Has mocks base method.

@@ -11,6 +11,7 @@ import (
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	"github.com/solo-io/skv2/pkg/ezkube"
 	"k8s.io/apimachinery/pkg/util/sets"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type GatewaySet interface {
@@ -48,30 +49,51 @@ type GatewaySet interface {
 	Delta(newSet GatewaySet) sksets.ResourceDelta
 	// Create a deep copy of the current GatewaySet
 	Clone() GatewaySet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericGatewaySet(gatewayList []*gateway_solo_io_v1.Gateway) sksets.ResourceSet {
+func makeGenericGatewaySet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	gatewayList []*gateway_solo_io_v1.Gateway,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range gatewayList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type gatewaySet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewGatewaySet(gatewayList ...*gateway_solo_io_v1.Gateway) GatewaySet {
-	return &gatewaySet{set: makeGenericGatewaySet(gatewayList)}
+func NewGatewaySet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	gatewayList ...*gateway_solo_io_v1.Gateway,
+) GatewaySet {
+	return &gatewaySet{
+		set:      makeGenericGatewaySet(sortFunc, gatewayList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewGatewaySetFromList(gatewayList *gateway_solo_io_v1.GatewayList) GatewaySet {
+func NewGatewaySetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	gatewayList *gateway_solo_io_v1.GatewayList,
+) GatewaySet {
 	list := make([]*gateway_solo_io_v1.Gateway, 0, len(gatewayList.Items))
 	for idx := range gatewayList.Items {
 		list = append(list, &gatewayList.Items[idx])
 	}
-	return &gatewaySet{set: makeGenericGatewaySet(list)}
+	return &gatewaySet{
+		set:      makeGenericGatewaySet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *gatewaySet) Keys() sets.String {
@@ -126,7 +148,7 @@ func (s *gatewaySet) Map() map[string]*gateway_solo_io_v1.Gateway {
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.Gateway{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.Gateway)
 	}
 	return newMap
@@ -171,7 +193,7 @@ func (s *gatewaySet) Union(set GatewaySet) GatewaySet {
 	if s == nil {
 		return set
 	}
-	return NewGatewaySet(append(s.List(), set.List()...)...)
+	return NewGatewaySet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *gatewaySet) Difference(set GatewaySet) GatewaySet {
@@ -191,7 +213,7 @@ func (s *gatewaySet) Intersection(set GatewaySet) GatewaySet {
 	for _, obj := range newSet.List() {
 		gatewayList = append(gatewayList, obj.(*gateway_solo_io_v1.Gateway))
 	}
-	return NewGatewaySet(gatewayList...)
+	return NewGatewaySet(s.GetSortFunc(), gatewayList...)
 }
 
 func (s *gatewaySet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.Gateway, error) {
@@ -233,7 +255,19 @@ func (s *gatewaySet) Clone() GatewaySet {
 	if s == nil {
 		return nil
 	}
-	return &gatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &gatewaySet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *gatewaySet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }
 
 type MatchableHttpGatewaySet interface {
@@ -271,30 +305,51 @@ type MatchableHttpGatewaySet interface {
 	Delta(newSet MatchableHttpGatewaySet) sksets.ResourceDelta
 	// Create a deep copy of the current MatchableHttpGatewaySet
 	Clone() MatchableHttpGatewaySet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericMatchableHttpGatewaySet(matchableHttpGatewayList []*gateway_solo_io_v1.MatchableHttpGateway) sksets.ResourceSet {
+func makeGenericMatchableHttpGatewaySet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	matchableHttpGatewayList []*gateway_solo_io_v1.MatchableHttpGateway,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range matchableHttpGatewayList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type matchableHttpGatewaySet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewMatchableHttpGatewaySet(matchableHttpGatewayList ...*gateway_solo_io_v1.MatchableHttpGateway) MatchableHttpGatewaySet {
-	return &matchableHttpGatewaySet{set: makeGenericMatchableHttpGatewaySet(matchableHttpGatewayList)}
+func NewMatchableHttpGatewaySet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	matchableHttpGatewayList ...*gateway_solo_io_v1.MatchableHttpGateway,
+) MatchableHttpGatewaySet {
+	return &matchableHttpGatewaySet{
+		set:      makeGenericMatchableHttpGatewaySet(sortFunc, matchableHttpGatewayList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewMatchableHttpGatewaySetFromList(matchableHttpGatewayList *gateway_solo_io_v1.MatchableHttpGatewayList) MatchableHttpGatewaySet {
+func NewMatchableHttpGatewaySetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	matchableHttpGatewayList *gateway_solo_io_v1.MatchableHttpGatewayList,
+) MatchableHttpGatewaySet {
 	list := make([]*gateway_solo_io_v1.MatchableHttpGateway, 0, len(matchableHttpGatewayList.Items))
 	for idx := range matchableHttpGatewayList.Items {
 		list = append(list, &matchableHttpGatewayList.Items[idx])
 	}
-	return &matchableHttpGatewaySet{set: makeGenericMatchableHttpGatewaySet(list)}
+	return &matchableHttpGatewaySet{
+		set:      makeGenericMatchableHttpGatewaySet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *matchableHttpGatewaySet) Keys() sets.String {
@@ -349,7 +404,7 @@ func (s *matchableHttpGatewaySet) Map() map[string]*gateway_solo_io_v1.Matchable
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.MatchableHttpGateway{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.MatchableHttpGateway)
 	}
 	return newMap
@@ -394,7 +449,7 @@ func (s *matchableHttpGatewaySet) Union(set MatchableHttpGatewaySet) MatchableHt
 	if s == nil {
 		return set
 	}
-	return NewMatchableHttpGatewaySet(append(s.List(), set.List()...)...)
+	return NewMatchableHttpGatewaySet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *matchableHttpGatewaySet) Difference(set MatchableHttpGatewaySet) MatchableHttpGatewaySet {
@@ -414,7 +469,7 @@ func (s *matchableHttpGatewaySet) Intersection(set MatchableHttpGatewaySet) Matc
 	for _, obj := range newSet.List() {
 		matchableHttpGatewayList = append(matchableHttpGatewayList, obj.(*gateway_solo_io_v1.MatchableHttpGateway))
 	}
-	return NewMatchableHttpGatewaySet(matchableHttpGatewayList...)
+	return NewMatchableHttpGatewaySet(s.GetSortFunc(), matchableHttpGatewayList...)
 }
 
 func (s *matchableHttpGatewaySet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.MatchableHttpGateway, error) {
@@ -456,7 +511,19 @@ func (s *matchableHttpGatewaySet) Clone() MatchableHttpGatewaySet {
 	if s == nil {
 		return nil
 	}
-	return &matchableHttpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &matchableHttpGatewaySet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *matchableHttpGatewaySet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }
 
 type MatchableTcpGatewaySet interface {
@@ -494,30 +561,51 @@ type MatchableTcpGatewaySet interface {
 	Delta(newSet MatchableTcpGatewaySet) sksets.ResourceDelta
 	// Create a deep copy of the current MatchableTcpGatewaySet
 	Clone() MatchableTcpGatewaySet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericMatchableTcpGatewaySet(matchableTcpGatewayList []*gateway_solo_io_v1.MatchableTcpGateway) sksets.ResourceSet {
+func makeGenericMatchableTcpGatewaySet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	matchableTcpGatewayList []*gateway_solo_io_v1.MatchableTcpGateway,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range matchableTcpGatewayList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type matchableTcpGatewaySet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewMatchableTcpGatewaySet(matchableTcpGatewayList ...*gateway_solo_io_v1.MatchableTcpGateway) MatchableTcpGatewaySet {
-	return &matchableTcpGatewaySet{set: makeGenericMatchableTcpGatewaySet(matchableTcpGatewayList)}
+func NewMatchableTcpGatewaySet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	matchableTcpGatewayList ...*gateway_solo_io_v1.MatchableTcpGateway,
+) MatchableTcpGatewaySet {
+	return &matchableTcpGatewaySet{
+		set:      makeGenericMatchableTcpGatewaySet(sortFunc, matchableTcpGatewayList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewMatchableTcpGatewaySetFromList(matchableTcpGatewayList *gateway_solo_io_v1.MatchableTcpGatewayList) MatchableTcpGatewaySet {
+func NewMatchableTcpGatewaySetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	matchableTcpGatewayList *gateway_solo_io_v1.MatchableTcpGatewayList,
+) MatchableTcpGatewaySet {
 	list := make([]*gateway_solo_io_v1.MatchableTcpGateway, 0, len(matchableTcpGatewayList.Items))
 	for idx := range matchableTcpGatewayList.Items {
 		list = append(list, &matchableTcpGatewayList.Items[idx])
 	}
-	return &matchableTcpGatewaySet{set: makeGenericMatchableTcpGatewaySet(list)}
+	return &matchableTcpGatewaySet{
+		set:      makeGenericMatchableTcpGatewaySet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *matchableTcpGatewaySet) Keys() sets.String {
@@ -572,7 +660,7 @@ func (s *matchableTcpGatewaySet) Map() map[string]*gateway_solo_io_v1.MatchableT
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.MatchableTcpGateway{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.MatchableTcpGateway)
 	}
 	return newMap
@@ -617,7 +705,7 @@ func (s *matchableTcpGatewaySet) Union(set MatchableTcpGatewaySet) MatchableTcpG
 	if s == nil {
 		return set
 	}
-	return NewMatchableTcpGatewaySet(append(s.List(), set.List()...)...)
+	return NewMatchableTcpGatewaySet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *matchableTcpGatewaySet) Difference(set MatchableTcpGatewaySet) MatchableTcpGatewaySet {
@@ -637,7 +725,7 @@ func (s *matchableTcpGatewaySet) Intersection(set MatchableTcpGatewaySet) Matcha
 	for _, obj := range newSet.List() {
 		matchableTcpGatewayList = append(matchableTcpGatewayList, obj.(*gateway_solo_io_v1.MatchableTcpGateway))
 	}
-	return NewMatchableTcpGatewaySet(matchableTcpGatewayList...)
+	return NewMatchableTcpGatewaySet(s.GetSortFunc(), matchableTcpGatewayList...)
 }
 
 func (s *matchableTcpGatewaySet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.MatchableTcpGateway, error) {
@@ -679,7 +767,19 @@ func (s *matchableTcpGatewaySet) Clone() MatchableTcpGatewaySet {
 	if s == nil {
 		return nil
 	}
-	return &matchableTcpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &matchableTcpGatewaySet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *matchableTcpGatewaySet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }
 
 type RouteTableSet interface {
@@ -717,30 +817,51 @@ type RouteTableSet interface {
 	Delta(newSet RouteTableSet) sksets.ResourceDelta
 	// Create a deep copy of the current RouteTableSet
 	Clone() RouteTableSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericRouteTableSet(routeTableList []*gateway_solo_io_v1.RouteTable) sksets.ResourceSet {
+func makeGenericRouteTableSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	routeTableList []*gateway_solo_io_v1.RouteTable,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range routeTableList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type routeTableSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewRouteTableSet(routeTableList ...*gateway_solo_io_v1.RouteTable) RouteTableSet {
-	return &routeTableSet{set: makeGenericRouteTableSet(routeTableList)}
+func NewRouteTableSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	routeTableList ...*gateway_solo_io_v1.RouteTable,
+) RouteTableSet {
+	return &routeTableSet{
+		set:      makeGenericRouteTableSet(sortFunc, routeTableList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewRouteTableSetFromList(routeTableList *gateway_solo_io_v1.RouteTableList) RouteTableSet {
+func NewRouteTableSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	routeTableList *gateway_solo_io_v1.RouteTableList,
+) RouteTableSet {
 	list := make([]*gateway_solo_io_v1.RouteTable, 0, len(routeTableList.Items))
 	for idx := range routeTableList.Items {
 		list = append(list, &routeTableList.Items[idx])
 	}
-	return &routeTableSet{set: makeGenericRouteTableSet(list)}
+	return &routeTableSet{
+		set:      makeGenericRouteTableSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *routeTableSet) Keys() sets.String {
@@ -795,7 +916,7 @@ func (s *routeTableSet) Map() map[string]*gateway_solo_io_v1.RouteTable {
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.RouteTable{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.RouteTable)
 	}
 	return newMap
@@ -840,7 +961,7 @@ func (s *routeTableSet) Union(set RouteTableSet) RouteTableSet {
 	if s == nil {
 		return set
 	}
-	return NewRouteTableSet(append(s.List(), set.List()...)...)
+	return NewRouteTableSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *routeTableSet) Difference(set RouteTableSet) RouteTableSet {
@@ -860,7 +981,7 @@ func (s *routeTableSet) Intersection(set RouteTableSet) RouteTableSet {
 	for _, obj := range newSet.List() {
 		routeTableList = append(routeTableList, obj.(*gateway_solo_io_v1.RouteTable))
 	}
-	return NewRouteTableSet(routeTableList...)
+	return NewRouteTableSet(s.GetSortFunc(), routeTableList...)
 }
 
 func (s *routeTableSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.RouteTable, error) {
@@ -902,7 +1023,19 @@ func (s *routeTableSet) Clone() RouteTableSet {
 	if s == nil {
 		return nil
 	}
-	return &routeTableSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &routeTableSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *routeTableSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }
 
 type VirtualServiceSet interface {
@@ -940,30 +1073,51 @@ type VirtualServiceSet interface {
 	Delta(newSet VirtualServiceSet) sksets.ResourceDelta
 	// Create a deep copy of the current VirtualServiceSet
 	Clone() VirtualServiceSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericVirtualServiceSet(virtualServiceList []*gateway_solo_io_v1.VirtualService) sksets.ResourceSet {
+func makeGenericVirtualServiceSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	virtualServiceList []*gateway_solo_io_v1.VirtualService,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range virtualServiceList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type virtualServiceSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewVirtualServiceSet(virtualServiceList ...*gateway_solo_io_v1.VirtualService) VirtualServiceSet {
-	return &virtualServiceSet{set: makeGenericVirtualServiceSet(virtualServiceList)}
+func NewVirtualServiceSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	virtualServiceList ...*gateway_solo_io_v1.VirtualService,
+) VirtualServiceSet {
+	return &virtualServiceSet{
+		set:      makeGenericVirtualServiceSet(sortFunc, virtualServiceList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewVirtualServiceSetFromList(virtualServiceList *gateway_solo_io_v1.VirtualServiceList) VirtualServiceSet {
+func NewVirtualServiceSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	virtualServiceList *gateway_solo_io_v1.VirtualServiceList,
+) VirtualServiceSet {
 	list := make([]*gateway_solo_io_v1.VirtualService, 0, len(virtualServiceList.Items))
 	for idx := range virtualServiceList.Items {
 		list = append(list, &virtualServiceList.Items[idx])
 	}
-	return &virtualServiceSet{set: makeGenericVirtualServiceSet(list)}
+	return &virtualServiceSet{
+		set:      makeGenericVirtualServiceSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *virtualServiceSet) Keys() sets.String {
@@ -1018,7 +1172,7 @@ func (s *virtualServiceSet) Map() map[string]*gateway_solo_io_v1.VirtualService 
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.VirtualService{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.VirtualService)
 	}
 	return newMap
@@ -1063,7 +1217,7 @@ func (s *virtualServiceSet) Union(set VirtualServiceSet) VirtualServiceSet {
 	if s == nil {
 		return set
 	}
-	return NewVirtualServiceSet(append(s.List(), set.List()...)...)
+	return NewVirtualServiceSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *virtualServiceSet) Difference(set VirtualServiceSet) VirtualServiceSet {
@@ -1083,7 +1237,7 @@ func (s *virtualServiceSet) Intersection(set VirtualServiceSet) VirtualServiceSe
 	for _, obj := range newSet.List() {
 		virtualServiceList = append(virtualServiceList, obj.(*gateway_solo_io_v1.VirtualService))
 	}
-	return NewVirtualServiceSet(virtualServiceList...)
+	return NewVirtualServiceSet(s.GetSortFunc(), virtualServiceList...)
 }
 
 func (s *virtualServiceSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.VirtualService, error) {
@@ -1125,7 +1279,19 @@ func (s *virtualServiceSet) Clone() VirtualServiceSet {
 	if s == nil {
 		return nil
 	}
-	return &virtualServiceSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &virtualServiceSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *virtualServiceSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }
 
 type VirtualHostOptionSet interface {
@@ -1163,30 +1329,51 @@ type VirtualHostOptionSet interface {
 	Delta(newSet VirtualHostOptionSet) sksets.ResourceDelta
 	// Create a deep copy of the current VirtualHostOptionSet
 	Clone() VirtualHostOptionSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericVirtualHostOptionSet(virtualHostOptionList []*gateway_solo_io_v1.VirtualHostOption) sksets.ResourceSet {
+func makeGenericVirtualHostOptionSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	virtualHostOptionList []*gateway_solo_io_v1.VirtualHostOption,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range virtualHostOptionList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type virtualHostOptionSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewVirtualHostOptionSet(virtualHostOptionList ...*gateway_solo_io_v1.VirtualHostOption) VirtualHostOptionSet {
-	return &virtualHostOptionSet{set: makeGenericVirtualHostOptionSet(virtualHostOptionList)}
+func NewVirtualHostOptionSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	virtualHostOptionList ...*gateway_solo_io_v1.VirtualHostOption,
+) VirtualHostOptionSet {
+	return &virtualHostOptionSet{
+		set:      makeGenericVirtualHostOptionSet(sortFunc, virtualHostOptionList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewVirtualHostOptionSetFromList(virtualHostOptionList *gateway_solo_io_v1.VirtualHostOptionList) VirtualHostOptionSet {
+func NewVirtualHostOptionSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	virtualHostOptionList *gateway_solo_io_v1.VirtualHostOptionList,
+) VirtualHostOptionSet {
 	list := make([]*gateway_solo_io_v1.VirtualHostOption, 0, len(virtualHostOptionList.Items))
 	for idx := range virtualHostOptionList.Items {
 		list = append(list, &virtualHostOptionList.Items[idx])
 	}
-	return &virtualHostOptionSet{set: makeGenericVirtualHostOptionSet(list)}
+	return &virtualHostOptionSet{
+		set:      makeGenericVirtualHostOptionSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *virtualHostOptionSet) Keys() sets.String {
@@ -1241,7 +1428,7 @@ func (s *virtualHostOptionSet) Map() map[string]*gateway_solo_io_v1.VirtualHostO
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.VirtualHostOption{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.VirtualHostOption)
 	}
 	return newMap
@@ -1286,7 +1473,7 @@ func (s *virtualHostOptionSet) Union(set VirtualHostOptionSet) VirtualHostOption
 	if s == nil {
 		return set
 	}
-	return NewVirtualHostOptionSet(append(s.List(), set.List()...)...)
+	return NewVirtualHostOptionSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *virtualHostOptionSet) Difference(set VirtualHostOptionSet) VirtualHostOptionSet {
@@ -1306,7 +1493,7 @@ func (s *virtualHostOptionSet) Intersection(set VirtualHostOptionSet) VirtualHos
 	for _, obj := range newSet.List() {
 		virtualHostOptionList = append(virtualHostOptionList, obj.(*gateway_solo_io_v1.VirtualHostOption))
 	}
-	return NewVirtualHostOptionSet(virtualHostOptionList...)
+	return NewVirtualHostOptionSet(s.GetSortFunc(), virtualHostOptionList...)
 }
 
 func (s *virtualHostOptionSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.VirtualHostOption, error) {
@@ -1348,7 +1535,19 @@ func (s *virtualHostOptionSet) Clone() VirtualHostOptionSet {
 	if s == nil {
 		return nil
 	}
-	return &virtualHostOptionSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &virtualHostOptionSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *virtualHostOptionSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }
 
 type RouteOptionSet interface {
@@ -1386,30 +1585,51 @@ type RouteOptionSet interface {
 	Delta(newSet RouteOptionSet) sksets.ResourceDelta
 	// Create a deep copy of the current RouteOptionSet
 	Clone() RouteOptionSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericRouteOptionSet(routeOptionList []*gateway_solo_io_v1.RouteOption) sksets.ResourceSet {
+func makeGenericRouteOptionSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	routeOptionList []*gateway_solo_io_v1.RouteOption,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range routeOptionList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type routeOptionSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewRouteOptionSet(routeOptionList ...*gateway_solo_io_v1.RouteOption) RouteOptionSet {
-	return &routeOptionSet{set: makeGenericRouteOptionSet(routeOptionList)}
+func NewRouteOptionSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	routeOptionList ...*gateway_solo_io_v1.RouteOption,
+) RouteOptionSet {
+	return &routeOptionSet{
+		set:      makeGenericRouteOptionSet(sortFunc, routeOptionList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewRouteOptionSetFromList(routeOptionList *gateway_solo_io_v1.RouteOptionList) RouteOptionSet {
+func NewRouteOptionSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	routeOptionList *gateway_solo_io_v1.RouteOptionList,
+) RouteOptionSet {
 	list := make([]*gateway_solo_io_v1.RouteOption, 0, len(routeOptionList.Items))
 	for idx := range routeOptionList.Items {
 		list = append(list, &routeOptionList.Items[idx])
 	}
-	return &routeOptionSet{set: makeGenericRouteOptionSet(list)}
+	return &routeOptionSet{
+		set:      makeGenericRouteOptionSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *routeOptionSet) Keys() sets.String {
@@ -1464,7 +1684,7 @@ func (s *routeOptionSet) Map() map[string]*gateway_solo_io_v1.RouteOption {
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.RouteOption{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.RouteOption)
 	}
 	return newMap
@@ -1509,7 +1729,7 @@ func (s *routeOptionSet) Union(set RouteOptionSet) RouteOptionSet {
 	if s == nil {
 		return set
 	}
-	return NewRouteOptionSet(append(s.List(), set.List()...)...)
+	return NewRouteOptionSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *routeOptionSet) Difference(set RouteOptionSet) RouteOptionSet {
@@ -1529,7 +1749,7 @@ func (s *routeOptionSet) Intersection(set RouteOptionSet) RouteOptionSet {
 	for _, obj := range newSet.List() {
 		routeOptionList = append(routeOptionList, obj.(*gateway_solo_io_v1.RouteOption))
 	}
-	return NewRouteOptionSet(routeOptionList...)
+	return NewRouteOptionSet(s.GetSortFunc(), routeOptionList...)
 }
 
 func (s *routeOptionSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.RouteOption, error) {
@@ -1571,5 +1791,17 @@ func (s *routeOptionSet) Clone() RouteOptionSet {
 	if s == nil {
 		return nil
 	}
-	return &routeOptionSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &routeOptionSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *routeOptionSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }

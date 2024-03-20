@@ -11,6 +11,7 @@ import (
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	"github.com/solo-io/skv2/pkg/ezkube"
 	"k8s.io/apimachinery/pkg/util/sets"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type FederatedAuthConfigSet interface {
@@ -48,30 +49,51 @@ type FederatedAuthConfigSet interface {
 	Delta(newSet FederatedAuthConfigSet) sksets.ResourceDelta
 	// Create a deep copy of the current FederatedAuthConfigSet
 	Clone() FederatedAuthConfigSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericFederatedAuthConfigSet(federatedAuthConfigList []*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) sksets.ResourceSet {
+func makeGenericFederatedAuthConfigSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	federatedAuthConfigList []*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range federatedAuthConfigList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type federatedAuthConfigSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewFederatedAuthConfigSet(federatedAuthConfigList ...*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig) FederatedAuthConfigSet {
-	return &federatedAuthConfigSet{set: makeGenericFederatedAuthConfigSet(federatedAuthConfigList)}
+func NewFederatedAuthConfigSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	federatedAuthConfigList ...*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig,
+) FederatedAuthConfigSet {
+	return &federatedAuthConfigSet{
+		set:      makeGenericFederatedAuthConfigSet(sortFunc, federatedAuthConfigList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewFederatedAuthConfigSetFromList(federatedAuthConfigList *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigList) FederatedAuthConfigSet {
+func NewFederatedAuthConfigSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	federatedAuthConfigList *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigList,
+) FederatedAuthConfigSet {
 	list := make([]*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig, 0, len(federatedAuthConfigList.Items))
 	for idx := range federatedAuthConfigList.Items {
 		list = append(list, &federatedAuthConfigList.Items[idx])
 	}
-	return &federatedAuthConfigSet{set: makeGenericFederatedAuthConfigSet(list)}
+	return &federatedAuthConfigSet{
+		set:      makeGenericFederatedAuthConfigSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *federatedAuthConfigSet) Keys() sets.String {
@@ -126,7 +148,7 @@ func (s *federatedAuthConfigSet) Map() map[string]*fed_enterprise_gloo_solo_io_v
 	}
 
 	newMap := map[string]*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
 	}
 	return newMap
@@ -171,7 +193,7 @@ func (s *federatedAuthConfigSet) Union(set FederatedAuthConfigSet) FederatedAuth
 	if s == nil {
 		return set
 	}
-	return NewFederatedAuthConfigSet(append(s.List(), set.List()...)...)
+	return NewFederatedAuthConfigSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *federatedAuthConfigSet) Difference(set FederatedAuthConfigSet) FederatedAuthConfigSet {
@@ -191,7 +213,7 @@ func (s *federatedAuthConfigSet) Intersection(set FederatedAuthConfigSet) Federa
 	for _, obj := range newSet.List() {
 		federatedAuthConfigList = append(federatedAuthConfigList, obj.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig))
 	}
-	return NewFederatedAuthConfigSet(federatedAuthConfigList...)
+	return NewFederatedAuthConfigSet(s.GetSortFunc(), federatedAuthConfigList...)
 }
 
 func (s *federatedAuthConfigSet) Find(id ezkube.ResourceId) (*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig, error) {
@@ -233,5 +255,17 @@ func (s *federatedAuthConfigSet) Clone() FederatedAuthConfigSet {
 	if s == nil {
 		return nil
 	}
-	return &federatedAuthConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &federatedAuthConfigSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *federatedAuthConfigSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }

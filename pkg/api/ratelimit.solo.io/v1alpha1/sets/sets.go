@@ -11,6 +11,7 @@ import (
 	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
 	"github.com/solo-io/skv2/pkg/ezkube"
 	"k8s.io/apimachinery/pkg/util/sets"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type RateLimitConfigSet interface {
@@ -48,30 +49,51 @@ type RateLimitConfigSet interface {
 	Delta(newSet RateLimitConfigSet) sksets.ResourceDelta
 	// Create a deep copy of the current RateLimitConfigSet
 	Clone() RateLimitConfigSet
+	// Get the sort function used by the set
+	GetSortFunc() func(toInsert, existing client.Object) bool
 }
 
-func makeGenericRateLimitConfigSet(rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig) sksets.ResourceSet {
+func makeGenericRateLimitConfigSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig,
+) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
 	for _, obj := range rateLimitConfigList {
 		genericResources = append(genericResources, obj)
 	}
-	return sksets.NewResourceSet(genericResources...)
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericResources...)
 }
 
 type rateLimitConfigSet struct {
-	set sksets.ResourceSet
+	set      sksets.ResourceSet
+	sortFunc func(toInsert, existing client.Object) bool
 }
 
-func NewRateLimitConfigSet(rateLimitConfigList ...*ratelimit_solo_io_v1alpha1.RateLimitConfig) RateLimitConfigSet {
-	return &rateLimitConfigSet{set: makeGenericRateLimitConfigSet(rateLimitConfigList)}
+func NewRateLimitConfigSet(
+	sortFunc func(toInsert, existing client.Object) bool,
+	rateLimitConfigList ...*ratelimit_solo_io_v1alpha1.RateLimitConfig,
+) RateLimitConfigSet {
+	return &rateLimitConfigSet{
+		set:      makeGenericRateLimitConfigSet(sortFunc, rateLimitConfigList),
+		sortFunc: sortFunc,
+	}
 }
 
-func NewRateLimitConfigSetFromList(rateLimitConfigList *ratelimit_solo_io_v1alpha1.RateLimitConfigList) RateLimitConfigSet {
+func NewRateLimitConfigSetFromList(
+	sortFunc func(toInsert, existing client.Object) bool,
+	rateLimitConfigList *ratelimit_solo_io_v1alpha1.RateLimitConfigList,
+) RateLimitConfigSet {
 	list := make([]*ratelimit_solo_io_v1alpha1.RateLimitConfig, 0, len(rateLimitConfigList.Items))
 	for idx := range rateLimitConfigList.Items {
 		list = append(list, &rateLimitConfigList.Items[idx])
 	}
-	return &rateLimitConfigSet{set: makeGenericRateLimitConfigSet(list)}
+	return &rateLimitConfigSet{
+		set:      makeGenericRateLimitConfigSet(sortFunc, list),
+		sortFunc: sortFunc,
+	}
 }
 
 func (s *rateLimitConfigSet) Keys() sets.String {
@@ -126,7 +148,7 @@ func (s *rateLimitConfigSet) Map() map[string]*ratelimit_solo_io_v1alpha1.RateLi
 	}
 
 	newMap := map[string]*ratelimit_solo_io_v1alpha1.RateLimitConfig{}
-	for k, v := range s.Generic().Map() {
+	for k, v := range s.Generic().Map().Map() {
 		newMap[k] = v.(*ratelimit_solo_io_v1alpha1.RateLimitConfig)
 	}
 	return newMap
@@ -171,7 +193,7 @@ func (s *rateLimitConfigSet) Union(set RateLimitConfigSet) RateLimitConfigSet {
 	if s == nil {
 		return set
 	}
-	return NewRateLimitConfigSet(append(s.List(), set.List()...)...)
+	return NewRateLimitConfigSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
 }
 
 func (s *rateLimitConfigSet) Difference(set RateLimitConfigSet) RateLimitConfigSet {
@@ -191,7 +213,7 @@ func (s *rateLimitConfigSet) Intersection(set RateLimitConfigSet) RateLimitConfi
 	for _, obj := range newSet.List() {
 		rateLimitConfigList = append(rateLimitConfigList, obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
 	}
-	return NewRateLimitConfigSet(rateLimitConfigList...)
+	return NewRateLimitConfigSet(s.GetSortFunc(), rateLimitConfigList...)
 }
 
 func (s *rateLimitConfigSet) Find(id ezkube.ResourceId) (*ratelimit_solo_io_v1alpha1.RateLimitConfig, error) {
@@ -233,5 +255,17 @@ func (s *rateLimitConfigSet) Clone() RateLimitConfigSet {
 	if s == nil {
 		return nil
 	}
-	return &rateLimitConfigSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
+		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
+	}
+	return &rateLimitConfigSet{
+		set: sksets.NewResourceSet(
+			genericSortFunc,
+			s.Generic().Clone().List()...,
+		),
+	}
+}
+
+func (s *rateLimitConfigSet) GetSortFunc() func(toInsert, existing client.Object) bool {
+	return s.sortFunc
 }
