@@ -51,10 +51,13 @@ type RateLimitConfigSet interface {
 	Clone() RateLimitConfigSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericRateLimitConfigSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	rateLimitConfigList []*ratelimit_solo_io_v1alpha1.RateLimitConfig,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -64,26 +67,33 @@ func makeGenericRateLimitConfigSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type rateLimitConfigSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewRateLimitConfigSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	rateLimitConfigList ...*ratelimit_solo_io_v1alpha1.RateLimitConfig,
 ) RateLimitConfigSet {
 	return &rateLimitConfigSet{
-		set:      makeGenericRateLimitConfigSet(sortFunc, rateLimitConfigList),
-		sortFunc: sortFunc,
+		set:          makeGenericRateLimitConfigSet(sortFunc, equalityFunc, rateLimitConfigList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewRateLimitConfigSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	rateLimitConfigList *ratelimit_solo_io_v1alpha1.RateLimitConfigList,
 ) RateLimitConfigSet {
 	list := make([]*ratelimit_solo_io_v1alpha1.RateLimitConfig, 0, len(rateLimitConfigList.Items))
@@ -91,8 +101,9 @@ func NewRateLimitConfigSetFromList(
 		list = append(list, &rateLimitConfigList.Items[idx])
 	}
 	return &rateLimitConfigSet{
-		set:      makeGenericRateLimitConfigSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericRateLimitConfigSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -193,7 +204,7 @@ func (s *rateLimitConfigSet) Union(set RateLimitConfigSet) RateLimitConfigSet {
 	if s == nil {
 		return set
 	}
-	return NewRateLimitConfigSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewRateLimitConfigSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *rateLimitConfigSet) Difference(set RateLimitConfigSet) RateLimitConfigSet {
@@ -201,7 +212,11 @@ func (s *rateLimitConfigSet) Difference(set RateLimitConfigSet) RateLimitConfigS
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &rateLimitConfigSet{set: newSet}
+	return &rateLimitConfigSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *rateLimitConfigSet) Intersection(set RateLimitConfigSet) RateLimitConfigSet {
@@ -213,7 +228,7 @@ func (s *rateLimitConfigSet) Intersection(set RateLimitConfigSet) RateLimitConfi
 	for _, obj := range newSet.List() {
 		rateLimitConfigList = append(rateLimitConfigList, obj.(*ratelimit_solo_io_v1alpha1.RateLimitConfig))
 	}
-	return NewRateLimitConfigSet(s.GetSortFunc(), rateLimitConfigList...)
+	return NewRateLimitConfigSet(s.sortFunc, s.equalityFunc, rateLimitConfigList...)
 }
 
 func (s *rateLimitConfigSet) Find(id ezkube.ResourceId) (*ratelimit_solo_io_v1alpha1.RateLimitConfig, error) {
@@ -258,9 +273,13 @@ func (s *rateLimitConfigSet) Clone() RateLimitConfigSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &rateLimitConfigSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -268,4 +287,8 @@ func (s *rateLimitConfigSet) Clone() RateLimitConfigSet {
 
 func (s *rateLimitConfigSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *rateLimitConfigSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }

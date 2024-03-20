@@ -51,10 +51,13 @@ type FederatedRateLimitConfigSet interface {
 	Clone() FederatedRateLimitConfigSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericFederatedRateLimitConfigSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedRateLimitConfigList []*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -64,26 +67,33 @@ func makeGenericFederatedRateLimitConfigSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type federatedRateLimitConfigSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewFederatedRateLimitConfigSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedRateLimitConfigList ...*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig,
 ) FederatedRateLimitConfigSet {
 	return &federatedRateLimitConfigSet{
-		set:      makeGenericFederatedRateLimitConfigSet(sortFunc, federatedRateLimitConfigList),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedRateLimitConfigSet(sortFunc, equalityFunc, federatedRateLimitConfigList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewFederatedRateLimitConfigSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedRateLimitConfigList *fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfigList,
 ) FederatedRateLimitConfigSet {
 	list := make([]*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig, 0, len(federatedRateLimitConfigList.Items))
@@ -91,8 +101,9 @@ func NewFederatedRateLimitConfigSetFromList(
 		list = append(list, &federatedRateLimitConfigList.Items[idx])
 	}
 	return &federatedRateLimitConfigSet{
-		set:      makeGenericFederatedRateLimitConfigSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedRateLimitConfigSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -193,7 +204,7 @@ func (s *federatedRateLimitConfigSet) Union(set FederatedRateLimitConfigSet) Fed
 	if s == nil {
 		return set
 	}
-	return NewFederatedRateLimitConfigSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewFederatedRateLimitConfigSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *federatedRateLimitConfigSet) Difference(set FederatedRateLimitConfigSet) FederatedRateLimitConfigSet {
@@ -201,7 +212,11 @@ func (s *federatedRateLimitConfigSet) Difference(set FederatedRateLimitConfigSet
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &federatedRateLimitConfigSet{set: newSet}
+	return &federatedRateLimitConfigSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *federatedRateLimitConfigSet) Intersection(set FederatedRateLimitConfigSet) FederatedRateLimitConfigSet {
@@ -213,7 +228,7 @@ func (s *federatedRateLimitConfigSet) Intersection(set FederatedRateLimitConfigS
 	for _, obj := range newSet.List() {
 		federatedRateLimitConfigList = append(federatedRateLimitConfigList, obj.(*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig))
 	}
-	return NewFederatedRateLimitConfigSet(s.GetSortFunc(), federatedRateLimitConfigList...)
+	return NewFederatedRateLimitConfigSet(s.sortFunc, s.equalityFunc, federatedRateLimitConfigList...)
 }
 
 func (s *federatedRateLimitConfigSet) Find(id ezkube.ResourceId) (*fed_ratelimit_solo_io_v1alpha1.FederatedRateLimitConfig, error) {
@@ -258,9 +273,13 @@ func (s *federatedRateLimitConfigSet) Clone() FederatedRateLimitConfigSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &federatedRateLimitConfigSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -268,4 +287,8 @@ func (s *federatedRateLimitConfigSet) Clone() FederatedRateLimitConfigSet {
 
 func (s *federatedRateLimitConfigSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *federatedRateLimitConfigSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }

@@ -51,10 +51,13 @@ type GraphQLApiSet interface {
 	Clone() GraphQLApiSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericGraphQLApiSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	graphQLApiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -64,26 +67,33 @@ func makeGenericGraphQLApiSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type graphQLApiSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewGraphQLApiSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	graphQLApiList ...*graphql_gloo_solo_io_v1beta1.GraphQLApi,
 ) GraphQLApiSet {
 	return &graphQLApiSet{
-		set:      makeGenericGraphQLApiSet(sortFunc, graphQLApiList),
-		sortFunc: sortFunc,
+		set:          makeGenericGraphQLApiSet(sortFunc, equalityFunc, graphQLApiList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewGraphQLApiSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	graphQLApiList *graphql_gloo_solo_io_v1beta1.GraphQLApiList,
 ) GraphQLApiSet {
 	list := make([]*graphql_gloo_solo_io_v1beta1.GraphQLApi, 0, len(graphQLApiList.Items))
@@ -91,8 +101,9 @@ func NewGraphQLApiSetFromList(
 		list = append(list, &graphQLApiList.Items[idx])
 	}
 	return &graphQLApiSet{
-		set:      makeGenericGraphQLApiSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericGraphQLApiSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -193,7 +204,7 @@ func (s *graphQLApiSet) Union(set GraphQLApiSet) GraphQLApiSet {
 	if s == nil {
 		return set
 	}
-	return NewGraphQLApiSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewGraphQLApiSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *graphQLApiSet) Difference(set GraphQLApiSet) GraphQLApiSet {
@@ -201,7 +212,11 @@ func (s *graphQLApiSet) Difference(set GraphQLApiSet) GraphQLApiSet {
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &graphQLApiSet{set: newSet}
+	return &graphQLApiSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *graphQLApiSet) Intersection(set GraphQLApiSet) GraphQLApiSet {
@@ -213,7 +228,7 @@ func (s *graphQLApiSet) Intersection(set GraphQLApiSet) GraphQLApiSet {
 	for _, obj := range newSet.List() {
 		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
 	}
-	return NewGraphQLApiSet(s.GetSortFunc(), graphQLApiList...)
+	return NewGraphQLApiSet(s.sortFunc, s.equalityFunc, graphQLApiList...)
 }
 
 func (s *graphQLApiSet) Find(id ezkube.ResourceId) (*graphql_gloo_solo_io_v1beta1.GraphQLApi, error) {
@@ -258,9 +273,13 @@ func (s *graphQLApiSet) Clone() GraphQLApiSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &graphQLApiSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -268,4 +287,8 @@ func (s *graphQLApiSet) Clone() GraphQLApiSet {
 
 func (s *graphQLApiSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *graphQLApiSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }

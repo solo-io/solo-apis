@@ -51,10 +51,13 @@ type GlooInstanceSet interface {
 	Clone() GlooInstanceSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericGlooInstanceSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	glooInstanceList []*fed_solo_io_v1.GlooInstance,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -64,26 +67,33 @@ func makeGenericGlooInstanceSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type glooInstanceSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewGlooInstanceSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	glooInstanceList ...*fed_solo_io_v1.GlooInstance,
 ) GlooInstanceSet {
 	return &glooInstanceSet{
-		set:      makeGenericGlooInstanceSet(sortFunc, glooInstanceList),
-		sortFunc: sortFunc,
+		set:          makeGenericGlooInstanceSet(sortFunc, equalityFunc, glooInstanceList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewGlooInstanceSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	glooInstanceList *fed_solo_io_v1.GlooInstanceList,
 ) GlooInstanceSet {
 	list := make([]*fed_solo_io_v1.GlooInstance, 0, len(glooInstanceList.Items))
@@ -91,8 +101,9 @@ func NewGlooInstanceSetFromList(
 		list = append(list, &glooInstanceList.Items[idx])
 	}
 	return &glooInstanceSet{
-		set:      makeGenericGlooInstanceSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericGlooInstanceSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -193,7 +204,7 @@ func (s *glooInstanceSet) Union(set GlooInstanceSet) GlooInstanceSet {
 	if s == nil {
 		return set
 	}
-	return NewGlooInstanceSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewGlooInstanceSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *glooInstanceSet) Difference(set GlooInstanceSet) GlooInstanceSet {
@@ -201,7 +212,11 @@ func (s *glooInstanceSet) Difference(set GlooInstanceSet) GlooInstanceSet {
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &glooInstanceSet{set: newSet}
+	return &glooInstanceSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *glooInstanceSet) Intersection(set GlooInstanceSet) GlooInstanceSet {
@@ -213,7 +228,7 @@ func (s *glooInstanceSet) Intersection(set GlooInstanceSet) GlooInstanceSet {
 	for _, obj := range newSet.List() {
 		glooInstanceList = append(glooInstanceList, obj.(*fed_solo_io_v1.GlooInstance))
 	}
-	return NewGlooInstanceSet(s.GetSortFunc(), glooInstanceList...)
+	return NewGlooInstanceSet(s.sortFunc, s.equalityFunc, glooInstanceList...)
 }
 
 func (s *glooInstanceSet) Find(id ezkube.ResourceId) (*fed_solo_io_v1.GlooInstance, error) {
@@ -258,9 +273,13 @@ func (s *glooInstanceSet) Clone() GlooInstanceSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &glooInstanceSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -268,6 +287,10 @@ func (s *glooInstanceSet) Clone() GlooInstanceSet {
 
 func (s *glooInstanceSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *glooInstanceSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }
 
 type FailoverSchemeSet interface {
@@ -307,10 +330,13 @@ type FailoverSchemeSet interface {
 	Clone() FailoverSchemeSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericFailoverSchemeSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	failoverSchemeList []*fed_solo_io_v1.FailoverScheme,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -320,26 +346,33 @@ func makeGenericFailoverSchemeSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type failoverSchemeSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewFailoverSchemeSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	failoverSchemeList ...*fed_solo_io_v1.FailoverScheme,
 ) FailoverSchemeSet {
 	return &failoverSchemeSet{
-		set:      makeGenericFailoverSchemeSet(sortFunc, failoverSchemeList),
-		sortFunc: sortFunc,
+		set:          makeGenericFailoverSchemeSet(sortFunc, equalityFunc, failoverSchemeList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewFailoverSchemeSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	failoverSchemeList *fed_solo_io_v1.FailoverSchemeList,
 ) FailoverSchemeSet {
 	list := make([]*fed_solo_io_v1.FailoverScheme, 0, len(failoverSchemeList.Items))
@@ -347,8 +380,9 @@ func NewFailoverSchemeSetFromList(
 		list = append(list, &failoverSchemeList.Items[idx])
 	}
 	return &failoverSchemeSet{
-		set:      makeGenericFailoverSchemeSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericFailoverSchemeSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -449,7 +483,7 @@ func (s *failoverSchemeSet) Union(set FailoverSchemeSet) FailoverSchemeSet {
 	if s == nil {
 		return set
 	}
-	return NewFailoverSchemeSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewFailoverSchemeSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *failoverSchemeSet) Difference(set FailoverSchemeSet) FailoverSchemeSet {
@@ -457,7 +491,11 @@ func (s *failoverSchemeSet) Difference(set FailoverSchemeSet) FailoverSchemeSet 
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &failoverSchemeSet{set: newSet}
+	return &failoverSchemeSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *failoverSchemeSet) Intersection(set FailoverSchemeSet) FailoverSchemeSet {
@@ -469,7 +507,7 @@ func (s *failoverSchemeSet) Intersection(set FailoverSchemeSet) FailoverSchemeSe
 	for _, obj := range newSet.List() {
 		failoverSchemeList = append(failoverSchemeList, obj.(*fed_solo_io_v1.FailoverScheme))
 	}
-	return NewFailoverSchemeSet(s.GetSortFunc(), failoverSchemeList...)
+	return NewFailoverSchemeSet(s.sortFunc, s.equalityFunc, failoverSchemeList...)
 }
 
 func (s *failoverSchemeSet) Find(id ezkube.ResourceId) (*fed_solo_io_v1.FailoverScheme, error) {
@@ -514,9 +552,13 @@ func (s *failoverSchemeSet) Clone() FailoverSchemeSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &failoverSchemeSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -524,4 +566,8 @@ func (s *failoverSchemeSet) Clone() FailoverSchemeSet {
 
 func (s *failoverSchemeSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *failoverSchemeSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }

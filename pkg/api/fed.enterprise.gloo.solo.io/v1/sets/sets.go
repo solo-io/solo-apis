@@ -51,10 +51,13 @@ type FederatedAuthConfigSet interface {
 	Clone() FederatedAuthConfigSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericFederatedAuthConfigSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedAuthConfigList []*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -64,26 +67,33 @@ func makeGenericFederatedAuthConfigSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type federatedAuthConfigSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewFederatedAuthConfigSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedAuthConfigList ...*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig,
 ) FederatedAuthConfigSet {
 	return &federatedAuthConfigSet{
-		set:      makeGenericFederatedAuthConfigSet(sortFunc, federatedAuthConfigList),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedAuthConfigSet(sortFunc, equalityFunc, federatedAuthConfigList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewFederatedAuthConfigSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedAuthConfigList *fed_enterprise_gloo_solo_io_v1.FederatedAuthConfigList,
 ) FederatedAuthConfigSet {
 	list := make([]*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig, 0, len(federatedAuthConfigList.Items))
@@ -91,8 +101,9 @@ func NewFederatedAuthConfigSetFromList(
 		list = append(list, &federatedAuthConfigList.Items[idx])
 	}
 	return &federatedAuthConfigSet{
-		set:      makeGenericFederatedAuthConfigSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedAuthConfigSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -193,7 +204,7 @@ func (s *federatedAuthConfigSet) Union(set FederatedAuthConfigSet) FederatedAuth
 	if s == nil {
 		return set
 	}
-	return NewFederatedAuthConfigSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewFederatedAuthConfigSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *federatedAuthConfigSet) Difference(set FederatedAuthConfigSet) FederatedAuthConfigSet {
@@ -201,7 +212,11 @@ func (s *federatedAuthConfigSet) Difference(set FederatedAuthConfigSet) Federate
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &federatedAuthConfigSet{set: newSet}
+	return &federatedAuthConfigSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *federatedAuthConfigSet) Intersection(set FederatedAuthConfigSet) FederatedAuthConfigSet {
@@ -213,7 +228,7 @@ func (s *federatedAuthConfigSet) Intersection(set FederatedAuthConfigSet) Federa
 	for _, obj := range newSet.List() {
 		federatedAuthConfigList = append(federatedAuthConfigList, obj.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig))
 	}
-	return NewFederatedAuthConfigSet(s.GetSortFunc(), federatedAuthConfigList...)
+	return NewFederatedAuthConfigSet(s.sortFunc, s.equalityFunc, federatedAuthConfigList...)
 }
 
 func (s *federatedAuthConfigSet) Find(id ezkube.ResourceId) (*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig, error) {
@@ -258,9 +273,13 @@ func (s *federatedAuthConfigSet) Clone() FederatedAuthConfigSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &federatedAuthConfigSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -268,4 +287,8 @@ func (s *federatedAuthConfigSet) Clone() FederatedAuthConfigSet {
 
 func (s *federatedAuthConfigSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *federatedAuthConfigSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }

@@ -51,10 +51,13 @@ type FederatedSettingsSet interface {
 	Clone() FederatedSettingsSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericFederatedSettingsSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedSettingsList []*fed_gloo_solo_io_v1.FederatedSettings,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -64,26 +67,33 @@ func makeGenericFederatedSettingsSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type federatedSettingsSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewFederatedSettingsSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedSettingsList ...*fed_gloo_solo_io_v1.FederatedSettings,
 ) FederatedSettingsSet {
 	return &federatedSettingsSet{
-		set:      makeGenericFederatedSettingsSet(sortFunc, federatedSettingsList),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedSettingsSet(sortFunc, equalityFunc, federatedSettingsList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewFederatedSettingsSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedSettingsList *fed_gloo_solo_io_v1.FederatedSettingsList,
 ) FederatedSettingsSet {
 	list := make([]*fed_gloo_solo_io_v1.FederatedSettings, 0, len(federatedSettingsList.Items))
@@ -91,8 +101,9 @@ func NewFederatedSettingsSetFromList(
 		list = append(list, &federatedSettingsList.Items[idx])
 	}
 	return &federatedSettingsSet{
-		set:      makeGenericFederatedSettingsSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedSettingsSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -193,7 +204,7 @@ func (s *federatedSettingsSet) Union(set FederatedSettingsSet) FederatedSettings
 	if s == nil {
 		return set
 	}
-	return NewFederatedSettingsSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewFederatedSettingsSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *federatedSettingsSet) Difference(set FederatedSettingsSet) FederatedSettingsSet {
@@ -201,7 +212,11 @@ func (s *federatedSettingsSet) Difference(set FederatedSettingsSet) FederatedSet
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &federatedSettingsSet{set: newSet}
+	return &federatedSettingsSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *federatedSettingsSet) Intersection(set FederatedSettingsSet) FederatedSettingsSet {
@@ -213,7 +228,7 @@ func (s *federatedSettingsSet) Intersection(set FederatedSettingsSet) FederatedS
 	for _, obj := range newSet.List() {
 		federatedSettingsList = append(federatedSettingsList, obj.(*fed_gloo_solo_io_v1.FederatedSettings))
 	}
-	return NewFederatedSettingsSet(s.GetSortFunc(), federatedSettingsList...)
+	return NewFederatedSettingsSet(s.sortFunc, s.equalityFunc, federatedSettingsList...)
 }
 
 func (s *federatedSettingsSet) Find(id ezkube.ResourceId) (*fed_gloo_solo_io_v1.FederatedSettings, error) {
@@ -258,9 +273,13 @@ func (s *federatedSettingsSet) Clone() FederatedSettingsSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &federatedSettingsSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -268,6 +287,10 @@ func (s *federatedSettingsSet) Clone() FederatedSettingsSet {
 
 func (s *federatedSettingsSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *federatedSettingsSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }
 
 type FederatedUpstreamSet interface {
@@ -307,10 +330,13 @@ type FederatedUpstreamSet interface {
 	Clone() FederatedUpstreamSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericFederatedUpstreamSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedUpstreamList []*fed_gloo_solo_io_v1.FederatedUpstream,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -320,26 +346,33 @@ func makeGenericFederatedUpstreamSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type federatedUpstreamSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewFederatedUpstreamSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedUpstreamList ...*fed_gloo_solo_io_v1.FederatedUpstream,
 ) FederatedUpstreamSet {
 	return &federatedUpstreamSet{
-		set:      makeGenericFederatedUpstreamSet(sortFunc, federatedUpstreamList),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedUpstreamSet(sortFunc, equalityFunc, federatedUpstreamList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewFederatedUpstreamSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedUpstreamList *fed_gloo_solo_io_v1.FederatedUpstreamList,
 ) FederatedUpstreamSet {
 	list := make([]*fed_gloo_solo_io_v1.FederatedUpstream, 0, len(federatedUpstreamList.Items))
@@ -347,8 +380,9 @@ func NewFederatedUpstreamSetFromList(
 		list = append(list, &federatedUpstreamList.Items[idx])
 	}
 	return &federatedUpstreamSet{
-		set:      makeGenericFederatedUpstreamSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedUpstreamSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -449,7 +483,7 @@ func (s *federatedUpstreamSet) Union(set FederatedUpstreamSet) FederatedUpstream
 	if s == nil {
 		return set
 	}
-	return NewFederatedUpstreamSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewFederatedUpstreamSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *federatedUpstreamSet) Difference(set FederatedUpstreamSet) FederatedUpstreamSet {
@@ -457,7 +491,11 @@ func (s *federatedUpstreamSet) Difference(set FederatedUpstreamSet) FederatedUps
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &federatedUpstreamSet{set: newSet}
+	return &federatedUpstreamSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *federatedUpstreamSet) Intersection(set FederatedUpstreamSet) FederatedUpstreamSet {
@@ -469,7 +507,7 @@ func (s *federatedUpstreamSet) Intersection(set FederatedUpstreamSet) FederatedU
 	for _, obj := range newSet.List() {
 		federatedUpstreamList = append(federatedUpstreamList, obj.(*fed_gloo_solo_io_v1.FederatedUpstream))
 	}
-	return NewFederatedUpstreamSet(s.GetSortFunc(), federatedUpstreamList...)
+	return NewFederatedUpstreamSet(s.sortFunc, s.equalityFunc, federatedUpstreamList...)
 }
 
 func (s *federatedUpstreamSet) Find(id ezkube.ResourceId) (*fed_gloo_solo_io_v1.FederatedUpstream, error) {
@@ -514,9 +552,13 @@ func (s *federatedUpstreamSet) Clone() FederatedUpstreamSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &federatedUpstreamSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -524,6 +566,10 @@ func (s *federatedUpstreamSet) Clone() FederatedUpstreamSet {
 
 func (s *federatedUpstreamSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *federatedUpstreamSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }
 
 type FederatedUpstreamGroupSet interface {
@@ -563,10 +609,13 @@ type FederatedUpstreamGroupSet interface {
 	Clone() FederatedUpstreamGroupSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericFederatedUpstreamGroupSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedUpstreamGroupList []*fed_gloo_solo_io_v1.FederatedUpstreamGroup,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -576,26 +625,33 @@ func makeGenericFederatedUpstreamGroupSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type federatedUpstreamGroupSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewFederatedUpstreamGroupSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedUpstreamGroupList ...*fed_gloo_solo_io_v1.FederatedUpstreamGroup,
 ) FederatedUpstreamGroupSet {
 	return &federatedUpstreamGroupSet{
-		set:      makeGenericFederatedUpstreamGroupSet(sortFunc, federatedUpstreamGroupList),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedUpstreamGroupSet(sortFunc, equalityFunc, federatedUpstreamGroupList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewFederatedUpstreamGroupSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	federatedUpstreamGroupList *fed_gloo_solo_io_v1.FederatedUpstreamGroupList,
 ) FederatedUpstreamGroupSet {
 	list := make([]*fed_gloo_solo_io_v1.FederatedUpstreamGroup, 0, len(federatedUpstreamGroupList.Items))
@@ -603,8 +659,9 @@ func NewFederatedUpstreamGroupSetFromList(
 		list = append(list, &federatedUpstreamGroupList.Items[idx])
 	}
 	return &federatedUpstreamGroupSet{
-		set:      makeGenericFederatedUpstreamGroupSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericFederatedUpstreamGroupSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -705,7 +762,7 @@ func (s *federatedUpstreamGroupSet) Union(set FederatedUpstreamGroupSet) Federat
 	if s == nil {
 		return set
 	}
-	return NewFederatedUpstreamGroupSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewFederatedUpstreamGroupSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *federatedUpstreamGroupSet) Difference(set FederatedUpstreamGroupSet) FederatedUpstreamGroupSet {
@@ -713,7 +770,11 @@ func (s *federatedUpstreamGroupSet) Difference(set FederatedUpstreamGroupSet) Fe
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &federatedUpstreamGroupSet{set: newSet}
+	return &federatedUpstreamGroupSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *federatedUpstreamGroupSet) Intersection(set FederatedUpstreamGroupSet) FederatedUpstreamGroupSet {
@@ -725,7 +786,7 @@ func (s *federatedUpstreamGroupSet) Intersection(set FederatedUpstreamGroupSet) 
 	for _, obj := range newSet.List() {
 		federatedUpstreamGroupList = append(federatedUpstreamGroupList, obj.(*fed_gloo_solo_io_v1.FederatedUpstreamGroup))
 	}
-	return NewFederatedUpstreamGroupSet(s.GetSortFunc(), federatedUpstreamGroupList...)
+	return NewFederatedUpstreamGroupSet(s.sortFunc, s.equalityFunc, federatedUpstreamGroupList...)
 }
 
 func (s *federatedUpstreamGroupSet) Find(id ezkube.ResourceId) (*fed_gloo_solo_io_v1.FederatedUpstreamGroup, error) {
@@ -770,9 +831,13 @@ func (s *federatedUpstreamGroupSet) Clone() FederatedUpstreamGroupSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &federatedUpstreamGroupSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -780,4 +845,8 @@ func (s *federatedUpstreamGroupSet) Clone() FederatedUpstreamGroupSet {
 
 func (s *federatedUpstreamGroupSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *federatedUpstreamGroupSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }

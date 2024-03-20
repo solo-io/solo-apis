@@ -51,10 +51,13 @@ type SettingsSet interface {
 	Clone() SettingsSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericSettingsSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	settingsList []*gloo_solo_io_v1.Settings,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -64,26 +67,33 @@ func makeGenericSettingsSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type settingsSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewSettingsSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	settingsList ...*gloo_solo_io_v1.Settings,
 ) SettingsSet {
 	return &settingsSet{
-		set:      makeGenericSettingsSet(sortFunc, settingsList),
-		sortFunc: sortFunc,
+		set:          makeGenericSettingsSet(sortFunc, equalityFunc, settingsList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewSettingsSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	settingsList *gloo_solo_io_v1.SettingsList,
 ) SettingsSet {
 	list := make([]*gloo_solo_io_v1.Settings, 0, len(settingsList.Items))
@@ -91,8 +101,9 @@ func NewSettingsSetFromList(
 		list = append(list, &settingsList.Items[idx])
 	}
 	return &settingsSet{
-		set:      makeGenericSettingsSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericSettingsSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -193,7 +204,7 @@ func (s *settingsSet) Union(set SettingsSet) SettingsSet {
 	if s == nil {
 		return set
 	}
-	return NewSettingsSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewSettingsSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *settingsSet) Difference(set SettingsSet) SettingsSet {
@@ -201,7 +212,11 @@ func (s *settingsSet) Difference(set SettingsSet) SettingsSet {
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &settingsSet{set: newSet}
+	return &settingsSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *settingsSet) Intersection(set SettingsSet) SettingsSet {
@@ -213,7 +228,7 @@ func (s *settingsSet) Intersection(set SettingsSet) SettingsSet {
 	for _, obj := range newSet.List() {
 		settingsList = append(settingsList, obj.(*gloo_solo_io_v1.Settings))
 	}
-	return NewSettingsSet(s.GetSortFunc(), settingsList...)
+	return NewSettingsSet(s.sortFunc, s.equalityFunc, settingsList...)
 }
 
 func (s *settingsSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Settings, error) {
@@ -258,9 +273,13 @@ func (s *settingsSet) Clone() SettingsSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &settingsSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -268,6 +287,10 @@ func (s *settingsSet) Clone() SettingsSet {
 
 func (s *settingsSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *settingsSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }
 
 type UpstreamSet interface {
@@ -307,10 +330,13 @@ type UpstreamSet interface {
 	Clone() UpstreamSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericUpstreamSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	upstreamList []*gloo_solo_io_v1.Upstream,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -320,26 +346,33 @@ func makeGenericUpstreamSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type upstreamSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewUpstreamSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	upstreamList ...*gloo_solo_io_v1.Upstream,
 ) UpstreamSet {
 	return &upstreamSet{
-		set:      makeGenericUpstreamSet(sortFunc, upstreamList),
-		sortFunc: sortFunc,
+		set:          makeGenericUpstreamSet(sortFunc, equalityFunc, upstreamList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewUpstreamSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	upstreamList *gloo_solo_io_v1.UpstreamList,
 ) UpstreamSet {
 	list := make([]*gloo_solo_io_v1.Upstream, 0, len(upstreamList.Items))
@@ -347,8 +380,9 @@ func NewUpstreamSetFromList(
 		list = append(list, &upstreamList.Items[idx])
 	}
 	return &upstreamSet{
-		set:      makeGenericUpstreamSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericUpstreamSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -449,7 +483,7 @@ func (s *upstreamSet) Union(set UpstreamSet) UpstreamSet {
 	if s == nil {
 		return set
 	}
-	return NewUpstreamSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewUpstreamSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *upstreamSet) Difference(set UpstreamSet) UpstreamSet {
@@ -457,7 +491,11 @@ func (s *upstreamSet) Difference(set UpstreamSet) UpstreamSet {
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &upstreamSet{set: newSet}
+	return &upstreamSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *upstreamSet) Intersection(set UpstreamSet) UpstreamSet {
@@ -469,7 +507,7 @@ func (s *upstreamSet) Intersection(set UpstreamSet) UpstreamSet {
 	for _, obj := range newSet.List() {
 		upstreamList = append(upstreamList, obj.(*gloo_solo_io_v1.Upstream))
 	}
-	return NewUpstreamSet(s.GetSortFunc(), upstreamList...)
+	return NewUpstreamSet(s.sortFunc, s.equalityFunc, upstreamList...)
 }
 
 func (s *upstreamSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Upstream, error) {
@@ -514,9 +552,13 @@ func (s *upstreamSet) Clone() UpstreamSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &upstreamSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -524,6 +566,10 @@ func (s *upstreamSet) Clone() UpstreamSet {
 
 func (s *upstreamSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *upstreamSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }
 
 type UpstreamGroupSet interface {
@@ -563,10 +609,13 @@ type UpstreamGroupSet interface {
 	Clone() UpstreamGroupSet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericUpstreamGroupSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	upstreamGroupList []*gloo_solo_io_v1.UpstreamGroup,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -576,26 +625,33 @@ func makeGenericUpstreamGroupSet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type upstreamGroupSet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewUpstreamGroupSet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	upstreamGroupList ...*gloo_solo_io_v1.UpstreamGroup,
 ) UpstreamGroupSet {
 	return &upstreamGroupSet{
-		set:      makeGenericUpstreamGroupSet(sortFunc, upstreamGroupList),
-		sortFunc: sortFunc,
+		set:          makeGenericUpstreamGroupSet(sortFunc, equalityFunc, upstreamGroupList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewUpstreamGroupSetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	upstreamGroupList *gloo_solo_io_v1.UpstreamGroupList,
 ) UpstreamGroupSet {
 	list := make([]*gloo_solo_io_v1.UpstreamGroup, 0, len(upstreamGroupList.Items))
@@ -603,8 +659,9 @@ func NewUpstreamGroupSetFromList(
 		list = append(list, &upstreamGroupList.Items[idx])
 	}
 	return &upstreamGroupSet{
-		set:      makeGenericUpstreamGroupSet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericUpstreamGroupSet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -705,7 +762,7 @@ func (s *upstreamGroupSet) Union(set UpstreamGroupSet) UpstreamGroupSet {
 	if s == nil {
 		return set
 	}
-	return NewUpstreamGroupSet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewUpstreamGroupSet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *upstreamGroupSet) Difference(set UpstreamGroupSet) UpstreamGroupSet {
@@ -713,7 +770,11 @@ func (s *upstreamGroupSet) Difference(set UpstreamGroupSet) UpstreamGroupSet {
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &upstreamGroupSet{set: newSet}
+	return &upstreamGroupSet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *upstreamGroupSet) Intersection(set UpstreamGroupSet) UpstreamGroupSet {
@@ -725,7 +786,7 @@ func (s *upstreamGroupSet) Intersection(set UpstreamGroupSet) UpstreamGroupSet {
 	for _, obj := range newSet.List() {
 		upstreamGroupList = append(upstreamGroupList, obj.(*gloo_solo_io_v1.UpstreamGroup))
 	}
-	return NewUpstreamGroupSet(s.GetSortFunc(), upstreamGroupList...)
+	return NewUpstreamGroupSet(s.sortFunc, s.equalityFunc, upstreamGroupList...)
 }
 
 func (s *upstreamGroupSet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.UpstreamGroup, error) {
@@ -770,9 +831,13 @@ func (s *upstreamGroupSet) Clone() UpstreamGroupSet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &upstreamGroupSet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -780,6 +845,10 @@ func (s *upstreamGroupSet) Clone() UpstreamGroupSet {
 
 func (s *upstreamGroupSet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *upstreamGroupSet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }
 
 type ProxySet interface {
@@ -819,10 +888,13 @@ type ProxySet interface {
 	Clone() ProxySet
 	// Get the sort function used by the set
 	GetSortFunc() func(toInsert, existing client.Object) bool
+	// Get the equality function used by the set
+	GetEqualityFunc() func(a, b client.Object) bool
 }
 
 func makeGenericProxySet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	proxyList []*gloo_solo_io_v1.Proxy,
 ) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
@@ -832,26 +904,33 @@ func makeGenericProxySet(
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
-	return sksets.NewResourceSet(genericSortFunc, genericResources...)
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return equalityFunc(a.(client.Object), b.(client.Object))
+	}
+	return sksets.NewResourceSet(genericSortFunc, genericEqualityFunc, genericResources...)
 }
 
 type proxySet struct {
-	set      sksets.ResourceSet
-	sortFunc func(toInsert, existing client.Object) bool
+	set          sksets.ResourceSet
+	sortFunc     func(toInsert, existing client.Object) bool
+	equalityFunc func(a, b client.Object) bool
 }
 
 func NewProxySet(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	proxyList ...*gloo_solo_io_v1.Proxy,
 ) ProxySet {
 	return &proxySet{
-		set:      makeGenericProxySet(sortFunc, proxyList),
-		sortFunc: sortFunc,
+		set:          makeGenericProxySet(sortFunc, equalityFunc, proxyList),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
 func NewProxySetFromList(
 	sortFunc func(toInsert, existing client.Object) bool,
+	equalityFunc func(a, b client.Object) bool,
 	proxyList *gloo_solo_io_v1.ProxyList,
 ) ProxySet {
 	list := make([]*gloo_solo_io_v1.Proxy, 0, len(proxyList.Items))
@@ -859,8 +938,9 @@ func NewProxySetFromList(
 		list = append(list, &proxyList.Items[idx])
 	}
 	return &proxySet{
-		set:      makeGenericProxySet(sortFunc, list),
-		sortFunc: sortFunc,
+		set:          makeGenericProxySet(sortFunc, equalityFunc, list),
+		sortFunc:     sortFunc,
+		equalityFunc: equalityFunc,
 	}
 }
 
@@ -961,7 +1041,7 @@ func (s *proxySet) Union(set ProxySet) ProxySet {
 	if s == nil {
 		return set
 	}
-	return NewProxySet(s.GetSortFunc(), append(s.List(), set.List()...)...)
+	return NewProxySet(s.sortFunc, s.equalityFunc, append(s.List(), set.List()...)...)
 }
 
 func (s *proxySet) Difference(set ProxySet) ProxySet {
@@ -969,7 +1049,11 @@ func (s *proxySet) Difference(set ProxySet) ProxySet {
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &proxySet{set: newSet}
+	return &proxySet{
+		set:          newSet,
+		sortFunc:     s.sortFunc,
+		equalityFunc: s.equalityFunc,
+	}
 }
 
 func (s *proxySet) Intersection(set ProxySet) ProxySet {
@@ -981,7 +1065,7 @@ func (s *proxySet) Intersection(set ProxySet) ProxySet {
 	for _, obj := range newSet.List() {
 		proxyList = append(proxyList, obj.(*gloo_solo_io_v1.Proxy))
 	}
-	return NewProxySet(s.GetSortFunc(), proxyList...)
+	return NewProxySet(s.sortFunc, s.equalityFunc, proxyList...)
 }
 
 func (s *proxySet) Find(id ezkube.ResourceId) (*gloo_solo_io_v1.Proxy, error) {
@@ -1026,9 +1110,13 @@ func (s *proxySet) Clone() ProxySet {
 	genericSortFunc := func(toInsert, existing ezkube.ResourceId) bool {
 		return s.sortFunc(toInsert.(client.Object), existing.(client.Object))
 	}
+	genericEqualityFunc := func(a, b ezkube.ResourceId) bool {
+		return s.equalityFunc(a.(client.Object), b.(client.Object))
+	}
 	return &proxySet{
 		set: sksets.NewResourceSet(
 			genericSortFunc,
+			genericEqualityFunc,
 			s.Generic().Clone().List()...,
 		),
 	}
@@ -1036,4 +1124,8 @@ func (s *proxySet) Clone() ProxySet {
 
 func (s *proxySet) GetSortFunc() func(toInsert, existing client.Object) bool {
 	return s.sortFunc
+}
+
+func (s *proxySet) GetEqualityFunc() func(a, b client.Object) bool {
+	return s.equalityFunc
 }
