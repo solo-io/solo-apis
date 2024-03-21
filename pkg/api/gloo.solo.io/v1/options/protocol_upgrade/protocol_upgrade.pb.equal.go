@@ -49,9 +49,6 @@ func (m *ProtocolUpgradeConfig) Equal(that interface{}) bool {
 	switch m.UpgradeType.(type) {
 
 	case *ProtocolUpgradeConfig_Websocket:
-		if _, ok := target.UpgradeType.(*ProtocolUpgradeConfig_Websocket); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetWebsocket()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetWebsocket()) {
@@ -64,9 +61,6 @@ func (m *ProtocolUpgradeConfig) Equal(that interface{}) bool {
 		}
 
 	case *ProtocolUpgradeConfig_Connect:
-		if _, ok := target.UpgradeType.(*ProtocolUpgradeConfig_Connect); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetConnect()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetConnect()) {
@@ -78,11 +72,6 @@ func (m *ProtocolUpgradeConfig) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.UpgradeType != target.UpgradeType {
-			return false
-		}
 	}
 
 	return true

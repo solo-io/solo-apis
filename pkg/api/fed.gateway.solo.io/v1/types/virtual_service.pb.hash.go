@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -39,40 +39,28 @@ func (m *FederatedVirtualServiceSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetTemplate()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Template")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTemplate(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetTemplate(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Template")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetPlacement()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Placement")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPlacement(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPlacement(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Placement")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -95,20 +83,14 @@ func (m *FederatedVirtualServiceStatus) Hash(hasher hash.Hash64) (uint64, error)
 	}
 
 	if h, ok := interface{}(m.GetPlacementStatus()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("PlacementStatus")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPlacementStatus(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPlacementStatus(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("PlacementStatus")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -121,20 +103,14 @@ func (m *FederatedVirtualServiceStatus) Hash(hasher hash.Hash64) (uint64, error)
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -170,40 +146,28 @@ func (m *FederatedVirtualServiceSpec_Template) Hash(hasher hash.Hash64) (uint64,
 	}
 
 	if h, ok := interface{}(m.GetSpec()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Spec")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSpec(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetSpec(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Spec")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetMetadata()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Metadata")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMetadata(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMetadata(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Metadata")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

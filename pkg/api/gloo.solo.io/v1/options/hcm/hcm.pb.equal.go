@@ -406,9 +406,6 @@ func (m *HttpConnectionManagerSettings) Equal(that interface{}) bool {
 	switch m.HeaderFormat.(type) {
 
 	case *HttpConnectionManagerSettings_ProperCaseHeaderKeyFormat:
-		if _, ok := target.HeaderFormat.(*HttpConnectionManagerSettings_ProperCaseHeaderKeyFormat); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetProperCaseHeaderKeyFormat()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetProperCaseHeaderKeyFormat()) {
@@ -421,9 +418,6 @@ func (m *HttpConnectionManagerSettings) Equal(that interface{}) bool {
 		}
 
 	case *HttpConnectionManagerSettings_PreserveCaseHeaderKeyFormat:
-		if _, ok := target.HeaderFormat.(*HttpConnectionManagerSettings_PreserveCaseHeaderKeyFormat); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetPreserveCaseHeaderKeyFormat()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetPreserveCaseHeaderKeyFormat()) {
@@ -435,11 +429,6 @@ func (m *HttpConnectionManagerSettings) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.HeaderFormat != target.HeaderFormat {
-			return false
-		}
 	}
 
 	return true

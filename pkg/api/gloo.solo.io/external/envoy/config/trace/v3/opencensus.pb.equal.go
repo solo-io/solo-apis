@@ -85,18 +85,12 @@ func (m *OpenCensusConfig) Equal(that interface{}) bool {
 	switch m.OcagentAddress.(type) {
 
 	case *OpenCensusConfig_HttpAddress:
-		if _, ok := target.OcagentAddress.(*OpenCensusConfig_HttpAddress); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetHttpAddress(), target.GetHttpAddress()) != 0 {
 			return false
 		}
 
 	case *OpenCensusConfig_GrpcAddress:
-		if _, ok := target.OcagentAddress.(*OpenCensusConfig_GrpcAddress); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetGrpcAddress()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetGrpcAddress()) {
@@ -108,11 +102,6 @@ func (m *OpenCensusConfig) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.OcagentAddress != target.OcagentAddress {
-			return false
-		}
 	}
 
 	return true
@@ -158,9 +147,6 @@ func (m *TraceConfig) Equal(that interface{}) bool {
 	switch m.Sampler.(type) {
 
 	case *TraceConfig_ProbabilitySampler:
-		if _, ok := target.Sampler.(*TraceConfig_ProbabilitySampler); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetProbabilitySampler()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetProbabilitySampler()) {
@@ -173,9 +159,6 @@ func (m *TraceConfig) Equal(that interface{}) bool {
 		}
 
 	case *TraceConfig_ConstantSampler:
-		if _, ok := target.Sampler.(*TraceConfig_ConstantSampler); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetConstantSampler()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetConstantSampler()) {
@@ -188,9 +171,6 @@ func (m *TraceConfig) Equal(that interface{}) bool {
 		}
 
 	case *TraceConfig_RateLimitingSampler:
-		if _, ok := target.Sampler.(*TraceConfig_RateLimitingSampler); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRateLimitingSampler()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRateLimitingSampler()) {
@@ -202,11 +182,6 @@ func (m *TraceConfig) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.Sampler != target.Sampler {
-			return false
-		}
 	}
 
 	return true

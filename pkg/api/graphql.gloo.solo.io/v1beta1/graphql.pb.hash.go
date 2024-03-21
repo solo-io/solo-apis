@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -85,20 +85,14 @@ func (m *RequestTemplate) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetBody()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Body")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetBody(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetBody(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Body")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -164,20 +158,14 @@ func (m *GrpcRequestTemplate) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetOutgoingMessageJson()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("OutgoingMessageJson")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOutgoingMessageJson(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetOutgoingMessageJson(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("OutgoingMessageJson")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -231,60 +219,42 @@ func (m *RESTResolver) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetUpstreamRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("UpstreamRef")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetUpstreamRef(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetUpstreamRef(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("UpstreamRef")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetRequest()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Request")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRequest(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRequest(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Request")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetResponse()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Response")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetResponse(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetResponse(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Response")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -295,20 +265,14 @@ func (m *RESTResolver) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Timeout")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTimeout(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetTimeout(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Timeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -347,20 +311,14 @@ func (m *GrpcDescriptorRegistry) Hash(hasher hash.Hash64) (uint64, error) {
 	case *GrpcDescriptorRegistry_ProtoRefsList:
 
 		if h, ok := interface{}(m.GetProtoRefsList()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("ProtoRefsList")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetProtoRefsList(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetProtoRefsList(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("ProtoRefsList")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -385,40 +343,28 @@ func (m *GrpcResolver) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetUpstreamRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("UpstreamRef")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetUpstreamRef(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetUpstreamRef(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("UpstreamRef")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetRequestTransform()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("RequestTransform")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRequestTransform(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRequestTransform(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("RequestTransform")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -429,20 +375,14 @@ func (m *GrpcResolver) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Timeout")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTimeout(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetTimeout(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Timeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -467,20 +407,14 @@ func (m *StitchedSchema) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetSubschemas() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -509,20 +443,14 @@ func (m *MockResolver) Hash(hasher hash.Hash64) (uint64, error) {
 	case *MockResolver_SyncResponse:
 
 		if h, ok := interface{}(m.GetSyncResponse()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("SyncResponse")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetSyncResponse(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetSyncResponse(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("SyncResponse")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -531,20 +459,14 @@ func (m *MockResolver) Hash(hasher hash.Hash64) (uint64, error) {
 	case *MockResolver_AsyncResponse_:
 
 		if h, ok := interface{}(m.GetAsyncResponse()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("AsyncResponse")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetAsyncResponse(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetAsyncResponse(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("AsyncResponse")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -575,20 +497,14 @@ func (m *Resolution) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetStatPrefix()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("StatPrefix")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetStatPrefix(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetStatPrefix(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("StatPrefix")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -599,20 +515,14 @@ func (m *Resolution) Hash(hasher hash.Hash64) (uint64, error) {
 	case *Resolution_RestResolver:
 
 		if h, ok := interface{}(m.GetRestResolver()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("RestResolver")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetRestResolver(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetRestResolver(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("RestResolver")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -621,20 +531,14 @@ func (m *Resolution) Hash(hasher hash.Hash64) (uint64, error) {
 	case *Resolution_GrpcResolver:
 
 		if h, ok := interface{}(m.GetGrpcResolver()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("GrpcResolver")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetGrpcResolver(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetGrpcResolver(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("GrpcResolver")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -643,20 +547,14 @@ func (m *Resolution) Hash(hasher hash.Hash64) (uint64, error) {
 	case *Resolution_MockResolver:
 
 		if h, ok := interface{}(m.GetMockResolver()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("MockResolver")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetMockResolver(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetMockResolver(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("MockResolver")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -681,40 +579,28 @@ func (m *GraphQLApiSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetStatPrefix()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("StatPrefix")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetStatPrefix(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetStatPrefix(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("StatPrefix")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetPersistedQueryCacheConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("PersistedQueryCacheConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPersistedQueryCacheConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPersistedQueryCacheConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("PersistedQueryCacheConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -729,20 +615,14 @@ func (m *GraphQLApiSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetOptions()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Options")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Options")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -753,20 +633,14 @@ func (m *GraphQLApiSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	case *GraphQLApiSpec_ExecutableSchema:
 
 		if h, ok := interface{}(m.GetExecutableSchema()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetExecutableSchema(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetExecutableSchema(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("ExecutableSchema")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -775,20 +649,14 @@ func (m *GraphQLApiSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	case *GraphQLApiSpec_StitchedSchema:
 
 		if h, ok := interface{}(m.GetStitchedSchema()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetStitchedSchema(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetStitchedSchema(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("StitchedSchema")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -838,40 +706,28 @@ func (m *ExecutableSchema) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetExecutor()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Executor")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetExecutor(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetExecutor(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Executor")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetGrpcDescriptorRegistry()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("GrpcDescriptorRegistry")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetGrpcDescriptorRegistry(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetGrpcDescriptorRegistry(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("GrpcDescriptorRegistry")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -898,20 +754,14 @@ func (m *Executor) Hash(hasher hash.Hash64) (uint64, error) {
 	case *Executor_Local_:
 
 		if h, ok := interface{}(m.GetLocal()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Local")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetLocal(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetLocal(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Local")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -920,20 +770,14 @@ func (m *Executor) Hash(hasher hash.Hash64) (uint64, error) {
 	case *Executor_Remote_:
 
 		if h, ok := interface{}(m.GetRemote()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Remote")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetRemote(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetRemote(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Remote")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -977,20 +821,14 @@ func (m *GraphQLApiStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -1010,20 +848,14 @@ func (m *GraphQLApiStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetDetails()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Details")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDetails(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDetails(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Details")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -1052,20 +884,14 @@ func (m *GraphQLApiNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) 
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -1103,20 +929,14 @@ func (m *GrpcDescriptorRegistry_ProtoRefs) Hash(hasher hash.Hash64) (uint64, err
 	for _, v := range m.GetConfigMapRefs() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -1155,20 +975,14 @@ func (m *StitchedSchema_SubschemaConfig) Hash(hasher hash.Hash64) (uint64, error
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -1251,40 +1065,28 @@ func (m *MockResolver_AsyncResponse) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetResponse()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Response")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetResponse(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetResponse(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Response")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetDelay()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Delay")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDelay(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDelay(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Delay")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -1334,20 +1136,14 @@ func (m *Executor_Local) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -1372,20 +1168,14 @@ func (m *Executor_Local) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetOptions()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Options")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetOptions(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Options")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -1408,20 +1198,14 @@ func (m *Executor_Remote) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetUpstreamRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("UpstreamRef")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetUpstreamRef(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetUpstreamRef(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("UpstreamRef")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -1494,20 +1278,14 @@ func (m *Executor_Local_LocalExecutorOptions) Hash(hasher hash.Hash64) (uint64, 
 	}
 
 	if h, ok := interface{}(m.GetMaxDepth()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MaxDepth")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMaxDepth(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMaxDepth(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MaxDepth")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

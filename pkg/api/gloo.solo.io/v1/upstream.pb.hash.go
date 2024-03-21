@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -39,80 +39,56 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetDiscoveryMetadata()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DiscoveryMetadata")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDiscoveryMetadata(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDiscoveryMetadata(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DiscoveryMetadata")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetSslConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("SslConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSslConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetSslConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("SslConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetCircuitBreakers()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("CircuitBreakers")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetCircuitBreakers(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetCircuitBreakers(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("CircuitBreakers")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetLoadBalancerConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("LoadBalancerConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetLoadBalancerConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetLoadBalancerConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("LoadBalancerConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -121,20 +97,14 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetHealthChecks() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -143,60 +113,42 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetOutlierDetection()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("OutlierDetection")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOutlierDetection(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetOutlierDetection(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("OutlierDetection")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetFailover()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Failover")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetFailover(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetFailover(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Failover")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetConnectionConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ConnectionConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetConnectionConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetConnectionConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("ConnectionConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -208,140 +160,98 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetUseHttp2()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("UseHttp2")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetUseHttp2(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetUseHttp2(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("UseHttp2")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetInitialStreamWindowSize()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("InitialStreamWindowSize")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetInitialStreamWindowSize(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetInitialStreamWindowSize(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("InitialStreamWindowSize")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetInitialConnectionWindowSize()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("InitialConnectionWindowSize")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetInitialConnectionWindowSize(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetInitialConnectionWindowSize(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("InitialConnectionWindowSize")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetMaxConcurrentStreams()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MaxConcurrentStreams")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMaxConcurrentStreams(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMaxConcurrentStreams(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MaxConcurrentStreams")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetOverrideStreamErrorOnInvalidHttpMessage()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("OverrideStreamErrorOnInvalidHttpMessage")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOverrideStreamErrorOnInvalidHttpMessage(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetOverrideStreamErrorOnInvalidHttpMessage(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("OverrideStreamErrorOnInvalidHttpMessage")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetHttpProxyHostname()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("HttpProxyHostname")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetHttpProxyHostname(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetHttpProxyHostname(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("HttpProxyHostname")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetHttpConnectSslConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("HttpConnectSslConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetHttpConnectSslConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetHttpConnectSslConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("HttpConnectSslConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -350,20 +260,14 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	for _, v := range m.GetHttpConnectHeaders() {
 
 		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+			if val, err := hashstructure.Hash(v, nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -372,100 +276,70 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetIgnoreHealthOnHostRemoval()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("IgnoreHealthOnHostRemoval")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetIgnoreHealthOnHostRemoval(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetIgnoreHealthOnHostRemoval(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("IgnoreHealthOnHostRemoval")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetRespectDnsTtl()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("RespectDnsTtl")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetRespectDnsTtl(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetRespectDnsTtl(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("RespectDnsTtl")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetDnsRefreshRate()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DnsRefreshRate")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDnsRefreshRate(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDnsRefreshRate(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DnsRefreshRate")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetProxyProtocolVersion()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ProxyProtocolVersion")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetProxyProtocolVersion(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetProxyProtocolVersion(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("ProxyProtocolVersion")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetPreconnectPolicy()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("PreconnectPolicy")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPreconnectPolicy(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPreconnectPolicy(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("PreconnectPolicy")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -476,20 +350,14 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	case *UpstreamSpec_Kube:
 
 		if h, ok := interface{}(m.GetKube()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Kube")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetKube(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetKube(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Kube")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -498,20 +366,14 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	case *UpstreamSpec_Static:
 
 		if h, ok := interface{}(m.GetStatic()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Static")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetStatic(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetStatic(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Static")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -520,20 +382,14 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	case *UpstreamSpec_Pipe:
 
 		if h, ok := interface{}(m.GetPipe()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Pipe")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetPipe(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetPipe(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Pipe")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -542,20 +398,14 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	case *UpstreamSpec_Aws:
 
 		if h, ok := interface{}(m.GetAws()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Aws")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetAws(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetAws(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Aws")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -564,20 +414,14 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	case *UpstreamSpec_Azure:
 
 		if h, ok := interface{}(m.GetAzure()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Azure")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetAzure(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetAzure(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Azure")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -586,20 +430,14 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	case *UpstreamSpec_Consul:
 
 		if h, ok := interface{}(m.GetConsul()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Consul")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetConsul(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetConsul(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Consul")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -608,20 +446,14 @@ func (m *UpstreamSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	case *UpstreamSpec_AwsEc2:
 
 		if h, ok := interface{}(m.GetAwsEc2()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("AwsEc2")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetAwsEc2(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetAwsEc2(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("AwsEc2")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -709,40 +541,28 @@ func (m *PreconnectPolicy) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetPerUpstreamPreconnectRatio()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("PerUpstreamPreconnectRatio")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPerUpstreamPreconnectRatio(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPerUpstreamPreconnectRatio(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("PerUpstreamPreconnectRatio")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetPredictivePreconnectRatio()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("PredictivePreconnectRatio")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPredictivePreconnectRatio(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPredictivePreconnectRatio(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("PredictivePreconnectRatio")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -784,20 +604,14 @@ func (m *UpstreamStatus) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}
@@ -817,20 +631,14 @@ func (m *UpstreamStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetDetails()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Details")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDetails(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDetails(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("Details")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -859,20 +667,14 @@ func (m *UpstreamNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
 			innerHash.Reset()
 
 			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("")); err != nil {
-					return 0, err
-				}
 				if _, err = h.Hash(innerHash); err != nil {
 					return 0, err
 				}
 			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+				if val, err := hashstructure.Hash(v, nil); err != nil {
 					return 0, err
 				} else {
-					if _, err = innerHash.Write([]byte("")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+					if err := binary.Write(innerHash, binary.LittleEndian, val); err != nil {
 						return 0, err
 					}
 				}

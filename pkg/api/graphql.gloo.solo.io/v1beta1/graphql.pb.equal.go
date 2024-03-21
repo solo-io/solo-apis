@@ -265,27 +265,18 @@ func (m *GrpcDescriptorRegistry) Equal(that interface{}) bool {
 	switch m.DescriptorSet.(type) {
 
 	case *GrpcDescriptorRegistry_ProtoDescriptor:
-		if _, ok := target.DescriptorSet.(*GrpcDescriptorRegistry_ProtoDescriptor); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetProtoDescriptor(), target.GetProtoDescriptor()) != 0 {
 			return false
 		}
 
 	case *GrpcDescriptorRegistry_ProtoDescriptorBin:
-		if _, ok := target.DescriptorSet.(*GrpcDescriptorRegistry_ProtoDescriptorBin); !ok {
-			return false
-		}
 
 		if bytes.Compare(m.GetProtoDescriptorBin(), target.GetProtoDescriptorBin()) != 0 {
 			return false
 		}
 
 	case *GrpcDescriptorRegistry_ProtoRefsList:
-		if _, ok := target.DescriptorSet.(*GrpcDescriptorRegistry_ProtoRefsList); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetProtoRefsList()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetProtoRefsList()) {
@@ -297,11 +288,6 @@ func (m *GrpcDescriptorRegistry) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.DescriptorSet != target.DescriptorSet {
-			return false
-		}
 	}
 
 	return true
@@ -430,9 +416,6 @@ func (m *MockResolver) Equal(that interface{}) bool {
 	switch m.Response.(type) {
 
 	case *MockResolver_SyncResponse:
-		if _, ok := target.Response.(*MockResolver_SyncResponse); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetSyncResponse()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetSyncResponse()) {
@@ -445,9 +428,6 @@ func (m *MockResolver) Equal(that interface{}) bool {
 		}
 
 	case *MockResolver_AsyncResponse_:
-		if _, ok := target.Response.(*MockResolver_AsyncResponse_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetAsyncResponse()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetAsyncResponse()) {
@@ -460,19 +440,11 @@ func (m *MockResolver) Equal(that interface{}) bool {
 		}
 
 	case *MockResolver_ErrorResponse:
-		if _, ok := target.Response.(*MockResolver_ErrorResponse); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetErrorResponse(), target.GetErrorResponse()) != 0 {
 			return false
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.Response != target.Response {
-			return false
-		}
 	}
 
 	return true
@@ -512,9 +484,6 @@ func (m *Resolution) Equal(that interface{}) bool {
 	switch m.Resolver.(type) {
 
 	case *Resolution_RestResolver:
-		if _, ok := target.Resolver.(*Resolution_RestResolver); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRestResolver()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRestResolver()) {
@@ -527,9 +496,6 @@ func (m *Resolution) Equal(that interface{}) bool {
 		}
 
 	case *Resolution_GrpcResolver:
-		if _, ok := target.Resolver.(*Resolution_GrpcResolver); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetGrpcResolver()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetGrpcResolver()) {
@@ -542,9 +508,6 @@ func (m *Resolution) Equal(that interface{}) bool {
 		}
 
 	case *Resolution_MockResolver:
-		if _, ok := target.Resolver.(*Resolution_MockResolver); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetMockResolver()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetMockResolver()) {
@@ -556,11 +519,6 @@ func (m *Resolution) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.Resolver != target.Resolver {
-			return false
-		}
 	}
 
 	return true
@@ -631,9 +589,6 @@ func (m *GraphQLApiSpec) Equal(that interface{}) bool {
 	switch m.Schema.(type) {
 
 	case *GraphQLApiSpec_ExecutableSchema:
-		if _, ok := target.Schema.(*GraphQLApiSpec_ExecutableSchema); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetExecutableSchema()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetExecutableSchema()) {
@@ -646,9 +601,6 @@ func (m *GraphQLApiSpec) Equal(that interface{}) bool {
 		}
 
 	case *GraphQLApiSpec_StitchedSchema:
-		if _, ok := target.Schema.(*GraphQLApiSpec_StitchedSchema); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetStitchedSchema()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetStitchedSchema()) {
@@ -660,11 +612,6 @@ func (m *GraphQLApiSpec) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.Schema != target.Schema {
-			return false
-		}
 	}
 
 	return true
@@ -770,9 +717,6 @@ func (m *Executor) Equal(that interface{}) bool {
 	switch m.Executor.(type) {
 
 	case *Executor_Local_:
-		if _, ok := target.Executor.(*Executor_Local_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetLocal()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetLocal()) {
@@ -785,9 +729,6 @@ func (m *Executor) Equal(that interface{}) bool {
 		}
 
 	case *Executor_Remote_:
-		if _, ok := target.Executor.(*Executor_Remote_); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRemote()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRemote()) {
@@ -799,11 +740,6 @@ func (m *Executor) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.Executor != target.Executor {
-			return false
-		}
 	}
 
 	return true

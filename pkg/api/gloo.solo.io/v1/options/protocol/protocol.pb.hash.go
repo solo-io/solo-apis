@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -39,20 +39,14 @@ func (m *HttpProtocolOptions) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetIdleTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("IdleTimeout")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetIdleTimeout(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetIdleTimeout(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("IdleTimeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -64,20 +58,14 @@ func (m *HttpProtocolOptions) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetMaxStreamDuration()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MaxStreamDuration")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMaxStreamDuration(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMaxStreamDuration(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MaxStreamDuration")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -110,20 +98,14 @@ func (m *Http1ProtocolOptions) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetOverrideStreamErrorOnInvalidHttpMessage()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("OverrideStreamErrorOnInvalidHttpMessage")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOverrideStreamErrorOnInvalidHttpMessage(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetOverrideStreamErrorOnInvalidHttpMessage(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("OverrideStreamErrorOnInvalidHttpMessage")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -164,80 +146,56 @@ func (m *Http2ProtocolOptions) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetMaxConcurrentStreams()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MaxConcurrentStreams")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMaxConcurrentStreams(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMaxConcurrentStreams(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MaxConcurrentStreams")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetInitialStreamWindowSize()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("InitialStreamWindowSize")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetInitialStreamWindowSize(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetInitialStreamWindowSize(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("InitialStreamWindowSize")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetInitialConnectionWindowSize()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("InitialConnectionWindowSize")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetInitialConnectionWindowSize(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetInitialConnectionWindowSize(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("InitialConnectionWindowSize")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetOverrideStreamErrorOnInvalidHttpMessage()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("OverrideStreamErrorOnInvalidHttpMessage")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetOverrideStreamErrorOnInvalidHttpMessage(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetOverrideStreamErrorOnInvalidHttpMessage(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("OverrideStreamErrorOnInvalidHttpMessage")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

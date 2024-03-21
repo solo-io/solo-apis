@@ -143,18 +143,12 @@ func (m *HeaderMutation) Equal(that interface{}) bool {
 	switch m.Action.(type) {
 
 	case *HeaderMutation_Remove:
-		if _, ok := target.Action.(*HeaderMutation_Remove); !ok {
-			return false
-		}
 
 		if strings.Compare(m.GetRemove(), target.GetRemove()) != 0 {
 			return false
 		}
 
 	case *HeaderMutation_Append:
-		if _, ok := target.Action.(*HeaderMutation_Append); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetAppend()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetAppend()) {
@@ -166,11 +160,6 @@ func (m *HeaderMutation) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.Action != target.Action {
-			return false
-		}
 	}
 
 	return true
