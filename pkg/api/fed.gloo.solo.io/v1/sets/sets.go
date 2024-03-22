@@ -159,7 +159,7 @@ func (s *federatedSettingsSet) Map() map[string]*fed_gloo_solo_io_v1.FederatedSe
 	}
 
 	newMap := map[string]*fed_gloo_solo_io_v1.FederatedSettings{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_gloo_solo_io_v1.FederatedSettings)
 	}
 	return newMap
@@ -438,7 +438,7 @@ func (s *federatedUpstreamSet) Map() map[string]*fed_gloo_solo_io_v1.FederatedUp
 	}
 
 	newMap := map[string]*fed_gloo_solo_io_v1.FederatedUpstream{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_gloo_solo_io_v1.FederatedUpstream)
 	}
 	return newMap
@@ -717,7 +717,7 @@ func (s *federatedUpstreamGroupSet) Map() map[string]*fed_gloo_solo_io_v1.Federa
 	}
 
 	newMap := map[string]*fed_gloo_solo_io_v1.FederatedUpstreamGroup{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_gloo_solo_io_v1.FederatedUpstreamGroup)
 	}
 	return newMap

@@ -159,7 +159,7 @@ func (s *gatewaySet) Map() map[string]*gateway_solo_io_v1.Gateway {
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.Gateway{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.Gateway)
 	}
 	return newMap
@@ -438,7 +438,7 @@ func (s *matchableHttpGatewaySet) Map() map[string]*gateway_solo_io_v1.Matchable
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.MatchableHttpGateway{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.MatchableHttpGateway)
 	}
 	return newMap
@@ -717,7 +717,7 @@ func (s *matchableTcpGatewaySet) Map() map[string]*gateway_solo_io_v1.MatchableT
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.MatchableTcpGateway{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.MatchableTcpGateway)
 	}
 	return newMap
@@ -996,7 +996,7 @@ func (s *routeTableSet) Map() map[string]*gateway_solo_io_v1.RouteTable {
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.RouteTable{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.RouteTable)
 	}
 	return newMap
@@ -1275,7 +1275,7 @@ func (s *virtualServiceSet) Map() map[string]*gateway_solo_io_v1.VirtualService 
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.VirtualService{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.VirtualService)
 	}
 	return newMap
@@ -1554,7 +1554,7 @@ func (s *virtualHostOptionSet) Map() map[string]*gateway_solo_io_v1.VirtualHostO
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.VirtualHostOption{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.VirtualHostOption)
 	}
 	return newMap
@@ -1833,7 +1833,7 @@ func (s *routeOptionSet) Map() map[string]*gateway_solo_io_v1.RouteOption {
 	}
 
 	newMap := map[string]*gateway_solo_io_v1.RouteOption{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gateway_solo_io_v1.RouteOption)
 	}
 	return newMap

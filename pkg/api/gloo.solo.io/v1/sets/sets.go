@@ -159,7 +159,7 @@ func (s *settingsSet) Map() map[string]*gloo_solo_io_v1.Settings {
 	}
 
 	newMap := map[string]*gloo_solo_io_v1.Settings{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gloo_solo_io_v1.Settings)
 	}
 	return newMap
@@ -438,7 +438,7 @@ func (s *upstreamSet) Map() map[string]*gloo_solo_io_v1.Upstream {
 	}
 
 	newMap := map[string]*gloo_solo_io_v1.Upstream{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gloo_solo_io_v1.Upstream)
 	}
 	return newMap
@@ -717,7 +717,7 @@ func (s *upstreamGroupSet) Map() map[string]*gloo_solo_io_v1.UpstreamGroup {
 	}
 
 	newMap := map[string]*gloo_solo_io_v1.UpstreamGroup{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gloo_solo_io_v1.UpstreamGroup)
 	}
 	return newMap
@@ -996,7 +996,7 @@ func (s *proxySet) Map() map[string]*gloo_solo_io_v1.Proxy {
 	}
 
 	newMap := map[string]*gloo_solo_io_v1.Proxy{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*gloo_solo_io_v1.Proxy)
 	}
 	return newMap

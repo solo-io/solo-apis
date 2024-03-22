@@ -159,7 +159,7 @@ func (s *graphQLApiSet) Map() map[string]*graphql_gloo_solo_io_v1beta1.GraphQLAp
 	}
 
 	newMap := map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	}
 	return newMap

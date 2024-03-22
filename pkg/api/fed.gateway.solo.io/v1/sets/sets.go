@@ -159,7 +159,7 @@ func (s *federatedGatewaySet) Map() map[string]*fed_gateway_solo_io_v1.Federated
 	}
 
 	newMap := map[string]*fed_gateway_solo_io_v1.FederatedGateway{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedGateway)
 	}
 	return newMap
@@ -438,7 +438,7 @@ func (s *federatedMatchableHttpGatewaySet) Map() map[string]*fed_gateway_solo_io
 	}
 
 	newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
 	}
 	return newMap
@@ -717,7 +717,7 @@ func (s *federatedMatchableTcpGatewaySet) Map() map[string]*fed_gateway_solo_io_
 	}
 
 	newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway)
 	}
 	return newMap
@@ -996,7 +996,7 @@ func (s *federatedRouteTableSet) Map() map[string]*fed_gateway_solo_io_v1.Federa
 	}
 
 	newMap := map[string]*fed_gateway_solo_io_v1.FederatedRouteTable{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedRouteTable)
 	}
 	return newMap
@@ -1275,7 +1275,7 @@ func (s *federatedVirtualServiceSet) Map() map[string]*fed_gateway_solo_io_v1.Fe
 	}
 
 	newMap := map[string]*fed_gateway_solo_io_v1.FederatedVirtualService{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedVirtualService)
 	}
 	return newMap

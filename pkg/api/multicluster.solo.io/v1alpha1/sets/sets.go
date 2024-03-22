@@ -159,7 +159,7 @@ func (s *multiClusterRoleSet) Map() map[string]*multicluster_solo_io_v1alpha1.Mu
 	}
 
 	newMap := map[string]*multicluster_solo_io_v1alpha1.MultiClusterRole{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*multicluster_solo_io_v1alpha1.MultiClusterRole)
 	}
 	return newMap

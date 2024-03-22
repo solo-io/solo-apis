@@ -159,7 +159,7 @@ func (s *authConfigSet) Map() map[string]*enterprise_gloo_solo_io_v1.AuthConfig 
 	}
 
 	newMap := map[string]*enterprise_gloo_solo_io_v1.AuthConfig{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*enterprise_gloo_solo_io_v1.AuthConfig)
 	}
 	return newMap

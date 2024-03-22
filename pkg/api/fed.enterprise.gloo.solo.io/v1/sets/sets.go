@@ -159,7 +159,7 @@ func (s *federatedAuthConfigSet) Map() map[string]*fed_enterprise_gloo_solo_io_v
 	}
 
 	newMap := map[string]*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_enterprise_gloo_solo_io_v1.FederatedAuthConfig)
 	}
 	return newMap

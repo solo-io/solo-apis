@@ -159,7 +159,7 @@ func (s *glooInstanceSet) Map() map[string]*fed_solo_io_v1.GlooInstance {
 	}
 
 	newMap := map[string]*fed_solo_io_v1.GlooInstance{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_solo_io_v1.GlooInstance)
 	}
 	return newMap
@@ -438,7 +438,7 @@ func (s *failoverSchemeSet) Map() map[string]*fed_solo_io_v1.FailoverScheme {
 	}
 
 	newMap := map[string]*fed_solo_io_v1.FailoverScheme{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*fed_solo_io_v1.FailoverScheme)
 	}
 	return newMap

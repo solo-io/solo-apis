@@ -159,7 +159,7 @@ func (s *rateLimitConfigSet) Map() map[string]*ratelimit_solo_io_v1alpha1.RateLi
 	}
 
 	newMap := map[string]*ratelimit_solo_io_v1alpha1.RateLimitConfig{}
-	for k, v := range s.Generic().Map().Map() {
+	for k, v := range s.Generic().Map() {
 		newMap[k] = v.(*ratelimit_solo_io_v1alpha1.RateLimitConfig)
 	}
 	return newMap
