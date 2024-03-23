@@ -351,12 +351,12 @@ func (x *ApiDocReport) GetServingDestinations() []*v2.DestinationReference {
 //	  inlineString: '{ "info": { "title": "Gloo Platform Portal API", "version": "1.0.0", "description": "Review the following reference documentation for the Gloo Platform portal APIs. Use these endpoints to manage user access to both the developer portal and the API resources exposed by the portal." }, "openapi": "3.0.0", "servers": [ { "url": "https://api.gloo-platform-portal.com/v1" } ], "paths": { "/login": { "get": { "description": "Logs user into the developer portal. This is the path that should be used as the callbackPath in the ExtAuthPolicy's OIDC configuration.", "operationId": "login", "security": [ { "identityToken": [ ] } ], "responses": { "200": { "description": "Successfully logged in" } }, "summary": "Logs user into the developer portal", "tags": [ "User" ] } }'
 //	servedBy:
 //	- destinationSelector:
-//	 port:
-//	   number: 8080
-//	 selector:
-//	   cluster: $CLUSTER_NAME
-//	   name: app
-//	   namespace: app
+//	    port:
+//	      number: 8080
+//	    selector:
+//	      cluster: $CLUSTER_NAME
+//	      name: app
+//	      namespace: app
 //
 // ```
 type ApiDocSpec_OpenAPISchema struct {

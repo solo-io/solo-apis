@@ -72,7 +72,15 @@ type KubernetesClusterSpec struct {
 
 	// Optional: The cluster domain suffix this Cluster is configured with. Defaults to 'cluster.local'.
 	ClusterDomain string `protobuf:"bytes,1,opt,name=cluster_domain,json=clusterDomain,proto3" json:"cluster_domain,omitempty"`
-	// Optional: Should we skip waiting for this cluster to warm up.
+	// Optional: Use this `skipWarming` option with the `glooMgmtServer.safeMode` or `glooMgmtServer.safeStartWindow` options.
+	// When `safeMode` is set to true and `skipWarming` is set to false: The Gloo management server halts translation.
+	// Translation does not resume until the agents in each workload cluster connect and send their input snapshot to the management
+	// server to populate the Redis cache. This setting is helpful in multicluster setups. It makes sure that the input snapshots
+	// of all clusters are present in Redis before starting translation. This way, the agents only apply and modify your resources
+	// based on a complete translation context. When `skipWarming` is set to true: The Gloo management server does not wait for
+	// a cluster's input snapshot to be populated in Redis to start translation. This setting can lead to incomplete output snapshots.
+	// However, you might find this setting useful when registering new clusters. Even if a cluster has an initial connectivity issue,
+	// translation can continue for other registered clusters. The default value is false.
 	SkipWarming bool `protobuf:"varint,2,opt,name=skip_warming,json=skipWarming,proto3" json:"skip_warming,omitempty"`
 }
 
