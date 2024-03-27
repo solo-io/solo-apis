@@ -4,9 +4,9 @@
 package v1
 
 import (
-	ibcbcba3d723d592db06b09047ca22d90 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1/types"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/apimachinery/pkg/runtime/schema"
+    ibcbcba3d723d592db06b09047ca22d90 "github.com/solo-io/solo-apis/pkg/api/fed.gloo.solo.io/v1/types"
 )
 
 // +genclient
@@ -16,22 +16,22 @@ import (
 
 // GroupVersionKind for FederatedSettings
 var FederatedSettingsGVK = schema.GroupVersionKind{
-	Group:   "fed.gloo.solo.io",
-	Version: "v1",
-	Kind:    "FederatedSettings",
+    Group: "fed.gloo.solo.io",
+    Version: "v1",
+    Kind: "FederatedSettings",
 }
 
 // FederatedSettings is the Schema for the federatedSettings API
 type FederatedSettings struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ibcbcba3d723d592db06b09047ca22d90.FederatedSettingsSpec   `json:"spec,omitempty"`
-	Status ibcbcba3d723d592db06b09047ca22d90.FederatedSettingsStatus `json:"status,omitempty"`
+    Spec ibcbcba3d723d592db06b09047ca22d90.FederatedSettingsSpec `json:"spec,omitempty"`
+    Status ibcbcba3d723d592db06b09047ca22d90.FederatedSettingsStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedSettings) GVK() schema.GroupVersionKind {
+func (FederatedSettings)  GVK() schema.GroupVersionKind {
 	return FederatedSettingsGVK
 }
 
@@ -39,9 +39,9 @@ func (FederatedSettings) GVK() schema.GroupVersionKind {
 
 // FederatedSettingsList contains a list of FederatedSettings
 type FederatedSettingsList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FederatedSettings `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []FederatedSettings `json:"items"`
 }
 
 // +genclient
@@ -51,22 +51,22 @@ type FederatedSettingsList struct {
 
 // GroupVersionKind for FederatedUpstream
 var FederatedUpstreamGVK = schema.GroupVersionKind{
-	Group:   "fed.gloo.solo.io",
-	Version: "v1",
-	Kind:    "FederatedUpstream",
+    Group: "fed.gloo.solo.io",
+    Version: "v1",
+    Kind: "FederatedUpstream",
 }
 
 // FederatedUpstream is the Schema for the federatedUpstream API
 type FederatedUpstream struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamSpec   `json:"spec,omitempty"`
-	Status ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamStatus `json:"status,omitempty"`
+    Spec ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamSpec `json:"spec,omitempty"`
+    Status ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedUpstream) GVK() schema.GroupVersionKind {
+func (FederatedUpstream)  GVK() schema.GroupVersionKind {
 	return FederatedUpstreamGVK
 }
 
@@ -74,9 +74,9 @@ func (FederatedUpstream) GVK() schema.GroupVersionKind {
 
 // FederatedUpstreamList contains a list of FederatedUpstream
 type FederatedUpstreamList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FederatedUpstream `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []FederatedUpstream `json:"items"`
 }
 
 // +genclient
@@ -86,22 +86,22 @@ type FederatedUpstreamList struct {
 
 // GroupVersionKind for FederatedUpstreamGroup
 var FederatedUpstreamGroupGVK = schema.GroupVersionKind{
-	Group:   "fed.gloo.solo.io",
-	Version: "v1",
-	Kind:    "FederatedUpstreamGroup",
+    Group: "fed.gloo.solo.io",
+    Version: "v1",
+    Kind: "FederatedUpstreamGroup",
 }
 
 // FederatedUpstreamGroup is the Schema for the federatedUpstreamGroup API
 type FederatedUpstreamGroup struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamGroupSpec   `json:"spec,omitempty"`
-	Status ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamGroupStatus `json:"status,omitempty"`
+    Spec ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamGroupSpec `json:"spec,omitempty"`
+    Status ibcbcba3d723d592db06b09047ca22d90.FederatedUpstreamGroupStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (FederatedUpstreamGroup) GVK() schema.GroupVersionKind {
+func (FederatedUpstreamGroup)  GVK() schema.GroupVersionKind {
 	return FederatedUpstreamGroupGVK
 }
 
@@ -109,13 +109,13 @@ func (FederatedUpstreamGroup) GVK() schema.GroupVersionKind {
 
 // FederatedUpstreamGroupList contains a list of FederatedUpstreamGroup
 type FederatedUpstreamGroupList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FederatedUpstreamGroup `json:"items"`
+    metav1.TypeMeta `json:",inline"`
+    metav1.ListMeta `json:"metadata,omitempty"`
+    Items           []FederatedUpstreamGroup `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&FederatedSettings{}, &FederatedSettingsList{})
-	SchemeBuilder.Register(&FederatedUpstream{}, &FederatedUpstreamList{})
-	SchemeBuilder.Register(&FederatedUpstreamGroup{}, &FederatedUpstreamGroupList{})
+    SchemeBuilder.Register(&FederatedSettings{}, &FederatedSettingsList{})
+    SchemeBuilder.Register(&FederatedUpstream{}, &FederatedUpstreamList{})
+    SchemeBuilder.Register(&FederatedUpstreamGroup{}, &FederatedUpstreamGroupList{})
 }

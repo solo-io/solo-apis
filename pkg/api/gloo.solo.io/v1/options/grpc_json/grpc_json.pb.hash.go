@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -47,20 +47,14 @@ func (m *GrpcJsonTranscoder) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetPrintOptions()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("PrintOptions")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPrintOptions(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetPrintOptions(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("PrintOptions")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -111,20 +105,14 @@ func (m *GrpcJsonTranscoder) Hash(hasher hash.Hash64) (uint64, error) {
 	case *GrpcJsonTranscoder_ProtoDescriptorConfigMap:
 
 		if h, ok := interface{}(m.GetProtoDescriptorConfigMap()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("ProtoDescriptorConfigMap")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetProtoDescriptorConfigMap(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetProtoDescriptorConfigMap(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("ProtoDescriptorConfigMap")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -185,20 +173,14 @@ func (m *GrpcJsonTranscoder_DescriptorConfigMap) Hash(hasher hash.Hash64) (uint6
 	}
 
 	if h, ok := interface{}(m.GetConfigMapRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ConfigMapRef")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetConfigMapRef(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetConfigMapRef(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("ConfigMapRef")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

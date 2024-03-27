@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -39,140 +39,98 @@ func (m *HeaderMutationRules) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetAllowAllRouting()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("AllowAllRouting")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetAllowAllRouting(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetAllowAllRouting(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("AllowAllRouting")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetAllowEnvoy()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("AllowEnvoy")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetAllowEnvoy(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetAllowEnvoy(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("AllowEnvoy")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetDisallowSystem()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DisallowSystem")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDisallowSystem(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDisallowSystem(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DisallowSystem")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetDisallowAll()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DisallowAll")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDisallowAll(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDisallowAll(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DisallowAll")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetAllowExpression()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("AllowExpression")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetAllowExpression(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetAllowExpression(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("AllowExpression")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetDisallowExpression()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DisallowExpression")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDisallowExpression(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDisallowExpression(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DisallowExpression")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetDisallowIsError()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("DisallowIsError")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDisallowIsError(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetDisallowIsError(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("DisallowIsError")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -205,20 +163,14 @@ func (m *HeaderMutation) Hash(hasher hash.Hash64) (uint64, error) {
 	case *HeaderMutation_Append:
 
 		if h, ok := interface{}(m.GetAppend()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("Append")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetAppend(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetAppend(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("Append")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}

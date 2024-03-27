@@ -247,9 +247,6 @@ func (m *RouteSettings) Equal(that interface{}) bool {
 	switch m.Override.(type) {
 
 	case *RouteSettings_Disabled:
-		if _, ok := target.Override.(*RouteSettings_Disabled); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetDisabled()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetDisabled()) {
@@ -262,9 +259,6 @@ func (m *RouteSettings) Equal(that interface{}) bool {
 		}
 
 	case *RouteSettings_Overrides:
-		if _, ok := target.Override.(*RouteSettings_Overrides); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetOverrides()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetOverrides()) {
@@ -276,11 +270,6 @@ func (m *RouteSettings) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.Override != target.Override {
-			return false
-		}
 	}
 
 	return true

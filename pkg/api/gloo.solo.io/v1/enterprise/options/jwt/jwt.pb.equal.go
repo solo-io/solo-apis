@@ -300,9 +300,6 @@ func (m *Jwks) Equal(that interface{}) bool {
 	switch m.Jwks.(type) {
 
 	case *Jwks_Remote:
-		if _, ok := target.Jwks.(*Jwks_Remote); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetRemote()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetRemote()) {
@@ -315,9 +312,6 @@ func (m *Jwks) Equal(that interface{}) bool {
 		}
 
 	case *Jwks_Local:
-		if _, ok := target.Jwks.(*Jwks_Local); !ok {
-			return false
-		}
 
 		if h, ok := interface{}(m.GetLocal()).(equality.Equalizer); ok {
 			if !h.Equal(target.GetLocal()) {
@@ -329,11 +323,6 @@ func (m *Jwks) Equal(that interface{}) bool {
 			}
 		}
 
-	default:
-		// m is nil but target is not nil
-		if m.Jwks != target.Jwks {
-			return false
-		}
 	}
 
 	return true

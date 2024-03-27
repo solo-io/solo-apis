@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -39,40 +39,28 @@ func (m *Gzip) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetMemoryLevel()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("MemoryLevel")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMemoryLevel(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetMemoryLevel(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("MemoryLevel")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
 	}
 
 	if h, ok := interface{}(m.GetContentLength()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ContentLength")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetContentLength(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetContentLength(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("ContentLength")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -107,20 +95,14 @@ func (m *Gzip) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetWindowBits()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("WindowBits")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetWindowBits(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetWindowBits(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("WindowBits")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}

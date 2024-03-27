@@ -10,8 +10,8 @@ import (
 	"hash"
 	"hash/fnv"
 
+	"github.com/mitchellh/hashstructure"
 	safe_hasher "github.com/solo-io/protoc-gen-ext/pkg/hasher"
-	"github.com/solo-io/protoc-gen-ext/pkg/hasher/hashstructure"
 )
 
 // ensure the imports are used
@@ -39,20 +39,14 @@ func (m *OpenCensusConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	}
 
 	if h, ok := interface{}(m.GetTraceConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("TraceConfig")); err != nil {
-			return 0, err
-		}
 		if _, err = h.Hash(hasher); err != nil {
 			return 0, err
 		}
 	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTraceConfig(), nil); err != nil {
+		if val, err := hashstructure.Hash(m.GetTraceConfig(), nil); err != nil {
 			return 0, err
 		} else {
-			if _, err = hasher.Write([]byte("TraceConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+			if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 				return 0, err
 			}
 		}
@@ -92,20 +86,14 @@ func (m *OpenCensusConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	case *OpenCensusConfig_GrpcAddress:
 
 		if h, ok := interface{}(m.GetGrpcAddress()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("GrpcAddress")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetGrpcAddress(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetGrpcAddress(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("GrpcAddress")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -154,20 +142,14 @@ func (m *TraceConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	case *TraceConfig_ProbabilitySampler:
 
 		if h, ok := interface{}(m.GetProbabilitySampler()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("ProbabilitySampler")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetProbabilitySampler(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetProbabilitySampler(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("ProbabilitySampler")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -176,20 +158,14 @@ func (m *TraceConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	case *TraceConfig_ConstantSampler:
 
 		if h, ok := interface{}(m.GetConstantSampler()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("ConstantSampler")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetConstantSampler(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetConstantSampler(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("ConstantSampler")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
@@ -198,20 +174,14 @@ func (m *TraceConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	case *TraceConfig_RateLimitingSampler:
 
 		if h, ok := interface{}(m.GetRateLimitingSampler()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("RateLimitingSampler")); err != nil {
-				return 0, err
-			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetRateLimitingSampler(), nil); err != nil {
+			if val, err := hashstructure.Hash(m.GetRateLimitingSampler(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("RateLimitingSampler")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				if err := binary.Write(hasher, binary.LittleEndian, val); err != nil {
 					return 0, err
 				}
 			}
