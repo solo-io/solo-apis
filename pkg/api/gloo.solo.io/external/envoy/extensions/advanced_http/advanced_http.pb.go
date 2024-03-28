@@ -7,6 +7,9 @@
 package advanced_http
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	proto "github.com/golang/protobuf/proto"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -14,8 +17,6 @@ import (
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/udpa/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -79,14 +80,14 @@ func (HealthCheckResult) EnumDescriptor() ([]byte, []int) {
 }
 
 // Same as envoy's default HTTP health checker, but with some additions:
-// - allows a custom path and method on the health check request per endpoint.
-//   The http path to use can be overridden using endpoint metadata. The endpoint-specific
-//   path should be in the "io.solo.health_checkers.advanced_http" namespace, under a string
-//   value named "path". The same can be done for the method by setting a string value
-//   named "method".
-// - allows for health check responses to leverage the response body rather than just
-//   the http status code returned. The response body can be parsed as json and complex
-//   assertions can be made on fields parsed from the json or plaintext response body.
+//   - allows a custom path and method on the health check request per endpoint.
+//     The http path to use can be overridden using endpoint metadata. The endpoint-specific
+//     path should be in the "io.solo.health_checkers.advanced_http" namespace, under a string
+//     value named "path". The same can be done for the method by setting a string value
+//     named "method".
+//   - allows for health check responses to leverage the response body rather than just
+//     the http status code returned. The response body can be parsed as json and complex
+//     assertions can be made on fields parsed from the json or plaintext response body.
 type AdvancedHttp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

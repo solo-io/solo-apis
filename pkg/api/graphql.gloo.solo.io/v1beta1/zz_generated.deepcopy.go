@@ -5,66 +5,65 @@
 package v1beta1
 
 import (
-    runtime "k8s.io/apimachinery/pkg/runtime"
+	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
 // Generated Deepcopy methods for GraphQLApi
 
 func (in *GraphQLApi) DeepCopyInto(out *GraphQLApi) {
-    out.TypeMeta = in.TypeMeta
-    in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 
-    // deepcopy spec
-    in.Spec.DeepCopyInto(&out.Spec)
-    // deepcopy status
-    in.Status.DeepCopyInto(&out.Status)
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
 
-    return
+	return
 }
 
 func (in *GraphQLApi) DeepCopy() *GraphQLApi {
-    if in == nil {
-        return nil
-    }
-    out := new(GraphQLApi)
-    in.DeepCopyInto(out)
-    return out
+	if in == nil {
+		return nil
+	}
+	out := new(GraphQLApi)
+	in.DeepCopyInto(out)
+	return out
 }
 
 func (in *GraphQLApi) DeepCopyObject() runtime.Object {
-    if c := in.DeepCopy(); c != nil {
-        return c
-    }
-    return nil
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
 }
 
 func (in *GraphQLApiList) DeepCopyInto(out *GraphQLApiList) {
-    *out = *in
-    out.TypeMeta = in.TypeMeta
-    in.ListMeta.DeepCopyInto(&out.ListMeta)
-    if in.Items != nil {
-        in, out := &in.Items, &out.Items
-        *out = make([]GraphQLApi, len(*in))
-        for i := range *in {
-            (*in)[i].DeepCopyInto(&(*out)[i])
-        }
-    }
-    return
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]GraphQLApi, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
 }
 
 func (in *GraphQLApiList) DeepCopy() *GraphQLApiList {
-    if in == nil {
-        return nil
-    }
-    out := new(GraphQLApiList)
-    in.DeepCopyInto(out)
-    return out
+	if in == nil {
+		return nil
+	}
+	out := new(GraphQLApiList)
+	in.DeepCopyInto(out)
+	return out
 }
 
 func (in *GraphQLApiList) DeepCopyObject() runtime.Object {
-    if c := in.DeepCopy(); c != nil {
-        return c
-    }
-    return nil
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
 }
-

@@ -7,6 +7,9 @@
 package v1
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	proto "github.com/golang/protobuf/proto"
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
@@ -19,8 +22,6 @@ import (
 	core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -92,9 +93,8 @@ func (GatewayStatus_State) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_gateway_proto_rawDescGZIP(), []int{7, 0}
 }
 
-//
-//A Gateway describes a single Listener (bind address:port)
-//and the routing configuration to upstreams that are reachable via a specific port on the Gateway Proxy itself.
+// A Gateway describes a single Listener (bind address:port)
+// and the routing configuration to upstreams that are reachable via a specific port on the Gateway Proxy itself.
 type GatewaySpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

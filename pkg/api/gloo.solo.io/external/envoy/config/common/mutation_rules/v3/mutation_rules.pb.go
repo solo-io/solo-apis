@@ -11,6 +11,9 @@
 package v3
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	proto "github.com/golang/protobuf/proto"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
@@ -20,8 +23,6 @@ import (
 	_ "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/udpa/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -44,22 +45,22 @@ const _ = proto.ProtoPackageIsVersion4
 // denoted by an x-envoy prefix) or specific headers that may affect
 // further filter processing:
 //
-// * ``host``
-// * ``:authority``
-// * ``:scheme``
-// * ``:method``
+// * “host“
+// * “:authority“
+// * “:scheme“
+// * “:method“
 //
 // Every attempt to add, change, append, or remove a header will be
 // tested against the rules here. Disallowed header mutations will be
-// ignored unless ``disallow_is_error`` is set to true.
+// ignored unless “disallow_is_error“ is set to true.
 //
 // Attempts to remove headers are further constrained -- regardless of the
-// settings, system-defined headers (that start with ``:``) and the ``host``
+// settings, system-defined headers (that start with “:“) and the “host“
 // header may never be removed.
 //
 // In addition, a counter will be incremented whenever a mutation is
 // rejected. In the ext_proc filter, that counter is named
-// ``rejected_header_mutations``.
+// “rejected_header_mutations“.
 // [#next-free-field: 8]
 type HeaderMutationRules struct {
 	state         protoimpl.MessageState

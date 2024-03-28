@@ -7,6 +7,9 @@
 package v1
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	proto "github.com/golang/protobuf/proto"
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
@@ -15,8 +18,6 @@ import (
 	_ "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -88,12 +89,11 @@ func (MatchableTcpGatewayStatus_State) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_matchable_tcp_gateway_proto_rawDescGZIP(), []int{1, 0}
 }
 
+// A MatchableTcpGateway describes a single FilterChain configured with the TcpProxy network filter and a matcher.
 //
-//A MatchableTcpGateway describes a single FilterChain configured with the TcpProxy network filter and a matcher.
-//
-//A Gateway CR may select one or more MatchableTcpGateways on a single listener.
-//This enables separate teams to own Listener configuration (Gateway CR)
-//and FilterChain configuration (MatchableTcpGateway CR).
+// A Gateway CR may select one or more MatchableTcpGateways on a single listener.
+// This enables separate teams to own Listener configuration (Gateway CR)
+// and FilterChain configuration (MatchableTcpGateway CR).
 type MatchableTcpGatewaySpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

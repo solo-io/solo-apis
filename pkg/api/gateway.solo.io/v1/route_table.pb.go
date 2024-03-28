@@ -7,6 +7,9 @@
 package v1
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	proto "github.com/golang/protobuf/proto"
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
@@ -14,8 +17,6 @@ import (
 	_ "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -87,8 +88,6 @@ func (RouteTableStatus_State) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_route_table_proto_rawDescGZIP(), []int{1, 0}
 }
 
-//
-//
 // The **RouteTable** is a child routing object for the Gloo Gateway.
 //
 // A **RouteTable** gets built into the complete routing configuration when it is referenced by a `delegateAction`,
@@ -122,32 +121,35 @@ func (RouteTableStatus_State) EnumDescriptor() ([]byte, []int) {
 //
 // *would* be valid.
 //
-//
 // A complete configuration might look as follows:
 //
 // ```yaml
 // apiVersion: gateway.solo.io/v1
 // kind: VirtualService
 // metadata:
-//   name: 'any'
-//   namespace: 'any'
+//
+//	name: 'any'
+//	namespace: 'any'
+//
 // spec:
-//   virtualHost:
-//     domains:
-//     - 'any.com'
-//     routes:
-//     - matchers:
-//       - prefix: '/a' # delegate ownership of routes for `any.com/a`
-//       delegateAction:
-//         ref:
-//           name: 'a-routes'
-//           namespace: 'a'
-//     - matchers:
-//       - prefix: '/b' # delegate ownership of routes for `any.com/b`
-//       delegateAction:
-//         ref:
-//           name: 'b-routes'
-//           namespace: 'b'
+//
+//	virtualHost:
+//	  domains:
+//	  - 'any.com'
+//	  routes:
+//	  - matchers:
+//	    - prefix: '/a' # delegate ownership of routes for `any.com/a`
+//	    delegateAction:
+//	      ref:
+//	        name: 'a-routes'
+//	        namespace: 'a'
+//	  - matchers:
+//	    - prefix: '/b' # delegate ownership of routes for `any.com/b`
+//	    delegateAction:
+//	      ref:
+//	        name: 'b-routes'
+//	        namespace: 'b'
+//
 // ```
 //
 // * A root-level **VirtualService** which delegates routing to to the `a-routes` and `b-routes` **RouteTables**.
@@ -157,24 +159,28 @@ func (RouteTableStatus_State) EnumDescriptor() ([]byte, []int) {
 // apiVersion: gateway.solo.io/v1
 // kind: RouteTable
 // metadata:
-//   name: 'a-routes'
-//   namespace: 'a'
-// spec:
-//   routes:
-//     - matchers:
-//       # the path matchers in this RouteTable must begin with the prefix `/a/`
-//       - prefix: '/a/1'
-//       routeAction:
-//         single:
-//           upstream:
-//             name: 'foo-upstream'
 //
-//     - matchers:
-//       - prefix: '/a/2'
-//       routeAction:
-//         single:
-//           upstream:
-//             name: 'bar-upstream'
+//	name: 'a-routes'
+//	namespace: 'a'
+//
+// spec:
+//
+//	routes:
+//	  - matchers:
+//	    # the path matchers in this RouteTable must begin with the prefix `/a/`
+//	    - prefix: '/a/1'
+//	    routeAction:
+//	      single:
+//	        upstream:
+//	          name: 'foo-upstream'
+//
+//	  - matchers:
+//	    - prefix: '/a/2'
+//	    routeAction:
+//	      single:
+//	        upstream:
+//	          name: 'bar-upstream'
+//
 // ```
 //
 // * A **RouteTable** which defines two routes.
@@ -183,48 +189,53 @@ func (RouteTableStatus_State) EnumDescriptor() ([]byte, []int) {
 // apiVersion: gateway.solo.io/v1
 // kind: RouteTable
 // metadata:
-//   name: 'b-routes'
-//   namespace: 'b'
+//
+//	name: 'b-routes'
+//	namespace: 'b'
+//
 // spec:
-//   routes:
-//     - matchers:
-//       # the path matchers in this RouteTable must begin with the prefix `/b/`
-//       - regex: '/b/3'
-//       routeAction:
-//         single:
-//           upstream:
-//             name: 'bar-upstream'
-//     - matchers:
-//       - prefix: '/b/c/'
-//       # routes in the RouteTable can perform any action, including a delegateAction
-//       delegateAction:
-//         ref:
-//           name: 'c-routes'
-//           namespace: 'c'
+//
+//	routes:
+//	  - matchers:
+//	    # the path matchers in this RouteTable must begin with the prefix `/b/`
+//	    - regex: '/b/3'
+//	    routeAction:
+//	      single:
+//	        upstream:
+//	          name: 'bar-upstream'
+//	  - matchers:
+//	    - prefix: '/b/c/'
+//	    # routes in the RouteTable can perform any action, including a delegateAction
+//	    delegateAction:
+//	      ref:
+//	        name: 'c-routes'
+//	        namespace: 'c'
 //
 // ```
 //
 // * A **RouteTable** which both *defines a route* and *delegates to* another **RouteTable**.
 //
-//
 // ```yaml
 // apiVersion: gateway.solo.io/v1
 // kind: RouteTable
 // metadata:
-//   name: 'c-routes'
-//   namespace: 'c'
+//
+//	name: 'c-routes'
+//	namespace: 'c'
+//
 // spec:
-//   routes:
-//     - matchers:
-//       - exact: '/b/c/4'
-//       routeAction:
-//         single:
-//           upstream:
-//             name: 'qux-upstream'
+//
+//	routes:
+//	  - matchers:
+//	    - exact: '/b/c/4'
+//	    routeAction:
+//	      single:
+//	        upstream:
+//	          name: 'qux-upstream'
+//
 // ```
 //
 // * A RouteTable which is a child of another route table.
-//
 //
 // Would produce the following route config for `mydomain.com`:
 //
@@ -234,7 +245,6 @@ func (RouteTableStatus_State) EnumDescriptor() ([]byte, []int) {
 // /b/3 -> baz-upstream
 // /b/c/4 -> qux-upstream
 // ```
-//
 type RouteTableSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

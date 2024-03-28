@@ -7,13 +7,14 @@
 package v1alpha1
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	proto "github.com/golang/protobuf/proto"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -377,10 +378,11 @@ func (x *RateLimitConfigNamespacedStatuses) GetStatuses() map[string]*RateLimitC
 //   - key: <rule key: required>
 //     value: <rule value: optional>
 //     rate_limit: (optional block)
-//       unit: <see below: required>
-//       requests_per_unit: <see below: required>
+//     unit: <see below: required>
+//     requests_per_unit: <see below: required>
 //     descriptors: (optional block)
-//       - ... (nested repetition of above)
+//   - ... (nested repetition of above)
+//
 // ```
 //
 // Each descriptor in a descriptor list must have a key. It can also optionally have a value to enable
@@ -505,15 +507,16 @@ func (x *Descriptor) GetAlwaysApply() bool {
 //
 // ```
 // set_descriptors:
-//  - simple_descriptors: (optional block)
-//      - key: <rule key: required>
-//        value: <rule value: optional>
-//      - ... (repetition of above)
-//    rate_limit:
-//      requests_per_unit: <see below: required>
-//      unit: <see below: required>
-//    always_apply: <bool value: optional>
-//  - ... (repetition of above)
+//   - simple_descriptors: (optional block)
+//   - key: <rule key: required>
+//     value: <rule value: optional>
+//   - ... (repetition of above)
+//     rate_limit:
+//     requests_per_unit: <see below: required>
+//     unit: <see below: required>
+//     always_apply: <bool value: optional>
+//   - ... (repetition of above)
+//
 // ```
 //
 // Each SetDescriptor defines a new Rate Limit "rule". When a request comes in, rate limit
@@ -604,10 +607,12 @@ func (x *SetDescriptor) GetAlwaysApply() bool {
 // The format is:
 //
 // ```
-//  simple_descriptors:
-//    - key: <rule key: required>
-//      value: <rule value: optional>
-//    - ... (repetition of above)
+//
+//	simple_descriptors:
+//	  - key: <rule key: required>
+//	    value: <rule value: optional>
+//	  - ... (repetition of above)
+//
 // ```
 //
 // Each simpleDescriptor in a simpleDescriptor list must have a key. It can also optionally have a value to enable
@@ -675,37 +680,39 @@ func (x *SimpleDescriptor) GetValue() string {
 // Order matters on provided actions but not on setActions, e.g. the following actions:
 // - actions:
 //   - requestHeaders:
-//      descriptorKey: account_id
-//      headerName: x-account-id
+//     descriptorKey: account_id
+//     headerName: x-account-id
 //   - requestHeaders:
-//      descriptorKey: plan
-//      headerName: x-plan
+//     descriptorKey: plan
+//     headerName: x-plan
+//
 // define an ordered descriptor tuple like so: ('account_id', '<x-account-id value>'), ('plan', '<x-plan value>')
 //
 // While the current form matches, the same tuple in reverse order would not match the following descriptor:
 //
 // descriptors:
-// - key: account_id
-//   descriptors:
+//   - key: account_id
+//     descriptors:
 //   - key: plan
 //     value: BASIC
 //     rateLimit:
-//       requestsPerUnit: 1
-//       unit: MINUTE
-//  - key: plan
-//    value: PLUS
-//    rateLimit:
-//      requestsPerUnit: 20
-//      unit: MINUTE
+//     requestsPerUnit: 1
+//     unit: MINUTE
+//   - key: plan
+//     value: PLUS
+//     rateLimit:
+//     requestsPerUnit: 20
+//     unit: MINUTE
 //
 // Similarly, the following setActions:
 // - setActions:
 //   - requestHeaders:
-//      descriptorKey: account_id
-//      headerName: x-account-id
+//     descriptorKey: account_id
+//     headerName: x-account-id
 //   - requestHeaders:
-//      descriptorKey: plan
-//      headerName: x-plan
+//     descriptorKey: plan
+//     headerName: x-plan
+//
 // define an unordered descriptor set like so: {('account_id', '<x-account-id value>'), ('plan', '<x-plan value>')}
 //
 // This set would match the following setDescriptor:
@@ -715,26 +722,26 @@ func (x *SimpleDescriptor) GetValue() string {
 //   - key: plan
 //     value: BASIC
 //   - key: account_id
-//  rateLimit:
-//    requestsPerUnit: 20
-//    unit: MINUTE
+//     rateLimit:
+//     requestsPerUnit: 20
+//     unit: MINUTE
 //
 // It would also match the following setDescriptor which includes only a subset of the setActions enumerated:
 //
 // setDescriptors:
 // - simpleDescriptors:
 //   - key: account_id
-//  rateLimit:
-//    requestsPerUnit: 20
-//    unit: MINUTE
+//     rateLimit:
+//     requestsPerUnit: 20
+//     unit: MINUTE
 //
 // It would even match the following setDescriptor.
 // Any setActions list would match this setDescriptor which has simpleDescriptors omitted entirely:
 //
 // setDescriptors:
-// - rateLimit:
-//    requestsPerUnit: 20
-//    unit: MINUTE
+//   - rateLimit:
+//     requestsPerUnit: 20
+//     unit: MINUTE
 type RateLimitActions struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1015,7 +1022,8 @@ func (*Action_HeaderValueMatch_) isAction_ActionSpecifier() {}
 func (*Action_Metadata) isAction_ActionSpecifier() {}
 
 // The following descriptor entry is appended when the metadata contains a key value:
-//   ("<descriptor_key>", "<value_queried_from_metadata>")
+//
+//	("<descriptor_key>", "<value_queried_from_metadata>")
 type MetaData struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1237,7 +1245,9 @@ func (x *RateLimitConfigSpec_Raw) GetSetDescriptors() []*SetDescriptor {
 // The following descriptor entry is appended to the descriptor:
 //
 // ```
-//   ("source_cluster", "<local service cluster>")
+//
+//	("source_cluster", "<local service cluster>")
+//
 // ```
 //
 // <local service cluster> is derived from the :option:`--service-cluster` option.
@@ -1282,19 +1292,21 @@ func (*Action_SourceCluster) Descriptor() ([]byte, []int) {
 // The following descriptor entry is appended to the descriptor:
 //
 // ```
-//   ("destination_cluster", "<routed target cluster>")
+//
+//	("destination_cluster", "<routed target cluster>")
+//
 // ```
 //
 // Once a request matches against a route table rule, a routed cluster is determined by one of
 // the following `route table configuration (envoy_api_msg_RouteConfiguration)`
 // settings:
 //
-// * `cluster (envoy_api_field_route.RouteAction.cluster)` indicates the upstream cluster
-//   to route to.
-// * `weighted_clusters (envoy_api_field_route.RouteAction.weighted_clusters)`
-//   chooses a cluster randomly from a set of clusters with attributed weight.
-// * `cluster_header (envoy_api_field_route.RouteAction.cluster_header)` indicates which
-//   header in the request contains the target cluster.
+//   - `cluster (envoy_api_field_route.RouteAction.cluster)` indicates the upstream cluster
+//     to route to.
+//   - `weighted_clusters (envoy_api_field_route.RouteAction.weighted_clusters)`
+//     chooses a cluster randomly from a set of clusters with attributed weight.
+//   - `cluster_header (envoy_api_field_route.RouteAction.cluster_header)` indicates which
+//     header in the request contains the target cluster.
 type Action_DestinationCluster struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1337,7 +1349,9 @@ func (*Action_DestinationCluster) Descriptor() ([]byte, []int) {
 // *header_name*:
 //
 // ```
-//   ("<descriptor_key>", "<header_value_queried_from_header>")
+//
+//	("<descriptor_key>", "<header_value_queried_from_header>")
+//
 // ```
 type Action_RequestHeaders struct {
 	state         protoimpl.MessageState
@@ -1402,7 +1416,9 @@ func (x *Action_RequestHeaders) GetDescriptorKey() string {
 // trusted address from `x-forwarded-for (config_http_conn_man_headers_x-forwarded-for)`:
 //
 // ```
-//   ("remote_address", "<trusted address from x-forwarded-for>")
+//
+//	("remote_address", "<trusted address from x-forwarded-for>")
+//
 // ```
 type Action_RemoteAddress struct {
 	state         protoimpl.MessageState
@@ -1445,7 +1461,9 @@ func (*Action_RemoteAddress) Descriptor() ([]byte, []int) {
 // The following descriptor entry is appended to the descriptor:
 //
 // ```
-//   ("generic_key", "<descriptor_value>")
+//
+//	("generic_key", "<descriptor_value>")
+//
 // ```
 type Action_GenericKey struct {
 	state         protoimpl.MessageState
@@ -1498,7 +1516,9 @@ func (x *Action_GenericKey) GetDescriptorValue() string {
 // The following descriptor entry is appended to the descriptor:
 //
 // ```
-//   ("header_match", "<descriptor_value>")
+//
+//	("header_match", "<descriptor_value>")
+//
 // ```
 type Action_HeaderValueMatch struct {
 	state         protoimpl.MessageState
@@ -1842,11 +1862,13 @@ func (x *Action_HeaderValueMatch_HeaderMatcher_Int64Range) GetEnd() int64 {
 //
 // ```yaml
 // filter_metadata:
-//   envoy.xxx:
-//     prop:
-//       foo: bar
-//       xyz:
-//         hello: envoy
+//
+//	envoy.xxx:
+//	  prop:
+//	    foo: bar
+//	    xyz:
+//	      hello: envoy
+//
 // ```
 //
 // The following MetadataKey will retrieve a string value "bar" from the Metadata.
@@ -1857,7 +1879,6 @@ func (x *Action_HeaderValueMatch_HeaderMatcher_Int64Range) GetEnd() int64 {
 // - key: prop
 // - key: foo
 // ```
-//
 type MetaData_MetadataKey struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

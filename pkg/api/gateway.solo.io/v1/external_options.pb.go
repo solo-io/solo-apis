@@ -7,6 +7,9 @@
 package v1
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	proto "github.com/golang/protobuf/proto"
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	_ "github.com/golang/protobuf/ptypes/wrappers"
@@ -15,8 +18,6 @@ import (
 	_ "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -146,7 +147,6 @@ func (RouteOptionStatus_State) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_external_options_proto_rawDescGZIP(), []int{4, 0}
 }
 
-//
 // The **VirtualHostOption** holds `options` configuration for a VirtualHost.
 // VirtualHosts can inherit `options` config from `VirtualHostOption` objects by delegating to them.
 //
@@ -160,87 +160,101 @@ func (RouteOptionStatus_State) EnumDescriptor() ([]byte, []int) {
 // apiVersion: gateway.solo.io/v1
 // kind: VirtualService
 // metadata:
-//   name: http
-//   namespace: gloo-system
+//
+//	name: http
+//	namespace: gloo-system
+//
 // spec:
-//   virtualHost:
-//     domains:
-//     - '*'
-//     options:
-//       headerManipulation:
-//         requestHeadersToRemove: ["header-from-vhost"]
-//     optionsConfigRefs:
-//       delegateOptions:
-//         - name: virtualhost-external-options-1
-//           namespace: opt-namespace
-//         - name: virtualhost-external-options-2
-//           namespace: opt-namespace
+//
+//	virtualHost:
+//	  domains:
+//	  - '*'
+//	  options:
+//	    headerManipulation:
+//	      requestHeadersToRemove: ["header-from-vhost"]
+//	  optionsConfigRefs:
+//	    delegateOptions:
+//	      - name: virtualhost-external-options-1
+//	        namespace: opt-namespace
+//	      - name: virtualhost-external-options-2
+//	        namespace: opt-namespace
+//
 // ```
 //
 // ```yaml
 // apiVersion: gateway.solo.io/v1
 // kind: VirtualHostOption
 // metadata:
-//   name: virtualhost-external-options-1
-//   namespace: opt-namespace
+//
+//	name: virtualhost-external-options-1
+//	namespace: opt-namespace
+//
 // spec:
-//   options:
-//     headerManipulation:
-//       requestHeadersToRemove: ["header-from-external-options1"]
-//     cors:
-//       exposeHeaders:
-//         - header-from-extopt1
-//       allowOrigin:
-//         - 'https://solo.io'
+//
+//	options:
+//	  headerManipulation:
+//	    requestHeadersToRemove: ["header-from-external-options1"]
+//	  cors:
+//	    exposeHeaders:
+//	      - header-from-extopt1
+//	    allowOrigin:
+//	      - 'https://solo.io'
+//
 // ```
 //
 // ```yaml
 // apiVersion: gateway.solo.io/v1
 // kind: VirtualHostOption
 // metadata:
-//   name: virtualhost-external-options-2
-//   namespace: opt-namespace
+//
+//	name: virtualhost-external-options-2
+//	namespace: opt-namespace
+//
 // spec:
-//   options:
-//     headerManipulation:
-//       requestHeadersToRemove: ["header-from-external-options2"]
-//     cors:
-//       exposeHeaders:
-//         - header-from-extopt2
-//       maxAge: 2s
-//       allowOrigin:
-//         - 'https://solo.io'
-//     transformations:
-//       requestTransformation:
-//         transformationTemplate:
-//           headers:
-//             x-header-added-in-opt2:
-//               text: this header was added in the VirtualHostOption object - #2
+//
+//	options:
+//	  headerManipulation:
+//	    requestHeadersToRemove: ["header-from-external-options2"]
+//	  cors:
+//	    exposeHeaders:
+//	      - header-from-extopt2
+//	    maxAge: 2s
+//	    allowOrigin:
+//	      - 'https://solo.io'
+//	  transformations:
+//	    requestTransformation:
+//	      transformationTemplate:
+//	        headers:
+//	          x-header-added-in-opt2:
+//	            text: this header was added in the VirtualHostOption object - #2
+//
 // ```
 //
 // The final virtual host options (visible in the Proxy CR) would be:
 // ```yaml
 // spec:
-//   virtualHost:
-//     domains:
-//     - '*'
-//     options:
-//       # from Virtual host options
-//       headerManipulation:
-//         requestHeadersToRemove: ["header-from-vhost"]
-//       # from delegated virtualhost-external-options-1
-//       cors:
-//         exposeHeaders:
-//           - header-from-extopt1
-//         allowOrigin:
-//           - 'https://solo.io'
-//       # from delegated virtualhost-external-options-2
-//       transformations:
-//         requestTransformation:
-//           transformationTemplate:
-//             headers:
-//               x-header-added-in-opt2:
-//                 text: this header was added in the VirtualHostOption object - #2
+//
+//	virtualHost:
+//	  domains:
+//	  - '*'
+//	  options:
+//	    # from Virtual host options
+//	    headerManipulation:
+//	      requestHeadersToRemove: ["header-from-vhost"]
+//	    # from delegated virtualhost-external-options-1
+//	    cors:
+//	      exposeHeaders:
+//	        - header-from-extopt1
+//	      allowOrigin:
+//	        - 'https://solo.io'
+//	    # from delegated virtualhost-external-options-2
+//	    transformations:
+//	      requestTransformation:
+//	        transformationTemplate:
+//	          headers:
+//	            x-header-added-in-opt2:
+//	              text: this header was added in the VirtualHostOption object - #2
+//
 // ```
 //
 // Notice how the order of VirtualHostOption delegations matters, and that the VirtualHost-level config overrides all delegated configs.
@@ -292,7 +306,6 @@ func (x *VirtualHostOptionSpec) GetOptions() *v1.VirtualHostOptions {
 	return nil
 }
 
-//
 // The **RouteOption** holds `options` configuration for a Route.
 // Routes can inherit `options` config from `RouteOption` objects by delegating to them.
 //
@@ -306,89 +319,102 @@ func (x *VirtualHostOptionSpec) GetOptions() *v1.VirtualHostOptions {
 // apiVersion: gateway.solo.io/v1
 // kind: VirtualService
 // metadata:
-//   name: http
-//   namespace: gloo-system
+//
+//	name: http
+//	namespace: gloo-system
+//
 // spec:
-//   virtualHost:
-//     domains:
-//     - '*'
-//     routes:
-//     - matchers:
-//       - prefix: /
-//       options:
-//         headerManipulation:
-//           requestHeadersToRemove: ["header-from-route"]
-//       optionsConfigRefs:
-//         delegateOptions:
-//           - name: route-external-options-1
-//             namespace: opt-namespace
-//           - name: route-external-options-2
-//             namespace: opt-namespace
+//
+//	virtualHost:
+//	  domains:
+//	  - '*'
+//	  routes:
+//	  - matchers:
+//	    - prefix: /
+//	    options:
+//	      headerManipulation:
+//	        requestHeadersToRemove: ["header-from-route"]
+//	    optionsConfigRefs:
+//	      delegateOptions:
+//	        - name: route-external-options-1
+//	          namespace: opt-namespace
+//	        - name: route-external-options-2
+//	          namespace: opt-namespace
+//
 // ```
 //
 // ```yaml
 // apiVersion: gateway.solo.io/v1
 // kind: RouteOption
 // metadata:
-//   name: route-external-options-1
-//   namespace: opt-namespace
+//
+//	name: route-external-options-1
+//	namespace: opt-namespace
+//
 // spec:
-//   options:
-//     headerManipulation:
-//       requestHeadersToRemove: ["header-from-external-options1"]
-//     cors:
-//       exposeHeaders:
-//         - header-from-extopt1
-//       allowOrigin:
-//         - 'https://solo.io'
+//
+//	options:
+//	  headerManipulation:
+//	    requestHeadersToRemove: ["header-from-external-options1"]
+//	  cors:
+//	    exposeHeaders:
+//	      - header-from-extopt1
+//	    allowOrigin:
+//	      - 'https://solo.io'
+//
 // ```
 //
 // ```yaml
 // apiVersion: gateway.solo.io/v1
 // kind: RouteOption
 // metadata:
-//   name: route-external-options-2
-//   namespace: opt-namespace
+//
+//	name: route-external-options-2
+//	namespace: opt-namespace
+//
 // spec:
-//   options:
-//     headerManipulation:
-//       requestHeadersToRemove: ["header-from-external-options2"]
-//     cors:
-//       exposeHeaders:
-//         - header-from-extopt2
-//       maxAge: 2s
-//       allowOrigin:
-//         - 'https://solo.io'
-//     transformations:
-//       requestTransformation:
-//         transformationTemplate:
-//           headers:
-//             x-header-added-in-opt2:
-//               text: this header was added in the RouteOption object - #2
+//
+//	options:
+//	  headerManipulation:
+//	    requestHeadersToRemove: ["header-from-external-options2"]
+//	  cors:
+//	    exposeHeaders:
+//	      - header-from-extopt2
+//	    maxAge: 2s
+//	    allowOrigin:
+//	      - 'https://solo.io'
+//	  transformations:
+//	    requestTransformation:
+//	      transformationTemplate:
+//	        headers:
+//	          x-header-added-in-opt2:
+//	            text: this header was added in the RouteOption object - #2
+//
 // ```
 //
 // The final route options would bewould be:
 // ```yaml
 // routes:
 //   - matchers:
-//     - prefix: /
+//   - prefix: /
 //     options:
-//       # from Route options
-//       headerManipulation:
-//         requestHeadersToRemove: ["header-from-route"]
-//       # from delegated route-external-options-1
-//       cors:
-//         exposeHeaders:
-//           - header-from-extopt1
-//         allowOrigin:
-//           - 'https://solo.io'
-//       # from delegated route-external-options-2
-//       transformations:
-//         requestTransformation:
-//           transformationTemplate:
-//             headers:
-//               x-header-added-in-opt2:
-//                 text: this header was added in the Route object - #2
+//     # from Route options
+//     headerManipulation:
+//     requestHeadersToRemove: ["header-from-route"]
+//     # from delegated route-external-options-1
+//     cors:
+//     exposeHeaders:
+//   - header-from-extopt1
+//     allowOrigin:
+//   - 'https://solo.io'
+//     # from delegated route-external-options-2
+//     transformations:
+//     requestTransformation:
+//     transformationTemplate:
+//     headers:
+//     x-header-added-in-opt2:
+//     text: this header was added in the Route object - #2
+//
 // ```
 //
 // Notice how the order of RouteOption delegations matters, and that the Route-level option config overrides all delegated option configs.

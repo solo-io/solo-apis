@@ -5,13 +5,13 @@
 package v1beta1
 
 import (
-    bytes "bytes"
-    fmt "fmt"
-    math "math"
+	bytes "bytes"
+	fmt "fmt"
+	math "math"
 
-    skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
-    jsonpb "github.com/golang/protobuf/jsonpb"
-    proto "github.com/golang/protobuf/proto"
+	jsonpb "github.com/golang/protobuf/jsonpb"
+	proto "github.com/golang/protobuf/proto"
+	skv2jsonpb "github.com/solo-io/skv2/pkg/kube_jsonpb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -36,6 +36,7 @@ func (this *GraphQLApiSpec) MarshalJSON() ([]byte, error) {
 func (this *GraphQLApiSpec) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
 // MarshalJSON is a custom marshaler for GraphQLApiStatus
 func (this *GraphQLApiStatus) MarshalJSON() ([]byte, error) {
 	str, err := marshaller.MarshalToString(this)
@@ -44,7 +45,7 @@ func (this *GraphQLApiStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for GraphQLApiStatus
 func (this *GraphQLApiStatus) UnmarshalJSON(b []byte) error {
-    namespacedStatuses := GraphQLApiNamespacedStatuses{}
+	namespacedStatuses := GraphQLApiNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 	}

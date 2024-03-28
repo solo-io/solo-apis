@@ -4,8 +4,9 @@
 package v1beta1
 
 import (
-    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-    "k8s.io/apimachinery/pkg/runtime/schema")
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+)
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -14,22 +15,22 @@ import (
 
 // GroupVersionKind for GraphQLApi
 var GraphQLApiGVK = schema.GroupVersionKind{
-    Group: "graphql.gloo.solo.io",
-    Version: "v1beta1",
-    Kind: "GraphQLApi",
+	Group:   "graphql.gloo.solo.io",
+	Version: "v1beta1",
+	Kind:    "GraphQLApi",
 }
 
 // GraphQLApi is the Schema for the graphQLApi API
 type GraphQLApi struct {
-    metav1.TypeMeta   `json:",inline"`
-    metav1.ObjectMeta `json:"metadata,omitempty"`
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-    Spec GraphQLApiSpec `json:"spec,omitempty"`
-    Status GraphQLApiStatus `json:"status,omitempty"`
+	Spec   GraphQLApiSpec   `json:"spec,omitempty"`
+	Status GraphQLApiStatus `json:"status,omitempty"`
 }
 
 // GVK returns the GroupVersionKind associated with the resource type.
-func (GraphQLApi)  GVK() schema.GroupVersionKind {
+func (GraphQLApi) GVK() schema.GroupVersionKind {
 	return GraphQLApiGVK
 }
 
@@ -37,11 +38,11 @@ func (GraphQLApi)  GVK() schema.GroupVersionKind {
 
 // GraphQLApiList contains a list of GraphQLApi
 type GraphQLApiList struct {
-    metav1.TypeMeta `json:",inline"`
-    metav1.ListMeta `json:"metadata,omitempty"`
-    Items           []GraphQLApi `json:"items"`
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []GraphQLApi `json:"items"`
 }
 
 func init() {
-    SchemeBuilder.Register(&GraphQLApi{}, &GraphQLApiList{})
+	SchemeBuilder.Register(&GraphQLApi{}, &GraphQLApiList{})
 }

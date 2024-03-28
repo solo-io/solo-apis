@@ -7,6 +7,9 @@
 package v1
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	proto "github.com/golang/protobuf/proto"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
@@ -14,8 +17,6 @@ import (
 	ssl "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/ssl"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -29,21 +30,18 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
+// Failover configuration for an upstream.
 //
+// Failover allows for optional fallback endpoints in the case that the primary set of endpoints is deemed
+// unhealthy. As failover requires knowledge of the health of each set of endpoints, active or passive
+// health checks must be configured on an upstream using failover in order for it to work properly.
 //
-//Failover configuration for an upstream.
-//
-//Failover allows for optional fallback endpoints in the case that the primary set of endpoints is deemed
-//unhealthy. As failover requires knowledge of the health of each set of endpoints, active or passive
-//health checks must be configured on an upstream using failover in order for it to work properly.
-//
-//Failover closely resembles the Envoy config which this is translated to, with one notable exception.
-//The priorities are not defined on the `LocalityLbEndpoints` but rather inferred from the list of
-//`PrioritizedLocality`. More information on envoy prioritization can be found
-//[here](https://www.envoyproxy.io/docs/envoy/v1.14.1/intro/arch_overview/upstream/load_balancing/priority#arch-overview-load-balancing-priority-levels).
-//In practice this means that the priority of a given set of `LocalityLbEndpoints` is determined by its index in
-//the list, first being `0` through `n-1`.
-//
+// Failover closely resembles the Envoy config which this is translated to, with one notable exception.
+// The priorities are not defined on the `LocalityLbEndpoints` but rather inferred from the list of
+// `PrioritizedLocality`. More information on envoy prioritization can be found
+// [here](https://www.envoyproxy.io/docs/envoy/v1.14.1/intro/arch_overview/upstream/load_balancing/priority#arch-overview-load-balancing-priority-levels).
+// In practice this means that the priority of a given set of `LocalityLbEndpoints` is determined by its index in
+// the list, first being `0` through `n-1`.
 type Failover struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -7,13 +7,14 @@
 package v1
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	proto "github.com/golang/protobuf/proto"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -27,9 +28,7 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
-//
-//
-//Endpoints represent dynamically discovered address/ports where an upstream service is listening
+// Endpoints represent dynamically discovered address/ports where an upstream service is listening
 type Endpoint struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

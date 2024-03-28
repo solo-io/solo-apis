@@ -7,14 +7,15 @@
 package types
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	proto "github.com/golang/protobuf/proto"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -80,9 +81,8 @@ func (MultiClusterRoleSpec_Rule_Action) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_fed_multicluster_v1alpha1_multicluster_proto_rawDescGZIP(), []int{1, 0, 0}
 }
 
-//
-//Object representing the clusters and namespaces on which resources are created/updated/deleted,
-//computed as the cartesian product of all declared namespace and cluster values.
+// Object representing the clusters and namespaces on which resources are created/updated/deleted,
+// computed as the cartesian product of all declared namespace and cluster values.
 type Placement struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

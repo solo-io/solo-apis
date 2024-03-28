@@ -4,232 +4,229 @@
 
 package v1sets
 
-
-
 import (
-    fed_gateway_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.gateway.solo.io/v1"
+	fed_gateway_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/fed.gateway.solo.io/v1"
 
-    "github.com/rotisserie/eris"
-    sksets "github.com/solo-io/skv2/contrib/pkg/sets"
-    "github.com/solo-io/skv2/pkg/ezkube"
-    "k8s.io/apimachinery/pkg/util/sets"
+	"github.com/rotisserie/eris"
+	sksets "github.com/solo-io/skv2/contrib/pkg/sets"
+	"github.com/solo-io/skv2/pkg/ezkube"
+	"k8s.io/apimachinery/pkg/util/sets"
 )
 
 type FederatedGatewaySet interface {
 	// Get the set stored keys
-    Keys() sets.String
-    // List of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway
-    // Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway
-    // Return the Set as a map of key to resource.
-    Map() map[string]*fed_gateway_solo_io_v1.FederatedGateway
-    // Insert a resource into the set.
-    Insert(federatedGateway ...*fed_gateway_solo_io_v1.FederatedGateway)
-    // Compare the equality of the keys in two sets (not the resources themselves)
-    Equal(federatedGatewaySet FederatedGatewaySet) bool
-    // Check if the set contains a key matching the resource (not the resource itself)
-    Has(federatedGateway ezkube.ResourceId) bool
-    // Delete the key matching the resource
-    Delete(federatedGateway  ezkube.ResourceId)
-    // Return the union with the provided set
-    Union(set FederatedGatewaySet) FederatedGatewaySet
-    // Return the difference with the provided set
-    Difference(set FederatedGatewaySet) FederatedGatewaySet
-    // Return the intersection with the provided set
-    Intersection(set FederatedGatewaySet) FederatedGatewaySet
-    // Find the resource with the given ID
-    Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedGateway, error)
-    // Get the length of the set
-    Length() int
-    // returns the generic implementation of the set
-    Generic() sksets.ResourceSet
-    // returns the delta between this and and another FederatedGatewaySet
-    Delta(newSet FederatedGatewaySet) sksets.ResourceDelta
-    // Create a deep copy of the current FederatedGatewaySet
-    Clone() FederatedGatewaySet
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway
+	// Return the Set as a map of key to resource.
+	Map() map[string]*fed_gateway_solo_io_v1.FederatedGateway
+	// Insert a resource into the set.
+	Insert(federatedGateway ...*fed_gateway_solo_io_v1.FederatedGateway)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(federatedGatewaySet FederatedGatewaySet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(federatedGateway ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(federatedGateway ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set FederatedGatewaySet) FederatedGatewaySet
+	// Return the difference with the provided set
+	Difference(set FederatedGatewaySet) FederatedGatewaySet
+	// Return the intersection with the provided set
+	Intersection(set FederatedGatewaySet) FederatedGatewaySet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedGateway, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another FederatedGatewaySet
+	Delta(newSet FederatedGatewaySet) sksets.ResourceDelta
+	// Create a deep copy of the current FederatedGatewaySet
+	Clone() FederatedGatewaySet
 }
 
 func makeGenericFederatedGatewaySet(federatedGatewayList []*fed_gateway_solo_io_v1.FederatedGateway) sksets.ResourceSet {
-    var genericResources []ezkube.ResourceId
-    for _, obj := range federatedGatewayList {
-        genericResources = append(genericResources, obj)
-    }
-    return sksets.NewResourceSet(genericResources...)
+	var genericResources []ezkube.ResourceId
+	for _, obj := range federatedGatewayList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
 }
 
 type federatedGatewaySet struct {
-    set sksets.ResourceSet
+	set sksets.ResourceSet
 }
 
 func NewFederatedGatewaySet(federatedGatewayList ...*fed_gateway_solo_io_v1.FederatedGateway) FederatedGatewaySet {
-    return &federatedGatewaySet{set: makeGenericFederatedGatewaySet(federatedGatewayList)}
+	return &federatedGatewaySet{set: makeGenericFederatedGatewaySet(federatedGatewayList)}
 }
 
 func NewFederatedGatewaySetFromList(federatedGatewayList *fed_gateway_solo_io_v1.FederatedGatewayList) FederatedGatewaySet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedGateway, 0, len(federatedGatewayList.Items))
-    for idx := range federatedGatewayList.Items {
-        list = append(list, &federatedGatewayList.Items[idx])
-    }
-    return &federatedGatewaySet{set: makeGenericFederatedGatewaySet(list)}
+	list := make([]*fed_gateway_solo_io_v1.FederatedGateway, 0, len(federatedGatewayList.Items))
+	for idx := range federatedGatewayList.Items {
+		list = append(list, &federatedGatewayList.Items[idx])
+	}
+	return &federatedGatewaySet{set: makeGenericFederatedGatewaySet(list)}
 }
 
 func (s *federatedGatewaySet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    return s.Generic().Keys()
+	}
+	return s.Generic().Keys()
 }
 
-func (s *federatedGatewaySet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedGateway))
-        })
-    }
+func (s *federatedGatewaySet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedGateway))
+		})
+	}
 
-    objs := s.Generic().List(genericFilters...)
-    federatedGatewayList := make([]*fed_gateway_solo_io_v1.FederatedGateway, 0, len(objs))
-    for _, obj := range objs {
-        federatedGatewayList = append(federatedGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedGateway))
-    }
-    return federatedGatewayList
+	objs := s.Generic().List(genericFilters...)
+	federatedGatewayList := make([]*fed_gateway_solo_io_v1.FederatedGateway, 0, len(objs))
+	for _, obj := range objs {
+		federatedGatewayList = append(federatedGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedGateway))
+	}
+	return federatedGatewayList
 }
 
-func (s *federatedGatewaySet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedGateway))
-        })
-    }
+func (s *federatedGatewaySet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedGateway))
+		})
+	}
 
-    var federatedGatewayList []*fed_gateway_solo_io_v1.FederatedGateway
-    for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-        federatedGatewayList = append(federatedGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedGateway))
-    }
-    return federatedGatewayList
+	var federatedGatewayList []*fed_gateway_solo_io_v1.FederatedGateway
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		federatedGatewayList = append(federatedGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedGateway))
+	}
+	return federatedGatewayList
 }
 
 func (s *federatedGatewaySet) Map() map[string]*fed_gateway_solo_io_v1.FederatedGateway {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedGateway{}
-    for k, v := range s.Generic().Map() {
-        newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedGateway)
-    }
-    return newMap
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedGateway{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedGateway)
+	}
+	return newMap
 }
 
 func (s *federatedGatewaySet) Insert(
-        federatedGatewayList ...*fed_gateway_solo_io_v1.FederatedGateway,
+	federatedGatewayList ...*fed_gateway_solo_io_v1.FederatedGateway,
 ) {
-    if s == nil {
-        panic("cannot insert into nil set")
-    }
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
 
-    for _, obj := range federatedGatewayList {
-        s.Generic().Insert(obj)
-    }
+	for _, obj := range federatedGatewayList {
+		s.Generic().Insert(obj)
+	}
 }
 
 func (s *federatedGatewaySet) Has(federatedGateway ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    return s.Generic().Has(federatedGateway)
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(federatedGateway)
 }
 
 func (s *federatedGatewaySet) Equal(
-        federatedGatewaySet FederatedGatewaySet,
+	federatedGatewaySet FederatedGatewaySet,
 ) bool {
-    if s == nil {
-        return federatedGatewaySet == nil
-    }
-    return s.Generic().Equal(federatedGatewaySet.Generic())
+	if s == nil {
+		return federatedGatewaySet == nil
+	}
+	return s.Generic().Equal(federatedGatewaySet.Generic())
 }
 
 func (s *federatedGatewaySet) Delete(FederatedGateway ezkube.ResourceId) {
-    if s == nil {
-        return
-    }
-    s.Generic().Delete(FederatedGateway)
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(FederatedGateway)
 }
 
 func (s *federatedGatewaySet) Union(set FederatedGatewaySet) FederatedGatewaySet {
-    if s == nil {
-        return set
-    }
-    return &federatedGatewayMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
+	if s == nil {
+		return set
+	}
+	return NewFederatedGatewaySet(append(s.List(), set.List()...)...)
 }
 
 func (s *federatedGatewaySet) Difference(set FederatedGatewaySet) FederatedGatewaySet {
-    if s == nil {
-        return set
-    }
-    newSet := s.Generic().Difference(set.Generic())
-    return &federatedGatewaySet{set: newSet}
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &federatedGatewaySet{set: newSet}
 }
 
 func (s *federatedGatewaySet) Intersection(set FederatedGatewaySet) FederatedGatewaySet {
-    if s == nil {
-        return nil
-    }
-    newSet := s.Generic().Intersection(set.Generic())
-    var federatedGatewayList []*fed_gateway_solo_io_v1.FederatedGateway
-    for _, obj := range newSet.List() {
-        federatedGatewayList = append(federatedGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedGateway))
-    }
-    return NewFederatedGatewaySet(federatedGatewayList...)
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var federatedGatewayList []*fed_gateway_solo_io_v1.FederatedGateway
+	for _, obj := range newSet.List() {
+		federatedGatewayList = append(federatedGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedGateway))
+	}
+	return NewFederatedGatewaySet(federatedGatewayList...)
 }
 
-
 func (s *federatedGatewaySet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedGateway, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedGateway %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedGateway %v", sksets.Key(id))
+	}
 	obj, err := s.Generic().Find(&fed_gateway_solo_io_v1.FederatedGateway{}, id)
 	if err != nil {
 		return nil, err
-    }
+	}
 
-    return obj.(*fed_gateway_solo_io_v1.FederatedGateway), nil
+	return obj.(*fed_gateway_solo_io_v1.FederatedGateway), nil
 }
 
 func (s *federatedGatewaySet) Length() int {
-    if s == nil {
-        return 0
-    }
-    return s.Generic().Length()
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
 }
 
 func (s *federatedGatewaySet) Generic() sksets.ResourceSet {
-    if s == nil {
-        return nil
-    }
-    return s.set
+	if s == nil {
+		return nil
+	}
+	return s.set
 }
 
 func (s *federatedGatewaySet) Delta(newSet FederatedGatewaySet) sksets.ResourceDelta {
-    if s == nil {
-        return sksets.ResourceDelta{
-            Inserted: newSet.Generic(),
-        }
-    }
-    return s.Generic().Delta(newSet.Generic())
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }
 
 func (s *federatedGatewaySet) Clone() FederatedGatewaySet {
@@ -240,166 +237,166 @@ func (s *federatedGatewaySet) Clone() FederatedGatewaySet {
 }
 
 type federatedGatewayMergedSet struct {
-    sets []sksets.ResourceSet
+	sets []sksets.ResourceSet
 }
 
 func NewFederatedGatewayMergedSet(federatedGatewayList ...*fed_gateway_solo_io_v1.FederatedGateway) FederatedGatewaySet {
-    return &federatedGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedGatewaySet(federatedGatewayList)}}
+	return &federatedGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedGatewaySet(federatedGatewayList)}}
 }
 
 func NewFederatedGatewayMergedSetFromList(federatedGatewayList *fed_gateway_solo_io_v1.FederatedGatewayList) FederatedGatewaySet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedGateway, 0, len(federatedGatewayList.Items))
-    for idx := range federatedGatewayList.Items {
-        list = append(list, &federatedGatewayList.Items[idx])
-    }
-    return &federatedGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedGatewaySet(list)}}
+	list := make([]*fed_gateway_solo_io_v1.FederatedGateway, 0, len(federatedGatewayList.Items))
+	for idx := range federatedGatewayList.Items {
+		list = append(list, &federatedGatewayList.Items[idx])
+	}
+	return &federatedGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedGatewaySet(list)}}
 }
 
 func (s *federatedGatewayMergedSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    toRet := sets.String{}
-	for _ , set := range s.sets {
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
 		toRet = toRet.Union(set.Keys())
 	}
 	return toRet
 }
 
-func (s *federatedGatewayMergedSet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedGateway))
-        })
-    }
-   federatedGatewayList := []*fed_gateway_solo_io_v1.FederatedGateway{}
+func (s *federatedGatewayMergedSet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedGateway))
+		})
+	}
+	federatedGatewayList := []*fed_gateway_solo_io_v1.FederatedGateway{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.List(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedGatewayList = append(federatedGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedGateway))
 		}
 	}
-    return federatedGatewayList
+	return federatedGatewayList
 }
 
-func (s *federatedGatewayMergedSet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedGateway))
-        })
-    }
-   federatedGatewayList := []*fed_gateway_solo_io_v1.FederatedGateway{}
+func (s *federatedGatewayMergedSet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedGateway) bool) []*fed_gateway_solo_io_v1.FederatedGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedGateway))
+		})
+	}
+	federatedGatewayList := []*fed_gateway_solo_io_v1.FederatedGateway{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.UnsortedList(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedGatewayList = append(federatedGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedGateway))
 		}
 	}
-    return federatedGatewayList
+	return federatedGatewayList
 }
 
 func (s *federatedGatewayMergedSet) Map() map[string]*fed_gateway_solo_io_v1.FederatedGateway {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedGateway{}
-    for _, set := range s.sets {
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedGateway{}
+	for _, set := range s.sets {
 		for k, v := range set.Map() {
-            newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedGateway)
-        }
-    }
-    return newMap
+			newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedGateway)
+		}
+	}
+	return newMap
 }
 
 func (s *federatedGatewayMergedSet) Insert(
-        federatedGatewayList ...*fed_gateway_solo_io_v1.FederatedGateway,
+	federatedGatewayList ...*fed_gateway_solo_io_v1.FederatedGateway,
 ) {
-    if s == nil {
-    }
-    if len(s.sets) == 0 {
-        s.sets = append(s.sets, makeGenericFederatedGatewaySet(federatedGatewayList))
-    }
-    for _, obj := range federatedGatewayList {
-        inserted := false
-        for _, set := range s.sets {
-            if set.Has(obj) {
-                set.Insert(obj)
-                inserted = true
-                break
-            }
-        }
-        if !inserted {
-            s.sets[0].Insert(obj)
-        }
-    }
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericFederatedGatewaySet(federatedGatewayList))
+	}
+	for _, obj := range federatedGatewayList {
+		inserted := false
+		for _, set := range s.sets {
+			if set.Has(obj) {
+				set.Insert(obj)
+				inserted = true
+				break
+			}
+		}
+		if !inserted {
+			s.sets[0].Insert(obj)
+		}
+	}
 }
 
 func (s *federatedGatewayMergedSet) Has(federatedGateway ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    for _, set := range s.sets {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
 		if set.Has(federatedGateway) {
 			return true
 		}
 	}
-    return false
+	return false
 }
 
 func (s *federatedGatewayMergedSet) Equal(
-        federatedGatewaySet FederatedGatewaySet,
+	federatedGatewaySet FederatedGatewaySet,
 ) bool {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedGatewayMergedSet) Delete(FederatedGateway ezkube.ResourceId) {
-    for _, set := range s.sets {
-        set.Delete(FederatedGateway)
-    }    
+	for _, set := range s.sets {
+		set.Delete(FederatedGateway)
+	}
 }
 
 func (s *federatedGatewayMergedSet) Union(set FederatedGatewaySet) FederatedGatewaySet {
-    if s == nil {
-        return set
-    }
-    return &federatedGatewayMergedSet{sets: append(s.sets, set.Generic())}
+	if s == nil {
+		return set
+	}
+	return &federatedGatewayMergedSet{sets: append(s.sets, set.Generic())}
 }
 
 func (s *federatedGatewayMergedSet) Difference(set FederatedGatewaySet) FederatedGatewaySet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedGatewayMergedSet) Intersection(set FederatedGatewaySet) FederatedGatewaySet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedGatewayMergedSet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedGateway, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedGateway %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedGateway %v", sksets.Key(id))
+	}
 
-    var err error
+	var err error
 	for _, set := range s.sets {
 		var obj ezkube.ResourceId
 		obj, err = set.Find(&fed_gateway_solo_io_v1.FederatedGateway{}, id)
@@ -408,26 +405,26 @@ func (s *federatedGatewayMergedSet) Find(id ezkube.ResourceId) (*fed_gateway_sol
 		}
 	}
 
-    return nil, err
+	return nil, err
 }
 
 func (s *federatedGatewayMergedSet) Length() int {
-    if s == nil {
-        return 0
-    }
-    totalLen := 0
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
 	for _, set := range s.sets {
 		totalLen += set.Length()
 	}
-    return totalLen
+	return totalLen
 }
 
 func (s *federatedGatewayMergedSet) Generic() sksets.ResourceSet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedGatewayMergedSet) Delta(newSet FederatedGatewaySet) sksets.ResourceDelta {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedGatewayMergedSet) Clone() FederatedGatewaySet {
@@ -439,219 +436,218 @@ func (s *federatedGatewayMergedSet) Clone() FederatedGatewaySet {
 
 type FederatedMatchableHttpGatewaySet interface {
 	// Get the set stored keys
-    Keys() sets.String
-    // List of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
-    // Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
-    // Return the Set as a map of key to resource.
-    Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
-    // Insert a resource into the set.
-    Insert(federatedMatchableHttpGateway ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
-    // Compare the equality of the keys in two sets (not the resources themselves)
-    Equal(federatedMatchableHttpGatewaySet FederatedMatchableHttpGatewaySet) bool
-    // Check if the set contains a key matching the resource (not the resource itself)
-    Has(federatedMatchableHttpGateway ezkube.ResourceId) bool
-    // Delete the key matching the resource
-    Delete(federatedMatchableHttpGateway  ezkube.ResourceId)
-    // Return the union with the provided set
-    Union(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet
-    // Return the difference with the provided set
-    Difference(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet
-    // Return the intersection with the provided set
-    Intersection(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet
-    // Find the resource with the given ID
-    Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, error)
-    // Get the length of the set
-    Length() int
-    // returns the generic implementation of the set
-    Generic() sksets.ResourceSet
-    // returns the delta between this and and another FederatedMatchableHttpGatewaySet
-    Delta(newSet FederatedMatchableHttpGatewaySet) sksets.ResourceDelta
-    // Create a deep copy of the current FederatedMatchableHttpGatewaySet
-    Clone() FederatedMatchableHttpGatewaySet
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
+	// Return the Set as a map of key to resource.
+	Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
+	// Insert a resource into the set.
+	Insert(federatedMatchableHttpGateway ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(federatedMatchableHttpGatewaySet FederatedMatchableHttpGatewaySet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(federatedMatchableHttpGateway ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(federatedMatchableHttpGateway ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet
+	// Return the difference with the provided set
+	Difference(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet
+	// Return the intersection with the provided set
+	Intersection(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another FederatedMatchableHttpGatewaySet
+	Delta(newSet FederatedMatchableHttpGatewaySet) sksets.ResourceDelta
+	// Create a deep copy of the current FederatedMatchableHttpGatewaySet
+	Clone() FederatedMatchableHttpGatewaySet
 }
 
 func makeGenericFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) sksets.ResourceSet {
-    var genericResources []ezkube.ResourceId
-    for _, obj := range federatedMatchableHttpGatewayList {
-        genericResources = append(genericResources, obj)
-    }
-    return sksets.NewResourceSet(genericResources...)
+	var genericResources []ezkube.ResourceId
+	for _, obj := range federatedMatchableHttpGatewayList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
 }
 
 type federatedMatchableHttpGatewaySet struct {
-    set sksets.ResourceSet
+	set sksets.ResourceSet
 }
 
 func NewFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) FederatedMatchableHttpGatewaySet {
-    return &federatedMatchableHttpGatewaySet{set: makeGenericFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList)}
+	return &federatedMatchableHttpGatewaySet{set: makeGenericFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList)}
 }
 
 func NewFederatedMatchableHttpGatewaySetFromList(federatedMatchableHttpGatewayList *fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayList) FederatedMatchableHttpGatewaySet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, 0, len(federatedMatchableHttpGatewayList.Items))
-    for idx := range federatedMatchableHttpGatewayList.Items {
-        list = append(list, &federatedMatchableHttpGatewayList.Items[idx])
-    }
-    return &federatedMatchableHttpGatewaySet{set: makeGenericFederatedMatchableHttpGatewaySet(list)}
+	list := make([]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, 0, len(federatedMatchableHttpGatewayList.Items))
+	for idx := range federatedMatchableHttpGatewayList.Items {
+		list = append(list, &federatedMatchableHttpGatewayList.Items[idx])
+	}
+	return &federatedMatchableHttpGatewaySet{set: makeGenericFederatedMatchableHttpGatewaySet(list)}
 }
 
 func (s *federatedMatchableHttpGatewaySet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    return s.Generic().Keys()
+	}
+	return s.Generic().Keys()
 }
 
-func (s *federatedMatchableHttpGatewaySet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
-        })
-    }
+func (s *federatedMatchableHttpGatewaySet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
+		})
+	}
 
-    objs := s.Generic().List(genericFilters...)
-    federatedMatchableHttpGatewayList := make([]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, 0, len(objs))
-    for _, obj := range objs {
-        federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
-    }
-    return federatedMatchableHttpGatewayList
+	objs := s.Generic().List(genericFilters...)
+	federatedMatchableHttpGatewayList := make([]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, 0, len(objs))
+	for _, obj := range objs {
+		federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
+	}
+	return federatedMatchableHttpGatewayList
 }
 
-func (s *federatedMatchableHttpGatewaySet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
-        })
-    }
+func (s *federatedMatchableHttpGatewaySet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
+		})
+	}
 
-    var federatedMatchableHttpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
-    for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-        federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
-    }
-    return federatedMatchableHttpGatewayList
+	var federatedMatchableHttpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
+	}
+	return federatedMatchableHttpGatewayList
 }
 
 func (s *federatedMatchableHttpGatewaySet) Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
-    for k, v := range s.Generic().Map() {
-        newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
-    }
-    return newMap
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
+	}
+	return newMap
 }
 
 func (s *federatedMatchableHttpGatewaySet) Insert(
-        federatedMatchableHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway,
+	federatedMatchableHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway,
 ) {
-    if s == nil {
-        panic("cannot insert into nil set")
-    }
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
 
-    for _, obj := range federatedMatchableHttpGatewayList {
-        s.Generic().Insert(obj)
-    }
+	for _, obj := range federatedMatchableHttpGatewayList {
+		s.Generic().Insert(obj)
+	}
 }
 
 func (s *federatedMatchableHttpGatewaySet) Has(federatedMatchableHttpGateway ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    return s.Generic().Has(federatedMatchableHttpGateway)
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(federatedMatchableHttpGateway)
 }
 
 func (s *federatedMatchableHttpGatewaySet) Equal(
-        federatedMatchableHttpGatewaySet FederatedMatchableHttpGatewaySet,
+	federatedMatchableHttpGatewaySet FederatedMatchableHttpGatewaySet,
 ) bool {
-    if s == nil {
-        return federatedMatchableHttpGatewaySet == nil
-    }
-    return s.Generic().Equal(federatedMatchableHttpGatewaySet.Generic())
+	if s == nil {
+		return federatedMatchableHttpGatewaySet == nil
+	}
+	return s.Generic().Equal(federatedMatchableHttpGatewaySet.Generic())
 }
 
 func (s *federatedMatchableHttpGatewaySet) Delete(FederatedMatchableHttpGateway ezkube.ResourceId) {
-    if s == nil {
-        return
-    }
-    s.Generic().Delete(FederatedMatchableHttpGateway)
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(FederatedMatchableHttpGateway)
 }
 
 func (s *federatedMatchableHttpGatewaySet) Union(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet {
-    if s == nil {
-        return set
-    }
-    return &federatedMatchableHttpGatewayMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
+	if s == nil {
+		return set
+	}
+	return NewFederatedMatchableHttpGatewaySet(append(s.List(), set.List()...)...)
 }
 
 func (s *federatedMatchableHttpGatewaySet) Difference(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet {
-    if s == nil {
-        return set
-    }
-    newSet := s.Generic().Difference(set.Generic())
-    return &federatedMatchableHttpGatewaySet{set: newSet}
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &federatedMatchableHttpGatewaySet{set: newSet}
 }
 
 func (s *federatedMatchableHttpGatewaySet) Intersection(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet {
-    if s == nil {
-        return nil
-    }
-    newSet := s.Generic().Intersection(set.Generic())
-    var federatedMatchableHttpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
-    for _, obj := range newSet.List() {
-        federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
-    }
-    return NewFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList...)
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var federatedMatchableHttpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway
+	for _, obj := range newSet.List() {
+		federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
+	}
+	return NewFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList...)
 }
 
-
 func (s *federatedMatchableHttpGatewaySet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedMatchableHttpGateway %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedMatchableHttpGateway %v", sksets.Key(id))
+	}
 	obj, err := s.Generic().Find(&fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}, id)
 	if err != nil {
 		return nil, err
-    }
+	}
 
-    return obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway), nil
+	return obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway), nil
 }
 
 func (s *federatedMatchableHttpGatewaySet) Length() int {
-    if s == nil {
-        return 0
-    }
-    return s.Generic().Length()
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
 }
 
 func (s *federatedMatchableHttpGatewaySet) Generic() sksets.ResourceSet {
-    if s == nil {
-        return nil
-    }
-    return s.set
+	if s == nil {
+		return nil
+	}
+	return s.set
 }
 
 func (s *federatedMatchableHttpGatewaySet) Delta(newSet FederatedMatchableHttpGatewaySet) sksets.ResourceDelta {
-    if s == nil {
-        return sksets.ResourceDelta{
-            Inserted: newSet.Generic(),
-        }
-    }
-    return s.Generic().Delta(newSet.Generic())
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }
 
 func (s *federatedMatchableHttpGatewaySet) Clone() FederatedMatchableHttpGatewaySet {
@@ -662,166 +658,166 @@ func (s *federatedMatchableHttpGatewaySet) Clone() FederatedMatchableHttpGateway
 }
 
 type federatedMatchableHttpGatewayMergedSet struct {
-    sets []sksets.ResourceSet
+	sets []sksets.ResourceSet
 }
 
 func NewFederatedMatchableHttpGatewayMergedSet(federatedMatchableHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) FederatedMatchableHttpGatewaySet {
-    return &federatedMatchableHttpGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList)}}
+	return &federatedMatchableHttpGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList)}}
 }
 
 func NewFederatedMatchableHttpGatewayMergedSetFromList(federatedMatchableHttpGatewayList *fed_gateway_solo_io_v1.FederatedMatchableHttpGatewayList) FederatedMatchableHttpGatewaySet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, 0, len(federatedMatchableHttpGatewayList.Items))
-    for idx := range federatedMatchableHttpGatewayList.Items {
-        list = append(list, &federatedMatchableHttpGatewayList.Items[idx])
-    }
-    return &federatedMatchableHttpGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedMatchableHttpGatewaySet(list)}}
+	list := make([]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, 0, len(federatedMatchableHttpGatewayList.Items))
+	for idx := range federatedMatchableHttpGatewayList.Items {
+		list = append(list, &federatedMatchableHttpGatewayList.Items[idx])
+	}
+	return &federatedMatchableHttpGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedMatchableHttpGatewaySet(list)}}
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    toRet := sets.String{}
-	for _ , set := range s.sets {
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
 		toRet = toRet.Union(set.Keys())
 	}
 	return toRet
 }
 
-func (s *federatedMatchableHttpGatewayMergedSet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
-        })
-    }
-   federatedMatchableHttpGatewayList := []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
+func (s *federatedMatchableHttpGatewayMergedSet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
+		})
+	}
+	federatedMatchableHttpGatewayList := []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.List(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
 		}
 	}
-    return federatedMatchableHttpGatewayList
+	return federatedMatchableHttpGatewayList
 }
 
-func (s *federatedMatchableHttpGatewayMergedSet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
-        })
-    }
-   federatedMatchableHttpGatewayList := []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
+func (s *federatedMatchableHttpGatewayMergedSet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
+		})
+	}
+	federatedMatchableHttpGatewayList := []*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.UnsortedList(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedMatchableHttpGatewayList = append(federatedMatchableHttpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway))
 		}
 	}
-    return federatedMatchableHttpGatewayList
+	return federatedMatchableHttpGatewayList
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
-    for _, set := range s.sets {
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}
+	for _, set := range s.sets {
 		for k, v := range set.Map() {
-            newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
-        }
-    }
-    return newMap
+			newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway)
+		}
+	}
+	return newMap
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Insert(
-        federatedMatchableHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway,
+	federatedMatchableHttpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway,
 ) {
-    if s == nil {
-    }
-    if len(s.sets) == 0 {
-        s.sets = append(s.sets, makeGenericFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList))
-    }
-    for _, obj := range federatedMatchableHttpGatewayList {
-        inserted := false
-        for _, set := range s.sets {
-            if set.Has(obj) {
-                set.Insert(obj)
-                inserted = true
-                break
-            }
-        }
-        if !inserted {
-            s.sets[0].Insert(obj)
-        }
-    }
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericFederatedMatchableHttpGatewaySet(federatedMatchableHttpGatewayList))
+	}
+	for _, obj := range federatedMatchableHttpGatewayList {
+		inserted := false
+		for _, set := range s.sets {
+			if set.Has(obj) {
+				set.Insert(obj)
+				inserted = true
+				break
+			}
+		}
+		if !inserted {
+			s.sets[0].Insert(obj)
+		}
+	}
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Has(federatedMatchableHttpGateway ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    for _, set := range s.sets {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
 		if set.Has(federatedMatchableHttpGateway) {
 			return true
 		}
 	}
-    return false
+	return false
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Equal(
-        federatedMatchableHttpGatewaySet FederatedMatchableHttpGatewaySet,
+	federatedMatchableHttpGatewaySet FederatedMatchableHttpGatewaySet,
 ) bool {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Delete(FederatedMatchableHttpGateway ezkube.ResourceId) {
-    for _, set := range s.sets {
-        set.Delete(FederatedMatchableHttpGateway)
-    }    
+	for _, set := range s.sets {
+		set.Delete(FederatedMatchableHttpGateway)
+	}
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Union(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet {
-    if s == nil {
-        return set
-    }
-    return &federatedMatchableHttpGatewayMergedSet{sets: append(s.sets, set.Generic())}
+	if s == nil {
+		return set
+	}
+	return &federatedMatchableHttpGatewayMergedSet{sets: append(s.sets, set.Generic())}
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Difference(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Intersection(set FederatedMatchableHttpGatewaySet) FederatedMatchableHttpGatewaySet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableHttpGateway, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedMatchableHttpGateway %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedMatchableHttpGateway %v", sksets.Key(id))
+	}
 
-    var err error
+	var err error
 	for _, set := range s.sets {
 		var obj ezkube.ResourceId
 		obj, err = set.Find(&fed_gateway_solo_io_v1.FederatedMatchableHttpGateway{}, id)
@@ -830,26 +826,26 @@ func (s *federatedMatchableHttpGatewayMergedSet) Find(id ezkube.ResourceId) (*fe
 		}
 	}
 
-    return nil, err
+	return nil, err
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Length() int {
-    if s == nil {
-        return 0
-    }
-    totalLen := 0
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
 	for _, set := range s.sets {
 		totalLen += set.Length()
 	}
-    return totalLen
+	return totalLen
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Generic() sksets.ResourceSet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Delta(newSet FederatedMatchableHttpGatewaySet) sksets.ResourceDelta {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Clone() FederatedMatchableHttpGatewaySet {
@@ -861,219 +857,218 @@ func (s *federatedMatchableHttpGatewayMergedSet) Clone() FederatedMatchableHttpG
 
 type FederatedMatchableTcpGatewaySet interface {
 	// Get the set stored keys
-    Keys() sets.String
-    // List of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
-    // Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
-    // Return the Set as a map of key to resource.
-    Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
-    // Insert a resource into the set.
-    Insert(federatedMatchableTcpGateway ...*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway)
-    // Compare the equality of the keys in two sets (not the resources themselves)
-    Equal(federatedMatchableTcpGatewaySet FederatedMatchableTcpGatewaySet) bool
-    // Check if the set contains a key matching the resource (not the resource itself)
-    Has(federatedMatchableTcpGateway ezkube.ResourceId) bool
-    // Delete the key matching the resource
-    Delete(federatedMatchableTcpGateway  ezkube.ResourceId)
-    // Return the union with the provided set
-    Union(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet
-    // Return the difference with the provided set
-    Difference(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet
-    // Return the intersection with the provided set
-    Intersection(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet
-    // Find the resource with the given ID
-    Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, error)
-    // Get the length of the set
-    Length() int
-    // returns the generic implementation of the set
-    Generic() sksets.ResourceSet
-    // returns the delta between this and and another FederatedMatchableTcpGatewaySet
-    Delta(newSet FederatedMatchableTcpGatewaySet) sksets.ResourceDelta
-    // Create a deep copy of the current FederatedMatchableTcpGatewaySet
-    Clone() FederatedMatchableTcpGatewaySet
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
+	// Return the Set as a map of key to resource.
+	Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
+	// Insert a resource into the set.
+	Insert(federatedMatchableTcpGateway ...*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(federatedMatchableTcpGatewaySet FederatedMatchableTcpGatewaySet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(federatedMatchableTcpGateway ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(federatedMatchableTcpGateway ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet
+	// Return the difference with the provided set
+	Difference(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet
+	// Return the intersection with the provided set
+	Intersection(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another FederatedMatchableTcpGatewaySet
+	Delta(newSet FederatedMatchableTcpGatewaySet) sksets.ResourceDelta
+	// Create a deep copy of the current FederatedMatchableTcpGatewaySet
+	Clone() FederatedMatchableTcpGatewaySet
 }
 
 func makeGenericFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) sksets.ResourceSet {
-    var genericResources []ezkube.ResourceId
-    for _, obj := range federatedMatchableTcpGatewayList {
-        genericResources = append(genericResources, obj)
-    }
-    return sksets.NewResourceSet(genericResources...)
+	var genericResources []ezkube.ResourceId
+	for _, obj := range federatedMatchableTcpGatewayList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
 }
 
 type federatedMatchableTcpGatewaySet struct {
-    set sksets.ResourceSet
+	set sksets.ResourceSet
 }
 
 func NewFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) FederatedMatchableTcpGatewaySet {
-    return &federatedMatchableTcpGatewaySet{set: makeGenericFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList)}
+	return &federatedMatchableTcpGatewaySet{set: makeGenericFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList)}
 }
 
 func NewFederatedMatchableTcpGatewaySetFromList(federatedMatchableTcpGatewayList *fed_gateway_solo_io_v1.FederatedMatchableTcpGatewayList) FederatedMatchableTcpGatewaySet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, 0, len(federatedMatchableTcpGatewayList.Items))
-    for idx := range federatedMatchableTcpGatewayList.Items {
-        list = append(list, &federatedMatchableTcpGatewayList.Items[idx])
-    }
-    return &federatedMatchableTcpGatewaySet{set: makeGenericFederatedMatchableTcpGatewaySet(list)}
+	list := make([]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, 0, len(federatedMatchableTcpGatewayList.Items))
+	for idx := range federatedMatchableTcpGatewayList.Items {
+		list = append(list, &federatedMatchableTcpGatewayList.Items[idx])
+	}
+	return &federatedMatchableTcpGatewaySet{set: makeGenericFederatedMatchableTcpGatewaySet(list)}
 }
 
 func (s *federatedMatchableTcpGatewaySet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    return s.Generic().Keys()
+	}
+	return s.Generic().Keys()
 }
 
-func (s *federatedMatchableTcpGatewaySet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
-        })
-    }
+func (s *federatedMatchableTcpGatewaySet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
+		})
+	}
 
-    objs := s.Generic().List(genericFilters...)
-    federatedMatchableTcpGatewayList := make([]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, 0, len(objs))
-    for _, obj := range objs {
-        federatedMatchableTcpGatewayList = append(federatedMatchableTcpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
-    }
-    return federatedMatchableTcpGatewayList
+	objs := s.Generic().List(genericFilters...)
+	federatedMatchableTcpGatewayList := make([]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, 0, len(objs))
+	for _, obj := range objs {
+		federatedMatchableTcpGatewayList = append(federatedMatchableTcpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
+	}
+	return federatedMatchableTcpGatewayList
 }
 
-func (s *federatedMatchableTcpGatewaySet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
-        })
-    }
+func (s *federatedMatchableTcpGatewaySet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
+		})
+	}
 
-    var federatedMatchableTcpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
-    for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-        federatedMatchableTcpGatewayList = append(federatedMatchableTcpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
-    }
-    return federatedMatchableTcpGatewayList
+	var federatedMatchableTcpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		federatedMatchableTcpGatewayList = append(federatedMatchableTcpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
+	}
+	return federatedMatchableTcpGatewayList
 }
 
 func (s *federatedMatchableTcpGatewaySet) Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}
-    for k, v := range s.Generic().Map() {
-        newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway)
-    }
-    return newMap
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway)
+	}
+	return newMap
 }
 
 func (s *federatedMatchableTcpGatewaySet) Insert(
-        federatedMatchableTcpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway,
+	federatedMatchableTcpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway,
 ) {
-    if s == nil {
-        panic("cannot insert into nil set")
-    }
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
 
-    for _, obj := range federatedMatchableTcpGatewayList {
-        s.Generic().Insert(obj)
-    }
+	for _, obj := range federatedMatchableTcpGatewayList {
+		s.Generic().Insert(obj)
+	}
 }
 
 func (s *federatedMatchableTcpGatewaySet) Has(federatedMatchableTcpGateway ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    return s.Generic().Has(federatedMatchableTcpGateway)
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(federatedMatchableTcpGateway)
 }
 
 func (s *federatedMatchableTcpGatewaySet) Equal(
-        federatedMatchableTcpGatewaySet FederatedMatchableTcpGatewaySet,
+	federatedMatchableTcpGatewaySet FederatedMatchableTcpGatewaySet,
 ) bool {
-    if s == nil {
-        return federatedMatchableTcpGatewaySet == nil
-    }
-    return s.Generic().Equal(federatedMatchableTcpGatewaySet.Generic())
+	if s == nil {
+		return federatedMatchableTcpGatewaySet == nil
+	}
+	return s.Generic().Equal(federatedMatchableTcpGatewaySet.Generic())
 }
 
 func (s *federatedMatchableTcpGatewaySet) Delete(FederatedMatchableTcpGateway ezkube.ResourceId) {
-    if s == nil {
-        return
-    }
-    s.Generic().Delete(FederatedMatchableTcpGateway)
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(FederatedMatchableTcpGateway)
 }
 
 func (s *federatedMatchableTcpGatewaySet) Union(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet {
-    if s == nil {
-        return set
-    }
-    return &federatedMatchableTcpGatewayMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
+	if s == nil {
+		return set
+	}
+	return NewFederatedMatchableTcpGatewaySet(append(s.List(), set.List()...)...)
 }
 
 func (s *federatedMatchableTcpGatewaySet) Difference(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet {
-    if s == nil {
-        return set
-    }
-    newSet := s.Generic().Difference(set.Generic())
-    return &federatedMatchableTcpGatewaySet{set: newSet}
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &federatedMatchableTcpGatewaySet{set: newSet}
 }
 
 func (s *federatedMatchableTcpGatewaySet) Intersection(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet {
-    if s == nil {
-        return nil
-    }
-    newSet := s.Generic().Intersection(set.Generic())
-    var federatedMatchableTcpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
-    for _, obj := range newSet.List() {
-        federatedMatchableTcpGatewayList = append(federatedMatchableTcpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
-    }
-    return NewFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList...)
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var federatedMatchableTcpGatewayList []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway
+	for _, obj := range newSet.List() {
+		federatedMatchableTcpGatewayList = append(federatedMatchableTcpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
+	}
+	return NewFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList...)
 }
 
-
 func (s *federatedMatchableTcpGatewaySet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedMatchableTcpGateway %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedMatchableTcpGateway %v", sksets.Key(id))
+	}
 	obj, err := s.Generic().Find(&fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}, id)
 	if err != nil {
 		return nil, err
-    }
+	}
 
-    return obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway), nil
+	return obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway), nil
 }
 
 func (s *federatedMatchableTcpGatewaySet) Length() int {
-    if s == nil {
-        return 0
-    }
-    return s.Generic().Length()
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
 }
 
 func (s *federatedMatchableTcpGatewaySet) Generic() sksets.ResourceSet {
-    if s == nil {
-        return nil
-    }
-    return s.set
+	if s == nil {
+		return nil
+	}
+	return s.set
 }
 
 func (s *federatedMatchableTcpGatewaySet) Delta(newSet FederatedMatchableTcpGatewaySet) sksets.ResourceDelta {
-    if s == nil {
-        return sksets.ResourceDelta{
-            Inserted: newSet.Generic(),
-        }
-    }
-    return s.Generic().Delta(newSet.Generic())
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }
 
 func (s *federatedMatchableTcpGatewaySet) Clone() FederatedMatchableTcpGatewaySet {
@@ -1084,166 +1079,166 @@ func (s *federatedMatchableTcpGatewaySet) Clone() FederatedMatchableTcpGatewaySe
 }
 
 type federatedMatchableTcpGatewayMergedSet struct {
-    sets []sksets.ResourceSet
+	sets []sksets.ResourceSet
 }
 
 func NewFederatedMatchableTcpGatewayMergedSet(federatedMatchableTcpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) FederatedMatchableTcpGatewaySet {
-    return &federatedMatchableTcpGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList)}}
+	return &federatedMatchableTcpGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList)}}
 }
 
 func NewFederatedMatchableTcpGatewayMergedSetFromList(federatedMatchableTcpGatewayList *fed_gateway_solo_io_v1.FederatedMatchableTcpGatewayList) FederatedMatchableTcpGatewaySet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, 0, len(federatedMatchableTcpGatewayList.Items))
-    for idx := range federatedMatchableTcpGatewayList.Items {
-        list = append(list, &federatedMatchableTcpGatewayList.Items[idx])
-    }
-    return &federatedMatchableTcpGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedMatchableTcpGatewaySet(list)}}
+	list := make([]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, 0, len(federatedMatchableTcpGatewayList.Items))
+	for idx := range federatedMatchableTcpGatewayList.Items {
+		list = append(list, &federatedMatchableTcpGatewayList.Items[idx])
+	}
+	return &federatedMatchableTcpGatewayMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedMatchableTcpGatewaySet(list)}}
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    toRet := sets.String{}
-	for _ , set := range s.sets {
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
 		toRet = toRet.Union(set.Keys())
 	}
 	return toRet
 }
 
-func (s *federatedMatchableTcpGatewayMergedSet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
-        })
-    }
-   federatedMatchableTcpGatewayList := []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}
+func (s *federatedMatchableTcpGatewayMergedSet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
+		})
+	}
+	federatedMatchableTcpGatewayList := []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.List(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedMatchableTcpGatewayList = append(federatedMatchableTcpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
 		}
 	}
-    return federatedMatchableTcpGatewayList
+	return federatedMatchableTcpGatewayList
 }
 
-func (s *federatedMatchableTcpGatewayMergedSet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
-        })
-    }
-   federatedMatchableTcpGatewayList := []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}
+func (s *federatedMatchableTcpGatewayMergedSet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway) bool) []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
+		})
+	}
+	federatedMatchableTcpGatewayList := []*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.UnsortedList(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedMatchableTcpGatewayList = append(federatedMatchableTcpGatewayList, obj.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway))
 		}
 	}
-    return federatedMatchableTcpGatewayList
+	return federatedMatchableTcpGatewayList
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Map() map[string]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}
-    for _, set := range s.sets {
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}
+	for _, set := range s.sets {
 		for k, v := range set.Map() {
-            newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway)
-        }
-    }
-    return newMap
+			newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway)
+		}
+	}
+	return newMap
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Insert(
-        federatedMatchableTcpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway,
+	federatedMatchableTcpGatewayList ...*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway,
 ) {
-    if s == nil {
-    }
-    if len(s.sets) == 0 {
-        s.sets = append(s.sets, makeGenericFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList))
-    }
-    for _, obj := range federatedMatchableTcpGatewayList {
-        inserted := false
-        for _, set := range s.sets {
-            if set.Has(obj) {
-                set.Insert(obj)
-                inserted = true
-                break
-            }
-        }
-        if !inserted {
-            s.sets[0].Insert(obj)
-        }
-    }
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericFederatedMatchableTcpGatewaySet(federatedMatchableTcpGatewayList))
+	}
+	for _, obj := range federatedMatchableTcpGatewayList {
+		inserted := false
+		for _, set := range s.sets {
+			if set.Has(obj) {
+				set.Insert(obj)
+				inserted = true
+				break
+			}
+		}
+		if !inserted {
+			s.sets[0].Insert(obj)
+		}
+	}
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Has(federatedMatchableTcpGateway ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    for _, set := range s.sets {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
 		if set.Has(federatedMatchableTcpGateway) {
 			return true
 		}
 	}
-    return false
+	return false
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Equal(
-        federatedMatchableTcpGatewaySet FederatedMatchableTcpGatewaySet,
+	federatedMatchableTcpGatewaySet FederatedMatchableTcpGatewaySet,
 ) bool {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Delete(FederatedMatchableTcpGateway ezkube.ResourceId) {
-    for _, set := range s.sets {
-        set.Delete(FederatedMatchableTcpGateway)
-    }    
+	for _, set := range s.sets {
+		set.Delete(FederatedMatchableTcpGateway)
+	}
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Union(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet {
-    if s == nil {
-        return set
-    }
-    return &federatedMatchableTcpGatewayMergedSet{sets: append(s.sets, set.Generic())}
+	if s == nil {
+		return set
+	}
+	return &federatedMatchableTcpGatewayMergedSet{sets: append(s.sets, set.Generic())}
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Difference(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Intersection(set FederatedMatchableTcpGatewaySet) FederatedMatchableTcpGatewaySet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedMatchableTcpGateway, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedMatchableTcpGateway %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedMatchableTcpGateway %v", sksets.Key(id))
+	}
 
-    var err error
+	var err error
 	for _, set := range s.sets {
 		var obj ezkube.ResourceId
 		obj, err = set.Find(&fed_gateway_solo_io_v1.FederatedMatchableTcpGateway{}, id)
@@ -1252,26 +1247,26 @@ func (s *federatedMatchableTcpGatewayMergedSet) Find(id ezkube.ResourceId) (*fed
 		}
 	}
 
-    return nil, err
+	return nil, err
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Length() int {
-    if s == nil {
-        return 0
-    }
-    totalLen := 0
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
 	for _, set := range s.sets {
 		totalLen += set.Length()
 	}
-    return totalLen
+	return totalLen
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Generic() sksets.ResourceSet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Delta(newSet FederatedMatchableTcpGatewaySet) sksets.ResourceDelta {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Clone() FederatedMatchableTcpGatewaySet {
@@ -1283,219 +1278,218 @@ func (s *federatedMatchableTcpGatewayMergedSet) Clone() FederatedMatchableTcpGat
 
 type FederatedRouteTableSet interface {
 	// Get the set stored keys
-    Keys() sets.String
-    // List of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable
-    // Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable
-    // Return the Set as a map of key to resource.
-    Map() map[string]*fed_gateway_solo_io_v1.FederatedRouteTable
-    // Insert a resource into the set.
-    Insert(federatedRouteTable ...*fed_gateway_solo_io_v1.FederatedRouteTable)
-    // Compare the equality of the keys in two sets (not the resources themselves)
-    Equal(federatedRouteTableSet FederatedRouteTableSet) bool
-    // Check if the set contains a key matching the resource (not the resource itself)
-    Has(federatedRouteTable ezkube.ResourceId) bool
-    // Delete the key matching the resource
-    Delete(federatedRouteTable  ezkube.ResourceId)
-    // Return the union with the provided set
-    Union(set FederatedRouteTableSet) FederatedRouteTableSet
-    // Return the difference with the provided set
-    Difference(set FederatedRouteTableSet) FederatedRouteTableSet
-    // Return the intersection with the provided set
-    Intersection(set FederatedRouteTableSet) FederatedRouteTableSet
-    // Find the resource with the given ID
-    Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedRouteTable, error)
-    // Get the length of the set
-    Length() int
-    // returns the generic implementation of the set
-    Generic() sksets.ResourceSet
-    // returns the delta between this and and another FederatedRouteTableSet
-    Delta(newSet FederatedRouteTableSet) sksets.ResourceDelta
-    // Create a deep copy of the current FederatedRouteTableSet
-    Clone() FederatedRouteTableSet
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable
+	// Return the Set as a map of key to resource.
+	Map() map[string]*fed_gateway_solo_io_v1.FederatedRouteTable
+	// Insert a resource into the set.
+	Insert(federatedRouteTable ...*fed_gateway_solo_io_v1.FederatedRouteTable)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(federatedRouteTableSet FederatedRouteTableSet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(federatedRouteTable ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(federatedRouteTable ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set FederatedRouteTableSet) FederatedRouteTableSet
+	// Return the difference with the provided set
+	Difference(set FederatedRouteTableSet) FederatedRouteTableSet
+	// Return the intersection with the provided set
+	Intersection(set FederatedRouteTableSet) FederatedRouteTableSet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedRouteTable, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another FederatedRouteTableSet
+	Delta(newSet FederatedRouteTableSet) sksets.ResourceDelta
+	// Create a deep copy of the current FederatedRouteTableSet
+	Clone() FederatedRouteTableSet
 }
 
 func makeGenericFederatedRouteTableSet(federatedRouteTableList []*fed_gateway_solo_io_v1.FederatedRouteTable) sksets.ResourceSet {
-    var genericResources []ezkube.ResourceId
-    for _, obj := range federatedRouteTableList {
-        genericResources = append(genericResources, obj)
-    }
-    return sksets.NewResourceSet(genericResources...)
+	var genericResources []ezkube.ResourceId
+	for _, obj := range federatedRouteTableList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
 }
 
 type federatedRouteTableSet struct {
-    set sksets.ResourceSet
+	set sksets.ResourceSet
 }
 
 func NewFederatedRouteTableSet(federatedRouteTableList ...*fed_gateway_solo_io_v1.FederatedRouteTable) FederatedRouteTableSet {
-    return &federatedRouteTableSet{set: makeGenericFederatedRouteTableSet(federatedRouteTableList)}
+	return &federatedRouteTableSet{set: makeGenericFederatedRouteTableSet(federatedRouteTableList)}
 }
 
 func NewFederatedRouteTableSetFromList(federatedRouteTableList *fed_gateway_solo_io_v1.FederatedRouteTableList) FederatedRouteTableSet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedRouteTable, 0, len(federatedRouteTableList.Items))
-    for idx := range federatedRouteTableList.Items {
-        list = append(list, &federatedRouteTableList.Items[idx])
-    }
-    return &federatedRouteTableSet{set: makeGenericFederatedRouteTableSet(list)}
+	list := make([]*fed_gateway_solo_io_v1.FederatedRouteTable, 0, len(federatedRouteTableList.Items))
+	for idx := range federatedRouteTableList.Items {
+		list = append(list, &federatedRouteTableList.Items[idx])
+	}
+	return &federatedRouteTableSet{set: makeGenericFederatedRouteTableSet(list)}
 }
 
 func (s *federatedRouteTableSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    return s.Generic().Keys()
+	}
+	return s.Generic().Keys()
 }
 
-func (s *federatedRouteTableSet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
-        })
-    }
+func (s *federatedRouteTableSet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
+		})
+	}
 
-    objs := s.Generic().List(genericFilters...)
-    federatedRouteTableList := make([]*fed_gateway_solo_io_v1.FederatedRouteTable, 0, len(objs))
-    for _, obj := range objs {
-        federatedRouteTableList = append(federatedRouteTableList, obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
-    }
-    return federatedRouteTableList
+	objs := s.Generic().List(genericFilters...)
+	federatedRouteTableList := make([]*fed_gateway_solo_io_v1.FederatedRouteTable, 0, len(objs))
+	for _, obj := range objs {
+		federatedRouteTableList = append(federatedRouteTableList, obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
+	}
+	return federatedRouteTableList
 }
 
-func (s *federatedRouteTableSet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
-        })
-    }
+func (s *federatedRouteTableSet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
+		})
+	}
 
-    var federatedRouteTableList []*fed_gateway_solo_io_v1.FederatedRouteTable
-    for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-        federatedRouteTableList = append(federatedRouteTableList, obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
-    }
-    return federatedRouteTableList
+	var federatedRouteTableList []*fed_gateway_solo_io_v1.FederatedRouteTable
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		federatedRouteTableList = append(federatedRouteTableList, obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
+	}
+	return federatedRouteTableList
 }
 
 func (s *federatedRouteTableSet) Map() map[string]*fed_gateway_solo_io_v1.FederatedRouteTable {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedRouteTable{}
-    for k, v := range s.Generic().Map() {
-        newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedRouteTable)
-    }
-    return newMap
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedRouteTable{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedRouteTable)
+	}
+	return newMap
 }
 
 func (s *federatedRouteTableSet) Insert(
-        federatedRouteTableList ...*fed_gateway_solo_io_v1.FederatedRouteTable,
+	federatedRouteTableList ...*fed_gateway_solo_io_v1.FederatedRouteTable,
 ) {
-    if s == nil {
-        panic("cannot insert into nil set")
-    }
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
 
-    for _, obj := range federatedRouteTableList {
-        s.Generic().Insert(obj)
-    }
+	for _, obj := range federatedRouteTableList {
+		s.Generic().Insert(obj)
+	}
 }
 
 func (s *federatedRouteTableSet) Has(federatedRouteTable ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    return s.Generic().Has(federatedRouteTable)
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(federatedRouteTable)
 }
 
 func (s *federatedRouteTableSet) Equal(
-        federatedRouteTableSet FederatedRouteTableSet,
+	federatedRouteTableSet FederatedRouteTableSet,
 ) bool {
-    if s == nil {
-        return federatedRouteTableSet == nil
-    }
-    return s.Generic().Equal(federatedRouteTableSet.Generic())
+	if s == nil {
+		return federatedRouteTableSet == nil
+	}
+	return s.Generic().Equal(federatedRouteTableSet.Generic())
 }
 
 func (s *federatedRouteTableSet) Delete(FederatedRouteTable ezkube.ResourceId) {
-    if s == nil {
-        return
-    }
-    s.Generic().Delete(FederatedRouteTable)
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(FederatedRouteTable)
 }
 
 func (s *federatedRouteTableSet) Union(set FederatedRouteTableSet) FederatedRouteTableSet {
-    if s == nil {
-        return set
-    }
-    return &federatedRouteTableMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
+	if s == nil {
+		return set
+	}
+	return NewFederatedRouteTableSet(append(s.List(), set.List()...)...)
 }
 
 func (s *federatedRouteTableSet) Difference(set FederatedRouteTableSet) FederatedRouteTableSet {
-    if s == nil {
-        return set
-    }
-    newSet := s.Generic().Difference(set.Generic())
-    return &federatedRouteTableSet{set: newSet}
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &federatedRouteTableSet{set: newSet}
 }
 
 func (s *federatedRouteTableSet) Intersection(set FederatedRouteTableSet) FederatedRouteTableSet {
-    if s == nil {
-        return nil
-    }
-    newSet := s.Generic().Intersection(set.Generic())
-    var federatedRouteTableList []*fed_gateway_solo_io_v1.FederatedRouteTable
-    for _, obj := range newSet.List() {
-        federatedRouteTableList = append(federatedRouteTableList, obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
-    }
-    return NewFederatedRouteTableSet(federatedRouteTableList...)
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var federatedRouteTableList []*fed_gateway_solo_io_v1.FederatedRouteTable
+	for _, obj := range newSet.List() {
+		federatedRouteTableList = append(federatedRouteTableList, obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
+	}
+	return NewFederatedRouteTableSet(federatedRouteTableList...)
 }
 
-
 func (s *federatedRouteTableSet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedRouteTable, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedRouteTable %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedRouteTable %v", sksets.Key(id))
+	}
 	obj, err := s.Generic().Find(&fed_gateway_solo_io_v1.FederatedRouteTable{}, id)
 	if err != nil {
 		return nil, err
-    }
+	}
 
-    return obj.(*fed_gateway_solo_io_v1.FederatedRouteTable), nil
+	return obj.(*fed_gateway_solo_io_v1.FederatedRouteTable), nil
 }
 
 func (s *federatedRouteTableSet) Length() int {
-    if s == nil {
-        return 0
-    }
-    return s.Generic().Length()
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
 }
 
 func (s *federatedRouteTableSet) Generic() sksets.ResourceSet {
-    if s == nil {
-        return nil
-    }
-    return s.set
+	if s == nil {
+		return nil
+	}
+	return s.set
 }
 
 func (s *federatedRouteTableSet) Delta(newSet FederatedRouteTableSet) sksets.ResourceDelta {
-    if s == nil {
-        return sksets.ResourceDelta{
-            Inserted: newSet.Generic(),
-        }
-    }
-    return s.Generic().Delta(newSet.Generic())
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }
 
 func (s *federatedRouteTableSet) Clone() FederatedRouteTableSet {
@@ -1506,166 +1500,166 @@ func (s *federatedRouteTableSet) Clone() FederatedRouteTableSet {
 }
 
 type federatedRouteTableMergedSet struct {
-    sets []sksets.ResourceSet
+	sets []sksets.ResourceSet
 }
 
 func NewFederatedRouteTableMergedSet(federatedRouteTableList ...*fed_gateway_solo_io_v1.FederatedRouteTable) FederatedRouteTableSet {
-    return &federatedRouteTableMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedRouteTableSet(federatedRouteTableList)}}
+	return &federatedRouteTableMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedRouteTableSet(federatedRouteTableList)}}
 }
 
 func NewFederatedRouteTableMergedSetFromList(federatedRouteTableList *fed_gateway_solo_io_v1.FederatedRouteTableList) FederatedRouteTableSet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedRouteTable, 0, len(federatedRouteTableList.Items))
-    for idx := range federatedRouteTableList.Items {
-        list = append(list, &federatedRouteTableList.Items[idx])
-    }
-    return &federatedRouteTableMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedRouteTableSet(list)}}
+	list := make([]*fed_gateway_solo_io_v1.FederatedRouteTable, 0, len(federatedRouteTableList.Items))
+	for idx := range federatedRouteTableList.Items {
+		list = append(list, &federatedRouteTableList.Items[idx])
+	}
+	return &federatedRouteTableMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedRouteTableSet(list)}}
 }
 
 func (s *federatedRouteTableMergedSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    toRet := sets.String{}
-	for _ , set := range s.sets {
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
 		toRet = toRet.Union(set.Keys())
 	}
 	return toRet
 }
 
-func (s *federatedRouteTableMergedSet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
-        })
-    }
-   federatedRouteTableList := []*fed_gateway_solo_io_v1.FederatedRouteTable{}
+func (s *federatedRouteTableMergedSet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
+		})
+	}
+	federatedRouteTableList := []*fed_gateway_solo_io_v1.FederatedRouteTable{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.List(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedRouteTableList = append(federatedRouteTableList, obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
 		}
 	}
-    return federatedRouteTableList
+	return federatedRouteTableList
 }
 
-func (s *federatedRouteTableMergedSet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
-        })
-    }
-   federatedRouteTableList := []*fed_gateway_solo_io_v1.FederatedRouteTable{}
+func (s *federatedRouteTableMergedSet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedRouteTable) bool) []*fed_gateway_solo_io_v1.FederatedRouteTable {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
+		})
+	}
+	federatedRouteTableList := []*fed_gateway_solo_io_v1.FederatedRouteTable{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.UnsortedList(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedRouteTableList = append(federatedRouteTableList, obj.(*fed_gateway_solo_io_v1.FederatedRouteTable))
 		}
 	}
-    return federatedRouteTableList
+	return federatedRouteTableList
 }
 
 func (s *federatedRouteTableMergedSet) Map() map[string]*fed_gateway_solo_io_v1.FederatedRouteTable {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedRouteTable{}
-    for _, set := range s.sets {
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedRouteTable{}
+	for _, set := range s.sets {
 		for k, v := range set.Map() {
-            newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedRouteTable)
-        }
-    }
-    return newMap
+			newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedRouteTable)
+		}
+	}
+	return newMap
 }
 
 func (s *federatedRouteTableMergedSet) Insert(
-        federatedRouteTableList ...*fed_gateway_solo_io_v1.FederatedRouteTable,
+	federatedRouteTableList ...*fed_gateway_solo_io_v1.FederatedRouteTable,
 ) {
-    if s == nil {
-    }
-    if len(s.sets) == 0 {
-        s.sets = append(s.sets, makeGenericFederatedRouteTableSet(federatedRouteTableList))
-    }
-    for _, obj := range federatedRouteTableList {
-        inserted := false
-        for _, set := range s.sets {
-            if set.Has(obj) {
-                set.Insert(obj)
-                inserted = true
-                break
-            }
-        }
-        if !inserted {
-            s.sets[0].Insert(obj)
-        }
-    }
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericFederatedRouteTableSet(federatedRouteTableList))
+	}
+	for _, obj := range federatedRouteTableList {
+		inserted := false
+		for _, set := range s.sets {
+			if set.Has(obj) {
+				set.Insert(obj)
+				inserted = true
+				break
+			}
+		}
+		if !inserted {
+			s.sets[0].Insert(obj)
+		}
+	}
 }
 
 func (s *federatedRouteTableMergedSet) Has(federatedRouteTable ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    for _, set := range s.sets {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
 		if set.Has(federatedRouteTable) {
 			return true
 		}
 	}
-    return false
+	return false
 }
 
 func (s *federatedRouteTableMergedSet) Equal(
-        federatedRouteTableSet FederatedRouteTableSet,
+	federatedRouteTableSet FederatedRouteTableSet,
 ) bool {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedRouteTableMergedSet) Delete(FederatedRouteTable ezkube.ResourceId) {
-    for _, set := range s.sets {
-        set.Delete(FederatedRouteTable)
-    }    
+	for _, set := range s.sets {
+		set.Delete(FederatedRouteTable)
+	}
 }
 
 func (s *federatedRouteTableMergedSet) Union(set FederatedRouteTableSet) FederatedRouteTableSet {
-    if s == nil {
-        return set
-    }
-    return &federatedRouteTableMergedSet{sets: append(s.sets, set.Generic())}
+	if s == nil {
+		return set
+	}
+	return &federatedRouteTableMergedSet{sets: append(s.sets, set.Generic())}
 }
 
 func (s *federatedRouteTableMergedSet) Difference(set FederatedRouteTableSet) FederatedRouteTableSet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedRouteTableMergedSet) Intersection(set FederatedRouteTableSet) FederatedRouteTableSet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedRouteTableMergedSet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedRouteTable, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedRouteTable %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedRouteTable %v", sksets.Key(id))
+	}
 
-    var err error
+	var err error
 	for _, set := range s.sets {
 		var obj ezkube.ResourceId
 		obj, err = set.Find(&fed_gateway_solo_io_v1.FederatedRouteTable{}, id)
@@ -1674,26 +1668,26 @@ func (s *federatedRouteTableMergedSet) Find(id ezkube.ResourceId) (*fed_gateway_
 		}
 	}
 
-    return nil, err
+	return nil, err
 }
 
 func (s *federatedRouteTableMergedSet) Length() int {
-    if s == nil {
-        return 0
-    }
-    totalLen := 0
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
 	for _, set := range s.sets {
 		totalLen += set.Length()
 	}
-    return totalLen
+	return totalLen
 }
 
 func (s *federatedRouteTableMergedSet) Generic() sksets.ResourceSet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedRouteTableMergedSet) Delta(newSet FederatedRouteTableSet) sksets.ResourceDelta {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedRouteTableMergedSet) Clone() FederatedRouteTableSet {
@@ -1705,219 +1699,218 @@ func (s *federatedRouteTableMergedSet) Clone() FederatedRouteTableSet {
 
 type FederatedVirtualServiceSet interface {
 	// Get the set stored keys
-    Keys() sets.String
-    // List of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService
-    // Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-    // The filter function should return false to keep the resource, true to drop it.
-    UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService
-    // Return the Set as a map of key to resource.
-    Map() map[string]*fed_gateway_solo_io_v1.FederatedVirtualService
-    // Insert a resource into the set.
-    Insert(federatedVirtualService ...*fed_gateway_solo_io_v1.FederatedVirtualService)
-    // Compare the equality of the keys in two sets (not the resources themselves)
-    Equal(federatedVirtualServiceSet FederatedVirtualServiceSet) bool
-    // Check if the set contains a key matching the resource (not the resource itself)
-    Has(federatedVirtualService ezkube.ResourceId) bool
-    // Delete the key matching the resource
-    Delete(federatedVirtualService  ezkube.ResourceId)
-    // Return the union with the provided set
-    Union(set FederatedVirtualServiceSet) FederatedVirtualServiceSet
-    // Return the difference with the provided set
-    Difference(set FederatedVirtualServiceSet) FederatedVirtualServiceSet
-    // Return the intersection with the provided set
-    Intersection(set FederatedVirtualServiceSet) FederatedVirtualServiceSet
-    // Find the resource with the given ID
-    Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedVirtualService, error)
-    // Get the length of the set
-    Length() int
-    // returns the generic implementation of the set
-    Generic() sksets.ResourceSet
-    // returns the delta between this and and another FederatedVirtualServiceSet
-    Delta(newSet FederatedVirtualServiceSet) sksets.ResourceDelta
-    // Create a deep copy of the current FederatedVirtualServiceSet
-    Clone() FederatedVirtualServiceSet
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService
+	// Return the Set as a map of key to resource.
+	Map() map[string]*fed_gateway_solo_io_v1.FederatedVirtualService
+	// Insert a resource into the set.
+	Insert(federatedVirtualService ...*fed_gateway_solo_io_v1.FederatedVirtualService)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(federatedVirtualServiceSet FederatedVirtualServiceSet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(federatedVirtualService ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(federatedVirtualService ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set FederatedVirtualServiceSet) FederatedVirtualServiceSet
+	// Return the difference with the provided set
+	Difference(set FederatedVirtualServiceSet) FederatedVirtualServiceSet
+	// Return the intersection with the provided set
+	Intersection(set FederatedVirtualServiceSet) FederatedVirtualServiceSet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedVirtualService, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another FederatedVirtualServiceSet
+	Delta(newSet FederatedVirtualServiceSet) sksets.ResourceDelta
+	// Create a deep copy of the current FederatedVirtualServiceSet
+	Clone() FederatedVirtualServiceSet
 }
 
 func makeGenericFederatedVirtualServiceSet(federatedVirtualServiceList []*fed_gateway_solo_io_v1.FederatedVirtualService) sksets.ResourceSet {
-    var genericResources []ezkube.ResourceId
-    for _, obj := range federatedVirtualServiceList {
-        genericResources = append(genericResources, obj)
-    }
-    return sksets.NewResourceSet(genericResources...)
+	var genericResources []ezkube.ResourceId
+	for _, obj := range federatedVirtualServiceList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
 }
 
 type federatedVirtualServiceSet struct {
-    set sksets.ResourceSet
+	set sksets.ResourceSet
 }
 
 func NewFederatedVirtualServiceSet(federatedVirtualServiceList ...*fed_gateway_solo_io_v1.FederatedVirtualService) FederatedVirtualServiceSet {
-    return &federatedVirtualServiceSet{set: makeGenericFederatedVirtualServiceSet(federatedVirtualServiceList)}
+	return &federatedVirtualServiceSet{set: makeGenericFederatedVirtualServiceSet(federatedVirtualServiceList)}
 }
 
 func NewFederatedVirtualServiceSetFromList(federatedVirtualServiceList *fed_gateway_solo_io_v1.FederatedVirtualServiceList) FederatedVirtualServiceSet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedVirtualService, 0, len(federatedVirtualServiceList.Items))
-    for idx := range federatedVirtualServiceList.Items {
-        list = append(list, &federatedVirtualServiceList.Items[idx])
-    }
-    return &federatedVirtualServiceSet{set: makeGenericFederatedVirtualServiceSet(list)}
+	list := make([]*fed_gateway_solo_io_v1.FederatedVirtualService, 0, len(federatedVirtualServiceList.Items))
+	for idx := range federatedVirtualServiceList.Items {
+		list = append(list, &federatedVirtualServiceList.Items[idx])
+	}
+	return &federatedVirtualServiceSet{set: makeGenericFederatedVirtualServiceSet(list)}
 }
 
 func (s *federatedVirtualServiceSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    return s.Generic().Keys()
+	}
+	return s.Generic().Keys()
 }
 
-func (s *federatedVirtualServiceSet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
-        })
-    }
+func (s *federatedVirtualServiceSet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
+		})
+	}
 
-    objs := s.Generic().List(genericFilters...)
-    federatedVirtualServiceList := make([]*fed_gateway_solo_io_v1.FederatedVirtualService, 0, len(objs))
-    for _, obj := range objs {
-        federatedVirtualServiceList = append(federatedVirtualServiceList, obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
-    }
-    return federatedVirtualServiceList
+	objs := s.Generic().List(genericFilters...)
+	federatedVirtualServiceList := make([]*fed_gateway_solo_io_v1.FederatedVirtualService, 0, len(objs))
+	for _, obj := range objs {
+		federatedVirtualServiceList = append(federatedVirtualServiceList, obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
+	}
+	return federatedVirtualServiceList
 }
 
-func (s *federatedVirtualServiceSet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
-        })
-    }
+func (s *federatedVirtualServiceSet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
+		})
+	}
 
-    var federatedVirtualServiceList []*fed_gateway_solo_io_v1.FederatedVirtualService
-    for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-        federatedVirtualServiceList = append(federatedVirtualServiceList, obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
-    }
-    return federatedVirtualServiceList
+	var federatedVirtualServiceList []*fed_gateway_solo_io_v1.FederatedVirtualService
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		federatedVirtualServiceList = append(federatedVirtualServiceList, obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
+	}
+	return federatedVirtualServiceList
 }
 
 func (s *federatedVirtualServiceSet) Map() map[string]*fed_gateway_solo_io_v1.FederatedVirtualService {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedVirtualService{}
-    for k, v := range s.Generic().Map() {
-        newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedVirtualService)
-    }
-    return newMap
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedVirtualService{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedVirtualService)
+	}
+	return newMap
 }
 
 func (s *federatedVirtualServiceSet) Insert(
-        federatedVirtualServiceList ...*fed_gateway_solo_io_v1.FederatedVirtualService,
+	federatedVirtualServiceList ...*fed_gateway_solo_io_v1.FederatedVirtualService,
 ) {
-    if s == nil {
-        panic("cannot insert into nil set")
-    }
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
 
-    for _, obj := range federatedVirtualServiceList {
-        s.Generic().Insert(obj)
-    }
+	for _, obj := range federatedVirtualServiceList {
+		s.Generic().Insert(obj)
+	}
 }
 
 func (s *federatedVirtualServiceSet) Has(federatedVirtualService ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    return s.Generic().Has(federatedVirtualService)
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(federatedVirtualService)
 }
 
 func (s *federatedVirtualServiceSet) Equal(
-        federatedVirtualServiceSet FederatedVirtualServiceSet,
+	federatedVirtualServiceSet FederatedVirtualServiceSet,
 ) bool {
-    if s == nil {
-        return federatedVirtualServiceSet == nil
-    }
-    return s.Generic().Equal(federatedVirtualServiceSet.Generic())
+	if s == nil {
+		return federatedVirtualServiceSet == nil
+	}
+	return s.Generic().Equal(federatedVirtualServiceSet.Generic())
 }
 
 func (s *federatedVirtualServiceSet) Delete(FederatedVirtualService ezkube.ResourceId) {
-    if s == nil {
-        return
-    }
-    s.Generic().Delete(FederatedVirtualService)
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(FederatedVirtualService)
 }
 
 func (s *federatedVirtualServiceSet) Union(set FederatedVirtualServiceSet) FederatedVirtualServiceSet {
-    if s == nil {
-        return set
-    }
-    return &federatedVirtualServiceMergedSet{sets: []sksets.ResourceSet{s.Generic(), set.Generic()}}
+	if s == nil {
+		return set
+	}
+	return NewFederatedVirtualServiceSet(append(s.List(), set.List()...)...)
 }
 
 func (s *federatedVirtualServiceSet) Difference(set FederatedVirtualServiceSet) FederatedVirtualServiceSet {
-    if s == nil {
-        return set
-    }
-    newSet := s.Generic().Difference(set.Generic())
-    return &federatedVirtualServiceSet{set: newSet}
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &federatedVirtualServiceSet{set: newSet}
 }
 
 func (s *federatedVirtualServiceSet) Intersection(set FederatedVirtualServiceSet) FederatedVirtualServiceSet {
-    if s == nil {
-        return nil
-    }
-    newSet := s.Generic().Intersection(set.Generic())
-    var federatedVirtualServiceList []*fed_gateway_solo_io_v1.FederatedVirtualService
-    for _, obj := range newSet.List() {
-        federatedVirtualServiceList = append(federatedVirtualServiceList, obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
-    }
-    return NewFederatedVirtualServiceSet(federatedVirtualServiceList...)
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var federatedVirtualServiceList []*fed_gateway_solo_io_v1.FederatedVirtualService
+	for _, obj := range newSet.List() {
+		federatedVirtualServiceList = append(federatedVirtualServiceList, obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
+	}
+	return NewFederatedVirtualServiceSet(federatedVirtualServiceList...)
 }
 
-
 func (s *federatedVirtualServiceSet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedVirtualService, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedVirtualService %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedVirtualService %v", sksets.Key(id))
+	}
 	obj, err := s.Generic().Find(&fed_gateway_solo_io_v1.FederatedVirtualService{}, id)
 	if err != nil {
 		return nil, err
-    }
+	}
 
-    return obj.(*fed_gateway_solo_io_v1.FederatedVirtualService), nil
+	return obj.(*fed_gateway_solo_io_v1.FederatedVirtualService), nil
 }
 
 func (s *federatedVirtualServiceSet) Length() int {
-    if s == nil {
-        return 0
-    }
-    return s.Generic().Length()
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
 }
 
 func (s *federatedVirtualServiceSet) Generic() sksets.ResourceSet {
-    if s == nil {
-        return nil
-    }
-    return s.set
+	if s == nil {
+		return nil
+	}
+	return s.set
 }
 
 func (s *federatedVirtualServiceSet) Delta(newSet FederatedVirtualServiceSet) sksets.ResourceDelta {
-    if s == nil {
-        return sksets.ResourceDelta{
-            Inserted: newSet.Generic(),
-        }
-    }
-    return s.Generic().Delta(newSet.Generic())
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
 }
 
 func (s *federatedVirtualServiceSet) Clone() FederatedVirtualServiceSet {
@@ -1928,166 +1921,166 @@ func (s *federatedVirtualServiceSet) Clone() FederatedVirtualServiceSet {
 }
 
 type federatedVirtualServiceMergedSet struct {
-    sets []sksets.ResourceSet
+	sets []sksets.ResourceSet
 }
 
 func NewFederatedVirtualServiceMergedSet(federatedVirtualServiceList ...*fed_gateway_solo_io_v1.FederatedVirtualService) FederatedVirtualServiceSet {
-    return &federatedVirtualServiceMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedVirtualServiceSet(federatedVirtualServiceList)}}
+	return &federatedVirtualServiceMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedVirtualServiceSet(federatedVirtualServiceList)}}
 }
 
 func NewFederatedVirtualServiceMergedSetFromList(federatedVirtualServiceList *fed_gateway_solo_io_v1.FederatedVirtualServiceList) FederatedVirtualServiceSet {
-    list := make([]*fed_gateway_solo_io_v1.FederatedVirtualService, 0, len(federatedVirtualServiceList.Items))
-    for idx := range federatedVirtualServiceList.Items {
-        list = append(list, &federatedVirtualServiceList.Items[idx])
-    }
-    return &federatedVirtualServiceMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedVirtualServiceSet(list)}}
+	list := make([]*fed_gateway_solo_io_v1.FederatedVirtualService, 0, len(federatedVirtualServiceList.Items))
+	for idx := range federatedVirtualServiceList.Items {
+		list = append(list, &federatedVirtualServiceList.Items[idx])
+	}
+	return &federatedVirtualServiceMergedSet{sets: []sksets.ResourceSet{makeGenericFederatedVirtualServiceSet(list)}}
 }
 
 func (s *federatedVirtualServiceMergedSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
-    }
-    toRet := sets.String{}
-	for _ , set := range s.sets {
+	}
+	toRet := sets.String{}
+	for _, set := range s.sets {
 		toRet = toRet.Union(set.Keys())
 	}
 	return toRet
 }
 
-func (s *federatedVirtualServiceMergedSet) List(filterResource ... func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
-        })
-    }
-   federatedVirtualServiceList := []*fed_gateway_solo_io_v1.FederatedVirtualService{}
+func (s *federatedVirtualServiceMergedSet) List(filterResource ...func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
+		})
+	}
+	federatedVirtualServiceList := []*fed_gateway_solo_io_v1.FederatedVirtualService{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.List(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedVirtualServiceList = append(federatedVirtualServiceList, obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
 		}
 	}
-    return federatedVirtualServiceList
+	return federatedVirtualServiceList
 }
 
-func (s *federatedVirtualServiceMergedSet) UnsortedList(filterResource ... func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService {
-    if s == nil {
-        return nil
-    }
-    var genericFilters []func(ezkube.ResourceId) bool
-    for _, filter := range filterResource {
-        filter := filter
-        genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-            return filter(obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
-        })
-    }
-   federatedVirtualServiceList := []*fed_gateway_solo_io_v1.FederatedVirtualService{}
+func (s *federatedVirtualServiceMergedSet) UnsortedList(filterResource ...func(*fed_gateway_solo_io_v1.FederatedVirtualService) bool) []*fed_gateway_solo_io_v1.FederatedVirtualService {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
+		})
+	}
+	federatedVirtualServiceList := []*fed_gateway_solo_io_v1.FederatedVirtualService{}
 	tracker := map[ezkube.ResourceId]bool{}
 	for i := len(s.sets) - 1; i >= 0; i-- {
 		set := s.sets[i]
 		for _, obj := range set.UnsortedList(genericFilters...) {
-            if tracker[obj] {
+			if tracker[obj] {
 				continue
 			}
 			tracker[obj] = true
 			federatedVirtualServiceList = append(federatedVirtualServiceList, obj.(*fed_gateway_solo_io_v1.FederatedVirtualService))
 		}
 	}
-    return federatedVirtualServiceList
+	return federatedVirtualServiceList
 }
 
 func (s *federatedVirtualServiceMergedSet) Map() map[string]*fed_gateway_solo_io_v1.FederatedVirtualService {
-    if s == nil {
-        return nil
-    }
+	if s == nil {
+		return nil
+	}
 
-    newMap := map[string]*fed_gateway_solo_io_v1.FederatedVirtualService{}
-    for _, set := range s.sets {
+	newMap := map[string]*fed_gateway_solo_io_v1.FederatedVirtualService{}
+	for _, set := range s.sets {
 		for k, v := range set.Map() {
-            newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedVirtualService)
-        }
-    }
-    return newMap
+			newMap[k] = v.(*fed_gateway_solo_io_v1.FederatedVirtualService)
+		}
+	}
+	return newMap
 }
 
 func (s *federatedVirtualServiceMergedSet) Insert(
-        federatedVirtualServiceList ...*fed_gateway_solo_io_v1.FederatedVirtualService,
+	federatedVirtualServiceList ...*fed_gateway_solo_io_v1.FederatedVirtualService,
 ) {
-    if s == nil {
-    }
-    if len(s.sets) == 0 {
-        s.sets = append(s.sets, makeGenericFederatedVirtualServiceSet(federatedVirtualServiceList))
-    }
-    for _, obj := range federatedVirtualServiceList {
-        inserted := false
-        for _, set := range s.sets {
-            if set.Has(obj) {
-                set.Insert(obj)
-                inserted = true
-                break
-            }
-        }
-        if !inserted {
-            s.sets[0].Insert(obj)
-        }
-    }
+	if s == nil {
+	}
+	if len(s.sets) == 0 {
+		s.sets = append(s.sets, makeGenericFederatedVirtualServiceSet(federatedVirtualServiceList))
+	}
+	for _, obj := range federatedVirtualServiceList {
+		inserted := false
+		for _, set := range s.sets {
+			if set.Has(obj) {
+				set.Insert(obj)
+				inserted = true
+				break
+			}
+		}
+		if !inserted {
+			s.sets[0].Insert(obj)
+		}
+	}
 }
 
 func (s *federatedVirtualServiceMergedSet) Has(federatedVirtualService ezkube.ResourceId) bool {
-    if s == nil {
-        return false
-    }
-    for _, set := range s.sets {
+	if s == nil {
+		return false
+	}
+	for _, set := range s.sets {
 		if set.Has(federatedVirtualService) {
 			return true
 		}
 	}
-    return false
+	return false
 }
 
 func (s *federatedVirtualServiceMergedSet) Equal(
-        federatedVirtualServiceSet FederatedVirtualServiceSet,
+	federatedVirtualServiceSet FederatedVirtualServiceSet,
 ) bool {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedVirtualServiceMergedSet) Delete(FederatedVirtualService ezkube.ResourceId) {
-    for _, set := range s.sets {
-        set.Delete(FederatedVirtualService)
-    }    
+	for _, set := range s.sets {
+		set.Delete(FederatedVirtualService)
+	}
 }
 
 func (s *federatedVirtualServiceMergedSet) Union(set FederatedVirtualServiceSet) FederatedVirtualServiceSet {
-    if s == nil {
-        return set
-    }
-    return &federatedVirtualServiceMergedSet{sets: append(s.sets, set.Generic())}
+	if s == nil {
+		return set
+	}
+	return &federatedVirtualServiceMergedSet{sets: append(s.sets, set.Generic())}
 }
 
 func (s *federatedVirtualServiceMergedSet) Difference(set FederatedVirtualServiceSet) FederatedVirtualServiceSet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedVirtualServiceMergedSet) Intersection(set FederatedVirtualServiceSet) FederatedVirtualServiceSet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedVirtualServiceMergedSet) Find(id ezkube.ResourceId) (*fed_gateway_solo_io_v1.FederatedVirtualService, error) {
-    if s == nil {
-        return nil, eris.Errorf("empty set, cannot find FederatedVirtualService %v", sksets.Key(id))
-    }
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find FederatedVirtualService %v", sksets.Key(id))
+	}
 
-    var err error
+	var err error
 	for _, set := range s.sets {
 		var obj ezkube.ResourceId
 		obj, err = set.Find(&fed_gateway_solo_io_v1.FederatedVirtualService{}, id)
@@ -2096,26 +2089,26 @@ func (s *federatedVirtualServiceMergedSet) Find(id ezkube.ResourceId) (*fed_gate
 		}
 	}
 
-    return nil, err
+	return nil, err
 }
 
 func (s *federatedVirtualServiceMergedSet) Length() int {
-    if s == nil {
-        return 0
-    }
-    totalLen := 0
+	if s == nil {
+		return 0
+	}
+	totalLen := 0
 	for _, set := range s.sets {
 		totalLen += set.Length()
 	}
-    return totalLen
+	return totalLen
 }
 
 func (s *federatedVirtualServiceMergedSet) Generic() sksets.ResourceSet {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedVirtualServiceMergedSet) Delta(newSet FederatedVirtualServiceSet) sksets.ResourceDelta {
-    panic("unimplemented")
+	panic("unimplemented")
 }
 
 func (s *federatedVirtualServiceMergedSet) Clone() FederatedVirtualServiceSet {

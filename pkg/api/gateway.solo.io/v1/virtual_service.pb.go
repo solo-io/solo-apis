@@ -7,6 +7,9 @@
 package v1
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	proto "github.com/golang/protobuf/proto"
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
@@ -17,8 +20,6 @@ import (
 	core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -167,8 +168,6 @@ func (VirtualServiceStatus_State) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gateway_v1_virtual_service_proto_rawDescGZIP(), []int{6, 0}
 }
 
-//
-//
 // The **VirtualService** is the root routing object for the Gloo Gateway.
 // A virtual service describes the set of routes to match for a set of domains.
 //
@@ -190,21 +189,24 @@ func (VirtualServiceStatus_State) EnumDescriptor() ([]byte, []int) {
 // apiVersion: gateway.solo.io/v1
 // kind: VirtualService
 // metadata:
-//   name: 'http'
-//   namespace: 'usernamespace'
+//
+//	name: 'http'
+//	namespace: 'usernamespace'
+//
 // spec:
-//   virtualHost:
-//     domains:
-//     - '*.mydomain.com'
-//     - 'mydomain.com'
-//     routes:
-//     - matchers:
-//       - prefix: '/'
-//       # delegate all traffic to the `shared-routes` RouteTable
-//       delegateAction:
-//         ref:
-//           name: 'shared-routes'
-//           namespace: 'usernamespace'
+//
+//	virtualHost:
+//	  domains:
+//	  - '*.mydomain.com'
+//	  - 'mydomain.com'
+//	  routes:
+//	  - matchers:
+//	    - prefix: '/'
+//	    # delegate all traffic to the `shared-routes` RouteTable
+//	    delegateAction:
+//	      ref:
+//	        name: 'shared-routes'
+//	        namespace: 'usernamespace'
 //
 // ```
 //
@@ -213,25 +215,28 @@ func (VirtualServiceStatus_State) EnumDescriptor() ([]byte, []int) {
 // apiVersion: gateway.solo.io/v1
 // kind: VirtualService
 // metadata:
-//   name: 'https'
-//   namespace: 'usernamespace'
+//
+//	name: 'https'
+//	namespace: 'usernamespace'
+//
 // spec:
-//   virtualHost:
-//     domains:
-//     - '*.mydomain.com'
-//     - 'mydomain.com'
-//     routes:
-//     - matchers:
-//       - prefix: '/'
-//       # delegate all traffic to the `shared-routes` RouteTable
-//       delegateAction:
-//         ref:
-//           name: 'shared-routes'
-//           namespace: 'usernamespace'
-//   sslConfig:
-//     secretRef:
-//       name: gateway-tls
-//       namespace: gloo-system
+//
+//	virtualHost:
+//	  domains:
+//	  - '*.mydomain.com'
+//	  - 'mydomain.com'
+//	  routes:
+//	  - matchers:
+//	    - prefix: '/'
+//	    # delegate all traffic to the `shared-routes` RouteTable
+//	    delegateAction:
+//	      ref:
+//	        name: 'shared-routes'
+//	        namespace: 'usernamespace'
+//	sslConfig:
+//	  secretRef:
+//	    name: gateway-tls
+//	    namespace: gloo-system
 //
 // ```
 //
@@ -240,17 +245,21 @@ func (VirtualServiceStatus_State) EnumDescriptor() ([]byte, []int) {
 // apiVersion: gateway.solo.io/v1
 // kind: RouteTable
 // metadata:
-//   name: 'shared-routes'
-//   namespace: 'usernamespace'
+//
+//	name: 'shared-routes'
+//	namespace: 'usernamespace'
+//
 // spec:
-//   routes:
-//     - matchers:
-//       - prefix: '/some-route'
-//       routeAction:
-//         single:
-//           upstream:
-//             name: 'some-upstream'
-//      ...
+//
+//	routes:
+//	  - matchers:
+//	    - prefix: '/some-route'
+//	    routeAction:
+//	      single:
+//	        upstream:
+//	          name: 'some-upstream'
+//	   ...
+//
 // ```
 //
 // **Delegated Routes** are routes that use the `delegateAction` routing action. Delegated Routes obey the following
@@ -259,7 +268,6 @@ func (VirtualServiceStatus_State) EnumDescriptor() ([]byte, []int) {
 // - delegate routes must use `prefix` path matchers
 // - delegated routes cannot specify header, query, or methods portion of the normal route matcher.
 // - `routeOptions` configuration will be inherited from parent routes, but can be overridden by the child
-//
 type VirtualServiceSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -332,16 +340,14 @@ func (x *VirtualServiceSpec) GetDisplayName() string {
 	return ""
 }
 
+// Virtual Hosts serve an ordered list of routes for a set of domains.
 //
-//Virtual Hosts serve an ordered list of routes for a set of domains.
+// An HTTP request is first matched to a virtual host based on its host header, then to a route within the virtual host.
 //
-//An HTTP request is first matched to a virtual host based on its host header, then to a route within the virtual host.
+// If a request is not matched to any virtual host or a route therein, the target proxy will reply with a 404.
 //
-//If a request is not matched to any virtual host or a route therein, the target proxy will reply with a 404.
-//
-//Unlike the [Gloo Virtual Host]({{< versioned_link_path fromRoot="/reference/api/github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto.sk/#virtualhost" >}}),
-//_Gateway_ Virtual Hosts can delegate their routes to `RouteTables`.
-//
+// Unlike the [Gloo Virtual Host]({{< versioned_link_path fromRoot="/reference/api/github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto.sk/#virtualhost" >}}),
+// _Gateway_ Virtual Hosts can delegate their routes to `RouteTables`.
 type VirtualHost struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -451,7 +457,6 @@ type VirtualHost_OptionsConfigRefs struct {
 
 func (*VirtualHost_OptionsConfigRefs) isVirtualHost_ExternalOptionsConfig() {}
 
-//
 // A route specifies how to match a request and what action to take when the request is matched.
 //
 // When a request matches on a route, the route can perform one of the following actions:
