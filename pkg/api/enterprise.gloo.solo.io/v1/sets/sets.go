@@ -420,7 +420,11 @@ func (s *authConfigMergedSet) Length() int {
 }
 
 func (s *authConfigMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *authConfigMergedSet) Delta(newSet AuthConfigSet) sksets.ResourceDelta {

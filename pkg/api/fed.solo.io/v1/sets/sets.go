@@ -420,7 +420,11 @@ func (s *glooInstanceMergedSet) Length() int {
 }
 
 func (s *glooInstanceMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *glooInstanceMergedSet) Delta(newSet GlooInstanceSet) sksets.ResourceDelta {
@@ -841,7 +845,11 @@ func (s *failoverSchemeMergedSet) Length() int {
 }
 
 func (s *failoverSchemeMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *failoverSchemeMergedSet) Delta(newSet FailoverSchemeSet) sksets.ResourceDelta {

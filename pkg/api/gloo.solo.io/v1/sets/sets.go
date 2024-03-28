@@ -420,7 +420,11 @@ func (s *settingsMergedSet) Length() int {
 }
 
 func (s *settingsMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *settingsMergedSet) Delta(newSet SettingsSet) sksets.ResourceDelta {
@@ -841,7 +845,11 @@ func (s *upstreamMergedSet) Length() int {
 }
 
 func (s *upstreamMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *upstreamMergedSet) Delta(newSet UpstreamSet) sksets.ResourceDelta {
@@ -1262,7 +1270,11 @@ func (s *upstreamGroupMergedSet) Length() int {
 }
 
 func (s *upstreamGroupMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *upstreamGroupMergedSet) Delta(newSet UpstreamGroupSet) sksets.ResourceDelta {
@@ -1683,7 +1695,11 @@ func (s *proxyMergedSet) Length() int {
 }
 
 func (s *proxyMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *proxyMergedSet) Delta(newSet ProxySet) sksets.ResourceDelta {

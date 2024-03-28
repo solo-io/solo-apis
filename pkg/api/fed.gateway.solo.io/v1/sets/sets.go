@@ -420,7 +420,11 @@ func (s *federatedGatewayMergedSet) Length() int {
 }
 
 func (s *federatedGatewayMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *federatedGatewayMergedSet) Delta(newSet FederatedGatewaySet) sksets.ResourceDelta {
@@ -841,7 +845,11 @@ func (s *federatedMatchableHttpGatewayMergedSet) Length() int {
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *federatedMatchableHttpGatewayMergedSet) Delta(newSet FederatedMatchableHttpGatewaySet) sksets.ResourceDelta {
@@ -1262,7 +1270,11 @@ func (s *federatedMatchableTcpGatewayMergedSet) Length() int {
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *federatedMatchableTcpGatewayMergedSet) Delta(newSet FederatedMatchableTcpGatewaySet) sksets.ResourceDelta {
@@ -1683,7 +1695,11 @@ func (s *federatedRouteTableMergedSet) Length() int {
 }
 
 func (s *federatedRouteTableMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *federatedRouteTableMergedSet) Delta(newSet FederatedRouteTableSet) sksets.ResourceDelta {
@@ -2104,7 +2120,11 @@ func (s *federatedVirtualServiceMergedSet) Length() int {
 }
 
 func (s *federatedVirtualServiceMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *federatedVirtualServiceMergedSet) Delta(newSet FederatedVirtualServiceSet) sksets.ResourceDelta {

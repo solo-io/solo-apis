@@ -420,7 +420,11 @@ func (s *graphQLApiMergedSet) Length() int {
 }
 
 func (s *graphQLApiMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *graphQLApiMergedSet) Delta(newSet GraphQLApiSet) sksets.ResourceDelta {

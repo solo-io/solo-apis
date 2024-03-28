@@ -420,7 +420,11 @@ func (s *rateLimitConfigMergedSet) Length() int {
 }
 
 func (s *rateLimitConfigMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *rateLimitConfigMergedSet) Delta(newSet RateLimitConfigSet) sksets.ResourceDelta {

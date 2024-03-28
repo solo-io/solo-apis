@@ -420,7 +420,11 @@ func (s *multiClusterRoleMergedSet) Length() int {
 }
 
 func (s *multiClusterRoleMergedSet) Generic() sksets.ResourceSet {
-	panic("unimplemented")
+	res := make([]ezkube.ResourceId, s.Length())
+	for _, thing := range s.List() {
+		res = append(res, thing)
+	}
+	return sksets.NewResourceSet(res...)
 }
 
 func (s *multiClusterRoleMergedSet) Delta(newSet MultiClusterRoleSet) sksets.ResourceDelta {
