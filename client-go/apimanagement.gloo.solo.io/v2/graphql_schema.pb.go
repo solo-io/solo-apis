@@ -328,7 +328,7 @@ type GraphQLSchemaSpec_ProxiedGraphQL struct {
 	// If empty or omitted, the request span name will be set to the upstream cluster name.
 	SpanName string `protobuf:"bytes,5,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the REST service (default 5s)
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	Timeout *duration.Duration                        `protobuf:"bytes,6,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	Options *GraphQLSchemaSpec_ProxiedGraphQL_Options `protobuf:"bytes,7,opt,name=options,proto3" json:"options,omitempty"`
 }
@@ -467,7 +467,7 @@ type GraphQLSchemaSpec_ResolvedGraphQL_Options struct {
 	// Max GraphQL operation (query/mutation/subscription) depth. This sets a limitation on the max nesting on a query that runs against this schema.
 	// any GraphQL operation that runs past the `max_depth` will add an error message to the response and will return as `null`.
 	// If not configured, or the value is 0, the query depth will be unbounded.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
 	MaxDepth *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
 	// Enable introspection queries on the GraphQL API served by this GraphQLSchema resource.
 	// Introspection queries are used by GraphQL developers to understand the schema of the GraphQL API and create
@@ -612,7 +612,7 @@ type GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction_RequestHeader struct {
 
 type GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction_Json struct {
 	// Assigns the variable to a JSON value specified here.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Json *_struct.Value `protobuf:"bytes,3,opt,name=json,proto3,oneof"`
 }
 

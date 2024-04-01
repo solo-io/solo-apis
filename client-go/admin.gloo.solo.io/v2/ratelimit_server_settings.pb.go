@@ -41,7 +41,7 @@ type RateLimitServerSettingsSpec struct {
 	DestinationServer *v2.DestinationReference `protobuf:"bytes,1,opt,name=destination_server,json=destinationServer,proto3" json:"destination_server,omitempty"`
 	// The timeout in milliseconds for the rate limit service RPC. Defaults to 100ms.
 	// Behaviour after request timeout is reached is set by `deny_on_fail`.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	RequestTimeout *duration.Duration `protobuf:"bytes,2,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 	// Behaviour in case the rate limiting service does not respond back.
 	// When it is set to true, Envoy will not allow traffic in case of communication failure between rate limiting service and the proxy.
