@@ -254,7 +254,7 @@ type VariableTransformation_Jq struct {
 
 type VariableTransformation_Json struct {
 	// Static JSON value.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Json *_struct.Value `protobuf:"bytes,3,opt,name=json,proto3,oneof"`
 }
 
@@ -380,7 +380,7 @@ type Extraction_DynamicMetadata struct {
 
 type Extraction_GraphqlParent struct {
 	// Assigns the variable to the parent object
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
 	GraphqlParent *empty.Empty `protobuf:"bytes,3,opt,name=graphql_parent,json=graphqlParent,proto3,oneof"`
 }
 
@@ -394,13 +394,13 @@ type Extraction_ResolverResult struct {
 	// Assigns the variable to the GraphQL resolver result.
 	// If this Extraction is used in a place where the resolver result is not available, an error
 	// will be thrown during configuration time.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
 	ResolverResult *empty.Empty `protobuf:"bytes,5,opt,name=resolver_result,json=resolverResult,proto3,oneof"`
 }
 
 type Extraction_Json struct {
 	// Assigns the variable to a JSON value specified here
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Json *_struct.Value `protobuf:"bytes,6,opt,name=json,proto3,oneof"`
 }
 
@@ -899,7 +899,7 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver struct {
 	// If empty or omitted, the request span name will be set to the upstream cluster name.
 	SpanName *wrappers.StringValue `protobuf:"bytes,4,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the REST service (default 5s)
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	Timeout *duration.Duration `protobuf:"bytes,5,opt,name=timeout,proto3" json:"timeout,omitempty"`
 }
 
@@ -985,7 +985,7 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver struct {
 	// If empty or omitted, the request span name will be set to the upstream cluster name.
 	SpanName *wrappers.StringValue `protobuf:"bytes,3,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the gRPC service (default 5s)
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	Timeout *duration.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
 }
 
@@ -1397,7 +1397,7 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResp
 	unknownFields protoimpl.UnknownFields
 
 	// The delay before the response is returned.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	Delay *duration.Duration `protobuf:"bytes,1,opt,name=delay,proto3" json:"delay,omitempty"`
 	// The response to return.
 	// The response is a JSON object that can be templated from the `variables` field.

@@ -48,7 +48,7 @@ message CORSPolicySpec {
 
     // Specify how long the results of a preflight request can be
     // cached. Serialized to the `Access-Control-Max-Age` header.
-    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+    // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
     google.protobuf.Duration max_age = 5;
 
     // Indicates whether the caller is allowed to send the actual request

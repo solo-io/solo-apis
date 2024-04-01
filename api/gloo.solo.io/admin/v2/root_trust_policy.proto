@@ -56,7 +56,7 @@ message RootTrustPolicySpec {
         .tls.security.policy.gloo.solo.io.CommonCertOptions generated = 1;
 
         // Name of a Kubernetes Secret in the same namespace as the RootTrustPolicy containing the root certificate authority.
-        // Provided certificates must conform to a specified format, [documented here]({{< versioned_link_path fromRoot="/setup/prod/certs/relay/" >}}).
+        // Provided certificates must conform to a specified format, [documented here]({{< link path="/setup/prod/certs/relay/" >}}).
         .core.skv2.solo.io.ObjectRef secret_ref = 2;
 
       }

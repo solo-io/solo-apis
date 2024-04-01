@@ -3,7 +3,7 @@ module github.com/solo-io/solo-apis
 go 1.22.0
 
 require (
-	github.com/cncf/xds/go v0.0.0-20231016030527-8bd2eac9fb4a
+	github.com/cncf/xds/go v0.0.0-20231109132714-523115ebc101
 	github.com/envoyproxy/go-control-plane v0.11.2-0.20231120184409-3aaf8b9a228b
 	github.com/envoyproxy/protoc-gen-validate v1.0.2
 	github.com/evanphx/json-patch v5.7.0+incompatible // indirect
@@ -31,11 +31,11 @@ require (
 	go.uber.org/zap v1.26.0 // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/net v0.19.0 // indirect
-	golang.org/x/oauth2 v0.14.0 // indirect
-	golang.org/x/sys v0.15.0 // indirect
-	google.golang.org/genproto v0.0.0-20231030173426-d783a09b4405 // indirect
-	google.golang.org/grpc v1.59.0
-	google.golang.org/protobuf v1.31.0
+	golang.org/x/oauth2 v0.15.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
+	google.golang.org/genproto v0.0.0-20231212172506-995d672761c0 // indirect
+	google.golang.org/grpc v1.61.1
+	google.golang.org/protobuf v1.32.0
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	istio.io/api v1.20.3-0.20240116015448-5563f7225778
 	k8s.io/api v0.28.3
@@ -47,7 +47,7 @@ require (
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-require google.golang.org/genproto/googleapis/api v0.0.0-20231106174013-bbf56f31fb17
+require google.golang.org/genproto/googleapis/api v0.0.0-20240102182953-50ed04b92917
 
 require (
 	github.com/google/go-cmp v0.6.0 // indirect
@@ -60,7 +60,7 @@ require (
 	github.com/google/gnostic-models v0.6.8 // indirect
 	github.com/matttproud/golang_protobuf_extensions/v2 v2.0.0 // indirect
 	go.uber.org/goleak v1.3.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20231030173426-d783a09b4405 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240102182953-50ed04b92917 // indirect
 )
 
 require (
@@ -69,7 +69,7 @@ require (
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
-	github.com/go-logr/logr v1.3.0 // indirect
+	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-openapi/jsonpointer v0.20.0 // indirect
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect

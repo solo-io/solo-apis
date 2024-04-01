@@ -39,7 +39,7 @@ type WaypointLifecycleManagerSpec struct {
 	ApplyToServiceAccount []*v2.ObjectSelector `protobuf:"bytes,1,rep,name=apply_to_service_account,json=applyToServiceAccount,proto3" json:"apply_to_service_account,omitempty"`
 	// The deployment specification that you want to use to override the default L7 policy proxy deployment values.
 	// The values that you specify are merged with the default deployment values.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/struct).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
 	DeploymentSpec *_struct.Struct `protobuf:"bytes,2,opt,name=deployment_spec,json=deploymentSpec,proto3" json:"deployment_spec,omitempty"`
 }
 

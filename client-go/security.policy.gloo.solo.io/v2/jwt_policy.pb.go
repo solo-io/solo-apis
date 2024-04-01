@@ -606,7 +606,7 @@ type JWTPolicySpec_Config_Provider struct {
 	// Optional: Keep the JWT in the request post verification.
 	KeepToken bool `protobuf:"varint,7,opt,name=keep_token,json=keepToken,proto3" json:"keep_token,omitempty"`
 	// Optional: Verify time constraints, such as `exp` and `npf`. Default is 60s.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
 	ClockSkewSeconds *wrappers.UInt32Value `protobuf:"bytes,8,opt,name=clock_skew_seconds,json=clockSkewSeconds,proto3" json:"clock_skew_seconds,omitempty"`
 	// Optional: Copy the output of the JWT payload to a single header before forwarding the request to the upstream destination. The header is the name that you enter in this field.
 	// The payload data is base64-encoded before forwarding.
@@ -987,12 +987,12 @@ type JWTPolicySpec_Config_Provider_RemoteJWKS struct {
 	// Duration after which the cached JWKS expires.
 	//
 	// If omitted, defaults to 5 minutes.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	CacheDuration *duration.Duration `protobuf:"bytes,3,opt,name=cache_duration,json=cacheDuration,proto3" json:"cache_duration,omitempty"`
 	// Set the maximum duration in seconds that a response can take to arrive upon request.
 	//
 	// If omitted, defaults to 5 seconds.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	Timeout *duration.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	// Fetch the JWKS asynchronously in the main thread before activating the listener.
 	// Then, the fetched JWKS can be used by all worker threads.
