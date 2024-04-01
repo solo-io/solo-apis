@@ -4,7 +4,7 @@
 // When you create the `GatewayLifecycleManager` in your management cluster, Gloo translates the configuration
 // into gateways in your registered workload clusters for you.
 //
-// For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% versioned_link_path fromRoot="/setup/install/gloo_mesh_managed/" %}}) guide.
+// For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% link path="/setup/install/gloo_mesh_managed/" %}}) guide.
 //
 // **Examples**:
 //
@@ -143,7 +143,7 @@
 // **Egress**: This example creates an egress gateway named `istio-egressgateway` in the `gloo-mesh-gateways` namespace of two workload clusters,
 // (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the revision for the Solo distribution of Istio (`$REVISION`), image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
 // For more information, see the 
-// [Block egress traffic with an egress gateway]({{% versioned_link_path fromRoot="/routing/forward-requests/external-service/egress-gateway/" %}}) guide.
+// [Block egress traffic with an egress gateway]({{% link path="/routing/forward-requests/external-service/egress-gateway/" %}}) guide.
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
 // kind: GatewayLifecycleManager

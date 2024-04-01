@@ -5,7 +5,7 @@
 // to retrieve data from the API must be authenticated.
 //
 // For more information, see
-// [Set up external auth]({{< versioned_link_path fromRoot="/observability/tools/ui/auth/" >}}).
+// [Set up external auth]({{< link path="/observability/tools/ui/auth/" >}}).
 //
 // This example sets up OIDC authentication with Google.
 // ```yaml
@@ -289,7 +289,7 @@ type OidcConfig struct {
 	// provider returns.
 	DiscoveryOverride *OidcConfig_DiscoveryOverride `protobuf:"bytes,11,opt,name=discovery_override,json=discoveryOverride,proto3" json:"discovery_override,omitempty"`
 	// How often to poll the OIDC issuer for new configuration.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	DiscoveryPollInterval *duration.Duration `protobuf:"bytes,12,opt,name=discovery_poll_interval,json=discoveryPollInterval,proto3" json:"discovery_poll_interval,omitempty"`
 	// If a user sends a request with a key that is not found in the
 	// JWKS, the keys might have rotated on the remote source,
@@ -536,7 +536,7 @@ type JwksOnDemandCacheRefreshPolicy_Never struct {
 	// in the local cache, it is assumed to be malicious. This is the
 	// default policy, because IdPs typically publish keys before
 	// they rotate them, and frequent polling finds the newest keys.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
 	Never *empty.Empty `protobuf:"bytes,1,opt,name=never,proto3,oneof"`
 }
 
@@ -548,7 +548,7 @@ type JwksOnDemandCacheRefreshPolicy_Always struct {
 	// to the internet, malicious agents can execute a DDoS
 	// attack by spamming protected endpoints with tokens signed by
 	// invalid keys.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
 	Always *empty.Empty `protobuf:"bytes,2,opt,name=always,proto3,oneof"`
 }
 

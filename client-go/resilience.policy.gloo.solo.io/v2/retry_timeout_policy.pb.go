@@ -209,7 +209,7 @@ type RetryTimeoutPolicySpec_Config struct {
 	// Set a retry policy on requests matched on the selected routes.
 	Retries *RetryTimeoutPolicySpec_Config_RetryPolicy `protobuf:"bytes,3,opt,name=retries,proto3" json:"retries,omitempty"`
 	// Set a timeout on requests matched on the selected routes.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	RequestTimeout *duration.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 }
 
@@ -271,13 +271,13 @@ type RetryTimeoutPolicySpec_Config_RetryPolicy struct {
 	// or `per_try_timeout` is configured, the actual number of retries attempted also depends on
 	// the specified request `timeout` and `per_try_timeout` values.
 	// Defaults to 2 retries.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/int32-value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#int32-value).
 	Attempts *wrappers.Int32Value `protobuf:"bytes,1,opt,name=attempts,proto3" json:"attempts,omitempty"`
 	// Timeout per retry attempt for a given request. Format: `1h`/`1m`/`1s`/`1ms`. *Must be >= 1ms*.
 	// Default is same value as request `timeout` of
 	// the [HTTP route](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRoute),
 	// which means no timeout.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	PerTryTimeout *duration.Duration `protobuf:"bytes,2,opt,name=per_try_timeout,json=perTryTimeout,proto3" json:"per_try_timeout,omitempty"`
 	// Specifies the conditions under which retry takes place.
 	// One or more policies can be specified using a ‘,’ delimited list.

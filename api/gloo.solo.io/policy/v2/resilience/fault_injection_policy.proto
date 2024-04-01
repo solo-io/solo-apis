@@ -48,7 +48,7 @@ message FaultInjectionPolicySpec {
       int32 http_status = 1;
 
       // Percentage of requests to be aborted. Values range between 0 and 100. If omitted all requests will be aborted.
-      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
+      // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#double-value).
       google.protobuf.DoubleValue percentage = 2;
     }
 
@@ -56,11 +56,11 @@ message FaultInjectionPolicySpec {
     // network issues, overloaded upstream service, etc.
     message Delay {
       // Required: Add a delay of a fixed duration before sending the request. Format: `1h`/`1m`/`1s`/`1ms`. MUST be >=1ms.
-      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+      // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
       google.protobuf.Duration fixed_delay = 1;
 
       // Percentage of requests on which the delay will be injected. Values range between 0 and 100. If omitted all requests will be delayed.
-      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
+      // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#double-value).
       google.protobuf.DoubleValue percentage = 2;
     }
 

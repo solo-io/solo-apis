@@ -93,7 +93,7 @@ type PortalConfigSpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Portal level metadata configured by the user in the user facing Portal resource as a JSON value.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	PortalCustomMetadata *_struct.Value `protobuf:"bytes,1,opt,name=portal_custom_metadata,json=portalCustomMetadata,proto3" json:"portal_custom_metadata,omitempty"`
 	// The list of API resources that are exposed by the Portal.
 	Apis []*PortalConfigSpec_API `protobuf:"bytes,2,rep,name=apis,proto3" json:"apis,omitempty"`
