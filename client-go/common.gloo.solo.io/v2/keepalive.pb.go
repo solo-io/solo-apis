@@ -33,11 +33,11 @@ type TCPKeepalive struct {
 	Probes uint32 `protobuf:"varint,1,opt,name=probes,proto3" json:"probes,omitempty"`
 	// The time duration a connection needs to be idle before keep-alive probes start being sent.
 	// Format examples: `1h`/`1m`/`1s`/`1ms`.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	Time *duration.Duration `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 	// The time duration between keep-alive probes.
 	// Format examples: `1h`/`1m`/`1s`/`1ms`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	Interval *duration.Duration `protobuf:"bytes,3,opt,name=interval,proto3" json:"interval,omitempty"`
 }
 

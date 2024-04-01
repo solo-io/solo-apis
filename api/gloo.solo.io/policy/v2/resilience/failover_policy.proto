@@ -5,8 +5,8 @@
 // FailoverPolicies are applied at the *Destination* level.
 //
 // Note that you can use failover policies in combination with other policies, 
-// such as [outlier detection]({{< versioned_link_path fromRoot="/policies/outlier-detection/">}}) 
-// or [retry]({{< versioned_link_path fromRoot="/policies/retry-timeout/">}}) policies. 
+// such as [outlier detection]({{< link path="/policies/outlier-detection/">}}) 
+// or [retry]({{< link path="/policies/retry-timeout/">}}) policies. 
 // In case of a failure, the failover policy tells Gloo Mesh which healthy destinations 
 // to reroute traffic to,  based on the closest locality. The outlier detection policy 
 // tells Gloo Mesh when and for how long to remove unhealthy services. 
@@ -99,7 +99,7 @@ message FailoverPolicySpec {
         // (Optional) Weight for destination locality. All weights must add up to 100.
         // If not provided, weight is determined based on other destination locality weights.
         // For information about the value format, see the 
-        // [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
+        // [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
         google.protobuf.UInt32Value weight = 4;
       }
     }

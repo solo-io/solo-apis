@@ -134,7 +134,7 @@ type IstioOperatorSpec struct {
 	// This option is currently experimental.
 	DefaultRevision bool `protobuf:"varint,17,opt,name=defaultRevision,proto3" json:"defaultRevision,omitempty"`
 	// Config used by control plane components internally.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/struct).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
 	MeshConfig *_struct.Struct `protobuf:"bytes,40,opt,name=meshConfig,proto3" json:"meshConfig,omitempty"`
 	// Kubernetes resource settings, enablement and component-specific settings that are not internal to the
 	// component.
@@ -149,10 +149,10 @@ type IstioOperatorSpec struct {
 	// See the [Helm installation options](https://istio.io/v1.5/docs/reference/config/installation-options/) for schema details.
 	// Anything that is available in `IstioOperatorSpec` should be set above rather than using the passthrough. This
 	// includes Kubernetes resource settings for components in `KubernetesResourcesSpec`.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/struct).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
 	Values *_struct.Struct `protobuf:"bytes,100,opt,name=values,proto3" json:"values,omitempty"`
 	// Unvalidated overrides for default `values.yaml`. Used for custom templates where new parameters are added.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/struct).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
 	UnvalidatedValues *_struct.Struct `protobuf:"bytes,101,opt,name=unvalidatedValues,proto3" json:"unvalidatedValues,omitempty"`
 }
 
@@ -518,7 +518,7 @@ type ComponentSpec struct {
 	// Tag for the component (overrides top level tag setting).
 	Tag string `protobuf:"bytes,11,opt,name=tag,proto3" json:"tag,omitempty"`
 	// Arbitrary install time configuration for the component.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/struct).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
 	Spec *_struct.Struct `protobuf:"bytes,30,opt,name=spec,proto3" json:"spec,omitempty"`
 	// Kubernetes resource spec.
 	K8S *KubernetesResourcesSpec `protobuf:"bytes,50,opt,name=k8s,proto3" json:"k8s,omitempty"`
@@ -609,12 +609,12 @@ type ExternalComponentSpec struct {
 	// Namespace for the component.
 	Namespace string `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Arbitrary install time configuration for the component.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/struct).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
 	Spec *_struct.Struct `protobuf:"bytes,10,opt,name=spec,proto3" json:"spec,omitempty"`
 	// Chart path for addon components.
 	ChartPath string `protobuf:"bytes,30,opt,name=chartPath,proto3" json:"chartPath,omitempty"`
 	// Optional schema to validate spec against.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/any).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#any).
 	Schema *any1.Any `protobuf:"bytes,35,opt,name=schema,proto3" json:"schema,omitempty"`
 	// Kubernetes resource spec.
 	K8S *KubernetesResourcesSpec `protobuf:"bytes,50,opt,name=k8s,proto3" json:"k8s,omitempty"`
@@ -1725,11 +1725,11 @@ type ExternalMetricSource struct {
 	//
 	// Deprecated: Do not use.
 	MetricSelector *v11.LabelSelector `protobuf:"bytes,2,opt,name=metricSelector,proto3" json:"metricSelector,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
 	TargetValue *_struct.Value `protobuf:"bytes,3,opt,name=targetValue,proto3" json:"targetValue,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
 	TargetAverageValue *_struct.Value    `protobuf:"bytes,4,opt,name=targetAverageValue,proto3" json:"targetAverageValue,omitempty"`
@@ -1878,7 +1878,7 @@ type HTTPGetAction struct {
 	unknownFields protoimpl.UnknownFields
 
 	Path string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Port        *_struct.Value `protobuf:"bytes,2,opt,name=port,proto3" json:"port,omitempty"`
 	Host        string         `protobuf:"bytes,3,opt,name=host,proto3" json:"host,omitempty"`
 	Scheme      string         `protobuf:"bytes,4,opt,name=scheme,proto3" json:"scheme,omitempty"`
@@ -2560,9 +2560,9 @@ type MetricTarget struct {
 	unknownFields protoimpl.UnknownFields
 
 	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Value *_struct.Value `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	AverageValue       *_struct.Value `protobuf:"bytes,3,opt,name=averageValue,proto3" json:"averageValue,omitempty"`
 	AverageUtilization int32          `protobuf:"varint,4,opt,name=averageUtilization,proto3" json:"averageUtilization,omitempty"`
 }
@@ -2633,9 +2633,9 @@ type MetricValueStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Value *_struct.Value `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	AverageValue       *_struct.Value `protobuf:"bytes,2,opt,name=averageValue,proto3" json:"averageValue,omitempty"`
 	AverageUtilization int32          `protobuf:"varint,3,opt,name=averageUtilization,proto3" json:"averageUtilization,omitempty"`
 }
@@ -3037,7 +3037,7 @@ type ObjectMetricSource struct {
 
 	// Deprecated: Do not use.
 	MetricName string `protobuf:"bytes,2,opt,name=metricName,proto3" json:"metricName,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
 	TargetValue *_struct.Value `protobuf:"bytes,3,opt,name=targetValue,proto3" json:"targetValue,omitempty"`
@@ -3045,13 +3045,13 @@ type ObjectMetricSource struct {
 	//
 	// Deprecated: Do not use.
 	Selector *v11.LabelSelector `protobuf:"bytes,4,opt,name=selector,proto3" json:"selector,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
 	AverageValue *_struct.Value `protobuf:"bytes,5,opt,name=averageValue,proto3" json:"averageValue,omitempty"`
 	// Type changes from CrossVersionObjectReference to ResourceMetricTarget in autoscaling v2beta2/v2 compared with v2beta1
 	// Change it to dynamic type to keep backward compatible
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Target          *_struct.Value               `protobuf:"bytes,1,opt,name=target,proto3" json:"target,omitempty"`
 	DescribedObject *CrossVersionObjectReference `protobuf:"bytes,6,opt,name=describedObject,proto3" json:"describedObject,omitempty"`
 	Metric          *MetricIdentifier            `protobuf:"bytes,8,opt,name=metric,proto3" json:"metric,omitempty"`
@@ -3389,11 +3389,11 @@ type PodDisruptionBudgetSpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	MinAvailable *_struct.Value `protobuf:"bytes,1,opt,name=minAvailable,proto3" json:"minAvailable,omitempty"`
 	// For information about the value format, see the [Kubernetes API reference documentation](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#labelselector-v1-meta).
 	Selector *v11.LabelSelector `protobuf:"bytes,2,opt,name=selector,proto3" json:"selector,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	MaxUnavailable *_struct.Value `protobuf:"bytes,3,opt,name=maxUnavailable,proto3" json:"maxUnavailable,omitempty"`
 }
 
@@ -3458,7 +3458,7 @@ type PodsMetricSource struct {
 
 	// Deprecated: Do not use.
 	MetricName string `protobuf:"bytes,1,opt,name=metricName,proto3" json:"metricName,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
 	TargetAverageValue *_struct.Value `protobuf:"bytes,2,opt,name=targetAverageValue,proto3" json:"targetAverageValue,omitempty"`
@@ -3765,7 +3765,7 @@ type ResourceFieldSelector struct {
 
 	ContainerName string `protobuf:"bytes,1,opt,name=containerName,proto3" json:"containerName,omitempty"`
 	Resource      string `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Divisor *_struct.Value `protobuf:"bytes,3,opt,name=divisor,proto3" json:"divisor,omitempty"`
 }
 
@@ -3831,7 +3831,7 @@ type ResourceMetricSource struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Deprecated: Do not use.
 	TargetAverageUtilization int32 `protobuf:"varint,2,opt,name=targetAverageUtilization,proto3" json:"targetAverageUtilization,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
 	TargetAverageValue *_struct.Value `protobuf:"bytes,3,opt,name=targetAverageValue,proto3" json:"targetAverageValue,omitempty"`
@@ -4018,9 +4018,9 @@ type RollingUpdateDeployment struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	MaxUnavailable *_struct.Value `protobuf:"bytes,1,opt,name=maxUnavailable,proto3" json:"maxUnavailable,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	MaxSurge *_struct.Value `protobuf:"bytes,2,opt,name=maxSurge,proto3" json:"maxSurge,omitempty"`
 }
 
@@ -4287,7 +4287,7 @@ type ServicePort struct {
 	Name     string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Protocol string `protobuf:"bytes,2,opt,name=protocol,proto3" json:"protocol,omitempty"`
 	Port     int32  `protobuf:"varint,3,opt,name=port,proto3" json:"port,omitempty"`
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	TargetPort *_struct.Value `protobuf:"bytes,4,opt,name=targetPort,proto3" json:"targetPort,omitempty"`
 	NodePort   int32          `protobuf:"varint,5,opt,name=nodePort,proto3" json:"nodePort,omitempty"`
 }
@@ -4413,7 +4413,7 @@ type TCPSocketAction struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Port *_struct.Value `protobuf:"bytes,1,opt,name=port,proto3" json:"port,omitempty"`
 	Host string         `protobuf:"bytes,2,opt,name=host,proto3" json:"host,omitempty"`
 }
@@ -5047,7 +5047,7 @@ type K8SObjectOverlay_PathValue struct {
 	// For delete, value should be unset.
 	// For replace, path should reference an existing node.
 	// All values are strings but are converted into appropriate type based on schema.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	Value *_struct.Value `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 

@@ -489,7 +489,7 @@ type WasmDeploymentPolicySpec_Config_WasmFilter_StaticFilterConfig struct {
 	// <li>`google.protobuf.BytesValue` and `google.protobuf.StringValue` are passed directly without the wrapper.</li></ul>
 	//
 	// For information about the value format, see the
-	// [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/any).
+	// [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#any).
 	StaticFilterConfig *any1.Any `protobuf:"bytes,4,opt,name=static_filter_config,json=staticFilterConfig,proto3,oneof"`
 }
 
