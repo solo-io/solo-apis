@@ -77,6 +77,16 @@ func (m *AuthConfigSpec) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetFailedStartOnUpdatePolicy()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetFailedStartOnUpdatePolicy()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetFailedStartOnUpdatePolicy(), target.GetFailedStartOnUpdatePolicy()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -2971,6 +2981,16 @@ func (m *ExtAuthConfig) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetFailedStartOnUpdatePolicy()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetFailedStartOnUpdatePolicy()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetFailedStartOnUpdatePolicy(), target.GetFailedStartOnUpdatePolicy()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -3628,6 +3648,117 @@ func (m *AuthConfigSpec_Config) Equal(that interface{}) bool {
 		if m.AuthConfig != target.AuthConfig {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AuthConfigSpec_FailedStartOnUpdatePolicy) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AuthConfigSpec_FailedStartOnUpdatePolicy)
+	if !ok {
+		that2, ok := that.(AuthConfigSpec_FailedStartOnUpdatePolicy)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.UpdatePolicy.(type) {
+
+	case *AuthConfigSpec_FailedStartOnUpdatePolicy_ReplaceExisting_:
+		if _, ok := target.UpdatePolicy.(*AuthConfigSpec_FailedStartOnUpdatePolicy_ReplaceExisting_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetReplaceExisting()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetReplaceExisting()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetReplaceExisting(), target.GetReplaceExisting()) {
+				return false
+			}
+		}
+
+	case *AuthConfigSpec_FailedStartOnUpdatePolicy_ContinueExisting_:
+		if _, ok := target.UpdatePolicy.(*AuthConfigSpec_FailedStartOnUpdatePolicy_ContinueExisting_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetContinueExisting()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetContinueExisting()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetContinueExisting(), target.GetContinueExisting()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.UpdatePolicy != target.UpdatePolicy {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AuthConfigSpec_FailedStartOnUpdatePolicy_ReplaceExisting) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AuthConfigSpec_FailedStartOnUpdatePolicy_ReplaceExisting)
+	if !ok {
+		that2, ok := that.(AuthConfigSpec_FailedStartOnUpdatePolicy_ReplaceExisting)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AuthConfigSpec_FailedStartOnUpdatePolicy_ContinueExisting) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AuthConfigSpec_FailedStartOnUpdatePolicy_ContinueExisting)
+	if !ok {
+		that2, ok := that.(AuthConfigSpec_FailedStartOnUpdatePolicy_ContinueExisting)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	return true
@@ -6461,6 +6592,69 @@ func (m *ExtAuthConfig_Config) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *ExtAuthConfig_FailedStartOnUpdatePolicy) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_FailedStartOnUpdatePolicy)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_FailedStartOnUpdatePolicy)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.UpdatePolicy.(type) {
+
+	case *ExtAuthConfig_FailedStartOnUpdatePolicy_ReplaceExisting_:
+		if _, ok := target.UpdatePolicy.(*ExtAuthConfig_FailedStartOnUpdatePolicy_ReplaceExisting_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetReplaceExisting()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetReplaceExisting()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetReplaceExisting(), target.GetReplaceExisting()) {
+				return false
+			}
+		}
+
+	case *ExtAuthConfig_FailedStartOnUpdatePolicy_ContinueExisting_:
+		if _, ok := target.UpdatePolicy.(*ExtAuthConfig_FailedStartOnUpdatePolicy_ContinueExisting_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetContinueExisting()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetContinueExisting()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetContinueExisting(), target.GetContinueExisting()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.UpdatePolicy != target.UpdatePolicy {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ExtAuthConfig_BasicAuthInternal_EncryptionType) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -7140,6 +7334,54 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Equal(that interface{}) boo
 			return false
 		}
 
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_FailedStartOnUpdatePolicy_ReplaceExisting) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_FailedStartOnUpdatePolicy_ReplaceExisting)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_FailedStartOnUpdatePolicy_ReplaceExisting)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_FailedStartOnUpdatePolicy_ContinueExisting) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_FailedStartOnUpdatePolicy_ContinueExisting)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_FailedStartOnUpdatePolicy_ContinueExisting)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	return true
