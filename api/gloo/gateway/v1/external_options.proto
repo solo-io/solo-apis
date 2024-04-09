@@ -12,6 +12,7 @@ import "google/protobuf/wrappers.proto";
 import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/options.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
 
 /*
 * The **VirtualHostOption** holds `options` configuration for a VirtualHost.
@@ -232,6 +233,11 @@ message RouteOptionSpec {
 
   // Route options. See Route for delegation behavior.
   gloo.solo.io.RouteOptions options = 3;
+  
+  // When using Kubernetes Gateway API mode, targetRef can be used to attach this RouteOption
+  // to a gateway.networking.k8s.io/HTTPRoute object. The `options` specified will then be used
+  // for all `Rules` in the `HTTPRoute`.
+  core.skv2.solo.io.PolicyTargetReference target_ref = 5;
 }
 
 message VirtualHostOptionStatus {
