@@ -87,6 +87,26 @@ func (m *AuthConfigSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
+	if h, ok := interface{}(m.GetFailureOnUpdatePolicy()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("FailureOnUpdatePolicy")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetFailureOnUpdatePolicy(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("FailureOnUpdatePolicy")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -3429,6 +3449,26 @@ func (m *ExtAuthConfig) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
+	if h, ok := interface{}(m.GetFailureOnUpdatePolicy()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("FailureOnUpdatePolicy")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetFailureOnUpdatePolicy(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("FailureOnUpdatePolicy")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -4153,6 +4193,140 @@ func (m *AuthConfigSpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *AuthConfigSpec_FailureOnUpdatePolicy) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.AuthConfigSpec_FailureOnUpdatePolicy")); err != nil {
+		return 0, err
+	}
+
+	switch m.Policy.(type) {
+
+	case *AuthConfigSpec_FailureOnUpdatePolicy_ContinueExisting_:
+
+		if h, ok := interface{}(m.GetContinueExisting()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ContinueExisting")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetContinueExisting(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ContinueExisting")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *AuthConfigSpec_FailureOnUpdatePolicy_ReplaceIfRecoverable_:
+
+		if h, ok := interface{}(m.GetReplaceIfRecoverable()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ReplaceIfRecoverable")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetReplaceIfRecoverable(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ReplaceIfRecoverable")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *AuthConfigSpec_FailureOnUpdatePolicy_ReplaceExisting_:
+
+		if h, ok := interface{}(m.GetReplaceExisting()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ReplaceExisting")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetReplaceExisting(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ReplaceExisting")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *AuthConfigSpec_FailureOnUpdatePolicy_ContinueExisting) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.AuthConfigSpec_FailureOnUpdatePolicy_ContinueExisting")); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *AuthConfigSpec_FailureOnUpdatePolicy_ReplaceIfRecoverable) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.AuthConfigSpec_FailureOnUpdatePolicy_ReplaceIfRecoverable")); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *AuthConfigSpec_FailureOnUpdatePolicy_ReplaceExisting) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.AuthConfigSpec_FailureOnUpdatePolicy_ReplaceExisting")); err != nil {
+		return 0, err
 	}
 
 	return hasher.Sum64(), nil
@@ -7296,6 +7470,92 @@ func (m *ExtAuthConfig_Config) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *ExtAuthConfig_FailureOnUpdatePolicy) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ExtAuthConfig_FailureOnUpdatePolicy")); err != nil {
+		return 0, err
+	}
+
+	switch m.Policy.(type) {
+
+	case *ExtAuthConfig_FailureOnUpdatePolicy_ContinueExisting_:
+
+		if h, ok := interface{}(m.GetContinueExisting()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ContinueExisting")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetContinueExisting(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ContinueExisting")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *ExtAuthConfig_FailureOnUpdatePolicy_ReplaceIfRecoverable_:
+
+		if h, ok := interface{}(m.GetReplaceIfRecoverable()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ReplaceIfRecoverable")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetReplaceIfRecoverable(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ReplaceIfRecoverable")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *ExtAuthConfig_FailureOnUpdatePolicy_ReplaceExisting_:
+
+		if h, ok := interface{}(m.GetReplaceExisting()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ReplaceExisting")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetReplaceExisting(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ReplaceExisting")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *ExtAuthConfig_BasicAuthInternal_EncryptionType) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -7925,6 +8185,54 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Hash(hasher hash.Hash64) (u
 			return 0, err
 		}
 
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *ExtAuthConfig_FailureOnUpdatePolicy_ContinueExisting) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ExtAuthConfig_FailureOnUpdatePolicy_ContinueExisting")); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *ExtAuthConfig_FailureOnUpdatePolicy_ReplaceIfRecoverable) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ExtAuthConfig_FailureOnUpdatePolicy_ReplaceIfRecoverable")); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *ExtAuthConfig_FailureOnUpdatePolicy_ReplaceExisting) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ExtAuthConfig_FailureOnUpdatePolicy_ReplaceExisting")); err != nil {
+		return 0, err
 	}
 
 	return hasher.Sum64(), nil
