@@ -15,6 +15,8 @@ import (
 
 	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
 
+	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
+
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
 )
 
@@ -58,6 +60,12 @@ func (m *RouteOptionSpec) Clone() proto.Message {
 		target.Options = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1.RouteOptions)
 	} else {
 		target.Options = proto.Clone(m.GetOptions()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1.RouteOptions)
+	}
+
+	if h, ok := interface{}(m.GetTargetRef()).(clone.Cloner); ok {
+		target.TargetRef = h.Clone().(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.PolicyTargetReference)
+	} else {
+		target.TargetRef = proto.Clone(m.GetTargetRef()).(*github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1.PolicyTargetReference)
 	}
 
 	return target
