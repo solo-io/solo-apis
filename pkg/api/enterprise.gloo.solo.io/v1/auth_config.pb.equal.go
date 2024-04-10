@@ -77,6 +77,16 @@ func (m *AuthConfigSpec) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetUpdatePolicy()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetUpdatePolicy()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetUpdatePolicy(), target.GetUpdatePolicy()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -2971,6 +2981,16 @@ func (m *ExtAuthConfig) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetUpdatePolicy()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetUpdatePolicy()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetUpdatePolicy(), target.GetUpdatePolicy()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -3628,6 +3648,34 @@ func (m *AuthConfigSpec_Config) Equal(that interface{}) bool {
 		if m.AuthConfig != target.AuthConfig {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AuthConfigSpec_UpdatePolicy) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AuthConfigSpec_UpdatePolicy)
+	if !ok {
+		that2, ok := that.(AuthConfigSpec_UpdatePolicy)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetAllowRecoverableErrors() != target.GetAllowRecoverableErrors() {
+		return false
 	}
 
 	return true
@@ -6455,6 +6503,34 @@ func (m *ExtAuthConfig_Config) Equal(that interface{}) bool {
 		if m.AuthConfig != target.AuthConfig {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_UpdatePolicy) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_UpdatePolicy)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_UpdatePolicy)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetAllowRecoverableErrors() != target.GetAllowRecoverableErrors() {
+		return false
 	}
 
 	return true

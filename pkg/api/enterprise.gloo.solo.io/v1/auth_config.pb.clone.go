@@ -64,6 +64,12 @@ func (m *AuthConfigSpec) Clone() proto.Message {
 
 	target.FailOnRedirect = m.GetFailOnRedirect()
 
+	if h, ok := interface{}(m.GetUpdatePolicy()).(clone.Cloner); ok {
+		target.UpdatePolicy = h.Clone().(*AuthConfigSpec_UpdatePolicy)
+	} else {
+		target.UpdatePolicy = proto.Clone(m.GetUpdatePolicy()).(*AuthConfigSpec_UpdatePolicy)
+	}
+
 	return target
 }
 
@@ -1755,6 +1761,12 @@ func (m *ExtAuthConfig) Clone() proto.Message {
 
 	target.FailOnRedirect = m.GetFailOnRedirect()
 
+	if h, ok := interface{}(m.GetUpdatePolicy()).(clone.Cloner); ok {
+		target.UpdatePolicy = h.Clone().(*ExtAuthConfig_UpdatePolicy)
+	} else {
+		target.UpdatePolicy = proto.Clone(m.GetUpdatePolicy()).(*ExtAuthConfig_UpdatePolicy)
+	}
+
 	return target
 }
 
@@ -2176,6 +2188,19 @@ func (m *AuthConfigSpec_Config) Clone() proto.Message {
 		}
 
 	}
+
+	return target
+}
+
+// Clone function
+func (m *AuthConfigSpec_UpdatePolicy) Clone() proto.Message {
+	var target *AuthConfigSpec_UpdatePolicy
+	if m == nil {
+		return target
+	}
+	target = &AuthConfigSpec_UpdatePolicy{}
+
+	target.AllowRecoverableErrors = m.GetAllowRecoverableErrors()
 
 	return target
 }
@@ -3845,6 +3870,19 @@ func (m *ExtAuthConfig_Config) Clone() proto.Message {
 		}
 
 	}
+
+	return target
+}
+
+// Clone function
+func (m *ExtAuthConfig_UpdatePolicy) Clone() proto.Message {
+	var target *ExtAuthConfig_UpdatePolicy
+	if m == nil {
+		return target
+	}
+	target = &ExtAuthConfig_UpdatePolicy{}
+
+	target.AllowRecoverableErrors = m.GetAllowRecoverableErrors()
 
 	return target
 }
