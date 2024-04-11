@@ -122,6 +122,11 @@ message VirtualHostOptionSpec {
 
   // VirtualHost options. See VirtualHost for delegation behavior.
   gloo.solo.io.VirtualHostOptions options = 3;
+
+  // When using Kubernetes Gateway API mode, targetRef can be used to attach this VirtualHostOption
+  // to a gateway.networking.k8s.io/Gateway object. The `options` specified will then be used
+  // for all `Listeners` in the `Gateway` unless `targetRef.sectionName` is specified.
+  core.skv2.solo.io.PolicyTargetReferenceWithSectionName target_ref = 5;
 }
 
 /*
@@ -239,6 +244,7 @@ message RouteOptionSpec {
   // for all `Rules` in the `HTTPRoute`.
   core.skv2.solo.io.PolicyTargetReference target_ref = 5;
 }
+
 
 message VirtualHostOptionStatus {
 	enum State {
