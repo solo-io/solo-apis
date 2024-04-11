@@ -56,6 +56,16 @@ func (m *VirtualHostOptionSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetTargetRef()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetTargetRef()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetTargetRef(), target.GetTargetRef()) {
+			return false
+		}
+	}
+
 	return true
 }
 
