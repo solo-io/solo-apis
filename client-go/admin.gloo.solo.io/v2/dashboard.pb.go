@@ -862,7 +862,7 @@ type DashboardSpec_AuthzConfig_MultiClusterRbac struct {
 
 func (*DashboardSpec_AuthzConfig_MultiClusterRbac) isDashboardSpec_AuthzConfig_Backend() {}
 
-// Store all session data in a cookie header.
+// Store all session data in a cookie header. This is the default.
 type SessionConfig_CookieSession struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
