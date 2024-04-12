@@ -78,7 +78,7 @@ message MultiClusterRbac {
 
 // Configuration for session data storage.
 message SessionConfig {
-  // Store all session data in a cookie header.
+  // Store all session data in a cookie header. This is the default.
   message CookieSession {}
 
   // Store the session data in a Redis instance.
