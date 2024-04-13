@@ -878,8 +878,7 @@ type VirtualGatewaySpec_Listener_Http struct {
 }
 
 type VirtualGatewaySpec_Listener_Tcp struct {
-	// tcp routes on based on sni server name
-	// requires tls to be enabled
+	// The TCP listener configuration. If you want to use TCP routes that route via SNI server name, a TLS configuration is required.
 	Tcp *VirtualGatewaySpec_Listener_TCPServer `protobuf:"bytes,5,opt,name=tcp,proto3,oneof"`
 }
 
