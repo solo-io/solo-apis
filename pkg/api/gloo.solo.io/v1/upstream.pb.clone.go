@@ -23,6 +23,8 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_api_v2_core "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/api/v2/core"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_gcp "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/gcp"
+
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_aws "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/aws"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_aws_ec2 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/aws/ec2"
@@ -290,6 +292,18 @@ func (m *UpstreamSpec) Clone() proto.Message {
 		} else {
 			target.UpstreamType = &UpstreamSpec_AwsEc2{
 				AwsEc2: proto.Clone(m.GetAwsEc2()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_aws_ec2.UpstreamSpec),
+			}
+		}
+
+	case *UpstreamSpec_Gcp:
+
+		if h, ok := interface{}(m.GetGcp()).(clone.Cloner); ok {
+			target.UpstreamType = &UpstreamSpec_Gcp{
+				Gcp: h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_gcp.UpstreamSpec),
+			}
+		} else {
+			target.UpstreamType = &UpstreamSpec_Gcp{
+				Gcp: proto.Clone(m.GetGcp()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_gcp.UpstreamSpec),
 			}
 		}
 
