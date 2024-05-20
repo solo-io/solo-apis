@@ -373,6 +373,77 @@ func (g genericPortalMulticlusterReconciler) Reconcile(cluster string, object ez
 	return g.reconciler.ReconcilePortal(cluster, obj)
 }
 
+// Reconcile Upsert events for the ApiProduct Resource across clusters.
+// implemented by the user
+type MulticlusterApiProductReconciler interface {
+	ReconcileApiProduct(clusterName string, obj *apimanagement_gloo_solo_io_v2.ApiProduct) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the ApiProduct Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterApiProductDeletionReconciler interface {
+	ReconcileApiProductDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterApiProductReconcilerFuncs struct {
+	OnReconcileApiProduct         func(clusterName string, obj *apimanagement_gloo_solo_io_v2.ApiProduct) (reconcile.Result, error)
+	OnReconcileApiProductDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterApiProductReconcilerFuncs) ReconcileApiProduct(clusterName string, obj *apimanagement_gloo_solo_io_v2.ApiProduct) (reconcile.Result, error) {
+	if f.OnReconcileApiProduct == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileApiProduct(clusterName, obj)
+}
+
+func (f *MulticlusterApiProductReconcilerFuncs) ReconcileApiProductDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileApiProductDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileApiProductDeletion(clusterName, req)
+}
+
+type MulticlusterApiProductReconcileLoop interface {
+	// AddMulticlusterApiProductReconciler adds a MulticlusterApiProductReconciler to the MulticlusterApiProductReconcileLoop.
+	AddMulticlusterApiProductReconciler(ctx context.Context, rec MulticlusterApiProductReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterApiProductReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterApiProductReconcileLoop) AddMulticlusterApiProductReconciler(ctx context.Context, rec MulticlusterApiProductReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericApiProductMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterApiProductReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterApiProductReconcileLoop {
+	return &multiclusterApiProductReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &apimanagement_gloo_solo_io_v2.ApiProduct{}, options)}
+}
+
+type genericApiProductMulticlusterReconciler struct {
+	reconciler MulticlusterApiProductReconciler
+}
+
+func (g genericApiProductMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterApiProductDeletionReconciler); ok {
+		return deletionReconciler.ReconcileApiProductDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericApiProductMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*apimanagement_gloo_solo_io_v2.ApiProduct)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: ApiProduct handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileApiProduct(cluster, obj)
+}
+
 // Reconcile Upsert events for the PortalGroup Resource across clusters.
 // implemented by the user
 type MulticlusterPortalGroupReconciler interface {

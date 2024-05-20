@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package internal.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
@@ -25,8 +24,10 @@ option (extproto.clone_all) = true;
 message PortalConfigSpec {
 
   // Portal level metadata configured by the user in the user facing Portal resource as a JSON value.
-  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
-  google.protobuf.Value portal_custom_metadata = 1 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
+  // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
+  //
+  // +kubebuilder:validation:Type=value
+  google.protobuf.Value portal_custom_metadata = 1;
 
   // The list of API resources that are exposed by the Portal.
   repeated API apis = 2;

@@ -34,7 +34,7 @@ message ExtAuthServerSpec {
   HttpService http_service = 2;
 
   // Timeout for the ext auth service to respond. Defaults to 2s.
-  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+  // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
   .google.protobuf.Duration request_timeout = 3;
 
   // In case of a failure or timeout querying the auth server, normally a request is denied.

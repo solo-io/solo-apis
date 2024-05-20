@@ -9,7 +9,6 @@ syntax = "proto3";
 
 package apimanagement.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
@@ -70,12 +69,12 @@ message ApiDocSpec {
   //     inlineString: '{ "info": { "title": "Gloo Platform Portal API", "version": "1.0.0", "description": "Review the following reference documentation for the Gloo Platform portal APIs. Use these endpoints to manage user access to both the developer portal and the API resources exposed by the portal." }, "openapi": "3.0.0", "servers": [ { "url": "https://api.gloo-platform-portal.com/v1" } ], "paths": { "/login": { "get": { "description": "Logs user into the developer portal. This is the path that should be used as the callbackPath in the ExtAuthPolicy's OIDC configuration.", "operationId": "login", "security": [ { "identityToken": [ ] } ], "responses": { "200": { "description": "Successfully logged in" } }, "summary": "Logs user into the developer portal", "tags": [ "User" ] } }'
   //   servedBy:
   //   - destinationSelector:
-  //    port:
-  //      number: 8080
-  //    selector:
-  //      cluster: $CLUSTER_NAME
-  //      name: app
-  //      namespace: app
+  //       port:
+  //         number: 8080
+  //       selector:
+  //         cluster: $CLUSTER_NAME
+  //         name: app
+  //         namespace: app
   // ```
   message OpenAPISchema {
     // The inline, YAML- or JSON-formatted, OpenAPI v2 or v3 schema.
@@ -128,6 +127,13 @@ message ApiDocSpec {
 }
 
 // The status of the ApiDoc after it is applied to your Gloo environment.
+// 
+// Gloo reports the status of Gloo custom resources in several places, such as in logs, when describing the object in `kubectl`, or when viewing the object in the Gloo UI.
+// Unlike other Gloo custom resources, ApiDocs can be both an input and output object. For example, you can manually create an ApiDoc (input),
+// or Gloo can automatically create an ApiDoc during discovery or translation processes (output).
+// As such, status for ApiDocs is disabled. Because the status is disabled, you cannot review statuses for ApiDocs in `kubectl`.
+// Also, you might notice ApiDocs reported as unhealthy in the Gloo UI even though the ApiDocs work.
+// To verify that your ApiDocs are healthy, you can follow the steps in the [ApiDoc guide](https://docs.solo.io/gloo-gateway/latest/portal/apis/apidocs/#verify).
 message ApiDocStatus {
   // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;

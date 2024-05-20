@@ -183,6 +183,10 @@ func (m *RouteTableSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetFailureMode() != target.GetFailureMode() {
+		return false
+	}
+
 	return true
 }
 
@@ -769,77 +773,6 @@ func (m *DelegateAction) Equal(that interface{}) bool {
 
 	if m.GetSortMethod() != target.GetSortMethod() {
 		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *PortalMetadata) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*PortalMetadata)
-	if !ok {
-		that2, ok := that.(PortalMetadata)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetApiProductId(), target.GetApiProductId()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetApiProductDisplayName(), target.GetApiProductDisplayName()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetApiVersion(), target.GetApiVersion()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetTitle(), target.GetTitle()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetDescription(), target.GetDescription()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetTermsOfService(), target.GetTermsOfService()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetContact(), target.GetContact()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetLicense(), target.GetLicense()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetLifecycle(), target.GetLifecycle()) != 0 {
-		return false
-	}
-
-	if len(m.GetCustomMetadata()) != len(target.GetCustomMetadata()) {
-		return false
-	}
-	for k, v := range m.GetCustomMetadata() {
-
-		if strings.Compare(v, target.GetCustomMetadata()[k]) != 0 {
-			return false
-		}
-
 	}
 
 	return true

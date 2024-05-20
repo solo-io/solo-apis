@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package apimanagement.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
@@ -113,7 +112,7 @@ message GraphQLResolverMapSpec {
           google.protobuf.StringValue span_name = 4;
 
           // Set the timeout of the HTTP request to the REST service (default 5s)
-          // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+          // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
           google.protobuf.Duration timeout = 5;
 
           message RequestTemplate {
@@ -159,7 +158,7 @@ message GraphQLResolverMapSpec {
           google.protobuf.StringValue span_name = 3;
 
           // Set the timeout of the HTTP request to the gRPC service (default 5s)
-          // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+          // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
           google.protobuf.Duration timeout = 4;
 
           message RequestTemplate {
@@ -206,7 +205,7 @@ message GraphQLResolverMapSpec {
 
           message AsyncResponse {
             // The delay before the response is returned.
-            // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+            // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
             google.protobuf.Duration delay = 1;
 
             // The response to return.
@@ -289,8 +288,10 @@ message VariableTransformation {
     string jq = 2;
 
     // Static JSON value.
-    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
-    google.protobuf.Value json = 3 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
+    // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
+    //
+    // +kubebuilder:validation:Type=value
+    google.protobuf.Value json = 3;
   }
 }
 
@@ -304,7 +305,7 @@ message Extraction {
     // Extract the value from envoy dynamic metadata. The extracted value is an object.
     DynamicMetadataExtraction dynamic_metadata = 2;
     // Assigns the variable to the parent object
-    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+    // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
     google.protobuf.Empty graphql_parent = 3;
     // Assigns the variable to the GraphQL Argument with this name.
     // If this name doesn't exist, the variable is `null`
@@ -312,11 +313,13 @@ message Extraction {
     // Assigns the variable to the GraphQL resolver result.
     // If this Extraction is used in a place where the resolver result is not available, an error
     // will be thrown during configuration time.
-    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+    // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
     google.protobuf.Empty resolver_result = 5;
     // Assigns the variable to a JSON value specified here
-    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
-    google.protobuf.Value json = 6 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
+    // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
+    //
+    // +kubebuilder:validation:Type=value
+    google.protobuf.Value json = 6;
 
     // In the future, we may want to allow for nested extractions along with transformations.
     // See https://github.com/solo-io/gloo-mesh-enterprise/pull/4354#discussion_r919055587 for discussion

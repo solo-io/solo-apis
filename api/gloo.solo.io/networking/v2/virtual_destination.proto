@@ -16,6 +16,9 @@ option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
 // VirtualDestinations define groupings of backing destinations (for network traffic).
+//
+// +kubebuilder:validation:XValidation:rule="has(self.services) || has(self.externalServices) || has(self.externalWorkloads) || !self.ports.exists(p, has(p.targetPort))",message="When using targetPort, at least one of services, externalServices, or externalWorkloads must be set"
+// +kubebuilder:validation:XValidation:rule="has(self.services) || has(self.externalServices) || has(self.externalWorkloads) || (has(self.hosts) && size(self.hosts) >= 1)",message="At least one of hosts, services, externalServices, or externalWorkloads must be set"
 message VirtualDestinationSpec {
 
   // Optional: The set of custom hosts for which this virtual destination will serve traffic.
@@ -44,6 +47,9 @@ message VirtualDestinationSpec {
   repeated .common.gloo.solo.io.ObjectSelector external_workloads = 6;
 
   // Required: The ports on which the VirtualDestination will serve traffic. Must have at least one port.
+  //
+  // +kubebuilder:validation:Required
+  // +kubebuilder:validation:MinItems=1
   repeated PortMapping ports = 4;
 
   // Optional: Client mode determines how the VirtualDestination will be translated.
@@ -54,6 +60,10 @@ message VirtualDestinationSpec {
   message PortMapping {
 
     // The port number. Must be a valid, non-negative integer port number.
+    //
+    // +kubebuilder:validation:Required
+    // +kubebuilder:validation:Minimum=1
+    // +kubebuilder:validation:Maximum=65535
     uint32 number = 1;
 
     // The protocol used in communication with this destination
@@ -61,6 +71,9 @@ message VirtualDestinationSpec {
     // Note that the VirtualDestination protocol may not match the protocol of the backing k8s Service(s).
     // For example, VirtualDestinations pointing to GRPC services will need the protocol set to GRPC.
     // The prefix of the k8s Service port's name will typically match the needed PROTOCOL in such cases.
+    //
+    // +kubebuilder:validation:Required
+    // +kubebuilder:validation:Enum=HTTP;http;HTTPS;https;GRPC;grpc;gRPC;HTTP2;http2;MONGO;mongo;TCP;tcp;TLS;tls
     string protocol = 2;
 
     // (optional): The port number or name used to match the corresponding port on the

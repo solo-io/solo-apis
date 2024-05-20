@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package internal.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "google/protobuf/struct.proto";
 import "k8s.io/api/core/v1/generated.proto";
@@ -29,11 +28,11 @@ message ClusterIstioInstallationStatus {
   // A human readable message about the current state of the installation.
   string message = 2;
 
-  // The observed revision of the Istio installation. 
+  // The observed revision of the Istio installation.
   string observed_revision = 3;
 
-  // The IstioOperator spec that is currently deployed for this revision. 
-  // TODO(birkland) may want helm values instead, 
+  // The IstioOperator spec that is currently deployed for this revision.
+  // TODO(birkland) may want helm values instead,
   .common.gloo.solo.io.IstioOperatorSpec observed_operator = 4;
 
   // For helm-based installations, report the content and status of each
@@ -77,7 +76,9 @@ message ClusterIstioInstallationStatus {
     repeated HelmRelease releases = 1;
 
     // Values used for all releases in this batch
-    google.protobuf.Struct values = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
+    //
+    // +kubebuilder:validation:Type=object
+    google.protobuf.Struct values = 2;
   }
 
   // $hide_from_docs

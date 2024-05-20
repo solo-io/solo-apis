@@ -1,6 +1,6 @@
 module github.com/solo-io/solo-apis
 
-go 1.22.0
+go 1.22.2
 
 require (
 	github.com/cncf/xds/go v0.0.0-20231109132714-523115ebc101
@@ -10,8 +10,7 @@ require (
 	github.com/evanphx/json-patch/v5 v5.7.0 // indirect
 	github.com/go-openapi/swag v0.22.8 // indirect
 	github.com/gogo/protobuf v1.3.2
-	github.com/golang/mock v1.6.0
-	github.com/golang/protobuf v1.5.3
+	github.com/golang/protobuf v1.5.4
 	github.com/onsi/ginkgo/v2 v2.15.0 // indirect
 	github.com/onsi/gomega v1.31.1 // indirect
 	github.com/pborman/uuid v1.2.0 // indirect
@@ -21,10 +20,9 @@ require (
 	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.45.0 // indirect
 	github.com/rotisserie/eris v0.5.4
-	github.com/solo-io/cue v0.4.7
 	github.com/solo-io/go-utils v0.25.1 // indirect
 	github.com/solo-io/protoc-gen-ext v0.0.18
-	github.com/solo-io/skv2 v0.36.4
+	github.com/solo-io/skv2 v0.38.6
 	github.com/solo-io/solo-kit v0.34.0
 	github.com/spf13/pflag v1.0.6-0.20210604193023-d5e0c0615ace // indirect
 	go.uber.org/multierr v1.11.0 // indirect
@@ -32,14 +30,13 @@ require (
 	golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/oauth2 v0.16.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
 	google.golang.org/genproto v0.0.0-20240116215550-a9fa1716bcac // indirect
-	google.golang.org/grpc v1.61.0
-	google.golang.org/protobuf v1.32.0
+	google.golang.org/grpc v1.61.1
+	google.golang.org/protobuf v1.33.0
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	istio.io/api v1.20.3-0.20240116015448-5563f7225778
+	istio.io/api v1.20.3-0.20240306014037-8f7da9136957
 	k8s.io/api v0.29.1
-	k8s.io/apiextensions-apiserver v0.29.0-rc.1 // indirect
 	k8s.io/apimachinery v0.29.1
 	k8s.io/client-go v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible
 	k8s.io/klog/v2 v2.120.1 // indirect
@@ -48,13 +45,16 @@ require (
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-require google.golang.org/genproto/googleapis/api v0.0.0-20240102182953-50ed04b92917
+require (
+	go.uber.org/mock v0.4.0
+	google.golang.org/genproto/googleapis/api v0.0.0-20240102182953-50ed04b92917
+)
 
 require (
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	k8s.io/component-base v0.29.0-rc.1 // indirect
+	k8s.io/component-base v0.29.0 // indirect
 )
 
 require (
@@ -98,8 +98,12 @@ require (
 replace (
 	github.com/Sirupsen/logrus => github.com/sirupsen/logrus v1.4.2
 
+	// Portal plugins need to be updated to use the newer version
+	github.com/getkin/kin-openapi => github.com/getkin/kin-openapi v0.107.0
+
 	// anyvendor (used in check-code-gen in CI) requires version v5.3.0, but solo-io/go-utils overrides it
 	github.com/go-git/go-git/v5 => github.com/go-git/go-git/v5 v5.3.0
+	github.com/google/cel-go => github.com/google/cel-go v0.16.1
 
 	github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
@@ -117,7 +121,9 @@ replace (
 	// k8s dependencies need to be pinned to avoid conflicts with wasm-kit@v0.1.4 transitive dependencies:
 	// https://github.com/solo-io/gloo-mesh-enterprise/issues/13786
 	k8s.io/api => k8s.io/api v0.28.3
+	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.28.3
 	k8s.io/apimachinery => k8s.io/apimachinery v0.28.3
+	k8s.io/apiserver => k8s.io/apiserver v0.28.3
 	k8s.io/client-go => k8s.io/client-go v0.28.3
 
 	// TODO(samu): pin controller-runtime dependency to a non-published version that includes this commit:

@@ -145,7 +145,7 @@ type PrioritizedPhase_Phase struct {
 
 	// The priority at which this policy should be applied relative to other policies defined in the same phase.
 	// The lowest priority will be run first and the default priority value is 0.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/int32-value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#int32-value).
 	Priority *wrappers.Int32Value `protobuf:"bytes,1,opt,name=priority,proto3" json:"priority,omitempty"`
 }
 

@@ -18,6 +18,9 @@ func (o *ApiDoc) IsConfigObject() {}
 // IsConfigObject implements ConfigObject interface for Portal
 func (o *Portal) IsConfigObject() {}
 
+// IsConfigObject implements ConfigObject interface for ApiProduct
+func (o *ApiProduct) IsConfigObject() {}
+
 // IsConfigObject implements ConfigObject interface for PortalGroup
 func (o *PortalGroup) IsConfigObject() {}
 

@@ -93,7 +93,7 @@ message WasmDeploymentPolicySpec {
         // <li>`google.protobuf.BytesValue` and `google.protobuf.StringValue` are passed directly without the wrapper.</li></ul>
         //
         // For information about the value format, see the
-        // [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/any).
+        // [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#any).
         .google.protobuf.Any static_filter_config = 4;
 
         // NOTE: **Not currently implemented.** This field serves as a placeholder.

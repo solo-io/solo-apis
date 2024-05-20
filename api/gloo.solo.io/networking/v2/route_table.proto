@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package networking.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "envoy/type/matcher/v3/regex.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
@@ -11,6 +10,7 @@ import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/cloud_provider_options.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/portal_metadata.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/tcp_matchers.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/tls_matchers.proto";
 import "github.com/solo-io/skv2/api/core/v1/core.proto";
@@ -220,26 +220,20 @@ message RouteTableSpec {
   // Only valid for route tables which define at least one host.
   // If no workloadSelectors or virtualGateways are specified, all workloads in the workspace will automatically be selected.
   // If VirtualGateways are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.
-  // 
-  // **For delegated routes**: Delegated child route tables inherit the workload selectors of the parent route table, such as 'value:foo'. 
-  // The delegated child route table can also have its own workload selectors, such as 'env:prod'. 
-  // These workload selectors are logically AND'd together. As a result, the child route table routes traffic only to workloads with both 'value:foo' and 'env:prod' labels. 
+  //
+  // **For delegated routes**: Delegated child route tables inherit the workload selectors of the parent route table, such as 'value:foo'.
+  // The delegated child route table can also have its own workload selectors, such as 'env:prod'.
+  // These workload selectors are logically AND'd together. As a result, the child route table routes traffic only to workloads with both 'value:foo' and 'env:prod' labels.
   // Note that the child route table cannot override the parent's workload selectors, such as by setting 'value:bar'. In that case, the child route gets an error until the conflict is resolved.
-  // 
+  //
   // *Note*: Selection of external workloads (VMs) is currently not supported.
   //
-  // **Note**: You can select workloads by using labels only. Selecting workloads by using other references, such as 
-  // the name, namespace, or cluster is not supported.  
+  // **Note**: You can select workloads by using labels only. Selecting workloads by using other references, such as
+  // the name, namespace, or cluster is not supported.
   repeated .common.gloo.solo.io.WorkloadSelector workload_selectors = 6;
 
   //  Optional: Selectors for destinations that shall route traffic by this route table via producer-side side policy (e.g on waypoints)
   //
-  // Applying an ambient-backed destinations means that any traffic that reaches the destination, regardless of its origin
-  // (mesh, outside mesh), will be subject to the RouteTable's policy.
-  //
-  // To select all ambient destinations in the workspace, set `applyToDestinations: - {}`.
-  //
-  // *Note*: applyToDestinations is an alpha API currently implemented only for ambient-enabled meshes.
   // *Note*: For delegated route tables this field should be empty, as the values from the parent will always be used for destination selection.
   // *Note*: Selection of external workloads (VMs), external services, and Destinations with sidecars is currently not supported.
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 10;
@@ -268,7 +262,29 @@ message RouteTableSpec {
   // Optional: If this route table bundles APIs that you want to expose in a developer portal, you can set portal metadata.
   // Portal metadata is a set of key-value pairs that describe your APIs.
   // Later, your developer portal displays this information in the end-user facing API documentation.
-  PortalMetadata portal_metadata = 7;
+  .common.gloo.solo.io.PortalMetadata portal_metadata = 7;
+
+  // The desired behavior when one or more routes in a route table are misconfigured.
+  // **Note**: If route delegation is used, the setting is supported on the parent route table only and controls the behavior for all of the child route tables.
+  // If set on a child route table, the setting is ignored.
+  FailureMode failure_mode = 11;
+
+  enum FailureMode {
+    // The default behavior for handling misconfigured routes in a route table.
+    // If you attempt to apply incorrect configuration to a route, the configuration is not applied in the cluster.
+    // Instead, the misconfigured route is replaced with a 500 HTTP direct response until the error is resolved.
+    // Other, correctly configured routes in the route table continue to route as configured and accept updates to their configuration.
+    ROUTE_REPLACEMENT = 0;
+    // If you attempt to apply incorrect configuration to a route, the configuration is not accepted
+    // and the route table continues to serve the route configuration from the last accepted configuration.
+    // Other, correctly configured routes in the route table also continue to serve the last accepted configuration.
+    // Updates to correctly configured routes are ignored until the error is resolved.
+    // Note that the same behavior applies when using route delegation;
+    // any misconfigured route on the parent route table or any child route table freezes the configuration for all routes in the route table tree until the error is resolved.
+    // Keep in mind that if you change the failure mode from `ROUTE_REPLACEMENT` to `FREEZE_CONFIG` while a route is in a misconfigured state,
+    // any replaced routes will maintain their 500 HTTP direct response as that is their behavior in the last accepted configuration.
+    FREEZE_CONFIG = 1;
+  }
 }
 
 // Use HTTP routes to control Layer 7 application level traffic to your services. To configure HTTP routes, you pair together
@@ -546,49 +562,6 @@ message DelegateAction {
     //
     ROUTE_SPECIFICITY = 1;
   }
-}
-
-// With [Portal](https://docs.solo.io/gloo-gateway/main/portal/) installed as part of Gloo Platform,
-// you can use route tables to bundle together individual routes into an API product.
-// When the Portal resource selects your route table, Gloo automatically generates an OpenAPI specification for the API product,
-// which includes all of the routes. You can use this `PortalMetadata` setting to customize details about your API product,
-// such as by providing a title, description, terms of service, licensing, and lifecycle management information.
-// After you deploy a frontend application for your portal, your end users can review the metadata in the portal to help them use your API products.
-message PortalMetadata {
-  // This field is required to enable the Portal feature.
-  // Group APIs from multiple route tables together as an API product in the portal.
-  // For example, you might have separate route tables that route to different `v1` and `v2` versions of your `billing` services that have their own OpenAPI specs.
-  // By setting the `apiProductId` metadata to the same `billing-api` value in each route table,
-  // the [/apis](https://docs.solo.io/gloo-gateway/main/portal/openapi/redocly/#tag/APIs/operation/ListAPIs) endpoint in the portal server returns the same `apiProduct` in the response.
-  // Then, these APIs are grouped together and shown as a single `billing` API product with multiple `v1` and `v2` versions in the frontend portal for your end users to discover and use.
-  string api_product_id = 1;
-  // Optional: Give a name for the API product to display in the frontend portal. If omitted, the `apiProductId` value is used as the display name.
-  // If `api_product_display_name` is set to a different value in each route table that has the same `apiProductId` value,
-  // then the `api_product_display_name` value from the route table with the oldest creation timestamp is used.
-  string api_product_display_name = 2;
-  // This field is required to enable the Portal feature.
-  // The version of the API in context of the api product.
-  // You cannot have multiple `apiVersion` values for the same `apiProductId` value, and you must set `apiProductId` to use `apiVersion`.
-  // For example, if you have two route tables that both set `apiProductId` to `billing-api`, then one route table can also set `apiVersion` to `v1` and the other to `v2`.
-  // But both route tables cannot set the `apiVersion` to `v1`.
-  string api_version = 3;
-  // The title of the openAPI specification for this API.
-  string title = 4;
-  // The description of the openAPI specification for this API.
-  string description = 5;
-  // The terms of service of the openAPI specification for this API.
-  string terms_of_service = 6;
-  // The contact information of the openAPI specification for this API.
-  string contact = 7;
-  // The license of the openAPI specification for this API.
-  string license = 8;
-  // Describes the current lifecycle stage of the API.
-  string lifecycle = 9;
-  // Provide key-value pairs of any custom metadata that you want to show end users in the frontend portal for this API product.
-  // In particular, you might provide information about your API lifecycle management policies,
-  // such as `phase=supported`, `phase=deprecated`, `compatibility=backwards`, or other product information.
-  // Furthermore, the key-value pairs are added to the API Usage & Analytics data for incoming requests to this API product.
-  map<string, string> custom_metadata = 10;
 }
 
 message RouteTableStatus {

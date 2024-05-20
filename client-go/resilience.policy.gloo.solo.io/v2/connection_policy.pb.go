@@ -266,7 +266,7 @@ type ConnectionPolicySpec_Config_TCPConfig struct {
 	// Sets the maximum allowed connections to the destination host.
 	MaxConnections int32 `protobuf:"varint,2,opt,name=max_connections,json=maxConnections,proto3" json:"max_connections,omitempty"`
 	// Sets the TCP connection timeout. It must be greater than or equal to 1ms.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	ConnectTimeout *duration.Duration `protobuf:"bytes,3,opt,name=connect_timeout,json=connectTimeout,proto3" json:"connect_timeout,omitempty"`
 }
 
@@ -342,7 +342,7 @@ type ConnectionPolicySpec_Config_HTTPConfig struct {
 	// If omitted, the default is 1 hour. When the idle timeout is reached, the connection will be closed. If the connection is an HTTP/2 connection
 	// a drain sequence will occur prior to closing the connection. Note that request based timeouts mean that HTTP/2 PINGs will not keep the connection alive.
 	// Applies to both HTTP1.1 and HTTP2 connections.
-	// For more information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For more information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
 	IdleTimeout *duration.Duration `protobuf:"bytes,3,opt,name=idle_timeout,json=idleTimeout,proto3" json:"idle_timeout,omitempty"`
 }
 

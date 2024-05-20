@@ -18,6 +18,9 @@ type ApiDocSlice []*ApiDoc
 // PortalSlice represents a slice of *Portal
 type PortalSlice []*Portal
 
+// ApiProductSlice represents a slice of *ApiProduct
+type ApiProductSlice []*ApiProduct
+
 // PortalGroupSlice represents a slice of *PortalGroup
 type PortalGroupSlice []*PortalGroup
 

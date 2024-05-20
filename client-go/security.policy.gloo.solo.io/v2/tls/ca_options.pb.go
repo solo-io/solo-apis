@@ -174,18 +174,18 @@ func (CertificateRotationStrategy) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_tls_ca_options_proto_rawDescGZIP(), []int{1}
 }
 
-// Configuration for generating a self-signed root certificate.
+// Configuration for generating a self-signed intermediate or root certificate.
 // Uses the X.509 format, RFC5280.
 type CommonCertOptions struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Number of days before root cert expires. Defaults to 365.
+	// Number of days before the certificate expires. Defaults to 365.
 	TtlDays uint32 `protobuf:"varint,1,opt,name=ttl_days,json=ttlDays,proto3" json:"ttl_days,omitempty"`
-	// Size in bytes of the root cert's private key. Defaults to 4096.
+	// Size in bytes of the certificate's private key. Defaults to 4096.
 	RsaKeySizeBytes uint32 `protobuf:"varint,2,opt,name=rsa_key_size_bytes,json=rsaKeySizeBytes,proto3" json:"rsa_key_size_bytes,omitempty"`
-	// Root cert organization name. Defaults to "gloo-mesh".
+	// The organization name of the certificate. Defaults to "gloo-mesh".
 	OrgName string `protobuf:"bytes,3,opt,name=org_name,json=orgName,proto3" json:"org_name,omitempty"`
 	// The ratio of the certificate lifetime to when Gloo starts the certificate rotation process.
 	// The ratio must be between 0 and 1 (exclusive). For example, if a certificate is valid for
@@ -397,14 +397,14 @@ type isCertificateRotationVerificationMethod_Method interface {
 type CertificateRotationVerificationMethod_None struct {
 	// Verification not enabled. NOTE: This setting is only recommended for testing.
 	// When enabled rotation will continue from step to step without any kind of verification.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
 	None *empty.Empty `protobuf:"bytes,1,opt,name=none,proto3,oneof"`
 }
 
 type CertificateRotationVerificationMethod_Manual struct {
 	// Verification must be completed manually. This involves using our certificate verification
 	// endpoint when the certificates are in a VERIFYING state
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
 	Manual *empty.Empty `protobuf:"bytes,2,opt,name=manual,proto3,oneof"`
 }
 

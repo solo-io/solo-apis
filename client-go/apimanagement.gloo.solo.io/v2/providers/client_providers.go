@@ -157,6 +157,34 @@ func PortalClientFromConfigFactoryProvider() PortalClientFromConfigFactory {
 	}
 }
 
+// Provider for ApiProductClient from Clientset
+func ApiProductClientFromClientsetProvider(clients apimanagement_gloo_solo_io_v2.Clientset) apimanagement_gloo_solo_io_v2.ApiProductClient {
+	return clients.ApiProducts()
+}
+
+// Provider for ApiProduct Client from Client
+func ApiProductClientProvider(client client.Client) apimanagement_gloo_solo_io_v2.ApiProductClient {
+	return apimanagement_gloo_solo_io_v2.NewApiProductClient(client)
+}
+
+type ApiProductClientFactory func(client client.Client) apimanagement_gloo_solo_io_v2.ApiProductClient
+
+func ApiProductClientFactoryProvider() ApiProductClientFactory {
+	return ApiProductClientProvider
+}
+
+type ApiProductClientFromConfigFactory func(cfg *rest.Config) (apimanagement_gloo_solo_io_v2.ApiProductClient, error)
+
+func ApiProductClientFromConfigFactoryProvider() ApiProductClientFromConfigFactory {
+	return func(cfg *rest.Config) (apimanagement_gloo_solo_io_v2.ApiProductClient, error) {
+		clients, err := apimanagement_gloo_solo_io_v2.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.ApiProducts(), nil
+	}
+}
+
 // Provider for PortalGroupClient from Clientset
 func PortalGroupClientFromClientsetProvider(clients apimanagement_gloo_solo_io_v2.Clientset) apimanagement_gloo_solo_io_v2.PortalGroupClient {
 	return clients.PortalGroups()

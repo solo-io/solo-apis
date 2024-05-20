@@ -11,17 +11,17 @@ option go_package = "github.com/solo-io/solo-apis/client-go/security.policy.gloo
 option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;
 
-// Configuration for generating a self-signed root certificate.
+// Configuration for generating a self-signed intermediate or root certificate.
 // Uses the X.509 format, RFC5280.
 message CommonCertOptions {
 
-  // Number of days before root cert expires. Defaults to 365.
+  // Number of days before the certificate expires. Defaults to 365.
   uint32 ttl_days = 1;
 
-  // Size in bytes of the root cert's private key. Defaults to 4096.
+  // Size in bytes of the certificate's private key. Defaults to 4096.
   uint32 rsa_key_size_bytes = 2;
 
-  // Root cert organization name. Defaults to "gloo-mesh".
+  // The organization name of the certificate. Defaults to "gloo-mesh".
   string org_name = 3;
 
   // The ratio of the certificate lifetime to when Gloo starts the certificate rotation process.
@@ -87,12 +87,12 @@ message CertificateRotationVerificationMethod {
   oneof method {
     // Verification not enabled. NOTE: This setting is only recommended for testing.
     // When enabled rotation will continue from step to step without any kind of verification.
-    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+    // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
     google.protobuf.Empty none = 1;
 
     // Verification must be completed manually. This involves using our certificate verification 
     // endpoint when the certificates are in a VERIFYING state
-    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+    // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
     google.protobuf.Empty manual = 2;
   }
 }

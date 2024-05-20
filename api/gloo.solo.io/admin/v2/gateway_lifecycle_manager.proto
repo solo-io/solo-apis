@@ -4,13 +4,14 @@
 // When you create the `GatewayLifecycleManager` in your management cluster, Gloo translates the configuration
 // into gateways in your registered workload clusters for you.
 //
-// For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% versioned_link_path fromRoot="/setup/install/gloo_mesh_managed/" %}}) guide.
+// For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% link path="/setup/install/gloo_mesh_managed/" %}}) guide.
 //
 // **Examples**:
 //
-// **East-west** (Gloo Mesh license): This example creates an east-west gateway named `istio-eastwestgateway` in the `gloo-mesh-gateways`
-// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo distribution of Istio revision (`$REVISION`),
-// image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// **East-west**: This example creates an east-west gateway named `istio-eastwestgateway` in the `gloo-mesh-gateways`
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the repo key for the Solo distribution of Istio (`hub: $REPO`),
+// image tag (`tag: $ISTIO_IMAGE`), and revision (`revision: $REVISION`). Note that for advanced east-west traffic routing across multiple clusters, you need a
+// Gloo Mesh Enterprise license. 
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
 // kind: GatewayLifecycleManager
@@ -72,12 +73,13 @@
 //                 - name: tls
 //                   port: 15443
 //                   targetPort: 15443
-//                     
+//
 // ```
 //
-// **Ingress** (Gloo Gateway license): This example creates an ingress gateway named `istio-ingressgateway` in the `gloo-mesh-gateways`
-// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo distribution of Istio revision (`$REVISION`),
-// image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
+// **Ingress**: This example creates an ingress gateway named `istio-ingressgateway` in the `gloo-mesh-gateways`
+// namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the repo key for the Solo distribution of Istio (`hub: $REPO`),
+// image tag (`tag: $ISTIO_IMAGE`), and revision (`revision: $REVISION`). Note that for advanced ingress routing features such as AWS Lambda, Portal, or ingress-specific
+// policies, you need a Gloo Mesh Gateway license.
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
 // kind: GatewayLifecycleManager
@@ -101,7 +103,7 @@
 //       # Solo.io Istio distribution repository; required for the Solo distribution of Istio.
 //       # You get the repo key from your Solo Account Representative.
 //       hub: $REPO
-//       # The Solo.io Istio version tag
+//       # Any tag for the Solo distribution of Istio
 //       tag: $ISTIO_IMAGE
 //       components:
 //         ingressGateways:
@@ -141,9 +143,9 @@
 // ```
 //
 // **Egress**: This example creates an egress gateway named `istio-egressgateway` in the `gloo-mesh-gateways` namespace of two workload clusters,
-// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo distribution of Istio revision (`$REVISION`), image tag (`$ISTIO_IMAGE`), and repo key (`$REPO`).
-// For more information, see the 
-// [Block egress traffic with an egress gateway]({{% versioned_link_path fromRoot="/routing/forward-requests/external-service/egress-gateway/" %}}) guide.
+// (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the repo key for the Solo distribution of Istio (`hub: $REPO`),
+// image tag (`tag: $ISTIO_IMAGE`), and revision (`revision: $REVISION`). For more information, see the
+// [Block egress traffic with an egress gateway]({{% link path="/routing/forward-requests/external-service/egress-gateway/" %}}) guide.
 // ```yaml
 // apiVersion: admin.gloo.solo.io/v2
 // kind: GatewayLifecycleManager
@@ -244,7 +246,6 @@ syntax = "proto3";
 
 package admin.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_operator.proto";
 
@@ -279,7 +280,7 @@ message GatewayClusterSelector {
   // To override the `trustDomain` for each cluster, you can instead specify the override value by using this `trustDomain` field,
   // and include the value in the list of cluster names. For example, if you specify `meshConfig.trustDomain: cluster1-trust-override` in your operator spec,
   // you then specify both the cluster name (`name: cluster1`) and the trust domain (`trustDomain: cluster1-trust-override`) in this `installations.clusters` section.
-  // Additionally, because Gloo requires multiple trust domains for east-west routing, the `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` field is set to `"true"` by default. 
+  // Additionally, because Gloo requires multiple trust domains for east-west routing, the `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` field is set to `"true"` by default.
   // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1).
   string trust_domain = 5;
 }
@@ -333,10 +334,10 @@ message GatewayLifecycleManagerStatus {
       // A human-readable message about the current state of the installation.
       string message = 2;
 
-      // The observed revision of the gateway installation. 
+      // The observed revision of the gateway installation.
       string observed_revision = 5;
 
-      // The IstioOperator spec that is currently deployed for this revision. 
+      // The IstioOperator spec that is currently deployed for this revision.
       .common.gloo.solo.io.IstioOperatorSpec observed_operator = 4;
 
       // The current state of the gateway installation.
@@ -351,7 +352,7 @@ message GatewayLifecycleManagerStatus {
         // Could not select a istiod control plane.
         NO_CONTROL_PLANE_AVAILABLE = 2;
 
-        // The gateway is currently being installed. 
+        // The gateway is currently being installed.
         INSTALLING_GATEWAY = 3;
 
         // All Istio components for the gateway are successfully installed and healthy.
@@ -363,13 +364,13 @@ message GatewayLifecycleManagerStatus {
         // The gateway IstioOperator resource is in an 'ACTION_REQUIRED' state. Check the logs of the IstioOperator deployment for more info.
         ACTION_REQUIRED = 6;
 
-        // The gateway IstioOperator resource is in an 'UPDATING' state. 
+        // The gateway IstioOperator resource is in an 'UPDATING' state.
         UPDATING_GATEWAY = 7;
 
         // The gateway IstioOperator resource is in a 'RECONCILING' state.
         RECONCILING_GATEWAY = 8;
 
-        // The gateway installation state could not be determined. 
+        // The gateway installation state could not be determined.
         UNKNOWN = 9;
 
         // The gateway is currently being uninstalled.

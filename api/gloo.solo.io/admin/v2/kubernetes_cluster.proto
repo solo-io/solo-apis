@@ -4,6 +4,7 @@ package admin.gloo.solo.io;
 
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/condition.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
@@ -19,7 +20,11 @@ option (extproto.clone_all) = true;
 // The name of the KubernetesCluster has to be unique among all managed workload clusters for a 
 // given Gloo Mesh management plane.
 // The name or/and labels of a KubernetesCluster resource can be used in a Workspace resource to determine
-// the workload clusters for a given workspace.
+// the workload clusters for a given workspace. **Note**: The KubernetesCluster resource name must be unique 
+// across the KubernetesCluster resources for other clusters that you register with Gloo. For simplicity, any
+// KubernetesCluster resources that are created automatically for you during cluster registration use the same
+// name as the workload cluster. However, the name of the KubernetesCluster resource
+// is not required to match the name of the cluster.
 //
 // The following example show a simple KubernetesCluster resource named `cluster1` with `cluster.local`
 // as its cluster domain:
@@ -46,15 +51,37 @@ option (extproto.clone_all) = true;
 //   clusterDomain: cluster.local
 // ```
 //
+// The following example excludes the cluster from safe mode: 
+// ```yaml
+// apiVersion: admin.gloo.solo.io/v2
+// kind: KubernetesCluster
+// metadata:
+//   name: cluster1
+//   namespace: gloo-mesh
+//   labels:
+//     region: us-east
+// spec:
+//   clusterDomain: cluster.local
+//   skipWarming: true
+// ```
+//
 message KubernetesClusterSpec {
   // Optional: The cluster domain suffix this Cluster is configured with. Defaults to 'cluster.local'.
   string cluster_domain = 1;
+
+  // Optional: Exclude this cluster from safe mode. If set to true: In the event that Redis and the Gloo management server
+  // restart and their cache and local memory are cleared, the Gloo management server does not wait
+  // for this cluster to send an input snapshot to start the translation. Note that clusters that never connected to the Gloo 
+  // management server to sent at least one input snapshot are automatically excluded from safe mode. 
+  bool skip_warming = 2;
 }
 
 // // The status of the KubernetesCluster after it is applied to your Gloo environment.
 message KubernetesClusterStatus {
   // Indicates the state of the Gloo agent that is connected to the Gloo management server.
   .common.gloo.solo.io.Status common = 1;
+  // List of conditions -- observations of KubernetesCluster state
+  repeated .common.gloo.solo.io.Condition conditions = 2;
 }
 
 // The resources that the applied resource selects.

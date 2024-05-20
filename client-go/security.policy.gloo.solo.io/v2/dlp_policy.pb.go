@@ -257,25 +257,27 @@ func (x *DLPPolicySpec) GetConfig() *DLPPolicySpec_Config {
 // is custom, so that can be left empty.
 //
 // ```yaml
-// - customAction:
-// name: test
-// regexActions:
-// - regex: "hello"
-// - regex: "world"
-// maskChar: Y
-// percent: 60
+//   - customAction:
+//     name: test
+//     regexActions:
+//   - regex: "hello"
+//   - regex: "world"
+//     maskChar: Y
+//     percent: 60
+//
 // ```
 //
 // To create a key-value action, specify the configuration in the `keyValueAction` field. The default enum value
 // is custom, so that can be left empty.
 //
 // ```yaml
-// - keyValueAction:
-// keysToMask:
-// - x-my-header-01
-// maskChar: _
-// name: kv-action-1
-// percent: 100
+//   - keyValueAction:
+//     keysToMask:
+//   - x-my-header-01
+//     maskChar: _
+//     name: kv-action-1
+//     percent: 100
+//
 // ```
 type DlpAction struct {
 	state         protoimpl.MessageState
@@ -394,12 +396,13 @@ func (*DlpAction_KeyValueAction) isDlpAction_Action() {}
 // and you define the following custom action:
 // ``` yaml
 // customAction:
-// name: test
-// regexActions:
-// - regex: "hello"
-// - regex: "world"
-// maskChar: Y
-// percent: 60
+//
+//	name: test
+//	regexActions:
+//	- regex: "hello"
+//	- regex: "world"
+//	maskChar: Y
+//	percent: 60
 //
 // ```
 //
