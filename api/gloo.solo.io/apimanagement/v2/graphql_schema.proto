@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package apimanagement.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/apimanagement/v2/graphql_resolver_map.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
@@ -94,7 +93,7 @@ message GraphQLSchemaSpec {
       // Max GraphQL operation (query/mutation/subscription) depth. This sets a limitation on the max nesting on a query that runs against this schema.
       // any GraphQL operation that runs past the `max_depth` will add an error message to the response and will return as `null`.
       // If not configured, or the value is 0, the query depth will be unbounded.
-      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
+      // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
       google.protobuf.UInt32Value max_depth = 1;
 
       // Enable introspection queries on the GraphQL API served by this GraphQLSchema resource.
@@ -132,7 +131,7 @@ message GraphQLSchemaSpec {
     string span_name = 5;
 
     // Set the timeout of the HTTP request to the REST service (default 5s)
-    // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+    // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
     google.protobuf.Duration timeout = 6;
 
     Options options = 7;
@@ -147,8 +146,10 @@ message GraphQLSchemaSpec {
         string request_header = 2;
 
         // Assigns the variable to a JSON value specified here.
-        // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/value).
-        google.protobuf.Value json = 3 [(.solo.io.cue.opt).disable_openapi_type_validation = true];
+        // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
+        //
+        // +kubebuilder:validation:Type=value
+        google.protobuf.Value json = 3;
       }
     }
 

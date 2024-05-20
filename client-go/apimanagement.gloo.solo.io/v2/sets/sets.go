@@ -1128,6 +1128,229 @@ func (s *portalSet) Clone() PortalSet {
 	return &portalSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
+type ApiProductSet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiProduct) bool) []*apimanagement_gloo_solo_io_v2.ApiProduct
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiProduct) bool) []*apimanagement_gloo_solo_io_v2.ApiProduct
+	// Return the Set as a map of key to resource.
+	Map() map[string]*apimanagement_gloo_solo_io_v2.ApiProduct
+	// Insert a resource into the set.
+	Insert(apiProduct ...*apimanagement_gloo_solo_io_v2.ApiProduct)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(apiProductSet ApiProductSet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(apiProduct ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(apiProduct ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set ApiProductSet) ApiProductSet
+	// Return the difference with the provided set
+	Difference(set ApiProductSet) ApiProductSet
+	// Return the intersection with the provided set
+	Intersection(set ApiProductSet) ApiProductSet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*apimanagement_gloo_solo_io_v2.ApiProduct, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another ApiProductSet
+	Delta(newSet ApiProductSet) sksets.ResourceDelta
+	// Create a deep copy of the current ApiProductSet
+	Clone() ApiProductSet
+}
+
+func makeGenericApiProductSet(apiProductList []*apimanagement_gloo_solo_io_v2.ApiProduct) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range apiProductList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type apiProductSet struct {
+	set sksets.ResourceSet
+}
+
+func NewApiProductSet(apiProductList ...*apimanagement_gloo_solo_io_v2.ApiProduct) ApiProductSet {
+	return &apiProductSet{set: makeGenericApiProductSet(apiProductList)}
+}
+
+func NewApiProductSetFromList(apiProductList *apimanagement_gloo_solo_io_v2.ApiProductList) ApiProductSet {
+	list := make([]*apimanagement_gloo_solo_io_v2.ApiProduct, 0, len(apiProductList.Items))
+	for idx := range apiProductList.Items {
+		list = append(list, &apiProductList.Items[idx])
+	}
+	return &apiProductSet{set: makeGenericApiProductSet(list)}
+}
+
+func (s *apiProductSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *apiProductSet) List(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiProduct) bool) []*apimanagement_gloo_solo_io_v2.ApiProduct {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*apimanagement_gloo_solo_io_v2.ApiProduct))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	apiProductList := make([]*apimanagement_gloo_solo_io_v2.ApiProduct, 0, len(objs))
+	for _, obj := range objs {
+		apiProductList = append(apiProductList, obj.(*apimanagement_gloo_solo_io_v2.ApiProduct))
+	}
+	return apiProductList
+}
+
+func (s *apiProductSet) UnsortedList(filterResource ...func(*apimanagement_gloo_solo_io_v2.ApiProduct) bool) []*apimanagement_gloo_solo_io_v2.ApiProduct {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*apimanagement_gloo_solo_io_v2.ApiProduct))
+		})
+	}
+
+	var apiProductList []*apimanagement_gloo_solo_io_v2.ApiProduct
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		apiProductList = append(apiProductList, obj.(*apimanagement_gloo_solo_io_v2.ApiProduct))
+	}
+	return apiProductList
+}
+
+func (s *apiProductSet) Map() map[string]*apimanagement_gloo_solo_io_v2.ApiProduct {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*apimanagement_gloo_solo_io_v2.ApiProduct{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*apimanagement_gloo_solo_io_v2.ApiProduct)
+	}
+	return newMap
+}
+
+func (s *apiProductSet) Insert(
+	apiProductList ...*apimanagement_gloo_solo_io_v2.ApiProduct,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range apiProductList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *apiProductSet) Has(apiProduct ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(apiProduct)
+}
+
+func (s *apiProductSet) Equal(
+	apiProductSet ApiProductSet,
+) bool {
+	if s == nil {
+		return apiProductSet == nil
+	}
+	return s.Generic().Equal(apiProductSet.Generic())
+}
+
+func (s *apiProductSet) Delete(ApiProduct ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(ApiProduct)
+}
+
+func (s *apiProductSet) Union(set ApiProductSet) ApiProductSet {
+	if s == nil {
+		return set
+	}
+	return NewApiProductSet(append(s.List(), set.List()...)...)
+}
+
+func (s *apiProductSet) Difference(set ApiProductSet) ApiProductSet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &apiProductSet{set: newSet}
+}
+
+func (s *apiProductSet) Intersection(set ApiProductSet) ApiProductSet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var apiProductList []*apimanagement_gloo_solo_io_v2.ApiProduct
+	for _, obj := range newSet.List() {
+		apiProductList = append(apiProductList, obj.(*apimanagement_gloo_solo_io_v2.ApiProduct))
+	}
+	return NewApiProductSet(apiProductList...)
+}
+
+func (s *apiProductSet) Find(id ezkube.ResourceId) (*apimanagement_gloo_solo_io_v2.ApiProduct, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find ApiProduct %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&apimanagement_gloo_solo_io_v2.ApiProduct{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*apimanagement_gloo_solo_io_v2.ApiProduct), nil
+}
+
+func (s *apiProductSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *apiProductSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *apiProductSet) Delta(newSet ApiProductSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *apiProductSet) Clone() ApiProductSet {
+	if s == nil {
+		return nil
+	}
+	return &apiProductSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
 type PortalGroupSet interface {
 	// Get the set stored keys
 	Keys() sets.String

@@ -40,6 +40,8 @@ type FaultInjectionPolicySpec struct {
 	// If empty, the policy applies to all routes in the workspace.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
 	// The details of the fault injection policy to apply to the selected routes.
+	//
+	// +kubebuilder:validation:XValidation:rule="has(self.delay) || has(self.abort)",message="Either config.delay or config.abort must be set"
 	Config *FaultInjectionPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 }
 
@@ -273,9 +275,16 @@ type FaultInjectionPolicySpec_Config_Abort struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Required: HTTP status code to use to abort the request.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Minimum=200
+	// +kubebuilder:validation:Maximum=599
 	HttpStatus int32 `protobuf:"varint,1,opt,name=http_status,json=httpStatus,proto3" json:"http_status,omitempty"`
 	// Percentage of requests to be aborted. Values range between 0 and 100. If omitted all requests will be aborted.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#double-value).
+	//
+	// +kubebuilder:validation:Maximum=100
+	// +kubebuilder:validation:XValidation:rule="self == 0.0 || self >= 0.0001",message="Must be >= 0.0001 or equal to zero"
 	Percentage *wrappers.DoubleValue `protobuf:"bytes,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
 }
 
@@ -333,10 +342,18 @@ type FaultInjectionPolicySpec_Config_Delay struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Required: Add a delay of a fixed duration before sending the request. Format: `1h`/`1m`/`1s`/`1ms`. MUST be >=1ms.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="Must be greater than or equal to 1ms"
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="Cannot have granularity smaller than 1 millisecond"
+	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="Cannot have granularity smaller than 1 millisecond"
 	FixedDelay *duration.Duration `protobuf:"bytes,1,opt,name=fixed_delay,json=fixedDelay,proto3" json:"fixed_delay,omitempty"`
 	// Percentage of requests on which the delay will be injected. Values range between 0 and 100. If omitted all requests will be delayed.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/double-value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#double-value).
+	//
+	// +kubebuilder:validation:Maximum=100
+	// +kubebuilder:validation:XValidation:rule="self == 0.0 || self >= 0.0001",message="Must be >= 0.0001 or equal to zero"
 	Percentage *wrappers.DoubleValue `protobuf:"bytes,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
 }
 

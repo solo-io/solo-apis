@@ -196,8 +196,7 @@ message VirtualGatewaySpec {
       // that is attached to the virtual gateway.
       HTTPServer http = 4;
 
-      // tcp routes on based on sni server name
-      // requires tls to be enabled
+      // The TCP listener configuration. If you want to use TCP routes that route via SNI server name, a TLS configuration is required.
       TCPServer tcp = 5;
 
       // @exclude TODO: consider creating a type for tls

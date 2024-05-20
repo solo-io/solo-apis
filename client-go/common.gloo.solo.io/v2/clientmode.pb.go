@@ -108,13 +108,13 @@ type ClientMode_Auto struct {
 	// The default mode is to use sni routing via tls passthrough at the East/West Gateway to route to services across clusters.
 	// In the future, this may change to become smarter (e.g., detect if any pods backing the virtual destination don't have sidecars,
 	// if so, then use tls termination so all pods are routeable).
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
 	Auto *empty.Empty `protobuf:"bytes,1,opt,name=auto,proto3,oneof"`
 }
 
 type ClientMode_SniRouting struct {
 	// Sni routing mode uses tls passthrough to route traffic to the proper pod (with sidecar) from the East/West Gateway.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
 	SniRouting *empty.Empty `protobuf:"bytes,2,opt,name=sni_routing,json=sniRouting,proto3,oneof"`
 }
 
@@ -123,7 +123,7 @@ type ClientMode_TlsTermination struct {
 	// This mode is ideal for Gloo Mesh Gateway, i.e. some backing pods don't have sidecars.
 	// Since TLS is terminated at the East/West Gateway, the backing service (if it has a sidecar) will not be able to
 	// verify the istio mTLS identity of the originating client; rather it will verify the istio mTLS cert of the East/West Gateway.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/empty).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
 	TlsTermination *empty.Empty `protobuf:"bytes,3,opt,name=tls_termination,json=tlsTermination,proto3,oneof"`
 }
 

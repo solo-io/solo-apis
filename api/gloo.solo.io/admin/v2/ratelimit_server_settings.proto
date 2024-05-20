@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package admin.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
@@ -27,7 +26,7 @@ message RateLimitServerSettingsSpec {
 
   // The timeout in milliseconds for the rate limit service RPC. Defaults to 100ms.
   // Behaviour after request timeout is reached is set by `deny_on_fail`.
-  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+  // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
   google.protobuf.Duration request_timeout = 2;
 
   // Behaviour in case the rate limiting service does not respond back.

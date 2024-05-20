@@ -18,6 +18,9 @@ func (o *ApiDocReport) IsReport() {}
 // IsReport implements Reportable interface for PortalReport
 func (o *PortalReport) IsReport() {}
 
+// IsReport implements Reportable interface for ApiProductReport
+func (o *ApiProductReport) IsReport() {}
+
 // IsReport implements Reportable interface for PortalGroupReport
 func (o *PortalGroupReport) IsReport() {}
 

@@ -37,6 +37,8 @@ func (m *KubernetesClusterSpec) Clone() proto.Message {
 
 	target.ClusterDomain = m.GetClusterDomain()
 
+	target.SkipWarming = m.GetSkipWarming()
+
 	return target
 }
 
@@ -52,6 +54,19 @@ func (m *KubernetesClusterStatus) Clone() proto.Message {
 		target.Common = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Status)
 	} else {
 		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Status)
+	}
+
+	if m.GetConditions() != nil {
+		target.Conditions = make([]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Condition, len(m.GetConditions()))
+		for idx, v := range m.GetConditions() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Conditions[idx] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Condition)
+			} else {
+				target.Conditions[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Condition)
+			}
+
+		}
 	}
 
 	return target

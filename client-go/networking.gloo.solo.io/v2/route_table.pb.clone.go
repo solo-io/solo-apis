@@ -137,10 +137,12 @@ func (m *RouteTableSpec) Clone() proto.Message {
 	target.Weight = m.GetWeight()
 
 	if h, ok := interface{}(m.GetPortalMetadata()).(clone.Cloner); ok {
-		target.PortalMetadata = h.Clone().(*PortalMetadata)
+		target.PortalMetadata = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.PortalMetadata)
 	} else {
-		target.PortalMetadata = proto.Clone(m.GetPortalMetadata()).(*PortalMetadata)
+		target.PortalMetadata = proto.Clone(m.GetPortalMetadata()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.PortalMetadata)
 	}
+
+	target.FailureMode = m.GetFailureMode()
 
 	return target
 }
@@ -506,44 +508,6 @@ func (m *DelegateAction) Clone() proto.Message {
 	}
 
 	target.SortMethod = m.GetSortMethod()
-
-	return target
-}
-
-// Clone function
-func (m *PortalMetadata) Clone() proto.Message {
-	var target *PortalMetadata
-	if m == nil {
-		return target
-	}
-	target = &PortalMetadata{}
-
-	target.ApiProductId = m.GetApiProductId()
-
-	target.ApiProductDisplayName = m.GetApiProductDisplayName()
-
-	target.ApiVersion = m.GetApiVersion()
-
-	target.Title = m.GetTitle()
-
-	target.Description = m.GetDescription()
-
-	target.TermsOfService = m.GetTermsOfService()
-
-	target.Contact = m.GetContact()
-
-	target.License = m.GetLicense()
-
-	target.Lifecycle = m.GetLifecycle()
-
-	if m.GetCustomMetadata() != nil {
-		target.CustomMetadata = make(map[string]string, len(m.GetCustomMetadata()))
-		for k, v := range m.GetCustomMetadata() {
-
-			target.CustomMetadata[k] = v
-
-		}
-	}
 
 	return target
 }

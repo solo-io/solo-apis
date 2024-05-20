@@ -37,6 +37,9 @@ type RetryTimeoutPolicySpec struct {
 	// If empty, the policy applies to all workloads in the workspace.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
 	// The details of the retry/timeout policy to apply to the selected routes.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:XValidation:rule="has(self.retries) || has(self.requestTimeout)",message="Either config.retries or config.requestTimeout must be set"
 	Config *RetryTimeoutPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 }
 
@@ -209,7 +212,11 @@ type RetryTimeoutPolicySpec_Config struct {
 	// Set a retry policy on requests matched on the selected routes.
 	Retries *RetryTimeoutPolicySpec_Config_RetryPolicy `protobuf:"bytes,3,opt,name=retries,proto3" json:"retries,omitempty"`
 	// Set a timeout on requests matched on the selected routes.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
+	//
+	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="Must be greater than or equal to 1ms"
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="Cannot have granularity smaller than 1 millisecond"
+	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="Cannot have granularity smaller than 1 millisecond"
 	RequestTimeout *duration.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 }
 
@@ -260,6 +267,8 @@ func (x *RetryTimeoutPolicySpec_Config) GetRequestTimeout() *duration.Duration {
 }
 
 // Specify retries for failed requests.
+//
+// +kubebuilder:validation:XValidation:rule="!has(self.attempts) || self.attempts != 0 || (!has(self.perTryTimeout) && !has(self.retryOn) && !has(self.retryRemoteLocalities))",message="When attempts is set to 0, perTryTimeout, retryOn, or retryRemoteLocalities cannot be set"
 type RetryTimeoutPolicySpec_Config_RetryPolicy struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -271,19 +280,27 @@ type RetryTimeoutPolicySpec_Config_RetryPolicy struct {
 	// or `per_try_timeout` is configured, the actual number of retries attempted also depends on
 	// the specified request `timeout` and `per_try_timeout` values.
 	// Defaults to 2 retries.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/int32-value).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#int32-value).
+	//
+	// +kubebuilder:validation:Minimum=0
 	Attempts *wrappers.Int32Value `protobuf:"bytes,1,opt,name=attempts,proto3" json:"attempts,omitempty"`
 	// Timeout per retry attempt for a given request. Format: `1h`/`1m`/`1s`/`1ms`. *Must be >= 1ms*.
 	// Default is same value as request `timeout` of
 	// the [HTTP route](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRoute),
 	// which means no timeout.
-	// For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
+	//
+	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="Must be greater than or equal to 1ms"
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="Cannot have granularity smaller than 1 millisecond"
+	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="Cannot have granularity smaller than 1 millisecond"
 	PerTryTimeout *duration.Duration `protobuf:"bytes,2,opt,name=per_try_timeout,json=perTryTimeout,proto3" json:"per_try_timeout,omitempty"`
 	// Specifies the conditions under which retry takes place.
 	// One or more policies can be specified using a ‘,’ delimited list.
 	// If `retry_on` specifies a valid HTTP status, it will be added to retriable_status_codes retry policy.
 	// See the [retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on)
 	// and [gRPC retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on) for more details.
+	//
+	// +kubebuilder:validation:Pattern="^[^,]+(?:,[^,]+)*$"
 	RetryOn string `protobuf:"bytes,3,opt,name=retry_on,json=retryOn,proto3" json:"retry_on,omitempty"`
 	// Flag to specify whether the retries should retry to other localities.
 	// See the [retry plugin configuration](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http/http_connection_management#retry-plugin-configuration) for more details.

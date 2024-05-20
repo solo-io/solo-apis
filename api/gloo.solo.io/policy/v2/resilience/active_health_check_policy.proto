@@ -1,6 +1,6 @@
 // {{% readfile file="static/content/policies/ov_healthcheck" markdown="true"%}}
 // If an upstream service is unavailable, the service is removed from the
-// load balancing pool until health is re-established. Active healthcheck 
+// load balancing pool until health is re-established. Active healthcheck
 // policies are applied at the *Destination* level. For more information,
 // see the [Envoy healthcheck configuration](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/health_checking).
 //
@@ -13,7 +13,6 @@ syntax = "proto3";
 
 package resilience.policy.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "envoy/config/core/v3/health_check.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
@@ -41,7 +40,9 @@ message ActiveHealthCheckPolicySpec {
   message Config {
     // Configuration for the Envoy healthcheck. For more info, see the
     // [Envoy healthcheck config reference](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/endpoint/v3/endpoint_components.proto#config-endpoint-v3-endpoint-healthcheckconfig).
-    .envoy.config.core.v3.HealthCheck health_check = 1 [(.solo.io.cue.opt).disable_openapi_validation = true];
+    //
+    // +kubebuilder:validation:Type=object
+    .envoy.config.core.v3.HealthCheck health_check = 1;
 
     // A list of references to virtual gateways that perform the healthchecks.
     repeated .common.gloo.solo.io.ObjectReference virtual_gateways = 5;

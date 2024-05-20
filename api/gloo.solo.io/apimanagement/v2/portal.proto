@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package apimanagement.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
@@ -151,6 +150,10 @@ message PortalSpec {
   // A list of route tables with routes to the APIs you want the developer portal to expose.
   // The route table might also have 'portalMetadata' key-value fields that you want to display in the developer portal for end users.
   repeated .common.gloo.solo.io.ObjectSelector apis = 2;
+
+  // A list of route metadata which select the ApiProducts you want the developer portal to expose.
+  // $hide_from_docs
+  repeated .common.gloo.solo.io.ObjectSelector api_products = 6;
 
   // The usage plans to control access to the APIs that the developer portal exposes.
   repeated UsagePlan usage_plans = 3;

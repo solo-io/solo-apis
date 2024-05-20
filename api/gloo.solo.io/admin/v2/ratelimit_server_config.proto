@@ -1,7 +1,6 @@
 syntax = "proto3";
 package admin.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
@@ -27,11 +26,15 @@ message RateLimitServerConfigSpec {
 
     // The descriptors that will be applied to the server.
     // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
-    repeated .ratelimit.api.solo.io.Descriptor descriptors = 1 [(.solo.io.cue.opt).disable_openapi_validation = true];
+    //
+    // +kubebuilder:validation:Type=object
+    repeated .ratelimit.api.solo.io.Descriptor descriptors = 1;
 
     // The set descriptors that will be applied to the server.
     // {{/* Note: validation of this field disabled because it slows down cue tremendously*/}}
-    repeated .ratelimit.api.solo.io.SetDescriptor set_descriptors = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
+    //
+    // +kubebuilder:validation:Type=object
+    repeated .ratelimit.api.solo.io.SetDescriptor set_descriptors = 2;
 
   }
 

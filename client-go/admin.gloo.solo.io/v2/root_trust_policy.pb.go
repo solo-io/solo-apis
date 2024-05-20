@@ -343,7 +343,7 @@ type RootTrustPolicySpec_Config_MgmtServerCertificateAuthority_Generated struct 
 
 type RootTrustPolicySpec_Config_MgmtServerCertificateAuthority_SecretRef struct {
 	// Name of a Kubernetes Secret in the same namespace as the RootTrustPolicy containing the root certificate authority.
-	// Provided certificates must conform to a specified format, [documented here]({{< versioned_link_path fromRoot="/setup/prod/certs/relay/" >}}).
+	// Provided certificates must conform to a specified format, [documented here]({{< link path="/setup/prod/certs/relay/" >}}).
 	SecretRef *v1.ObjectRef `protobuf:"bytes,2,opt,name=secret_ref,json=secretRef,proto3,oneof"`
 }
 

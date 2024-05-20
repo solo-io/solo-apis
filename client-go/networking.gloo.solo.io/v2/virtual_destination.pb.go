@@ -25,6 +25,9 @@ const (
 )
 
 // VirtualDestinations define groupings of backing destinations (for network traffic).
+//
+// +kubebuilder:validation:XValidation:rule="has(self.services) || has(self.externalServices) || has(self.externalWorkloads) || !self.ports.exists(p, has(p.targetPort))",message="When using targetPort, at least one of services, externalServices, or externalWorkloads must be set"
+// +kubebuilder:validation:XValidation:rule="has(self.services) || has(self.externalServices) || has(self.externalWorkloads) || (has(self.hosts) && size(self.hosts) >= 1)",message="At least one of hosts, services, externalServices, or externalWorkloads must be set"
 type VirtualDestinationSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -52,6 +55,9 @@ type VirtualDestinationSpec struct {
 	// (To forward to the service on the local cluster only, a FailoverPolicy and/or OutlierDetectionPolicy must be configured.)
 	ExternalWorkloads []*v2.ObjectSelector `protobuf:"bytes,6,rep,name=external_workloads,json=externalWorkloads,proto3" json:"external_workloads,omitempty"`
 	// Required: The ports on which the VirtualDestination will serve traffic. Must have at least one port.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinItems=1
 	Ports []*VirtualDestinationSpec_PortMapping `protobuf:"bytes,4,rep,name=ports,proto3" json:"ports,omitempty"`
 	// Optional: Client mode determines how the VirtualDestination will be translated.
 	// If nil, the mode is inherited from the WorkspaceSettings defined by the admin.
@@ -294,12 +300,19 @@ type VirtualDestinationSpec_PortMapping struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The port number. Must be a valid, non-negative integer port number.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:validation:Maximum=65535
 	Number uint32 `protobuf:"varint,1,opt,name=number,proto3" json:"number,omitempty"`
 	// The protocol used in communication with this destination
 	// MUST be one of the following: HTTP, HTTPS, GRPC, HTTP2, MONGO, TCP, TLS.
 	// Note that the VirtualDestination protocol may not match the protocol of the backing k8s Service(s).
 	// For example, VirtualDestinations pointing to GRPC services will need the protocol set to GRPC.
 	// The prefix of the k8s Service port's name will typically match the needed PROTOCOL in such cases.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Enum=HTTP;http;HTTPS;https;GRPC;grpc;gRPC;HTTP2;http2;MONGO;mongo;TCP;tcp;TLS;tls
 	Protocol string `protobuf:"bytes,2,opt,name=protocol,proto3" json:"protocol,omitempty"`
 	// (optional): The port number or name used to match the corresponding port on the
 	// VirtualDestination's backing Services and ExternalServices.

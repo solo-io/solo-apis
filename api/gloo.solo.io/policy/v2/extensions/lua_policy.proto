@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package extensions.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/phase.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/extensions.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Specifications for the policy.
+message LuaPolicySpec {
+  // Select the routes where the policy will be applied.
+  // If empty (`{}`), the policy applies to all routes in the workspace.
+  // If omitted and the policy also does not select any destinations, the policy applies to all routes in the workspace.
+  // If omitted and the policy selects a destination, the policy does not apply to any routes.
+  repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
+
+  // Select the destinations where the policy will be applied. Only Kubernetes services are supported.
+  // By default if omitted, the policy does not apply to any destinations.
+  // If empty (`{}`), the policy applies to all destinations in the workspace.
+  repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 2;
+
+  // The details of the Lua policy to apply to the selected routes and destinations.
+  Config config = 3;
+
+  // The details of the Lua policy to apply to the selected routes and destinations.
+  message Config {
+    // Lua code to be executed by the policy.
+    // Both envoy_on_request and envoy_on_response functions are supported.
+    SourceCode source_code = 1;
+
+    // Optional: Set when to apply the Lua filter in the request chain, either
+    // before (`preAuthz`) or after (`postAuthz`) authorization.
+    // If no phase is specified, defaults to `preAuthz`.
+    .common.gloo.solo.io.PrioritizedPhase phase = 2;
+
+    message SourceCode {
+      // Lua code in string format.
+      string inline_string = 1;
+    }
+  }
+}
+
+// The status of the policy after it is applied to your Gloo environment.Status
+message LuaPolicyStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of routes selected by the policy.
+  uint32 num_selected_routes = 2;
+
+  // The number of destination ports selected by the policy.
+  uint32 num_selected_destination_ports = 3;
+}
+
+// The report shows the resources that the policy selects after the policy is successfully applied.
+message LuaPolicyReport {
+  // The status of the resource in each workspace that it exists in.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of references to all routes selected by the policy.
+  repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
+
+  // A list of destination ports selected by the policy.
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 3;
+}

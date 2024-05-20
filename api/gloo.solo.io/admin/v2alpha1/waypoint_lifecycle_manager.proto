@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package admin.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
@@ -24,8 +23,10 @@ message WaypointLifecycleManagerSpec {
 
   // The deployment specification that you want to use to override the default L7 policy proxy deployment values.
   // The values that you specify are merged with the default deployment values.
-  // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/struct).
-  google.protobuf.Struct deployment_spec = 2 [(.solo.io.cue.opt).disable_openapi_validation = true];
+  // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
+  //
+  // +kubebuilder:validation:Type=object
+  google.protobuf.Struct deployment_spec = 2;
 }
 
 // This field represents the status of the WaypointLifecycleManagerSpec.

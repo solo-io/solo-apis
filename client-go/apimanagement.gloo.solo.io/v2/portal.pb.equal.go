@@ -80,6 +80,23 @@ func (m *PortalSpec) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetApiProducts()) != len(target.GetApiProducts()) {
+		return false
+	}
+	for idx, v := range m.GetApiProducts() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApiProducts()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetApiProducts()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	if len(m.GetUsagePlans()) != len(target.GetUsagePlans()) {
 		return false
 	}

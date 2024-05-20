@@ -50,6 +50,8 @@ type Clientset interface {
 	// clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
 	Portals() PortalClient
 	// clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
+	ApiProducts() ApiProductClient
+	// clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
 	PortalGroups() PortalGroupClient
 	// clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
 	ApiSchemaDiscoveries() ApiSchemaDiscoveryClient
@@ -100,6 +102,11 @@ func (c *clientSet) ApiDocs() ApiDocClient {
 // clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
 func (c *clientSet) Portals() PortalClient {
 	return NewPortalClient(c.client)
+}
+
+// clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
+func (c *clientSet) ApiProducts() ApiProductClient {
+	return NewApiProductClient(c.client)
 }
 
 // clienset for the apimanagement.gloo.solo.io/v2/v2 APIs
@@ -820,6 +827,148 @@ func (m *multiclusterPortalClient) Cluster(cluster string) (PortalClient, error)
 		return nil, err
 	}
 	return NewPortalClient(client), nil
+}
+
+// Reader knows how to read and list ApiProducts.
+type ApiProductReader interface {
+	// Get retrieves a ApiProduct for the given object key
+	GetApiProduct(ctx context.Context, key client.ObjectKey) (*ApiProduct, error)
+
+	// List retrieves list of ApiProducts for a given namespace and list options.
+	ListApiProduct(ctx context.Context, opts ...client.ListOption) (*ApiProductList, error)
+}
+
+// ApiProductTransitionFunction instructs the ApiProductWriter how to transition between an existing
+// ApiProduct object and a desired on an Upsert
+type ApiProductTransitionFunction func(existing, desired *ApiProduct) error
+
+// Writer knows how to create, delete, and update ApiProducts.
+type ApiProductWriter interface {
+	// Create saves the ApiProduct object.
+	CreateApiProduct(ctx context.Context, obj *ApiProduct, opts ...client.CreateOption) error
+
+	// Delete deletes the ApiProduct object.
+	DeleteApiProduct(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given ApiProduct object.
+	UpdateApiProduct(ctx context.Context, obj *ApiProduct, opts ...client.UpdateOption) error
+
+	// Patch patches the given ApiProduct object.
+	PatchApiProduct(ctx context.Context, obj *ApiProduct, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all ApiProduct objects matching the given options.
+	DeleteAllOfApiProduct(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the ApiProduct object.
+	UpsertApiProduct(ctx context.Context, obj *ApiProduct, transitionFuncs ...ApiProductTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a ApiProduct object.
+type ApiProductStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given ApiProduct object.
+	UpdateApiProductStatus(ctx context.Context, obj *ApiProduct, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given ApiProduct object's subresource.
+	PatchApiProductStatus(ctx context.Context, obj *ApiProduct, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on ApiProducts.
+type ApiProductClient interface {
+	ApiProductReader
+	ApiProductWriter
+	ApiProductStatusWriter
+}
+
+type apiProductClient struct {
+	client client.Client
+}
+
+func NewApiProductClient(client client.Client) *apiProductClient {
+	return &apiProductClient{client: client}
+}
+
+func (c *apiProductClient) GetApiProduct(ctx context.Context, key client.ObjectKey) (*ApiProduct, error) {
+	obj := &ApiProduct{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *apiProductClient) ListApiProduct(ctx context.Context, opts ...client.ListOption) (*ApiProductList, error) {
+	list := &ApiProductList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *apiProductClient) CreateApiProduct(ctx context.Context, obj *ApiProduct, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *apiProductClient) DeleteApiProduct(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &ApiProduct{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *apiProductClient) UpdateApiProduct(ctx context.Context, obj *ApiProduct, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *apiProductClient) PatchApiProduct(ctx context.Context, obj *ApiProduct, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *apiProductClient) DeleteAllOfApiProduct(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &ApiProduct{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *apiProductClient) UpsertApiProduct(ctx context.Context, obj *ApiProduct, transitionFuncs ...ApiProductTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*ApiProduct), desired.(*ApiProduct)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *apiProductClient) UpdateApiProductStatus(ctx context.Context, obj *ApiProduct, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *apiProductClient) PatchApiProductStatus(ctx context.Context, obj *ApiProduct, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides ApiProductClients for multiple clusters.
+type MulticlusterApiProductClient interface {
+	// Cluster returns a ApiProductClient for the given cluster
+	Cluster(cluster string) (ApiProductClient, error)
+}
+
+type multiclusterApiProductClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterApiProductClient(client multicluster.Client) MulticlusterApiProductClient {
+	return &multiclusterApiProductClient{client: client}
+}
+
+func (m *multiclusterApiProductClient) Cluster(cluster string) (ApiProductClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewApiProductClient(client), nil
 }
 
 // Reader knows how to read and list PortalGroups.

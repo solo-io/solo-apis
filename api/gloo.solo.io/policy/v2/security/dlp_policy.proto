@@ -51,46 +51,42 @@ message DLPPolicySpec {
   }
 }
 
-/*
-    A single DLP action to mask sensitive data.
-    You can apply preconfigured actions, create custom actions,
-    and write key-value (header) actions.
-    These actions can also be shadowed. A shadowed action is recorded
-    in the statistics and debug logs, but is not committed in the response body.
-
-    To use a predefined action, set the `predefinedAction` to one of the predefined actions.
-
-    ```yaml
-    - predefinedAction: VISA
-    ```
-
-    To create a custom action, specify the configuration in the `customAction` field. The default enum value
-    is custom, so that can be left empty.
-
-    ```yaml
-    - customAction:
-          name: test
-          regexActions:
-          - regex: "hello"
-          - regex: "world"
-          maskChar: Y
-          percent: 60
-    ```
-
-    To create a key-value action, specify the configuration in the `keyValueAction` field. The default enum value
-    is custom, so that can be left empty.
-
-    ```yaml
-    - keyValueAction:
-        keysToMask:
-        - x-my-header-01
-        maskChar: _
-        name: kv-action-1
-        percent: 100
-    ```
-
-
-*/
+// A single DLP action to mask sensitive data.
+// You can apply preconfigured actions, create custom actions,
+// and write key-value (header) actions.
+// These actions can also be shadowed. A shadowed action is recorded
+// in the statistics and debug logs, but is not committed in the response body.
+//
+// To use a predefined action, set the `predefinedAction` to one of the predefined actions.
+//
+// ```yaml
+// - predefinedAction: VISA
+// ```
+//
+// To create a custom action, specify the configuration in the `customAction` field. The default enum value
+// is custom, so that can be left empty.
+//
+// ```yaml
+// - customAction:
+//     name: test
+//     regexActions:
+//     - regex: "hello"
+//     - regex: "world"
+//     maskChar: Y
+//     percent: 60
+// ```
+//
+// To create a key-value action, specify the configuration in the `keyValueAction` field. The default enum value
+// is custom, so that can be left empty.
+//
+// ```yaml
+// - keyValueAction:
+//     keysToMask:
+//     - x-my-header-01
+//     maskChar: _
+//     name: kv-action-1
+//     percent: 100
+// ```
 message DlpAction {
   /*
     The following pre-defined actions map to subgroup 1 of the listed regex patterns:
@@ -144,7 +140,7 @@ message DlpAction {
   oneof action {
     // The predefined action to apply.
     PredefinedAction predefined_action = 1;
-    
+
     // The custom action to apply.
     DlpCustomAction custom_action = 2;
 
@@ -158,29 +154,26 @@ message DlpAction {
   google.protobuf.BoolValue shadow = 3;
 }
 
-/*
-    A custom action that you define to apply to the response body.
 
-    The list of regex strings are applied in order. For instance, if the response body contains `hello world`,
-    and you define the following custom action:
-    ``` yaml
-    customAction:
-        name: test
-        regexActions:
-        - regex: "hello"
-        - regex: "world"
-        maskChar: Y
-        percent: 60
-        
-    ```
-
-    The result is masked in this way:
-    `YYYlo YYYld`
-
-    If `mask_char` and `percent` are not defined, the result is masked in this way:
-    `XXXXo XXXXd`
-
-*/
+// A custom action that you define to apply to the response body.
+//
+// The list of regex strings are applied in order. For instance, if the response body contains `hello world`,
+// and you define the following custom action:
+// ``` yaml
+// customAction:
+//     name: test
+//     regexActions:
+//     - regex: "hello"
+//     - regex: "world"
+//     maskChar: Y
+//     percent: 60
+// ```
+//
+// The result is masked in this way:
+// `YYYlo YYYld`
+//
+// If `mask_char` and `percent` are not defined, the result is masked in this way:
+// `XXXXo XXXXd`
 message DlpCustomAction {
   // The name of the custom action.
   // This name is used for logging and debugging purposes.

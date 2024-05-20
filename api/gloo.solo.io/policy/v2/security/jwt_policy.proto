@@ -1,5 +1,5 @@
 // Control access or route traffic based on verified claims in a JSON web token (JWT).
-// JWTs follow an open standard for securely sharing information between a client and your apps. 
+// JWTs follow an open standard for securely sharing information between a client and your apps.
 // JWTs are commonly used to support stateless, simple, scalable, and interoperable authentication and authorization flows.
 // For more information, see the [RFC 7519 JWT specification](https://datatracker.ietf.org/doc/html/rfc7519).
 //
@@ -21,7 +21,7 @@
 //   "iat": 1648651136
 // }
 // ```
-// 
+//
 // The following policy enables JWT authentication for the selected `httpbin` route.
 // It adds the values of the `org` and `email` claims from the JWT payload to the `X-Org` and `X-Email` headers in the request, if present.
 // It also checks requests by using the token found in the `X-Auth` header with the prefix `Bearer <token>`, or in a query parameter `auth_token=<token>`.
@@ -64,18 +64,17 @@
 //             39vvyMTjLAUyElCEfeMqCpFBCElhaGbF8ZncbV6vvDEkOxMX/m1TYhoJr1E2U8y/
 //             NwIDAQAB
 //             -----END PUBLIC KEY-----
-//         tokenSource:                    
-//           headers:  
+//         tokenSource:
+//           headers:
 //           - name: X-Auth
 //             prefix: 'Bearer '
-//           queryParams:       
+//           queryParams:
 //           - auth_token
 // ```
 syntax = "proto3";
 
 package security.policy.gloo.solo.io;
 
-import "encoding/protobuf/cue/cue.proto";
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/phase.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
@@ -91,10 +90,10 @@ option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
 // Fill out the spec of the JWT policy to enable JWT authentication. You can apply JWT policies to routes and destinations.
-// 
-// Multiple policies: If multiple JWT policies select the same route or destination, only the oldest policy applies. 
 //
-// Multiple selectors: You can select routes and destinations together in the same policy. 
+// Multiple policies: If multiple JWT policies select the same route or destination, only the oldest policy applies.
+//
+// Multiple selectors: You can select routes and destinations together in the same policy.
 // Using both selectors might impact the other. For example, you might omit a route selector. If you also omit a destination selector, then the policy applies to all routes. If you use a destination selector, the policy applies only to those destinations and no longer to any routes.
 //
 // If different JWT policies having conflicting rules for the same routes and destinations, then access is blocked.
@@ -120,7 +119,7 @@ message JWTPolicySpec {
       string issuer = 1;
 
       // Optional: A list of intended audiences for this JWT token.
-      // If specified, a JWT token containing any of these `aud` field values is accepted. 
+      // If specified, a JWT token containing any of these `aud` field values is accepted.
       // If omitted, the `aud` field in the JWT token is not checked.
       repeated string audiences = 2;
 
@@ -154,9 +153,9 @@ message JWTPolicySpec {
       // Second, the `access_token` query parameter, such as: `https://<url>/path?access_token=<token>`.
       //
       // Gloo can verify multiple JWTs for a request.
-      // Each JWT is extracted from the location that is specified per provider, or from the default locations previously described. 
+      // Each JWT is extracted from the location that is specified per provider, or from the default locations previously described.
       // Note that if a single request contains multiple sources,
-      // such as both a header and query parameter, then all tokens found in the request must be valid for the request to be accepted. 
+      // such as both a header and query parameter, then all tokens found in the request must be valid for the request to be accepted.
       // Configured fields are case sensitive and are matched verbatim.
       TokenSource token_source = 3;
 
@@ -195,13 +194,13 @@ message JWTPolicySpec {
         // Duration after which the cached JWKS expires.
         //
         // If omitted, defaults to 5 minutes.
-        // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+        // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
         google.protobuf.Duration cache_duration = 3;
 
         // Set the maximum duration in seconds that a response can take to arrive upon request.
         //
         // If omitted, defaults to 5 seconds.
-        // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration).
+        // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
         google.protobuf.Duration timeout = 4;
 
 
@@ -234,7 +233,7 @@ message JWTPolicySpec {
         RemoteJWKS remote = 5;
       }
 
-      // Specify the claims from the JWT payload to copy to individual headers before forwarding the request to the upstream destination. 
+      // Specify the claims from the JWT payload to copy to individual headers before forwarding the request to the upstream destination.
       message ClaimsToHeader {
         // Claim name, such as `"sub"`.
         string claim = 1;
@@ -254,7 +253,7 @@ message JWTPolicySpec {
       bool keep_token = 7;
 
       // Optional: Verify time constraints, such as `exp` and `npf`. Default is 60s.
-      // For information about the value format, see the [Google protocol buffer documentation](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int32-value).
+      // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
       google.protobuf.UInt32Value clock_skew_seconds = 8;
 
       // Optional: Copy the output of the JWT payload to a single header before forwarding the request to the upstream destination. The header is the name that you enter in this field.
@@ -275,7 +274,7 @@ message JWTPolicySpec {
     // However, the provider name does not affect the policy's behavior and cannot be used by other resources to select the policy.
     map<string, Provider> providers = 1;
 
-    // Optional: Set when to apply the JWT filter in the request chain, 
+    // Optional: Set when to apply the JWT filter in the request chain,
     // either before (`preAuthz`) or after (`postAuthz`) authorization to have access to the JWT token.
     // If no phase is specified, defaults to `preAuthz`.
     .common.gloo.solo.io.PrioritizedPhase phase = 2;
@@ -336,16 +335,16 @@ message JWTPolicySpec {
     repeated ClaimMatcher claims = 5;
 
     // Optional: An unordered list of required JWT scopes. The JWT "scope" claim must have all of the listed scopes to be allowed (logically AND'd together).
-    // Scopes typically come from an identity provider and are formatted similar to `"<product>:<permission>"` or `"is:<role>"`. 
+    // Scopes typically come from an identity provider and are formatted similar to `"<product>:<permission>"` or `"is:<role>"`.
     // For more information, see the [IETF docs](https://datatracker.ietf.org/doc/html/rfc8693#name-scope-scopes-claim).
     //
     // For example, you might use this field to set `email` and `is:developer` as required scopes.
-    // Then the scope claim in the JWT must have all of those required scopes, but could also have others. 
-    // JWTs with scopes such as `"scope":"email is:developer"` or `"scope":"email is:developer phone address"` would be allowed. 
+    // Then the scope claim in the JWT must have all of those required scopes, but could also have others.
+    // JWTs with scopes such as `"scope":"email is:developer"` or `"scope":"email is:developer phone address"` would be allowed.
     // JWTs with only one of the required scopes, such as `"scope":"email address"` would not be allowed.
     //
     // If you want to set scopes that if present in the claim are not allowed (`notValues`),
-    // or to allow a request to succeed with just one of many listed scopes (`email OR is:developer`), 
+    // or to allow a request to succeed with just one of many listed scopes (`email OR is:developer`),
     // use the claims field instead.
     // To skip scope validation, omit this value or leave the list empty.
     // Note that nested scopes (a scope with multiple sub scopes) are not supported at this time.

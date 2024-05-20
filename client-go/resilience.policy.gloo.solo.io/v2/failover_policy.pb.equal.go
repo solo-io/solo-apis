@@ -169,6 +169,67 @@ func (m *FailoverPolicyReport) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetCorrespondingOutlierDetectionPolicies()) != len(target.GetCorrespondingOutlierDetectionPolicies()) {
+		return false
+	}
+	for idx, v := range m.GetCorrespondingOutlierDetectionPolicies() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetCorrespondingOutlierDetectionPolicies()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetCorrespondingOutlierDetectionPolicies()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *DestinationToSelectedOutlierDetection) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*DestinationToSelectedOutlierDetection)
+	if !ok {
+		that2, ok := that.(DestinationToSelectedOutlierDetection)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetDestination()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDestination()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDestination(), target.GetDestination()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetSelectedOutlierDetection()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetSelectedOutlierDetection()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetSelectedOutlierDetection(), target.GetSelectedOutlierDetection()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -206,6 +267,65 @@ func (m *FailoverPolicySpec_Config) Equal(that interface{}) bool {
 			if !proto.Equal(v, target.GetLocalityMappings()[idx]) {
 				return false
 			}
+		}
+
+	}
+
+	switch m.PriorityLevels.(type) {
+
+	case *FailoverPolicySpec_Config_PriorityLabels_:
+		if _, ok := target.PriorityLevels.(*FailoverPolicySpec_Config_PriorityLabels_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetPriorityLabels()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetPriorityLabels()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetPriorityLabels(), target.GetPriorityLabels()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.PriorityLevels != target.PriorityLevels {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *FailoverPolicySpec_Config_PriorityLabels) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*FailoverPolicySpec_Config_PriorityLabels)
+	if !ok {
+		that2, ok := that.(FailoverPolicySpec_Config_PriorityLabels)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetLabels()) != len(target.GetLabels()) {
+		return false
+	}
+	for idx, v := range m.GetLabels() {
+
+		if strings.Compare(v, target.GetLabels()[idx]) != 0 {
+			return false
 		}
 
 	}
