@@ -2,8 +2,6 @@ module github.com/solo-io/solo-apis
 
 go 1.22.2
 
-toolchain go1.22.3
-
 replace (
 	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
 
@@ -32,7 +30,7 @@ require (
 	github.com/solo-io/go-utils v0.24.8
 	github.com/solo-io/protoc-gen-ext v0.0.18
 	github.com/solo-io/skv2 v0.39.1
-	github.com/solo-io/solo-kit v0.34.3-0.20240521175337-4a5cc2ef8faf
+	github.com/solo-io/solo-kit v0.34.3-0.20240522024428-f6701054560b
 	golang.org/x/tools v0.16.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20230822172742-b8732ec3820d
 	google.golang.org/grpc v1.59.0
