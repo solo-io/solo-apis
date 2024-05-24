@@ -128,6 +128,13 @@ message ApiDocSpec {
 }
 
 // The status of the ApiDoc after it is applied to your Gloo environment.
+// 
+// Gloo reports the status of Gloo custom resources in several places, such as in logs, when describing the object in `kubectl`, or when viewing the object in the Gloo UI.
+// Unlike other Gloo custom resources, ApiDocs can be both an input and output object. For example, you can manually create an ApiDoc (input),
+// or Gloo can automatically create an ApiDoc during discovery or translation processes (output).
+// As such, status for ApiDocs is disabled. Because the status is disabled, you cannot review statuses for ApiDocs in `kubectl`.
+// Also, you might notice ApiDocs reported as unhealthy in the Gloo UI even though the ApiDocs work.
+// To verify that your ApiDocs are healthy, you can follow the steps in the [ApiDoc guide](https://docs.solo.io/gloo-gateway/latest/portal/apis/apidocs/#verify).
 message ApiDocStatus {
   // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
