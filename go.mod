@@ -1,6 +1,6 @@
 module github.com/solo-io/solo-apis
 
-go 1.22.2
+go 1.22.3
 
 require (
 	github.com/cncf/xds/go v0.0.0-20231109132714-523115ebc101
@@ -24,15 +24,15 @@ require (
 	github.com/solo-io/cue v0.4.7
 	github.com/solo-io/go-utils v0.24.8 // indirect
 	github.com/solo-io/protoc-gen-ext v0.0.18
-	github.com/solo-io/skv2 v0.36.1
+	github.com/solo-io/skv2 v0.36.6
 	github.com/solo-io/solo-kit v0.34.0
 	github.com/spf13/pflag v1.0.6-0.20210604193023-d5e0c0615ace // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.26.0 // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
-	golang.org/x/net v0.19.0 // indirect
+	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/oauth2 v0.15.0 // indirect
-	golang.org/x/sys v0.17.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	google.golang.org/genproto v0.0.0-20231212172506-995d672761c0 // indirect
 	google.golang.org/grpc v1.61.1
 	google.golang.org/protobuf v1.32.0
@@ -83,7 +83,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
-	golang.org/x/term v0.15.0 // indirect
+	golang.org/x/term v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.4.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect

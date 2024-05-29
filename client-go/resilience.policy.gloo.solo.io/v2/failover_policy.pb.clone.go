@@ -112,6 +112,42 @@ func (m *FailoverPolicyReport) Clone() proto.Message {
 		}
 	}
 
+	if m.GetCorrespondingOutlierDetectionPolicies() != nil {
+		target.CorrespondingOutlierDetectionPolicies = make([]*DestinationToSelectedOutlierDetection, len(m.GetCorrespondingOutlierDetectionPolicies()))
+		for idx, v := range m.GetCorrespondingOutlierDetectionPolicies() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.CorrespondingOutlierDetectionPolicies[idx] = h.Clone().(*DestinationToSelectedOutlierDetection)
+			} else {
+				target.CorrespondingOutlierDetectionPolicies[idx] = proto.Clone(v).(*DestinationToSelectedOutlierDetection)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *DestinationToSelectedOutlierDetection) Clone() proto.Message {
+	var target *DestinationToSelectedOutlierDetection
+	if m == nil {
+		return target
+	}
+	target = &DestinationToSelectedOutlierDetection{}
+
+	if h, ok := interface{}(m.GetDestination()).(clone.Cloner); ok {
+		target.Destination = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference)
+	} else {
+		target.Destination = proto.Clone(m.GetDestination()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.DestinationReference)
+	}
+
+	if h, ok := interface{}(m.GetSelectedOutlierDetection()).(clone.Cloner); ok {
+		target.SelectedOutlierDetection = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+	} else {
+		target.SelectedOutlierDetection = proto.Clone(m.GetSelectedOutlierDetection()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+	}
+
 	return target
 }
 
@@ -132,6 +168,42 @@ func (m *FailoverPolicySpec_Config) Clone() proto.Message {
 			} else {
 				target.LocalityMappings[idx] = proto.Clone(v).(*FailoverPolicySpec_Config_LocalityMappings)
 			}
+
+		}
+	}
+
+	switch m.PriorityLevels.(type) {
+
+	case *FailoverPolicySpec_Config_PriorityLabels_:
+
+		if h, ok := interface{}(m.GetPriorityLabels()).(clone.Cloner); ok {
+			target.PriorityLevels = &FailoverPolicySpec_Config_PriorityLabels_{
+				PriorityLabels: h.Clone().(*FailoverPolicySpec_Config_PriorityLabels),
+			}
+		} else {
+			target.PriorityLevels = &FailoverPolicySpec_Config_PriorityLabels_{
+				PriorityLabels: proto.Clone(m.GetPriorityLabels()).(*FailoverPolicySpec_Config_PriorityLabels),
+			}
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
+func (m *FailoverPolicySpec_Config_PriorityLabels) Clone() proto.Message {
+	var target *FailoverPolicySpec_Config_PriorityLabels
+	if m == nil {
+		return target
+	}
+	target = &FailoverPolicySpec_Config_PriorityLabels{}
+
+	if m.GetLabels() != nil {
+		target.Labels = make([]string, len(m.GetLabels()))
+		for idx, v := range m.GetLabels() {
+
+			target.Labels[idx] = v
 
 		}
 	}

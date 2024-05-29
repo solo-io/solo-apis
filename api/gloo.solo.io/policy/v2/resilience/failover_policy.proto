@@ -59,7 +59,26 @@ message FailoverPolicySpec {
     //
     // You can exclude this setting to enable the locality load balancer
     // settings without mappings.
+    //
+    // Only priority labels or locality mappings can be specified, not both.
     repeated LocalityMappings locality_mappings = 2;
+
+    oneof priority_levels {
+      // Prioritize destinations to fail over traffic to by configuring priority labels. In general, destinations that match the most labels have higher priority during failover.
+      // For more information, see the [Istio docs](https://istio.io/latest/docs/reference/config/networking/destination-rule/#:~:text=No-,failoverPriority,-string%5B%5D).
+      // 
+      // When using priority labels, you must specify either an ordered list of label keys or an ordered list of label key-value pairs.
+      // For example, you can specify `["region"]` or `["region=us-east-1", "availabilityzone=1a", "datacenter=4"]`.
+      // You cannot have an ordered list that includes both label keys and label key-value pairs.
+      //
+      // Only priority labels or locality mappings can be specified, not both. If you specify both, Gloo Mesh will give precedence to the locality mappings.
+      // You can use locality labels in your list of priority labels, such as the Kubernetes `topology.kubernetes.io/region` node label.
+      PriorityLabels priority_labels = 3;
+    }
+
+    message PriorityLabels {
+      repeated string labels = 1;
+    }
 
     message LocalityMappings {
       // The locality of the destination where Gloo Mesh originally 
@@ -124,4 +143,15 @@ message FailoverPolicyReport {
 
   // A list of destination ports selected by the policy.
   repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
+
+  // A list of selected outlier detection policies.
+  repeated DestinationToSelectedOutlierDetection corresponding_outlier_detection_policies = 3;
+}
+
+message DestinationToSelectedOutlierDetection {
+  // The destination to which the selected outlier detection policy is applied.
+  .common.gloo.solo.io.DestinationReference destination = 1;
+
+  // The selected outlier detection policy.
+  .common.gloo.solo.io.ObjectReference selected_outlier_detection = 2;
 }
