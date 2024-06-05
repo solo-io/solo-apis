@@ -56,14 +56,21 @@ func (m *VirtualHostOptionSpec) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetTargetRef()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetTargetRef()) {
-			return false
+	if len(m.GetTargetRefs()) != len(target.GetTargetRefs()) {
+		return false
+	}
+	for idx, v := range m.GetTargetRefs() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetTargetRefs()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetTargetRefs()[idx]) {
+				return false
+			}
 		}
-	} else {
-		if !proto.Equal(m.GetTargetRef(), target.GetTargetRef()) {
-			return false
-		}
+
 	}
 
 	return true
@@ -100,14 +107,21 @@ func (m *RouteOptionSpec) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetTargetRef()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetTargetRef()) {
-			return false
+	if len(m.GetTargetRefs()) != len(target.GetTargetRefs()) {
+		return false
+	}
+	for idx, v := range m.GetTargetRefs() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetTargetRefs()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetTargetRefs()[idx]) {
+				return false
+			}
 		}
-	} else {
-		if !proto.Equal(m.GetTargetRef(), target.GetTargetRef()) {
-			return false
-		}
+
 	}
 
 	return true
