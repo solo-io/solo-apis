@@ -34,7 +34,7 @@ func (m *VirtualDestinationSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualDestinationSpec")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualDestinationSpec")); err != nil {
 		return 0, err
 	}
 
@@ -174,7 +174,7 @@ func (m *VirtualDestinationStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualDestinationStatus")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualDestinationStatus")); err != nil {
 		return 0, err
 	}
 
@@ -243,7 +243,7 @@ func (m *VirtualDestinationReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualDestinationReport")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualDestinationReport")); err != nil {
 		return 0, err
 	}
 
@@ -365,7 +365,7 @@ func (m *VirtualDestinationSpec_PortMapping) Hash(hasher hash.Hash64) (uint64, e
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualDestinationSpec_PortMapping")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualDestinationSpec_PortMapping")); err != nil {
 		return 0, err
 	}
 

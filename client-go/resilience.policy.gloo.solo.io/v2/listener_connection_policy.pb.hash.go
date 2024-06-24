@@ -34,7 +34,7 @@ func (m *ListenerConnectionPolicySpec) Hash(hasher hash.Hash64) (uint64, error) 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.ListenerConnectionPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.ListenerConnectionPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -94,7 +94,7 @@ func (m *ListenerConnectionPolicyStatus) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.ListenerConnectionPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.ListenerConnectionPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -135,7 +135,7 @@ func (m *ListenerConnectionPolicyReport) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.ListenerConnectionPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.ListenerConnectionPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -214,7 +214,7 @@ func (m *ListenerConnectionPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.ListenerConnectionPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.ListenerConnectionPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 

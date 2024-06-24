@@ -19,5 +19,8 @@ message TLSRequestMatcher {
   repeated string sni_hosts = 1; 
 
   // Optional: Port on the host to match against.
+  //
+  // +kubebuilder:validation:Minimum=0
+  // +kubebuilder:validation:Maximum=65535
   uint32 port = 2;
 }

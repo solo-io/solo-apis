@@ -34,7 +34,7 @@ func (m *CSRFPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.CSRFPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.CSRFPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -94,7 +94,7 @@ func (m *CSRFPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.CSRFPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.CSRFPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -135,7 +135,7 @@ func (m *CSRFPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.CSRFPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.CSRFPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -214,7 +214,7 @@ func (m *CSRFPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.CSRFPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.CSRFPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 

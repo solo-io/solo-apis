@@ -38,7 +38,7 @@ func (m *WasmDeploymentPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -98,7 +98,7 @@ func (m *WasmDeploymentPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -139,7 +139,7 @@ func (m *WasmDeploymentPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -218,7 +218,7 @@ func (m *WasmDeploymentPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, erro
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 
@@ -263,7 +263,7 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter) Hash(hasher hash.Hash64) (u
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec_Config_WasmFilter")); err != nil {
+	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec_Config_WasmFilter")); err != nil {
 		return 0, err
 	}
 
@@ -382,7 +382,7 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter_UriSource) Hash(hasher hash.
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec_Config_WasmFilter_UriSource")); err != nil {
+	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec_Config_WasmFilter_UriSource")); err != nil {
 		return 0, err
 	}
 
@@ -406,7 +406,7 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter_WasmImageSource) Hash(hasher
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec_Config_WasmFilter_WasmImageSource")); err != nil {
+	if _, err = hasher.Write([]byte("extensions.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/extensions.policy.gloo.solo.io/v2.WasmDeploymentPolicySpec_Config_WasmFilter_WasmImageSource")); err != nil {
 		return 0, err
 	}
 

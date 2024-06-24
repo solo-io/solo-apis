@@ -240,7 +240,7 @@ message OidcConfig {
   string ca_cert_configmap_name = 15;
 }
 
-// The [json web key set (JWKS)](https://tools.ietf.org/html/rfc7517) is
+// The [json web key set (JWKS)](https://datatracker.ietf.org/doc/html/rfc7517) is
 // discovered at an interval from a remote source. When keys rotate in
 // the remote source, there might be a delay before the local source picks
 // up those new keys. In this case, a user might execute a request with a

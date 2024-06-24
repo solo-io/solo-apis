@@ -34,7 +34,7 @@ func (m *ClusterIstioInstallationSpec) Hash(hasher hash.Hash64) (uint64, error) 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.ClusterIstioInstallationSpec")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.ClusterIstioInstallationSpec")); err != nil {
 		return 0, err
 	}
 
@@ -58,6 +58,26 @@ func (m *ClusterIstioInstallationSpec) Hash(hasher hash.Hash64) (uint64, error) 
 		}
 	}
 
+	if h, ok := interface{}(m.GetHelmGlobal()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("HelmGlobal")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetHelmGlobal(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("HelmGlobal")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -70,7 +90,7 @@ func (m *ClusterIstioInstallationStatus) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.ClusterIstioInstallationStatus")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.ClusterIstioInstallationStatus")); err != nil {
 		return 0, err
 	}
 
@@ -139,7 +159,7 @@ func (m *ClusterIstioInstallationStatus_HelmStatus) Hash(hasher hash.Hash64) (ui
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.ClusterIstioInstallationStatus_HelmStatus")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.ClusterIstioInstallationStatus_HelmStatus")); err != nil {
 		return 0, err
 	}
 
@@ -203,7 +223,7 @@ func (m *ClusterIstioInstallationStatus_HelmReleaseGrouping) Hash(hasher hash.Ha
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.ClusterIstioInstallationStatus_HelmReleaseGrouping")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.ClusterIstioInstallationStatus_HelmReleaseGrouping")); err != nil {
 		return 0, err
 	}
 
@@ -263,7 +283,7 @@ func (m *ClusterIstioInstallationStatus_HelmRelease) Hash(hasher hash.Hash64) (u
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.ClusterIstioInstallationStatus_HelmRelease")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.ClusterIstioInstallationStatus_HelmRelease")); err != nil {
 		return 0, err
 	}
 

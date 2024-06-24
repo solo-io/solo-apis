@@ -34,7 +34,7 @@ func (m *GraphQLResolverMapSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec")); err != nil {
 		return 0, err
 	}
 
@@ -109,7 +109,7 @@ func (m *VariableTransformation) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.VariableTransformation")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.VariableTransformation")); err != nil {
 		return 0, err
 	}
 
@@ -163,7 +163,7 @@ func (m *Extraction) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.Extraction")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.Extraction")); err != nil {
 		return 0, err
 	}
 
@@ -283,7 +283,7 @@ func (m *DynamicMetadataExtraction) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.DynamicMetadataExtraction")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.DynamicMetadataExtraction")); err != nil {
 		return 0, err
 	}
 
@@ -307,7 +307,7 @@ func (m *GraphQLResolverMapStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapStatus")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapStatus")); err != nil {
 		return 0, err
 	}
 
@@ -347,7 +347,7 @@ func (m *GraphQLResolverMapReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapReport")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapReport")); err != nil {
 		return 0, err
 	}
 
@@ -406,7 +406,7 @@ func (m *GraphQLResolverMapSpec_Resolution) Hash(hasher hash.Hash64) (uint64, er
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution")); err != nil {
 		return 0, err
 	}
 
@@ -461,7 +461,7 @@ func (m *GraphQLResolverMapSpec_ResolverMapExtensions) Hash(hasher hash.Hash64) 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_ResolverMapExtensions")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_ResolverMapExtensions")); err != nil {
 		return 0, err
 	}
 
@@ -497,7 +497,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers) Hash(hasher hash.Hash64) (
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers")); err != nil {
 		return 0, err
 	}
 
@@ -596,7 +596,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver) Hash(hasher hash.
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver")); err != nil {
 		return 0, err
 	}
 
@@ -702,7 +702,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) Hash
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver")); err != nil {
 		return 0, err
 	}
 
@@ -841,7 +841,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) Hash
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver")); err != nil {
 		return 0, err
 	}
 
@@ -941,7 +941,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver) Hash
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver")); err != nil {
 		return 0, err
 	}
 
@@ -1011,7 +1011,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_Reque
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RequestTemplate")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RequestTemplate")); err != nil {
 		return 0, err
 	}
 
@@ -1125,7 +1125,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable")); err != nil {
 		return 0, err
 	}
 
@@ -1151,7 +1151,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_Reque
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate")); err != nil {
 		return 0, err
 	}
 
@@ -1238,7 +1238,7 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_Async
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse")); err != nil {
 		return 0, err
 	}
 

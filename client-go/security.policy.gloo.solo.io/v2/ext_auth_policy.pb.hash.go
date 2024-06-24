@@ -34,7 +34,7 @@ func (m *ExtAuthPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.ExtAuthPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.ExtAuthPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -118,7 +118,7 @@ func (m *ExtAuthPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.ExtAuthPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.ExtAuthPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -164,7 +164,7 @@ func (m *ExtAuthPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.ExtAuthPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.ExtAuthPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -267,7 +267,7 @@ func (m *ExtAuthPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.ExtAuthPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.ExtAuthPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 
@@ -358,7 +358,7 @@ func (m *ExtAuthPolicySpec_Config_CustomAuth) Hash(hasher hash.Hash64) (uint64, 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.ExtAuthPolicySpec_Config_CustomAuth")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.ExtAuthPolicySpec_Config_CustomAuth")); err != nil {
 		return 0, err
 	}
 

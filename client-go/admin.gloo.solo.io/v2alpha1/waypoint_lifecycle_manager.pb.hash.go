@@ -34,7 +34,7 @@ func (m *WaypointLifecycleManagerSpec) Hash(hasher hash.Hash64) (uint64, error) 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2alpha1.WaypointLifecycleManagerSpec")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2alpha1.WaypointLifecycleManagerSpec")); err != nil {
 		return 0, err
 	}
 
@@ -94,7 +94,7 @@ func (m *WaypointLifecycleManagerStatus) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2alpha1.WaypointLifecycleManagerStatus")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2alpha1.WaypointLifecycleManagerStatus")); err != nil {
 		return 0, err
 	}
 
@@ -130,7 +130,7 @@ func (m *WaypointLifecycleManagerReport) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2alpha1.WaypointLifecycleManagerReport")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2alpha1.WaypointLifecycleManagerReport")); err != nil {
 		return 0, err
 	}
 

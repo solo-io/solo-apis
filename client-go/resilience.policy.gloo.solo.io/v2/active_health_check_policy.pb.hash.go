@@ -34,7 +34,7 @@ func (m *ActiveHealthCheckPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.ActiveHealthCheckPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.ActiveHealthCheckPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -94,7 +94,7 @@ func (m *ActiveHealthCheckPolicyStatus) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.ActiveHealthCheckPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.ActiveHealthCheckPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -135,7 +135,7 @@ func (m *ActiveHealthCheckPolicyReport) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.ActiveHealthCheckPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.ActiveHealthCheckPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -214,7 +214,7 @@ func (m *ActiveHealthCheckPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, e
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.ActiveHealthCheckPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.ActiveHealthCheckPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 

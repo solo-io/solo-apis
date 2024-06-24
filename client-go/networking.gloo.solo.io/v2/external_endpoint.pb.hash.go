@@ -34,7 +34,7 @@ func (m *ExternalEndpointSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalEndpointSpec")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalEndpointSpec")); err != nil {
 		return 0, err
 	}
 
@@ -98,7 +98,7 @@ func (m *ExternalEndpointStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalEndpointStatus")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalEndpointStatus")); err != nil {
 		return 0, err
 	}
 
@@ -134,7 +134,7 @@ func (m *ExternalEndpointReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalEndpointReport")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalEndpointReport")); err != nil {
 		return 0, err
 	}
 
@@ -189,7 +189,7 @@ func (m *ExternalEndpointSpec_Port) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalEndpointSpec_Port")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalEndpointSpec_Port")); err != nil {
 		return 0, err
 	}
 

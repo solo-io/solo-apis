@@ -34,7 +34,7 @@ func (m *AccessPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -118,7 +118,7 @@ func (m *AccessPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -169,7 +169,7 @@ func (m *AccessPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -296,7 +296,7 @@ func (m *AccessPolicySpec_NamespaceWorkloadSelector) Hash(hasher hash.Hash64) (u
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicySpec_NamespaceWorkloadSelector")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicySpec_NamespaceWorkloadSelector")); err != nil {
 		return 0, err
 	}
 
@@ -332,7 +332,7 @@ func (m *AccessPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 
@@ -432,7 +432,7 @@ func (m *AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector) Hash(hasher 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicySpec_NamespaceWorkloadSelector_ObjectSelector")); err != nil {
 		return 0, err
 	}
 
@@ -483,7 +483,7 @@ func (m *AccessPolicySpec_Config_Authentication) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authentication")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authentication")); err != nil {
 		return 0, err
 	}
 
@@ -504,7 +504,7 @@ func (m *AccessPolicySpec_Config_Authorization) Hash(hasher hash.Hash64) (uint64
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authorization")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authorization")); err != nil {
 		return 0, err
 	}
 
@@ -601,7 +601,7 @@ func (m *AccessPolicySpec_Config_Authorization_MatchSpec) Hash(hasher hash.Hash6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authorization_MatchSpec")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authorization_MatchSpec")); err != nil {
 		return 0, err
 	}
 
@@ -637,7 +637,7 @@ func (m *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec) Hash(hashe
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec")); err != nil {
 		return 0, err
 	}
 
@@ -692,7 +692,7 @@ func (m *AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValue
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicySpec_Config_Authorization_MatchSpec_RequestSpec_HeaderValues")); err != nil {
 		return 0, err
 	}
 
@@ -724,7 +724,7 @@ func (m *AccessPolicyReport_IdentityReference) Hash(hasher hash.Hash64) (uint64,
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.AccessPolicyReport_IdentityReference")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.AccessPolicyReport_IdentityReference")); err != nil {
 		return 0, err
 	}
 

@@ -34,7 +34,7 @@ func (m *HeaderManipulationPolicySpec) Hash(hasher hash.Hash64) (uint64, error) 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.HeaderManipulationPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.HeaderManipulationPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -118,7 +118,7 @@ func (m *HeaderManipulationPolicyStatus) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.HeaderManipulationPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.HeaderManipulationPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -159,7 +159,7 @@ func (m *HeaderManipulationPolicyReport) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.HeaderManipulationPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.HeaderManipulationPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -238,7 +238,7 @@ func (m *HeaderManipulationPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.HeaderManipulationPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.HeaderManipulationPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 

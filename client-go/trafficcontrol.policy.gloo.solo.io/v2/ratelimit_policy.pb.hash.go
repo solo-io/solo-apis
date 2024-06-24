@@ -34,7 +34,7 @@ func (m *RateLimitPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.RateLimitPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.RateLimitPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -118,7 +118,7 @@ func (m *RateLimitPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.RateLimitPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.RateLimitPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -184,7 +184,7 @@ func (m *RateLimitPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.RateLimitPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.RateLimitPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -307,7 +307,7 @@ func (m *RateLimitPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.RateLimitPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.RateLimitPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 

@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	_struct "github.com/golang/protobuf/ptypes/struct"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -41,7 +41,7 @@ type WaypointLifecycleManagerSpec struct {
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
 	//
 	// +kubebuilder:validation:Type=object
-	DeploymentSpec *_struct.Struct `protobuf:"bytes,2,opt,name=deployment_spec,json=deploymentSpec,proto3" json:"deployment_spec,omitempty"`
+	DeploymentSpec *structpb.Struct `protobuf:"bytes,2,opt,name=deployment_spec,json=deploymentSpec,proto3" json:"deployment_spec,omitempty"`
 }
 
 func (x *WaypointLifecycleManagerSpec) Reset() {
@@ -83,7 +83,7 @@ func (x *WaypointLifecycleManagerSpec) GetApplyToServiceAccount() []*v2.ObjectSe
 	return nil
 }
 
-func (x *WaypointLifecycleManagerSpec) GetDeploymentSpec() *_struct.Struct {
+func (x *WaypointLifecycleManagerSpec) GetDeploymentSpec() *structpb.Struct {
 	if x != nil {
 		return x.DeploymentSpec
 	}
@@ -270,7 +270,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2alpha1_
 	(*WaypointLifecycleManagerReport)(nil), // 2: admin.gloo.solo.io.WaypointLifecycleManagerReport
 	nil,                                    // 3: admin.gloo.solo.io.WaypointLifecycleManagerReport.WorkspacesEntry
 	(*v2.ObjectSelector)(nil),              // 4: common.gloo.solo.io.ObjectSelector
-	(*_struct.Struct)(nil),                 // 5: google.protobuf.Struct
+	(*structpb.Struct)(nil),                // 5: google.protobuf.Struct
 	(*v2.Status)(nil),                      // 6: common.gloo.solo.io.Status
 	(*v2.Report)(nil),                      // 7: common.gloo.solo.io.Report
 }

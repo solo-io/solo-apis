@@ -1,4 +1,4 @@
-// {{% readfile file="static/content/policies/ov_access_logs" markdown="true"%}}
+// {{% reuse "conrefs/snippets/policies/ov_access_logs.md" %}}
 // You can use access log policies to configure log collection for workloads 
 // that have injected sidecars or are standalone proxies, such as gateways.
 // AccessLogPolicies are applied at the *Workload* level.
@@ -6,7 +6,8 @@
 // Note: Be sure to [enable access logging]({{< link path="/observability/tools/access-logs/" >}})
 // by modifying your default Istio operator installation.
 //
-// **Example**: This example filters access logs for the `reviews` service, so that only
+// ## Example
+// This example filters access logs for the `reviews` service, so that only
 // logs that contain the header `foo: bar` are recorded.
 // ```yaml
 // apiVersion: observability.policy.gloo.solo.io/v2

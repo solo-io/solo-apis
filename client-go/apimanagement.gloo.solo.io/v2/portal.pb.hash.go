@@ -34,7 +34,7 @@ func (m *PortalSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.PortalSpec")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.PortalSpec")); err != nil {
 		return 0, err
 	}
 
@@ -174,7 +174,7 @@ func (m *PortalStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.PortalStatus")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.PortalStatus")); err != nil {
 		return 0, err
 	}
 
@@ -234,7 +234,7 @@ func (m *PortalReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.PortalReport")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.PortalReport")); err != nil {
 		return 0, err
 	}
 
@@ -389,7 +389,7 @@ func (m *PortalSpec_Visibility) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.PortalSpec_Visibility")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.PortalSpec_Visibility")); err != nil {
 		return 0, err
 	}
 
@@ -433,7 +433,7 @@ func (m *PortalSpec_UsagePlan) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.PortalSpec_UsagePlan")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.PortalSpec_UsagePlan")); err != nil {
 		return 0, err
 	}
 

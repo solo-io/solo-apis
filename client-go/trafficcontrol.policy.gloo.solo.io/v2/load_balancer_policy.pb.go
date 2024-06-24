@@ -10,11 +10,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	duration "github.com/golang/protobuf/ptypes/duration"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -106,8 +106,16 @@ type LoadBalancerPolicySpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ApplyToDestinations []*v2.DestinationSelector      `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
-	Config              *LoadBalancerPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
+	// The destinations to which the policy should apply.
+	// If no selectors are specified, the policy will apply to all destinations in the workspace
+	// Only one LoadBalancer policy can apply to a given destination. In case of multiple policies, only the oldest policy will apply
+	// and the rest will be given an error status.
+	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
+	// The configuration for the load balancer.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:XValidation:rule="has(self.simple) || has(self.consistentHash)",message="config must have one of simple or consistentHash set."
+	Config *LoadBalancerPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 }
 
 func (x *LoadBalancerPolicySpec) Reset() {
@@ -292,14 +300,26 @@ type LoadBalancerPolicySpec_Config struct {
 	// endpoints are relatively new like new deployment, this is not very effective as all endpoints end up getting same
 	// amount of requests.
 	// Currently this is only supported for ROUND_ROBIN and LEAST_REQUEST load balancers.
-	WarmupDurationSecs *duration.Duration `protobuf:"bytes,3,opt,name=warmup_duration_secs,json=warmupDurationSecs,proto3" json:"warmup_duration_secs,omitempty"`
+	//
+	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than milliseconds."
+	WarmupDurationSecs *durationpb.Duration `protobuf:"bytes,3,opt,name=warmup_duration_secs,json=warmupDurationSecs,proto3" json:"warmup_duration_secs,omitempty"`
 	// A threshold at which Envoy will disregard health status and balance either among all hosts or no hosts.
 	// If not specified, the default is 50%. To disable panic mode, set to 0%.
-	HealthyPanicThreshold *wrappers.DoubleValue `protobuf:"bytes,4,opt,name=healthy_panic_threshold,json=healthyPanicThreshold,proto3" json:"healthy_panic_threshold,omitempty"`
+	//
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=100
+	// +kubebuilder:validation:XValidation:rule="self == 0.0 || self >= 0.0001",message="Must be >= 0.0001 or equal to zero"
+	HealthyPanicThreshold *wrapperspb.DoubleValue `protobuf:"bytes,4,opt,name=healthy_panic_threshold,json=healthyPanicThreshold,proto3" json:"healthy_panic_threshold,omitempty"`
 	// Health check/weight/metadata updates that happen within this duration will be merged and delivered
 	// in one shot when the duration expires.
 	// If not specified, the default is 1000ms. To disable it, set the merge window to 0.
-	UpdateMergeWindow *duration.Duration `protobuf:"bytes,5,opt,name=update_merge_window,json=updateMergeWindow,proto3" json:"update_merge_window,omitempty"`
+	//
+	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than milliseconds."
+	UpdateMergeWindow *durationpb.Duration `protobuf:"bytes,5,opt,name=update_merge_window,json=updateMergeWindow,proto3" json:"update_merge_window,omitempty"`
 }
 
 func (x *LoadBalancerPolicySpec_Config) Reset() {
@@ -355,21 +375,21 @@ func (x *LoadBalancerPolicySpec_Config) GetConsistentHash() *LoadBalancerPolicyS
 	return nil
 }
 
-func (x *LoadBalancerPolicySpec_Config) GetWarmupDurationSecs() *duration.Duration {
+func (x *LoadBalancerPolicySpec_Config) GetWarmupDurationSecs() *durationpb.Duration {
 	if x != nil {
 		return x.WarmupDurationSecs
 	}
 	return nil
 }
 
-func (x *LoadBalancerPolicySpec_Config) GetHealthyPanicThreshold() *wrappers.DoubleValue {
+func (x *LoadBalancerPolicySpec_Config) GetHealthyPanicThreshold() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.HealthyPanicThreshold
 	}
 	return nil
 }
 
-func (x *LoadBalancerPolicySpec_Config) GetUpdateMergeWindow() *duration.Duration {
+func (x *LoadBalancerPolicySpec_Config) GetUpdateMergeWindow() *durationpb.Duration {
 	if x != nil {
 		return x.UpdateMergeWindow
 	}
@@ -381,6 +401,7 @@ type isLoadBalancerPolicySpec_Config_LbPolicy interface {
 }
 
 type LoadBalancerPolicySpec_Config_Simple struct {
+	// +kubebuilder:validation:Enum=UNSPECIFIED;RANDOM;PASSTHROUGH;ROUND_ROBIN;LEAST_REQUEST
 	Simple LoadBalancerPolicySpec_Config_SimpleLB `protobuf:"varint,1,opt,name=simple,proto3,enum=trafficcontrol.policy.gloo.solo.io.LoadBalancerPolicySpec_Config_SimpleLB,oneof"`
 }
 
@@ -408,6 +429,8 @@ func (*LoadBalancerPolicySpec_Config_ConsistentHash) isLoadBalancerPolicySpec_Co
 // This is not the case when locality load balancing is enabled. Locality load balancing
 // and consistent hash will only work together when all proxies are in the same locality,
 // or a high level load balancer handles locality affinity.
+//
+// +kubebuilder:validation:XValidation:rule="has(self.httpHeaderName) || has(self.httpCookie) || has(self.useSourceIp) || has(self.httpQueryParameterName)",message="One of httpHeaderName, httpCookie, useSourceIp, httpQueryParameterName must be set."
 type LoadBalancerPolicySpec_Config_ConsistentHashLB struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -497,6 +520,8 @@ type isLoadBalancerPolicySpec_Config_ConsistentHashLB_HashKey interface {
 
 type LoadBalancerPolicySpec_Config_ConsistentHashLB_HttpHeaderName struct {
 	// Hash based on a specific HTTP header.
+	//
+	// +kubebuilder:validation:MinLength=1
 	HttpHeaderName string `protobuf:"bytes,1,opt,name=http_header_name,json=httpHeaderName,proto3,oneof"`
 }
 
@@ -513,6 +538,8 @@ type LoadBalancerPolicySpec_Config_ConsistentHashLB_UseSourceIp struct {
 
 type LoadBalancerPolicySpec_Config_ConsistentHashLB_HttpQueryParameterName struct {
 	// Hash based on a specific HTTP query parameter.
+	//
+	// +kubebuilder:validation:MinLength=1
 	HttpQueryParameterName string `protobuf:"bytes,4,opt,name=http_query_parameter_name,json=httpQueryParameterName,proto3,oneof"`
 }
 
@@ -537,11 +564,18 @@ type LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Name of the cookie.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Path to set for the cookie.
 	Path string `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	// Lifetime of the cookie.
-	Ttl *duration.Duration `protobuf:"bytes,3,opt,name=ttl,proto3" json:"ttl,omitempty"`
+	//
+	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than milliseconds."
+	Ttl *durationpb.Duration `protobuf:"bytes,3,opt,name=ttl,proto3" json:"ttl,omitempty"`
 }
 
 func (x *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) Reset() {
@@ -590,7 +624,7 @@ func (x *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) GetPath() st
 	return ""
 }
 
-func (x *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) GetTtl() *duration.Duration {
+func (x *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) GetTtl() *durationpb.Duration {
 	if x != nil {
 		return x.Ttl
 	}
@@ -772,8 +806,8 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_traff
 	(*v2.DestinationSelector)(nil),  // 8: common.gloo.solo.io.DestinationSelector
 	(*v2.Status)(nil),               // 9: common.gloo.solo.io.Status
 	(*v2.DestinationReference)(nil), // 10: common.gloo.solo.io.DestinationReference
-	(*duration.Duration)(nil),       // 11: google.protobuf.Duration
-	(*wrappers.DoubleValue)(nil),    // 12: google.protobuf.DoubleValue
+	(*durationpb.Duration)(nil),     // 11: google.protobuf.Duration
+	(*wrapperspb.DoubleValue)(nil),  // 12: google.protobuf.DoubleValue
 	(*v2.Report)(nil),               // 13: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_trafficcontrol_load_balancer_policy_proto_depIdxs = []int32{

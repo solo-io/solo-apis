@@ -1,4 +1,4 @@
-// {{% readfile file="static/content/policies/ov_adaptive_request_concurrency" %}}
+// {{% reuse "conrefs/snippets/policies/ov_adaptive_request_concurrency.md" %}}
 //
 // By setting up adaptive concurrency, you can help protect your APIs from being overwhelmed by too many concurrent requests.
 // In the policy, you set up the parameters to control how many concurrent requests are allowed.
@@ -15,7 +15,8 @@
 // Adaptive request concurrency policies are applied at the *Destination* level. The filter is applied to the Envoy listener and
 // contains only listener-level configuration, and no route-level configuration.
 //
-// **Example**: This example applies to the `httpbin` destination and dynamically adjusts
+// ## Example
+// This example applies to the `httpbin` destination and dynamically adjusts
 // its concurrency limits based on network conditions. The settings in the policy configure the following:
 // * Cap the concurrency limit to a maximum of 6 connections (`maxConcurrencyLimit: 6`), in the case that the calculated concurrency limit exceeds this value.
 // * When the service has 6 concurrent connections, return a 503 HTTP response code to any new client requests (`concurrencyLimitExceededStatus: 503`).
@@ -26,7 +27,7 @@
 //   * Do not add a jitter (random delay) to the start of each minRTT measurement (`jitterPercentile: 0`).
 //   * Do not add a buffer (to stabilize natural variability in latency) to the measured minRTT (`bufferPercentile: 0`).
 // ```yaml
-// {{% readfile file="/content/mesh/static/content/examples/generated/int/adaptive_concurrency_on_virtual_destination/cluster-1/adaptive-request-concurrency-policy_httpbin_simple-adaptive-request-concurrency-policy.yaml" %}}
+// {{% readfile file="static/content/examples/generated/int/adaptive_concurrency_on_virtual_destination/cluster-1/adaptive-request-concurrency-policy_httpbin_simple-adaptive-request-concurrency-policy.yaml" %}}
 // ```
 syntax = "proto3";
 

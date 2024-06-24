@@ -34,7 +34,7 @@ func (m *PortalConfigSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec")); err != nil {
 		return 0, err
 	}
 
@@ -175,7 +175,7 @@ func (m *PortalConfigStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigStatus")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigStatus")); err != nil {
 		return 0, err
 	}
 
@@ -215,7 +215,7 @@ func (m *PortalConfigReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigReport")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigReport")); err != nil {
 		return 0, err
 	}
 
@@ -274,7 +274,7 @@ func (m *PortalConfigSpec_Group) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_Group")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec_Group")); err != nil {
 		return 0, err
 	}
 
@@ -350,7 +350,7 @@ func (m *PortalConfigSpec_API) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_API")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec_API")); err != nil {
 		return 0, err
 	}
 
@@ -498,7 +498,7 @@ func (m *PortalConfigSpec_UsagePlan) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_UsagePlan")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec_UsagePlan")); err != nil {
 		return 0, err
 	}
 
@@ -570,7 +570,7 @@ func (m *PortalConfigSpec_UsagePlanRef) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_UsagePlanRef")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec_UsagePlanRef")); err != nil {
 		return 0, err
 	}
 
@@ -590,7 +590,7 @@ func (m *PortalConfigSpec_ExtAuthPolicy) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_ExtAuthPolicy")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec_ExtAuthPolicy")); err != nil {
 		return 0, err
 	}
 
@@ -700,7 +700,7 @@ func (m *PortalConfigSpec_ApiKeyAuth) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_ApiKeyAuth")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec_ApiKeyAuth")); err != nil {
 		return 0, err
 	}
 
@@ -739,7 +739,7 @@ func (m *PortalConfigSpec_OidcAuth) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_OidcAuth")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec_OidcAuth")); err != nil {
 		return 0, err
 	}
 
@@ -759,7 +759,7 @@ func (m *PortalConfigSpec_AccessTokenValidation) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_AccessTokenValidation")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec_AccessTokenValidation")); err != nil {
 		return 0, err
 	}
 
@@ -779,7 +779,7 @@ func (m *PortalConfigSpec_RateLimitPolicy) Hash(hasher hash.Hash64) (uint64, err
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.PortalConfigSpec_RateLimitPolicy")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.PortalConfigSpec_RateLimitPolicy")); err != nil {
 		return 0, err
 	}
 

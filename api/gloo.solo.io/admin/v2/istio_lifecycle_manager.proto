@@ -6,7 +6,8 @@
 //
 // For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% link path="/setup/install/gloo_mesh_managed/" %}}) guide.
 //
-// **Example**: This example creates an `istiod` control plane in the `istio-system` namespace of two workload clusters
+// ## Example
+// This example creates an `istiod` control plane in the `istio-system` namespace of two workload clusters
 // (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the repo key for the Solo distribution of Istio (`hub: $REPO`), image tag (`tag: $ISTIO_IMAGE`),
 // and revision (`revision: $REVISION`).
 // ```yaml
@@ -67,7 +68,7 @@
 //       profile: minimal
 //       # The tag of a Solo distribution of Istio
 //       tag: $ISTIO_IMAGE
-//     # The revision for this installation, such as {{< readfile file="static/content/version_istio_revision.txt" markdown="true">}}
+//     # The revision for this installation, such as {{< reuse "conrefs/versions/istio_revision.md" >}}
 //     revision: $REVISION
 // ```
 syntax = "proto3";
@@ -77,6 +78,7 @@ package admin.gloo.solo.io;
 import "extproto/ext.proto";
 import "k8s.io/api/core/v1/generated.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_operator.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_helm.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
 
@@ -88,6 +90,9 @@ option (extproto.clone_all) = true;
 message IstioLifecycleManagerSpec {
   // List of Istio control plane installations.
   repeated IstioInstallation installations = 1;
+
+  // Optional helm configuration applicable to all installations
+  .common.gloo.solo.io.IstioLifecycleHelmGlobals helm_global = 2;
 }
 
 // Clusters to install the Istio control planes in.
@@ -100,7 +105,7 @@ message IstioClusterSelector {
   // Optional: Defaults to false.
   // When set to true, the installation for this revision is applied as the active Istio installation in the cluster.
   // Resources with the `istio-injection=true` label entry use this revision. You might change this setting for Istio installations
-  // during a canary upgrade. For more info, see the [upgrade docs](https://docs.solo.io/gloo-mesh-enterprise/main/setup/upgrade/gloo_mesh_managed_upgrade/).
+  // during a canary upgrade. For more info, see the [upgrade docs](https://docs.solo.io/gloo-mesh-enterprise/latest/istio/mesh/ilm-upgrade/).
   bool default_revision = 2;
 
   // Optional: By default, the `trustDomain` value in the `meshConfig` section of the operator spec is automatically set by the Gloo to the name of each workload cluster.
@@ -147,6 +152,10 @@ message IstioInstallation {
   // Istio revision for this installation.
   // Label workload resources with 'istio.io/rev=$REVISION' to use this installation.
   // When set to `auto`, Gloo installs the control plane with the default supported version of the Solo distribution of Istio.
+  //
+  // </br>**Configuration constraints: This value can be a maximum of 63 characters.
+  //
+  // +kubebuilder:validation:MaxLength=63
   string revision = 1;
 
   // Clusters to install the Istio control planes in.
@@ -237,6 +246,9 @@ message IstioLifecycleManagerStatus {
 
         // The Istio control plane is uninstalled.
         UNINSTALLED_CONTROL_PLANE = 13;
+
+        // Successfully translated but not installing yet
+        INSTALL_PENDING = 14;
       }
     }
   }

@@ -13,7 +13,7 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	google_golang_org_protobuf_types_known_timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -42,9 +42,9 @@ func (m *Condition) Clone() proto.Message {
 	target.ObservedGeneration = m.GetObservedGeneration()
 
 	if h, ok := interface{}(m.GetLastTransitionTime()).(clone.Cloner); ok {
-		target.LastTransitionTime = h.Clone().(*github_com_golang_protobuf_ptypes_timestamp.Timestamp)
+		target.LastTransitionTime = h.Clone().(*google_golang_org_protobuf_types_known_timestamppb.Timestamp)
 	} else {
-		target.LastTransitionTime = proto.Clone(m.GetLastTransitionTime()).(*github_com_golang_protobuf_ptypes_timestamp.Timestamp)
+		target.LastTransitionTime = proto.Clone(m.GetLastTransitionTime()).(*google_golang_org_protobuf_types_known_timestamppb.Timestamp)
 	}
 
 	target.Reason = m.GetReason()

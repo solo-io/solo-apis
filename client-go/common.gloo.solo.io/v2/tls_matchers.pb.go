@@ -33,6 +33,9 @@ type TLSRequestMatcher struct {
 	// The SNI value must be a subset of the corresponding virtual service’s hosts.
 	SniHosts []string `protobuf:"bytes,1,rep,name=sni_hosts,json=sniHosts,proto3" json:"sni_hosts,omitempty"`
 	// Optional: Port on the host to match against.
+	//
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=65535
 	Port uint32 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"`
 }
 

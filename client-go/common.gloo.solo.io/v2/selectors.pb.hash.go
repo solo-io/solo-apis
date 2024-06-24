@@ -34,7 +34,7 @@ func (m *ObjectSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.ObjectSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.ObjectSelector")); err != nil {
 		return 0, err
 	}
 
@@ -89,7 +89,7 @@ func (m *DestinationSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.DestinationSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.DestinationSelector")); err != nil {
 		return 0, err
 	}
 
@@ -150,7 +150,7 @@ func (m *RouteDestinationSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.RouteDestinationSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.RouteDestinationSelector")); err != nil {
 		return 0, err
 	}
 
@@ -210,7 +210,7 @@ func (m *RouteLabelSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.RouteLabelSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.RouteLabelSelector")); err != nil {
 		return 0, err
 	}
 
@@ -261,7 +261,7 @@ func (m *RouteSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.RouteSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.RouteSelector")); err != nil {
 		return 0, err
 	}
 
@@ -325,7 +325,7 @@ func (m *RouteFilter) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.RouteFilter")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.RouteFilter")); err != nil {
 		return 0, err
 	}
 
@@ -361,7 +361,7 @@ func (m *ListenerSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.ListenerSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.ListenerSelector")); err != nil {
 		return 0, err
 	}
 
@@ -417,7 +417,7 @@ func (m *WorkloadSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.WorkloadSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.WorkloadSelector")); err != nil {
 		return 0, err
 	}
 
@@ -478,7 +478,7 @@ func (m *IdentitySelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.IdentitySelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.IdentitySelector")); err != nil {
 		return 0, err
 	}
 
@@ -554,7 +554,7 @@ func (m *ClusterSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.ClusterSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.ClusterSelector")); err != nil {
 		return 0, err
 	}
 
@@ -626,7 +626,7 @@ func (m *MeshSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.MeshSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.MeshSelector")); err != nil {
 		return 0, err
 	}
 
@@ -668,7 +668,7 @@ func (m *WorkspaceSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.WorkspaceSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.WorkspaceSelector")); err != nil {
 		return 0, err
 	}
 
@@ -711,7 +711,7 @@ func (m *IdentitySelector_RequestIdentityMatcher) Hash(hasher hash.Hash64) (uint
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.IdentitySelector_RequestIdentityMatcher")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.IdentitySelector_RequestIdentityMatcher")); err != nil {
 		return 0, err
 	}
 
@@ -743,7 +743,7 @@ func (m *ClusterSelector_NamespaceSelector) Hash(hasher hash.Hash64) (uint64, er
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.ClusterSelector_NamespaceSelector")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.ClusterSelector_NamespaceSelector")); err != nil {
 		return 0, err
 	}
 
@@ -791,7 +791,7 @@ func (m *MeshSelector_Istio) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.MeshSelector_Istio")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.MeshSelector_Istio")); err != nil {
 		return 0, err
 	}
 

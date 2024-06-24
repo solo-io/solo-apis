@@ -13,9 +13,9 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_any "github.com/golang/protobuf/ptypes/any"
-
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+
+	google_golang_org_protobuf_types_known_anypb "google.golang.org/protobuf/types/known/anypb"
 )
 
 // ensure the imports are used
@@ -197,11 +197,11 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetStaticFilterConfig()).(clone.Cloner); ok {
 			target.FilterConfigSource = &WasmDeploymentPolicySpec_Config_WasmFilter_StaticFilterConfig{
-				StaticFilterConfig: h.Clone().(*github_com_golang_protobuf_ptypes_any.Any),
+				StaticFilterConfig: h.Clone().(*google_golang_org_protobuf_types_known_anypb.Any),
 			}
 		} else {
 			target.FilterConfigSource = &WasmDeploymentPolicySpec_Config_WasmFilter_StaticFilterConfig{
-				StaticFilterConfig: proto.Clone(m.GetStaticFilterConfig()).(*github_com_golang_protobuf_ptypes_any.Any),
+				StaticFilterConfig: proto.Clone(m.GetStaticFilterConfig()).(*google_golang_org_protobuf_types_known_anypb.Any),
 			}
 		}
 

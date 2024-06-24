@@ -34,7 +34,7 @@ func (m *WorkloadReference) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.WorkloadReference")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.WorkloadReference")); err != nil {
 		return 0, err
 	}
 
@@ -75,7 +75,7 @@ func (m *ObjectReference) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.ObjectReference")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.ObjectReference")); err != nil {
 		return 0, err
 	}
 
@@ -103,7 +103,7 @@ func (m *DestinationReference) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.DestinationReference")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.DestinationReference")); err != nil {
 		return 0, err
 	}
 
@@ -220,7 +220,7 @@ func (m *AWSLambdaReference) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.AWSLambdaReference")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.AWSLambdaReference")); err != nil {
 		return 0, err
 	}
 
@@ -284,7 +284,7 @@ func (m *ListenerPortReference) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.ListenerPortReference")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.ListenerPortReference")); err != nil {
 		return 0, err
 	}
 

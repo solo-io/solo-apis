@@ -34,7 +34,7 @@ func (m *AccessLogPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/observability.policy.gloo.solo.io/v2.AccessLogPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/observability.policy.gloo.solo.io/v2.AccessLogPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -94,7 +94,7 @@ func (m *AccessLogPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/observability.policy.gloo.solo.io/v2.AccessLogPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/observability.policy.gloo.solo.io/v2.AccessLogPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -135,7 +135,7 @@ func (m *AccessLogPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/observability.policy.gloo.solo.io/v2.AccessLogPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/observability.policy.gloo.solo.io/v2.AccessLogPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -214,7 +214,7 @@ func (m *AccessLogPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/observability.policy.gloo.solo.io/v2.AccessLogPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/observability.policy.gloo.solo.io/v2.AccessLogPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 
@@ -286,7 +286,7 @@ func (m *AccessLogPolicySpec_Config_Filter) Hash(hasher hash.Hash64) (uint64, er
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/observability.policy.gloo.solo.io/v2.AccessLogPolicySpec_Config_Filter")); err != nil {
+	if _, err = hasher.Write([]byte("observability.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/observability.policy.gloo.solo.io/v2.AccessLogPolicySpec_Config_Filter")); err != nil {
 		return 0, err
 	}
 

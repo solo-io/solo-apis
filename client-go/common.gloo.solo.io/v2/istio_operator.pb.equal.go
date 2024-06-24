@@ -238,6 +238,16 @@ func (m *IstioComponentSetSpec) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetZtunnel()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetZtunnel()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetZtunnel(), target.GetZtunnel()) {
+			return false
+		}
+	}
+
 	if h, ok := interface{}(m.GetIstiodRemote()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetIstiodRemote()) {
 			return false

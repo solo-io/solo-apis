@@ -34,7 +34,7 @@ func (m *AdaptiveRequestConcurrencyPolicySpec) Hash(hasher hash.Hash64) (uint64,
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -94,7 +94,7 @@ func (m *AdaptiveRequestConcurrencyPolicyStatus) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -135,7 +135,7 @@ func (m *AdaptiveRequestConcurrencyPolicyReport) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -214,7 +214,7 @@ func (m *AdaptiveRequestConcurrencyPolicySpec_Config) Hash(hasher hash.Hash64) (
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 
@@ -300,7 +300,7 @@ func (m *AdaptiveRequestConcurrencyPolicySpec_Config_MinRoundtripTimeCalculation
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicySpec_Config_MinRoundtripTimeCalculationParams")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.AdaptiveRequestConcurrencyPolicySpec_Config_MinRoundtripTimeCalculationParams")); err != nil {
 		return 0, err
 	}
 

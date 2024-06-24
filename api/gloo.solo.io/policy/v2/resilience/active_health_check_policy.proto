@@ -1,13 +1,14 @@
-// {{% readfile file="static/content/policies/ov_healthcheck" markdown="true"%}}
+// {{% reuse "conrefs/snippets/policies/ov_healthcheck.md" %}}
 // If an upstream service is unavailable, the service is removed from the
 // load balancing pool until health is re-established. Active healthcheck
 // policies are applied at the *Destination* level. For more information,
 // see the [Envoy healthcheck configuration](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/health_checking).
 //
-// **Example**: For detailed information about the settings in this example,
-// see [Configure active healthcheck policies](https://docs.solo.io/gloo-gateway/main/policies/healthcheck/#configure-active-healthcheck-policies).
+// ## Example
+// For detailed information about the settings in this example,
+// see [Configure active healthcheck policies](https://docs.solo.io/gloo-mesh-gateway/latest/resiliency/healthcheck/#configure-active-healthcheck-policies).
 // ```yaml
-// {{% readfile file="/content/gateway/static/content/examples/generated/int/ahcp_fail_http/cluster-1/active-health-check-policy_bookinfo_active-health-check-policy-httbin-unhealthy.yaml" %}}
+// {{% readfile file="static/content/examples/generated/int/ahcp_fail_http/cluster-1/active-health-check-policy_bookinfo_active-health-check-policy-httbin-unhealthy.yaml" %}}
 // ```
 syntax = "proto3";
 

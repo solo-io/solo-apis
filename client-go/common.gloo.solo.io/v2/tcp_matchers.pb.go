@@ -29,6 +29,9 @@ type TCPRequestMatcher struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Specify the port on the host defined in the route table to match with incoming TCP requests.
+	//
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=65535
 	Port uint32 `protobuf:"varint,1,opt,name=port,proto3" json:"port,omitempty"`
 }
 

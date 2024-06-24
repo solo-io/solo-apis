@@ -18,14 +18,23 @@ option (extproto.clone_all) = true;
 // LoadBalancerPolicy provides settings to configure traffic distribution among destination workloads.
 message LoadBalancerPolicySpec {
 
+  // The destinations to which the policy should apply.
+  // If no selectors are specified, the policy will apply to all destinations in the workspace
+  // Only one LoadBalancer policy can apply to a given destination. In case of multiple policies, only the oldest policy will apply
+  // and the rest will be given an error status.
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
 
+  // The configuration for the load balancer.
+  //
+  // +kubebuilder:validation:Required
+  // +kubebuilder:validation:XValidation:rule="has(self.simple) || has(self.consistentHash)",message="config must have one of simple or consistentHash set."
   Config config = 2;
 
   message Config {
 
     // Upstream load balancing policy.
     oneof lb_policy {
+      // +kubebuilder:validation:Enum=UNSPECIFIED;RANDOM;PASSTHROUGH;ROUND_ROBIN;LEAST_REQUEST
       SimpleLB simple = 1;
       ConsistentHashLB consistent_hash = 2;
     }
@@ -38,15 +47,27 @@ message LoadBalancerPolicySpec {
     // endpoints are relatively new like new deployment, this is not very effective as all endpoints end up getting same 
     // amount of requests.
     // Currently this is only supported for ROUND_ROBIN and LEAST_REQUEST load balancers.
+    //
+    // +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+    // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+    // +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than milliseconds."
     google.protobuf.Duration warmup_duration_secs = 3;
 
     // A threshold at which Envoy will disregard health status and balance either among all hosts or no hosts.
     // If not specified, the default is 50%. To disable panic mode, set to 0%.
+    //
+    // +kubebuilder:validation:Minimum=0
+    // +kubebuilder:validation:Maximum=100
+    // +kubebuilder:validation:XValidation:rule="self == 0.0 || self >= 0.0001",message="Must be >= 0.0001 or equal to zero"
     google.protobuf.DoubleValue healthy_panic_threshold = 4;
 
     // Health check/weight/metadata updates that happen within this duration will be merged and delivered
     // in one shot when the duration expires.
     // If not specified, the default is 1000ms. To disable it, set the merge window to 0.
+    //
+    // +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+    // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+    // +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than milliseconds."
     google.protobuf.Duration update_merge_window = 5;
 
     // Standard load balancing algorithms that require no tuning.
@@ -96,10 +117,14 @@ message LoadBalancerPolicySpec {
     // This is not the case when locality load balancing is enabled. Locality load balancing
     // and consistent hash will only work together when all proxies are in the same locality,
     // or a high level load balancer handles locality affinity.
+    //
+    // +kubebuilder:validation:XValidation:rule="has(self.httpHeaderName) || has(self.httpCookie) || has(self.useSourceIp) || has(self.httpQueryParameterName)",message="One of httpHeaderName, httpCookie, useSourceIp, httpQueryParameterName must be set."
     message ConsistentHashLB {
       // The hash key to use.
       oneof hash_key {
         // Hash based on a specific HTTP header.
+        //
+        // +kubebuilder:validation:MinLength=1
         string http_header_name = 1;
 
         // Hash based on HTTP cookie.
@@ -110,6 +135,8 @@ message LoadBalancerPolicySpec {
         bool use_source_ip = 3;
 
         // Hash based on a specific HTTP query parameter.
+        //
+        // +kubebuilder:validation:MinLength=1
         string http_query_parameter_name = 4;
       }
 
@@ -118,10 +145,19 @@ message LoadBalancerPolicySpec {
       // be generated.
       message HTTPCookie {
         // Name of the cookie.
+        //
+        // +kubebuilder:validation:Required
+        // +kubebuilder:validation:MinLength=1
         string name = 1;
+
         // Path to set for the cookie.
         string path = 2;
+
         // Lifetime of the cookie.
+        //
+        // +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+        // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+        // +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than milliseconds."
         google.protobuf.Duration ttl = 3;
       }
     };

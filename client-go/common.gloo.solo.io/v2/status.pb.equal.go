@@ -393,5 +393,15 @@ func (m *AppliedRoutePolicies_RoutePolicyReference) Equal(that interface{}) bool
 		}
 	}
 
+	if h, ok := interface{}(m.GetRootRouteTable()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetRootRouteTable()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetRootRouteTable(), target.GetRootRouteTable()) {
+			return false
+		}
+	}
+
 	return true
 }

@@ -67,6 +67,7 @@ message DLPPolicySpec {
 // is custom, so that can be left empty.
 //
 // ```yaml
+//
 // - customAction:
 //     name: test
 //     regexActions:
@@ -80,6 +81,7 @@ message DLPPolicySpec {
 // is custom, so that can be left empty.
 //
 // ```yaml
+//
 // - keyValueAction:
 //     keysToMask:
 //     - x-my-header-01

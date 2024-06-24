@@ -34,7 +34,7 @@ func (m *Locality) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.Locality")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.Locality")); err != nil {
 		return 0, err
 	}
 

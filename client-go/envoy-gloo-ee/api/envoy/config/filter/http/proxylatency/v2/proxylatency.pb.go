@@ -10,9 +10,9 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -107,11 +107,11 @@ type ProxyLatency struct {
 	// How measure the response.
 	Response ProxyLatency_Measurement `protobuf:"varint,2,opt,name=response,proto3,enum=envoy.config.filter.http.proxylatency.v2.ProxyLatency_Measurement" json:"response,omitempty"`
 	// Charge a stat per upstream cluster. If not specified, defaults to true.
-	ChargeClusterStat *wrappers.BoolValue `protobuf:"bytes,3,opt,name=charge_cluster_stat,json=chargeClusterStat,proto3" json:"charge_cluster_stat,omitempty"`
+	ChargeClusterStat *wrapperspb.BoolValue `protobuf:"bytes,3,opt,name=charge_cluster_stat,json=chargeClusterStat,proto3" json:"charge_cluster_stat,omitempty"`
 	// Charge a stat per listener. If not specified, defaults to true.
-	ChargeListenerStat *wrappers.BoolValue `protobuf:"bytes,4,opt,name=charge_listener_stat,json=chargeListenerStat,proto3" json:"charge_listener_stat,omitempty"`
+	ChargeListenerStat *wrapperspb.BoolValue `protobuf:"bytes,4,opt,name=charge_listener_stat,json=chargeListenerStat,proto3" json:"charge_listener_stat,omitempty"`
 	// Should we emit request timing to dynamic metadata. defaults to true.
-	EmitDynamicMetadata *wrappers.BoolValue `protobuf:"bytes,6,opt,name=emit_dynamic_metadata,json=emitDynamicMetadata,proto3" json:"emit_dynamic_metadata,omitempty"`
+	EmitDynamicMetadata *wrapperspb.BoolValue `protobuf:"bytes,6,opt,name=emit_dynamic_metadata,json=emitDynamicMetadata,proto3" json:"emit_dynamic_metadata,omitempty"`
 }
 
 func (x *ProxyLatency) Reset() {
@@ -167,21 +167,21 @@ func (x *ProxyLatency) GetResponse() ProxyLatency_Measurement {
 	return ProxyLatency_LAST_INCOMING_FIRST_OUTGOING
 }
 
-func (x *ProxyLatency) GetChargeClusterStat() *wrappers.BoolValue {
+func (x *ProxyLatency) GetChargeClusterStat() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.ChargeClusterStat
 	}
 	return nil
 }
 
-func (x *ProxyLatency) GetChargeListenerStat() *wrappers.BoolValue {
+func (x *ProxyLatency) GetChargeListenerStat() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.ChargeListenerStat
 	}
 	return nil
 }
 
-func (x *ProxyLatency) GetEmitDynamicMetadata() *wrappers.BoolValue {
+func (x *ProxyLatency) GetEmitDynamicMetadata() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.EmitDynamicMetadata
 	}
@@ -276,7 +276,7 @@ var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_filter_http_proxylatency_v2_proxylatency_proto_goTypes = []interface{}{
 	(ProxyLatency_Measurement)(0), // 0: envoy.config.filter.http.proxylatency.v2.ProxyLatency.Measurement
 	(*ProxyLatency)(nil),          // 1: envoy.config.filter.http.proxylatency.v2.ProxyLatency
-	(*wrappers.BoolValue)(nil),    // 2: google.protobuf.BoolValue
+	(*wrapperspb.BoolValue)(nil),  // 2: google.protobuf.BoolValue
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_filter_http_proxylatency_v2_proxylatency_proto_depIdxs = []int32{
 	0, // 0: envoy.config.filter.http.proxylatency.v2.ProxyLatency.request:type_name -> envoy.config.filter.http.proxylatency.v2.ProxyLatency.Measurement

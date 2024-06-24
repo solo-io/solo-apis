@@ -224,5 +224,11 @@ func (m *AppliedRoutePolicies_RoutePolicyReference) Clone() proto.Message {
 		target.Policy = proto.Clone(m.GetPolicy()).(*ObjectReference)
 	}
 
+	if h, ok := interface{}(m.GetRootRouteTable()).(clone.Cloner); ok {
+		target.RootRouteTable = h.Clone().(*ObjectReference)
+	} else {
+		target.RootRouteTable = proto.Clone(m.GetRootRouteTable()).(*ObjectReference)
+	}
+
 	return target
 }

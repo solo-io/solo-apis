@@ -34,7 +34,7 @@ func (m *CloudResourcesSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.CloudResourcesSpec")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.CloudResourcesSpec")); err != nil {
 		return 0, err
 	}
 
@@ -80,7 +80,7 @@ func (m *CloudResourcesSpec_AWSResources) Hash(hasher hash.Hash64) (uint64, erro
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.CloudResourcesSpec_AWSResources")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.CloudResourcesSpec_AWSResources")); err != nil {
 		return 0, err
 	}
 
@@ -120,7 +120,7 @@ func (m *CloudResourcesSpec_AWSResources_Lambda) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.CloudResourcesSpec_AWSResources_Lambda")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.CloudResourcesSpec_AWSResources_Lambda")); err != nil {
 		return 0, err
 	}
 

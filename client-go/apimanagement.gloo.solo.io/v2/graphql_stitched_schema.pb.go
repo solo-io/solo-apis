@@ -204,49 +204,7 @@ type GraphQLStitchedSchemaSpec_Subschema struct {
 	//	*GraphQLStitchedSchemaSpec_Subschema_Schema
 	//	*GraphQLStitchedSchemaSpec_Subschema_StitchedSchema
 	GraphqlSchema isGraphQLStitchedSchemaSpec_Subschema_GraphqlSchema `protobuf_oneof:"graphql_schema"`
-	// Type merge configuration for this subschema. Let's say this subschema is a Users service schema
-	// and provides the User type (with a query to fetch a user given the username)
-	// ```gql
-	//
-	//	type Query {
-	//	  GetUser(username: String): User
-	//	}
-	//
-	//	type User {
-	//	  username: String
-	//	  firstName: String
-	//	  lastName: String
-	//	}
-	//
-	// ```
-	// and another subschema, e.g. Reviews schema, may have a partial User type:
-	// ```gql
-	//
-	//	type Review {
-	//	  author: User
-	//	}
-	//
-	//	type User {
-	//	  username: String
-	//	}
-	//
-	// ```
-	// We want to provide the relevant information from this Users service schema,
-	// so that another API that can give us a partial User type (with the username) will then
-	// be able to have access to the full user type. With the correct type merging config under the Users subschema, e.g.:
-	// ```yaml
-	// type_merge:
-	//
-	//	User:
-	//	  selection_set: '{ username }'
-	//	  query_name: 'GetUser'
-	//	  args:
-	//	    username: username
-	//
-	// ```
-	// the stitched schema will now be able to provide the full user type to all types that require it. In this case,
-	// we can now get the first name of an author from the Review.author field even though the Reviews schema doesn't
-	// provide the full User type. Note: Type merging can be used for all GraphQL types except Mutations and Subscriptions.
+	// Type merge configuration for this subschema.
 	TypeMerge map[string]*GraphQLStitchedSchemaSpec_Subschema_TypeMergeConfig `protobuf:"bytes,3,rep,name=type_merge,json=typeMerge,proto3" json:"type_merge,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
@@ -381,6 +339,75 @@ func (x *GraphQLStitchedSchemaSpec_Options) GetEnableIntrospection() bool {
 	return false
 }
 
+// Type merge configuration for this subschema. Let's say this subschema is a Users service schema
+// and provides the User type (with a query to fetch a user given the username)
+// ```gql
+//
+//	type Query {
+//	  GetUser(username: String): User
+//	}
+//
+//	type User {
+//	  username: String
+//	  firstName: String
+//	  lastName: String
+//	}
+//
+// ```
+// and another subschema, e.g. Reviews schema, may have a partial User type:
+// ```gql
+//
+//	type Review {
+//	  author: User
+//	}
+//
+//	type User {
+//	  username: String
+//	}
+//
+// ```
+// We want to provide the relevant information from this Users service schema,
+// so that another API that can give us a partial User type (with the username) will then
+// be able to have access to the full user type. With the correct type merging config under the Users subschema, e.g.:
+// ```yaml
+//
+// type_merge:
+//
+//	User:
+//	  selection_set: '{ username }'
+//	  query_name: 'GetUser'
+//	  args:
+//	    username: username
+//
+// ```
+// the stitched schema will now be able to provide the full user type to all types that require it. In this case,
+// we can now get the first name of an author from the Review.author field even though the Reviews schema doesn't
+// provide the full User type. Note: Type merging can be used for all GraphQL types except Mutations and Subscriptions.
+//
+// Note that the `args` option specifies the format to turn the initial object representation
+// into query arguments. For example, consider the following GetUser query:
+// ```gql
+//
+//	input UserSearch {
+//	  username: String
+//	}
+//
+//	type Query {
+//	  GetUser(user_search: UserSearch): User
+//	}
+//
+// ```
+// To set the user query argument with the correct username from an object,
+// you use the `args` option, such as the following:
+// ```yaml
+//
+// args:
+//
+//	user_search.username: username
+//
+// ```
+// where `user_search.username` is the "setter" path to set the argument input value at, and
+// `username` is the "extraction" path to extract from an object, such as `{"username": "wpatel"}`.
 type GraphQLStitchedSchemaSpec_Subschema_TypeMergeConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -392,8 +419,9 @@ type GraphQLStitchedSchemaSpec_Subschema_TypeMergeConfig struct {
 	// e.g. '{ username }'
 	SelectionSet string `protobuf:"bytes,1,opt,name=selection_set,json=selectionSet,proto3" json:"selection_set,omitempty"`
 	// specifies the root field from this subschema used to request the local type
-	QueryName string            `protobuf:"bytes,2,opt,name=query_name,json=queryName,proto3" json:"query_name,omitempty"`
-	Args      map[string]string `protobuf:"bytes,3,rep,name=args,proto3" json:"args,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	QueryName string `protobuf:"bytes,2,opt,name=query_name,json=queryName,proto3" json:"query_name,omitempty"`
+	// The format to turn the initial object representation into query arguments.
+	Args map[string]string `protobuf:"bytes,3,rep,name=args,proto3" json:"args,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *GraphQLStitchedSchemaSpec_Subschema_TypeMergeConfig) Reset() {

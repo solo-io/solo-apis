@@ -34,7 +34,7 @@ func (m *Status) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.Status")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.Status")); err != nil {
 		return 0, err
 	}
 
@@ -94,7 +94,7 @@ func (m *State) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.State")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.State")); err != nil {
 		return 0, err
 	}
 
@@ -124,7 +124,7 @@ func (m *Report) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.Report")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.Report")); err != nil {
 		return 0, err
 	}
 
@@ -179,7 +179,7 @@ func (m *RouteReference) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.RouteReference")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.RouteReference")); err != nil {
 		return 0, err
 	}
 
@@ -224,7 +224,7 @@ func (m *AppliedDestinationPortPolicies) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.AppliedDestinationPortPolicies")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.AppliedDestinationPortPolicies")); err != nil {
 		return 0, err
 	}
 
@@ -264,7 +264,7 @@ func (m *AppliedRoutePolicies) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.AppliedRoutePolicies")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.AppliedRoutePolicies")); err != nil {
 		return 0, err
 	}
 
@@ -304,7 +304,7 @@ func (m *AppliedWorkloadPolicies) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.AppliedWorkloadPolicies")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.AppliedWorkloadPolicies")); err != nil {
 		return 0, err
 	}
 
@@ -344,7 +344,7 @@ func (m *AppliedDestinationPortPolicies_DestinationPolicyReference) Hash(hasher 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.AppliedDestinationPortPolicies_DestinationPolicyReference")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.AppliedDestinationPortPolicies_DestinationPolicyReference")); err != nil {
 		return 0, err
 	}
 
@@ -390,7 +390,7 @@ func (m *AppliedRoutePolicies_RoutePolicyReference) Hash(hasher hash.Hash64) (ui
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.AppliedRoutePolicies_RoutePolicyReference")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.AppliedRoutePolicies_RoutePolicyReference")); err != nil {
 		return 0, err
 	}
 
@@ -415,6 +415,26 @@ func (m *AppliedRoutePolicies_RoutePolicyReference) Hash(hasher hash.Hash64) (ui
 			return 0, err
 		} else {
 			if _, err = hasher.Write([]byte("Policy")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if h, ok := interface{}(m.GetRootRouteTable()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("RootRouteTable")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetRootRouteTable(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("RootRouteTable")); err != nil {
 				return 0, err
 			}
 			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {

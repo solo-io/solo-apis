@@ -34,7 +34,7 @@ func (m *CloudProviderSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.CloudProviderSpec")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.CloudProviderSpec")); err != nil {
 		return 0, err
 	}
 
@@ -76,7 +76,7 @@ func (m *AWSProvider) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.AWSProvider")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.AWSProvider")); err != nil {
 		return 0, err
 	}
 
@@ -124,7 +124,7 @@ func (m *CloudProviderStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.CloudProviderStatus")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.CloudProviderStatus")); err != nil {
 		return 0, err
 	}
 
@@ -189,7 +189,7 @@ func (m *CloudProviderReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.CloudProviderReport")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.CloudProviderReport")); err != nil {
 		return 0, err
 	}
 
@@ -288,7 +288,7 @@ func (m *AWSProvider_LambdaOptions) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.AWSProvider_LambdaOptions")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.AWSProvider_LambdaOptions")); err != nil {
 		return 0, err
 	}
 
@@ -328,7 +328,7 @@ func (m *AWSProvider_LambdaOptions_LambdaDiscovery) Hash(hasher hash.Hash64) (ui
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.AWSProvider_LambdaOptions_LambdaDiscovery")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.AWSProvider_LambdaOptions_LambdaDiscovery")); err != nil {
 		return 0, err
 	}
 
@@ -373,7 +373,7 @@ func (m *AWSProvider_LambdaOptions_LambdaDiscovery_LambdaFilter) Hash(hasher has
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.AWSProvider_LambdaOptions_LambdaDiscovery_LambdaFilter")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.AWSProvider_LambdaOptions_LambdaDiscovery_LambdaFilter")); err != nil {
 		return 0, err
 	}
 
@@ -402,7 +402,7 @@ func (m *CloudProviderReport_LambdaFunctions) Hash(hasher hash.Hash64) (uint64, 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2.CloudProviderReport_LambdaFunctions")); err != nil {
+	if _, err = hasher.Write([]byte("infrastructure.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/infrastructure.gloo.solo.io/v2.CloudProviderReport_LambdaFunctions")); err != nil {
 		return 0, err
 	}
 

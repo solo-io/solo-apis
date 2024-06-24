@@ -1,3 +1,123 @@
+// `VirtualGateway` represents a logical gateway configuration served by Gateway workloads within
+// the same workspace. The specification describes a set of ports that the VirtualGateway listens
+// for incoming or outgoing HTTP/TCP connections, the type of protocol to use, SNI configuration, and more.
+//
+// For more information, see the [gateway listener overview in the Gloo Mesh Gateway docs](https://docs.solo.io/gloo-mesh-gateway/latest/listeners/overview/).
+//
+// ## Examples
+//
+// **HTTP**: This resource configures the gateway to listen for incoming
+// HTTP requests on port 80, and delegate traffic requests for
+// the `*.bookinfo.com` hostname. The VirtualGateway is
+// applied to a specific set of gateway pods with the `istio:ingressgateway`
+// label within the same workspace as the VirtualGateway resource.
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: VirtualGateway
+// metadata:
+//   name: istio-ingressgateway
+//   namespace: bookinfo
+// spec:
+//   listeners:
+//     - http: {}
+//       port:
+//         number: 80
+//       allowedRouteTables:
+//         - host: '*.bookinfo.com'
+//   workloads:
+//     - selector:
+//         labels:
+//           istio: ingressgateway
+// ```
+//
+// **HTTP with multiple hosts**: This resource configures the gateway to listen for incoming
+// HTTP requests on port 80, and delegate any `*.foo.com` requests
+// to the `RouteTable` resource(s) provided by the `foo-ws` workspace.
+// Further, on the same port 80, it also delegates any `*.bar.com` requests
+// to the `RouteTable` resource(s) provided by the `bar-ws` workspace.
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: VirtualGateway
+// metadata:
+//   name: my-gateway
+//   namespace: some-config-namespace
+// spec:
+//   listeners:
+//     - http: {}
+//       port:
+//         number: 80
+//       allowedRouteTables:
+//         - host: '*.foo.com'
+//           selector:
+//             workspace: foo-ws
+//         - host: '*.bar.com'
+//           selector:
+//             workspace: bar-ws
+//   workloads:
+//     - selector:
+//         labels:
+//           app: my-gateway-controller
+// ```
+//
+// **Simple HTTPS/TLS**: This resource configures the gateway to act
+// as a load balancer listening on port 80 and 9080 (http), 443 (https), and
+// 9443 (https) for ingress traffic. The VirtualGateway is
+// applied to a specific set of gateway pods with the `istio:ingressgateway`
+// label within the same workspace as the VirtualGateway resource.
+// The RouteTable(s) associated with each
+// port 80, 9443, and 443 must be provided by the `foo-ws` workspace, with hosts that
+// match `*.foo.com`. The RouteTable(s) for port 9080 must be provided by the `bar-ws`
+// workspace with hosts that match `*.bar.com`.
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: VirtualGateway
+// metadata:
+//   name: istio-ingressgateway
+//   namespace: some-config-namespace
+// spec:
+//   listeners:
+//     - http: {}
+//       port:
+//         number: 80
+//       httpsRedirect: true
+//       allowedRouteTables:
+//         - host: '*.foo.com'
+//           selector:
+//             workspace: foo-ws
+//     - http: {}
+//       port:
+//         number: 443
+//       tls:
+//         mode: SIMPLE
+//         files:
+//           privateKey: /etc/certs/privatekey.pem
+//           serverCert: /etc/certs/servercert.pem
+//       allowedRouteTables:
+//         - host: '*.foo.com'
+//           selector:
+//             workspace: foo-ws
+//     - http: {}
+//       port:
+//         number: 9443
+//       tls:
+//         mode: SIMPLE
+//         secretName: my-secret
+//       allowedRouteTables:
+//         - host: '*.foo.com'
+//           selector:
+//             workspace: foo-ws
+//     - http: {}
+//       port:
+//         number: 9080
+//       allowedRouteTables:
+//         - host: '*.bar.com'
+//           selector:
+//             workspace: foo-ws
+//   workloads:
+//     - selector:
+//         labels:
+//           istio: ingressgateway
+// ```
 syntax = "proto3";
 
 package networking.gloo.solo.io;
@@ -14,186 +134,83 @@ option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-// `VirtualGateway` represents a logical gateway configuration served by Gateway workloads within
-// the same workspace. The specification describes a set of ports that the virtual gateway listens
-// for incoming or outgoing HTTP/TCP connections, the type of protocol to use, SNI configuration etc.
-//
-// For example, the following VirtualGateway resource configures the gateway to listen for incoming
-// HTTP requests on port 80, and delegate the route configuration of the '*.bookinfo.com' hostname
-// to be provided by the bookinfo workspace. The VirtualGateway is
-// applied to a specific set of gateway pods/VMs with the `app:my-gateway-controller`
-// label within the same workspace as the VirtualGateway resource.
-//
-// ```yaml
-// apiVersion: networking.gloo.solo.io/v2
-// kind: VirtualGateway
-// metadata:
-//   name: my-gateway
-//   namespace: some-config-namespace
-//   labels:
-//     workspace.solo.io/exported: 'true'
-// spec:
-//   workloads:
-//     - selector:
-//         labels:
-//           app: my-gateway-controller
-//   listeners:
-//     - port:
-//         number: 80
-//       allowedRouteTables:
-//         - host: '*.bookinfo.com'
-//           selector:
-//             workspace: bookinfo
-// ```
-// For example, the following VirtualGateway resource configures the gateway to listen for incoming
-// HTTP requests on port 80, delegate any `*.foo.com` request to the `HTTPRouteTable` resource(s)
-// provided by the `foo-ws` workspace. Further, on the same port 80, it also delegates any
-// `*.bar.com` request to the route configurations provided by the `bar-ws` workspace.
-//
-// ```yaml
-// apiVersion: networking.gloo.solo.io/v2
-// kind: VirtualGateway
-// metadata:
-//   name: my-gateway
-//   namespace: some-config-namespace
-//   labels:
-//     workspace.solo.io/exported: 'true'
-// spec:
-//   workloads:
-//     - selector:
-//         labels:
-//           app: my-gateway-controller
-//   listeners:
-//     - port:
-//         number: 80
-//       allowedRouteTables:
-//         - host: '*.foo.com'
-//           selector:
-//             workspace: foo-ws
-//         - host: '*.bar.com'
-//           selector:
-//             workspace: bar-ws
-// ```
-//
-// For example, the following VirtualGateway resource configures the gateway to act
-// as a load balancer listening on port 80 and 9080 (http), 443 (https), and
-// 9443(https) for ingress.  The VirtualGateway resource is
-// applied to a specific set of gateway pods/VMs with the `app: my-gateway-controller`
-// label within the same workspace. The route table(s) associated with each
-// port 80, 9443 and 443 must be provided by the foo-ws workspace, with hosts that
-// match `*.foo.com`. The route table(s) for port 9080 must be provided by the bar-ws
-// workspace with hosts that match `*.bar.com`.
-//
-// ```yaml
-// apiVersion: networking.gloo.solo.io/v2
-// kind: VirtualGateway
-// metadata:
-//   name: my-gateway
-//   namespace: some-config-namespace
-//   labels:
-//     workspace.solo.io/exported: 'true'
-// spec:
-//   workloads:
-//     - selector:
-//         labels:
-//           app: my-gateway-controller
-//   listeners:
-//     - port:
-//         number: 80
-//       httpsRedirect: true
-//       allowedRouteTables:
-//         - host: '*.foo.com'
-//           selector:
-//             workspace: foo-ws
-//     - port:
-//         number: 443
-//       tls:
-//         mode: SIMPLE
-//         files:
-//           privateKey: /etc/certs/privatekey.pem
-//           serverCert: /etc/certs/servercert.pem
-//       allowedRouteTables:
-//         - host: '*.foo.com'
-//           selector:
-//             workspace: foo-ws
-//     - port:
-//         number: 9443
-//       tls:
-//         mode: SIMPLE
-//         secretName: my-secret
-//       allowedRouteTables:
-//         - host: '*.foo.com'
-//           selector:
-//             workspace: foo-ws
-//     - port:
-//         number: 9080
-//       allowedRouteTables:
-//         - host: '*.bar.com'
-//           selector:
-//             workspace: foo-ws
-// ```
-// For example, the following VirtualGateway resource configures the gateway to listen for incoming
-// HTTP requests on port 80, delegate any `*.foo.com` request to the `HTTPRouteTable` resource(s)
-// provided by the `foo-ws` workspace. This routeTable is restricted to using CloudProvider functionality
-// which routes to cloud functions `backend-function-*` in region us-east-2 and which assume the
-// `dev-team-B-*` IAM role.
-//
-// ```yaml
-// apiVersion: networking.gloo.solo.io/v2
-// kind: VirtualGateway
-// metadata:
-//   name: my-gateway
-//   namespace: some-config-namespace
-//   labels:
-//     workspace.solo.io/exported: 'true'
-// spec:
-//   workloads:
-//     - selector:
-//         labels:
-//           app: my-gateway-controller
-//   listeners:
-//     - port:
-//         number: 80
-//       allowedRouteTables:
-//         - host: '*.foo.com'
-//           selector:
-//             workspace: foo-ws
-// ```
+// Specifications for the `VirtualGateway` resource.
 message VirtualGatewaySpec {
 
-  // Optional: Select which gateway workloads implement this virtual gateway in the same workspace.
-  // A gateway workload will be selected if it matches any of the provided selectors.
-// For 'selector.name', specify the gateway service's name.
-// For 'selector.labels', specify the gateway service's 'spec.selector' label.
-  // If workloads is nil, it will be applied to all gateway workloads.
+  // Optional: Select the gateway workloads that implement this VirtualGateway in the same workspace.
+  // A gateway workload is selected if it matches any of the provided selectors.
+  // For `selector.name`, specify the gateway service's name.
+  // For `selector.labels`, specify the gateway service's `spec.selector` label.
+  //
+  // </br>**Implementation notes**:<ul>
+  // <li>If this field is nil, it is applied to all gateway workloads.</li>
+  // <li>If one of the selectors is nil, that selector selects nothing.</li>
+  // <li>If one of the selectors is `{}`, it selects everything.</li></ul>
   repeated .common.gloo.solo.io.WorkloadSelector workloads = 1;
 
-  // Required: One or more listeners for the virtual gateway.
-  // Each listener specifies a port and virtual host(s) for traffic received on those ports.
+  // Required: One or more listeners for the VirtualGateway.
+  // Each listener specifies a port and virtual host(s) on which traffic can be received.
+  //
+  // </br>**Configuration constraints**: This field is required and must define at least one listener.
+  //
+  // +kubebuilder:validation:Required
+  // +kubebuilder:validation:MinItems=1
+  // +kubebuilder:validation:MaxItems=300000
   repeated Listener listeners = 2;
 
+  // +kubebuilder:validation:XValidation:rule="!has(self.appProtocol) || self.appProtocol.upperAscii() in ['GRPC','GRPC-WEB','HTTP','HTTP_PROXY','HTTP2','HTTPS','TCP','TLS','MONGO','REDIS','MYSQL']",message="appProtocol must be one of GRPC, GRPC-WEB, HTTP, HTTP_PROXY, HTTP2, HTTPS, TCP, TLS, MONGO, REDIS, or MYSQL"
+  //
+  // +kubebuilder:validation:XValidation:rule="has(self.http) && has(self.tls) ? !has(self.appProtocol) || self.appProtocol.upperAscii() == 'HTTPS' : true",message="if listener type is http and tls field is set, appProtocol must be empty or set to HTTPS"
+  // +kubebuilder:validation:XValidation:rule="has(self.http) && !has(self.tls) ? !has(self.appProtocol) || self.appProtocol.upperAscii() in ['GRPC','GRPC-WEB','HTTP','HTTP_PROXY','HTTP2'] : true",message="if listener type is http and tls field is unset, appProtocol must be empty or set to GRPC, GRPC-WEB, HTTP, HTTP_PROXY, or HTTP2"
+  //
+  // +kubebuilder:validation:XValidation:rule="!has(self.http) ? !has(self.httpsRedirect) : true",message="if listener type is tcp or unspecified, httpsRedirect must not be set"
+  // +kubebuilder:validation:XValidation:rule="!has(self.http) && has(self.tls) ? !has(self.appProtocol) || self.appProtocol.upperAscii() == 'TLS' : true",message="if listener type is tcp or unspecified and tls field is set, appProtocol must be empty or set to TLS"
+  // +kubebuilder:validation:XValidation:rule="!has(self.http) && !has(self.tls) ? !has(self.appProtocol) || self.appProtocol.upperAscii() in ['TCP','MONGO','REDIS','MYSQL'] : true",message="if listener type is tcp or unspecified and tls field is unset, appProtocol must be empty or set to TCP, MONGO, REDIS, or MYSQL"
   message Listener {
-    // Required: The port on the gateway workload's service on
-    // which the gateway will listen for connections to route.
+    // Required: The port on the backing gateway service, on
+    // which the gateway listens for connections to route.
+    //
+    // </br>**Configuration constraints**:<ul>
+    // <li>This field is required and must define either a port number or name.</li>
+    // <li>The value must match a port on the backing gateway service.</li>
+    // <li>The port on the backing gateway service must not have a targetPort that is specified by name.</li>
+    // <li>The port on the backing gateway service must be in the range 1 - 65535, or its `targetPort` number, if specified, must be in that range.</li>
+    // <li>The port on the backing gateway service must not match the port of another listener with the same `appProtocol` and same first `host`.
+    // The first `host` is the `host` on the first `allowedRouteTables` entry, or on the first `exposedExternalServices` entry
+    // if no `allowedRouteTables` are provided. If no `allowedRouteTables` and no `exposedExternalServices` are provided,
+    // the first `host` is the wildcard '*'.</li></ul>
+    //
+    // +kubebuilder:validation:Required
+    // +kubebuilder:validation:XValidation:rule="has(self.number) || has(self.name)",message="Either port.number or port.name must be set"
     .common.gloo.solo.io.PortSelector port = 1;
 
-    // Optional: settings for configuring TLS behavior for this listener
-    // Specify either tls or httpsRedirect but not both.
+    // Optional: Settings for configuring TLS behavior for this listener.
+    //
+    // </br>**Configuration constraints**: Specify only one of `tls` or `httpsRedirect`.
     oneof tls_settings {
-      // TLS configure for a virtual host or listener to use TLS
+      // Configure TLS settings for a virtual host or listener.
+      //
+      // </br>**Configuration constraints**:<ul>
+      // <li>This field is required if the `appProtocol` is HTTPS or TLS.</li>
+      // <li>This field must be empty if the `appProtocol` is TCP or MONGO.</li></ul>
       TLSConfig tls = 2;
 
-      // If set to true, the load balancer will send a 301 redirect for all http connections,
-      // asking the clients to use HTTPS.
+      // If set to true, the load balancer returns a 301 HTTP response code for all incoming HTTP connections
+      // with an HTTPS redirect location for the client to use.
+      //
+      // </br>**Configuration constraints**:<ul>
+      // <li>This field must be false if `appProtocol` is HTTPS, MONGO, TCP, or TLS.</li>
+      // <li>This field must be false if `appProtocol` is empty. Exception: If neither `appProtocol`
+      // nor `tls` are specified, and the `http` field is populated, then this field can be `true`.</li></ul>
       bool https_redirect = 3;
     }
 
-    // Required: choose ONE type of listener, http or tcp, or tls.
-    // Defaults to http.
     oneof listener_type {
-      // Serves http requests on the hosts specified for a given listener.
-      // The listener will route traffic based on the HTTPRouteTable resource(s)
-      // that is attached to the virtual gateway.
+      // Serves HTTP requests on the hosts specified for a listener.
+      // The listener routes traffic based on the RouteTable resource
+      // that is attached to the VirtualGateway.
+      //
+      // +kubebuilder:pruning:PreserveUnknownFields
       HTTPServer http = 4;
 
       // The TCP listener configuration. If you want to use TCP routes that route via SNI server name, a TLS configuration is required.
@@ -202,121 +219,210 @@ message VirtualGatewaySpec {
       // @exclude TODO: consider creating a type for tls
     }
 
-    // Optional: Filter RouteTables which can bind to this listener by the host names and object metadata.
-    // Wildcard matching for host name is supported here.
-    // If omitted, any route table will be allowed to bind to this VirtualGateway.
+    // Optional: Filter RouteTables that can bind to this listener by the hostnames and object metadata.
+    // Wildcard matching for hostnames is supported.
+    // If omitted, any RouteTable can bind to this VirtualGateway.
     repeated RouteTableFilter allowed_route_tables = 6;
 
-    // Optional: List of ExternalServices exposed by this VirtualGateway.
-    // If empty, any ExternalService will be exposed by this VirtualGateway.
-    // Specifically used for configuring egress traffic.
+    // Optional: A list of ExternalServices exposed by this VirtualGateway, for configuring egress traffic.
+    // If empty, any ExternalService is exposed by this VirtualGateway.
     repeated ExternalServiceFilter exposed_external_services = 9;
 
-    // Optional: Apply an application protocol to use when deciding what additional capabilities to
-    // add to the gateway, such as routing and rich metrics. If no protocol is selected, it will be inferred
-    // from the listener type and its TLS settings. With an `http` listener, the `app_protocol` will default to
-    // `HTTP` if there are no TLS settings and `HTTPS` if there are. With a `tcp` listener, the `app_protocol`
-    // will default to `TCP` or `TLS` depending on the presence of TLS settings.
+    // Optional: Application protocol to use when adding additional capabilities, such as routing and rich metrics, to
+    // the gateway. If no protocol is selected, the protocol is inferred
+    // from the listener type and its TLS settings. For example, for an `http` listener, the `app_protocol` defaults to
+    // `HTTP` if no TLS settings are defined, and `HTTPS` if TLS settings are defined. For a `tcp` listener, the `app_protocol`
+    // defaults to `TCP` or `TLS`, depending on the presence of TLS settings.
+    //
+    // </br>**Configuration constraints**:<ul>
+    // <li>The following values are supported: `HTTP`, `HTTPS`, `GRPC`, `GRPC-WEB`, `HTTP2`, `MONGO`, `TCP`, `TLS`</li>
+    // <li>The value must be the same for multiple listeners that specify the same port. This includes cases when
+    // the protocol is inferred from the listener type and TLS settings.</li>
+    //
+    // +kubebuilder:validation:MaxLength=10
     string app_protocol = 7;
 
-    // HTTP server indicates HTTP routes will be served for RouteTables which select this gateway.
+    // Serve HTTP routes for RouteTables that select this gateway.
     message HTTPServer {
 
     }
 
-    // @exclude TODO: TCPServer
+    // $hide_from_docs
     message TCPServer {
 
     }
 
-    // Filter route tables which can attach to a VGW by host name as well as an object selector.
+    // Optional: Filter RouteTables that can bind to this listener by the hostnames and object metadata.
+    // Wildcard matching for hostnames is supported.
+    // If omitted, any RouteTable can bind to this VirtualGateway.
     message RouteTableFilter {
 
-      // Required: host name to select. Can use * to match host name patterns in multiple objects.
+      // Required: The hostname to select. You can use `*` to match hostname patterns in multiple objects.
+      //
+      // </br>**Configuration constraints**:<ul>
+      // <li>This field is required.</li>
+      // <li>The host must be specified as a dnsName, with an optional `namespace/` prefix.</li>
+      // <li>The namespace can optionally be set to `*`, for any namespace, or `.`, for the current namespace.</li>
+      // <li>If no `namespace/` prefix is specified, the default is `*/`, which selects services from any namespace.</li>
+      // <li>The dnsName must be in FQDN format, and can optionally include a wildcard character in the first segment, such as `prod/*.example.com`.</li></ul>
+      //
+      // +kubebuilder:validation:Required
       string host = 1;
 
-      // Optional: filter out route tables which do not match the selector, if provided.
+      // Optional: Filter out RouteTables that do not match the selector.
+      //
+      // <br>**Implementation notes**:<ul>
+      // <li>If this field is `nil`, all RouteTables in this workspace are selected.</li>
+      // <li>If a selector is empty or nil, it matches all RouteTables in this workspace.</li>
+      // <li>A RouteTable must match one of the selectors to be selected.</li></ul>
       .common.gloo.solo.io.ObjectSelector selector = 2;
 
       // Optional: Restrict the routes that can be applied to this VirtualGateway to a set of route filter criteria.
-      // If empty, all the routes that belong to the matching route tables are allowed to bind to this VirtualGateway.
+      // If empty, all the routes that belong to the matching RouteTables can bind to this VirtualGateway.
       repeated .common.gloo.solo.io.RouteFilter allowed_routes = 8;
     }
 
-    // Filter ExternalServices which can attach to a VGW by host name.
+    // Filter ExternalServices that can attach to this VirtualGateway by hostname.
     message ExternalServiceFilter {
-      // Required: host name to select. Can use * to match host name patterns in multiple objects.
+      // Required: The hostname to select. You can use `*` to match hostname patterns in multiple objects.
+      //
+      // </br>**Configuration constraints**:<ul>
+      // <li>This field is required.</li>
+      // <li>The host must be specified as a dnsName, with an optional `namespace/` prefix.</li>
+      // <li>The namespace can optionally be set to `*`, for any namespace, or `.`, for the current namespace.</li>
+      // <li>If no `namespace/` prefix is specified, the default is `*/`, which selects services from any namespace.</li>
+      // <li>The dnsName must be in FQDN format, and can optionally include a wildcard character in the first segment, such as `prod/*.example.com`.</li></ul>
+      //
+      // +kubebuilder:validation:Required
       string host = 1;
 
-      // Optional: filter out ExternalServices which do not match the selector, if provided.
+      // Optional: Filter out ExternalServices that do not match the selector.
       .common.gloo.solo.io.ObjectSelector selector = 2;
     }
   }
 }
 
-// TLSConfig contains the options necessary to configure a listener to use TLS
+// Configure TLS settings for a virtual host or listener.
+//
+// </br>**Configuration constraints**:<ul>
+// <li>This field is required if the appProtocol is HTTPS or TLS.</li>
+// <li>This field must be empty if the appProtocol is TCP or MONGO.</li></ul>
+//
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'SIMPLE' ? has(self.secretName) || (has(self.files) && has(self.files.serverCert)) : true",message="if tls mode is SIMPLE, either secretName or both files.serverCert and files.privateKey must be set"
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'SIMPLE' ? has(self.secretName) || (has(self.files) && has(self.files.privateKey)) : true",message="if tls mode is SIMPLE, either secretName or both files.serverCert and files.privateKey must be set"
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'MUTUAL' ? has(self.secretName) || (has(self.files) && has(self.files.serverCert)) : true",message="if tls mode is MUTUAL, secretName must be set or files and all its subfields must be set"
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'MUTUAL' ? has(self.secretName) || (has(self.files) && has(self.files.privateKey)) : true",message="if tls mode is MUTUAL, secretName must be set or files and all its subfields must be set"
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'MUTUAL' ? has(self.secretName) || (has(self.files) && has(self.files.caCerts)) : true",message="if tls mode is MUTUAL, secretName must be set or files and all its subfields must be set"
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'ISTIO_MUTUAL' ? !has(self.secretName) : true",message="if tls mode is ISTIO_MUTUAL, secretName must not be set"
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'ISTIO_MUTUAL' ? !has(self.files) : true",message="if tls mode is ISTIO_MUTUAL, files must not be set"
 message TLSConfig {
 
+  // The TLS certificate information for the HTTPS/TLS listener on your gateway.
   oneof certificates {
-    // SecretName is the name of the kubernetes secret which contains the ssl secret. Each
-    // Gateway will look for a secret with this name on its own local cluster in its own namespace.
+    // The name of the Kubernetes secret that contains the SSL secret. Each
+    // gateway checks for a secret with this name in its own namespace on the cluster.
+    //
+    // </br>**Configuration constraints**:<ul>
+    // <li>This field must be empty if the mode is `ISTIO_MUTUAL`.</li>
+    // <li>This field is ignored if the mode is `PASSTHROUGH` or `AUTO_PASSTHROUGH`.</li>
+    // <li>The value must name a real secret in the given namespace and cluster.</li>
+    // <li>An Opaque secret must contain either `tls.key: <privateKey>` and `tls.crt: <serverCert>`,
+    // or `key: <privateKey>` and `cert: <serverCert>`.
+    // For mutual TLS, you can provide `cacert: <CACertificate>` and `crl: <CertificateRevocationList>`
+    // in the same secret, or a separate secret named `<secret>-cacert`.
+    // You can also provide a TLS secret for server certificates with an additional `tls.ocsp-staple`
+    // key for OCSP staple information, `ca.crt` key for CA certificates, and `ca.crl` for a certificate revocation list.</li></ul>
     string secret_name = 1;
 
-    // Files reference paths to certificates which can be read by the proxy off of its local filesystem
+    // Paths to certificates that can be read by the gateway proxy from its local filesystem.
     Files files = 2;
 
   }
 
   // Verify that the Subject Alternative Name in the peer certificate is one of the specified values.
-  // note that a ca_certs must be provided if this option is used.
+  //
+  // </br>**Configuration constraints**: If you specify this field, you must also specify `caCerts`.
   repeated string verify_subject_alt_name = 3;
 
+  // General TLS parameters.
   Parameters parameters = 4;
 
-  // TLS modes enforced by the proxy
+  // TLS modes enforced by the gateway proxy.
+  //
+  // </br>**Configuration constraints**: If the `appProtocol` is HTTP, GRPC, GRPC-WEB, or HTTP2, this value must be PASSTHROUGH or AUTO_PASSTHROUGH.
   TLSMode mode = 5;
 
+  // TLS modes enforced by the gateway proxy.
+  //
+  // </br>**Configuration constraints**: If the appProtocol is HTTP, GRPC, GRPC-WEB, or HTTP2, this value must be PASSTHROUGH or AUTO_PASSTHROUGH.
   enum TLSMode {
-    // The SNI string presented by the client will be used as the match criterion in a
-    // VirtualService TLS route to determine the destination service from the service registry.
+    // No TLS traffic is terminated at the gateway. Instead, the SNI string presented by the client is used
+    // to find the matching TLS route and to determine the destination service from the service registry.
+    // Then, traffic is forwarded to the destination. Note that the destination must be capable of terminating TLS traffic.
     PASSTHROUGH = 0;
 
     // Secure connections with standard TLS semantics.
     SIMPLE = 1;
 
     // Secure connections to the downstream using mutual TLS by presenting server certificates for authentication.
+    //
+    // </br>**Implementation notes**: At least one valid certificate must be sent by the client.
     MUTUAL = 2;
 
-    // Similar to the passthrough mode, except servers with this TLS mode do not require an associated VirtualService
-    // to map from the SNI value to service in the registry. The destination details such as the service/subset/port
-    // are encoded in the SNI value. The proxy will forward to the upstream (Envoy) cluster (a group of endpoints)
+    // Similar to the PASSTHROUGH mode, except that servers with this TLS mode do not require an associated VirtualService
+    // to map from the SNI value to a service in the registry. The destination details such as the service/subset/port
+    // are encoded in the SNI value. The proxy forwards to the upstream Envoy cluster a group of endpoints
     // specified by the SNI value. This server is typically used to provide connectivity between services in disparate
     // L3 networks that otherwise do not have direct connectivity between their respective endpoints.
-    // Use of this mode assumes that both the source and the destination are using Istio mTLS to secure traffic.
-    // In order for this mode to be enabled, the gateway deployment must be configured with the ISTIO_META_ROUTER_MODE=sni-dnat
-    // environment variable.
+    //
+    // </br>**Implementation notes**: When using this TLS mode, the source and destination are assumed to use Istio mTLS to secure traffic.
     AUTO_PASSTHROUGH = 3;
 
     // Secure connections from the downstream using mutual TLS by presenting server certificates for authentication.
-    // Compared to Mutual mode, this mode uses certificates, representing gateway workload identity, generated automatically
-    // by Istio for mTLS authentication. When this mode is used, all other fields in `TLSConfig` should be empty.
+    // Compared to MUTUAL mode, this mode uses certificates that represents the gateway workload identity
+    // and are automatically generated by Istio for mTLS authentication.
+    //
+    // </br>**Implementation notes**: All other fields in `tlsConfig` must be empty.
     ISTIO_MUTUAL = 4;
   }
 
+  // Paths to certificates that can be read by the gateway proxy from its local filesystem.
+  //
+  // **Implementation notes**: These files must be present on the filesystem.
   message Files {
-    // Required if tlsMode is `SIMPLE` or `MUTUAL`. The path to the file that
-    // contains the server side TLS certificate.
+    // The path to the file that contains the server-side TLS certificate.
+    //
+    // </br>**Configuration constraints**:<ul>
+    // <li>This field must be empty if the `appProtocol` is HTTP, GRPC, GRPC-WEB, or HTTP2.</li>
+    // <li>This field must be empty if the `tlsMode` is ISTIO_MUTUAL.</li>
+    // <li>This field is required if the `tlsMode` is SIMPLE or MUTUAL, and `secretName` is not set.</li>
+    // <li>This field is ignored if the `tlsMode` is PASSTHROUGH or AUTO_PASSTHROUGH.</li></ul>
     string server_cert = 1;
-    // Required if tlsMode is `SIMPLE` or `MUTUAL`. The path to the file that
-    // contains the server's private key.
+
+    // The path to the file that contains the server's private key.
+    //
+    // </br>**Configuration constraints**:<ul>
+    // <li>This field must be empty if the `appProtocol` is HTTP, GRPC, GRPC-WEB, or HTTP2.</li>
+    // <li>This field must be empty if the `tlsMode` is ISTIO_MUTUAL.</li>
+    // <li>This field is required if the `tlsMode` is SIMPLE or MUTUAL, and `secretName` is not set.</li>
+    // <li>This field is ignored if the `tlsMode` is PASSTHROUGH or AUTO_PASSTHROUGH.</li>
     string private_key = 2;
-    // Required if tlsMode is `MUTUAL`. The path to the file that contains the
-    // certificate authority(CA) certificates for validating client cert.
+
+    // The path to the file that contains the certificate authority (CA) certificates for validating the client cert.
+    //
+    // </br>**Configuration constraints**:<ul>
+    // <li>This field must be empty if the `appProtocol` is HTTP, GRPC, GRPC-WEB, or HTTP2.</li>
+    // <li>This field must be empty if the `tlsMode` is ISTIO_MUTUAL.</li>
+    // <li>This field is required if the `tlsMode` is MUTUAL, and `secretName` is not set.</li>
+    // <li>This field is ignored if the `tlsMode` is PASSTHROUGH or AUTO_PASSTHROUGH.</li></ul>
     string ca_certs = 3;
   }
 
-  // General TLS parameters. See the [envoy docs](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto#enum-extensions-transport-sockets-tls-v3-tlsparameters-tlsprotocol)
-  // for more information on the meaning of these values.
+  // General TLS parameters. For more information about these values, see the
+  // [Envoy docs](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto#enum-extensions-transport-sockets-tls-v3-tlsparameters-tlsprotocol).
+  //
+  // +kubebuilder:validation:XValidation:rule="has(self.minimumProtocolVersion) && self.minimumProtocolVersion == 'TLSv1_0' ? has(self.cipherSuites) : true",message="if minimumProtocolVersion is TLSv1_0, cipherSuites must be set"
+  // +kubebuilder:validation:XValidation:rule="has(self.minimumProtocolVersion) && self.minimumProtocolVersion == 'TLSv1_1' ? has(self.cipherSuites) : true",message="if minimumProtocolVersion is TLSv1_1, cipherSuites must be set"
   message Parameters {
     enum ProtocolVersion {
       // Automatically choose the optimal TLS version.
@@ -335,48 +441,80 @@ message TLSConfig {
       TLSv1_3 = 4;
     }
 
-
+    // The minimum TLS version. Defaults to `TLSV1_2`.
+    // Note: Using TLS protocol versions below `TLSV1_2` can pose serious security risks.
     ProtocolVersion minimum_protocol_version = 1;
+
+    // The maximum TLS version.
     ProtocolVersion maximum_protocol_version = 2;
+
+    // The TLS cipher suites to secure the connection.
+    //
+    // </br>**Configuration constraints**:<ul>
+    // <li>This field is required if the `minimumProtocolVersion` is TLSv1_0 or TLSv1_1.
+    // TLS protocol versions below TLSV1_2 require setting compatible ciphers with this setting,
+    // because they no longer include compatible ciphers.</li>
+    // <li>This field is ignored if the `minimumProtocolVersion` is TLSv1_3.</li>
+    // <li>Invalid or duplicate values are ignored.</li>
+    // <li>The following cipher values are supported:<ul>
+    //    <li>ECDHE-ECDSA-AES128-GCM-SHA256</li>
+    //    <li>ECDHE-RSA-AES128-GCM-SHA256</li>
+    //    <li>ECDHE-ECDSA-AES256-GCM-SHA384</li>
+    //    <li>ECDHE-RSA-AES256-GCM-SHA384</li>
+    //    <li>ECDHE-ECDSA-CHACHA20-POLY1305</li>
+    //    <li>ECDHE-RSA-CHACHA20-POLY1305</li>
+    //    <li>ECDHE-ECDSA-AES128-SHA</li>
+    //    <li>ECDHE-RSA-AES128-SHA</li>
+    //    <li>ECDHE-ECDSA-AES256-SHA</li>
+    //    <li>ECDHE-RSA-AES256-SHA</li>
+    //    <li>AES128-GCM-SHA256</li>
+    //    <li>AES256-GCM-SHA384</li>
+    //    <li>AES128-SHA</li>
+    //    <li>AES256-SHA</li>
+    //    <li>DES-CBC3-SHA</li></ul></li></ul>
     repeated string cipher_suites = 3;
   }
 }
 
+// The status of the resource after it is applied to your Gloo environment.
 message VirtualGatewayStatus {
   // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
 
-  // The number of route tables allowed to bind to this virtual gateway.
+  // The number of RouteTables allowed to bind to this VirtualGateway.
   uint32 route_tables_count = 2;
 
-  // The number of workloads selected by this virtual gateway.
+  // The number of workloads selected by this VirtualGateway.
   uint32 selected_workloads_count = 3;
 
-  // The number of external services exposed by this virtual gateway.
+  // The number of external services exposed by this VirtualGateway.
   uint32 external_services_count = 4;
 }
 
+// The resources that the VirtualGateway selects after it is successfully applied.
 message VirtualGatewayReport {
+
+  // A list of workspaces in which the virtal gateway can be applied.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
-  // A list of route tables allowed to bind to this virtual gateway.
+  // A list of RouteTables allowed to bind to this VirtualGateway.
   repeated .common.gloo.solo.io.ObjectReference allowed_route_tables = 2;
 
-  // A list of workloads selected by this virtual gateway.
+  // A list of workloads selected by this VirtualGateway.
   repeated .common.gloo.solo.io.ObjectReference selected_workloads = 3;
 
-  // list of external services exposed by this virtual gateway.
+  // A list of external services exposed by this VirtualGateway.
   repeated .common.gloo.solo.io.ObjectReference exposed_external_services = 4;
 
-  // A list of listener/RouteTable combinations showing which route tables are attached to which listeners.
+  // A list of listener/RouteTable combinations showing which RouteTables are attached to which listeners.
   repeated ListenerRouteTable listener_route_tables = 5;
 }
 
-// ListenerRouteTable represents an association between a RouteTable and a particular VirtualGateway listener.
+// A list of listener/RouteTable combinations showing which RouteTables are attached to which listeners.
 message ListenerRouteTable {
-  // The index of the listener in the list of listeners on the virtual gateway
+  // The index of the listener in the list of listeners on the VirtualGateway.
   uint32 listener_idx = 1;
 
-  // A reference to a route table
+  // A reference to a RouteTable.
   .common.gloo.solo.io.ObjectReference route_table_ref = 2;
 }
