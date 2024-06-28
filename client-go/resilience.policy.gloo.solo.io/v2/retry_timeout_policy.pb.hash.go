@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *RetryTimeoutPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -86,6 +90,10 @@ func (m *RetryTimeoutPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *RetryTimeoutPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -127,6 +135,10 @@ func (m *RetryTimeoutPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *RetryTimeoutPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -206,6 +218,10 @@ func (m *RetryTimeoutPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *RetryTimeoutPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -262,6 +278,10 @@ func (m *RetryTimeoutPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *RetryTimeoutPolicySpec_Config_RetryPolicy) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil

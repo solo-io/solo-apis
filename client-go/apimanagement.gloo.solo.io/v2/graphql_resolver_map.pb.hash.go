@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -101,6 +105,10 @@ func (m *GraphQLResolverMapSpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *VariableTransformation) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -155,6 +163,10 @@ func (m *VariableTransformation) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *Extraction) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -275,6 +287,10 @@ func (m *Extraction) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *DynamicMetadataExtraction) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -299,6 +315,10 @@ func (m *DynamicMetadataExtraction) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -339,6 +359,10 @@ func (m *GraphQLResolverMapStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -398,6 +422,10 @@ func (m *GraphQLResolverMapReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -453,6 +481,10 @@ func (m *GraphQLResolverMapSpec_Resolution) Hash(hasher hash.Hash64) (uint64, er
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_ResolverMapExtensions) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -489,6 +521,10 @@ func (m *GraphQLResolverMapSpec_ResolverMapExtensions) Hash(hasher hash.Hash64) 
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -588,6 +624,10 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers) Hash(hasher hash.Hash64) (
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -694,6 +734,10 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver) Hash(hasher hash.
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -833,6 +877,10 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) Hash
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -933,6 +981,10 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) Hash
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -1003,6 +1055,10 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver) Hash
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RequestTemplate) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -1117,6 +1173,10 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_Reque
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -1143,6 +1203,10 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTV
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -1230,6 +1294,10 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_Reque
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil

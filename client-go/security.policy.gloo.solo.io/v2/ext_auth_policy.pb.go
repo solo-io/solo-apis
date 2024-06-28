@@ -249,7 +249,7 @@ type ExtAuthPolicySpec_Config struct {
 	AuthType isExtAuthPolicySpec_Config_AuthType `protobuf_oneof:"auth_type"`
 	// Required: Reference to the ExtAuthServer to use for this policy.
 	// Currently routes on a single gateway must share a single ExtAuthServer.
-	// To create an ExtAuthServer resource, see [External auth server setup](https://docs.solo.io/gloo-mesh-enterprise/main/policies/external-auth/server/#setup).
+	// To create an ExtAuthServer resource, see [External auth server setup]({{< link path="/security/external-auth/server/#setup" >}}).
 	Server *v2.ObjectReference `protobuf:"bytes,4,opt,name=server,proto3" json:"server,omitempty"`
 }
 

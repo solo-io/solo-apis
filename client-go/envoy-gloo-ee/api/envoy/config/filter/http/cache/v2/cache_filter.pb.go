@@ -11,10 +11,10 @@ import (
 	sync "sync"
 
 	v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
-	duration "github.com/golang/protobuf/ptypes/duration"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -33,14 +33,14 @@ type Cache struct {
 	// The max content length of in-memory cached data for each worker thread.
 	// The content length is calculated as the sum of lengths of both keys and
 	// values.
-	InMemoryMaxContentLength *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=in_memory_max_content_length,json=inMemoryMaxContentLength,proto3" json:"in_memory_max_content_length,omitempty"`
-	GrpcService              *v3.GrpcService       `protobuf:"bytes,2,opt,name=grpc_service,json=grpcService,proto3" json:"grpc_service,omitempty"`
-	GrpcTimeout              *duration.Duration    `protobuf:"bytes,3,opt,name=grpc_timeout,json=grpcTimeout,proto3" json:"grpc_timeout,omitempty"`
-	RedisCluster             string                `protobuf:"bytes,4,opt,name=redis_cluster,json=redisCluster,proto3" json:"redis_cluster,omitempty"`
-	RedisStatPrefix          string                `protobuf:"bytes,5,opt,name=redis_stat_prefix,json=redisStatPrefix,proto3" json:"redis_stat_prefix,omitempty"`
-	RedisOpTimeout           *duration.Duration    `protobuf:"bytes,6,opt,name=redis_op_timeout,json=redisOpTimeout,proto3" json:"redis_op_timeout,omitempty"`
+	InMemoryMaxContentLength *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=in_memory_max_content_length,json=inMemoryMaxContentLength,proto3" json:"in_memory_max_content_length,omitempty"`
+	GrpcService              *v3.GrpcService         `protobuf:"bytes,2,opt,name=grpc_service,json=grpcService,proto3" json:"grpc_service,omitempty"`
+	GrpcTimeout              *durationpb.Duration    `protobuf:"bytes,3,opt,name=grpc_timeout,json=grpcTimeout,proto3" json:"grpc_timeout,omitempty"`
+	RedisCluster             string                  `protobuf:"bytes,4,opt,name=redis_cluster,json=redisCluster,proto3" json:"redis_cluster,omitempty"`
+	RedisStatPrefix          string                  `protobuf:"bytes,5,opt,name=redis_stat_prefix,json=redisStatPrefix,proto3" json:"redis_stat_prefix,omitempty"`
+	RedisOpTimeout           *durationpb.Duration    `protobuf:"bytes,6,opt,name=redis_op_timeout,json=redisOpTimeout,proto3" json:"redis_op_timeout,omitempty"`
 	// [#not-implemented-hide:]
-	MaxResponseContentLength *wrappers.UInt32Value `protobuf:"bytes,7,opt,name=max_response_content_length,json=maxResponseContentLength,proto3" json:"max_response_content_length,omitempty"`
+	MaxResponseContentLength *wrapperspb.UInt32Value `protobuf:"bytes,7,opt,name=max_response_content_length,json=maxResponseContentLength,proto3" json:"max_response_content_length,omitempty"`
 }
 
 func (x *Cache) Reset() {
@@ -75,7 +75,7 @@ func (*Cache) Descriptor() ([]byte, []int) {
 	return file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_filter_http_cache_v2_cache_filter_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Cache) GetInMemoryMaxContentLength() *wrappers.UInt32Value {
+func (x *Cache) GetInMemoryMaxContentLength() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.InMemoryMaxContentLength
 	}
@@ -89,7 +89,7 @@ func (x *Cache) GetGrpcService() *v3.GrpcService {
 	return nil
 }
 
-func (x *Cache) GetGrpcTimeout() *duration.Duration {
+func (x *Cache) GetGrpcTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.GrpcTimeout
 	}
@@ -110,14 +110,14 @@ func (x *Cache) GetRedisStatPrefix() string {
 	return ""
 }
 
-func (x *Cache) GetRedisOpTimeout() *duration.Duration {
+func (x *Cache) GetRedisOpTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.RedisOpTimeout
 	}
 	return nil
 }
 
-func (x *Cache) GetMaxResponseContentLength() *wrappers.UInt32Value {
+func (x *Cache) GetMaxResponseContentLength() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.MaxResponseContentLength
 	}
@@ -253,9 +253,9 @@ var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_filter_http_cache_v2_cache_filter_proto_goTypes = []interface{}{
 	(*Cache)(nil),                  // 0: envoy.config.filter.http.cache.v2.Cache
 	(*CacheFilterRouteConfig)(nil), // 1: envoy.config.filter.http.cache.v2.CacheFilterRouteConfig
-	(*wrappers.UInt32Value)(nil),   // 2: google.protobuf.UInt32Value
+	(*wrapperspb.UInt32Value)(nil), // 2: google.protobuf.UInt32Value
 	(*v3.GrpcService)(nil),         // 3: envoy.config.core.v3.GrpcService
-	(*duration.Duration)(nil),      // 4: google.protobuf.Duration
+	(*durationpb.Duration)(nil),    // 4: google.protobuf.Duration
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_filter_http_cache_v2_cache_filter_proto_depIdxs = []int32{
 	2, // 0: envoy.config.filter.http.cache.v2.Cache.in_memory_max_content_length:type_name -> google.protobuf.UInt32Value

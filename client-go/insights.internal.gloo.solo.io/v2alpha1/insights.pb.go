@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -88,9 +88,9 @@ type Insight struct {
 	// Numerical value of the insight severity.
 	Severity Insight_Severity `protobuf:"varint,1,opt,name=severity,proto3,enum=insights.internal.gloo.solo.io.Insight_Severity" json:"severity,omitempty"`
 	// Time when the situation that caused the insight was last observed.
-	LastObserved *timestamp.Timestamp `protobuf:"bytes,2,opt,name=last_observed,json=lastObserved,proto3" json:"last_observed,omitempty"`
+	LastObserved *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=last_observed,json=lastObserved,proto3" json:"last_observed,omitempty"`
 	// Time when the insight was generated.
-	Created *timestamp.Timestamp `protobuf:"bytes,3,opt,name=created,proto3" json:"created,omitempty"`
+	Created *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created,proto3" json:"created,omitempty"`
 	// A code that identifies the situation that caused the insight.
 	// For example - IST0102
 	Code *Insight_Code `protobuf:"bytes,4,opt,name=code,proto3" json:"code,omitempty"`
@@ -107,9 +107,9 @@ type Insight struct {
 	// A flag for whether this is an internal system insight.
 	System bool `protobuf:"varint,12,opt,name=system,proto3" json:"system,omitempty"`
 	// used for TTL based garbage collection
-	ExpireyTime *timestamp.Timestamp `protobuf:"bytes,13,opt,name=expirey_time,json=expireyTime,proto3" json:"expirey_time,omitempty"`
+	ExpireyTime *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=expirey_time,json=expireyTime,proto3" json:"expirey_time,omitempty"`
 	// Time used internally to determine if an insight is potentially stale, this should be updated everytime the engine processes the insight.
-	LastProcessedTime *timestamp.Timestamp `protobuf:"bytes,14,opt,name=last_processed_time,json=lastProcessedTime,proto3" json:"last_processed_time,omitempty"`
+	LastProcessedTime *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=last_processed_time,json=lastProcessedTime,proto3" json:"last_processed_time,omitempty"`
 	// Storage for extra custom data that is output by the insights engine and consumed directly by the UI for custom components.
 	Data *Insight_Data `protobuf:"bytes,15,opt,name=data,proto3" json:"data,omitempty"`
 }
@@ -153,14 +153,14 @@ func (x *Insight) GetSeverity() Insight_Severity {
 	return Insight_SEVERITY_UNSPECIFIED
 }
 
-func (x *Insight) GetLastObserved() *timestamp.Timestamp {
+func (x *Insight) GetLastObserved() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastObserved
 	}
 	return nil
 }
 
-func (x *Insight) GetCreated() *timestamp.Timestamp {
+func (x *Insight) GetCreated() *timestamppb.Timestamp {
 	if x != nil {
 		return x.Created
 	}
@@ -216,14 +216,14 @@ func (x *Insight) GetSystem() bool {
 	return false
 }
 
-func (x *Insight) GetExpireyTime() *timestamp.Timestamp {
+func (x *Insight) GetExpireyTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ExpireyTime
 	}
 	return nil
 }
 
-func (x *Insight) GetLastProcessedTime() *timestamp.Timestamp {
+func (x *Insight) GetLastProcessedTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastProcessedTime
 	}
@@ -781,8 +781,8 @@ type Insight_SYS0007Data struct {
 	IssuedFromCn               string                              `protobuf:"bytes,5,opt,name=issued_from_cn,json=issuedFromCn,proto3" json:"issued_from_cn,omitempty"`
 	IssuedFromOrganization     []string                            `protobuf:"bytes,6,rep,name=issued_from_organization,json=issuedFromOrganization,proto3" json:"issued_from_organization,omitempty"`
 	IssuedFromOrganizationUnit []string                            `protobuf:"bytes,7,rep,name=issued_from_organization_unit,json=issuedFromOrganizationUnit,proto3" json:"issued_from_organization_unit,omitempty"`
-	IssuedOn                   *timestamp.Timestamp                `protobuf:"bytes,8,opt,name=issued_on,json=issuedOn,proto3" json:"issued_on,omitempty"`
-	ExpiresOn                  *timestamp.Timestamp                `protobuf:"bytes,9,opt,name=expires_on,json=expiresOn,proto3" json:"expires_on,omitempty"`
+	IssuedOn                   *timestamppb.Timestamp              `protobuf:"bytes,8,opt,name=issued_on,json=issuedOn,proto3" json:"issued_on,omitempty"`
+	ExpiresOn                  *timestamppb.Timestamp              `protobuf:"bytes,9,opt,name=expires_on,json=expiresOn,proto3" json:"expires_on,omitempty"`
 	Fingerprints               []*Insight_SYS0007Data_Fingerprints `protobuf:"bytes,10,rep,name=fingerprints,proto3" json:"fingerprints,omitempty"`
 	SubjectKeyIdentifier       string                              `protobuf:"bytes,11,opt,name=subject_key_identifier,json=subjectKeyIdentifier,proto3" json:"subject_key_identifier,omitempty"`
 	AuthorityKeyIdentifier     string                              `protobuf:"bytes,12,opt,name=authority_key_identifier,json=authorityKeyIdentifier,proto3" json:"authority_key_identifier,omitempty"`
@@ -869,14 +869,14 @@ func (x *Insight_SYS0007Data) GetIssuedFromOrganizationUnit() []string {
 	return nil
 }
 
-func (x *Insight_SYS0007Data) GetIssuedOn() *timestamp.Timestamp {
+func (x *Insight_SYS0007Data) GetIssuedOn() *timestamppb.Timestamp {
 	if x != nil {
 		return x.IssuedOn
 	}
 	return nil
 }
 
-func (x *Insight_SYS0007Data) GetExpiresOn() *timestamp.Timestamp {
+func (x *Insight_SYS0007Data) GetExpiresOn() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ExpiresOn
 	}
@@ -917,8 +917,8 @@ type Insight_SYS0008Data struct {
 	IssuedFromCn               string                              `protobuf:"bytes,5,opt,name=issued_from_cn,json=issuedFromCn,proto3" json:"issued_from_cn,omitempty"`
 	IssuedFromOrganization     []string                            `protobuf:"bytes,6,rep,name=issued_from_organization,json=issuedFromOrganization,proto3" json:"issued_from_organization,omitempty"`
 	IssuedFromOrganizationUnit []string                            `protobuf:"bytes,7,rep,name=issued_from_organization_unit,json=issuedFromOrganizationUnit,proto3" json:"issued_from_organization_unit,omitempty"`
-	IssuedOn                   *timestamp.Timestamp                `protobuf:"bytes,8,opt,name=issued_on,json=issuedOn,proto3" json:"issued_on,omitempty"`
-	ExpiresOn                  *timestamp.Timestamp                `protobuf:"bytes,9,opt,name=expires_on,json=expiresOn,proto3" json:"expires_on,omitempty"`
+	IssuedOn                   *timestamppb.Timestamp              `protobuf:"bytes,8,opt,name=issued_on,json=issuedOn,proto3" json:"issued_on,omitempty"`
+	ExpiresOn                  *timestamppb.Timestamp              `protobuf:"bytes,9,opt,name=expires_on,json=expiresOn,proto3" json:"expires_on,omitempty"`
 	Fingerprints               []*Insight_SYS0008Data_Fingerprints `protobuf:"bytes,10,rep,name=fingerprints,proto3" json:"fingerprints,omitempty"`
 	SubjectKeyIdentifier       string                              `protobuf:"bytes,11,opt,name=subject_key_identifier,json=subjectKeyIdentifier,proto3" json:"subject_key_identifier,omitempty"`
 	AuthorityKeyIdentifier     string                              `protobuf:"bytes,12,opt,name=authority_key_identifier,json=authorityKeyIdentifier,proto3" json:"authority_key_identifier,omitempty"`
@@ -1005,14 +1005,14 @@ func (x *Insight_SYS0008Data) GetIssuedFromOrganizationUnit() []string {
 	return nil
 }
 
-func (x *Insight_SYS0008Data) GetIssuedOn() *timestamp.Timestamp {
+func (x *Insight_SYS0008Data) GetIssuedOn() *timestamppb.Timestamp {
 	if x != nil {
 		return x.IssuedOn
 	}
 	return nil
 }
 
-func (x *Insight_SYS0008Data) GetExpiresOn() *timestamp.Timestamp {
+func (x *Insight_SYS0008Data) GetExpiresOn() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ExpiresOn
 	}
@@ -1203,8 +1203,8 @@ type Insight_CertificateInformation struct {
 	IssuedFromCn               string                                         `protobuf:"bytes,5,opt,name=issued_from_cn,json=issuedFromCn,proto3" json:"issued_from_cn,omitempty"`
 	IssuedFromOrganization     []string                                       `protobuf:"bytes,6,rep,name=issued_from_organization,json=issuedFromOrganization,proto3" json:"issued_from_organization,omitempty"`
 	IssuedFromOrganizationUnit []string                                       `protobuf:"bytes,7,rep,name=issued_from_organization_unit,json=issuedFromOrganizationUnit,proto3" json:"issued_from_organization_unit,omitempty"`
-	IssuedOn                   *timestamp.Timestamp                           `protobuf:"bytes,8,opt,name=issued_on,json=issuedOn,proto3" json:"issued_on,omitempty"`
-	ExpiresOn                  *timestamp.Timestamp                           `protobuf:"bytes,9,opt,name=expires_on,json=expiresOn,proto3" json:"expires_on,omitempty"`
+	IssuedOn                   *timestamppb.Timestamp                         `protobuf:"bytes,8,opt,name=issued_on,json=issuedOn,proto3" json:"issued_on,omitempty"`
+	ExpiresOn                  *timestamppb.Timestamp                         `protobuf:"bytes,9,opt,name=expires_on,json=expiresOn,proto3" json:"expires_on,omitempty"`
 	Fingerprints               []*Insight_CertificateInformation_Fingerprints `protobuf:"bytes,10,rep,name=fingerprints,proto3" json:"fingerprints,omitempty"`
 	SubjectKeyIdentifier       string                                         `protobuf:"bytes,11,opt,name=subject_key_identifier,json=subjectKeyIdentifier,proto3" json:"subject_key_identifier,omitempty"`
 	AuthorityKeyIdentifier     string                                         `protobuf:"bytes,12,opt,name=authority_key_identifier,json=authorityKeyIdentifier,proto3" json:"authority_key_identifier,omitempty"`
@@ -1291,14 +1291,14 @@ func (x *Insight_CertificateInformation) GetIssuedFromOrganizationUnit() []strin
 	return nil
 }
 
-func (x *Insight_CertificateInformation) GetIssuedOn() *timestamp.Timestamp {
+func (x *Insight_CertificateInformation) GetIssuedOn() *timestamppb.Timestamp {
 	if x != nil {
 		return x.IssuedOn
 	}
 	return nil
 }
 
-func (x *Insight_CertificateInformation) GetExpiresOn() *timestamp.Timestamp {
+func (x *Insight_CertificateInformation) GetExpiresOn() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ExpiresOn
 	}
@@ -2417,7 +2417,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insigh
 	(*Insight_SYS0007Data_Fingerprints)(nil),            // 22: insights.internal.gloo.solo.io.Insight.SYS0007Data.Fingerprints
 	(*Insight_SYS0008Data_Fingerprints)(nil),            // 23: insights.internal.gloo.solo.io.Insight.SYS0008Data.Fingerprints
 	(*Insight_CertificateInformation_Fingerprints)(nil), // 24: insights.internal.gloo.solo.io.Insight.CertificateInformation.Fingerprints
-	(*timestamp.Timestamp)(nil),                         // 25: google.protobuf.Timestamp
+	(*timestamppb.Timestamp)(nil),                       // 25: google.protobuf.Timestamp
 	(*v1.TypedClusterObjectRef)(nil),                    // 26: core.skv2.solo.io.TypedClusterObjectRef
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_depIdxs = []int32{

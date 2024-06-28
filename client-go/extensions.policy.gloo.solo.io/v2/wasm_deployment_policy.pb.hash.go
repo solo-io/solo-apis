@@ -30,6 +30,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WasmDeploymentPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -90,6 +94,10 @@ func (m *WasmDeploymentPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WasmDeploymentPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -131,6 +139,10 @@ func (m *WasmDeploymentPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WasmDeploymentPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -210,6 +222,10 @@ func (m *WasmDeploymentPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WasmDeploymentPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -255,6 +271,10 @@ func (m *WasmDeploymentPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, erro
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WasmDeploymentPolicySpec_Config_WasmFilter) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -374,6 +394,10 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter) Hash(hasher hash.Hash64) (u
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WasmDeploymentPolicySpec_Config_WasmFilter_UriSource) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -398,6 +422,10 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter_UriSource) Hash(hasher hash.
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WasmDeploymentPolicySpec_Config_WasmFilter_WasmImageSource) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil

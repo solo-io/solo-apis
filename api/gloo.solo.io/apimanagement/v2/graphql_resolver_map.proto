@@ -22,12 +22,14 @@ option (extproto.clone_all) = true;
 // The GraphQLResolverMap Resource contains a mapping from types to fields to
 // resolutions. For example, for a schema with type `Query` and field `GetName`
 // ```graphql
+//
 //  type Query {
 //    GetName: String
 //  }
 // ```
 // you can configure a resolver for the `GetName` field as follows:
 // ```yaml
+//
 // types:
 //   Query:
 //     fields:
@@ -239,6 +241,7 @@ message GraphQLResolverMapSpec {
 // jq filter.
 // For example, if the following variables have been declared:
 // ```yaml
+//
 // variables:
 //   userIdHeader:
 //     request_header: x-user-id
@@ -279,13 +282,13 @@ message VariableTransformation {
     // is returned with no transformation.
     string variable = 1;
 
-    // The [jq](https://stedolan.github.io/jq/manual/) filter which is used to provide a value.
+    // The [jq](https://jqlang.github.io/jq/manual/) filter which is used to provide a value.
     // variables defined in `variables` can be used in the jq filter via regular jq variable syntax.
     // For example, a variable named "userIdHeader" can be used in a jq filter as `$userIdHeader`
     // Jq filters must only result in one value, or an error will be sent back to the client.
-    // For example, for the input `[1,2,3]`, the jq filter '.[]' is not a valid jq filter as it results
-    // in multiple jq results. However, the jq filter '. &#124; join(",")' is valid as it results in one result: "1,2,3".
-    // Refer to the [jq manual](https://stedolan.github.io/jq/manual/) for jq syntax and tips.
+    // For example, for the input `[1,2,3]`, the jq filter `'.[]'` is not a valid jq filter as it results
+    // in multiple jq results. However, the jq filter `'. &#124; join(",")'` is valid as it results in one result: `"1,2,3"`.
+    // Refer to the [jq manual](https://jqlang.github.io/jq/manual/) for jq syntax and tips.
     string jq = 2;
 
     // Static JSON value.

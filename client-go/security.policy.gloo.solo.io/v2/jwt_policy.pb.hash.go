@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -110,6 +114,10 @@ func (m *JWTPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -156,6 +164,10 @@ func (m *JWTPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -259,6 +271,10 @@ func (m *JWTPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -381,6 +397,10 @@ func (m *JWTPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -530,6 +550,10 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_ClaimMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -570,6 +594,10 @@ func (m *JWTPolicySpec_Config_ClaimMatcher) Hash(hasher hash.Hash64) (uint64, er
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_TokenSource) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -618,6 +646,10 @@ func (m *JWTPolicySpec_Config_Provider_TokenSource) Hash(hasher hash.Hash64) (ui
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_LocalJWKS) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -666,6 +698,10 @@ func (m *JWTPolicySpec_Config_Provider_LocalJWKS) Hash(hasher hash.Hash64) (uint
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_RemoteJWKS) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -751,6 +787,10 @@ func (m *JWTPolicySpec_Config_Provider_RemoteJWKS) Hash(hasher hash.Hash64) (uin
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_ClaimsToHeader) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -780,6 +820,10 @@ func (m *JWTPolicySpec_Config_Provider_ClaimsToHeader) Hash(hasher hash.Hash64) 
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_TokenSourceFromHeader) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -804,6 +848,10 @@ func (m *JWTPolicySpec_Config_Provider_TokenSourceFromHeader) Hash(hasher hash.H
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_LocalJWKS_SecretRef) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil

@@ -80,28 +80,6 @@ type PortalGroupSpec struct {
 	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	// A list of `Membership` criteria that defines the claims that are used to determine whether a user belongs to this group.
 	// A user is considered to be a member of this group if they have claims that match all the claims in any `Membership` criteria in this list.
-	// For example, a user is considered to be a member of this group if they have defined the following list of membership criteria in their `PortalGroup`:
-	// ```yaml
-	// ...
-	//
-	//	membership:
-	//	  - claims:
-	//	      - key: type
-	//	        value: customers
-	//	      - key: region
-	//	        value: us-east-1
-	//	  - claims:
-	//	      - key: type
-	//	        value: customers
-	//	      - key: region
-	//	        value: us-west-1
-	//
-	// ```
-	// and the user has the following claims in their idToken:
-	// ```json
-	// { "type": "customers", "region": "us-east-1" } or { "type": "customers", "region": "us-west-1" }
-	// ```
-	// claims within a `Membership` criteria is an AND operation, and the list of `Membership` criteria is an OR operation.
 	Membership []*Membership `protobuf:"bytes,3,rep,name=membership,proto3" json:"membership,omitempty"`
 	// Settings that control the list of APIs that this group can view, and the usage plans that this group can manage API keys for.
 	AccessLevel *PortalGroupSpec_AccessLevel `protobuf:"bytes,4,opt,name=access_level,json=accessLevel,proto3" json:"access_level,omitempty"`
@@ -169,6 +147,29 @@ func (x *PortalGroupSpec) GetAccessLevel() *PortalGroupSpec_AccessLevel {
 
 // `Membership` contains a list of claims that is used to determine whether a user belongs to this group.
 // A user is considered to be a member of this group if their idToken has all the claims in this list.
+// For example, a user is considered to be a member of this group if they have defined the following list of membership criteria in their `PortalGroup`:
+// ```yaml
+//
+// ...
+//
+//	membership:
+//	  - claims:
+//	      - key: type
+//	        value: customers
+//	      - key: region
+//	        value: us-east-1
+//	  - claims:
+//	      - key: type
+//	        value: customers
+//	      - key: region
+//	        value: us-west-1
+//
+// ```
+// and the user has the following claims in their idToken:
+// ```json
+// { "type": "customers", "region": "us-east-1" } or { "type": "customers", "region": "us-west-1" }
+// ```
+// claims within a `Membership` criteria is an AND operation, and the list of `Membership` criteria is an OR operation.
 type Membership struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

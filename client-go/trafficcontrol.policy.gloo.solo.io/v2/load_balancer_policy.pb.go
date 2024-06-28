@@ -10,11 +10,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	duration "github.com/golang/protobuf/ptypes/duration"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -292,14 +292,14 @@ type LoadBalancerPolicySpec_Config struct {
 	// endpoints are relatively new like new deployment, this is not very effective as all endpoints end up getting same
 	// amount of requests.
 	// Currently this is only supported for ROUND_ROBIN and LEAST_REQUEST load balancers.
-	WarmupDurationSecs *duration.Duration `protobuf:"bytes,3,opt,name=warmup_duration_secs,json=warmupDurationSecs,proto3" json:"warmup_duration_secs,omitempty"`
+	WarmupDurationSecs *durationpb.Duration `protobuf:"bytes,3,opt,name=warmup_duration_secs,json=warmupDurationSecs,proto3" json:"warmup_duration_secs,omitempty"`
 	// A threshold at which Envoy will disregard health status and balance either among all hosts or no hosts.
 	// If not specified, the default is 50%. To disable panic mode, set to 0%.
-	HealthyPanicThreshold *wrappers.DoubleValue `protobuf:"bytes,4,opt,name=healthy_panic_threshold,json=healthyPanicThreshold,proto3" json:"healthy_panic_threshold,omitempty"`
+	HealthyPanicThreshold *wrapperspb.DoubleValue `protobuf:"bytes,4,opt,name=healthy_panic_threshold,json=healthyPanicThreshold,proto3" json:"healthy_panic_threshold,omitempty"`
 	// Health check/weight/metadata updates that happen within this duration will be merged and delivered
 	// in one shot when the duration expires.
 	// If not specified, the default is 1000ms. To disable it, set the merge window to 0.
-	UpdateMergeWindow *duration.Duration `protobuf:"bytes,5,opt,name=update_merge_window,json=updateMergeWindow,proto3" json:"update_merge_window,omitempty"`
+	UpdateMergeWindow *durationpb.Duration `protobuf:"bytes,5,opt,name=update_merge_window,json=updateMergeWindow,proto3" json:"update_merge_window,omitempty"`
 }
 
 func (x *LoadBalancerPolicySpec_Config) Reset() {
@@ -355,21 +355,21 @@ func (x *LoadBalancerPolicySpec_Config) GetConsistentHash() *LoadBalancerPolicyS
 	return nil
 }
 
-func (x *LoadBalancerPolicySpec_Config) GetWarmupDurationSecs() *duration.Duration {
+func (x *LoadBalancerPolicySpec_Config) GetWarmupDurationSecs() *durationpb.Duration {
 	if x != nil {
 		return x.WarmupDurationSecs
 	}
 	return nil
 }
 
-func (x *LoadBalancerPolicySpec_Config) GetHealthyPanicThreshold() *wrappers.DoubleValue {
+func (x *LoadBalancerPolicySpec_Config) GetHealthyPanicThreshold() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.HealthyPanicThreshold
 	}
 	return nil
 }
 
-func (x *LoadBalancerPolicySpec_Config) GetUpdateMergeWindow() *duration.Duration {
+func (x *LoadBalancerPolicySpec_Config) GetUpdateMergeWindow() *durationpb.Duration {
 	if x != nil {
 		return x.UpdateMergeWindow
 	}
@@ -541,7 +541,7 @@ type LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie struct {
 	// Path to set for the cookie.
 	Path string `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	// Lifetime of the cookie.
-	Ttl *duration.Duration `protobuf:"bytes,3,opt,name=ttl,proto3" json:"ttl,omitempty"`
+	Ttl *durationpb.Duration `protobuf:"bytes,3,opt,name=ttl,proto3" json:"ttl,omitempty"`
 }
 
 func (x *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) Reset() {
@@ -590,7 +590,7 @@ func (x *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) GetPath() st
 	return ""
 }
 
-func (x *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) GetTtl() *duration.Duration {
+func (x *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) GetTtl() *durationpb.Duration {
 	if x != nil {
 		return x.Ttl
 	}
@@ -771,8 +771,8 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_traff
 	(*v2.DestinationSelector)(nil),  // 8: common.gloo.solo.io.DestinationSelector
 	(*v2.Status)(nil),               // 9: common.gloo.solo.io.Status
 	(*v2.DestinationReference)(nil), // 10: common.gloo.solo.io.DestinationReference
-	(*duration.Duration)(nil),       // 11: google.protobuf.Duration
-	(*wrappers.DoubleValue)(nil),    // 12: google.protobuf.DoubleValue
+	(*durationpb.Duration)(nil),     // 11: google.protobuf.Duration
+	(*wrapperspb.DoubleValue)(nil),  // 12: google.protobuf.DoubleValue
 	(*v2.Report)(nil),               // 13: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_trafficcontrol_load_balancer_policy_proto_depIdxs = []int32{

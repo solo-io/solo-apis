@@ -204,7 +204,7 @@ func (*ApiDocSpec_Graphql) isApiDocSpec_SchemaType() {}
 // or Gloo can automatically create an ApiDoc during discovery or translation processes (output).
 // As such, status for ApiDocs is disabled. Because the status is disabled, you cannot review statuses for ApiDocs in `kubectl`.
 // Also, you might notice ApiDocs reported as unhealthy in the Gloo UI even though the ApiDocs work.
-// To verify that your ApiDocs are healthy, you can follow the steps in the [ApiDoc guide](https://docs.solo.io/gloo-gateway/latest/portal/apis/apidocs/#verify).
+// To verify that your ApiDocs are healthy, you can follow the steps in the [ApiDoc guide](https://docs.solo.io/gloo-mesh-gateway/latest/portal/guides/apis/apidocs/#verify).
 type ApiDocStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -341,7 +341,7 @@ func (x *ApiDocReport) GetServingDestinations() []*v2.DestinationReference {
 // The YAML- or JSON-formatted OpenAPI v2 or v3 schema string to use for your API.
 //
 // **Example**: For detailed information about the settings in this example, see
-// [Create your APIs](https://docs.solo.io/gloo-gateway/latest/portal/apis/apidocs/#apidoc) in the Gloo Portal documentation.
+// [Create your APIs](https://docs.solo.io/gloo-mesh-gateway/latest/portal/guides/apis/apidocs/) in the Gloo Portal documentation.
 // ```yaml
 // apiVersion: apimanagement.gloo.solo.io/v2
 // kind: ApiDoc
@@ -420,10 +420,10 @@ func (x *ApiDocSpec_OpenAPISchema) GetInlineString() string {
 // the base64-encoded descriptor includes a set of fields that are defined
 // for various queries, such as `UserSearch` and `UserByCountry`. For detailed
 // information about the settings in this example, see
-// [gRPC schema](https://docs.solo.io/gloo-gateway/latest/graphql/resolvers/resolved/resolver_grpc/)
+// [gRPC schema](https://docs.solo.io/gloo-mesh-gateway/latest/graphql/resolvers/resolved/resolver_grpc/)
 // in the GraphQL integration documentation.
 // ```yaml
-// {{% readfile file="/content/gateway/static/content/examples/generated/int/graphql_routes/cluster-1/api-doc_bookinfo_grpc-schema.yaml" %}}
+// {{% readfile file="static/content/examples/generated/int/graphql_routes/cluster-1/api-doc_bookinfo_grpc-schema.yaml" %}}
 // ```
 type ApiDocSpec_GrpcSchema struct {
 	state         protoimpl.MessageState
@@ -483,10 +483,10 @@ func (x *ApiDocSpec_GrpcSchema) GetDescriptors() []byte {
 //
 // **Example**: In this GraphQL example for the Bookinfo sample app, a query type and object
 // types are defined. For detailed information about the settings in this example, see
-// [Example GraphQL ApiDoc](https://docs.solo.io/gloo-gateway/latest/graphql/apidoc/#example-graphql-apidoc)
+// [Example GraphQL ApiDoc](https://docs.solo.io/gloo-mesh-gateway/latest/graphql/apidoc/#example-graphql-apidoc)
 // in the GraphQL integration documentation.
 // ```yaml
-// {{% readfile file="/content/gateway/static/content/examples/generated/int/graphql_proxied_introspection/cluster-1/api-doc_bookinfo_music-schema.yaml" %}}
+// {{% readfile file="static/content/examples/generated/int/graphql_proxied_introspection/cluster-1/api-doc_bookinfo_music-schema.yaml" %}}
 // ```
 type ApiDocSpec_GraphQLSchema struct {
 	state         protoimpl.MessageState

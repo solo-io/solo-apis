@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	duration "github.com/golang/protobuf/ptypes/duration"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 const (
@@ -34,11 +34,11 @@ type TCPKeepalive struct {
 	// The time duration a connection needs to be idle before keep-alive probes start being sent.
 	// Format examples: `1h`/`1m`/`1s`/`1ms`.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	Time *duration.Duration `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
+	Time *durationpb.Duration `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 	// The time duration between keep-alive probes.
 	// Format examples: `1h`/`1m`/`1s`/`1ms`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	Interval *duration.Duration `protobuf:"bytes,3,opt,name=interval,proto3" json:"interval,omitempty"`
+	Interval *durationpb.Duration `protobuf:"bytes,3,opt,name=interval,proto3" json:"interval,omitempty"`
 }
 
 func (x *TCPKeepalive) Reset() {
@@ -80,14 +80,14 @@ func (x *TCPKeepalive) GetProbes() uint32 {
 	return 0
 }
 
-func (x *TCPKeepalive) GetTime() *duration.Duration {
+func (x *TCPKeepalive) GetTime() *durationpb.Duration {
 	if x != nil {
 		return x.Time
 	}
 	return nil
 }
 
-func (x *TCPKeepalive) GetInterval() *duration.Duration {
+func (x *TCPKeepalive) GetInterval() *durationpb.Duration {
 	if x != nil {
 		return x.Interval
 	}
@@ -138,8 +138,8 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_keep
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_keepalive_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_keepalive_proto_goTypes = []interface{}{
-	(*TCPKeepalive)(nil),      // 0: common.gloo.solo.io.TCPKeepalive
-	(*duration.Duration)(nil), // 1: google.protobuf.Duration
+	(*TCPKeepalive)(nil),        // 0: common.gloo.solo.io.TCPKeepalive
+	(*durationpb.Duration)(nil), // 1: google.protobuf.Duration
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_keepalive_proto_depIdxs = []int32{
 	1, // 0: common.gloo.solo.io.TCPKeepalive.time:type_name -> google.protobuf.Duration

@@ -13,9 +13,9 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
-
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+
+	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -129,9 +129,9 @@ func (m *ApiSchemaDiscoverySpec_FetchEndpoint) Clone() proto.Message {
 	target.Url = m.GetUrl()
 
 	if h, ok := interface{}(m.GetRetryDelay()).(clone.Cloner); ok {
-		target.RetryDelay = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.RetryDelay = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.RetryDelay = proto.Clone(m.GetRetryDelay()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.RetryDelay = proto.Clone(m.GetRetryDelay()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	target.PullAttempts = m.GetPullAttempts()

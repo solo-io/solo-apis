@@ -13,9 +13,9 @@ import (
 	_ "github.com/cncf/xds/go/udpa/annotations"
 	v3 "github.com/envoyproxy/go-control-plane/envoy/type/metadata/v3"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -73,8 +73,8 @@ type MetadataInput struct {
 
 	MetadataKey *v3.MetadataKey `protobuf:"bytes,1,opt,name=metadata_key,json=metadataKey,proto3" json:"metadata_key,omitempty"`
 	// value to return if the path exists but not a string
-	OnValueNotString *wrappers.StringValue `protobuf:"bytes,2,opt,name=on_value_not_string,json=onValueNotString,proto3" json:"on_value_not_string,omitempty"`
-	OnMissingValue   *wrappers.StringValue `protobuf:"bytes,3,opt,name=on_missing_value,json=onMissingValue,proto3" json:"on_missing_value,omitempty"`
+	OnValueNotString *wrapperspb.StringValue `protobuf:"bytes,2,opt,name=on_value_not_string,json=onValueNotString,proto3" json:"on_value_not_string,omitempty"`
+	OnMissingValue   *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=on_missing_value,json=onMissingValue,proto3" json:"on_missing_value,omitempty"`
 }
 
 func (x *MetadataInput) Reset() {
@@ -116,14 +116,14 @@ func (x *MetadataInput) GetMetadataKey() *v3.MetadataKey {
 	return nil
 }
 
-func (x *MetadataInput) GetOnValueNotString() *wrappers.StringValue {
+func (x *MetadataInput) GetOnValueNotString() *wrapperspb.StringValue {
 	if x != nil {
 		return x.OnValueNotString
 	}
 	return nil
 }
 
-func (x *MetadataInput) GetOnMissingValue() *wrappers.StringValue {
+func (x *MetadataInput) GetOnMissingValue() *wrapperspb.StringValue {
 	if x != nil {
 		return x.OnMissingValue
 	}
@@ -197,10 +197,10 @@ func file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_confi
 
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_matching_inputs_http_inputs_v3_http_inputs_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_matching_inputs_http_inputs_v3_http_inputs_proto_goTypes = []interface{}{
-	(*RouteNameInput)(nil),       // 0: envoy.config.matching.inputs.http_inputs.v3.RouteNameInput
-	(*MetadataInput)(nil),        // 1: envoy.config.matching.inputs.http_inputs.v3.MetadataInput
-	(*v3.MetadataKey)(nil),       // 2: envoy.type.metadata.v3.MetadataKey
-	(*wrappers.StringValue)(nil), // 3: google.protobuf.StringValue
+	(*RouteNameInput)(nil),         // 0: envoy.config.matching.inputs.http_inputs.v3.RouteNameInput
+	(*MetadataInput)(nil),          // 1: envoy.config.matching.inputs.http_inputs.v3.MetadataInput
+	(*v3.MetadataKey)(nil),         // 2: envoy.type.metadata.v3.MetadataKey
+	(*wrapperspb.StringValue)(nil), // 3: google.protobuf.StringValue
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_matching_inputs_http_inputs_v3_http_inputs_proto_depIdxs = []int32{
 	2, // 0: envoy.config.matching.inputs.http_inputs.v3.MetadataInput.metadata_key:type_name -> envoy.type.metadata.v3.MetadataKey

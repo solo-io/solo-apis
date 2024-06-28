@@ -1,4 +1,4 @@
-// {{% readfile file="static/content/policies/ov_access" markdown="true"%}}
+// {{% reuse "conrefs/snippets/policies/ov_access.md" %}}
 // An access policy describes how clients should be authenticated and authorized
 // to access a service. For more information about cross-origin resource sharing,
 // see [this article](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
@@ -15,7 +15,7 @@
 // If service isolation is enabled, you must use destination selectors
 // instead.
 //
-// **Examples**:
+// ## Examples
 // The following example is for a simple access policy that allows
 // the productpage app to access the ratings app.
 // ```yaml
@@ -253,9 +253,9 @@ type AccessPolicySpec struct {
 	// Destinations to apply the policy to. If `applyToWorkloads` is non-empty,
 	// this field is ignored. If this field and `applyToWorkloads` are both empty,
 	// the policy applies to all ports on all destinations in the workspace.
-	// {{% notice note %}}
-	// For security reasons, `applyToWorkloads` is preferred.
-	// {{% /notice %}}
+	// {{< alert context="info" >}}
+	// For security reasons, <code>applyToWorkloads</code> is preferred.
+	// {{< /alert >}}
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// Workloads to apply the policy to. For security reasons,
 	// this field is prefered over `applyToDestinations`. If an empty selector is
@@ -772,11 +772,11 @@ type AccessPolicySpec_Config_Authorization struct {
 	// Optional: A list of IP blocks, populated from X-Forwarded-For header or proxy protocol.
 	// Single IP addresses (e.g. “1.2.3.4”) and CIDRs (e.g. “1.2.3.0/24”) are supported. This field
 	// is equivalent to the remote.ip attribute. If empty, any IP address is allowed.
-	// {{% notice note %}}
-	// To use this field, you must configure the `meshConfig.defaultConfig.gatewayTopology.numTrustedProxies`
+	// {{< alert >}}
+	// To use this field, you must configure the <code>meshConfig.defaultConfig.gatewayTopology.numTrustedProxies</code>
 	// field in your Istio installation. For more info, see the
-	// [Istio documentation](https://istio.io/latest/docs/ops/configuration/traffic-management/network-topologies/#configuring-network-topologies).
-	// {{% /notice %}}
+	// <a href="https://istio.io/latest/docs/ops/configuration/traffic-management/network-topologies/#configuring-network-topologies">Istio documentation</a>.
+	// {{< /alert >}}
 	AllowedRemoteIpBlocks []string `protobuf:"bytes,6,rep,name=allowed_remote_ip_blocks,json=allowedRemoteIpBlocks,proto3" json:"allowed_remote_ip_blocks,omitempty"`
 	// Set to true to enable a dry run of the access policy for L7 Istio service mesh authorization only. Then, you can check the sidecar proxy logs, metrics, and tracing to determine if traffic would be allowed or denied. However, the authorization is not enforced until you disable the dry run and re-apply the access policy.
 	// Note that when there are both dry run and enforced policies, dry run policies are considered independently of enforced policies;

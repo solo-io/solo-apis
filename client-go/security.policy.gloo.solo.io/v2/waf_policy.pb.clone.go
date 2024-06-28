@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
-
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_envoy_gloo_ee_api_envoy_config_filter_http_modsecurity_v2 "github.com/solo-io/solo-apis/client-go/envoy-gloo-ee/api/envoy/config/filter/http/modsecurity/v2"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -153,9 +153,9 @@ func (m *WAFPolicySpec_Config) Clone() proto.Message {
 	target.ResponseHeadersOnly = m.GetResponseHeadersOnly()
 
 	if h, ok := interface{}(m.GetPriority()).(clone.Cloner); ok {
-		target.Priority = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+		target.Priority = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
 	} else {
-		target.Priority = proto.Clone(m.GetPriority()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+		target.Priority = proto.Clone(m.GetPriority()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
 	}
 
 	switch m.CoreRuleSetSettings.(type) {

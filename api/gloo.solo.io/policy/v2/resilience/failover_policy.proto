@@ -1,12 +1,12 @@
-// {{% readfile file="/content/mesh/static/content/policies/ov_failover" %}} 
+// {{% reuse "conrefs/snippets/policies/ov_failover.md" %}} 
 // If a backing service in a virtual destination is unhealthy, Gloo Mesh re-routes 
 // traffic to another healthy backing service by locality, as specified 
 // in the FailoverPolicy config.
 // FailoverPolicies are applied at the *Destination* level.
 //
 // Note that you can use failover policies in combination with other policies, 
-// such as [outlier detection]({{< link path="/policies/outlier-detection/">}}) 
-// or [retry]({{< link path="/policies/retry-timeout/">}}) policies. 
+// such as [outlier detection]({{< link path="/resiliency/outlier-detection/" >}}) 
+// or [retry]({{< link path="/resiliency/retry-timeout/">}}) policies. 
 // In case of a failure, the failover policy tells Gloo Mesh which healthy destinations 
 // to reroute traffic to,  based on the closest locality. The outlier detection policy 
 // tells Gloo Mesh when and for how long to remove unhealthy services. 
@@ -14,11 +14,12 @@
 // before the outlier detection policy considers the request as failing 
 // and removes the service from the pool of healthy destinations.
 //
-// **Example**: This example selects all virtual destinations in the workspace, 
+// ## Example
+// This example selects all virtual destinations in the workspace, 
 // and fails over traffic from any destinations served in the `us-east` region
 // to any matching destinations only in the `us-west` region.
 // ```yaml
-// {{% readfile file="/content/mesh/static/content/examples/generated/int/virtual_dest_locality_based_failover/cluster-1/failover-policy_bookinfo_locality-based-failover.yaml" %}}
+// {{% readfile file="static/content/examples/generated/int/virtual_dest_locality_based_failover/cluster-1/failover-policy_bookinfo_locality-based-failover.yaml" %}}
 // ```
 syntax = "proto3";
 
@@ -41,10 +42,10 @@ message FailoverPolicySpec {
 
   // Select the virtual destinations to apply the policy to by using labels.
   // If empty, the policy applies to all vitrual destinations in the workspace.
-  // {{% notice note %}}
+  // {{< alert context="info" >}}
   // Failover policies can currently select Gloo virtual destinations only. 
   // Selecting Kubernetes services or Gloo external services is not supported. 
-  // {{% /notice %}}
+  // {{< /alert >}}
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
 
   // The details of the failover policy to apply to the selected virtual destinations.

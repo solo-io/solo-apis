@@ -13,9 +13,9 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
-
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -114,9 +114,9 @@ func (m *TLSConfig) Clone() proto.Message {
 	target = &TLSConfig{}
 
 	if h, ok := interface{}(m.GetSni()).(clone.Cloner); ok {
-		target.Sni = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.Sni = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	} else {
-		target.Sni = proto.Clone(m.GetSni()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.Sni = proto.Clone(m.GetSni()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	}
 
 	target.CredentialName = m.GetCredentialName()
