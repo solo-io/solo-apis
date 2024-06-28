@@ -13,15 +13,15 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
-
-	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
-
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
-
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 
 	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
+
+	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
+
+	google_golang_org_protobuf_types_known_structpb "google.golang.org/protobuf/types/known/structpb"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -218,9 +218,9 @@ func (m *GraphQLSchemaSpec_ProxiedGraphQL) Clone() proto.Message {
 	target.SpanName = m.GetSpanName()
 
 	if h, ok := interface{}(m.GetTimeout()).(clone.Cloner); ok {
-		target.Timeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Timeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.Timeout = proto.Clone(m.GetTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Timeout = proto.Clone(m.GetTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
@@ -241,9 +241,9 @@ func (m *GraphQLSchemaSpec_ResolvedGraphQL_Options) Clone() proto.Message {
 	target = &GraphQLSchemaSpec_ResolvedGraphQL_Options{}
 
 	if h, ok := interface{}(m.GetMaxDepth()).(clone.Cloner); ok {
-		target.MaxDepth = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+		target.MaxDepth = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
 	} else {
-		target.MaxDepth = proto.Clone(m.GetMaxDepth()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+		target.MaxDepth = proto.Clone(m.GetMaxDepth()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
 	}
 
 	target.EnableIntrospection = m.GetEnableIntrospection()
@@ -283,11 +283,11 @@ func (m *GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction) Clone() proto.Messa
 
 		if h, ok := interface{}(m.GetJson()).(clone.Cloner); ok {
 			target.Extraction = &GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction_Json{
-				Json: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
+				Json: h.Clone().(*google_golang_org_protobuf_types_known_structpb.Value),
 			}
 		} else {
 			target.Extraction = &GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction_Json{
-				Json: proto.Clone(m.GetJson()).(*github_com_golang_protobuf_ptypes_struct.Value),
+				Json: proto.Clone(m.GetJson()).(*google_golang_org_protobuf_types_known_structpb.Value),
 			}
 		}
 

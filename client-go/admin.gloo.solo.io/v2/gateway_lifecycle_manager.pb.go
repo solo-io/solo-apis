@@ -6,7 +6,7 @@
 //
 // For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% link path="/setup/install/gloo_mesh_managed/" %}}) guide.
 //
-// **Examples**:
+// ## Examples
 //
 // **East-west** (Gloo Mesh license): This example creates an east-west gateway named `istio-eastwestgateway` in the `gloo-mesh-gateways`
 // namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the Solo distribution of Istio revision (`$REVISION`),
@@ -420,7 +420,7 @@ type GatewayClusterSelector struct {
 	// When set to true, the gateway installation for this revision is applied as the active gateway through which primary service traffic is routed in the cluster.
 	// If the `istioOperatorSpec` defines a service, this field switches the service selectors to the revision specified in the `gatewayRevsion`.
 	// You might change this setting for gateway installations during a canary upgrade.
-	// For more info, see the [upgrade docs](https://docs.solo.io/gloo-mesh-enterprise/main/setup/upgrade/gloo_mesh_managed_upgrade/).
+	// For more info, see the [upgrade docs](https://docs.solo.io/gloo-mesh-enterprise/latest/istio/mesh/ilm-upgrade/).
 	ActiveGateway bool `protobuf:"varint,2,opt,name=active_gateway,json=activeGateway,proto3" json:"active_gateway,omitempty"`
 	// Optional: By default, the `trustDomain` value in the `meshConfig` section of the operator spec is automatically set by the Gloo to the name of each workload cluster.
 	// To override the `trustDomain` for each cluster, you can instead specify the override value by using this `trustDomain` field,

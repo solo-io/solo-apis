@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	any1 "github.com/golang/protobuf/ptypes/any"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 )
 
 const (
@@ -31,7 +31,7 @@ type Reports struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Reports []*any1.Any `protobuf:"bytes,1,rep,name=reports,proto3" json:"reports,omitempty"`
+	Reports []*anypb.Any `protobuf:"bytes,1,rep,name=reports,proto3" json:"reports,omitempty"`
 }
 
 func (x *Reports) Reset() {
@@ -66,7 +66,7 @@ func (*Reports) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_v2_report_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Reports) GetReports() []*any1.Any {
+func (x *Reports) GetReports() []*anypb.Any {
 	if x != nil {
 		return x.Reports
 	}
@@ -112,8 +112,8 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_v2_re
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_v2_report_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_v2_report_proto_goTypes = []interface{}{
-	(*Reports)(nil),  // 0: internal.gloo.solo.io.Reports
-	(*any1.Any)(nil), // 1: google.protobuf.Any
+	(*Reports)(nil),   // 0: internal.gloo.solo.io.Reports
+	(*anypb.Any)(nil), // 1: google.protobuf.Any
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_v2_report_proto_depIdxs = []int32{
 	1, // 0: internal.gloo.solo.io.Reports.reports:type_name -> google.protobuf.Any

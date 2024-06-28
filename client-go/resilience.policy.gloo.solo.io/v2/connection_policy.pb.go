@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	duration "github.com/golang/protobuf/ptypes/duration"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -267,7 +267,7 @@ type ConnectionPolicySpec_Config_TCPConfig struct {
 	MaxConnections int32 `protobuf:"varint,2,opt,name=max_connections,json=maxConnections,proto3" json:"max_connections,omitempty"`
 	// Sets the TCP connection timeout. It must be greater than or equal to 1ms.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	ConnectTimeout *duration.Duration `protobuf:"bytes,3,opt,name=connect_timeout,json=connectTimeout,proto3" json:"connect_timeout,omitempty"`
+	ConnectTimeout *durationpb.Duration `protobuf:"bytes,3,opt,name=connect_timeout,json=connectTimeout,proto3" json:"connect_timeout,omitempty"`
 }
 
 func (x *ConnectionPolicySpec_Config_TCPConfig) Reset() {
@@ -316,7 +316,7 @@ func (x *ConnectionPolicySpec_Config_TCPConfig) GetMaxConnections() int32 {
 	return 0
 }
 
-func (x *ConnectionPolicySpec_Config_TCPConfig) GetConnectTimeout() *duration.Duration {
+func (x *ConnectionPolicySpec_Config_TCPConfig) GetConnectTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.ConnectTimeout
 	}
@@ -343,7 +343,7 @@ type ConnectionPolicySpec_Config_HTTPConfig struct {
 	// a drain sequence will occur prior to closing the connection. Note that request based timeouts mean that HTTP/2 PINGs will not keep the connection alive.
 	// Applies to both HTTP1.1 and HTTP2 connections.
 	// For more information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	IdleTimeout *duration.Duration `protobuf:"bytes,3,opt,name=idle_timeout,json=idleTimeout,proto3" json:"idle_timeout,omitempty"`
+	IdleTimeout *durationpb.Duration `protobuf:"bytes,3,opt,name=idle_timeout,json=idleTimeout,proto3" json:"idle_timeout,omitempty"`
 }
 
 func (x *ConnectionPolicySpec_Config_HTTPConfig) Reset() {
@@ -406,7 +406,7 @@ func (x *ConnectionPolicySpec_Config_HTTPConfig) GetMaxPendingRequests() int32 {
 	return 0
 }
 
-func (x *ConnectionPolicySpec_Config_HTTPConfig) GetIdleTimeout() *duration.Duration {
+func (x *ConnectionPolicySpec_Config_HTTPConfig) GetIdleTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.IdleTimeout
 	}
@@ -565,7 +565,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resil
 	(*v2.Status)(nil),               // 8: common.gloo.solo.io.Status
 	(*v2.DestinationReference)(nil), // 9: common.gloo.solo.io.DestinationReference
 	(*v2.TCPKeepalive)(nil),         // 10: common.gloo.solo.io.TCPKeepalive
-	(*duration.Duration)(nil),       // 11: google.protobuf.Duration
+	(*durationpb.Duration)(nil),     // 11: google.protobuf.Duration
 	(*v2.Report)(nil),               // 12: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resilience_connection_policy_proto_depIdxs = []int32{

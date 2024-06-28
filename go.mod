@@ -12,7 +12,6 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.3
-	github.com/onsi/ginkgo/v2 v2.15.0 // indirect
 	github.com/onsi/gomega v1.31.1 // indirect
 	github.com/pborman/uuid v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1
@@ -23,13 +22,13 @@ require (
 	github.com/rotisserie/eris v0.5.4
 	github.com/solo-io/cue v0.4.7
 	github.com/solo-io/go-utils v0.24.8 // indirect
-	github.com/solo-io/protoc-gen-ext v0.0.18
+	github.com/solo-io/protoc-gen-ext v0.0.24
 	github.com/solo-io/skv2 v0.36.6
 	github.com/solo-io/solo-kit v0.34.0
 	github.com/spf13/pflag v1.0.6-0.20210604193023-d5e0c0615ace // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.26.0 // indirect
-	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
+	golang.org/x/exp v0.0.0-20240110193028-0dcbfd608b1e // indirect
 	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/oauth2 v0.15.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect

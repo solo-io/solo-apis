@@ -1,3 +1,77 @@
+// {{% reuse "conrefs/snippets/policies/ov_retry_timeout.md" %}}
+//
+// **Retries**: A retry specifies the maximum number of times an Envoy proxy attempts
+// to connect to a service if the initial call fails. Retries can enhance
+// service availability and application performance by making sure
+// that calls don’t fail permanently because of transient problems,
+// such as a temporarily overloaded service or network.
+// The interval between retries (25ms+) is variable and determined automatically by Istio
+// to prevent the called service from being overwhelmed with requests.
+// The default retry behavior for HTTP requests is to retry twice before returning the error.
+//
+// Like timeouts, Istio’s default retry behavior might not suit your application needs
+// in terms of latency or availability. For example, too many retries to a failed service
+// can slow things down. Also like timeouts, you can adjust your retry settings
+// on a per-route basis.
+// For more information, see the [Istio documentation](https://istio.io/latest/docs/concepts/traffic-management/#retries).
+//
+// **Timeouts**: A timeout is the amount of time that an Envoy proxy waits for replies
+// from a service, ensuring that services don’t hang around waiting for replies forever.
+// This allows calls to succeed or fail within a predictable timeframe. 
+// By default, the Envoy timeout for HTTP requests is disabled in Istio.
+// For some applications and services, Istio’s default timeout might not be appropriate. 
+// For example, a timeout that is too long can result in excessive latency from waiting
+// for replies from failing services. On the other hand, a timeout that is too short
+// can result in calls failing unnecessarily while waiting for an operation
+// that needs responses from multiple services.
+//
+// To find and use your optimal timeout settings, you can set timeouts dynamically per route. 
+// For more information, see the [Istio documentation](https://istio.io/latest/docs/concepts/traffic-management/#timeouts).
+//
+// ## Examples
+//
+// **Retry only**:
+// ```yaml
+// apiVersion: resilience.policy.gloo.solo.io/v2
+// kind: RetryTimeoutPolicy
+// metadata:
+//   name: retry-only
+//   namespace: bookinfo
+//   annotations:
+//     cluster.solo.io/cluster: $REMOTE_CLUSTER1
+// spec:
+//   applyToRoutes:
+//     - route:
+//         labels:
+//           route: ratings # matches on route table route's labels
+//   config:
+//     retries:
+//       attempts: 5 # optional (default is 2)
+//       perTryTimeout: 2s
+//       # retryOn specifies the conditions under which retry takes place.
+//       # One or more policies can be specified using a ‘,’ delimited list.
+//       retryOn: "connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes"
+//       # retryRemoteLocalities specifies whether the retries should retry to other localities, will default to false
+//       retryRemoteLocalities: true
+// ```
+// 
+// **Timeout**: 
+// ```yaml
+// apiVersion: resilience.policy.gloo.solo.io/v2
+// kind: RetryTimeoutPolicy
+// metadata:
+//   name: retry-timeout
+//   namespace: bookinfo
+//   annotations:
+//     cluster.solo.io/cluster: $REMOTE_CLUSTER1
+// spec:
+//   applyToRoutes:
+//     - route:
+//         labels:
+//           route: ratings # matches on route table route's labels
+//   config:
+//     requestTimeout: 2s
+// ```
 syntax = "proto3";
 
 package resilience.policy.gloo.solo.io;
@@ -14,55 +88,106 @@ option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-// RetryTimeoutPolicy is used to add automatic retries and timeouts to requests matching selected routes.
-// RetryTimeoutPolicies are applied at the *Route* level.
+// Specifications for the policy.
 message RetryTimeoutPolicySpec {
 
   // Routes to apply the policy to.
-  // If empty, the policy applies to all workloads in the workspace.
+  //
+  // </br>**Implementation notes**:<ul>
+  // <li>Only one RetryTimeoutPolicy can apply to a route. Subsequent policies (sorted by creation time)
+  // are ignored and put into a FAILED state.</li>
+  // <li>If empty, the policy applies to all routes in the workspace.</li></ul>
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
   // The details of the retry/timeout policy to apply to the selected routes.
+  //
+  // </br>**Configuration constraints**:<ul>
+  // <li>This field is required.</li>
+  // <li>At least one of `retries` and `request_timeout` must be set.</li>
   Config config = 2;
 
+  // The details of the retry/timeout policy to apply to the selected routes.
+  //
+  // </br>**Configuration constraints**:<ul>
+  // <li>This field is required.</li>
+  // <li>At least one of `retries` and `request_timeout` must be set.</li>
   message Config {
 
-    // Set a retry policy on requests matched on the selected routes.
+    // Specify retries for failed requests.
     RetryPolicy retries = 3;
 
-    // Set a timeout on requests matched on the selected routes.
-    // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
+    // Set a timeout on requests that match the selected routes.
+    // 
+    // </br>**Configuration constraints**:<ul>
+    // <li>The value must be an integer or decimal value and a preferred unit, or multiple of these concatenated.
+    // Examples: `1m`, `1h`, `1.5h`, `1s500ms`</li>
+    // <li>The value cannot have granularity smaller than milliseconds.</li>
+    // <li>The value must be at least 1ms.</li>
+    // <li>For information about the value format,
+    // see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
     google.protobuf.Duration request_timeout = 4;
 
     // Specify retries for failed requests.
     message RetryPolicy {
 
-      // Number of retries for a given request
-      // The interval between retries will be determined automatically (25ms+). When request
-      // `timeout` of the [HTTP route](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRoute)
-      // or `per_try_timeout` is configured, the actual number of retries attempted also depends on
-      // the specified request `timeout` and `per_try_timeout` values.
-      // Defaults to 2 retries.
-      // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#int32-value).
+      // The number of retries for a failed request.
+      // The interval between retries is determined automatically (25ms+).
+      //
+      // </br>**Implementation notes**:<ul>
+      // <li>When the `requestTimeout` or `perTryTimeout` fields are configured,
+      // the actual number of retries attempted also depends on those values.</li>
+      // <li>The default value is 2 retries.</li>
+      // <li>A value of `0` explicitly disable retries.</li>
+      // <li>The maximum number of requests that can be made is 1 + `attempts`.</li></ul>
+      // 
+      // **Configuration constraints**: If set, this value must be greater than or equal to `0`.
+      // For information about the value format, see the
+      // [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#int32-value).
       google.protobuf.Int32Value attempts = 1;
 
-      // Timeout per retry attempt for a given request. Format: `1h`/`1m`/`1s`/`1ms`. *Must be >= 1ms*.
-      // Default is same value as request `timeout` of
-      // the [HTTP route](https://istio.io/docs/reference/config/networking/virtual-service/#HTTPRoute),
-      // which means no timeout.
-      // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
+      // Timeout per retry attempt for a failed request.
+      // If unset, this field defaults to 0, which means that no timeout is set.
+      // 
+      // </br>**Configuration constraints**:<ul>
+      // <li>If `attempts` is 0, this field must not be set.</li>
+      // <li>The value must be an integer or decimal value and a preferred unit, or multiple of these concatenated.
+      // Examples: `1m`, `1h`, `1.5h`, `1s500ms`</li></ul></li>
+      // <li>The value cannot have granularity smaller than milliseconds.</li>
+      // <li>The value must be at least 1ms.</li>
+      // <li>For information about the value format,
+      // see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
       google.protobuf.Duration per_try_timeout = 2;
 
-      // Specifies the conditions under which retry takes place.
-      // One or more policies can be specified using a ‘,’ delimited list.
-      // If `retry_on` specifies a valid HTTP status, it will be added to retriable_status_codes retry policy.
-      // See the [retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on)
-      // and [gRPC retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on) for more details.
+      // The conditions under which a retry takes place.
+      // For more information, see the [retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on)
+      // and [gRPC retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on) in the Envoy docs.
+      // 
+      // </br>**Configuration constraints**:<ul>
+      // <li>If `attempts` is 0, this field must not be set.</li>
+      // <li>The following values are supported. Specify multiple values in a comma-delimited list.<ul>
+      //    <li>5xx</li>
+      //    <li>gateway-error</li>
+      //    <li>reset</li>
+      //    <li>connect-failure</li>
+      //    <li>retriable-4xx</li>
+      //    <li>refused-stream</li>
+      //    <li>retriable-status-codes</li>
+      //    <li>retriable-headers</li>
+      //    <li>envoy-ratelimited</li>
+      //    <li>cancelled</li>
+      //    <li>deadline-exceeded</li>
+      //    <li>internal</li>
+      //    <li>resource-exhausted</li>
+      //    <li>unavailable</li>
+      //    <li>Any valid [http status code](https://go.dev/src/net/http/status.go)</li></ul></li></ul>
       string retry_on = 3;
 
       // Flag to specify whether the retries should retry to other localities.
-      // See the [retry plugin configuration](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http/http_connection_management#retry-plugin-configuration) for more details.
       // Defaults to false.
+      // For more information, see the
+      // [retry plugin configuration](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http/http_connection_management#retry-plugin-configuration) in the Envoy docs.
+      // 
+      // </br>**Configuration constraints**: If `attempts` is 0, this field must not be set.
       google.protobuf.BoolValue retry_remote_localities = 4;
     }
 
@@ -78,6 +203,7 @@ message RetryTimeoutPolicyStatus {
   uint32 num_selected_routes = 2;
 }
 
+// The resources that the policy selects after it is successfully applied.
 message RetryTimeoutPolicyReport {
   // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;

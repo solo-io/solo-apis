@@ -53,7 +53,7 @@ message ExtAuthPolicySpec {
 
     // Required: Reference to the ExtAuthServer to use for this policy.
     // Currently routes on a single gateway must share a single ExtAuthServer.
-    // To create an ExtAuthServer resource, see [External auth server setup](https://docs.solo.io/gloo-mesh-enterprise/main/policies/external-auth/server/#setup).
+    // To create an ExtAuthServer resource, see [External auth server setup]({{< link path="/security/external-auth/server/#setup" >}}).
     .common.gloo.solo.io.ObjectReference server = 4;
 
     // Gloo Mesh is not expected to configure the ext auth server in this case.

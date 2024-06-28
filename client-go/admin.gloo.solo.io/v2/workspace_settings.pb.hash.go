@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -110,6 +114,10 @@ func (m *WorkspaceSettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -176,6 +184,10 @@ func (m *WorkspaceSettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -299,6 +311,10 @@ func (m *WorkspaceSettingsReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -363,6 +379,10 @@ func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector) Hash(hasher hash.Hash64)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -468,6 +488,10 @@ func (m *WorkspaceSettingsSpec_Options) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -524,6 +548,10 @@ func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector) Hash
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options_ServiceIsolation) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -585,6 +613,10 @@ func (m *WorkspaceSettingsSpec_Options_ServiceIsolation) Hash(hasher hash.Hash64
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options_Federation) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -658,6 +690,10 @@ func (m *WorkspaceSettingsSpec_Options_Federation) Hash(hasher hash.Hash64) (uin
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -758,6 +794,10 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Hash(hasher hash
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil

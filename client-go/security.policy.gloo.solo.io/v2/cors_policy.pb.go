@@ -10,11 +10,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	duration "github.com/golang/protobuf/ptypes/duration"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -222,11 +222,11 @@ type CORSPolicySpec_Config struct {
 	// Specify how long the results of a preflight request can be
 	// cached. Serialized to the `Access-Control-Max-Age` header.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	MaxAge *duration.Duration `protobuf:"bytes,5,opt,name=max_age,json=maxAge,proto3" json:"max_age,omitempty"`
+	MaxAge *durationpb.Duration `protobuf:"bytes,5,opt,name=max_age,json=maxAge,proto3" json:"max_age,omitempty"`
 	// Indicates whether the caller is allowed to send the actual request
 	// (not the preflight) using credentials. Translates to the
 	// `Access-Control-Allow-Credentials` header.
-	AllowCredentials *wrappers.BoolValue `protobuf:"bytes,6,opt,name=allow_credentials,json=allowCredentials,proto3" json:"allow_credentials,omitempty"`
+	AllowCredentials *wrapperspb.BoolValue `protobuf:"bytes,6,opt,name=allow_credentials,json=allowCredentials,proto3" json:"allow_credentials,omitempty"`
 }
 
 func (x *CORSPolicySpec_Config) Reset() {
@@ -289,14 +289,14 @@ func (x *CORSPolicySpec_Config) GetExposeHeaders() []string {
 	return nil
 }
 
-func (x *CORSPolicySpec_Config) GetMaxAge() *duration.Duration {
+func (x *CORSPolicySpec_Config) GetMaxAge() *durationpb.Duration {
 	if x != nil {
 		return x.MaxAge
 	}
 	return nil
 }
 
-func (x *CORSPolicySpec_Config) GetAllowCredentials() *wrappers.BoolValue {
+func (x *CORSPolicySpec_Config) GetAllowCredentials() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.AllowCredentials
 	}
@@ -423,8 +423,8 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secur
 	(*v2.Status)(nil),             // 6: common.gloo.solo.io.Status
 	(*v2.RouteReference)(nil),     // 7: common.gloo.solo.io.RouteReference
 	(*v2.StringMatch)(nil),        // 8: common.gloo.solo.io.StringMatch
-	(*duration.Duration)(nil),     // 9: google.protobuf.Duration
-	(*wrappers.BoolValue)(nil),    // 10: google.protobuf.BoolValue
+	(*durationpb.Duration)(nil),   // 9: google.protobuf.Duration
+	(*wrapperspb.BoolValue)(nil),  // 10: google.protobuf.BoolValue
 	(*v2.Report)(nil),             // 11: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_cors_policy_proto_depIdxs = []int32{

@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	empty "github.com/golang/protobuf/ptypes/empty"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 const (
@@ -79,21 +79,21 @@ func (m *ClientMode) GetClientMode() isClientMode_ClientMode {
 	return nil
 }
 
-func (x *ClientMode) GetAuto() *empty.Empty {
+func (x *ClientMode) GetAuto() *emptypb.Empty {
 	if x, ok := x.GetClientMode().(*ClientMode_Auto); ok {
 		return x.Auto
 	}
 	return nil
 }
 
-func (x *ClientMode) GetSniRouting() *empty.Empty {
+func (x *ClientMode) GetSniRouting() *emptypb.Empty {
 	if x, ok := x.GetClientMode().(*ClientMode_SniRouting); ok {
 		return x.SniRouting
 	}
 	return nil
 }
 
-func (x *ClientMode) GetTlsTermination() *empty.Empty {
+func (x *ClientMode) GetTlsTermination() *emptypb.Empty {
 	if x, ok := x.GetClientMode().(*ClientMode_TlsTermination); ok {
 		return x.TlsTermination
 	}
@@ -109,13 +109,13 @@ type ClientMode_Auto struct {
 	// In the future, this may change to become smarter (e.g., detect if any pods backing the virtual destination don't have sidecars,
 	// if so, then use tls termination so all pods are routeable).
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
-	Auto *empty.Empty `protobuf:"bytes,1,opt,name=auto,proto3,oneof"`
+	Auto *emptypb.Empty `protobuf:"bytes,1,opt,name=auto,proto3,oneof"`
 }
 
 type ClientMode_SniRouting struct {
 	// Sni routing mode uses tls passthrough to route traffic to the proper pod (with sidecar) from the East/West Gateway.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
-	SniRouting *empty.Empty `protobuf:"bytes,2,opt,name=sni_routing,json=sniRouting,proto3,oneof"`
+	SniRouting *emptypb.Empty `protobuf:"bytes,2,opt,name=sni_routing,json=sniRouting,proto3,oneof"`
 }
 
 type ClientMode_TlsTermination struct {
@@ -124,7 +124,7 @@ type ClientMode_TlsTermination struct {
 	// Since TLS is terminated at the East/West Gateway, the backing service (if it has a sidecar) will not be able to
 	// verify the istio mTLS identity of the originating client; rather it will verify the istio mTLS cert of the East/West Gateway.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
-	TlsTermination *empty.Empty `protobuf:"bytes,3,opt,name=tls_termination,json=tlsTermination,proto3,oneof"`
+	TlsTermination *emptypb.Empty `protobuf:"bytes,3,opt,name=tls_termination,json=tlsTermination,proto3,oneof"`
 }
 
 func (*ClientMode_Auto) isClientMode_ClientMode() {}
@@ -181,8 +181,8 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_clie
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_clientmode_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_clientmode_proto_goTypes = []interface{}{
-	(*ClientMode)(nil),  // 0: common.gloo.solo.io.ClientMode
-	(*empty.Empty)(nil), // 1: google.protobuf.Empty
+	(*ClientMode)(nil),    // 0: common.gloo.solo.io.ClientMode
+	(*emptypb.Empty)(nil), // 1: google.protobuf.Empty
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_clientmode_proto_depIdxs = []int32{
 	1, // 0: common.gloo.solo.io.ClientMode.auto:type_name -> google.protobuf.Empty

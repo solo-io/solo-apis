@@ -1,3 +1,222 @@
+// A `RouteTable` resource defines one or more hosts and a set of traffic route rules that describe how to handle traffic for these hosts.
+// Route tables support two types of routes: HTTP and TCP.
+//
+// You can delegate HTTP routes to other route tables based on one or more matching hosts and specific route paths.
+// If your "parent" route table delegates some traffic rules to another "child" route table, the child route table must be in the same workspace
+// or imported to the parent route table's workspace.
+//
+// You can match traffic that originates from an ingress gateway (north-south), Istio mesh gateway (east-west),
+// or directly from the sidecars of workloads in your service mesh (east-west),
+// depending on the configuration of the `virtualGateways` field.
+//
+// For more information, see the [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
+//
+// ## Examples
+//
+// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts.
+// Traffic arrives at the `my-gateway` virtual gateway in the `my-gateway-ws` workspace.
+// The route table sets up several different matchers to direct HTTP traffic.
+// * When the cookie in the header matches to `user=dev-123`, HTTP traffic is forwarded to the port `7777` of the `v1` of `reviews.qa` service.
+// * When the path matches exactly to `/reviews/` HTTP traffic is forwarded to port 9080 of the `reviews.qa` service.
+// * All other HTTP traffic is sent to the default destination, which is port 9080 of `reviews.prod` service in the `bookinfo` workspace.
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: RouteTable
+// metadata:
+//   name: bookinfo-root-routes
+//   namespace: bookinfo
+// spec:
+//   hosts:
+//     - 'uk.bookinfo.com'
+//     - 'eu.bookinfo.com'
+//   virtualGateways:
+//     - name: my-gateway
+//       namespace: my-gateway-ws
+//   defaultDestination:
+//     ref:
+//       name: reviews
+//       namespace: prod
+//     port:
+//       number: 9080
+//   http:
+//     - name: reviews-qa
+//       matchers:
+//         - headers:
+//             - name: cookie
+//               value: 'user=dev-123'
+//       forwardTo:
+//         destinations:
+//           - ref:
+//               name: reviews
+//               namespace: qa
+//             subset:
+//               version: v1
+//             port:
+//               number: 7777
+//     - name: reviews
+//       matchers:
+//         - name: review-prefix
+//           uri:
+//             exact: /reviews/
+//       forwardTo:
+//         destinations:
+//           - ref:
+//               name: reviews
+//               namespace: qa
+//             port:
+//               number: 9080
+// ```
+//
+// The following example defines route configuration for the 'example.com' host.
+// Traffic arrives at the `istio-ingressgateway` virtual gateway in the `global` workspace.
+// The route table sets up one matcher to direct HTTP traffic to multiple versions of one app.
+// For example, say each version contains the `app: global-app` label, and labels such as
+// `version: v1` and `version: v2`. The route table references both versions of the app,
+// and specifies the version labels in the `subset` field of each reference.
+// Additionally, this example specifies an optional destination `weight` for each version of the app.
+// 75% of traffic requests to the `/global-app` are directed to `v1`, and 25% of traffic
+// requests are directed to `v2`. Weighted routing can be useful in scenarios such as
+// controlled rollouts to slowly move traffic from an older to a newer version of your app.
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: RouteTable
+// metadata:
+//   name: global-app-routes
+//   namespace: global
+// spec:
+//   hosts:
+//     - example.com
+//   # Selects the virtual gateway you previously created
+//   virtualGateways:
+//     - name: istio-ingressgateway
+//       namespace: global
+//   http:
+//     # Route for the global-app service
+//     - name: global-app
+//       # Prefix matching
+//       matchers:
+//       - uri:
+//           prefix: /global-app
+//       # Forwarding directive
+//       forwardTo:
+//         destinations:
+//           # Reference to Kubernetes service for version 1 of the app in this cluster
+//           - ref:
+//               name: global-app
+//               namespace: global
+//             port:
+//               number: 9080
+//             # Label for v1
+//             subset:
+//               version: v1
+//             # 75% of request traffic to /global-app
+//             weight: 75
+//           # Reference to Kubernetes service for version 2 of the app in this cluster
+//           - ref:
+//               name: global-app
+//               namespace: global
+//             port:
+//               number: 9080
+//             # Label for v2
+//             subset:
+//               version: v2
+//             # 25% of request traffic to /global-app
+//             weight: 25
+// ```
+//
+// **AWS Lambda examples**: For more information, see the [AWS Lambda integration in the Gloo Mesh Gateway docs](https://docs.solo.io/gloo-mesh-gateway/latest/lambda/lambda_routing/).
+//
+// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts.
+// Traffic arrives at the `my-gateway` virtual gateway in the `my-gateway-ws` workspace. The route table sends traffic to an external cloud function.
+// * When the HTTP route path matches the prefix `/lambda`, traffic is forwarded to the backing `aws-provider` CloudProvider.
+// * The associated `aws-provider` CloudResources resource describes an AWS Lambda service named `logicalName: aws-dest`.
+// * The `"SYNC"` option indicates that the AWS Lambda function is invoked synchronously, which is also the default behavior.
+//
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: RouteTable
+// metadata:
+//   name: bookinfo-root-routes
+//   namespace: bookinfo
+// spec:
+//   hosts:
+//     - 'uk.bookinfo.com'
+//     - 'eu.bookinfo.com'
+//   virtualGateways:
+//     - name: my-gateway
+//       namespace: my-gateway-ws
+//   defaultDestination:
+//     ref:
+//       name: reviews
+//       namespace: prod
+//     port:
+//       number: 9080
+//   http:
+//     - name: lambda
+//       matchers:
+//         - uri:
+//             prefix: /lambda
+//       labels:
+//         route: lambda
+//       forwardTo:
+//         destinations:
+//           - awsLambda:
+//               cloudProvider:
+//                 name: aws-provider
+//                 namespace: bookinfo
+//                 cluster: cluster-1
+//               function: aws-dest
+//               options:
+//                 invocationStyle: SYNC
+// ```
+//
+// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts.
+// Traffic arrives at the `my-gateway` virtual gateway in the `my-gateway-ws` workspace. The route table sends traffic to an external cloud function.
+// * When the HTTP route path matches the prefix `/lambda`, traffic is forwarded to the delegated route table for handling requests to AWS Lambdas.
+// * The `allowedRoutes` restrict the usage of CloudProvider functionality, which routes to cloud functions `backend-function-*` in region `us-east-2` and which assumes the `dev-team-B-*` IAM role in AWS to invoke the function.
+//
+// ```yaml
+// apiVersion: networking.gloo.solo.io/v2
+// kind: RouteTable
+// metadata:
+//   name: bookinfo-root-routes
+//   namespace: bookinfo
+// spec:
+//   hosts:
+//     - 'uk.bookinfo.com'
+//     - 'eu.bookinfo.com'
+//   virtualGateways:
+//     - name: my-gateway
+//       namespace: my-gateway-ws
+//   defaultDestination:
+//     ref:
+//       name: reviews
+//       namespace: prod
+//     port:
+//       number: 9080
+//   http:
+//     - name: lambda
+//       matchers:
+//         - uri:
+//             prefix: /lambda
+//       labels:
+//         route: lambda
+//       delegate:
+//         allowedRoutes:
+//           - cloudProvider:
+//               aws:
+//                 lambda_function:
+//                   - backend-function-.*
+//                 iam_roles:
+//                   - dev-team-B-.*
+//                 regions:
+//                   - us-east-2
+//         routeTables:
+//           - labels:
+//               table: lambda
+// ```
+//
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.26.0
@@ -11,12 +230,12 @@ import (
 	sync "sync"
 
 	v3 "github.com/envoyproxy/go-control-plane/envoy/type/matcher/v3"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	_ "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2"
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
@@ -29,6 +248,11 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// The desired behavior when one or more routes in the route table are misconfigured.
+//
+// </br>**Configuration constraints**: For delegated child route tables, this field must be empty or unset.
+// This setting is supported only for the parent route table,
+// which controls the behavior for each child route table.
 type RouteTableSpec_FailureMode int32
 
 const (
@@ -147,11 +371,12 @@ func (RedirectAction_RedirectResponseCode) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_rawDescGZIP(), []int{6, 0}
 }
 
+// The method by which routes across delegated route tables are sorted.
 type DelegateAction_SortMethod int32
 
 const (
 	// Routes are kept in the order that they appear relative to their tables, but tables are sorted by weight.
-	// Tables that have the same weight will stay in the same order that they are listed in, which is the list
+	// Tables that have the same weight stay in the same order that they are listed in, which is the list
 	// order when given as a reference and by creation timestamp when selected.
 	DelegateAction_TABLE_WEIGHT DelegateAction_SortMethod = 0
 	// After processing all routes, including additional route tables delegated to, the resulting routes are sorted
@@ -232,261 +457,131 @@ func (DelegateAction_SortMethod) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_rawDescGZIP(), []int{8, 0}
 }
 
-// `RouteTables` define one or more hosts and a set of traffic route rules that describe how to handle traffic for these hosts.
-// Route tables support two types of routes: HTTP and TCP.
-// For more information, see see the [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
-//
-// You can delegate HTTP routes to other route tables based on one or more matching hosts and specific route paths.
-// If your "parent" route table delegates some traffic rules to another "child" route table, the child route table must be in the same workspace
-// or imported to the parent route table's workspace.
-//
-// You can match traffic that originates from an ingress gateway (north-south), Istio mesh gateway (east-west),
-// or directly from the sidecars of workloads in your service mesh (east-west),
-// depending on the configuration of the `virtualGateways` field.
-//
-// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts.
-// Traffic arrives at the `my-gateway` virtual gateway in the `my-gateway-ws` workspace.
-// The route table sets up several different matchers to direct HTTP traffic.
-// * When the cookie in the header matches to `user=dev-123`, HTTP traffic is forwarded to the port `7777` of the `v1` of `reviews.qa` service.
-// * When the path matches exactly to `/reviews/`, 80% traffic is forwarded to port 9080
-// of the `reviews.prod` service and 20% traffic is forwarded to port 9080 of the `reviews.qa` service.
-// * All other HTTP traffic is sent to the default destination, which is port 9080 of `reviews.prod` service in the `bookinfo` workspace.
-// ```yaml
-// apiVersion: networking.gloo.solo.io/v2
-// kind: RouteTable
-// metadata:
-//
-//	name: bookinfo-root-routes
-//	namespace: bookinfo
-//
-// spec:
-//
-//	hosts:
-//	  - 'uk.bookinfo.com'
-//	  - 'eu.bookinfo.com'
-//	virtualGateways:
-//	  - name: my-gateway
-//	    namespace: my-gateway-ws
-//	defaultDestination:
-//	  ref:
-//	    name: reviews
-//	    namespace: prod
-//	  port:
-//	    number: 9080
-//	http:
-//	  - name: reviews-qa
-//	    matchers:
-//	      - headers:
-//	          - name: cookie
-//	            value: 'user=dev-123'
-//	    forwardTo:
-//	      destinations:
-//	        - ref:
-//	            name: reviews
-//	            namespace: qa
-//	          subset:
-//	            version: v1
-//	          port:
-//	            number: 7777
-//	  - name: reviews
-//	    matchers:
-//	      - name: review-prefix
-//	        uri:
-//	          exact: /reviews/
-//	    forwardTo:
-//	      destinations:
-//	        - weight: 80
-//	        - ref:
-//	            name: reviews
-//	            namespace: qa
-//	          port:
-//	            number: 9080
-//	          weight: 20
-//
-// ```
-//
-// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts.
-// Traffic arrives at the `my-gateway` virtual gateway in the `my-gateway-ws` workspace. The route table sends traffic to an external cloud function.
-// * When the HTTP route path matches the prefix `/lambda`, traffic is forwarded to the backing `aws-provider` CloudProvider.
-// * The associated `aws-provider` CloudResources resource describes an AWS Lambda service named `logicalName: aws-dest`.
-// * The `"SYNC"` option indicates that the AWS Lambda function is invoked synchronously, which is also the default behavior.
-//
-// ```yaml
-// apiVersion: networking.gloo.solo.io/v2
-// kind: RouteTable
-// metadata:
-//
-//	name: bookinfo-root-routes
-//	namespace: bookinfo
-//
-// spec:
-//
-//	hosts:
-//	  - 'uk.bookinfo.com'
-//	  - 'eu.bookinfo.com'
-//	virtualGateways:
-//	  - name: my-gateway
-//	    namespace: my-gateway-ws
-//	defaultDestination:
-//	  ref:
-//	    name: reviews
-//	    namespace: prod
-//	  port:
-//	    number: 9080
-//	http:
-//	  - name: lambda
-//	    matchers:
-//	      - uri:
-//	          prefix: /lambda
-//	    labels:
-//	      route: lambda
-//	    forwardTo:
-//	      destinations:
-//	        - awsLambda:
-//	            cloudProvider:
-//	              name: aws-provider
-//	              namespace: bookinfo
-//	              cluster: cluster-1
-//	            function: aws-dest
-//	            options:
-//	              invocationStyle: SYNC
-//
-// ```
-//
-// The following example defines route configuration for the 'uk.bookinfo.com' and 'eu.bookinfo.com' hosts.
-// Traffic arrives at the `my-gateway` virtual gateway in the `my-gateway-ws` workspace. The route table sends traffic to an external cloud function.
-// * When the HTTP route path matches the prefix `/lambda`, traffic is forwarded to the delegated route table for handling requests to AWS Lambdas.
-// * The `allowedRoutes` restrict the usage of CloudProvider functionality, which routes to cloud functions `backend-function-*` in region `us-east-2` and which assumes the `dev-team-B-*` IAM role in AWS to invoke the function.
-//
-// ```yaml
-// apiVersion: networking.gloo.solo.io/v2
-// kind: RouteTable
-// metadata:
-//
-//	name: bookinfo-root-routes
-//	namespace: bookinfo
-//
-// spec:
-//
-//	hosts:
-//	  - 'uk.bookinfo.com'
-//	  - 'eu.bookinfo.com'
-//	virtualGateways:
-//	  - name: my-gateway
-//	    namespace: my-gateway-ws
-//	defaultDestination:
-//	  ref:
-//	    name: reviews
-//	    namespace: prod
-//	  port:
-//	    number: 9080
-//	http:
-//	  - name: lambda
-//	    matchers:
-//	      - uri:
-//	          prefix: /lambda
-//	    labels:
-//	      route: lambda
-//	    delegate:
-//	      allowedRoutes:
-//	        - cloudProvider:
-//	            aws:
-//	              lambda_function:
-//	                - backend-function-.*
-//	              iam_roles:
-//	                - dev-team-B-.*
-//	              regions:
-//	                - us-east-2
-//	      routeTables:
-//	        - labels:
-//	            table: lambda
-//
-// ```
+// Specifications for the `RouteTable` resource.
 type RouteTableSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Optional: One or more hosts for which this route table will route traffic.
-	// Supports wildcards. To avoid potential misconfigurations, it is recommended to always use fully
-	// qualified domain names over short names.
+	// Optional: One or more hosts for which this route table routes traffic.
+	// To avoid potential misconfigurations, fully
+	// qualified domain names are recommended instead of short names.
 	//
-	// *Note*: It must be empty for a delegated RouteTable.
+	// </br>**Configuration constraints**:<ul>
+	// <li>For regular (non-delegated) route tables, this field is required and must specify at least one host.</li>
+	// <li>For delegated child route tables, this field must be empty or unset.</li>
+	// <li>Wildcards (`*`) are supported only for the left-most segment. Full wildcards (`"*"`) are not supported. For example,
+	// `*.foo.com`, `*bar.foo.com`, and `*-bar.foo.com` are valid; `bar.*.com`, `bar*.foo.com`, `bar.foo.*`, and `*` are invalid.</li>
+	// <li>Each hostname must follow these requirements:<ul>
+	//
+	//	<li>Hostnames must be 1 - 255 characters in length.</li>
+	//	<li>The hostname cannot be an empty string.</li>
+	//	<li>Supported characters are `a-z`, `A-Z`, `0-9`, `-`, and `.`.</li>
+	//	<li>Each segment separated by a period (`.`) must be 1 - 63 characters in length and cannot start with the `-` character.</li>
+	//	<li>Each segment must meet the regex `^[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?$`.</li>
+	//	<li>The top-level domain (last segment), such as `com` in `www.example.com`, cannot be all numeric characters.</li>
+	//	<li>The top-level domain (last segment) can be empty, such as `"istio.io."`.</li></ul></li></ul>
 	Hosts []string `protobuf:"bytes,1,rep,name=hosts,proto3" json:"hosts,omitempty"`
-	// Optional: A list of references to the virtual gateways which should serve this route table.
-	// Only valid for route tables which define at least one host.
-	// *Note*: This field must be empty for a delegated RouteTable.
-	//
-	// When not specified, the route table applies to either all the sidecars in the workspace
-	// or only sidecars for selected workloads (via the `workloadSelectors` field) in the workspace where
+	// Optional: A list of virtual gateways that serve this route table.
+	// When not specified, the route table applies either to all sidecars in the workspace
+	// or only to sidecars for selected workloads (via the `workloadSelectors` field) in the workspace where
 	// the route table is deployed or imported.
 	//
-	// The following applies to sidecars of all the workloads for the workspace where the route table is
-	// deployed or imported: set `virtualGateways` to `null` and `workloadSelectors` to `[]`.
-	//
-	// The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
-	// no sidecars: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `[]`.
-	//
-	// The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
+	// </br>**Examples**:<ul>
+	// <li>The following applies to sidecars of all the workloads for the workspace where the route table is
+	// deployed or imported: set `virtualGateways` to `null` and `workloadSelectors` to `[]`.</li>
+	// <li>The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
+	// no sidecars: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `[]`.</li>
+	// <li>The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
 	// sidecars of all the workloads for the workspace where the route table is
-	// deployed or imported: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `{}`.
-	//
-	// The following applies to sidecars of all the `app: foo` workloads for the workspace where the route table
-	// is deployed or imported: set `virtualGateways` to `null` and `workloadSelectors.selector.labels` to `app: foo`.
-	//
-	// The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
+	// deployed or imported: set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors` to `{}`.</li>
+	// <li>The following applies to sidecars of all the `app: foo` workloads for the workspace where the route table
+	// is deployed or imported: set `virtualGateways` to `null` and `workloadSelectors.selector.labels` to `app: foo`.</li>
+	// <li>The following applies to the `my-gateway` virtual gateway in the `gateway` workspace and
 	// sidecars of all the `app: foo` workloads for the workspace where the route table is deployed or imported:
-	// set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors.selector.labels` to `app: foo`.
+	// set `virtualGateways.name` to `my-gateway`, `virtualGateways.namespace` to `gateway`, and `workloadSelectors.selector.labels` to `app: foo`.</li></ul>
+	//
+	// </br>**Configuration constraints**: For delegated child route tables, this field must be empty or unset.
+	// This setting is supported only for the parent route table,
+	// which controls the behavior for each child route table.
 	VirtualGateways []*v2.ObjectReference `protobuf:"bytes,5,rep,name=virtual_gateways,json=virtualGateways,proto3" json:"virtual_gateways,omitempty"`
-	// Optional: Selectors for source workloads (with sidecars) which will route traffic by this route table.
-	// Only valid for route tables which define at least one host.
-	// If no workloadSelectors or virtualGateways are specified, all workloads in the workspace will automatically be selected.
-	// If VirtualGateways are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.
+	// Optional: Selectors for source workloads (with sidecars) that route traffic for this route table.
 	//
-	// **For delegated routes**: Delegated child route tables inherit the workload selectors of the parent route table, such as 'value:foo'.
-	// The delegated child route table can also have its own workload selectors, such as 'env:prod'.
-	// These workload selectors are logically AND'd together. As a result, the child route table routes traffic only to workloads with both 'value:foo' and 'env:prod' labels.
-	// Note that the child route table cannot override the parent's workload selectors, such as by setting 'value:bar'. In that case, the child route gets an error until the conflict is resolved.
+	// </br>**Implementation notes**:<ul>
+	// <li>If no workload selectors or virtual gateways are specified, all workloads in the workspace are selected by default.</li>
+	// <li>If virtual gateways are specified, set `workloadSelectors: - {}` to select all workloads in the workspace.</li>
+	// <li>Selecting external workloads, such as VMs, is currently not supported.</li>
+	// <li>You can select workloads by using labels only. Selecting workloads by using other references, such as the name, namespace, cluster or workspace, is not supported.</li>
+	// <li>Delegated child route tables inherit the workload selectors of the parent route table, such as `value:foo`.
+	// The delegated child route table can also have its own workload selectors, such as `env:prod`.
+	// These workload selectors are logically AND'd together. As a result, the child route table routes traffic only to workloads
+	// with both `value:foo` and `env:prod` labels. Note that the child route table cannot override the parent's workload selectors,
+	// such as by setting `value:bar`. In that case, the child route gets an error until the conflict is resolved.</li></ul>
 	//
-	// *Note*: Selection of external workloads (VMs) is currently not supported.
-	//
-	// **Note**: You can select workloads by using labels only. Selecting workloads by using other references, such as
-	// the name, namespace, or cluster is not supported.
+	// **Configuration constraints**: If this field is set, `workloadSelectors.kind` must be set to `KUBE`,
+	// and `workloadSelectors.selector.name`, `.namespace`, `.cluster`, and `.workspace` must be empty.
 	WorkloadSelectors []*v2.WorkloadSelector `protobuf:"bytes,6,rep,name=workload_selectors,json=workloadSelectors,proto3" json:"workload_selectors,omitempty"`
-	//	Optional: Selectors for destinations that shall route traffic by this route table via producer-side side policy (e.g on waypoints)
+	// Optional: Selectors for destinations that route traffic for this route table via a producer-side policy, such as on waypoint proxies.
 	//
-	// Applying an ambient-backed destinations means that any traffic that reaches the destination, regardless of its origin
-	// (mesh, outside mesh), will be subject to the RouteTable's policy.
+	// </br>**Implementation notes**: Selecting external workloads (such as VMs), external services, or destinations with sidecars is currently not supported.
 	//
-	// To select all ambient destinations in the workspace, set `applyToDestinations: - {}`.
-	//
-	// *Note*: applyToDestinations is an alpha API currently implemented only for ambient-enabled meshes.
-	// *Note*: For delegated route tables this field should be empty, as the values from the parent will always be used for destination selection.
-	// *Note*: Selection of external workloads (VMs), external services, and Destinations with sidecars is currently not supported.
+	// </br>**Configuration constraints**:<ul>
+	// <li>If this field is set, `applyToDestinations.kind` must be set to `KUBE`.</li>
+	// <li>For delegated child route tables, this field must be empty or unset.
+	// The values from the parent route table are always used for destination selection.</li></ul>
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,10,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
-	// Optional: Routes that do not specify a destination will forward traffic to this destination.
+	// Optional: Routes that do not specify a destination forward traffic to this destination.
+	// This field applies only to `forwardTo` routes.
+	//
+	// </br>**Configuration constraints**: If you define a `http.forwardTo`, `tcp.forwardTo`, or `tls.forwardTo` action that does not specify at least one destination,
+	// you must set this field.
 	DefaultDestination *v2.DestinationReference `protobuf:"bytes,2,opt,name=default_destination,json=defaultDestination,proto3" json:"default_destination,omitempty"`
-	// The set of HTTP routes for this route table to serve. If no routes match the client request,
-	// the client gets back a 404. For more information on supported HTTP features, see the
-	// [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+	// The HTTP routes that this route table serves. If no routes match the client request,
+	// the client receives a 404 error code. For more information on supported HTTP features, see the
+	// [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
+	//
+	// </br>**Configuration constraints**: At least one of `http`, `tcp`, or `tls` must be set.
 	Http []*HTTPRoute `protobuf:"bytes,3,rep,name=http,proto3" json:"http,omitempty"`
-	// The set of TCP routes for this route table to serve. TCP routes are available only for internal
+	// The TCP routes that this route table serves. TCP routes are available only for internal
 	// traffic within the cluster, not for ingress gateway traffic. For more information on supported
-	// TCP features see the [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+	// TCP features, see the [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
+	//
+	// </br>**Configuration constraints**: At least one of `http`, `tcp`, or `tls` must be set.
 	Tcp []*TCPRoute `protobuf:"bytes,8,rep,name=tcp,proto3" json:"tcp,omitempty"`
-	// The set of TLS routes for this route table to serve. For more information on supported
-	// TLS features see the [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+	// The TLS routes that this route table serves. For more information on supported
+	// TLS features, see the [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
+	//
+	// </br>**Configuration constraints**: At least one of `http`, `tcp`, or `tls` must be set.
 	Tls []*TLSRoute `protobuf:"bytes,9,rep,name=tls,proto3" json:"tls,omitempty"`
-	// Weight is used when sorting route tables in delegate action or routes when sorted by specificity.
-	// Higher integer values are considered higher priority. The default value is 0.
+	// Weight is used to sort delegated route tables by priority.
+	// Higher integer values indicate a higher priority.
+	// Individual routes are kept in the order that they appear relative to their tables,
+	// but tables are sorted by the weight that you assign to them.
+	//
+	// <br>When a request is sent to a service in your Gloo setup,
+	// the request is matched against the routes in the highest-weighted route table first.
+	// If the request doesn’t match a route in the first sub-table,
+	// it is matched against the routes in the second-highest-weighted table, and so on.
+	//
+	// <br>For example, if you have two sub-tables with weights of 100 and 90,
+	// Gloo will attempt to match a request against the routes in the sub-table with the weight of 100
+	// first. If the request does not match, Gloo then attempts to match the request
+	// against the routes in the sub-table with the weight of 90.
+	//
+	// <br>Note that tables of the same weight stay in the same order that you list them in the parent route table,
+	// which is the list order when you specify sub-tables by name, or the creation timestamp when you select sub-tables by label.
+	//
+	// <br>The default value is 0.
 	Weight int32 `protobuf:"varint,4,opt,name=weight,proto3" json:"weight,omitempty"`
 	// Optional: If this route table bundles APIs that you want to expose in a developer portal, you can set portal metadata.
 	// Portal metadata is a set of key-value pairs that describe your APIs.
 	// Later, your developer portal displays this information in the end-user facing API documentation.
 	PortalMetadata *PortalMetadata `protobuf:"bytes,7,opt,name=portal_metadata,json=portalMetadata,proto3" json:"portal_metadata,omitempty"`
-	// The desired behavior when one or more routes in a route table are misconfigured.
-	// **Note**: If route delegation is used, the setting is supported on the parent route table only and controls the behavior for all of the child route tables.
-	// If set on a child route table, the setting is ignored.
+	// The desired behavior when one or more routes in the route table are misconfigured.
+	//
+	// </br>**Configuration constraints**: For delegated child route tables, this field must be empty or unset.
+	// This setting is supported only for the parent route table,
+	// which controls the behavior for each child route table.
 	FailureMode RouteTableSpec_FailureMode `protobuf:"varint,11,opt,name=failure_mode,json=failureMode,proto3,enum=networking.gloo.solo.io.RouteTableSpec_FailureMode" json:"failure_mode,omitempty"`
 }
 
@@ -602,28 +697,63 @@ func (x *RouteTableSpec) GetFailureMode() RouteTableSpec_FailureMode {
 // Use HTTP routes to control Layer 7 application level traffic to your services. To configure HTTP routes, you pair together
 // HTTP request `matchers` with certain actions. Matchers are criteria such as a route name, port, header, or method to match
 // with an incoming request. Actions describe what to do with a matching request, such as `forwardTo` a destination or `delegate`
-// to another route table. When an HTTP request matches your HTTP route, Gloo performs the action for that route. You can add
-// metadata such as names and labels to your HTTP routes so that you can apply policies, track metrics, and better manage the routes.
+// to another route table. You can add metadata such as names and labels to your HTTP routes so that you can apply policies,
+// track metrics, and better manage the routes.
 type HTTPRoute struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// unique name of the route (within the route table). used to identify the route for metrics
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Labels for the route, which you can use to apply policies that support routeSelectors.
+	// Unique name of the route within the route table. This name is used to identify the route in metrics collection.
 	//
-	// For enhanced security, include the special label "gateway.gloo.solo.io/require_auth=true"
-	// on the route. To activate this security feature, enable the "gatewayDefaultDenyAllHTTPRequests"
+	// </br>**Configuration constraints**:<ul>
+	// <li>If the value begins with the prefix `insecure-`, this prefix is trimmed.</li>
+	// <li>The value must be unique to other routes that are listed in the `http` section of this route table.
+	// If it is not unique, it is renamed to `duplicate-<previous-name>-<increment>`,
+	// such as `duplicate-myname-1`.</li></ul>
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Labels for the route, which you can use to apply policies that support `routeSelectors`.
+	//
+	// For enhanced security, include the special label `gateway.gloo.solo.io/require_auth=true`
+	// on the route. To activate this security feature, enable the `gatewayDefaultDenyAllHTTPRequests`
 	// feature flag for your Gloo installation. When both the label and feature flag are in place, Gloo
 	// requires an authentication policy, such as ExtAuthPolicy or JWTPolicy, to be applied to the route.
 	// If the authentication policy is removed or has an error, Gloo rejects all requests to the route.
+	//
+	// For more information about the value format, see
+	// [Syntax and character set in the Kubernetes docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set).
+	//
+	// </br>**Configuration constraints**:<ul>
+	// <li>Key constraints:<ul>
+	//
+	//	<li>Cannot be empty</li>
+	//	<li>Must have two segments separated by a slash (`/`)</li>
+	//	<li>First segment constraints:<ul>
+	//	  <li>Cannot be empty</li>
+	//	  <li>Max length of 253 characters</li>
+	//	  <li>Supported characters include `a-z`, `A-Z`, `0-9`, `-`, and `.`</li></ul></li>
+	//	<li>Second segment constraints:<ul>
+	//	  <li>Cannot be empty</li>
+	//	  <li>Max length of 63 characters</li>
+	//	  <li>Must begin and end with an alphanumeric character (`a-z`, `A-Z`, or `0-9`)</li>
+	//	  <li>Supported characters include `a-z`, `A-Z`, `0-9`, `-`, `_`, and `.`</li></ul></li></ul></li>
+	//
+	// <li>Value constraints:<ul>
+	//
+	//	<li>Can be empty</li>
+	//	<li>Max length of 63 characters</li>
+	//	<li>Unless empty, must begin and end with an alphanumeric character (`a-z`, `A-Z`, or `0-9`)</li>
+	//	<li>Supported characters include `a-z`, `A-Z`, `0-9`, `-`, `_`, and `.`</li></ul></li></ul>
 	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// The set of request matchers which this route will match on. If none are specified, this route will match any HTTP traffic.
-	// On a delegated RouteTable, this route will only match traffic that includes both the parent and child's matchers.
-	// If these sets conflict, the delegating route on the parent will be replaced with a DirectResponseAction indicating the misconfiguration.
+	// Request matchers that this route matches on. If none are specified, the route matches any HTTP traffic.
+	// For delegated child route tables, this route matches only traffic that includes both the parent and child's matchers.
+	// If these matchers conflict, the delegating route on the parent table is replaced with a `directResponse` that indicates the misconfiguration.
 	Matchers []*v2.HTTPRequestMatcher `protobuf:"bytes,3,rep,name=matchers,proto3" json:"matchers,omitempty"`
-	// the type of action determines what this route will with a request when it is matched.
+	// The action to take when a request matches this route.
+	//
+	// </br>**Configuration constraints**:<ul>
+	// <li>This field is required.</li>
+	// <li>Exactly one action type can be specified per route.</li></ul>
 	//
 	// Types that are assignable to ActionType:
 	//
@@ -735,31 +865,27 @@ type isHTTPRoute_ActionType interface {
 }
 
 type HTTPRoute_ForwardTo struct {
-	// forward traffic to one or more destination services.
+	// Forward traffic to one or more destination services.
 	ForwardTo *ForwardToAction `protobuf:"bytes,4,opt,name=forward_to,json=forwardTo,proto3,oneof"`
 }
 
 type HTTPRoute_Delegate struct {
-	// delegate the handling of traffic to one or more HTTP Route Tables. This can be used to
-	// delegate a subset of the route table's traffic to another route table, which may live
-	// in an imported workspace, or to separate routing concerns between objects.
+	// Delegate routing decisions to one or more HTTP route tables.
 	Delegate *DelegateAction `protobuf:"bytes,5,opt,name=delegate,proto3,oneof"`
 }
 
 type HTTPRoute_Redirect struct {
-	// return a redirect response to the downstream client.
+	// Return a redirect response to the downstream client.
 	Redirect *RedirectAction `protobuf:"bytes,6,opt,name=redirect,proto3,oneof"`
 }
 
 type HTTPRoute_DirectResponse struct {
-	// respond directly to the client from the proxy.
+	// Respond directly to the client from the proxy.
 	DirectResponse *DirectResponseAction `protobuf:"bytes,7,opt,name=direct_response,json=directResponse,proto3,oneof"`
 }
 
 type HTTPRoute_Graphql struct {
-	// handle the HTTP request as a GraphQL request, including query validation, and execution of the GraphQL request.
-	// The incoming GraphQL request must either be a GET or POST request, see
-	// ["Serving over HTTP"](https://graphql.org/learn/serving-over-http/).
+	// Handle the HTTP request as a GraphQL request, including query validation and execution of the GraphQL request.
 	Graphql *GraphQLAction `protobuf:"bytes,8,opt,name=graphql,proto3,oneof"`
 }
 
@@ -776,9 +902,8 @@ func (*HTTPRoute_Graphql) isHTTPRoute_ActionType() {}
 // Use TCP routes to control lower-level, connection-based traffic to services such as a local database.
 // TCP routes are available only for internal traffic within the cluster, not for ingress gateway traffic.
 // To configure TCP routes, you pair together TCP request `matchers` with certain actions.
-// Matchers are criteria such as a port to match with an incoming request.
+// Matchers are criteria, such as a port, to match with an incoming request.
 // Actions describe what to do with a matching request, such as `forwardTo` a destination.
-// When a TCP request matches your TCP route, Gloo performs the action for that route.
 type TCPRoute struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -854,6 +979,8 @@ type isTCPRoute_ActionType interface {
 type TCPRoute_ForwardTo struct {
 	// Forward traffic to one or more destination services. Note that some `forwardTo` actions, such as path or host rewrite, are not
 	// supported for TCP routes.
+	//
+	// </br>**Configuration constraints**: This field is required, and you must specify at least one destination.
 	ForwardTo *ForwardToAction `protobuf:"bytes,2,opt,name=forward_to,json=forwardTo,proto3,oneof"`
 }
 
@@ -935,17 +1062,24 @@ type isTLSRoute_ActionType interface {
 
 type TLSRoute_ForwardTo struct {
 	// Forward traffic to one or more destination services.
+	//
+	// </br>**Configuration constraints**: This field is required.
 	ForwardTo *TLSRoute_TLSForwardToAction `protobuf:"bytes,2,opt,name=forward_to,json=forwardTo,proto3,oneof"`
 }
 
 func (*TLSRoute_ForwardTo) isTLSRoute_ActionType() {}
 
+// Handle the HTTP request as a GraphQL request, including query validation and execution of the GraphQL request.
+// The incoming GraphQL request must either be a GET or POST request. For more information, see
+// [Serving over HTTP](https://graphql.org/learn/serving-over-http/) in the GraphQL docs.
 type GraphQLAction struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// Reference to a GraphQLSchema or GraphQLStitchedSchema resource that contains the configuration for this subschema.
+	//
+	// </br>**Configuration constraints**: One of `schema` or `stitchedSchema` must be set, but not both.
 	//
 	// Types that are assignable to GraphqlSchema:
 	//
@@ -1043,6 +1177,22 @@ type ForwardToAction struct {
 	// Define the upstream destination to route the request to. Some destinations require additional configuration for
 	// the route. For example, to forward requests to a CloudProvider for an AWS Lambda, you must also set a `function`.
 	// HTTP routes support all destinations types. TCP routes support only Kubernetes services and Gloo VirtualDestinations.
+	//
+	// </br>**Configuration constraints**:<ul>
+	// <li>If `defaultDestination` is empty, you must specify at least one destination in this field.</li>
+	// <li>You can optionally specify a destination `weight` to indicate the proportion of traffic
+	// to forward to this destination. Weights across all destinations must sum to 100.
+	// If the sum is less than 100, the remainder is distributed across destinations that do not specify a weight,
+	// with a minimum of 1 weight per destination. Destination weight examples:<ul>
+	// <li>Valid example: Port 80 specifies a weight of `50`, port 81 a weight of `25`, and port 82 a weight of `25`.
+	// All weights equal 100. 50% of traffic is forwarded to port 80,
+	// 25% to 81, and 25% to 82.</li>
+	// <li>Valid example: Port 80 specifies a weight of `50`, port 81 a weight of `25`, and port 82 does not
+	// specify a weight. All weights equal 75, and the remaining 25% is assigned to port 82.</li>
+	// <li>Invalid example: Port 80 specifies a weight of `50`, port 81 a weight of `50`, and port 82 a weight
+	// of `25`. All weights equal 125.</li>
+	// <li>Invalid example: Port 80 specifies a weight of `50`, port 81 a weight of `50`, and port 82 does not
+	// specify a weight. All weights equal 100, but no remainder exists for port 82.</li></ul></li></ul>
 	Destinations []*v2.DestinationReference `protobuf:"bytes,1,rep,name=destinations,proto3" json:"destinations,omitempty"`
 	// Types that are assignable to PathRewriteSpecifier:
 	//
@@ -1154,6 +1304,8 @@ type ForwardToAction_RegexRewrite struct {
 	// of capture groups from the pattern into the new path as specified by the rewrite substitution string. This substitution is useful
 	// to allow application paths to be rewritten in a way that is aware of segments with variable content like identifiers.
 	// Note that regex rewrites are available for RE2 syntax and HTTP routes only.
+	//
+	// </br>**Configuration constraints**: The value must follow a valid RE2 regex pattern.
 	RegexRewrite *v3.RegexMatchAndSubstitute `protobuf:"bytes,5,opt,name=regex_rewrite,json=regexRewrite,proto3,oneof"`
 }
 
@@ -1166,8 +1318,13 @@ type isForwardToAction_HostRewriteSpecifier interface {
 }
 
 type ForwardToAction_HostRewrite struct {
-	// Replace the Authority/Host header with this value before forwarding the request to the upstream destination. Note
-	// that host rewrites are available for HTTP routes only and are not supported for TCP routes.
+	// Replace the Authority/Host header with this value before forwarding the request to the upstream destination.
+	//
+	// </br>**Configuration constraints**:<ul>
+	// <li>Supported for HTTP routes only. Unsupported for TCP routes.</li>
+	// <li>Hostnames must be 1 - 255 characters in length.</li>
+	// <li>Supported characters are `a-z`, `A-Z`, `0-9`, `-`, and `.`.</li>
+	// <li>Each segment separated by a period (`.`) must be 1 - 63 characters in length and cannot start with the `-` character.</li></ul>
 	HostRewrite string `protobuf:"bytes,3,opt,name=host_rewrite,json=hostRewrite,proto3,oneof"`
 }
 
@@ -1182,15 +1339,21 @@ func (*ForwardToAction_HostRewrite) isForwardToAction_HostRewriteSpecifier() {}
 func (*ForwardToAction_AutoHostRewrite) isForwardToAction_HostRewriteSpecifier() {}
 
 // <!-- This message needs to be at this level (rather than nested) due to cue restrictions.-->
-// Notice: RedirectAction is copied directly from https://github.com/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
+// <!-- RedirectAction is copied directly from https://github.com/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto-->
+// Return a redirect response to the downstream client.
 type RedirectAction struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The host portion of the URL will be swapped with this value.
+	// The host portion of the URL is swapped with this value.
+	//
+	// </br>**Configuration constraints**:<ul>
+	// <li>Hostnames must be 1 - 255 characters in length</li>
+	// <li>Supported characters are `a-z`, `A-Z`, `0-9`, `-`, and `.`.</li>
+	// <li>Each segment separated by a period (`.`) must be 1 - 63 characters in length and cannot start with the `-` character.</li></ul>
 	HostRedirect string `protobuf:"bytes,1,opt,name=host_redirect,json=hostRedirect,proto3" json:"host_redirect,omitempty"`
-	// Defines whether and how the path portion of the URL will be modified.
+	// Defines whether and how the path portion of the URL is modified.
 	//
 	// Types that are assignable to PathRewriteSpecifier:
 	//
@@ -1266,26 +1429,30 @@ type isRedirectAction_PathRewriteSpecifier interface {
 }
 
 type RedirectAction_PathRedirect struct {
-	// The entire path portion of the URL will be overwritten with this value.
+	// The entire path portion of the URL is overwritten with this value.
 	PathRedirect string `protobuf:"bytes,2,opt,name=path_redirect,json=pathRedirect,proto3,oneof"`
 }
 
 func (*RedirectAction_PathRedirect) isRedirectAction_PathRewriteSpecifier() {}
 
 // <!-- This message needs to be at this level (rather than nested) due to cue restrictions.-->
-// DirectResponseAction is copied directly from https://github.com/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto
+// <!-- DirectResponseAction is copied directly from https://github.com/envoyproxy/envoy/blob/master/api/envoy/api/v2/route/route.proto-->
+// Respond directly to the client from the proxy.
 type DirectResponseAction struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Required: Specifies an HTTP response status between 100-599 inclusive to be returned.
+	// The HTTP response status code to return.
+	//
+	// </br>**Configuration constraints**:<ul>
+	// <li>This field is required.</li>
+	// <li>The value must be 200 - 599, inclusive.</li>
 	Status uint32 `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
-	// Specifies the content of the response body. If omitted,
+	// The content of the response body. If omitted,
 	// no body is included in the generated response.
 	//
-	// Note: Headers can be specified using the Header Modification feature in the enclosing
-	// Route, ConnectionHandler, or Gateway options.
+	// </br>**Configuration constraints**: Must be less than 1MB in size.
 	Body string `protobuf:"bytes,2,opt,name=body,proto3" json:"body,omitempty"`
 }
 
@@ -1336,20 +1503,22 @@ func (x *DirectResponseAction) GetBody() string {
 }
 
 // <!-- This message needs to be at this level (rather than nested) due to cue restrictions.-->
-// DelegateActions are used to delegate routing decisions to other resources, for example RouteTables.
+// Delegate routing decisions to one or more HTTP route tables.
+// This can be used to delegate a subset of the route table's traffic to another route table, which may live
+// in an imported workspace, or to separate routing concerns between objects.
 type DelegateAction struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Delegate to the RouteTables that match the given selectors.
-	// Selected route tables are ordered by creation time stamp in ascending order to guarantee consistent ordering.
-	// Route tables will be selected from the pool of route tables defined within the current workspace, as well as any imported into the workspace.
+	// Delegate to the route tables that match the given selectors.
+	// Selected route tables are ordered by creation time stamp in ascending order.
+	// Route tables are selected from both the tables defined within the current workspace and any tables imported into the workspace.
 	RouteTables []*v2.ObjectSelector `protobuf:"bytes,2,rep,name=route_tables,json=routeTables,proto3" json:"route_tables,omitempty"`
-	// Optional: Restrict delegation to the RouteTables that match the set of route filter criteria specified.
-	// If omitted, any route will be allowed to be referenced by this RouteTable.
+	// Optional: Restrict delegation to the route tables that match the set of route filter criteria specified.
+	// If omitted, any route can be referenced by this route table.
 	AllowedRoutes []*v2.RouteFilter `protobuf:"bytes,4,rep,name=allowed_routes,json=allowedRoutes,proto3" json:"allowed_routes,omitempty"`
-	// How routes should be sorted
+	// The method by which routes across delegated route tables are sorted.
 	SortMethod DelegateAction_SortMethod `protobuf:"varint,3,opt,name=sort_method,json=sortMethod,proto3,enum=networking.gloo.solo.io.DelegateAction_SortMethod" json:"sort_method,omitempty"`
 }
 
@@ -1406,7 +1575,7 @@ func (x *DelegateAction) GetSortMethod() DelegateAction_SortMethod {
 	return DelegateAction_TABLE_WEIGHT
 }
 
-// With [Portal](https://docs.solo.io/gloo-gateway/main/portal/) installed as part of Gloo Platform,
+// With [Portal](https://docs.solo.io/gloo-mesh-gateway/latest/portal/) installed as part of Gloo Platform,
 // you can use route tables to bundle together individual routes into an API product.
 // When the Portal resource selects your route table, Gloo automatically generates an OpenAPI specification for the API product,
 // which includes all of the routes. You can use this `PortalMetadata` setting to customize details about your API product,
@@ -1421,7 +1590,7 @@ type PortalMetadata struct {
 	// Group APIs from multiple route tables together as an API product in the portal.
 	// For example, you might have separate route tables that route to different `v1` and `v2` versions of your `billing` services that have their own OpenAPI specs.
 	// By setting the `apiProductId` metadata to the same `billing-api` value in each route table,
-	// the [/apis](https://docs.solo.io/gloo-gateway/main/portal/openapi/redocly/#tag/APIs/operation/ListAPIs) endpoint in the portal server returns the same `apiProduct` in the response.
+	// the [/apis](https://docs.solo.io/gloo-mesh-gateway/latest/portal/redocly.html#tag/APIs/operation/ListAPIs) endpoint in the portal server returns the same `apiProduct` in the response.
 	// Then, these APIs are grouped together and shown as a single `billing` API product with multiple `v1` and `v2` versions in the frontend portal for your end users to discover and use.
 	ApiProductId string `protobuf:"bytes,1,opt,name=api_product_id,json=apiProductId,proto3" json:"api_product_id,omitempty"`
 	// Optional: Give a name for the API product to display in the frontend portal. If omitted, the `apiProductId` value is used as the display name.
@@ -1640,11 +1809,13 @@ func (x *RouteTableStatus) GetNumAllowedVirtualGateways() uint32 {
 	return 0
 }
 
+// The resources that the applied route table selects.
 type RouteTableReport struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// A list of workspaces in which the route table can be applied.
 	Workspaces map[string]*v2.Report `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// A map of policy GVK to policy references for all policies that are applied on this
 	// resource.
@@ -1655,8 +1826,8 @@ type RouteTableReport struct {
 	OwnerWorkspace string `protobuf:"bytes,4,opt,name=owner_workspace,json=ownerWorkspace,proto3" json:"owner_workspace,omitempty"`
 	// A list of allowed virtual gateways that this route table can select.
 	AllowedVirtualGateways []*v2.ObjectReference `protobuf:"bytes,5,rep,name=allowed_virtual_gateways,json=allowedVirtualGateways,proto3" json:"allowed_virtual_gateways,omitempty"`
-	// A list of routes delegated to by delegated routes in this RouteTable.
-	// Only tracks direct delegates of this RouteTable; delegates of delegate routes are not included.
+	// A list of routes delegated to by delegated routes in this route table.
+	// Only tracks direct delegates of this route table; delegates of delegate routes are not included.
 	DelegatedToRouteTables []*RouteTableReport_DelegatedRouteTableReference `protobuf:"bytes,6,rep,name=delegated_to_route_tables,json=delegatedToRouteTables,proto3" json:"delegated_to_route_tables,omitempty"`
 }
 
@@ -1741,6 +1912,22 @@ type TLSRoute_TLSForwardToAction struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Define the upstream destination to route the request to.
+	//
+	// </br>**Configuration constraints**:<ul>
+	// <li>If `defaultDestination` is empty, you must specify at least one destination in this field.</li>
+	// <li>You can optionally specify a destination `weight` to indicate the proportion of traffic
+	// to forward to this destination. Weights across all destinations must sum to 100.
+	// If the sum is less than 100, the remainder is distributed across destinations that do not specify a weight,
+	// with a minimum of 1 weight per destination. Destination weight examples:<ul>
+	// <li>Valid example: Port 80 specifies a weight of `50`, port 81 a weight of `25`, and port 82 a weight of `25`.
+	// All weights equal 100. 50% of traffic is forwarded to port 80,
+	// 25% to 81, and 25% to 82.</li>
+	// <li>Valid example: Port 80 specifies a weight of `50`, port 81 a weight of `25`, and port 82 does not
+	// specify a weight. All weights equal 75, and the remaining 25% is assigned to port 82.</li>
+	// <li>Invalid example: Port 80 specifies a weight of `50`, port 81 a weight of `50`, and port 82 a weight
+	// of `25`. All weights equal 125.</li>
+	// <li>Invalid example: Port 80 specifies a weight of `50`, port 81 a weight of `50`, and port 82 does not
+	// specify a weight. All weights equal 100, but no remainder exists for port 82.</li></ul></li></ul>
 	Destinations []*v2.DestinationReference `protobuf:"bytes,1,rep,name=destinations,proto3" json:"destinations,omitempty"`
 }
 
@@ -1791,7 +1978,7 @@ type GraphQLAction_Options struct {
 	// Include information about request/response in the envoy debug logs.
 	// This is helpful for debugging GraphQL.
 	// Defaults to false.
-	LogSensitiveInfo *wrappers.BoolValue `protobuf:"bytes,1,opt,name=log_sensitive_info,json=logSensitiveInfo,proto3" json:"log_sensitive_info,omitempty"`
+	LogSensitiveInfo *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=log_sensitive_info,json=logSensitiveInfo,proto3" json:"log_sensitive_info,omitempty"`
 }
 
 func (x *GraphQLAction_Options) Reset() {
@@ -1826,21 +2013,23 @@ func (*GraphQLAction_Options) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_rawDescGZIP(), []int{4, 0}
 }
 
-func (x *GraphQLAction_Options) GetLogSensitiveInfo() *wrappers.BoolValue {
+func (x *GraphQLAction_Options) GetLogSensitiveInfo() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.LogSensitiveInfo
 	}
 	return nil
 }
 
+// A list of routes delegated to by delegated routes in this route table.
+// Only tracks direct delegates of this route table; delegates of delegate routes are not included.
 type RouteTableReport_DelegatedRouteTableReference struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The index of the route in the parent RouteTable that delegates to the listed RouteTable.
+	// The index of the route in the parent route table that delegates to the listed route table.
 	RouteIndex int32 `protobuf:"varint,1,opt,name=route_index,json=routeIndex,proto3" json:"route_index,omitempty"`
-	// The reference to the RouteTable being delegated to by the parent RouteTable.
+	// The reference to the route table being delegated to by the parent route table.
 	RouteTable *v2.ObjectReference `protobuf:"bytes,2,opt,name=route_table,json=routeTable,proto3" json:"route_table,omitempty"`
 }
 
@@ -2337,7 +2526,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_r
 	(*v2.ObjectSelector)(nil),                             // 32: common.gloo.solo.io.ObjectSelector
 	(*v2.RouteFilter)(nil),                                // 33: common.gloo.solo.io.RouteFilter
 	(*v2.Status)(nil),                                     // 34: common.gloo.solo.io.Status
-	(*wrappers.BoolValue)(nil),                            // 35: google.protobuf.BoolValue
+	(*wrapperspb.BoolValue)(nil),                          // 35: google.protobuf.BoolValue
 	(*v2.Report)(nil),                                     // 36: common.gloo.solo.io.Report
 	(*v2.AppliedRoutePolicies)(nil),                       // 37: common.gloo.solo.io.AppliedRoutePolicies
 }

@@ -34,7 +34,7 @@ type VaultCA struct {
 	// `csr_path` is the mount path of the Vault PKI backend's `generate` endpoint, e.g:
 	// "my_pki_mount/intermediate/generate/exported".
 	// "exported" is necessary here as istio needs access to the private key
-	// See vault docs here: https://www.vaultproject.io/api-docs/secret/pki#parameters-4
+	// See vault docs here: https://developer.hashicorp.com/vault/api-docs/secret/pki#parameters-4
 	CsrPath string `protobuf:"bytes,2,opt,name=csr_path,json=csrPath,proto3" json:"csr_path,omitempty"`
 	// Server is the connection address for the Vault server, e.g: "https://vault.example.com:8200".
 	Server string `protobuf:"bytes,3,opt,name=server,proto3" json:"server,omitempty"`
