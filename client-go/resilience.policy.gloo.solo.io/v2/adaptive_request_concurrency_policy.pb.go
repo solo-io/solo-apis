@@ -65,6 +65,7 @@ type AdaptiveRequestConcurrencyPolicySpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Destinations to apply the concurrency limit to.
+	// Note that external services are not supported as destinations with this policy.
 	// If empty, the policy applies to all destinations in the workspace.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// Details of the policy to apply to the selected destinations.

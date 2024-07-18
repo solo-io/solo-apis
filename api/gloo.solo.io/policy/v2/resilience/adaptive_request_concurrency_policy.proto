@@ -51,6 +51,7 @@ option (extproto.clone_all) = true;
 message AdaptiveRequestConcurrencyPolicySpec {
 
   // Destinations to apply the concurrency limit to.
+  // Note that external services are not supported as destinations with this policy.
   // If empty, the policy applies to all destinations in the workspace.
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
 
