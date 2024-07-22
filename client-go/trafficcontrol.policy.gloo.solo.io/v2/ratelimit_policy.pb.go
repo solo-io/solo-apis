@@ -36,12 +36,14 @@ type RateLimitPolicySpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Select the routes where the policy will be applied.
-	// If empty, no ratelimits on routes will be applied in the workspace.
+	// Select the routes to apply the policy to.
+	// If empty, no rate limits are applied on routes in the workspace.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
 	// Select the destinations where the policy will be applied.
-	// Default behavior if no selectors are specified is to apply to all destinations in the workspace.
-	// If empty and the route selector is set, no ratelimits on destinations will be applied.
+	// Note that rate limit outputs are only translated for destinations that are Kubernetes services.
+	// External services and virtual destinations are not supported as destinations with this policy.
+	// If empty, the rate limit policy applies to all destinations in the workspace.
+	// If the destination selector is empty but the route selector is set, no rate limits are applied on destinations, only on routes.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,2,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// The configuration details of the rate limit policy to apply to the selected routes
 	Config *RateLimitPolicySpec_Config `protobuf:"bytes,3,opt,name=config,proto3" json:"config,omitempty"`

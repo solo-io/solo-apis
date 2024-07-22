@@ -1,4 +1,4 @@
-// `VirtualGateway` represents a logical gateway configuration served by Gateway workloads within
+// A VirtualGateway custom resource represents a logical gateway configuration for one or more Istio ingress, egress, or east-west gateway workloads within
 // the same workspace. The specification describes a set of ports that the VirtualGateway listens
 // for incoming or outgoing HTTP/TCP connections, the type of protocol to use, SNI configuration, and more.
 //
@@ -163,10 +163,11 @@ message VirtualGatewaySpec {
     // <li>The value must match a port on the backing gateway service.</li>
     // <li>The port on the backing gateway service must not have a targetPort that is specified by name.</li>
     // <li>The port on the backing gateway service must be in the range 1 - 65535, or its `targetPort` number, if specified, must be in that range.</li>
-    // <li>The port on the backing gateway service must not match the port of another listener with the same `appProtocol` and same first `host`.
-    // The first `host` is the `host` on the first `allowedRouteTables` entry, or on the first `exposedExternalServices` entry
-    // if no `allowedRouteTables` are provided. If no `allowedRouteTables` and no `exposedExternalServices` are provided,
-    // the first `host` is the wildcard '*'.</li></ul>
+    // <li>The port on the backing gateway service must not match the port of another listener with the same `appProtocol` and same first host.
+    // The first host is the `host` on the first `allowedRouteTables` entry.
+    // If no `allowedRouteTables` are set, then the first host is the `host` on the first `exposedExternalServices` entry.
+    // If no `allowedRouteTables` and no `exposedExternalServices` are set,
+    // then the first host is the wildcard '*'.</li></ul>
     .common.gloo.solo.io.PortSelector port = 1;
 
     // Optional: Settings for configuring TLS behavior for this listener.
@@ -176,17 +177,15 @@ message VirtualGatewaySpec {
       // Configure TLS settings for a virtual host or listener.
       //
       // </br>**Configuration constraints**:<ul>
-      // <li>This field is required if the `appProtocol` is HTTPS or TLS.</li>
-      // <li>This field must be empty if the `appProtocol` is TCP or MONGO.</li></ul>
+      // <li>This field is required if `appProtocol` is `HTTPS` or `TLS`.</li>
+      // <li>This field is optional if `appProtocol` is unset.</li>
+      // <li>This field must be empty otherwise.</li></ul>
       TLSConfig tls = 2;
 
       // If set to true, the load balancer returns a 301 HTTP response code for all incoming HTTP connections
       // with an HTTPS redirect location for the client to use.
       //
-      // </br>**Configuration constraints**:<ul>
-      // <li>This field must be false if `appProtocol` is HTTPS, MONGO, TCP, or TLS.</li>
-      // <li>This field must be false if `appProtocol` is empty. Exception: If neither `appProtocol`
-      // nor `tls` are specified, and the `http` field is populated, then this field can be `true`.</li></ul>
+      // </br>**Configuration constraints**: This field must be unset if the listener type is tcp (`tcp` is set, or neither `tcp` nor `http` is set).
       bool https_redirect = 3;
     }
 
@@ -208,19 +207,23 @@ message VirtualGatewaySpec {
     repeated RouteTableFilter allowed_route_tables = 6;
 
     // Optional: A list of ExternalServices exposed by this VirtualGateway, for configuring egress traffic.
-    // If empty, any ExternalService is exposed by this VirtualGateway.
+    // If empty or omitted, any ExternalService is exposed by this VirtualGateway.
     repeated ExternalServiceFilter exposed_external_services = 9;
 
-    // Optional: Application protocol to use when adding additional capabilities, such as routing and rich metrics, to
+    // Optional: Application protocol to use when adding capabilities, such as routing and rich metrics, to
     // the gateway. If no protocol is selected, the protocol is inferred
-    // from the listener type and its TLS settings. For example, for an `http` listener, the `app_protocol` defaults to
-    // `HTTP` if no TLS settings are defined, and `HTTPS` if TLS settings are defined. For a `tcp` listener, the `app_protocol`
+    // from the listener type and its TLS settings. For example, for an `http` listener, `appProtocol` defaults to
+    // `HTTP` if no TLS settings are defined, and `HTTPS` if TLS settings are defined. For a `tcp` listener, `appProtocol`
     // defaults to `TCP` or `TLS`, depending on the presence of TLS settings.
     //
     // </br>**Configuration constraints**:<ul>
-    // <li>The following values are supported: `HTTP`, `HTTPS`, `GRPC`, `GRPC-WEB`, `HTTP2`, `MONGO`, `TCP`, `TLS`</li>
+    // <li>The following values are supported: `GRPC`, `GRPC-WEB`, `HTTP`, `HTTPS`, `HTTP_PROXY`, `HTTP2`, `MONGO`, `MYSQL`, `TCP`, `TLS`, `REDIS`</li>
     // <li>The value must be the same for multiple listeners that specify the same port. This includes cases when
     // the protocol is inferred from the listener type and TLS settings.</li>
+    // <li>If the listener type is http (`http` is set) and `tls` is set, `appProtocol` must be empty or set to `HTTPS`.</li>
+    // <li>If the listener type is http (`http` is set) and `tls` is unset, `appProtocol` must be empty or set to `GRPC`, `GRPC-WEB`, `HTTP`, `HTTP_PROXY`, or `HTTP2`.</li>
+    // <li>If the listener type is tcp (`tcp` is set, or neither `tcp` nor `http` is set) and `tls` is set, `appProtocol` must be empty or set to `TLS`.</li>
+    // <li>If the listener type is tcp (`tcp` is set, or neither `tcp` nor `http` is set) and `tls` is unset, appProtocol must be empty or set to `TCP`, `MONGO`, `REDIS`, or `MYSQL`.</li></ul>
     string app_protocol = 7;
 
     // Serve HTTP routes for RouteTables that select this gateway.
@@ -228,7 +231,7 @@ message VirtualGatewaySpec {
 
     }
 
-    // $hide_from_docs
+    // $hide_from_docs TODO: TCPServer
     message TCPServer {
 
     }
@@ -251,8 +254,8 @@ message VirtualGatewaySpec {
       // Optional: Filter out RouteTables that do not match the selector.
       //
       // <br>**Implementation notes**:<ul>
-      // <li>If this field is `nil`, all RouteTables in this workspace are selected.</li>
-      // <li>If a selector is empty or nil, it matches all RouteTables in this workspace.</li>
+      // <li>If the selector is empty, then it matches all RouteTables in this workspace.</li>
+      // <li>If the selector is nil, then it matches no RouteTables.</li>
       // <li>A RouteTable must match one of the selectors to be selected.</li></ul>
       .common.gloo.solo.io.ObjectSelector selector = 2;
 
@@ -282,11 +285,17 @@ message VirtualGatewaySpec {
 // Configure TLS settings for a virtual host or listener.
 //
 // </br>**Configuration constraints**:<ul>
-// <li>This field is required if the appProtocol is HTTPS or TLS.</li>
-// <li>This field must be empty if the appProtocol is TCP or MONGO.</li></ul>
+// <li>This field is required if `appProtocol` is `HTTPS` or `TLS`.</li>
+// <li>This field is optional if `appProtocol` is unset.</li>
+// <li>This field must be empty otherwise.</li></ul>
 message TLSConfig {
 
   // The TLS certificate information for the HTTPS/TLS listener on your gateway.
+  //
+  // </br>**Configuration constraints**:<ul>
+  // <li>If `mode` is `SIMPLE`, either `secretName` or both `files.serverCert` and `files.privateKey` must be set.</li>
+  // <li>If `mode` is `MUTUAL`, you must either set `secretName` or set `files` and all its subfields.</li>
+  // <li>If `mode` is `ISTIO_MUTUAL`, `secretName` and `files` must not be set.</li></ul>
   oneof certificates {
     // The name of the Kubernetes secret that contains the SSL secret. Each
     // gateway checks for a secret with this name in its own namespace on the cluster.
@@ -310,7 +319,7 @@ message TLSConfig {
 
   // Verify that the Subject Alternative Name in the peer certificate is one of the specified values.
   //
-  // </br>**Configuration constraints**: If you specify this field, you must also specify `caCerts`.
+  // </br>**Configuration constraints**: If you set this field, you must also set `files.caCerts`.
   repeated string verify_subject_alt_name = 3;
 
   // General TLS parameters.
@@ -318,12 +327,10 @@ message TLSConfig {
 
   // TLS modes enforced by the gateway proxy.
   //
-  // </br>**Configuration constraints**: If the `appProtocol` is HTTP, GRPC, GRPC-WEB, or HTTP2, this value must be PASSTHROUGH or AUTO_PASSTHROUGH.
   TLSMode mode = 5;
 
   // TLS modes enforced by the gateway proxy.
   //
-  // </br>**Configuration constraints**: If the appProtocol is HTTP, GRPC, GRPC-WEB, or HTTP2, this value must be PASSTHROUGH or AUTO_PASSTHROUGH.
   enum TLSMode {
     // No TLS traffic is terminated at the gateway. Instead, the SNI string presented by the client is used
     // to find the matching TLS route and to determine the destination service from the service registry.
@@ -331,27 +338,31 @@ message TLSConfig {
     PASSTHROUGH = 0;
 
     // Secure connections with standard TLS semantics.
+    //
+    // </br>**Configuration constraints**: If `mode` is set to this value, you must set either `tlsConfig.secretName` or both `tlsConfig.files.serverCert` and `tlsConfig.files.privateKey`.
     SIMPLE = 1;
 
     // Secure connections to the downstream using mutual TLS by presenting server certificates for authentication.
     //
     // </br>**Implementation notes**: At least one valid certificate must be sent by the client.
+    //
+    // </br>**Configuration constraints**: If `mode` is set to this value, you must either set `tlsConfig.secretName` or set `tlsConfig.files` and all its subfields.
     MUTUAL = 2;
 
-    // Similar to the PASSTHROUGH mode, except that servers with this TLS mode do not require an associated VirtualService
-    // to map from the SNI value to a service in the registry. The destination details such as the service/subset/port
+    // Similar to the PASSTHROUGH mode, except that gateways with this TLS mode do not require an associated VirtualService
+    // to map from the SNI value to a service in the registry. The destination details such as the service, subset, and port
     // are encoded in the SNI value. The proxy forwards to the upstream Envoy cluster a group of endpoints
-    // specified by the SNI value. This server is typically used to provide connectivity between services in disparate
+    // specified by the SNI value. This mode is typically used to provide connectivity between services in disparate
     // L3 networks that otherwise do not have direct connectivity between their respective endpoints.
     //
-    // </br>**Implementation notes**: When using this TLS mode, the source and destination are assumed to use Istio mTLS to secure traffic.
+    // </br>**Implementation notes**: If `mode` is set to this value, the source and destination are assumed to use Istio mTLS to secure traffic.
     AUTO_PASSTHROUGH = 3;
 
     // Secure connections from the downstream using mutual TLS by presenting server certificates for authentication.
-    // Compared to MUTUAL mode, this mode uses certificates that represents the gateway workload identity
+    // Compared to MUTUAL mode, this mode uses certificates that represent the gateway workload identity
     // and are automatically generated by Istio for mTLS authentication.
     //
-    // </br>**Implementation notes**: All other fields in `tlsConfig` must be empty.
+    // </br>**Configuration constraints**: If `mode` is set to this value, `tlsConfig.secretName` and `tlsConfig.files` must not be set.
     ISTIO_MUTUAL = 4;
   }
 
@@ -362,28 +373,25 @@ message TLSConfig {
     // The path to the file that contains the server-side TLS certificate.
     //
     // </br>**Configuration constraints**:<ul>
-    // <li>This field must be empty if the `appProtocol` is HTTP, GRPC, GRPC-WEB, or HTTP2.</li>
-    // <li>This field must be empty if the `tlsMode` is ISTIO_MUTUAL.</li>
-    // <li>This field is required if the `tlsMode` is SIMPLE or MUTUAL, and `secretName` is not set.</li>
-    // <li>This field is ignored if the `tlsMode` is PASSTHROUGH or AUTO_PASSTHROUGH.</li></ul>
+    // <li>This field must be empty if `tlsMode` is `ISTIO_MUTUAL`.</li>
+    // <li>This field is required if `tlsMode` is `SIMPLE` or `MUTUAL`, and `secretName` is not set.</li>
+    // <li>This field is ignored if `tlsMode` is `PASSTHROUGH` or `AUTO_PASSTHROUGH`.</li></ul>
     string server_cert = 1;
 
     // The path to the file that contains the server's private key.
     //
     // </br>**Configuration constraints**:<ul>
-    // <li>This field must be empty if the `appProtocol` is HTTP, GRPC, GRPC-WEB, or HTTP2.</li>
-    // <li>This field must be empty if the `tlsMode` is ISTIO_MUTUAL.</li>
-    // <li>This field is required if the `tlsMode` is SIMPLE or MUTUAL, and `secretName` is not set.</li>
-    // <li>This field is ignored if the `tlsMode` is PASSTHROUGH or AUTO_PASSTHROUGH.</li>
+    // <li>This field must be empty if `tlsMode` is `ISTIO_MUTUAL`.</li>
+    // <li>This field is required if `tlsMode` is `SIMPLE` or `MUTUAL`, and `secretName` is not set.</li>
+    // <li>This field is ignored if `tlsMode` is `PASSTHROUGH` or `AUTO_PASSTHROUGH`.</li>
     string private_key = 2;
 
     // The path to the file that contains the certificate authority (CA) certificates for validating the client cert.
     //
     // </br>**Configuration constraints**:<ul>
-    // <li>This field must be empty if the `appProtocol` is HTTP, GRPC, GRPC-WEB, or HTTP2.</li>
-    // <li>This field must be empty if the `tlsMode` is ISTIO_MUTUAL.</li>
-    // <li>This field is required if the `tlsMode` is MUTUAL, and `secretName` is not set.</li>
-    // <li>This field is ignored if the `tlsMode` is PASSTHROUGH or AUTO_PASSTHROUGH.</li></ul>
+    // <li>This field must be empty if `tlsMode` is `ISTIO_MUTUAL`.</li>
+    // <li>This field is required if `tlsMode` is `MUTUAL`, and `secretName` is not set.</li>
+    // <li>This field is ignored if `tlsMode` is `PASSTHROUGH` or `AUTO_PASSTHROUGH`.</li></ul>
     string ca_certs = 3;
   }
 
@@ -408,7 +416,7 @@ message TLSConfig {
     }
 
     // The minimum TLS version. Defaults to `TLSV1_2`.
-    // Note: Using TLS protocol versions below `TLSV1_2` can pose serious security risks.
+    // Warning: Using TLS protocol versions below `TLSV1_2` can pose serious security risks.
     ProtocolVersion minimum_protocol_version = 1;
 
     // The maximum TLS version.
@@ -417,10 +425,10 @@ message TLSConfig {
     // The TLS cipher suites to secure the connection.
     //
     // </br>**Configuration constraints**:<ul>
-    // <li>This field is required if the `minimumProtocolVersion` is TLSv1_0 or TLSv1_1.
-    // TLS protocol versions below TLSV1_2 require setting compatible ciphers with this setting,
+    // <li>This field is required if `minimumProtocolVersion` is `TLSv1_0` or `TLSv1_1`.
+    // TLS protocol versions below `TLSV1_2` require setting compatible ciphers with this setting,
     // because they no longer include compatible ciphers.</li>
-    // <li>This field is ignored if the `minimumProtocolVersion` is TLSv1_3.</li>
+    // <li>This field is ignored if `minimumProtocolVersion` is `TLSv1_3`.</li>
     // <li>Invalid or duplicate values are ignored.</li>
     // <li>The following cipher values are supported:<ul>
     //    <li>ECDHE-ECDSA-AES128-GCM-SHA256</li>
@@ -453,7 +461,7 @@ message VirtualGatewayStatus {
   // The number of workloads selected by this VirtualGateway.
   uint32 selected_workloads_count = 3;
 
-  // The number of external services exposed by this VirtualGateway.
+  // The number of ExternalServices exposed by this VirtualGateway.
   uint32 external_services_count = 4;
 }
 

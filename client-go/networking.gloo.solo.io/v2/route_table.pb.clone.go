@@ -144,6 +144,15 @@ func (m *RouteTableSpec) Clone() proto.Message {
 
 	target.FailureMode = m.GetFailureMode()
 
+	if m.GetVirtualServiceAnnotations() != nil {
+		target.VirtualServiceAnnotations = make(map[string]string, len(m.GetVirtualServiceAnnotations()))
+		for k, v := range m.GetVirtualServiceAnnotations() {
+
+			target.VirtualServiceAnnotations[k] = v
+
+		}
+	}
+
 	return target
 }
 
