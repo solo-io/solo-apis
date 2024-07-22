@@ -236,6 +236,8 @@ to document the rules themselves as well as any explanatory comments to help dev
 
 ##### `ValidateDuration()` : google.protobuf.Duration
 
+E.g. FaultInjectionPolicy : spec.config.delay.fixedDelay
+
 Any field that is validated by Istio's [`ValidateDuration()` function](https://github.com/istio/istio/blob/1.21.1/pkg/config/validation/validation.go#L1606)
 must only represent durations greater than or equal to one millisecond
 and must only represent durations with granularity greater than or equal to one millisecond.
@@ -266,6 +268,51 @@ However, "1s0.5ns" will still be accepted by k8s and will show up as 1 second in
   Note: if we make the '1ns' in this rule smaller, it's ignored (again since 1 nanosecond is the smallest value `time.Duration` recognizes), and this rule becomes `duration(self).getMilliseconds() == duration(self).getMilliseconds()-1` which blocks all values.
 
 With the combination of these rules, "1s0.0000001ms" will still be accepted and will result in a 1-second delay.
+
+##### `has(self.foo)` where `foo` is google.protobuf.Empty or equivalent
+
+E.g. VirtualGateway : spec.listeners.http
+
+Rules that check for the presence of a field that is itself an empty message need the following kubebuilder marker to be present on the empty message field in order for the rule to work properly and not cause errors:
+```
+// +kubebuilder:pruning:PreserveUnknownFields
+```
+This is needed at least on k8s versions <1.29 due to https://github.com/kubernetes/kubernetes/issues/120226.
+
+For example, the VirtualGateway resource includes the following:
+```
+// +kubebuilder:validation:XValidation:rule="!has(self.http) ? !has(self.httpsRedirect) : true",message="if listener type is tcp or unspecified, httpsRedirect must not be set"
+message Listener {
+
+    bool https_redirect = 3;
+
+    // +kubebuilder:pruning:PreserveUnknownFields
+    HTTPServer http = 4;
+
+    message HTTPServer {
+    }
+```
+The `PreserveUnknownFields` marker is needed because the CEL rule includes `has(self.http)` and the http field's type is an empty message.
+
+##### `foo in ['val1', 'val2', 'etc']` or `foo.upperAscii()` where `foo` has a fixed set of valid values
+
+E.g. VirtualGateway : spec.listeners.appProtocol
+
+Rules that compare or modify a string field likely need the following kubebuilder marker (where `10` is an example value) to be present on the field in order for the rule to remain low enough cost to be usable:
+```
+// +kubebuilder:validation:MaxLength=10
+```
+
+If the field has a fixed set of valid values that are all less than or equal to the specified length, there is no effect on which configs are valid, and its presence can allow for CEL rules that wouldn't be usable otherwise.
+
+For example, the VirtualGateway resource includes the following:
+```
+// +kubebuilder:validation:XValidation:rule="!has(self.appProtocol) || self.appProtocol.upperAscii() in ['GRPC','GRPC-WEB','HTTP','HTTP_PROXY','HTTP2','HTTPS','TCP','TLS','MONGO','REDIS','MYSQL']",message="appProtocol must be one of GRPC, GRPC-WEB, HTTP, HTTP_PROXY, HTTP2, HTTPS, TCP, TLS, MONGO, REDIS, or MYSQL"
+message Listener {
+
+    // +kubebuilder:validation:MaxLength=10
+    string app_protocol = 7;
+```
 
 ### Kubebuilder markers
 

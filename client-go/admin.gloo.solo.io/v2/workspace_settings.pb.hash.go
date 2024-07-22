@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *WorkspaceSettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsSpec")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsSpec")); err != nil {
 		return 0, err
 	}
 
@@ -110,6 +114,10 @@ func (m *WorkspaceSettingsSpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -118,7 +126,7 @@ func (m *WorkspaceSettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsStatus")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsStatus")); err != nil {
 		return 0, err
 	}
 
@@ -176,6 +184,10 @@ func (m *WorkspaceSettingsStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -184,7 +196,7 @@ func (m *WorkspaceSettingsReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsReport")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsReport")); err != nil {
 		return 0, err
 	}
 
@@ -299,6 +311,10 @@ func (m *WorkspaceSettingsReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -307,7 +323,7 @@ func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector) Hash(hasher hash.Hash64)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_WorkspaceObjectSelector")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_WorkspaceObjectSelector")); err != nil {
 		return 0, err
 	}
 
@@ -363,6 +379,10 @@ func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector) Hash(hasher hash.Hash64)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -371,7 +391,7 @@ func (m *WorkspaceSettingsSpec_Options) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options")); err != nil {
 		return 0, err
 	}
 
@@ -468,6 +488,10 @@ func (m *WorkspaceSettingsSpec_Options) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -476,7 +500,7 @@ func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector) Hash
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector")); err != nil {
 		return 0, err
 	}
 
@@ -524,6 +548,10 @@ func (m *WorkspaceSettingsSpec_WorkspaceObjectSelector_TypedObjectSelector) Hash
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options_ServiceIsolation) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -532,7 +560,7 @@ func (m *WorkspaceSettingsSpec_Options_ServiceIsolation) Hash(hasher hash.Hash64
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options_ServiceIsolation")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options_ServiceIsolation")); err != nil {
 		return 0, err
 	}
 
@@ -585,6 +613,10 @@ func (m *WorkspaceSettingsSpec_Options_ServiceIsolation) Hash(hasher hash.Hash64
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options_Federation) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -593,7 +625,7 @@ func (m *WorkspaceSettingsSpec_Options_Federation) Hash(hasher hash.Hash64) (uin
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options_Federation")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options_Federation")); err != nil {
 		return 0, err
 	}
 
@@ -658,6 +690,10 @@ func (m *WorkspaceSettingsSpec_Options_Federation) Hash(hasher hash.Hash64) (uin
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -666,7 +702,7 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Hash(hasher hash
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options_EastWestGatewaySelector")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options_EastWestGatewaySelector")); err != nil {
 		return 0, err
 	}
 
@@ -758,6 +794,10 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector) Hash(hasher hash
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -766,7 +806,7 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo) Hash(ha
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo")); err != nil {
 		return 0, err
 	}
 

@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLSchemaSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *GraphQLSchemaSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec")); err != nil {
 		return 0, err
 	}
 
@@ -110,6 +114,10 @@ func (m *GraphQLSchemaSpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -118,7 +126,7 @@ func (m *GraphQLSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLSchemaStatus")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLSchemaStatus")); err != nil {
 		return 0, err
 	}
 
@@ -150,6 +158,10 @@ func (m *GraphQLSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLSchemaReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -158,7 +170,7 @@ func (m *GraphQLSchemaReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLSchemaReport")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLSchemaReport")); err != nil {
 		return 0, err
 	}
 
@@ -209,6 +221,10 @@ func (m *GraphQLSchemaReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLSchemaSpec_ResolvedGraphQL) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -217,7 +233,7 @@ func (m *GraphQLSchemaSpec_ResolvedGraphQL) Hash(hasher hash.Hash64) (uint64, er
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ResolvedGraphQL")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ResolvedGraphQL")); err != nil {
 		return 0, err
 	}
 
@@ -269,6 +285,10 @@ func (m *GraphQLSchemaSpec_ResolvedGraphQL) Hash(hasher hash.Hash64) (uint64, er
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLSchemaSpec_ProxiedGraphQL) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -277,7 +297,7 @@ func (m *GraphQLSchemaSpec_ProxiedGraphQL) Hash(hasher hash.Hash64) (uint64, err
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ProxiedGraphQL")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ProxiedGraphQL")); err != nil {
 		return 0, err
 	}
 
@@ -470,6 +490,10 @@ func (m *GraphQLSchemaSpec_ProxiedGraphQL) Hash(hasher hash.Hash64) (uint64, err
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLSchemaSpec_ResolvedGraphQL_Options) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -478,7 +502,7 @@ func (m *GraphQLSchemaSpec_ResolvedGraphQL_Options) Hash(hasher hash.Hash64) (ui
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ResolvedGraphQL_Options")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ResolvedGraphQL_Options")); err != nil {
 		return 0, err
 	}
 
@@ -511,6 +535,10 @@ func (m *GraphQLSchemaSpec_ResolvedGraphQL_Options) Hash(hasher hash.Hash64) (ui
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -519,7 +547,7 @@ func (m *GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction) Hash(hasher hash.Ha
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction")); err != nil {
 		return 0, err
 	}
 
@@ -581,6 +609,10 @@ func (m *GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction) Hash(hasher hash.Ha
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLSchemaSpec_ProxiedGraphQL_Options) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -589,7 +621,7 @@ func (m *GraphQLSchemaSpec_ProxiedGraphQL_Options) Hash(hasher hash.Hash64) (uin
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ProxiedGraphQL_Options")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLSchemaSpec_ProxiedGraphQL_Options")); err != nil {
 		return 0, err
 	}
 

@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *DiscoveredCNISpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *DiscoveredCNISpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.DiscoveredCNISpec")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.DiscoveredCNISpec")); err != nil {
 		return 0, err
 	}
 
@@ -102,6 +106,10 @@ func (m *DiscoveredCNISpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *DiscoveredCNIStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -110,7 +118,7 @@ func (m *DiscoveredCNIStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.DiscoveredCNIStatus")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.DiscoveredCNIStatus")); err != nil {
 		return 0, err
 	}
 
@@ -123,6 +131,10 @@ func (m *DiscoveredCNIStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *DiscoveredCNISpec_CiliumConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -131,7 +143,7 @@ func (m *DiscoveredCNISpec_CiliumConfig) Hash(hasher hash.Hash64) (uint64, error
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.DiscoveredCNISpec_CiliumConfig")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.DiscoveredCNISpec_CiliumConfig")); err != nil {
 		return 0, err
 	}
 

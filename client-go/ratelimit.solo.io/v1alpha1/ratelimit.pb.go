@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -1529,7 +1529,7 @@ type Action_HeaderValueMatch struct {
 	// request matches the headers. If set to false, the action will append a
 	// descriptor entry when the request does not match the headers. The
 	// default value is true.
-	ExpectMatch *wrappers.BoolValue `protobuf:"bytes,2,opt,name=expect_match,json=expectMatch,proto3" json:"expect_match,omitempty"`
+	ExpectMatch *wrapperspb.BoolValue `protobuf:"bytes,2,opt,name=expect_match,json=expectMatch,proto3" json:"expect_match,omitempty"`
 	// Specifies a set of headers that the rate limit action should match
 	// on. The action will check the request’s headers against all the
 	// specified headers in the config. A match will happen if all the
@@ -1577,7 +1577,7 @@ func (x *Action_HeaderValueMatch) GetDescriptorValue() string {
 	return ""
 }
 
-func (x *Action_HeaderValueMatch) GetExpectMatch() *wrappers.BoolValue {
+func (x *Action_HeaderValueMatch) GetExpectMatch() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.ExpectMatch
 	}
@@ -2370,7 +2370,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_vendor_any_github_com_solo_io_so
 	(*MetaData_MetadataKey)(nil),                             // 24: ratelimit.api.solo.io.MetaData.MetadataKey
 	(*MetaData_MetadataKey_PathSegment)(nil),                 // 25: ratelimit.api.solo.io.MetaData.MetadataKey.PathSegment
 	(*Override_DynamicMetadata)(nil),                         // 26: ratelimit.api.solo.io.Override.DynamicMetadata
-	(*wrappers.BoolValue)(nil),                               // 27: google.protobuf.BoolValue
+	(*wrapperspb.BoolValue)(nil),                             // 27: google.protobuf.BoolValue
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_vendor_any_github_com_solo_io_solo_apis_api_rate_limiter_v1alpha1_ratelimit_proto_depIdxs = []int32{
 	14, // 0: ratelimit.api.solo.io.RateLimitConfigSpec.raw:type_name -> ratelimit.api.solo.io.RateLimitConfigSpec.Raw

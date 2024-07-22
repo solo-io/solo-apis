@@ -1,3 +1,132 @@
+// Decide how to load balance incoming requests to an upstream service and enforce sticky sessions.
+// The LoadBalancerPolicy provides the following settings to configure traffic distribution among destination workloads.
+//
+// </br>**Simple load balancing**: By default, the gateway forwards incoming requests to the instance
+// with the least requests. You can change this behavior by choosing one of multiple load
+// balancing algorithms for selecting upstream services to forward incoming requests to.
+// To configure simple load balancing for incoming requests, you use the `spec.config.
+// simple` setting in the load balancer policy.
+// 
+// Example: The following load balancer policy randomly selects one of the available reviews services to serve an incoming request. 
+// ```yaml
+// apiVersion: trafficcontrol.policy.gloo.solo.io/v2
+// kind: LoadBalancerPolicy
+// metadata:
+//   name: simple-loadbalancer-policy
+//   namespace: bookinfo
+// spec:
+//   applyToDestinations:
+//   - port:
+//       number: 9080
+//     selector:
+//       labels:
+//         app: reviews
+//   config:
+//     simple: RANDOM
+// ```
+// 
+// **Session affinity and consistent hashing**: The load balancer policy 
+// allows you to set up soft session affinity between a client and an upstream service by 
+// using a consistent hashing algorithm based on HTTP headers, cookies,
+// the source IP address, or a query parameter.
+// To configure consistent hashing, you use the `spec.config.consistentHash` setting
+// in the load balancer policy.
+// 
+// Example: The following example sets up session affinity between a client and an upstream service by using a cookie.
+// ```yaml
+// apiVersion: trafficcontrol.policy.gloo.solo.io/v2
+// kind: LoadBalancerPolicy
+// metadata:
+//   name: sticky-loadbalancer-policy
+//   namespace: bookinfo
+// spec:
+//   applyToDestinations:
+//   - port:
+//       number: 9080
+//     selector:
+//       labels:
+//         app: reviews
+//   config:
+//     consistentHash:
+//       httpCookie:
+//         name: chocolate-chip
+//         ttl: 10s
+// ```
+// 
+// **Healthy panic threshold**: By default, the gateway only considers services that are healthy 
+// and available when load balancing incoming requests among upstream services. In the 
+// case that the number of healthy upstream services becomes too low, you can instruct 
+// the gateway to disregard the upstream health status and either load balance requests 
+// among all or no hosts by using the `healthyPanicThreshold` setting.
+// 
+// Example: The following example disables the healthy panic threshold for the reviews upstream service.
+// ```yaml
+// apiVersion: trafficcontrol.policy.gloo.solo.io/v2
+// kind: LoadBalancerPolicy
+// metadata:
+//   name: simple-loadbalancer-policy
+//   namespace: bookinfo
+// spec:
+//   applyToDestinations:
+//   - port:
+//       number: 9080
+//     selector:
+//       labels:
+//         app: reviews
+//   config:
+//     healthyPanicThreshold: 0
+//     simple: ROUND_ROBIN
+// ```
+// 
+// **Update merge window**: Sometimes, your deployments might have health checks and 
+// metadata updates that use a lot of CPU and memory. In such cases, you can use the
+// `updateMergeWindow` setting. This way, the gateway merges all updates together within a 
+// specific timeframe.
+// 
+// Example: The following example collects and merges all health check updates during a 50s timeframe.
+// ```yaml
+// apiVersion: trafficcontrol.policy.gloo.solo.io/v2
+// kind: LoadBalancerPolicy
+// metadata:
+//   name: simple-loadbalancer-policy
+//   namespace: bookinfo
+// spec:
+//   applyToDestinations:
+//   - port:
+//       number: 9080
+//     selector:
+//       labels:
+//         app: reviews
+//   config:
+//     updateMergeWindow: 50s
+//     simple: ROUND_ROBIN
+// ```
+//
+// **Warm up duration**: If you have new upstream services that need time to get ready for
+// traffic, use the `warmupDurationSecs` setting. This way, the gateway gradually increases the 
+// amount of traffic for the service. This setting is effective in scaling events, such as 
+// when new replicas are added to handle increased load. However, if all services start at 
+// the same time, this setting might not be as effective as all endpoints receiving the same amount of requests.
+//
+// **Example**: The following example configures the gateway to wait 10 seconds before requests are routed to newly created review instances. 
+// ```yaml
+// apiVersion: trafficcontrol.policy.gloo.solo.io/v2
+// kind: LoadBalancerPolicy
+// metadata:
+//   name: simple-loadbalancer-policy
+//   namespace: bookinfo
+// spec:
+//   applyToDestinations:
+//   - port:
+//       number: 9080
+//     selector:
+//       labels:
+//         app: reviews
+//   config:
+//     warmupDurationSecs: 10s
+//     simple: ROUND_ROBIN
+// ```
+
 syntax = "proto3";
 
 package trafficcontrol.policy.gloo.solo.io;
@@ -15,94 +144,152 @@ option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
-// LoadBalancerPolicy provides settings to configure traffic distribution among destination workloads.
+// Specifications for the policy.
 message LoadBalancerPolicySpec {
 
+  // Destinations to apply the policy to.
+  // If empty or unset, the policy applies to all destinations in the workspace.
+  //
+  // </br>**Configuration constraints**: Only one load balancer policy can apply to a destination.
+  // Subsequent policies (sorted by creation time) are ignored and put into a FAILED state.
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
 
+  // The configuration for load balancer settings.
+  //
+  // +kubebuilder:validation:Required
+  // +kubebuilder:validation:XValidation:rule="has(self.simple) || has(self.consistentHash)",message="One of config.simple or config.consistentHash must be set."
   Config config = 2;
 
+  // The configuration for load balancer settings.
   message Config {
 
-    // Upstream load balancing policy.
+    // The load balancing policy.
     oneof lb_policy {
+      // Set a load balancing algorithm for selecting upstream services to forward incoming 
+      // requests to.
+      //
+      // +kubebuilder:validation:Enum=UNSPECIFIED;RANDOM;PASSTHROUGH;ROUND_ROBIN;LEAST_REQUEST
       SimpleLB simple = 1;
+      // Set up soft session affinity between a client and an upstream service by 
+      // using a consistent hashing algorithm based on HTTP headers, cookies, or other 
+      // properties.
       ConsistentHashLB consistent_hash = 2;
     }
 
-    // Represents the warmup duration of Service. If set, the newly created endpoint of service
-    // remains in warmup mode starting from its creation time for the duration of this window and
-    // Istio progressively increases amount of traffic for that endpoint instead of sending proportional amount of traffic.
-    // This should be enabled for services that require warm up time to serve full production load with reasonable latency.
-    // Please note that this is most effective when few new endpoints come up like scale event in Kubernetes. When all the 
-    // endpoints are relatively new like new deployment, this is not very effective as all endpoints end up getting same 
-    // amount of requests.
-    // Currently this is only supported for ROUND_ROBIN and LEAST_REQUEST load balancers.
+    // The warm-up duration for a service. If set, the newly created endpoint of the 
+    // service remains in warm-up mode, starting from its creation time and for the 
+    // duration of this window. The gateway progressively increases the amount of traffic for that 
+    // endpoint instead of sending a proportional amount of traffic.
+    // This setting is effective in scaling events, such as when new replicas are added to 
+    // handle increased load. However, if all services start at the same time, this setting
+    // might not be as effective as all endpoints receiving the same amount of requests.
+    // 
+    // </br>**Implementation notes**: This setting is supported only when `config.simple` is set to ROUND_ROBIN (default) or LEAST_REQUEST.
+    //
+    // </br>**Configuration constraints**:<ul>
+    // <li>The value must be at least 1ms.</li>
+    // <li>The value cannot have granularity smaller than one millisecond.</li></ul>
+    //
+    // +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+    // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+    // +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
     google.protobuf.Duration warmup_duration_secs = 3;
 
-    // A threshold at which Envoy will disregard health status and balance either among all hosts or no hosts.
-    // If not specified, the default is 50%. To disable panic mode, set to 0%.
+    // The threshold at which Envoy disregards the upstream health status and either
+    // load balances requests either among all or no hosts.
+    //
+    // </br>**Implementation notes**:<ul>
+    // <li>Defaults to 50% (entered as `50`).</li>
+    // <li>To disable panic mode, set to 0.</li></ul>
+    //
+    // </br>**Configuration constraints**: The value must be in the range 0 - 100, inclusive.
+    //
+    // +kubebuilder:validation:Minimum=0
+    // +kubebuilder:validation:Maximum=100
+    // +kubebuilder:validation:XValidation:rule="self == 0.0 || self >= 0.0001",message="The value must be >= 0.0001 or equal to zero."
     google.protobuf.DoubleValue healthy_panic_threshold = 4;
 
-    // Health check/weight/metadata updates that happen within this duration will be merged and delivered
-    // in one shot when the duration expires.
-    // If not specified, the default is 1000ms. To disable it, set the merge window to 0.
+    // The duration of time within which the gateway merges all health check, weight, and 
+    // metadata updates together.
+    //
+    // </br>**Implementation notes**:<ul>
+    // <li>Defaults to 1s.</li>
+    // <li>To disable this setting, set to 0.</li></ul>
+    //
+    // </br>**Configuration constraints**:<ul>
+    // <li>The value must be at least 1ms.</li>
+    // <li>The value cannot have granularity smaller than one millisecond.</li></ul>
+    //
+    // +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+    // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+    // +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
     google.protobuf.Duration update_merge_window = 5;
 
-    // Standard load balancing algorithms that require no tuning.
+    // The load balancing algorithm for selecting upstream services to forward incoming 
+    // requests to.
     enum SimpleLB {
-      // No load balancing algorithm has been specified by the user. Istio
-      // will select an appropriate default.
+      // No load balancing algorithm is specified.
+      // Istio selects an appropriate algorithm.
       UNSPECIFIED = 0;
 
-      // The random load balancer selects a random healthy host. The random
+      // The load balancer selects a random healthy host. The random
       // load balancer generally performs better than round robin if no health
       // checking policy is configured.
       RANDOM = 1;
 
-      // This option will forward the connection to the original IP address
+      // Forward the connection to the original IP address
       // requested by the caller without doing any form of load
-      // balancing. This option must be used with care. It is meant for
-      // advanced use cases. Refer to Original Destination load balancer in
-      // Envoy for further details.
+      // balancing. Use caution with this setting, which is intended only
+      // for advanced use cases.
       PASSTHROUGH = 2;
 
-      // A basic round robin load balancing policy. This is generally unsafe
-      // for many scenarios (e.g. when endpoint weighting is used) as it can
-      // overburden endpoints. In general, we recommend using LEAST_REQUEST as a
-      // drop-in replacement for ROUND_ROBIN.
+      // The load balancer performs basic round robin load balancing.
+      // This algorithm is generally unsafe for many scenarios,
+      // such as when endpoint weighting is used, as it can
+      // overburden endpoints. In general, LEAST_REQUEST is recommended
+      // as a drop-in replacement for ROUND_ROBIN.
       ROUND_ROBIN = 3;
 
-      // The least request load balancer spreads load across endpoints, favoring
+      // The request load balancer spreads load across endpoints, favoring
       // endpoints with the least outstanding requests. This is generally safer
-      // and outperforms ROUND_ROBIN in nearly all cases. Prefer to use
-      // LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.
+      // and performs better than ROUND_ROBIN in nearly all cases.
       LEAST_REQUEST = 4;
     }
 
-    // Consistent Hash-based load balancing can be used to provide soft
-    // session affinity based on HTTP headers, cookies or other
-    // properties. The affinity to a particular destination host may be
-    // lost when one or more hosts are added/removed from the destination
+    // Provide soft session affinity based on HTTP headers, cookies,
+    // the source IP address, or a query parameter.
+    // The affinity to a particular destination host might be
+    // lost when one or more hosts are added or removed from the destination
     // service.
     //
-    // Note: consistent hashing is less reliable at maintaining affinity than common
-    // "sticky sessions" implementations, which often encode a specific destination in
-    // a cookie, ensuring affinity is maintained as long as the backend remains.
-    // With consistent hash, the guarantees are weaker; any host addition or removal can
-    // break affinity for `1/backends` requests.
+    // {{% alert context="info" %}}
+    // Consistent hashing is less reliable than a common sticky session implementation,
+    // in which the upstream service is encoded in a cookie and affinity can be maintained
+    // for as long as the upstream service is available. With consistent hashing, affinity
+    // might be lost when an upstream service is added or removed. 
+    // {{% /alert %}}
     //
-    // Warning: consistent hashing depends on each proxy having a consistent view of endpoints.
-    // This is not the case when locality load balancing is enabled. Locality load balancing
-    // and consistent hash will only work together when all proxies are in the same locality,
-    // or a high level load balancer handles locality affinity.
+    // {{% alert context="warning" %}}
+    // Consistent hashing requires all proxies to be aware of the same endpoints.
+    // This requirement is not met if you configure locality-based load balancing
+    // and proxies are spread across localities.
+    // To use locality-based load balancing and consistent hashing together,
+    // all proxies must be in the same locality,
+    // or a high-level load balancer must handle locality affinity.
+    // {{% /alert %}}
+    //
+    // **Configuration constraints**: Only one of the following settings can be set.
+    //
+    // +kubebuilder:validation:XValidation:rule="has(self.httpHeaderName) || has(self.httpCookie) || has(self.useSourceIp) || has(self.httpQueryParameterName)",message="One of httpHeaderName, httpCookie, useSourceIp, or httpQueryParameterName must be set."
     message ConsistentHashLB {
       // The hash key to use.
       oneof hash_key {
         // Hash based on a specific HTTP header.
+        //
+        // +kubebuilder:validation:MinLength=1
         string http_header_name = 1;
 
-        // Hash based on HTTP cookie.
+        // Hash based on an HTTP cookie.
         HTTPCookie http_cookie = 2;
 
         // Hash based on the source IP address.
@@ -110,25 +297,39 @@ message LoadBalancerPolicySpec {
         bool use_source_ip = 3;
 
         // Hash based on a specific HTTP query parameter.
+        //
+        // +kubebuilder:validation:MinLength=1
         string http_query_parameter_name = 4;
       }
 
-      // Describes a HTTP cookie that will be used as the hash key for the
-      // Consistent Hash load balancer. If the cookie is not present, it will
-      // be generated.
+      // An HTTP cookie that is used as the hash key for the
+      // consistent hash load balancer. If the cookie is not present, it is generated.
       message HTTPCookie {
         // Name of the cookie.
+        //
+        // +kubebuilder:validation:Required
+        // +kubebuilder:validation:MinLength=1
         string name = 1;
+
         // Path to set for the cookie.
         string path = 2;
+
         // Lifetime of the cookie.
+        //
+        // </br>**Configuration constraints**:<ul>
+        // <li>The value must be at least 1ms.</li>
+        // <li>The value cannot have granularity smaller than one millisecond.</li></ul>
+        //
+        // +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+        // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+        // +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
         google.protobuf.Duration ttl = 3;
       }
     };
   }
 }
 
-// The status of the policy after it is applied to your Gloo environment.Status
+// The status of the policy after it is applied to your Gloo environment.
 message LoadBalancerPolicyStatus {
   // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
@@ -142,6 +343,6 @@ message LoadBalancerPolicyReport {
   // A list of workspaces in which the policy can apply to workloads.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
-  // Destination ports selected by the policy
+  // The list of destination ports selected by the policy.
   repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
 }

@@ -15,5 +15,8 @@ option (extproto.hash_all) = true;
 message TCPRequestMatcher {
 
   // Specify the port on the host defined in the route table to match with incoming TCP requests.
+  //
+  // +kubebuilder:validation:Minimum=0
+  // +kubebuilder:validation:Maximum=65535
   uint32 port = 1;
 }

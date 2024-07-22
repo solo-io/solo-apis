@@ -94,6 +94,9 @@ type isPortSelector_Specifier interface {
 
 type PortSelector_Number struct {
 	// the number of the port on the destination objects being targeted.
+	//
+	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:validation:Maximum=65535
 	Number uint32 `protobuf:"varint,4,opt,name=number,proto3,oneof"`
 }
 

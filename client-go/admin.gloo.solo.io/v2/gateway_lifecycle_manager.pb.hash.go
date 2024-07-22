@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GatewayLifecycleManagerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *GatewayLifecycleManagerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.GatewayLifecycleManagerSpec")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.GatewayLifecycleManagerSpec")); err != nil {
 		return 0, err
 	}
 
@@ -62,10 +66,34 @@ func (m *GatewayLifecycleManagerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	if h, ok := interface{}(m.GetHelmGlobal()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("HelmGlobal")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetHelmGlobal(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("HelmGlobal")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return hasher.Sum64(), nil
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GatewayClusterSelector) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -74,7 +102,7 @@ func (m *GatewayClusterSelector) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.GatewayClusterSelector")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.GatewayClusterSelector")); err != nil {
 		return 0, err
 	}
 
@@ -95,6 +123,10 @@ func (m *GatewayClusterSelector) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GatewayInstallation) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -103,7 +135,7 @@ func (m *GatewayInstallation) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.GatewayInstallation")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.GatewayInstallation")); err != nil {
 		return 0, err
 	}
 
@@ -168,6 +200,10 @@ func (m *GatewayInstallation) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GatewayLifecycleManagerStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -176,7 +212,7 @@ func (m *GatewayLifecycleManagerStatus) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.GatewayLifecycleManagerStatus")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.GatewayLifecycleManagerStatus")); err != nil {
 		return 0, err
 	}
 
@@ -223,6 +259,10 @@ func (m *GatewayLifecycleManagerStatus) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GatewayLifecycleManagerNewStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -231,7 +271,7 @@ func (m *GatewayLifecycleManagerNewStatus) Hash(hasher hash.Hash64) (uint64, err
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.GatewayLifecycleManagerNewStatus")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.GatewayLifecycleManagerNewStatus")); err != nil {
 		return 0, err
 	}
 
@@ -239,6 +279,10 @@ func (m *GatewayLifecycleManagerNewStatus) Hash(hasher hash.Hash64) (uint64, err
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GatewayLifecycleManagerReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -247,7 +291,7 @@ func (m *GatewayLifecycleManagerReport) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.GatewayLifecycleManagerReport")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.GatewayLifecycleManagerReport")); err != nil {
 		return 0, err
 	}
 
@@ -255,6 +299,10 @@ func (m *GatewayLifecycleManagerReport) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GatewayLifecycleManagerStatus_ClusterStatuses) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -263,7 +311,7 @@ func (m *GatewayLifecycleManagerStatus_ClusterStatuses) Hash(hasher hash.Hash64)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.GatewayLifecycleManagerStatus_ClusterStatuses")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.GatewayLifecycleManagerStatus_ClusterStatuses")); err != nil {
 		return 0, err
 	}
 
@@ -310,6 +358,10 @@ func (m *GatewayLifecycleManagerStatus_ClusterStatuses) Hash(hasher hash.Hash64)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -318,7 +370,7 @@ func (m *GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus) Hash(
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.GatewayLifecycleManagerStatus_ClusterStatuses_InstallationStatus")); err != nil {
 		return 0, err
 	}
 

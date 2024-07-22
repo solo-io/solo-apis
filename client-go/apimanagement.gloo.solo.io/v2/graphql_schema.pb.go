@@ -10,14 +10,14 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	duration "github.com/golang/protobuf/ptypes/duration"
-	_ "github.com/golang/protobuf/ptypes/empty"
-	_struct "github.com/golang/protobuf/ptypes/struct"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	_ "google.golang.org/protobuf/types/known/emptypb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -328,7 +328,7 @@ type GraphQLSchemaSpec_ProxiedGraphQL struct {
 	SpanName string `protobuf:"bytes,5,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the REST service (default 5s)
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	Timeout *duration.Duration                        `protobuf:"bytes,6,opt,name=timeout,proto3" json:"timeout,omitempty"`
+	Timeout *durationpb.Duration                      `protobuf:"bytes,6,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	Options *GraphQLSchemaSpec_ProxiedGraphQL_Options `protobuf:"bytes,7,opt,name=options,proto3" json:"options,omitempty"`
 }
 
@@ -399,7 +399,7 @@ func (x *GraphQLSchemaSpec_ProxiedGraphQL) GetSpanName() string {
 	return ""
 }
 
-func (x *GraphQLSchemaSpec_ProxiedGraphQL) GetTimeout() *duration.Duration {
+func (x *GraphQLSchemaSpec_ProxiedGraphQL) GetTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.Timeout
 	}
@@ -467,7 +467,7 @@ type GraphQLSchemaSpec_ResolvedGraphQL_Options struct {
 	// any GraphQL operation that runs past the `max_depth` will add an error message to the response and will return as `null`.
 	// If not configured, or the value is 0, the query depth will be unbounded.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
-	MaxDepth *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
+	MaxDepth *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
 	// Enable introspection queries on the GraphQL API served by this GraphQLSchema resource.
 	// Introspection queries are used by GraphQL developers to understand the schema of the GraphQL API and create
 	// queries that are valid against the schema. Introspection is disabled by default, and should be disabled for
@@ -507,7 +507,7 @@ func (*GraphQLSchemaSpec_ResolvedGraphQL_Options) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_apimanagement_v2_graphql_schema_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-func (x *GraphQLSchemaSpec_ResolvedGraphQL_Options) GetMaxDepth() *wrappers.UInt32Value {
+func (x *GraphQLSchemaSpec_ResolvedGraphQL_Options) GetMaxDepth() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.MaxDepth
 	}
@@ -587,7 +587,7 @@ func (x *GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction) GetRequestHeader() 
 	return ""
 }
 
-func (x *GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction) GetJson() *_struct.Value {
+func (x *GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction) GetJson() *structpb.Value {
 	if x, ok := x.GetExtraction().(*GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction_Json); ok {
 		return x.Json
 	}
@@ -614,7 +614,7 @@ type GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction_Json struct {
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// +kubebuilder:validation:Type=value
-	Json *_struct.Value `protobuf:"bytes,3,opt,name=json,proto3,oneof"`
+	Json *structpb.Value `protobuf:"bytes,3,opt,name=json,proto3,oneof"`
 }
 
 func (*GraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction_DynamicMetadata) isGraphQLSchemaSpec_ProxiedGraphQL_RequestExtraction_Extraction() {
@@ -902,11 +902,11 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_apimanagement_v
 	(*v1.ClusterObjectRef)(nil),       // 12: core.skv2.solo.io.ClusterObjectRef
 	(*v2.Status)(nil),                 // 13: common.gloo.solo.io.Status
 	(*v2.DestinationReference)(nil),   // 14: common.gloo.solo.io.DestinationReference
-	(*duration.Duration)(nil),         // 15: google.protobuf.Duration
-	(*wrappers.UInt32Value)(nil),      // 16: google.protobuf.UInt32Value
+	(*durationpb.Duration)(nil),       // 15: google.protobuf.Duration
+	(*wrapperspb.UInt32Value)(nil),    // 16: google.protobuf.UInt32Value
 	(*VariableTransformation)(nil),    // 17: apimanagement.gloo.solo.io.VariableTransformation
 	(*DynamicMetadataExtraction)(nil), // 18: apimanagement.gloo.solo.io.DynamicMetadataExtraction
-	(*_struct.Value)(nil),             // 19: google.protobuf.Value
+	(*structpb.Value)(nil),            // 19: google.protobuf.Value
 	(*v2.Report)(nil),                 // 20: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_apimanagement_v2_graphql_schema_proto_depIdxs = []int32{

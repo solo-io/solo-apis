@@ -13,9 +13,9 @@ import (
 	_ "github.com/cncf/xds/go/udpa/annotations"
 	v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 const (
@@ -357,7 +357,7 @@ func (x *ResponseMatch) GetHeader() string {
 	return ""
 }
 
-func (x *ResponseMatch) GetBody() *empty.Empty {
+func (x *ResponseMatch) GetBody() *emptypb.Empty {
 	if x, ok := x.GetSource().(*ResponseMatch_Body); ok {
 		return x.Body
 	}
@@ -382,7 +382,7 @@ type ResponseMatch_Header struct {
 
 type ResponseMatch_Body struct {
 	// Extract information from the request/response body
-	Body *empty.Empty `protobuf:"bytes,4,opt,name=body,proto3,oneof"`
+	Body *emptypb.Empty `protobuf:"bytes,4,opt,name=body,proto3,oneof"`
 }
 
 func (*ResponseMatch_Header) isResponseMatch_Source() {}
@@ -640,7 +640,7 @@ var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config
 	(*JsonKey)(nil),                        // 5: envoy.config.health_checker.advanced_http.v2.JsonKey
 	(*JsonKey_PathSegment)(nil),            // 6: envoy.config.health_checker.advanced_http.v2.JsonKey.PathSegment
 	(*v3.HealthCheck_HttpHealthCheck)(nil), // 7: envoy.config.core.v3.HealthCheck.HttpHealthCheck
-	(*empty.Empty)(nil),                    // 8: google.protobuf.Empty
+	(*emptypb.Empty)(nil),                  // 8: google.protobuf.Empty
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_health_checker_advanced_http_v2_advanced_http_proto_depIdxs = []int32{
 	7, // 0: envoy.config.health_checker.advanced_http.v2.AdvancedHttp.http_health_check:type_name -> envoy.config.core.v3.HealthCheck.HttpHealthCheck

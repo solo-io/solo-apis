@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	duration "github.com/golang/protobuf/ptypes/duration"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -101,7 +101,7 @@ type ExtAuthServerSpec struct {
 	HttpService *ExtAuthServerSpec_HttpService `protobuf:"bytes,2,opt,name=http_service,json=httpService,proto3" json:"http_service,omitempty"`
 	// Timeout for the ext auth service to respond. Defaults to 2s.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	RequestTimeout *duration.Duration `protobuf:"bytes,3,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
+	RequestTimeout *durationpb.Duration `protobuf:"bytes,3,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 	// In case of a failure or timeout querying the auth server, normally a request is denied.
 	// if this is set to true, the request will be allowed.
 	FailureModeAllow bool `protobuf:"varint,4,opt,name=failure_mode_allow,json=failureModeAllow,proto3" json:"failure_mode_allow,omitempty"`
@@ -183,7 +183,7 @@ func (x *ExtAuthServerSpec) GetHttpService() *ExtAuthServerSpec_HttpService {
 	return nil
 }
 
-func (x *ExtAuthServerSpec) GetRequestTimeout() *duration.Duration {
+func (x *ExtAuthServerSpec) GetRequestTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.RequestTimeout
 	}
@@ -707,7 +707,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_ext_au
 	(*ExtAuthServerSpec_HttpService_Response)(nil), // 6: admin.gloo.solo.io.ExtAuthServerSpec.HttpService.Response
 	nil,                             // 7: admin.gloo.solo.io.ExtAuthServerSpec.HttpService.Request.HeadersToAddEntry
 	(*v2.DestinationReference)(nil), // 8: common.gloo.solo.io.DestinationReference
-	(*duration.Duration)(nil),       // 9: google.protobuf.Duration
+	(*durationpb.Duration)(nil),     // 9: google.protobuf.Duration
 	(v2.ApprovalState)(0),           // 10: common.gloo.solo.io.ApprovalState
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_ext_auth_server_proto_depIdxs = []int32{

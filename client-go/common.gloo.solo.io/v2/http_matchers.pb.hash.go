@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *HTTPRequestMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *HTTPRequestMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.HTTPRequestMatcher")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.HTTPRequestMatcher")); err != nil {
 		return 0, err
 	}
 
@@ -123,6 +127,10 @@ func (m *HTTPRequestMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *HeaderMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -131,7 +139,7 @@ func (m *HeaderMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.HeaderMatcher")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.HeaderMatcher")); err != nil {
 		return 0, err
 	}
 
@@ -157,6 +165,10 @@ func (m *HeaderMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *StatusCodeMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -165,7 +177,7 @@ func (m *StatusCodeMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.StatusCodeMatcher")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.StatusCodeMatcher")); err != nil {
 		return 0, err
 	}
 
@@ -183,6 +195,10 @@ func (m *StatusCodeMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *HTTPRequestMatcher_QueryParameterMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -191,7 +207,7 @@ func (m *HTTPRequestMatcher_QueryParameterMatcher) Hash(hasher hash.Hash64) (uin
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2.HTTPRequestMatcher_QueryParameterMatcher")); err != nil {
+	if _, err = hasher.Write([]byte("common.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/common.gloo.solo.io/v2.HTTPRequestMatcher_QueryParameterMatcher")); err != nil {
 		return 0, err
 	}
 

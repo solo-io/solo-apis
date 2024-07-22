@@ -11,10 +11,6 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	duration "github.com/golang/protobuf/ptypes/duration"
-	empty "github.com/golang/protobuf/ptypes/empty"
-	_struct "github.com/golang/protobuf/ptypes/struct"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	v2 "github.com/solo-io/solo-kit/pkg/api/external/envoy/api/v2"
 	core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
@@ -24,6 +20,10 @@ import (
 	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -307,11 +307,14 @@ type AuthConfigSpec struct {
 	//
 	// State is shared between successful requests on the chain, i.e., the headers returned from each
 	// successful auth service get appended into the final auth response.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinItems=1
 	Configs []*AuthConfigSpec_Config `protobuf:"bytes,3,rep,name=configs,proto3" json:"configs,omitempty"`
 	// How to handle processing of named configs within an auth config chain.
 	// An example config might be: `( basic1 || basic2 || (oidc1 && !oidc2) )`
 	// The boolean expression is evaluated left to right but honors parenthesis and short-circuiting.
-	BooleanExpr *wrappers.StringValue `protobuf:"bytes,10,opt,name=boolean_expr,json=booleanExpr,proto3" json:"boolean_expr,omitempty"`
+	BooleanExpr *wrapperspb.StringValue `protobuf:"bytes,10,opt,name=boolean_expr,json=booleanExpr,proto3" json:"boolean_expr,omitempty"`
 	// How the service should handle a redirect response from an OIDC issuer. In the default false mode,
 	// the redirect will be considered a successful response, and the client will receive a 302 with a location header.
 	// If this is set to true, the client will instead receive a 401 unauthorized response. This is useful in cases where
@@ -358,7 +361,7 @@ func (x *AuthConfigSpec) GetConfigs() []*AuthConfigSpec_Config {
 	return nil
 }
 
-func (x *AuthConfigSpec) GetBooleanExpr() *wrappers.StringValue {
+func (x *AuthConfigSpec) GetBooleanExpr() *wrapperspb.StringValue {
 	if x != nil {
 		return x.BooleanExpr
 	}
@@ -488,7 +491,7 @@ type Settings struct {
 	// Specifically this means that this header will be sanitized form the incoming request.
 	UserIdHeader string `protobuf:"bytes,3,opt,name=user_id_header,json=userIdHeader,proto3" json:"user_id_header,omitempty"`
 	// Timeout for the ext auth service to respond. Defaults to 200ms
-	RequestTimeout *duration.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
+	RequestTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 	// In case of a failure or timeout querying the auth server, normally a request is denied.
 	// if this is set to true, the request will be allowed.
 	FailureModeAllow bool `protobuf:"varint,5,opt,name=failure_mode_allow,json=failureModeAllow,proto3" json:"failure_mode_allow,omitempty"`
@@ -589,7 +592,7 @@ func (x *Settings) GetUserIdHeader() string {
 	return ""
 }
 
-func (x *Settings) GetRequestTimeout() *duration.Duration {
+func (x *Settings) GetRequestTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.RequestTimeout
 	}
@@ -918,8 +921,9 @@ type AuthPlugin struct {
 	PluginFileName string `protobuf:"bytes,2,opt,name=plugin_file_name,json=pluginFileName,proto3" json:"plugin_file_name,omitempty"`
 	// Name of the exported symbol that implements the plugin interface in the plugin.
 	// If not specified, defaults to the name of the plugin
-	ExportedSymbolName string          `protobuf:"bytes,3,opt,name=exported_symbol_name,json=exportedSymbolName,proto3" json:"exported_symbol_name,omitempty"`
-	Config             *_struct.Struct `protobuf:"bytes,4,opt,name=config,proto3" json:"config,omitempty"`
+	ExportedSymbolName string `protobuf:"bytes,3,opt,name=exported_symbol_name,json=exportedSymbolName,proto3" json:"exported_symbol_name,omitempty"`
+	// +kubebuilder:validation:Required
+	Config *structpb.Struct `protobuf:"bytes,4,opt,name=config,proto3" json:"config,omitempty"`
 }
 
 func (x *AuthPlugin) Reset() {
@@ -975,7 +979,7 @@ func (x *AuthPlugin) GetExportedSymbolName() string {
 	return ""
 }
 
-func (x *AuthPlugin) GetConfig() *_struct.Struct {
+func (x *AuthPlugin) GetConfig() *structpb.Struct {
 	if x != nil {
 		return x.Config
 	}
@@ -1169,6 +1173,7 @@ type isHmacAuth_SecretStorage interface {
 }
 
 type HmacAuth_SecretRefs struct {
+	// +kubebuilder:validation:Required
 	SecretRefs *SecretRefList `protobuf:"bytes,1,opt,name=secret_refs,json=secretRefs,proto3,oneof"`
 }
 
@@ -1190,6 +1195,9 @@ type SecretRefList struct {
 	unknownFields protoimpl.UnknownFields
 
 	// list of secrets as registered with the issuer
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinItems=1
 	SecretRefs []*core.ResourceRef `protobuf:"bytes,1,rep,name=secret_refs,json=secretRefs,proto3" json:"secret_refs,omitempty"`
 }
 
@@ -1296,6 +1304,9 @@ type OAuth struct {
 	AuthEndpointQueryParams map[string]string `protobuf:"bytes,7,rep,name=auth_endpoint_query_params,json=authEndpointQueryParams,proto3" json:"auth_endpoint_query_params,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// we to redirect after successful auth, if we can't determine the original
 	// url this should be your publicly available app url.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	//
 	// Deprecated: Do not use.
 	AppUrl string `protobuf:"bytes,4,opt,name=app_url,json=appUrl,proto3" json:"app_url,omitempty"`
@@ -1479,6 +1490,8 @@ type OAuth2_OidcAuthorizationCode struct {
 	// provide issuer location and let gloo handle OIDC flow for you.
 	// requests authorized by validating the contents of ID token.
 	// can also authorize the access token if configured.
+	//
+	// +kubebuilder:validation:XValidation:rule="has(self.clientAuthentication) ? !has(self.clientSecretRef) && !has(self.disableClientSecret) : has(self.clientSecretRef) || (has(self.disableClientSecret) && self.disableClientSecret)",message="If clientAuthentication is set, neither clientSecretRef nor disableClientSecret may be set. Otherwise, clientSecretRef must be set or disableClientSecret must be true."
 	OidcAuthorizationCode *OidcAuthorizationCode `protobuf:"bytes,1,opt,name=oidc_authorization_code,json=oidcAuthorizationCode,proto3,oneof"`
 }
 
@@ -1497,6 +1510,8 @@ type OAuth2_Oauth2 struct {
 	// provide issuer location and let Gloo handle Oauth2 flow for you.
 	// requests authorized by validating the contents of access token.
 	// Prefer to use OIDC for better security.
+	//
+	// +kubebuilder:validation:XValidation:rule="has(self.clientSecretRef) || (has(self.disableClientSecret) && self.disableClientSecret)",message="Either clientSecretRef must be set or disableClientSecret must be true"
 	Oauth2 *PlainOAuth2 `protobuf:"bytes,3,opt,name=oauth2,proto3,oneof"`
 }
 
@@ -1717,7 +1732,7 @@ type HeaderConfiguration struct {
 	// If set, the access token will be forward upstream using this header name.
 	AccessTokenHeader string `protobuf:"bytes,2,opt,name=access_token_header,json=accessTokenHeader,proto3" json:"access_token_header,omitempty"`
 	// If true, adds the "Bearer" prefix to the upstream access token header value.
-	UseBearerSchemaForAuthorization *wrappers.BoolValue `protobuf:"bytes,3,opt,name=use_bearer_schema_for_authorization,json=useBearerSchemaForAuthorization,proto3" json:"use_bearer_schema_for_authorization,omitempty"`
+	UseBearerSchemaForAuthorization *wrapperspb.BoolValue `protobuf:"bytes,3,opt,name=use_bearer_schema_for_authorization,json=useBearerSchemaForAuthorization,proto3" json:"use_bearer_schema_for_authorization,omitempty"`
 }
 
 func (x *HeaderConfiguration) Reset() {
@@ -1766,7 +1781,7 @@ func (x *HeaderConfiguration) GetAccessTokenHeader() string {
 	return ""
 }
 
-func (x *HeaderConfiguration) GetUseBearerSchemaForAuthorization() *wrappers.BoolValue {
+func (x *HeaderConfiguration) GetUseBearerSchemaForAuthorization() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.UseBearerSchemaForAuthorization
 	}
@@ -1974,14 +1989,14 @@ func (m *JwksOnDemandCacheRefreshPolicy) GetPolicy() isJwksOnDemandCacheRefreshP
 	return nil
 }
 
-func (x *JwksOnDemandCacheRefreshPolicy) GetNever() *empty.Empty {
+func (x *JwksOnDemandCacheRefreshPolicy) GetNever() *emptypb.Empty {
 	if x, ok := x.GetPolicy().(*JwksOnDemandCacheRefreshPolicy_Never); ok {
 		return x.Never
 	}
 	return nil
 }
 
-func (x *JwksOnDemandCacheRefreshPolicy) GetAlways() *empty.Empty {
+func (x *JwksOnDemandCacheRefreshPolicy) GetAlways() *emptypb.Empty {
 	if x, ok := x.GetPolicy().(*JwksOnDemandCacheRefreshPolicy_Always); ok {
 		return x.Always
 	}
@@ -2003,7 +2018,7 @@ type JwksOnDemandCacheRefreshPolicy_Never struct {
 	// Never refresh the local JWKS cache on demand. If a key is not in the cache, it is assumed to be malicious.
 	// This is the default policy since we assume that IdPs publish keys before they rotate them,
 	// and frequent polling finds the newest keys.
-	Never *empty.Empty `protobuf:"bytes,1,opt,name=never,proto3,oneof"`
+	Never *emptypb.Empty `protobuf:"bytes,1,opt,name=never,proto3,oneof"`
 }
 
 type JwksOnDemandCacheRefreshPolicy_Always struct {
@@ -2011,7 +2026,7 @@ type JwksOnDemandCacheRefreshPolicy_Always struct {
 	// NOTE: This should only be done in trusted environments, since missing keys will each trigger
 	// a request to the IdP. Using this in an environment exposed to the internet will allow malicious agents to
 	// execute a DDoS attack by spamming protected endpoints with tokens signed by invalid keys.
-	Always *empty.Empty `protobuf:"bytes,2,opt,name=always,proto3,oneof"`
+	Always *emptypb.Empty `protobuf:"bytes,2,opt,name=always,proto3,oneof"`
 }
 
 type JwksOnDemandCacheRefreshPolicy_MaxIdpReqPerPollingInterval struct {
@@ -2197,6 +2212,9 @@ type OidcAuthorizationCode struct {
 	unknownFields protoimpl.UnknownFields
 
 	// your client id as registered with the issuer
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
 	// your client secret as registered with the issuer.
 	// This is required unless `disable_client_secret` is true
@@ -2206,6 +2224,9 @@ type OidcAuthorizationCode struct {
 	ClientSecretRef *core.ResourceRef `protobuf:"bytes,2,opt,name=client_secret_ref,json=clientSecretRef,proto3" json:"client_secret_ref,omitempty"`
 	// The url of the issuer. We will look for OIDC information in issuerUrl+
 	// ".well-known/openid-configuration"
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	IssuerUrl string `protobuf:"bytes,3,opt,name=issuer_url,json=issuerUrl,proto3" json:"issuer_url,omitempty"`
 	// extra query parameters to apply to the Ext-Auth service's authorization request to the identity provider.
 	// this can be useful for flows such as PKCE (https://www.oauth.com/oauth2-servers/pkce/authorization-request/)
@@ -2217,9 +2238,15 @@ type OidcAuthorizationCode struct {
 	TokenEndpointQueryParams map[string]string `protobuf:"bytes,14,rep,name=token_endpoint_query_params,json=tokenEndpointQueryParams,proto3" json:"token_endpoint_query_params,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// where to redirect after successful auth, if we can't determine the original url.
 	// this should be your publicly available app url.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	AppUrl string `protobuf:"bytes,5,opt,name=app_url,json=appUrl,proto3" json:"app_url,omitempty"`
 	// a callback path relative to app url that will be used for OIDC callbacks.
 	// should not be used by the application.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	CallbackPath string `protobuf:"bytes,6,opt,name=callback_path,json=callbackPath,proto3" json:"callback_path,omitempty"`
 	// a path relative to app url that will be used for logging out from an OIDC session.
 	// should not be used by the application.
@@ -2263,7 +2290,7 @@ type OidcAuthorizationCode struct {
 	DiscoveryOverride *DiscoveryOverride `protobuf:"bytes,11,opt,name=discovery_override,json=discoveryOverride,proto3" json:"discovery_override,omitempty"`
 	// The interval at which OIDC configuration is discovered at <issuerUrl>/.well-known/openid-configuration
 	// If not specified, the default value is 30 minutes.
-	DiscoveryPollInterval *duration.Duration `protobuf:"bytes,12,opt,name=discovery_poll_interval,json=discoveryPollInterval,proto3" json:"discovery_poll_interval,omitempty"`
+	DiscoveryPollInterval *durationpb.Duration `protobuf:"bytes,12,opt,name=discovery_poll_interval,json=discoveryPollInterval,proto3" json:"discovery_poll_interval,omitempty"`
 	// If a user executes a request with a key that is not found in the JWKS, it could be
 	// that the keys have rotated on the remote source, and not yet in the local cache.
 	// This policy lets you define the behavior for how to refresh the local cache during a request
@@ -2302,11 +2329,12 @@ type OidcAuthorizationCode struct {
 	// This field has been deprecated and can be set in the client_secret option of client_authentication
 	//
 	// Deprecated: Do not use.
-	DisableClientSecret *wrappers.BoolValue `protobuf:"bytes,21,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
+	DisableClientSecret *wrapperspb.BoolValue `protobuf:"bytes,21,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
 	// Optional: Configuration specific to the OAuth2 access token received and processed by the ext-auth-service.
 	AccessToken *OidcAuthorizationCode_AccessToken `protobuf:"bytes,23,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
 	// Optional: Configuration specific to the OIDC identity token received and processed by the ext-auth-service.
-	IdentityToken        *OidcAuthorizationCode_IdentityToken        `protobuf:"bytes,24,opt,name=identity_token,json=identityToken,proto3" json:"identity_token,omitempty"`
+	IdentityToken *OidcAuthorizationCode_IdentityToken `protobuf:"bytes,24,opt,name=identity_token,json=identityToken,proto3" json:"identity_token,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="has(self.clientSecret) || has(self.privateKeyJwt)",message="Must specify clientSecret or privateKeyJwt"
 	ClientAuthentication *OidcAuthorizationCode_ClientAuthentication `protobuf:"bytes,25,opt,name=client_authentication,json=clientAuthentication,proto3" json:"client_authentication,omitempty"`
 	// Types that are assignable to Provider:
 	//
@@ -2439,7 +2467,7 @@ func (x *OidcAuthorizationCode) GetDiscoveryOverride() *DiscoveryOverride {
 	return nil
 }
 
-func (x *OidcAuthorizationCode) GetDiscoveryPollInterval() *duration.Duration {
+func (x *OidcAuthorizationCode) GetDiscoveryPollInterval() *durationpb.Duration {
 	if x != nil {
 		return x.DiscoveryPollInterval
 	}
@@ -2490,7 +2518,7 @@ func (x *OidcAuthorizationCode) GetDynamicMetadataFromClaims() map[string]string
 }
 
 // Deprecated: Do not use.
-func (x *OidcAuthorizationCode) GetDisableClientSecret() *wrappers.BoolValue {
+func (x *OidcAuthorizationCode) GetDisableClientSecret() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.DisableClientSecret
 	}
@@ -2561,6 +2589,9 @@ type PlainOAuth2 struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Your client ID as registered with the issuer
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
 	// Your client secret as registered with the issuer.
 	// This is required unless `disable_client_secret` is set.
@@ -2571,9 +2602,15 @@ type PlainOAuth2 struct {
 	AuthEndpointQueryParams map[string]string `protobuf:"bytes,3,rep,name=auth_endpoint_query_params,json=authEndpointQueryParams,proto3" json:"auth_endpoint_query_params,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Where to redirect after successful auth, if Gloo can't determine the original URL.
 	// Set this field to your publicly available app URL.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	AppUrl string `protobuf:"bytes,4,opt,name=app_url,json=appUrl,proto3" json:"app_url,omitempty"`
 	// A callback path relative to the app URL to be used for OAuth2 callbacks.
 	// Do not use this path in the application itself.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	CallbackPath string `protobuf:"bytes,5,opt,name=callback_path,json=callbackPath,proto3" json:"callback_path,omitempty"`
 	// Scopes to request for.
 	Scopes []string `protobuf:"bytes,6,rep,name=scopes,proto3" json:"scopes,omitempty"`
@@ -2591,8 +2628,14 @@ type PlainOAuth2 struct {
 	// Set this field to a publicly available URL. If not provided, this value defaults to the `app_url` value.
 	AfterLogoutUrl string `protobuf:"bytes,10,opt,name=after_logout_url,json=afterLogoutUrl,proto3" json:"after_logout_url,omitempty"`
 	// The URL of the provider authorization endpoint.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	AuthEndpoint string `protobuf:"bytes,11,opt,name=auth_endpoint,json=authEndpoint,proto3" json:"auth_endpoint,omitempty"`
 	// The URL of the provider token endpoint.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	TokenEndpoint string `protobuf:"bytes,12,opt,name=token_endpoint,json=tokenEndpoint,proto3" json:"token_endpoint,omitempty"`
 	// The URL of the provider token revocation endpoint.
 	// For more information, refer to https://www.rfc-editor.org/rfc/rfc7009.
@@ -2600,7 +2643,7 @@ type PlainOAuth2 struct {
 	// If true, do not check for or use the client secret.
 	// Generally the client secret is required and AuthConfigs will be rejected if it isn't set.
 	// However certain implementations of the PKCE flow do not use a client secret (including Okta) so this setting allows configuring Oauth2 without a client secret.
-	DisableClientSecret *wrappers.BoolValue `protobuf:"bytes,14,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
+	DisableClientSecret *wrapperspb.BoolValue `protobuf:"bytes,14,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
 }
 
 func (x *PlainOAuth2) Reset() {
@@ -2726,7 +2769,7 @@ func (x *PlainOAuth2) GetRevocationEndpoint() string {
 	return ""
 }
 
-func (x *PlainOAuth2) GetDisableClientSecret() *wrappers.BoolValue {
+func (x *PlainOAuth2) GetDisableClientSecret() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.DisableClientSecret
 	}
@@ -2858,6 +2901,9 @@ type IntrospectionValidation struct {
 	// The URL for the [OAuth2.0 Token Introspection](https://tools.ietf.org/html/rfc7662) endpoint.
 	// If provided, the (opaque) access token provided or received from the oauth authorization endpoint
 	// will be validated against this endpoint, or locally cached responses for this access token.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	IntrospectionUrl string `protobuf:"bytes,1,opt,name=introspection_url,json=introspectionUrl,proto3" json:"introspection_url,omitempty"`
 	// Your client id as registered with the issuer.
 	// Optional: Use if the token introspection url requires client authentication.
@@ -2873,7 +2919,7 @@ type IntrospectionValidation struct {
 	// This field is optional and by default the server will not try to derive the user ID.
 	UserIdAttributeName string `protobuf:"bytes,4,opt,name=user_id_attribute_name,json=userIdAttributeName,proto3" json:"user_id_attribute_name,omitempty"`
 	// Allows setting a client id but not a client secret.
-	DisableClientSecret *wrappers.BoolValue `protobuf:"bytes,5,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
+	DisableClientSecret *wrapperspb.BoolValue `protobuf:"bytes,5,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
 }
 
 func (x *IntrospectionValidation) Reset() {
@@ -2936,7 +2982,7 @@ func (x *IntrospectionValidation) GetUserIdAttributeName() string {
 	return ""
 }
 
-func (x *IntrospectionValidation) GetDisableClientSecret() *wrappers.BoolValue {
+func (x *IntrospectionValidation) GetDisableClientSecret() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.DisableClientSecret
 	}
@@ -2963,7 +3009,7 @@ type AccessTokenValidation struct {
 	// How long the token introspection and userinfo endpoint response for a specific access token should be kept
 	// in the in-memory cache. The result will be invalidated at this timeout, or at "exp" time from the introspection
 	// result, whichever comes sooner. If omitted, defaults to 10 minutes. If zero, then no caching will be done.
-	CacheTimeout *duration.Duration `protobuf:"bytes,5,opt,name=cache_timeout,json=cacheTimeout,proto3" json:"cache_timeout,omitempty"`
+	CacheTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=cache_timeout,json=cacheTimeout,proto3" json:"cache_timeout,omitempty"`
 	// Optional criteria for validating the scopes of a token.
 	//
 	// Types that are assignable to ScopeValidation:
@@ -3052,7 +3098,7 @@ func (x *AccessTokenValidation) GetUserinfoUrl() string {
 	return ""
 }
 
-func (x *AccessTokenValidation) GetCacheTimeout() *duration.Duration {
+func (x *AccessTokenValidation) GetCacheTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.CacheTimeout
 	}
@@ -3090,6 +3136,8 @@ type AccessTokenValidation_IntrospectionUrl struct {
 	// will be validated against this endpoint, or locally cached responses for this access token.
 	// This field is deprecated as it does not support authenticated introspection requests
 	//
+	// +kubebuilder:validation:MinLength=1
+	//
 	// Deprecated: Do not use.
 	IntrospectionUrl string `protobuf:"bytes,1,opt,name=introspection_url,json=introspectionUrl,proto3,oneof"`
 }
@@ -3103,6 +3151,8 @@ type AccessTokenValidation_Jwt struct {
 type AccessTokenValidation_Introspection struct {
 	// Defines how (opaque) access tokens, received from the oauth authorization endpoint, are validated
 	// [OAuth2.0 Token Introspection](https://tools.ietf.org/html/rfc7662) specification.
+	//
+	// +kubebuilder:validation:XValidation:rule="has(self.clientId) && size(self.clientId) > 0 ? has(self.clientSecretRef) || (has(self.disableClientSecret) && self.disableClientSecret) : !has(self.clientSecretRef)",message="If clientId is set, clientSecretRef must be set or disableClientSecret must be true. Otherwise, clientSecretRef must not be set."
 	Introspection *IntrospectionValidation `protobuf:"bytes,3,opt,name=introspection,proto3,oneof"`
 }
 
@@ -3775,6 +3825,9 @@ type OpaAuth struct {
 	// The query that determines the auth decision. The result of this query
 	// must be either a boolean or an array with boolean as the first element. A boolean `true` value means that
 	// the request will be authorized. Any other value, or error, means that the request will be denied.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	Query string `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
 	// Additional Options for Opa Auth configuration.
 	Options *OpaAuthOptions `protobuf:"bytes,3,opt,name=options,proto3" json:"options,omitempty"`
@@ -3913,6 +3966,9 @@ type OpaServerAuth struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The package from your Rego policy bundle used to query the OPA data API.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	Package string `protobuf:"bytes,1,opt,name=package,proto3" json:"package,omitempty"`
 	// The rule in your Rego policy bundle used to query the OPA data API. Supports querying subfields with a `/`. For more information, see the [OPA docs for the Data API](https://www.openpolicyagent.org/docs/latest/rest-api/#data-api).
 	RuleName string `protobuf:"bytes,2,opt,name=rule_name,json=ruleName,proto3" json:"rule_name,omitempty"`
@@ -3999,6 +4055,9 @@ type Ldap struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Address of the LDAP server to query. Should be in the form ADDRESS:PORT, e.g. `ldap.default.svc.cluster.local:389`.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 	// Template to build user entry distinguished names (DN). This must contains a single occurrence of the "%s" placeholder.
 	// When processing a request, Gloo will substitute the name of the user (extracted from the auth header) for the
@@ -4182,7 +4241,7 @@ type PassThroughAuth struct {
 	//	*PassThroughAuth_Http
 	Protocol isPassThroughAuth_Protocol `protobuf_oneof:"protocol"`
 	// Custom config to be passed per request to the passthrough auth service.
-	Config *_struct.Struct `protobuf:"bytes,4,opt,name=config,proto3" json:"config,omitempty"`
+	Config *structpb.Struct `protobuf:"bytes,4,opt,name=config,proto3" json:"config,omitempty"`
 	// If set to true, the service will accept client request even if the communication with
 	//
 	//	the authorization service has failed, or if the authorization service has returned a server error.
@@ -4244,7 +4303,7 @@ func (x *PassThroughAuth) GetHttp() *PassThroughHttp {
 	return nil
 }
 
-func (x *PassThroughAuth) GetConfig() *_struct.Struct {
+func (x *PassThroughAuth) GetConfig() *structpb.Struct {
 	if x != nil {
 		return x.Config
 	}
@@ -4282,10 +4341,10 @@ type BackoffStrategy struct {
 
 	// The base interval to be used for the next back off computation.
 	// Defaults to 1000 milliseconds
-	BaseInterval *duration.Duration `protobuf:"bytes,1,opt,name=base_interval,json=baseInterval,proto3" json:"base_interval,omitempty"`
+	BaseInterval *durationpb.Duration `protobuf:"bytes,1,opt,name=base_interval,json=baseInterval,proto3" json:"base_interval,omitempty"`
 	// Specifies the maximum delay between retries.
 	// Defaults to 10 times the base interval.
-	MaxInterval *duration.Duration `protobuf:"bytes,2,opt,name=max_interval,json=maxInterval,proto3" json:"max_interval,omitempty"`
+	MaxInterval *durationpb.Duration `protobuf:"bytes,2,opt,name=max_interval,json=maxInterval,proto3" json:"max_interval,omitempty"`
 }
 
 func (x *BackoffStrategy) Reset() {
@@ -4320,14 +4379,14 @@ func (*BackoffStrategy) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_proto_rawDescGZIP(), []int{39}
 }
 
-func (x *BackoffStrategy) GetBaseInterval() *duration.Duration {
+func (x *BackoffStrategy) GetBaseInterval() *durationpb.Duration {
 	if x != nil {
 		return x.BaseInterval
 	}
 	return nil
 }
 
-func (x *BackoffStrategy) GetMaxInterval() *duration.Duration {
+func (x *BackoffStrategy) GetMaxInterval() *durationpb.Duration {
 	if x != nil {
 		return x.MaxInterval
 	}
@@ -4342,7 +4401,7 @@ type RetryPolicy struct {
 
 	// Specifies the allowed number of retries. This parameter is optional and
 	// defaults to 1.
-	NumRetries *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=num_retries,json=numRetries,proto3" json:"num_retries,omitempty"`
+	NumRetries *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=num_retries,json=numRetries,proto3" json:"num_retries,omitempty"`
 	// Types that are assignable to Strategy:
 	//
 	//	*RetryPolicy_RetryBackOff
@@ -4381,7 +4440,7 @@ func (*RetryPolicy) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_proto_rawDescGZIP(), []int{40}
 }
 
-func (x *RetryPolicy) GetNumRetries() *wrappers.UInt32Value {
+func (x *RetryPolicy) GetNumRetries() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.NumRetries
 	}
@@ -4424,9 +4483,12 @@ type PassThroughGrpc struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Address of the auth server to query. Should be in the form ADDRESS:PORT, e.g. `default.svc.cluster.local:389`.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 	// Timeout for the auth server to respond. Defaults to 5s
-	ConnectionTimeout *duration.Duration `protobuf:"bytes,2,opt,name=connection_timeout,json=connectionTimeout,proto3" json:"connection_timeout,omitempty"`
+	ConnectionTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=connection_timeout,json=connectionTimeout,proto3" json:"connection_timeout,omitempty"`
 	// TLS config for the Grpc passthrough, if not configured the connection will use insecure.
 	TlsConfig *PassThroughGrpcTLSConfig `protobuf:"bytes,3,opt,name=tlsConfig,proto3" json:"tlsConfig,omitempty"`
 	// Indicates the retry policy for re-establishing the gRPC stream.
@@ -4473,7 +4535,7 @@ func (x *PassThroughGrpc) GetAddress() string {
 	return ""
 }
 
-func (x *PassThroughGrpc) GetConnectionTimeout() *duration.Duration {
+func (x *PassThroughGrpc) GetConnectionTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.ConnectionTimeout
 	}
@@ -4545,6 +4607,9 @@ type PassThroughHttp struct {
 	// Example: http://ext-auth-service.svc.local:9001. Path provided in the URL will be respected.
 	// To use https, provide the cert in the HTTPS_PASSTHROUGH_CA_CERT environment variable to the ext-auth-service
 	// pod as a base64-encoded string
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// Pass through the incoming request body, ext auth state, and filter metadata.
 	// For more information, see the [PassThrough Http Request description](#request-1).
@@ -4553,7 +4618,7 @@ type PassThroughHttp struct {
 	// For more information, see the [PassThrough Http Response description](#response-1).
 	Response *PassThroughHttp_Response `protobuf:"bytes,4,opt,name=response,proto3" json:"response,omitempty"`
 	// Timeout for the auth server to respond. Defaults to 5s
-	ConnectionTimeout *duration.Duration `protobuf:"bytes,8,opt,name=connection_timeout,json=connectionTimeout,proto3" json:"connection_timeout,omitempty"`
+	ConnectionTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=connection_timeout,json=connectionTimeout,proto3" json:"connection_timeout,omitempty"`
 }
 
 func (x *PassThroughHttp) Reset() {
@@ -4609,7 +4674,7 @@ func (x *PassThroughHttp) GetResponse() *PassThroughHttp_Response {
 	return nil
 }
 
-func (x *PassThroughHttp) GetConnectionTimeout() *duration.Duration {
+func (x *PassThroughHttp) GetConnectionTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.ConnectionTimeout
 	}
@@ -4642,7 +4707,7 @@ type ExtAuthConfig struct {
 	// An example config might be: `( basic1 || basic2 || (oidc1 && !oidc2) )`
 	// The boolean expression is evaluated left to right but honors parenthesis and short-circuiting.
 	// Defaults to an empty string, which is interpreted as `and`-ing the configs.
-	BooleanExpr *wrappers.StringValue `protobuf:"bytes,10,opt,name=boolean_expr,json=booleanExpr,proto3" json:"boolean_expr,omitempty"`
+	BooleanExpr *wrapperspb.StringValue `protobuf:"bytes,10,opt,name=boolean_expr,json=booleanExpr,proto3" json:"boolean_expr,omitempty"`
 	// How the service should handle a redirect response from an OIDC issuer. In the default false mode,
 	// the redirect will be considered a successful response, and the client will receive a 302 with a location header.
 	// If this is set to true, the client will instead receive a 401 unauthorized response. This is useful in cases where
@@ -4696,7 +4761,7 @@ func (x *ExtAuthConfig) GetConfigs() []*ExtAuthConfig_Config {
 	return nil
 }
 
-func (x *ExtAuthConfig) GetBooleanExpr() *wrappers.StringValue {
+func (x *ExtAuthConfig) GetBooleanExpr() *wrapperspb.StringValue {
 	if x != nil {
 		return x.BooleanExpr
 	}
@@ -5131,7 +5196,7 @@ type AuthConfigStatus struct {
 	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
 	SubresourceStatuses map[string]*AuthConfigStatus `protobuf:"bytes,4,rep,name=subresource_statuses,json=subresourceStatuses,proto3" json:"subresource_statuses,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Opaque details about status results
-	Details *_struct.Struct `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
+	Details *structpb.Struct `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
 }
 
 func (x *AuthConfigStatus) Reset() {
@@ -5194,7 +5259,7 @@ func (x *AuthConfigStatus) GetSubresourceStatuses() map[string]*AuthConfigStatus
 	return nil
 }
 
-func (x *AuthConfigStatus) GetDetails() *_struct.Struct {
+func (x *AuthConfigStatus) GetDetails() *structpb.Struct {
 	if x != nil {
 		return x.Details
 	}
@@ -5257,7 +5322,7 @@ type AuthConfigSpec_Config struct {
 	// in logging. If omitted, an automatically generated name will be used (e.g. config_0, of the
 	// pattern 'config_$INDEX_IN_CHAIN'). In the case of plugin auth, this field is ignored in favor of
 	// the name assigned on the plugin config itself.
-	Name *wrappers.StringValue `protobuf:"bytes,9,opt,name=name,proto3" json:"name,omitempty"`
+	Name *wrapperspb.StringValue `protobuf:"bytes,9,opt,name=name,proto3" json:"name,omitempty"`
 	// Types that are assignable to AuthConfig:
 	//
 	//	*AuthConfigSpec_Config_BasicAuth
@@ -5306,7 +5371,7 @@ func (*AuthConfigSpec_Config) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *AuthConfigSpec_Config) GetName() *wrappers.StringValue {
+func (x *AuthConfigSpec_Config) GetName() *wrapperspb.StringValue {
 	if x != nil {
 		return x.Name
 	}
@@ -5370,7 +5435,7 @@ func (x *AuthConfigSpec_Config) GetLdap() *Ldap {
 	return nil
 }
 
-func (x *AuthConfigSpec_Config) GetJwt() *empty.Empty {
+func (x *AuthConfigSpec_Config) GetJwt() *emptypb.Empty {
 	if x, ok := x.GetAuthConfig().(*AuthConfigSpec_Config_Jwt); ok {
 		return x.Jwt
 	}
@@ -5403,6 +5468,7 @@ type isAuthConfigSpec_Config_AuthConfig interface {
 }
 
 type AuthConfigSpec_Config_BasicAuth struct {
+	// +kubebuilder:validation:XValidation:rule="has(self.apr) ? !has(self.encryption) && !has(self.userList) : has(self.encryption) && has(self.userList)",message="Either apr or both encryption and userSource must be set; apr may not be set alongside either encryption or userSource"
 	BasicAuth *BasicAuth `protobuf:"bytes,1,opt,name=basic_auth,json=basicAuth,proto3,oneof"`
 }
 
@@ -5435,10 +5501,11 @@ type AuthConfigSpec_Config_Jwt struct {
 	// This is a "dummy" extauth service which can be used to support multiple auth mechanisms with JWT authentication.
 	// If Jwt authentication is to be used in the [boolean expression](https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto.sk/#authconfig) in an AuthConfig, you can use this auth config type to include Jwt as an Auth config.
 	// In addition, `allow_missing_or_failed_jwt` must be set on the Virtual Host or Route that uses JWT auth or else the JWT filter will short circuit this behaviour.
-	Jwt *empty.Empty `protobuf:"bytes,11,opt,name=jwt,proto3,oneof"`
+	Jwt *emptypb.Empty `protobuf:"bytes,11,opt,name=jwt,proto3,oneof"`
 }
 
 type AuthConfigSpec_Config_PassThroughAuth struct {
+	// +kubebuilder:validation:XValidation:rule="has(self.grpc) || has(self.http)",message="Must specify grpc or http"
 	PassThroughAuth *PassThroughAuth `protobuf:"bytes,12,opt,name=pass_through_auth,json=passThroughAuth,proto3,oneof"`
 }
 
@@ -5998,7 +6065,7 @@ type UserSession_InternalSession struct {
 
 	// Refresh expired id-tokens using the refresh-token. The tokens refreshes when the client issues a call.
 	// Defaults to false. To enable refreshing, set to true.
-	AllowRefreshing *wrappers.BoolValue `protobuf:"bytes,1,opt,name=allow_refreshing,json=allowRefreshing,proto3" json:"allow_refreshing,omitempty"`
+	AllowRefreshing *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=allow_refreshing,json=allowRefreshing,proto3" json:"allow_refreshing,omitempty"`
 	// Prefix to append to cookie keys, such as for separate domain and subdomain prefixes.
 	// Cookie keys are stored in the form `<key_prefix>_<cookie_name>`.
 	// For more information, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#attributes
@@ -6041,7 +6108,7 @@ func (*UserSession_InternalSession) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_proto_rawDescGZIP(), []int{15, 0}
 }
 
-func (x *UserSession_InternalSession) GetAllowRefreshing() *wrappers.BoolValue {
+func (x *UserSession_InternalSession) GetAllowRefreshing() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.AllowRefreshing
 	}
@@ -6075,12 +6142,12 @@ type UserSession_RedisSession struct {
 	CookieName string `protobuf:"bytes,3,opt,name=cookie_name,json=cookieName,proto3" json:"cookie_name,omitempty"`
 	// Refresh expired id-tokens using the refresh-token. The tokens refreshes when the client issues a call.
 	// Defaults to true. To disable refreshing, set to false.
-	AllowRefreshing *wrappers.BoolValue `protobuf:"bytes,4,opt,name=allow_refreshing,json=allowRefreshing,proto3" json:"allow_refreshing,omitempty"`
+	AllowRefreshing *wrapperspb.BoolValue `protobuf:"bytes,4,opt,name=allow_refreshing,json=allowRefreshing,proto3" json:"allow_refreshing,omitempty"`
 	// Specifies a time buffer in which an id-token will be refreshed prior to its
 	// actual expiration. Defaults to 2 seconds. A duration of 0 will only refresh
 	// tokens after they have already expired. To refresh tokens, you must also set
 	// 'allowRefreshing' to 'true'; otherwise, this field is ignored.
-	PreExpiryBuffer *duration.Duration `protobuf:"bytes,5,opt,name=pre_expiry_buffer,json=preExpiryBuffer,proto3" json:"pre_expiry_buffer,omitempty"`
+	PreExpiryBuffer *durationpb.Duration `protobuf:"bytes,5,opt,name=pre_expiry_buffer,json=preExpiryBuffer,proto3" json:"pre_expiry_buffer,omitempty"`
 	// Domain used to validate against requests in order to ensure that request host name matches target domain.
 	// If the target domain is provided will prevent requests that do not match the target domain according to
 	// the domain matching specifications in RFC 6265. For more information, see https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.3
@@ -6143,14 +6210,14 @@ func (x *UserSession_RedisSession) GetCookieName() string {
 	return ""
 }
 
-func (x *UserSession_RedisSession) GetAllowRefreshing() *wrappers.BoolValue {
+func (x *UserSession_RedisSession) GetAllowRefreshing() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.AllowRefreshing
 	}
 	return nil
 }
 
-func (x *UserSession_RedisSession) GetPreExpiryBuffer() *duration.Duration {
+func (x *UserSession_RedisSession) GetPreExpiryBuffer() *durationpb.Duration {
 	if x != nil {
 		return x.PreExpiryBuffer
 	}
@@ -6178,15 +6245,15 @@ type UserSession_CookieOptions struct {
 
 	// Max age for the cookie. Leave unset for a default of 30 days (2592000 seconds).
 	// To disable cookie expiry, set explicitly to 0.
-	MaxAge *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=max_age,json=maxAge,proto3" json:"max_age,omitempty"`
+	MaxAge *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=max_age,json=maxAge,proto3" json:"max_age,omitempty"`
 	// Use a non-secure cookie. Note - this should only be used for testing and in trusted
 	// environments.
 	NotSecure bool `protobuf:"varint,2,opt,name=not_secure,json=notSecure,proto3" json:"not_secure,omitempty"`
 	// Set the cookie to be HttpOnly. defaults to true. Set explicity to false to disable.
-	HttpOnly *wrappers.BoolValue `protobuf:"bytes,5,opt,name=http_only,json=httpOnly,proto3" json:"http_only,omitempty"`
+	HttpOnly *wrapperspb.BoolValue `protobuf:"bytes,5,opt,name=http_only,json=httpOnly,proto3" json:"http_only,omitempty"`
 	// Path of the cookie. If unset, defaults to "/". Set it explicitly to "" to avoid setting a
 	// path.
-	Path *wrappers.StringValue `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
+	Path *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
 	// Whether the cookie should be restricted to a first-party or same-site context.
 	// The default mode is LaxMode.
 	SameSite UserSession_CookieOptions_SameSite `protobuf:"varint,6,opt,name=same_site,json=sameSite,proto3,enum=enterprise.gloo.solo.io.UserSession_CookieOptions_SameSite" json:"same_site,omitempty"`
@@ -6226,7 +6293,7 @@ func (*UserSession_CookieOptions) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_proto_rawDescGZIP(), []int{15, 2}
 }
 
-func (x *UserSession_CookieOptions) GetMaxAge() *wrappers.UInt32Value {
+func (x *UserSession_CookieOptions) GetMaxAge() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.MaxAge
 	}
@@ -6240,14 +6307,14 @@ func (x *UserSession_CookieOptions) GetNotSecure() bool {
 	return false
 }
 
-func (x *UserSession_CookieOptions) GetHttpOnly() *wrappers.BoolValue {
+func (x *UserSession_CookieOptions) GetHttpOnly() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.HttpOnly
 	}
 	return nil
 }
 
-func (x *UserSession_CookieOptions) GetPath() *wrappers.StringValue {
+func (x *UserSession_CookieOptions) GetPath() *wrapperspb.StringValue {
 	if x != nil {
 		return x.Path
 	}
@@ -6515,6 +6582,8 @@ type isOidcAuthorizationCode_ClientAuthentication_ClientAuthenticationConfig int
 
 type OidcAuthorizationCode_ClientAuthentication_ClientSecret_ struct {
 	// Use the client secret method to authenticate the client
+	//
+	// +kubebuilder:validation:XValidation:rule="has(self.clientSecretRef) || (has(self.disableClientSecret) && self.disableClientSecret)",message="Either clientSecretRef must be set or disableClientSecret must be true"
 	ClientSecret *OidcAuthorizationCode_ClientAuthentication_ClientSecret `protobuf:"bytes,1,opt,name=client_secret,json=clientSecret,proto3,oneof"`
 }
 
@@ -6664,7 +6733,7 @@ type OidcAuthorizationCode_ClientAuthentication_ClientSecret struct {
 	// If true, do not check for or use the client secret.
 	// Generally the client secret is required and AuthConfigs will be rejected if it isn't set.
 	// However certain implementations of the PKCE flow do not use a client secret (including Okta) so this setting allows configuring Oidc without a client secret.
-	DisableClientSecret *wrappers.BoolValue `protobuf:"bytes,2,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
+	DisableClientSecret *wrapperspb.BoolValue `protobuf:"bytes,2,opt,name=disable_client_secret,json=disableClientSecret,proto3" json:"disable_client_secret,omitempty"`
 }
 
 func (x *OidcAuthorizationCode_ClientAuthentication_ClientSecret) Reset() {
@@ -6706,7 +6775,7 @@ func (x *OidcAuthorizationCode_ClientAuthentication_ClientSecret) GetClientSecre
 	return nil
 }
 
-func (x *OidcAuthorizationCode_ClientAuthentication_ClientSecret) GetDisableClientSecret() *wrappers.BoolValue {
+func (x *OidcAuthorizationCode_ClientAuthentication_ClientSecret) GetDisableClientSecret() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.DisableClientSecret
 	}
@@ -6720,10 +6789,12 @@ type OidcAuthorizationCode_ClientAuthentication_PrivateKeyJwt struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Signing key for the JWT used to authenticate the client
+	//
+	// +kubebuilder:validation:Required
 	SigningKeyRef *core.ResourceRef `protobuf:"bytes,1,opt,name=signing_key_ref,json=signingKeyRef,proto3" json:"signing_key_ref,omitempty"`
 	// Amount of time for which the JWT is valid. No maximmum is enforced, but different IDPs may impose limits on how far in
 	// the future the expiration time is allowed to be. If omitted, default is 5s.
-	ValidFor *duration.Duration `protobuf:"bytes,2,opt,name=valid_for,json=validFor,proto3" json:"valid_for,omitempty"`
+	ValidFor *durationpb.Duration `protobuf:"bytes,2,opt,name=valid_for,json=validFor,proto3" json:"valid_for,omitempty"`
 }
 
 func (x *OidcAuthorizationCode_ClientAuthentication_PrivateKeyJwt) Reset() {
@@ -6765,7 +6836,7 @@ func (x *OidcAuthorizationCode_ClientAuthentication_PrivateKeyJwt) GetSigningKey
 	return nil
 }
 
-func (x *OidcAuthorizationCode_ClientAuthentication_PrivateKeyJwt) GetValidFor() *duration.Duration {
+func (x *OidcAuthorizationCode_ClientAuthentication_PrivateKeyJwt) GetValidFor() *durationpb.Duration {
 	if x != nil {
 		return x.ValidFor
 	}
@@ -6779,10 +6850,13 @@ type JwtValidation_RemoteJwks struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The HTTP URI to fetch the JWKS.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// The frequency at which the JWKS should be refreshed.
 	// If not specified, the default value is 5 minutes.
-	RefreshInterval *duration.Duration `protobuf:"bytes,2,opt,name=refresh_interval,json=refreshInterval,proto3" json:"refresh_interval,omitempty"`
+	RefreshInterval *durationpb.Duration `protobuf:"bytes,2,opt,name=refresh_interval,json=refreshInterval,proto3" json:"refresh_interval,omitempty"`
 }
 
 func (x *JwtValidation_RemoteJwks) Reset() {
@@ -6824,7 +6898,7 @@ func (x *JwtValidation_RemoteJwks) GetUrl() string {
 	return ""
 }
 
-func (x *JwtValidation_RemoteJwks) GetRefreshInterval() *duration.Duration {
+func (x *JwtValidation_RemoteJwks) GetRefreshInterval() *durationpb.Duration {
 	if x != nil {
 		return x.RefreshInterval
 	}
@@ -6838,6 +6912,9 @@ type JwtValidation_LocalJwks struct {
 	unknownFields protoimpl.UnknownFields
 
 	// JWKS is embedded as a string.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	InlineString string `protobuf:"bytes,1,opt,name=inline_string,json=inlineString,proto3" json:"inline_string,omitempty"`
 }
 
@@ -7374,9 +7451,9 @@ type Ldap_ConnectionPool struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Maximum number connections that are pooled at any give time. The default value is 5.
-	MaxSize *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=maxSize,proto3" json:"maxSize,omitempty"`
+	MaxSize *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=maxSize,proto3" json:"maxSize,omitempty"`
 	// Number of connections that the pool will be pre-populated with upon initialization. The default value is 2.
-	InitialSize *wrappers.UInt32Value `protobuf:"bytes,2,opt,name=initialSize,proto3" json:"initialSize,omitempty"`
+	InitialSize *wrapperspb.UInt32Value `protobuf:"bytes,2,opt,name=initialSize,proto3" json:"initialSize,omitempty"`
 }
 
 func (x *Ldap_ConnectionPool) Reset() {
@@ -7411,14 +7488,14 @@ func (*Ldap_ConnectionPool) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_proto_rawDescGZIP(), []int{36, 0}
 }
 
-func (x *Ldap_ConnectionPool) GetMaxSize() *wrappers.UInt32Value {
+func (x *Ldap_ConnectionPool) GetMaxSize() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.MaxSize
 	}
 	return nil
 }
 
-func (x *Ldap_ConnectionPool) GetInitialSize() *wrappers.UInt32Value {
+func (x *Ldap_ConnectionPool) GetInitialSize() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.InitialSize
 	}
@@ -8035,7 +8112,7 @@ type ExtAuthConfig_OidcAuthorizationCodeConfig struct {
 	DiscoveryOverride *DiscoveryOverride `protobuf:"bytes,11,opt,name=discovery_override,json=discoveryOverride,proto3" json:"discovery_override,omitempty"`
 	// The interval at which OIDC configuration is discovered at <issuerUrl>/.well-known/openid-configuration
 	// If not specified, the default value is 30 minutes.
-	DiscoveryPollInterval *duration.Duration `protobuf:"bytes,12,opt,name=discovery_poll_interval,json=discoveryPollInterval,proto3" json:"discovery_poll_interval,omitempty"`
+	DiscoveryPollInterval *durationpb.Duration `protobuf:"bytes,12,opt,name=discovery_poll_interval,json=discoveryPollInterval,proto3" json:"discovery_poll_interval,omitempty"`
 	// If a user executes a request with a key that is not found in the JWKS, it could be
 	// that the keys have rotated on the remote source, and not yet in the local cache.
 	// This policy lets you define the behavior for how to refresh the local cache during a request
@@ -8194,7 +8271,7 @@ func (x *ExtAuthConfig_OidcAuthorizationCodeConfig) GetDiscoveryOverride() *Disc
 	return nil
 }
 
-func (x *ExtAuthConfig_OidcAuthorizationCodeConfig) GetDiscoveryPollInterval() *duration.Duration {
+func (x *ExtAuthConfig_OidcAuthorizationCodeConfig) GetDiscoveryPollInterval() *durationpb.Duration {
 	if x != nil {
 		return x.DiscoveryPollInterval
 	}
@@ -8323,7 +8400,7 @@ type ExtAuthConfig_AccessTokenValidationConfig struct {
 	// How long the token introspection and userinfo endpoint response for a specific access token should be kept
 	// in the in-memory cache. The result will be invalidated at this timeout, or at "exp" time from the introspection
 	// result, whichever comes sooner. If omitted, defaults to 10 minutes. If zero, then no caching will be done.
-	CacheTimeout *duration.Duration `protobuf:"bytes,5,opt,name=cache_timeout,json=cacheTimeout,proto3" json:"cache_timeout,omitempty"`
+	CacheTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=cache_timeout,json=cacheTimeout,proto3" json:"cache_timeout,omitempty"`
 	// Optional criteria for validating the scopes of a token.
 	//
 	// Types that are assignable to ScopeValidation:
@@ -8400,7 +8477,7 @@ func (x *ExtAuthConfig_AccessTokenValidationConfig) GetUserinfoUrl() string {
 	return ""
 }
 
-func (x *ExtAuthConfig_AccessTokenValidationConfig) GetCacheTimeout() *duration.Duration {
+func (x *ExtAuthConfig_AccessTokenValidationConfig) GetCacheTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.CacheTimeout
 	}
@@ -9357,7 +9434,7 @@ type ExtAuthConfig_Config struct {
 	// in logging. If omitted, an automatically generated name will be used (e.g. config_0, of the
 	// pattern 'config_$INDEX_IN_CHAIN'). In the case of plugin auth, this field is ignored in favor of
 	// the name assigned on the plugin config itself.
-	Name *wrappers.StringValue `protobuf:"bytes,11,opt,name=name,proto3" json:"name,omitempty"`
+	Name *wrapperspb.StringValue `protobuf:"bytes,11,opt,name=name,proto3" json:"name,omitempty"`
 	// Types that are assignable to AuthConfig:
 	//
 	//	*ExtAuthConfig_Config_Oauth
@@ -9408,7 +9485,7 @@ func (*ExtAuthConfig_Config) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_proto_rawDescGZIP(), []int{44, 14}
 }
 
-func (x *ExtAuthConfig_Config) GetName() *wrappers.StringValue {
+func (x *ExtAuthConfig_Config) GetName() *wrapperspb.StringValue {
 	if x != nil {
 		return x.Name
 	}
@@ -9487,7 +9564,7 @@ func (x *ExtAuthConfig_Config) GetLdapInternal() *ExtAuthConfig_LdapConfig {
 	return nil
 }
 
-func (x *ExtAuthConfig_Config) GetJwt() *empty.Empty {
+func (x *ExtAuthConfig_Config) GetJwt() *emptypb.Empty {
 	if x, ok := x.GetAuthConfig().(*ExtAuthConfig_Config_Jwt); ok {
 		return x.Jwt
 	}
@@ -9562,7 +9639,7 @@ type ExtAuthConfig_Config_Jwt struct {
 	// This is a "dummy" extauth service which can be used to support multiple auth mechanisms with JWT authentication.
 	// If Jwt authentication is to be used in the [boolean expression](https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto.sk/#authconfig) in an AuthConfig, you can use this auth config type to include Jwt as an Auth config.
 	// In addition, `allow_missing_or_failed_jwt` must be set on the Virtual Host or Route that uses JWT auth or else the JWT filter will short circuit this behaviour.
-	Jwt *empty.Empty `protobuf:"bytes,12,opt,name=jwt,proto3,oneof"`
+	Jwt *emptypb.Empty `protobuf:"bytes,12,opt,name=jwt,proto3,oneof"`
 }
 
 type ExtAuthConfig_Config_PassThroughAuth struct {
@@ -9926,7 +10003,7 @@ type ExtAuthConfig_OidcAuthorizationCodeConfig_PkJwtClientAuthenticationConfig s
 	SigningKey string `protobuf:"bytes,1,opt,name=signing_key,json=signingKey,proto3" json:"signing_key,omitempty"`
 	// Amount of time for which the JWT is valid. No maximmum is enforced, but different IDPs may impose limits on how far in
 	// the future the expiration time is allowed to be. Defaults in 5s in front end, but expected to be set explictly here
-	ValidFor *duration.Duration `protobuf:"bytes,2,opt,name=valid_for,json=validFor,proto3" json:"valid_for,omitempty"`
+	ValidFor *durationpb.Duration `protobuf:"bytes,2,opt,name=valid_for,json=validFor,proto3" json:"valid_for,omitempty"`
 }
 
 func (x *ExtAuthConfig_OidcAuthorizationCodeConfig_PkJwtClientAuthenticationConfig) Reset() {
@@ -9968,7 +10045,7 @@ func (x *ExtAuthConfig_OidcAuthorizationCodeConfig_PkJwtClientAuthenticationConf
 	return ""
 }
 
-func (x *ExtAuthConfig_OidcAuthorizationCodeConfig_PkJwtClientAuthenticationConfig) GetValidFor() *duration.Duration {
+func (x *ExtAuthConfig_OidcAuthorizationCodeConfig_PkJwtClientAuthenticationConfig) GetValidFor() *durationpb.Duration {
 	if x != nil {
 		return x.ValidFor
 	}
@@ -10523,7 +10600,7 @@ type ExtAuthConfig_AccessTokenValidationConfig_JwtValidation_RemoteJwks struct {
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// The frequency at which the JWKS should be refreshed.
 	// If not specified, the default value is 5 minutes.
-	RefreshInterval *duration.Duration `protobuf:"bytes,2,opt,name=refresh_interval,json=refreshInterval,proto3" json:"refresh_interval,omitempty"`
+	RefreshInterval *durationpb.Duration `protobuf:"bytes,2,opt,name=refresh_interval,json=refreshInterval,proto3" json:"refresh_interval,omitempty"`
 }
 
 func (x *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation_RemoteJwks) Reset() {
@@ -10565,7 +10642,7 @@ func (x *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation_RemoteJwks) Get
 	return ""
 }
 
-func (x *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation_RemoteJwks) GetRefreshInterval() *duration.Duration {
+func (x *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation_RemoteJwks) GetRefreshInterval() *durationpb.Duration {
 	if x != nil {
 		return x.RefreshInterval
 	}
@@ -12989,13 +13066,13 @@ var file_github_com_solo_io_solo_apis_api_gloo_enterprise_gloo_v1_auth_config_pr
 	nil,                               // 154: enterprise.gloo.solo.io.ExtAuthConfig.InMemorySecretList.SecretListEntry
 	nil,                               // 155: enterprise.gloo.solo.io.AuthConfigStatus.SubresourceStatusesEntry
 	nil,                               // 156: enterprise.gloo.solo.io.AuthConfigNamespacedStatuses.StatusesEntry
-	(*wrappers.StringValue)(nil),      // 157: google.protobuf.StringValue
+	(*wrapperspb.StringValue)(nil),    // 157: google.protobuf.StringValue
 	(*core.ResourceRef)(nil),          // 158: core.solo.io.ResourceRef
-	(*duration.Duration)(nil),         // 159: google.protobuf.Duration
-	(*_struct.Struct)(nil),            // 160: google.protobuf.Struct
-	(*wrappers.BoolValue)(nil),        // 161: google.protobuf.BoolValue
-	(*empty.Empty)(nil),               // 162: google.protobuf.Empty
-	(*wrappers.UInt32Value)(nil),      // 163: google.protobuf.UInt32Value
+	(*durationpb.Duration)(nil),       // 159: google.protobuf.Duration
+	(*structpb.Struct)(nil),           // 160: google.protobuf.Struct
+	(*wrapperspb.BoolValue)(nil),      // 161: google.protobuf.BoolValue
+	(*emptypb.Empty)(nil),             // 162: google.protobuf.Empty
+	(*wrapperspb.UInt32Value)(nil),    // 163: google.protobuf.UInt32Value
 	(*v2.DiscoveryRequest)(nil),       // 164: envoy.api.v2.DiscoveryRequest
 	(*v2.DeltaDiscoveryRequest)(nil),  // 165: envoy.api.v2.DeltaDiscoveryRequest
 	(*v2.DiscoveryResponse)(nil),      // 166: envoy.api.v2.DiscoveryResponse

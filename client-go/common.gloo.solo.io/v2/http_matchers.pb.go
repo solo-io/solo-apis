@@ -91,6 +91,9 @@ type HTTPRequestMatcher struct {
 	// Optional: Specify an HTTP method to match against.
 	Method string `protobuf:"bytes,7,opt,name=method,proto3" json:"method,omitempty"`
 	// Optional: Specifies ports on the host to match against.
+	//
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=65535
 	Port uint32 `protobuf:"varint,8,opt,name=port,proto3" json:"port,omitempty"`
 }
 

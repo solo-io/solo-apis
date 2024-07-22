@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *XdsConfigSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *XdsConfigSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.XdsConfigSpec")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.XdsConfigSpec")); err != nil {
 		return 0, err
 	}
 
@@ -90,6 +94,10 @@ func (m *XdsConfigSpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *XdsConfigStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -98,7 +106,7 @@ func (m *XdsConfigStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.XdsConfigStatus")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.XdsConfigStatus")); err != nil {
 		return 0, err
 	}
 
@@ -115,6 +123,10 @@ func (m *XdsConfigStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *XdsConfigSpec_TypedResources) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -123,7 +135,7 @@ func (m *XdsConfigSpec_TypedResources) Hash(hasher hash.Hash64) (uint64, error) 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.XdsConfigSpec_TypedResources")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.XdsConfigSpec_TypedResources")); err != nil {
 		return 0, err
 	}
 
@@ -159,6 +171,10 @@ func (m *XdsConfigSpec_TypedResources) Hash(hasher hash.Hash64) (uint64, error) 
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *XdsConfigSpec_Resource) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -167,7 +183,7 @@ func (m *XdsConfigSpec_Resource) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2.XdsConfigSpec_Resource")); err != nil {
+	if _, err = hasher.Write([]byte("internal.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/internal.gloo.solo.io/v2.XdsConfigSpec_Resource")); err != nil {
 		return 0, err
 	}
 

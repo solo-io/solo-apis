@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *LoadBalancerPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *LoadBalancerPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -86,6 +90,10 @@ func (m *LoadBalancerPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *LoadBalancerPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -94,7 +102,7 @@ func (m *LoadBalancerPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -127,6 +135,10 @@ func (m *LoadBalancerPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *LoadBalancerPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -135,7 +147,7 @@ func (m *LoadBalancerPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -206,6 +218,10 @@ func (m *LoadBalancerPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *LoadBalancerPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -214,7 +230,7 @@ func (m *LoadBalancerPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 
@@ -315,6 +331,10 @@ func (m *LoadBalancerPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *LoadBalancerPolicySpec_Config_ConsistentHashLB) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -323,7 +343,7 @@ func (m *LoadBalancerPolicySpec_Config_ConsistentHashLB) Hash(hasher hash.Hash64
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicySpec_Config_ConsistentHashLB")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicySpec_Config_ConsistentHashLB")); err != nil {
 		return 0, err
 	}
 
@@ -376,6 +396,10 @@ func (m *LoadBalancerPolicySpec_Config_ConsistentHashLB) Hash(hasher hash.Hash64
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -384,7 +408,7 @@ func (m *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) Hash(hasher 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie")); err != nil {
+	if _, err = hasher.Write([]byte("trafficcontrol.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/trafficcontrol.policy.gloo.solo.io/v2.LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie")); err != nil {
 		return 0, err
 	}
 

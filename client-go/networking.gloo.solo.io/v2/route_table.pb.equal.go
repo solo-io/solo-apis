@@ -187,6 +187,17 @@ func (m *RouteTableSpec) Equal(that interface{}) bool {
 		return false
 	}
 
+	if len(m.GetVirtualServiceAnnotations()) != len(target.GetVirtualServiceAnnotations()) {
+		return false
+	}
+	for k, v := range m.GetVirtualServiceAnnotations() {
+
+		if strings.Compare(v, target.GetVirtualServiceAnnotations()[k]) != 0 {
+			return false
+		}
+
+	}
+
 	return true
 }
 

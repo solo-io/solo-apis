@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExternalServiceSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *ExternalServiceSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalServiceSpec")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalServiceSpec")); err != nil {
 		return 0, err
 	}
 
@@ -113,6 +117,10 @@ func (m *ExternalServiceSpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExternalServiceStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -121,7 +129,7 @@ func (m *ExternalServiceStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalServiceStatus")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalServiceStatus")); err != nil {
 		return 0, err
 	}
 
@@ -187,6 +195,10 @@ func (m *ExternalServiceStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExternalServiceReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -195,7 +207,7 @@ func (m *ExternalServiceReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalServiceReport")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalServiceReport")); err != nil {
 		return 0, err
 	}
 
@@ -333,6 +345,10 @@ func (m *ExternalServiceReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExternalServiceSpec_Port) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -341,7 +357,7 @@ func (m *ExternalServiceSpec_Port) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalServiceSpec_Port")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalServiceSpec_Port")); err != nil {
 		return 0, err
 	}
 
@@ -422,6 +438,10 @@ func (m *ExternalServiceSpec_Port) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExternalServiceSpec_Port_TlsConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -430,7 +450,7 @@ func (m *ExternalServiceSpec_Port_TlsConfig) Hash(hasher hash.Hash64) (uint64, e
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalServiceSpec_Port_TlsConfig")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalServiceSpec_Port_TlsConfig")); err != nil {
 		return 0, err
 	}
 
@@ -459,6 +479,10 @@ func (m *ExternalServiceSpec_Port_TlsConfig) Hash(hasher hash.Hash64) (uint64, e
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExternalServiceSpec_Port_EgressGatewayRoutes) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -467,7 +491,7 @@ func (m *ExternalServiceSpec_Port_EgressGatewayRoutes) Hash(hasher hash.Hash64) 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ExternalServiceSpec_Port_EgressGatewayRoutes")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ExternalServiceSpec_Port_EgressGatewayRoutes")); err != nil {
 		return 0, err
 	}
 

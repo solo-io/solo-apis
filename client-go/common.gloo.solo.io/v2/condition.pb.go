@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -35,7 +35,7 @@ type Condition struct {
 	// Optional. The `metadata.generation` that the condition is based on.
 	ObservedGeneration int64 `protobuf:"varint,3,opt,name=observed_generation,json=observedGeneration,proto3" json:"observed_generation,omitempty"`
 	// The timestamp when the condition last transitioned from one status to another.
-	LastTransitionTime *timestamp.Timestamp `protobuf:"bytes,4,opt,name=last_transition_time,json=lastTransitionTime,proto3" json:"last_transition_time,omitempty"`
+	LastTransitionTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=last_transition_time,json=lastTransitionTime,proto3" json:"last_transition_time,omitempty"`
 	// The programmatic identifier that represents the reason the condition transitioned to the current status in CamelCase format.
 	Reason string `protobuf:"bytes,5,opt,name=reason,proto3" json:"reason,omitempty"`
 	// A human readable message that includes the details about why the condition transitioned to the current status.
@@ -95,7 +95,7 @@ func (x *Condition) GetObservedGeneration() int64 {
 	return 0
 }
 
-func (x *Condition) GetLastTransitionTime() *timestamp.Timestamp {
+func (x *Condition) GetLastTransitionTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastTransitionTime
 	}
@@ -166,8 +166,8 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_cond
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_condition_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_condition_proto_goTypes = []interface{}{
-	(*Condition)(nil),           // 0: common.gloo.solo.io.Condition
-	(*timestamp.Timestamp)(nil), // 1: google.protobuf.Timestamp
+	(*Condition)(nil),             // 0: common.gloo.solo.io.Condition
+	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_condition_proto_depIdxs = []int32{
 	1, // 0: common.gloo.solo.io.Condition.last_transition_time:type_name -> google.protobuf.Timestamp

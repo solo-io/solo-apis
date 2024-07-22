@@ -6,6 +6,7 @@ import "extproto/ext.proto";
 import "google/protobuf/struct.proto";
 import "k8s.io/api/core/v1/generated.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_operator.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_helm.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2";
 
@@ -18,6 +19,9 @@ message ClusterIstioInstallationSpec {
   // IstioOperator specification for the control plane.
   // For more info, see the [Istio documentation](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
    .common.gloo.solo.io.IstioOperatorSpec istio_operator_spec = 1;
+
+  // Optional global configuration applicable to all installations
+  .common.gloo.solo.io.IstioLifecycleHelmGlobals helm_global = 2;
 }
 
 // $hide_from_docs

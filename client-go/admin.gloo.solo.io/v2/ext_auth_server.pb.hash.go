@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExtAuthServerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *ExtAuthServerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.ExtAuthServerSpec")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.ExtAuthServerSpec")); err != nil {
 		return 0, err
 	}
 
@@ -146,6 +150,10 @@ func (m *ExtAuthServerSpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExtAuthServerStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -154,7 +162,7 @@ func (m *ExtAuthServerStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.ExtAuthServerStatus")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.ExtAuthServerStatus")); err != nil {
 		return 0, err
 	}
 
@@ -172,6 +180,10 @@ func (m *ExtAuthServerStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExtAuthServerSpec_HttpService) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -180,7 +192,7 @@ func (m *ExtAuthServerSpec_HttpService) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.ExtAuthServerSpec_HttpService")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.ExtAuthServerSpec_HttpService")); err != nil {
 		return 0, err
 	}
 
@@ -232,6 +244,10 @@ func (m *ExtAuthServerSpec_HttpService) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExtAuthServerSpec_BufferSettings) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -240,7 +256,7 @@ func (m *ExtAuthServerSpec_BufferSettings) Hash(hasher hash.Hash64) (uint64, err
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.ExtAuthServerSpec_BufferSettings")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.ExtAuthServerSpec_BufferSettings")); err != nil {
 		return 0, err
 	}
 
@@ -263,6 +279,10 @@ func (m *ExtAuthServerSpec_BufferSettings) Hash(hasher hash.Hash64) (uint64, err
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExtAuthServerSpec_HttpService_Request) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -271,7 +291,7 @@ func (m *ExtAuthServerSpec_HttpService_Request) Hash(hasher hash.Hash64) (uint64
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.ExtAuthServerSpec_HttpService_Request")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.ExtAuthServerSpec_HttpService_Request")); err != nil {
 		return 0, err
 	}
 
@@ -310,6 +330,10 @@ func (m *ExtAuthServerSpec_HttpService_Request) Hash(hasher hash.Hash64) (uint64
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ExtAuthServerSpec_HttpService_Response) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -318,7 +342,7 @@ func (m *ExtAuthServerSpec_HttpService_Response) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2.ExtAuthServerSpec_HttpService_Response")); err != nil {
+	if _, err = hasher.Write([]byte("admin.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/admin.gloo.solo.io/v2.ExtAuthServerSpec_HttpService_Response")); err != nil {
 		return 0, err
 	}
 

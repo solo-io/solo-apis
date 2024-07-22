@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *FailoverPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *FailoverPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -86,6 +90,10 @@ func (m *FailoverPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *FailoverPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -94,7 +102,7 @@ func (m *FailoverPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.FailoverPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.FailoverPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -127,6 +135,10 @@ func (m *FailoverPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *FailoverPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -135,7 +147,7 @@ func (m *FailoverPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.FailoverPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.FailoverPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -230,6 +242,10 @@ func (m *FailoverPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *DestinationToSelectedOutlierDetection) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -238,7 +254,7 @@ func (m *DestinationToSelectedOutlierDetection) Hash(hasher hash.Hash64) (uint64
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.DestinationToSelectedOutlierDetection")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.DestinationToSelectedOutlierDetection")); err != nil {
 		return 0, err
 	}
 
@@ -286,6 +302,10 @@ func (m *DestinationToSelectedOutlierDetection) Hash(hasher hash.Hash64) (uint64
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *FailoverPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -294,7 +314,7 @@ func (m *FailoverPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 
@@ -352,6 +372,10 @@ func (m *FailoverPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *FailoverPolicySpec_Config_PriorityLabels) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -360,7 +384,7 @@ func (m *FailoverPolicySpec_Config_PriorityLabels) Hash(hasher hash.Hash64) (uin
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config_PriorityLabels")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config_PriorityLabels")); err != nil {
 		return 0, err
 	}
 
@@ -376,6 +400,10 @@ func (m *FailoverPolicySpec_Config_PriorityLabels) Hash(hasher hash.Hash64) (uin
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *FailoverPolicySpec_Config_LocalityMappings) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -384,7 +412,7 @@ func (m *FailoverPolicySpec_Config_LocalityMappings) Hash(hasher hash.Hash64) (u
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config_LocalityMappings")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config_LocalityMappings")); err != nil {
 		return 0, err
 	}
 
@@ -436,6 +464,10 @@ func (m *FailoverPolicySpec_Config_LocalityMappings) Hash(hasher hash.Hash64) (u
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *FailoverPolicySpec_Config_LocalityMappings_OriginatingLocality) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -444,7 +476,7 @@ func (m *FailoverPolicySpec_Config_LocalityMappings_OriginatingLocality) Hash(ha
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config_LocalityMappings_OriginatingLocality")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config_LocalityMappings_OriginatingLocality")); err != nil {
 		return 0, err
 	}
 
@@ -464,6 +496,10 @@ func (m *FailoverPolicySpec_Config_LocalityMappings_OriginatingLocality) Hash(ha
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *FailoverPolicySpec_Config_LocalityMappings_DestinationLocality) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -472,7 +508,7 @@ func (m *FailoverPolicySpec_Config_LocalityMappings_DestinationLocality) Hash(ha
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config_LocalityMappings_DestinationLocality")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.FailoverPolicySpec_Config_LocalityMappings_DestinationLocality")); err != nil {
 		return 0, err
 	}
 

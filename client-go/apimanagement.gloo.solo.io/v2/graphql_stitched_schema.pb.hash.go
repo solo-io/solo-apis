@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLStitchedSchemaSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *GraphQLStitchedSchemaSpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaSpec")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaSpec")); err != nil {
 		return 0, err
 	}
 
@@ -86,6 +90,10 @@ func (m *GraphQLStitchedSchemaSpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLStitchedSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -94,7 +102,7 @@ func (m *GraphQLStitchedSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaStatus")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaStatus")); err != nil {
 		return 0, err
 	}
 
@@ -126,6 +134,10 @@ func (m *GraphQLStitchedSchemaStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLStitchedSchemaReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -134,7 +146,7 @@ func (m *GraphQLStitchedSchemaReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaReport")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaReport")); err != nil {
 		return 0, err
 	}
 
@@ -185,6 +197,10 @@ func (m *GraphQLStitchedSchemaReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLStitchedSchemaSpec_Subschema) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -193,7 +209,7 @@ func (m *GraphQLStitchedSchemaSpec_Subschema) Hash(hasher hash.Hash64) (uint64, 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaSpec_Subschema")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaSpec_Subschema")); err != nil {
 		return 0, err
 	}
 
@@ -288,6 +304,10 @@ func (m *GraphQLStitchedSchemaSpec_Subschema) Hash(hasher hash.Hash64) (uint64, 
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLStitchedSchemaSpec_Options) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -296,7 +316,7 @@ func (m *GraphQLStitchedSchemaSpec_Options) Hash(hasher hash.Hash64) (uint64, er
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaSpec_Options")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaSpec_Options")); err != nil {
 		return 0, err
 	}
 
@@ -309,6 +329,10 @@ func (m *GraphQLStitchedSchemaSpec_Options) Hash(hasher hash.Hash64) (uint64, er
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLStitchedSchemaSpec_Subschema_TypeMergeConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -317,7 +341,7 @@ func (m *GraphQLStitchedSchemaSpec_Subschema_TypeMergeConfig) Hash(hasher hash.H
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaSpec_Subschema_TypeMergeConfig")); err != nil {
+	if _, err = hasher.Write([]byte("apimanagement.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/apimanagement.gloo.solo.io/v2.GraphQLStitchedSchemaSpec_Subschema_TypeMergeConfig")); err != nil {
 		return 0, err
 	}
 

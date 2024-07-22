@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *VirtualGatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *VirtualGatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualGatewaySpec")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualGatewaySpec")); err != nil {
 		return 0, err
 	}
 
@@ -90,6 +94,10 @@ func (m *VirtualGatewaySpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *TLSConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -98,7 +106,7 @@ func (m *TLSConfig) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.TLSConfig")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.TLSConfig")); err != nil {
 		return 0, err
 	}
 
@@ -171,6 +179,10 @@ func (m *TLSConfig) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *VirtualGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -179,7 +191,7 @@ func (m *VirtualGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualGatewayStatus")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualGatewayStatus")); err != nil {
 		return 0, err
 	}
 
@@ -222,6 +234,10 @@ func (m *VirtualGatewayStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *VirtualGatewayReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -230,7 +246,7 @@ func (m *VirtualGatewayReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualGatewayReport")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualGatewayReport")); err != nil {
 		return 0, err
 	}
 
@@ -373,6 +389,10 @@ func (m *VirtualGatewayReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *ListenerRouteTable) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -381,7 +401,7 @@ func (m *ListenerRouteTable) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.ListenerRouteTable")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.ListenerRouteTable")); err != nil {
 		return 0, err
 	}
 
@@ -414,6 +434,10 @@ func (m *ListenerRouteTable) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *VirtualGatewaySpec_Listener) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -422,7 +446,7 @@ func (m *VirtualGatewaySpec_Listener) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener")); err != nil {
 		return 0, err
 	}
 
@@ -583,6 +607,10 @@ func (m *VirtualGatewaySpec_Listener) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *VirtualGatewaySpec_Listener_HTTPServer) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -591,7 +619,7 @@ func (m *VirtualGatewaySpec_Listener_HTTPServer) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener_HTTPServer")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener_HTTPServer")); err != nil {
 		return 0, err
 	}
 
@@ -599,6 +627,10 @@ func (m *VirtualGatewaySpec_Listener_HTTPServer) Hash(hasher hash.Hash64) (uint6
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *VirtualGatewaySpec_Listener_TCPServer) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -607,7 +639,7 @@ func (m *VirtualGatewaySpec_Listener_TCPServer) Hash(hasher hash.Hash64) (uint64
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener_TCPServer")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener_TCPServer")); err != nil {
 		return 0, err
 	}
 
@@ -615,6 +647,10 @@ func (m *VirtualGatewaySpec_Listener_TCPServer) Hash(hasher hash.Hash64) (uint64
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *VirtualGatewaySpec_Listener_RouteTableFilter) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -623,7 +659,7 @@ func (m *VirtualGatewaySpec_Listener_RouteTableFilter) Hash(hasher hash.Hash64) 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener_RouteTableFilter")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener_RouteTableFilter")); err != nil {
 		return 0, err
 	}
 
@@ -679,6 +715,10 @@ func (m *VirtualGatewaySpec_Listener_RouteTableFilter) Hash(hasher hash.Hash64) 
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *VirtualGatewaySpec_Listener_ExternalServiceFilter) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -687,7 +727,7 @@ func (m *VirtualGatewaySpec_Listener_ExternalServiceFilter) Hash(hasher hash.Has
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener_ExternalServiceFilter")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.VirtualGatewaySpec_Listener_ExternalServiceFilter")); err != nil {
 		return 0, err
 	}
 
@@ -719,6 +759,10 @@ func (m *VirtualGatewaySpec_Listener_ExternalServiceFilter) Hash(hasher hash.Has
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *TLSConfig_Files) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -727,7 +771,7 @@ func (m *TLSConfig_Files) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.TLSConfig_Files")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.TLSConfig_Files")); err != nil {
 		return 0, err
 	}
 
@@ -747,6 +791,10 @@ func (m *TLSConfig_Files) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *TLSConfig_Parameters) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -755,7 +803,7 @@ func (m *TLSConfig_Parameters) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2.TLSConfig_Parameters")); err != nil {
+	if _, err = hasher.Write([]byte("networking.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/networking.gloo.solo.io/v2.TLSConfig_Parameters")); err != nil {
 		return 0, err
 	}
 

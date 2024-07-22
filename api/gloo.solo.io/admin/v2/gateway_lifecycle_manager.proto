@@ -6,7 +6,7 @@
 //
 // For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% link path="/setup/install/gloo_mesh_managed/" %}}) guide.
 //
-// **Examples**:
+// ## Examples
 //
 // **East-west**: This example creates an east-west gateway named `istio-eastwestgateway` in the `gloo-mesh-gateways`
 // namespace of two workload clusters (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the repo key for the Solo distribution of Istio (`hub: $REPO`),
@@ -248,6 +248,7 @@ package admin.gloo.solo.io;
 
 import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_operator.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/istio_helm.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2";
 
@@ -260,6 +261,9 @@ message GatewayLifecycleManagerSpec {
 
   // List of Istio gateway installations.
   repeated GatewayInstallation installations = 1;
+
+  // Optional default configuration applicable to all installations
+  .common.gloo.solo.io.IstioLifecycleHelmGlobals helm_global = 2;
 }
 
 // Clusters to install the Istio gateways in.
@@ -273,7 +277,7 @@ message GatewayClusterSelector {
   // When set to true, the gateway installation for this revision is applied as the active gateway through which primary service traffic is routed in the cluster.
   // If the `istioOperatorSpec` defines a service, this field switches the service selectors to the revision specified in the `gatewayRevsion`.
   // You might change this setting for gateway installations during a canary upgrade.
-  // For more info, see the [upgrade docs](https://docs.solo.io/gloo-mesh-enterprise/main/setup/upgrade/gloo_mesh_managed_upgrade/).
+  // For more info, see the [upgrade docs](https://docs.solo.io/gloo-mesh-enterprise/latest/istio/mesh/ilm-upgrade/).
   bool active_gateway = 2;
 
   // Optional: By default, the `trustDomain` value in the `meshConfig` section of the operator spec is automatically set by the Gloo to the name of each workload cluster.
@@ -378,6 +382,9 @@ message GatewayLifecycleManagerStatus {
 
         // The gateway is uninstalled.
         UNINSTALLED_GATEWAY = 11;
+
+        // Successfully translated but not installing yet
+        INSTALL_PENDING = 12;
       }
     }
   }

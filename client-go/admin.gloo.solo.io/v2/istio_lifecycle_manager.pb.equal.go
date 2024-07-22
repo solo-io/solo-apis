@@ -63,6 +63,16 @@ func (m *IstioLifecycleManagerSpec) Equal(that interface{}) bool {
 
 	}
 
+	if h, ok := interface{}(m.GetHelmGlobal()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetHelmGlobal()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetHelmGlobal(), target.GetHelmGlobal()) {
+			return false
+		}
+	}
+
 	return true
 }
 
