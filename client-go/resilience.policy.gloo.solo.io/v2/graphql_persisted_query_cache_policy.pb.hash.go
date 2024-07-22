@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLPersistedQueryCachePolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *GraphQLPersistedQueryCachePolicySpec) Hash(hasher hash.Hash64) (uint64,
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.GraphQLPersistedQueryCachePolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.GraphQLPersistedQueryCachePolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -86,6 +90,10 @@ func (m *GraphQLPersistedQueryCachePolicySpec) Hash(hasher hash.Hash64) (uint64,
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLPersistedQueryCachePolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -94,7 +102,7 @@ func (m *GraphQLPersistedQueryCachePolicyStatus) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.GraphQLPersistedQueryCachePolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.GraphQLPersistedQueryCachePolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -127,6 +135,10 @@ func (m *GraphQLPersistedQueryCachePolicyStatus) Hash(hasher hash.Hash64) (uint6
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLPersistedQueryCachePolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -135,7 +147,7 @@ func (m *GraphQLPersistedQueryCachePolicyReport) Hash(hasher hash.Hash64) (uint6
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.GraphQLPersistedQueryCachePolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.GraphQLPersistedQueryCachePolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -206,6 +218,10 @@ func (m *GraphQLPersistedQueryCachePolicyReport) Hash(hasher hash.Hash64) (uint6
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *GraphQLPersistedQueryCachePolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -214,7 +230,7 @@ func (m *GraphQLPersistedQueryCachePolicySpec_Config) Hash(hasher hash.Hash64) (
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.GraphQLPersistedQueryCachePolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.GraphQLPersistedQueryCachePolicySpec_Config")); err != nil {
 		return 0, err
 	}
 

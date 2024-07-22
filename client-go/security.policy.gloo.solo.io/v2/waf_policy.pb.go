@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 	v21 "github.com/solo-io/solo-apis/client-go/envoy-gloo-ee/api/envoy/config/filter/http/modsecurity/v2"
@@ -232,7 +232,7 @@ type WAFPolicySpec_Config struct {
 	// Use this field for all WAF policies applicable to a route or not at all. Defaults to nil if not provided,
 	// and WAF policies will be applied in order of ascending creation time.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
-	Priority *wrappers.UInt32Value `protobuf:"bytes,7,opt,name=priority,proto3" json:"priority,omitempty"`
+	Priority *wrapperspb.UInt32Value `protobuf:"bytes,7,opt,name=priority,proto3" json:"priority,omitempty"`
 }
 
 func (x *WAFPolicySpec_Config) Reset() {
@@ -330,7 +330,7 @@ func (x *WAFPolicySpec_Config) GetResponseHeadersOnly() bool {
 	return false
 }
 
-func (x *WAFPolicySpec_Config) GetPriority() *wrappers.UInt32Value {
+func (x *WAFPolicySpec_Config) GetPriority() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.Priority
 	}
@@ -484,18 +484,18 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secu
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_waf_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_waf_policy_proto_goTypes = []interface{}{
-	(*WAFPolicySpec)(nil),        // 0: security.policy.gloo.solo.io.WAFPolicySpec
-	(*WAFPolicyStatus)(nil),      // 1: security.policy.gloo.solo.io.WAFPolicyStatus
-	(*WAFPolicyReport)(nil),      // 2: security.policy.gloo.solo.io.WAFPolicyReport
-	(*WAFPolicySpec_Config)(nil), // 3: security.policy.gloo.solo.io.WAFPolicySpec.Config
-	nil,                          // 4: security.policy.gloo.solo.io.WAFPolicyReport.WorkspacesEntry
-	(*v2.RouteSelector)(nil),     // 5: common.gloo.solo.io.RouteSelector
-	(*v2.Status)(nil),            // 6: common.gloo.solo.io.Status
-	(*v2.RouteReference)(nil),    // 7: common.gloo.solo.io.RouteReference
-	(*v21.RuleSet)(nil),          // 8: envoy.config.filter.http.modsecurity.v2.RuleSet
-	(*v21.AuditLogging)(nil),     // 9: envoy.config.filter.http.modsecurity.v2.AuditLogging
-	(*wrappers.UInt32Value)(nil), // 10: google.protobuf.UInt32Value
-	(*v2.Report)(nil),            // 11: common.gloo.solo.io.Report
+	(*WAFPolicySpec)(nil),          // 0: security.policy.gloo.solo.io.WAFPolicySpec
+	(*WAFPolicyStatus)(nil),        // 1: security.policy.gloo.solo.io.WAFPolicyStatus
+	(*WAFPolicyReport)(nil),        // 2: security.policy.gloo.solo.io.WAFPolicyReport
+	(*WAFPolicySpec_Config)(nil),   // 3: security.policy.gloo.solo.io.WAFPolicySpec.Config
+	nil,                            // 4: security.policy.gloo.solo.io.WAFPolicyReport.WorkspacesEntry
+	(*v2.RouteSelector)(nil),       // 5: common.gloo.solo.io.RouteSelector
+	(*v2.Status)(nil),              // 6: common.gloo.solo.io.Status
+	(*v2.RouteReference)(nil),      // 7: common.gloo.solo.io.RouteReference
+	(*v21.RuleSet)(nil),            // 8: envoy.config.filter.http.modsecurity.v2.RuleSet
+	(*v21.AuditLogging)(nil),       // 9: envoy.config.filter.http.modsecurity.v2.AuditLogging
+	(*wrapperspb.UInt32Value)(nil), // 10: google.protobuf.UInt32Value
+	(*v2.Report)(nil),              // 11: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_waf_policy_proto_depIdxs = []int32{
 	5,  // 0: security.policy.gloo.solo.io.WAFPolicySpec.apply_to_routes:type_name -> common.gloo.solo.io.RouteSelector

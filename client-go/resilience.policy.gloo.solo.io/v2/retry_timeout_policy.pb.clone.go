@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
-
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
-
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+
+	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -132,9 +132,9 @@ func (m *RetryTimeoutPolicySpec_Config) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetRequestTimeout()).(clone.Cloner); ok {
-		target.RequestTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.RequestTimeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	return target
@@ -149,23 +149,23 @@ func (m *RetryTimeoutPolicySpec_Config_RetryPolicy) Clone() proto.Message {
 	target = &RetryTimeoutPolicySpec_Config_RetryPolicy{}
 
 	if h, ok := interface{}(m.GetAttempts()).(clone.Cloner); ok {
-		target.Attempts = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.Int32Value)
+		target.Attempts = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.Int32Value)
 	} else {
-		target.Attempts = proto.Clone(m.GetAttempts()).(*github_com_golang_protobuf_ptypes_wrappers.Int32Value)
+		target.Attempts = proto.Clone(m.GetAttempts()).(*google_golang_org_protobuf_types_known_wrapperspb.Int32Value)
 	}
 
 	if h, ok := interface{}(m.GetPerTryTimeout()).(clone.Cloner); ok {
-		target.PerTryTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.PerTryTimeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.PerTryTimeout = proto.Clone(m.GetPerTryTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.PerTryTimeout = proto.Clone(m.GetPerTryTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	target.RetryOn = m.GetRetryOn()
 
 	if h, ok := interface{}(m.GetRetryRemoteLocalities()).(clone.Cloner); ok {
-		target.RetryRemoteLocalities = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.RetryRemoteLocalities = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	} else {
-		target.RetryRemoteLocalities = proto.Clone(m.GetRetryRemoteLocalities()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.RetryRemoteLocalities = proto.Clone(m.GetRetryRemoteLocalities()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	}
 
 	return target

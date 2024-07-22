@@ -83,6 +83,10 @@ message AppliedRoutePolicies {
 
     // The reference to the policy
     ObjectReference policy = 3;
+
+    // The reference to the root route table.
+    // Only relevant if this is a delegated route table.
+    ObjectReference root_route_table = 4;
   }
 }
 

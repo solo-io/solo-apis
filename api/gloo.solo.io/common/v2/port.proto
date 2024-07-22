@@ -14,6 +14,9 @@ option (extproto.hash_all) = true;
 message PortSelector {
   oneof specifier {
     // the number of the port on the destination objects being targeted.
+    //
+    // +kubebuilder:validation:Minimum=1
+    // +kubebuilder:validation:Maximum=65535
     uint32 number = 4;
 
     // the name of the port on the destination objects being targeted.

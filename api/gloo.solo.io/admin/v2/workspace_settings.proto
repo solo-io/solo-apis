@@ -265,7 +265,8 @@ message WorkspaceSettingsSpec {
     // You can add destinations back into the sidecar proxy config
     // by enabling the `serviceIsolation.trimProxyConfig` field in the workspace settings or by using a `TrimProxyConfigPolicy`.
     // The preferred way is the `TrimProxyConfigPolicy`, which gives you more fine-grained control over the allowed destinations than the workspace-wide `serviceIsolation.trimProxyConfig` setting.
-    // For more information, see the [Trim proxy config guide](https://docs.solo.io/gloo-mesh-enterprise/latest/policies/trim-proxy-config/).
+    // For more information, see the
+    // [Trim proxy config guide](https://docs.solo.io/gloo-mesh-enterprise/latest/resiliency/trim-proxy-config/workspace-service-isolation/).
     bool trim_all_proxy_config = 5;
 
     message ServiceIsolation {

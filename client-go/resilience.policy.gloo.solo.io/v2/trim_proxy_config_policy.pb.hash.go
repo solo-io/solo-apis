@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *TrimProxyConfigPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *TrimProxyConfigPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.TrimProxyConfigPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.TrimProxyConfigPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -86,6 +90,10 @@ func (m *TrimProxyConfigPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *TrimProxyConfigPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -94,7 +102,7 @@ func (m *TrimProxyConfigPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.TrimProxyConfigPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.TrimProxyConfigPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -132,6 +140,10 @@ func (m *TrimProxyConfigPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *TrimProxyConfigPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -140,7 +152,7 @@ func (m *TrimProxyConfigPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.TrimProxyConfigPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.TrimProxyConfigPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -219,6 +231,10 @@ func (m *TrimProxyConfigPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *TrimProxyConfigPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -227,7 +243,7 @@ func (m *TrimProxyConfigPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, err
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2.TrimProxyConfigPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("resilience.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/resilience.policy.gloo.solo.io/v2.TrimProxyConfigPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 

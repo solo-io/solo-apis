@@ -26,6 +26,10 @@ var (
 )
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -34,7 +38,7 @@ func (m *JWTPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec")); err != nil {
 		return 0, err
 	}
 
@@ -110,6 +114,10 @@ func (m *JWTPolicySpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -118,7 +126,7 @@ func (m *JWTPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicyStatus")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicyStatus")); err != nil {
 		return 0, err
 	}
 
@@ -156,6 +164,10 @@ func (m *JWTPolicyStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -164,7 +176,7 @@ func (m *JWTPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicyReport")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicyReport")); err != nil {
 		return 0, err
 	}
 
@@ -259,6 +271,10 @@ func (m *JWTPolicyReport) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -267,7 +283,7 @@ func (m *JWTPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config")); err != nil {
 		return 0, err
 	}
 
@@ -381,6 +397,10 @@ func (m *JWTPolicySpec_Config) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -389,7 +409,7 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider")); err != nil {
 		return 0, err
 	}
 
@@ -530,6 +550,10 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_ClaimMatcher) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -538,7 +562,7 @@ func (m *JWTPolicySpec_Config_ClaimMatcher) Hash(hasher hash.Hash64) (uint64, er
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_ClaimMatcher")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_ClaimMatcher")); err != nil {
 		return 0, err
 	}
 
@@ -570,6 +594,10 @@ func (m *JWTPolicySpec_Config_ClaimMatcher) Hash(hasher hash.Hash64) (uint64, er
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_TokenSource) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -578,7 +606,7 @@ func (m *JWTPolicySpec_Config_Provider_TokenSource) Hash(hasher hash.Hash64) (ui
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_TokenSource")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_TokenSource")); err != nil {
 		return 0, err
 	}
 
@@ -618,6 +646,10 @@ func (m *JWTPolicySpec_Config_Provider_TokenSource) Hash(hasher hash.Hash64) (ui
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_LocalJWKS) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -626,7 +658,7 @@ func (m *JWTPolicySpec_Config_Provider_LocalJWKS) Hash(hasher hash.Hash64) (uint
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_LocalJWKS")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_LocalJWKS")); err != nil {
 		return 0, err
 	}
 
@@ -666,6 +698,10 @@ func (m *JWTPolicySpec_Config_Provider_LocalJWKS) Hash(hasher hash.Hash64) (uint
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_RemoteJWKS) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -674,7 +710,7 @@ func (m *JWTPolicySpec_Config_Provider_RemoteJWKS) Hash(hasher hash.Hash64) (uin
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_RemoteJWKS")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_RemoteJWKS")); err != nil {
 		return 0, err
 	}
 
@@ -751,6 +787,10 @@ func (m *JWTPolicySpec_Config_Provider_RemoteJWKS) Hash(hasher hash.Hash64) (uin
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_ClaimsToHeader) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -759,7 +799,7 @@ func (m *JWTPolicySpec_Config_Provider_ClaimsToHeader) Hash(hasher hash.Hash64) 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_ClaimsToHeader")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_ClaimsToHeader")); err != nil {
 		return 0, err
 	}
 
@@ -780,6 +820,10 @@ func (m *JWTPolicySpec_Config_Provider_ClaimsToHeader) Hash(hasher hash.Hash64) 
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_TokenSourceFromHeader) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -788,7 +832,7 @@ func (m *JWTPolicySpec_Config_Provider_TokenSourceFromHeader) Hash(hasher hash.H
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_TokenSourceFromHeader")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_TokenSourceFromHeader")); err != nil {
 		return 0, err
 	}
 
@@ -804,6 +848,10 @@ func (m *JWTPolicySpec_Config_Provider_TokenSourceFromHeader) Hash(hasher hash.H
 }
 
 // Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *JWTPolicySpec_Config_Provider_LocalJWKS_SecretRef) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -812,7 +860,7 @@ func (m *JWTPolicySpec_Config_Provider_LocalJWKS_SecretRef) Hash(hasher hash.Has
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/solo-apis/client-go/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_LocalJWKS_SecretRef")); err != nil {
+	if _, err = hasher.Write([]byte("security.policy.gloo.solo.io.github.com/solo-io/gloo-mesh-enterprise/pkg/api/security.policy.gloo.solo.io/v2.JWTPolicySpec_Config_Provider_LocalJWKS_SecretRef")); err != nil {
 		return 0, err
 	}
 

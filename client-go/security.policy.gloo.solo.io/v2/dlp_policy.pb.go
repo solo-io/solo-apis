@@ -11,10 +11,10 @@ import (
 	sync "sync"
 
 	_ "github.com/envoyproxy/go-control-plane/envoy/type"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 	v21 "github.com/solo-io/solo-apis/client-go/envoy-gloo-ee/api/envoy/config/filter/http/transformation_ee/v2"
@@ -257,6 +257,7 @@ func (x *DLPPolicySpec) GetConfig() *DLPPolicySpec_Config {
 // is custom, so that can be left empty.
 //
 // ```yaml
+//
 //   - customAction:
 //     name: test
 //     regexActions:
@@ -271,6 +272,7 @@ func (x *DLPPolicySpec) GetConfig() *DLPPolicySpec_Config {
 // is custom, so that can be left empty.
 //
 // ```yaml
+//
 //   - keyValueAction:
 //     keysToMask:
 //   - x-my-header-01
@@ -294,7 +296,7 @@ type DlpAction struct {
 	Action isDlpAction_Action `protobuf_oneof:"action"`
 	// If enabled, the action is recorded in debug logs, but not applied to response bodies
 	// or headers.
-	Shadow *wrappers.BoolValue `protobuf:"bytes,3,opt,name=shadow,proto3" json:"shadow,omitempty"`
+	Shadow *wrapperspb.BoolValue `protobuf:"bytes,3,opt,name=shadow,proto3" json:"shadow,omitempty"`
 }
 
 func (x *DlpAction) Reset() {
@@ -357,7 +359,7 @@ func (x *DlpAction) GetKeyValueAction() *DlpKeyValueAction {
 	return nil
 }
 
-func (x *DlpAction) GetShadow() *wrappers.BoolValue {
+func (x *DlpAction) GetShadow() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.Shadow
 	}
@@ -421,11 +423,11 @@ type DlpCustomAction struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The masking character to replace the sensitive data.
 	// Default: `X`
-	MaskChar *wrappers.StringValue `protobuf:"bytes,2,opt,name=mask_char,json=maskChar,proto3" json:"mask_char,omitempty"`
+	MaskChar *wrapperspb.StringValue `protobuf:"bytes,2,opt,name=mask_char,json=maskChar,proto3" json:"mask_char,omitempty"`
 	// The percent of the string to mask with the `mask_char`.
 	// Rounds the ratio (percent/100) by using [std::round](http://www.cplusplus.com/reference/cmath/round/).
 	// Default: 75%
-	Percent *wrappers.FloatValue `protobuf:"bytes,3,opt,name=percent,proto3" json:"percent,omitempty"`
+	Percent *wrapperspb.FloatValue `protobuf:"bytes,3,opt,name=percent,proto3" json:"percent,omitempty"`
 	// List of regexes to apply to the response body. Data that matches the regexes
 	// is masked. Regexes are applied iteratively in the order that they are
 	// specified.
@@ -471,14 +473,14 @@ func (x *DlpCustomAction) GetName() string {
 	return ""
 }
 
-func (x *DlpCustomAction) GetMaskChar() *wrappers.StringValue {
+func (x *DlpCustomAction) GetMaskChar() *wrapperspb.StringValue {
 	if x != nil {
 		return x.MaskChar
 	}
 	return nil
 }
 
-func (x *DlpCustomAction) GetPercent() *wrappers.FloatValue {
+func (x *DlpCustomAction) GetPercent() *wrapperspb.FloatValue {
 	if x != nil {
 		return x.Percent
 	}
@@ -503,11 +505,11 @@ type DlpKeyValueAction struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The masking character to replace the sensitive data.
 	// Default: `X`
-	MaskChar *wrappers.StringValue `protobuf:"bytes,2,opt,name=mask_char,json=maskChar,proto3" json:"mask_char,omitempty"`
+	MaskChar *wrapperspb.StringValue `protobuf:"bytes,2,opt,name=mask_char,json=maskChar,proto3" json:"mask_char,omitempty"`
 	// The percent of the string to mask with the `mask_char`.
 	// Rounds the ratio (percent/100) by using [std::round](http://www.cplusplus.com/reference/cmath/round/).
 	// Default: 75%
-	Percent *wrappers.FloatValue `protobuf:"bytes,3,opt,name=percent,proto3" json:"percent,omitempty"`
+	Percent *wrapperspb.FloatValue `protobuf:"bytes,3,opt,name=percent,proto3" json:"percent,omitempty"`
 	// Required: The keys for which corresponding header names or dynamic metadata values are masked.
 	KeysToMask []string `protobuf:"bytes,4,rep,name=keys_to_mask,json=keysToMask,proto3" json:"keys_to_mask,omitempty"`
 }
@@ -551,14 +553,14 @@ func (x *DlpKeyValueAction) GetName() string {
 	return ""
 }
 
-func (x *DlpKeyValueAction) GetMaskChar() *wrappers.StringValue {
+func (x *DlpKeyValueAction) GetMaskChar() *wrapperspb.StringValue {
 	if x != nil {
 		return x.MaskChar
 	}
 	return nil
 }
 
-func (x *DlpKeyValueAction) GetPercent() *wrappers.FloatValue {
+func (x *DlpKeyValueAction) GetPercent() *wrapperspb.FloatValue {
 	if x != nil {
 		return x.Percent
 	}
@@ -926,9 +928,9 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secur
 	(*DLPPolicySpec_Config)(nil),       // 8: security.policy.gloo.solo.io.DLPPolicySpec.Config
 	nil,                                // 9: security.policy.gloo.solo.io.DLPPolicyReport.WorkspacesEntry
 	(*v2.RouteSelector)(nil),           // 10: common.gloo.solo.io.RouteSelector
-	(*wrappers.BoolValue)(nil),         // 11: google.protobuf.BoolValue
-	(*wrappers.StringValue)(nil),       // 12: google.protobuf.StringValue
-	(*wrappers.FloatValue)(nil),        // 13: google.protobuf.FloatValue
+	(*wrapperspb.BoolValue)(nil),       // 11: google.protobuf.BoolValue
+	(*wrapperspb.StringValue)(nil),     // 12: google.protobuf.StringValue
+	(*wrapperspb.FloatValue)(nil),      // 13: google.protobuf.FloatValue
 	(*v21.RegexAction)(nil),            // 14: envoy.config.filter.http.transformation_ee.v2.RegexAction
 	(*v2.Status)(nil),                  // 15: common.gloo.solo.io.Status
 	(*v2.RouteReference)(nil),          // 16: common.gloo.solo.io.RouteReference

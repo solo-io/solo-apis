@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -155,7 +155,7 @@ type TLSConfig struct {
 	// SNI string to present to the server during TLS handshake.
 	// Recommended to be set, however if omitted, the first hostname associated with the destination
 	// will be used
-	Sni *wrappers.StringValue `protobuf:"bytes,1,opt,name=sni,proto3" json:"sni,omitempty"`
+	Sni *wrapperspb.StringValue `protobuf:"bytes,1,opt,name=sni,proto3" json:"sni,omitempty"`
 	// The name of the secret that holds the TLS certs for the client including the CA certificates.
 	// Secret must exist in the same namespace with the proxy using the certificates.
 	// The secret (of type generic) should contain the following keys and values:
@@ -198,7 +198,7 @@ func (*TLSConfig) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_client_tls_policy_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *TLSConfig) GetSni() *wrappers.StringValue {
+func (x *TLSConfig) GetSni() *wrapperspb.StringValue {
 	if x != nil {
 		return x.Sni
 	}
@@ -645,7 +645,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secur
 	(*ClientTLSPolicySpec_Simple)(nil),      // 7: security.policy.gloo.solo.io.ClientTLSPolicySpec.Simple
 	nil,                                     // 8: security.policy.gloo.solo.io.ClientTLSPolicyReport.WorkspacesEntry
 	(*v2.DestinationSelector)(nil),          // 9: common.gloo.solo.io.DestinationSelector
-	(*wrappers.StringValue)(nil),            // 10: google.protobuf.StringValue
+	(*wrapperspb.StringValue)(nil),          // 10: google.protobuf.StringValue
 	(*v2.Status)(nil),                       // 11: common.gloo.solo.io.Status
 	(*v2.DestinationReference)(nil),         // 12: common.gloo.solo.io.DestinationReference
 	(*v2.Report)(nil),                       // 13: common.gloo.solo.io.Report

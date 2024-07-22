@@ -13,15 +13,15 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
-
-	github_com_golang_protobuf_ptypes_empty "github.com/golang/protobuf/ptypes/empty"
-
-	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
-
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
-
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+
+	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
+
+	google_golang_org_protobuf_types_known_emptypb "google.golang.org/protobuf/types/known/emptypb"
+
+	google_golang_org_protobuf_types_known_structpb "google.golang.org/protobuf/types/known/structpb"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -91,11 +91,11 @@ func (m *VariableTransformation) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetJson()).(clone.Cloner); ok {
 			target.Transformation = &VariableTransformation_Json{
-				Json: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
+				Json: h.Clone().(*google_golang_org_protobuf_types_known_structpb.Value),
 			}
 		} else {
 			target.Transformation = &VariableTransformation_Json{
-				Json: proto.Clone(m.GetJson()).(*github_com_golang_protobuf_ptypes_struct.Value),
+				Json: proto.Clone(m.GetJson()).(*google_golang_org_protobuf_types_known_structpb.Value),
 			}
 		}
 
@@ -136,11 +136,11 @@ func (m *Extraction) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetGraphqlParent()).(clone.Cloner); ok {
 			target.ExtractionType = &Extraction_GraphqlParent{
-				GraphqlParent: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
+				GraphqlParent: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		} else {
 			target.ExtractionType = &Extraction_GraphqlParent{
-				GraphqlParent: proto.Clone(m.GetGraphqlParent()).(*github_com_golang_protobuf_ptypes_empty.Empty),
+				GraphqlParent: proto.Clone(m.GetGraphqlParent()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		}
 
@@ -154,11 +154,11 @@ func (m *Extraction) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetResolverResult()).(clone.Cloner); ok {
 			target.ExtractionType = &Extraction_ResolverResult{
-				ResolverResult: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
+				ResolverResult: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		} else {
 			target.ExtractionType = &Extraction_ResolverResult{
-				ResolverResult: proto.Clone(m.GetResolverResult()).(*github_com_golang_protobuf_ptypes_empty.Empty),
+				ResolverResult: proto.Clone(m.GetResolverResult()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		}
 
@@ -166,11 +166,11 @@ func (m *Extraction) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetJson()).(clone.Cloner); ok {
 			target.ExtractionType = &Extraction_Json{
-				Json: h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value),
+				Json: h.Clone().(*google_golang_org_protobuf_types_known_structpb.Value),
 			}
 		} else {
 			target.ExtractionType = &Extraction_Json{
-				Json: proto.Clone(m.GetJson()).(*github_com_golang_protobuf_ptypes_struct.Value),
+				Json: proto.Clone(m.GetJson()).(*google_golang_org_protobuf_types_known_structpb.Value),
 			}
 		}
 
@@ -315,9 +315,9 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetStatPrefix()).(clone.Cloner); ok {
-		target.StatPrefix = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.StatPrefix = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	} else {
-		target.StatPrefix = proto.Clone(m.GetStatPrefix()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.StatPrefix = proto.Clone(m.GetStatPrefix()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	}
 
 	return target
@@ -421,15 +421,15 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) Clon
 	}
 
 	if h, ok := interface{}(m.GetSpanName()).(clone.Cloner); ok {
-		target.SpanName = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.SpanName = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	} else {
-		target.SpanName = proto.Clone(m.GetSpanName()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.SpanName = proto.Clone(m.GetSpanName()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	}
 
 	if h, ok := interface{}(m.GetTimeout()).(clone.Cloner); ok {
-		target.Timeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Timeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.Timeout = proto.Clone(m.GetTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Timeout = proto.Clone(m.GetTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	return target
@@ -463,15 +463,15 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) Clon
 	}
 
 	if h, ok := interface{}(m.GetSpanName()).(clone.Cloner); ok {
-		target.SpanName = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.SpanName = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	} else {
-		target.SpanName = proto.Clone(m.GetSpanName()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.SpanName = proto.Clone(m.GetSpanName()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	}
 
 	if h, ok := interface{}(m.GetTimeout()).(clone.Cloner); ok {
-		target.Timeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Timeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.Timeout = proto.Clone(m.GetTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Timeout = proto.Clone(m.GetTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	return target
@@ -614,9 +614,9 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_Reque
 	}
 
 	if h, ok := interface{}(m.GetAuthority()).(clone.Cloner); ok {
-		target.Authority = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.Authority = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	} else {
-		target.Authority = proto.Clone(m.GetAuthority()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.Authority = proto.Clone(m.GetAuthority()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	}
 
 	return target
@@ -631,9 +631,9 @@ func (m *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_Async
 	target = &GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse{}
 
 	if h, ok := interface{}(m.GetDelay()).(clone.Cloner); ok {
-		target.Delay = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Delay = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.Delay = proto.Clone(m.GetDelay()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Delay = proto.Clone(m.GetDelay()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	if h, ok := interface{}(m.GetResponse()).(clone.Cloner); ok {

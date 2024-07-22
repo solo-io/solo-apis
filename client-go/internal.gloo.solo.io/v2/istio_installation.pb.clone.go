@@ -13,9 +13,9 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
-
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+
+	google_golang_org_protobuf_types_known_structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 // ensure the imports are used
@@ -41,6 +41,12 @@ func (m *ClusterIstioInstallationSpec) Clone() proto.Message {
 		target.IstioOperatorSpec = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.IstioOperatorSpec)
 	} else {
 		target.IstioOperatorSpec = proto.Clone(m.GetIstioOperatorSpec()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.IstioOperatorSpec)
+	}
+
+	if h, ok := interface{}(m.GetHelmGlobal()).(clone.Cloner); ok {
+		target.HelmGlobal = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.IstioLifecycleHelmGlobals)
+	} else {
+		target.HelmGlobal = proto.Clone(m.GetHelmGlobal()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.IstioLifecycleHelmGlobals)
 	}
 
 	return target
@@ -134,9 +140,9 @@ func (m *ClusterIstioInstallationStatus_HelmReleaseGrouping) Clone() proto.Messa
 	}
 
 	if h, ok := interface{}(m.GetValues()).(clone.Cloner); ok {
-		target.Values = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
+		target.Values = h.Clone().(*google_golang_org_protobuf_types_known_structpb.Struct)
 	} else {
-		target.Values = proto.Clone(m.GetValues()).(*github_com_golang_protobuf_ptypes_struct.Struct)
+		target.Values = proto.Clone(m.GetValues()).(*google_golang_org_protobuf_types_known_structpb.Struct)
 	}
 
 	return target
