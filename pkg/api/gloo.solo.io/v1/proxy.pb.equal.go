@@ -313,6 +313,23 @@ func (m *TcpListener) Equal(that interface{}) bool {
 		return false
 	}
 
+	if len(m.GetCustomNetworkFilters()) != len(target.GetCustomNetworkFilters()) {
+		return false
+	}
+	for idx, v := range m.GetCustomNetworkFilters() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetCustomNetworkFilters()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetCustomNetworkFilters()[idx]) {
+				return false
+			}
+		}
+
+	}
+
 	return true
 }
 
@@ -414,6 +431,40 @@ func (m *HttpListener) Equal(that interface{}) bool {
 
 	if strings.Compare(m.GetStatPrefix(), target.GetStatPrefix()) != 0 {
 		return false
+	}
+
+	if len(m.GetCustomHttpFilters()) != len(target.GetCustomHttpFilters()) {
+		return false
+	}
+	for idx, v := range m.GetCustomHttpFilters() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetCustomHttpFilters()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetCustomHttpFilters()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetCustomNetworkFilters()) != len(target.GetCustomNetworkFilters()) {
+		return false
+	}
+	for idx, v := range m.GetCustomNetworkFilters() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetCustomNetworkFilters()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetCustomNetworkFilters()[idx]) {
+				return false
+			}
+		}
+
 	}
 
 	return true
@@ -1609,6 +1660,54 @@ func (m *SourceMetadata) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *CustomEnvoyFilter) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*CustomEnvoyFilter)
+	if !ok {
+		that2, ok := that.(CustomEnvoyFilter)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetFilterStage()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetFilterStage()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetFilterStage(), target.GetFilterStage()) {
+			return false
+		}
+	}
+
+	if strings.Compare(m.GetName(), target.GetName()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetConfig()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetConfig()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetConfig(), target.GetConfig()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *UpstreamGroupStatus) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -2009,6 +2108,40 @@ func (m *AggregateListener_HttpFilterChain) Equal(that interface{}) bool {
 
 		if strings.Compare(v, target.GetVirtualHostRefs()[idx]) != 0 {
 			return false
+		}
+
+	}
+
+	if len(m.GetCustomHttpFilters()) != len(target.GetCustomHttpFilters()) {
+		return false
+	}
+	for idx, v := range m.GetCustomHttpFilters() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetCustomHttpFilters()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetCustomHttpFilters()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetCustomNetworkFilters()) != len(target.GetCustomNetworkFilters()) {
+		return false
+	}
+	for idx, v := range m.GetCustomNetworkFilters() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetCustomNetworkFilters()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetCustomNetworkFilters()[idx]) {
+				return false
+			}
 		}
 
 	}
