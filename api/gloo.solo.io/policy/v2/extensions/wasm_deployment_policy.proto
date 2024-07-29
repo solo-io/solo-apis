@@ -2,16 +2,17 @@
 // customizing the endpoints and thresholds for your workloads.
 // WasmDeploymentPolicies are applied at the *Workload* level.
 //
-// {{% notice note %}}
+// {{% alert %}}
 // To apply Wasm filters, you must first enable the Envoy sidecar proxies
 // on your workloads to fetch Wasm filters from an Envoy cluster. For more information,
-// see [Enable the Envoy sidecar to fetch Wasm filters](https://docs.solo.io/gloo-mesh-enterprise/latest/policies/wasm/wasm-policy/#enable-filter).
-// {{% /notice %}}
+// see [Enable the Envoy sidecar to fetch Wasm filters](https://docs.solo.io/gloo-mesh-enterprise/2.4.x/traffic_management/wasm/wasm-policy/#apply-filter).
+// {{% /alert %}}
 //
-// **Example**: In this example, a filter adds a custom header
+// ## Example
+// In this example, a filter adds a custom header
 // to the response from the ratings service in the Bookinfo application.
 // ```yaml
-// {{% readfile file="/content/mesh/static/content/examples/manual/wasm-deployment-policy_bookinfo_wasm-deployment-policy.yaml" %}}
+// {{% readfile file="static/content/examples/manual/wasm-deployment-policy_bookinfo_wasm-deployment-policy.yaml" %}}
 // ```
 syntax = "proto3";
 
@@ -77,10 +78,8 @@ message WasmDeploymentPolicySpec {
         // <!--TODO(ilackarms): we may need to provide options for customizing the Cluster given to envoy along with the HTTP Fetch URI. currently Gloo Mesh will create a simple plaintext HTTP cluster from the Host/Port specified in the URI.-->
         UriSource http_uri_source = 2;
 
-        // Fetch the image from a [Wasm OCI Registry](https://webassemblyhub.io/).
-        // Images can be built and pushed to registries using `meshctl` and
-        // [`wasme` CLI tool](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/getting_started/).
-        // For more info, check out the [WebAssembly Hub](https://docs.solo.io/web-assembly-hub/latest).
+        // Fetch the image from a WASM OCI Registry.
+        // Images can be built and pushed to registries using `meshctl` and `wasme` CLI tool.
         WasmImageSource wasm_image_source = 3;
       }
 

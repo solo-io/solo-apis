@@ -91,6 +91,10 @@ type ExternalServiceSpec struct {
 	// These hosts must be unique among all ExternalServices and VirtualHosts within a workspace.
 	// Both FQDN and wildcard prefix domains are supported.
 	// TLS origination to ExternalServices is supported with use of the ClientsideTls property.
+	// **Warning**: If you do not use an egress gateway to route all egress traffic through, and you
+	// use a wildcard prefix domain for the host without selecting any ExternalEndpoints,
+	// the `REGISTRY_ONLY` outbound traffic policy can be bypassed and traffic can be sent to any
+	// external service by using a TCP passthrough listener on the sidecar proxy.
 	Hosts []string `protobuf:"bytes,1,rep,name=hosts,proto3" json:"hosts,omitempty"`
 	// (mutually exclusive with hosts): The List of ipv4 or ipv6 addresses which will be associated to this service. Can be CIDR prefixes.
 	// These addresses must be unique among all ExternalServices within a workspace.

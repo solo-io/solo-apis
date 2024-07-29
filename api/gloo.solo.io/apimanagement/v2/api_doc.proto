@@ -55,8 +55,9 @@ message ApiDocSpec {
 
   // The YAML- or JSON-formatted OpenAPI v2 or v3 schema string to use for your API.
   //
-  // **Example**: For detailed information about the settings in this example, see
-  // [Create your APIs](https://docs.solo.io/gloo-gateway/latest/portal/apis/apidocs/#apidoc) in the Gloo Portal documentation.
+  // ## Example
+// For detailed information about the settings in this example, see
+  // [Create your APIs](https://docs.solo.io/gloo-mesh-gateway/2.4.x/portal/guides/apis/apidocs/) in the Gloo Portal documentation.
   // ```yaml
   // apiVersion: apimanagement.gloo.solo.io/v2
   // kind: ApiDoc
@@ -84,14 +85,15 @@ message ApiDocSpec {
 
   // A complete gRPC schema describing the API.
   //
-  // **Example**: In this gRPC example for a basic user service app,
+  // ## Example
+// In this gRPC example for a basic user service app,
   // the base64-encoded descriptor includes a set of fields that are defined
   // for various queries, such as `UserSearch` and `UserByCountry`. For detailed
   // information about the settings in this example, see
-  // [gRPC schema](https://docs.solo.io/gloo-gateway/latest/graphql/resolvers/resolved/resolver_grpc/)
+  // [gRPC schema](https://docs.solo.io/gloo-mesh-gateway/2.4.x/graphql/resolvers/resolved/resolver_grpc/)
   // in the GraphQL integration documentation.
   // ```yaml
-  // {{% readfile file="/content/gateway/static/content/examples/generated/int/graphql_routes/cluster-1/api-doc_bookinfo_grpc-schema.yaml" %}}
+  // {{% readfile file="static/content/examples/generated/int/graphql_routes/cluster-1/api-doc_bookinfo_grpc-schema.yaml" %}}
   // ```
   message GrpcSchema {
     // Protobuf descriptors that represent the gRPC services provided by your API, encoded in base64.
@@ -107,12 +109,13 @@ message ApiDocSpec {
   // custom type definitions. For more information about the different schema features,
   // see the [GraphQL documentation](https://graphql.org/learn/schema/).
   //
-  // **Example**: In this GraphQL example for the Bookinfo sample app, a query type and object
+  // ## Example
+// In this GraphQL example for the Bookinfo sample app, a query type and object
   // types are defined. For detailed information about the settings in this example, see
-  // [Example GraphQL ApiDoc](https://docs.solo.io/gloo-gateway/latest/graphql/apidoc/#example-graphql-apidoc)
+  // [Example GraphQL ApiDoc](https://docs.solo.io/gloo-mesh-gateway/2.4.x/graphql/apidoc/#example-graphql-apidoc)
   // in the GraphQL integration documentation.
   // ```yaml
-  // {{% readfile file="/content/gateway/static/content/examples/generated/int/graphql_proxied_introspection/cluster-1/api-doc_bookinfo_music-schema.yaml" %}}
+  // {{% readfile file="static/content/examples/generated/int/graphql_proxied_introspection/cluster-1/api-doc_bookinfo_music-schema.yaml" %}}
   // ```
   message GraphQLSchema {
     // Required: The GraphQL schema definition. Root-level query and mutation

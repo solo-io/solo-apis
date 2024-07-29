@@ -11,12 +11,12 @@ import (
 	sync "sync"
 
 	v3 "github.com/envoyproxy/go-control-plane/envoy/type/matcher/v3"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	_ "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2"
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
@@ -176,7 +176,7 @@ func (DelegateAction_SortMethod) EnumDescriptor() ([]byte, []int) {
 
 // `RouteTables` define one or more hosts and a set of traffic route rules that describe how to handle traffic for these hosts.
 // Route tables support two types of routes: HTTP and TCP.
-// For more information, see see the [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+// For more information, see see the [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
 //
 // You can delegate HTTP routes to other route tables based on one or more matching hosts and specific route paths.
 // If your "parent" route table delegates some traffic rules to another "child" route table, the child route table must be in the same workspace
@@ -407,14 +407,14 @@ type RouteTableSpec struct {
 	DefaultDestination *v2.DestinationReference `protobuf:"bytes,2,opt,name=default_destination,json=defaultDestination,proto3" json:"default_destination,omitempty"`
 	// The set of HTTP routes for this route table to serve. If no routes match the client request,
 	// the client gets back a 404. For more information on supported HTTP features, see the
-	// [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+	// [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
 	Http []*HTTPRoute `protobuf:"bytes,3,rep,name=http,proto3" json:"http,omitempty"`
 	// The set of TCP routes for this route table to serve. TCP routes are available only for internal
 	// traffic within the cluster, not for ingress gateway traffic. For more information on supported
-	// TCP features see the [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+	// TCP features see the [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
 	Tcp []*TCPRoute `protobuf:"bytes,8,rep,name=tcp,proto3" json:"tcp,omitempty"`
 	// The set of TLS routes for this route table to serve. For more information on supported
-	// TLS features see the [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+	// TLS features see the [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
 	Tls []*TLSRoute `protobuf:"bytes,9,rep,name=tls,proto3" json:"tls,omitempty"`
 	// Weight is used when sorting route tables in delegate action or routes when sorted by specificity.
 	// Higher integer values are considered higher priority. The default value is 0.
@@ -1328,7 +1328,7 @@ func (x *DelegateAction) GetSortMethod() DelegateAction_SortMethod {
 	return DelegateAction_TABLE_WEIGHT
 }
 
-// With [Portal](https://docs.solo.io/gloo-gateway/main/portal/) installed as part of Gloo Platform,
+// With [Portal](https://docs.solo.io/gloo-mesh-gateway/2.4.x/portal/) installed as part of Gloo Platform,
 // you can use route tables to bundle together individual routes into an API product.
 // When the Portal resource selects your route table, Gloo automatically generates an OpenAPI specification for the API product,
 // which includes all of the routes. You can use this `PortalMetadata` setting to customize details about your API product,
@@ -1343,7 +1343,7 @@ type PortalMetadata struct {
 	// Group APIs from multiple route tables together as an API product in the portal.
 	// For example, you might have separate route tables that route to different `v1` and `v2` versions of your `billing` services that have their own OpenAPI specs.
 	// By setting the `apiProductId` metadata to the same `billing-api` value in each route table,
-	// the [/apis](https://docs.solo.io/gloo-gateway/main/portal/openapi/redocly/#tag/APIs/operation/ListAPIs) endpoint in the portal server returns the same `apiProduct` in the response.
+	// the [/apis](https://docs.solo.io/gloo-mesh-gateway/2.4.x/portal/redocly.html#tag/APIs/operation/ListAPIs) endpoint in the portal server returns the same `apiProduct` in the response.
 	// Then, these APIs are grouped together and shown as a single `billing` API product with multiple `v1` and `v2` versions in the frontend portal for your end users to discover and use.
 	ApiProductId string `protobuf:"bytes,1,opt,name=api_product_id,json=apiProductId,proto3" json:"api_product_id,omitempty"`
 	// Optional: Give a name for the API product to display in the frontend portal. If omitted, the `apiProductId` value is used as the display name.
@@ -1713,7 +1713,7 @@ type GraphQLAction_Options struct {
 	// Include information about request/response in the envoy debug logs.
 	// This is helpful for debugging GraphQL.
 	// Defaults to false.
-	LogSensitiveInfo *wrappers.BoolValue `protobuf:"bytes,1,opt,name=log_sensitive_info,json=logSensitiveInfo,proto3" json:"log_sensitive_info,omitempty"`
+	LogSensitiveInfo *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=log_sensitive_info,json=logSensitiveInfo,proto3" json:"log_sensitive_info,omitempty"`
 }
 
 func (x *GraphQLAction_Options) Reset() {
@@ -1748,7 +1748,7 @@ func (*GraphQLAction_Options) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_rawDescGZIP(), []int{4, 0}
 }
 
-func (x *GraphQLAction_Options) GetLogSensitiveInfo() *wrappers.BoolValue {
+func (x *GraphQLAction_Options) GetLogSensitiveInfo() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.LogSensitiveInfo
 	}
@@ -2249,7 +2249,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_r
 	(*v2.ObjectSelector)(nil),                             // 31: common.gloo.solo.io.ObjectSelector
 	(*v2.RouteFilter)(nil),                                // 32: common.gloo.solo.io.RouteFilter
 	(*v2.Status)(nil),                                     // 33: common.gloo.solo.io.Status
-	(*wrappers.BoolValue)(nil),                            // 34: google.protobuf.BoolValue
+	(*wrapperspb.BoolValue)(nil),                          // 34: google.protobuf.BoolValue
 	(*v2.Report)(nil),                                     // 35: common.gloo.solo.io.Report
 	(*v2.AppliedRoutePolicies)(nil),                       // 36: common.gloo.solo.io.AppliedRoutePolicies
 }

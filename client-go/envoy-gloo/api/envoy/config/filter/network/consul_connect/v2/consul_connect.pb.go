@@ -12,9 +12,9 @@ import (
 
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	_ "github.com/gogo/protobuf/gogoproto"
-	duration "github.com/golang/protobuf/ptypes/duration"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 const (
@@ -43,7 +43,7 @@ type ConsulConnect struct {
 	// Connection Timeout tells the filter to set a timeout for unresponsive
 	// connections created to this upstream. If not provided by the user, it will
 	// set to a default value
-	RequestTimeout *duration.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
+	RequestTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 }
 
 func (x *ConsulConnect) Reset() {
@@ -99,7 +99,7 @@ func (x *ConsulConnect) GetAuthorizeClusterName() string {
 	return ""
 }
 
-func (x *ConsulConnect) GetRequestTimeout() *duration.Duration {
+func (x *ConsulConnect) GetRequestTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.RequestTimeout
 	}
@@ -169,8 +169,8 @@ func file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_f
 
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_filter_network_consul_connect_v2_consul_connect_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_filter_network_consul_connect_v2_consul_connect_proto_goTypes = []interface{}{
-	(*ConsulConnect)(nil),     // 0: envoy.config.filter.network.consul_connect.v2.ConsulConnect
-	(*duration.Duration)(nil), // 1: google.protobuf.Duration
+	(*ConsulConnect)(nil),       // 0: envoy.config.filter.network.consul_connect.v2.ConsulConnect
+	(*durationpb.Duration)(nil), // 1: google.protobuf.Duration
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_filter_network_consul_connect_v2_consul_connect_proto_depIdxs = []int32{
 	1, // 0: envoy.config.filter.network.consul_connect.v2.ConsulConnect.request_timeout:type_name -> google.protobuf.Duration

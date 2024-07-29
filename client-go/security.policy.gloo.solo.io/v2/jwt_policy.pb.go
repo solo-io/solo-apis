@@ -7,9 +7,10 @@
 // You can have multiple JWT providers in the same policy, or in different policies.
 // Keep in mind that you cannot apply multiple JWT policies to the same route in a route table.
 //
-// **Examples**:
+// ## Examples
+//
 // The following example is a basic JWT policy with a local JWT issuer and inline public key.
-// For more examples of using Gloo JWT policies, see the [JWT guides](https://docs.solo.io/gloo-gateway/latest/policies/jwt/).
+// For more examples of using Gloo JWT policies, see the [JWT guides](https://docs.solo.io/gloo-mesh-gateway/2.4.x/security/jwt/jwt-examples/).
 //
 // Sample JWT payload from the JWT provider:
 // ```json
@@ -84,12 +85,12 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	duration "github.com/golang/protobuf/ptypes/duration"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -533,7 +534,7 @@ type JWTPolicySpec_Config_Provider struct {
 	KeepToken bool `protobuf:"varint,7,opt,name=keep_token,json=keepToken,proto3" json:"keep_token,omitempty"`
 	// Optional: Verify time constraints, such as `exp` and `npf`. Default is 60s.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
-	ClockSkewSeconds *wrappers.UInt32Value `protobuf:"bytes,8,opt,name=clock_skew_seconds,json=clockSkewSeconds,proto3" json:"clock_skew_seconds,omitempty"`
+	ClockSkewSeconds *wrapperspb.UInt32Value `protobuf:"bytes,8,opt,name=clock_skew_seconds,json=clockSkewSeconds,proto3" json:"clock_skew_seconds,omitempty"`
 	// Optional: Copy the output of the JWT payload to a single header before forwarding the request to the upstream destination. The header is the name that you enter in this field.
 	// The payload data is base64-encoded before forwarding.
 	// If this field is omitted or empty, the payload is not forwarded with the request.
@@ -629,7 +630,7 @@ func (x *JWTPolicySpec_Config_Provider) GetKeepToken() bool {
 	return false
 }
 
-func (x *JWTPolicySpec_Config_Provider) GetClockSkewSeconds() *wrappers.UInt32Value {
+func (x *JWTPolicySpec_Config_Provider) GetClockSkewSeconds() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.ClockSkewSeconds
 	}
@@ -904,12 +905,12 @@ type JWTPolicySpec_Config_Provider_RemoteJWKS struct {
 	//
 	// If omitted, defaults to 5 minutes.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	CacheDuration *duration.Duration `protobuf:"bytes,3,opt,name=cache_duration,json=cacheDuration,proto3" json:"cache_duration,omitempty"`
+	CacheDuration *durationpb.Duration `protobuf:"bytes,3,opt,name=cache_duration,json=cacheDuration,proto3" json:"cache_duration,omitempty"`
 	// Set the maximum duration in seconds that a response can take to arrive upon request.
 	//
 	// If omitted, defaults to 5 seconds.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	Timeout *duration.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
+	Timeout *durationpb.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	// Fetch the JWKS asynchronously in the main thread before activating the listener.
 	// Then, the fetched JWKS can be used by all worker threads.
 	//
@@ -974,14 +975,14 @@ func (x *JWTPolicySpec_Config_Provider_RemoteJWKS) GetDestinationRef() *v2.Desti
 	return nil
 }
 
-func (x *JWTPolicySpec_Config_Provider_RemoteJWKS) GetCacheDuration() *duration.Duration {
+func (x *JWTPolicySpec_Config_Provider_RemoteJWKS) GetCacheDuration() *durationpb.Duration {
 	if x != nil {
 		return x.CacheDuration
 	}
 	return nil
 }
 
-func (x *JWTPolicySpec_Config_Provider_RemoteJWKS) GetTimeout() *duration.Duration {
+func (x *JWTPolicySpec_Config_Provider_RemoteJWKS) GetTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.Timeout
 	}
@@ -1454,8 +1455,8 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secur
 	(*v2.RouteReference)(nil),       // 18: common.gloo.solo.io.RouteReference
 	(*v2.DestinationReference)(nil), // 19: common.gloo.solo.io.DestinationReference
 	(*v2.PrioritizedPhase)(nil),     // 20: common.gloo.solo.io.PrioritizedPhase
-	(*wrappers.UInt32Value)(nil),    // 21: google.protobuf.UInt32Value
-	(*duration.Duration)(nil),       // 22: google.protobuf.Duration
+	(*wrapperspb.UInt32Value)(nil),  // 21: google.protobuf.UInt32Value
+	(*durationpb.Duration)(nil),     // 22: google.protobuf.Duration
 	(*v2.ObjectReference)(nil),      // 23: common.gloo.solo.io.ObjectReference
 	(*v2.Report)(nil),               // 24: common.gloo.solo.io.Report
 }

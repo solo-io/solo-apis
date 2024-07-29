@@ -10,11 +10,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	_ "github.com/golang/protobuf/ptypes/struct"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/known/structpb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -30,7 +30,7 @@ const (
 // Before you create the Portal, you bundle the APIs that you want to expose into a route table.
 // Then, you prepare a usage plan to control access to your APIs
 // by applying rate limiting and external auth policies to the routes in the route table.
-// For more information, see the [Portal docs](https://docs.solo.io/gloo-gateway/main/portal/).
+// For more information, see the [Portal docs](https://docs.solo.io/gloo-mesh-gateway/2.4.x/portal/).
 //
 // The following examples show a Portal resource that refers to usage plans
 // that are named in the rate limit server config's descriptors, as well as a corresponding

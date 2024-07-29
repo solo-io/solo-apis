@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -226,7 +226,7 @@ type HTTPBufferPolicySpec_Config struct {
 	// The maximum request size that the filter will buffer before
 	// the connection manager will stop buffering and return a 413
 	// response
-	MaxRequestBytes *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=max_request_bytes,json=maxRequestBytes,proto3" json:"max_request_bytes,omitempty"`
+	MaxRequestBytes *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=max_request_bytes,json=maxRequestBytes,proto3" json:"max_request_bytes,omitempty"`
 }
 
 func (x *HTTPBufferPolicySpec_Config) Reset() {
@@ -261,7 +261,7 @@ func (*HTTPBufferPolicySpec_Config) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_trafficcontrol_http_buffer_policy_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *HTTPBufferPolicySpec_Config) GetMaxRequestBytes() *wrappers.UInt32Value {
+func (x *HTTPBufferPolicySpec_Config) GetMaxRequestBytes() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.MaxRequestBytes
 	}
@@ -369,7 +369,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_traff
 	(*v2.RouteSelector)(nil),            // 5: common.gloo.solo.io.RouteSelector
 	(*v2.Status)(nil),                   // 6: common.gloo.solo.io.Status
 	(*v2.RouteReference)(nil),           // 7: common.gloo.solo.io.RouteReference
-	(*wrappers.UInt32Value)(nil),        // 8: google.protobuf.UInt32Value
+	(*wrapperspb.UInt32Value)(nil),      // 8: google.protobuf.UInt32Value
 	(*v2.Report)(nil),                   // 9: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_trafficcontrol_http_buffer_policy_proto_depIdxs = []int32{

@@ -7,9 +7,10 @@
 // You can have multiple JWT providers in the same policy, or in different policies.
 // Keep in mind that you cannot apply multiple JWT policies to the same route in a route table.
 //
-// **Examples**:
+// ## Examples
+//
 // The following example is a basic JWT policy with a local JWT issuer and inline public key.
-// For more examples of using Gloo JWT policies, see the [JWT guides](https://docs.solo.io/gloo-gateway/latest/policies/jwt/).
+// For more examples of using Gloo JWT policies, see the [JWT guides](https://docs.solo.io/gloo-mesh-gateway/2.4.x/security/jwt/jwt-examples/).
 //
 // Sample JWT payload from the JWT provider:
 // ```json

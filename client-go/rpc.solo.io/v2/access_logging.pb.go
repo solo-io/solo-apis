@@ -14,13 +14,13 @@ import (
 	sync "sync"
 
 	v3 "github.com/envoyproxy/go-control-plane/envoy/data/accesslog/v3"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -93,7 +93,7 @@ type GetAccessLogsRequest struct {
 	WorkloadSelectors []*v2.ObjectSelector `protobuf:"bytes,1,rep,name=workload_selectors,json=workloadSelectors,proto3" json:"workload_selectors,omitempty"`
 	// Maximum number of access logs to get. If empty, the default value of 20 is used.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
-	RetrievalNumber *wrappers.UInt32Value `protobuf:"bytes,2,opt,name=retrieval_number,json=retrievalNumber,proto3" json:"retrieval_number,omitempty"`
+	RetrievalNumber *wrapperspb.UInt32Value `protobuf:"bytes,2,opt,name=retrieval_number,json=retrievalNumber,proto3" json:"retrieval_number,omitempty"`
 }
 
 func (x *GetAccessLogsRequest) Reset() {
@@ -135,7 +135,7 @@ func (x *GetAccessLogsRequest) GetWorkloadSelectors() []*v2.ObjectSelector {
 	return nil
 }
 
-func (x *GetAccessLogsRequest) GetRetrievalNumber() *wrappers.UInt32Value {
+func (x *GetAccessLogsRequest) GetRetrievalNumber() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.RetrievalNumber
 	}
@@ -437,7 +437,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_rpc_solo_io_v2_access_loggin
 	(*AccessLog_WorkloadMetadata)(nil), // 4: rpc.solo.io.AccessLog.WorkloadMetadata
 	nil,                                // 5: rpc.solo.io.AccessLog.WorkloadMetadata.LabelsEntry
 	(*v2.ObjectSelector)(nil),          // 6: common.gloo.solo.io.ObjectSelector
-	(*wrappers.UInt32Value)(nil),       // 7: google.protobuf.UInt32Value
+	(*wrapperspb.UInt32Value)(nil),     // 7: google.protobuf.UInt32Value
 	(*v3.HTTPAccessLogEntry)(nil),      // 8: envoy.data.accesslog.v3.HTTPAccessLogEntry
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_rpc_solo_io_v2_access_logging_proto_depIdxs = []int32{

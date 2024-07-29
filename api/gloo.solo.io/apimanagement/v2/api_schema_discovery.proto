@@ -3,9 +3,9 @@
 // After discovering the API schema, the Gloo agent automatically generates an ApiDoc resource.
 //
 // The ApiDoc can be part of a stitched schema of your API products that you share with
-// end users, such as through the [Gloo Platform developer portal](https://docs.solo.io/gloo-gateway/latest/portal/).
+// end users, such as through the [Gloo developer portal](https://docs.solo.io/gloo-mesh-gateway/2.4.x/portal/).
 //
-// Gloo Platform can discover the following API schemas:
+// Gloo Mesh Gateway can discover the following API schemas:
 // - OpenAPI
 syntax = "proto3";
 
@@ -35,22 +35,22 @@ option (extproto.clone_all) = true;
 
 // <b>Example configuration file</b>:
 // ```yaml
-//  apiVersion: apimanagement.gloo.solo.io/v2
-//  kind: ApiSchemaDiscovery
-//  metadata: {}
-//  spec:
-//    openapi:
-//      fetchEndpoint:
-//        url: "https://example.com/tracks-schema.json"
-//        retryDelay: 10s
-//        pullAttempts: 10
-//    servedBy:
-//    - destinationSelector:
-//        kind: SERVICE
-//        selector:
-//          cluster: cluster-1
-//          name: tracks-rest-api
-//          namespace: tracks
+// apiVersion: apimanagement.gloo.solo.io/v2
+// kind: ApiSchemaDiscovery
+// metadata: {}
+// spec:
+//   openapi:
+//     fetchEndpoint:
+//       url: "https://example.com/tracks-schema.json"
+//       retryDelay: 10s
+//       pullAttempts: 10
+//   servedBy:
+//   - destinationSelector:
+//       kind: SERVICE
+//       selector:
+//         cluster: cluster-1
+//         name: tracks-rest-api
+//         namespace: tracks
 // ```
 message ApiSchemaDiscoverySpec {
   // The schema type to fetch from the target URL. Currently, only OpenAPI is supported.

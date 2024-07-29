@@ -1,3 +1,66 @@
+// {{% reuse "conrefs/snippets/policies/ov_fault_injection.md" %}} Inject faults in a percentage of your requests to test how your app handles the errors.
+// By using the policy, you can avoid deleting pods, delaying packets, or corrupting packets.
+// Fault specification is part of a VirtualService rule.
+//
+// Faults include aborts and/or delays.
+// * **Aborts** are crash failures, such as HTTP error codes or TCP connection failures.
+// * **Delays** are timing failures, such as network latency or overloaded upstreams.
+//
+// Fault injection policies are applied at the *Route* level. For more information,
+// see the [fault injection policy guide]({{< link path="/resiliency/fault-injection/" >}}).
+//
+// ## Examples 
+//
+// **Abort**: The following example is for a simple fault injection abort policy
+// with a default value for the percentage. No delay is configured.
+// ```yaml
+// {{% readfile file="static/content/examples/generated/e2e/ingress_fault_injection/cluster-1/fault-injection-policy_bookinfo_faultinjection-basic.yaml" %}}
+// ```
+//
+// **Delay**: The following example is for a simple fault injection delay policy
+// with a default value for the percentage. No abort is configured.
+// ```yaml
+// apiVersion: resilience.policy.gloo.solo.io/v2
+// kind: FaultInjectionPolicy
+// metadata:
+//   name: faultinjection-basic-delay
+//   namespace: bookinfo
+//   annotations:
+//     cluster.solo.io/cluster: $REMOTE_CLUSTER1
+// spec:
+//   applyToRoutes:
+//     - route:
+//         labels:
+//           route: ratings
+//   config:
+//     delay:
+//       fixedDelay: 5s
+// ```
+// 
+// **Abort and delay**: The following example is for a fault injection policy
+// that both delays and aborts requests. Delays and aborts are independent of one another.
+// When both are set, both happen, with the delay happening first.
+// ```yaml
+// apiVersion: resilience.policy.gloo.solo.io/v2
+// kind: FaultInjectionPolicy
+// metadata:
+//   name: faultinjection-basic-abort-and-delay
+//   namespace: bookinfo
+//   annotations:
+//     cluster.solo.io/cluster: $REMOTE_CLUSTER1
+// spec:
+//   applyToRoutes:
+//     - route:
+//         labels:
+//           route: ratings
+//   config:
+//     abort:
+//       httpStatus: 418
+//       percentage: 10
+//     delay:
+//       percentage: 40
+//       fixedDelay: 5s
+// ```
 syntax = "proto3";
 
 package resilience.policy.gloo.solo.io;

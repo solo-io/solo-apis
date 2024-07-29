@@ -12,12 +12,12 @@ import (
 
 	v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	any1 "github.com/golang/protobuf/ptypes/any"
-	empty "github.com/golang/protobuf/ptypes/empty"
-	_struct "github.com/golang/protobuf/ptypes/struct"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -323,7 +323,7 @@ func (x *VariableTransformation) GetJq() string {
 	return ""
 }
 
-func (x *VariableTransformation) GetValue() *_struct.Value {
+func (x *VariableTransformation) GetValue() *structpb.Value {
 	if x, ok := x.GetTransformation().(*VariableTransformation_Value); ok {
 		return x.Value
 	}
@@ -352,7 +352,7 @@ type VariableTransformation_Jq struct {
 
 type VariableTransformation_Value struct {
 	// static JSON value.
-	Value *_struct.Value `protobuf:"bytes,3,opt,name=value,proto3,oneof"`
+	Value *structpb.Value `protobuf:"bytes,3,opt,name=value,proto3,oneof"`
 }
 
 func (*VariableTransformation_Variable) isVariableTransformation_Transformation() {}
@@ -432,7 +432,7 @@ func (x *Extraction) GetDynamicMetadata() *Extraction_DynamicMetadataExtraction 
 	return nil
 }
 
-func (x *Extraction) GetGraphqlParent() *empty.Empty {
+func (x *Extraction) GetGraphqlParent() *emptypb.Empty {
 	if x, ok := x.GetExtractionType().(*Extraction_GraphqlParent); ok {
 		return x.GraphqlParent
 	}
@@ -446,14 +446,14 @@ func (x *Extraction) GetGraphqlArg() string {
 	return ""
 }
 
-func (x *Extraction) GetResolverResult() *empty.Empty {
+func (x *Extraction) GetResolverResult() *emptypb.Empty {
 	if x, ok := x.GetExtractionType().(*Extraction_ResolverResult); ok {
 		return x.ResolverResult
 	}
 	return nil
 }
 
-func (x *Extraction) GetJsonValue() *_struct.Value {
+func (x *Extraction) GetJsonValue() *structpb.Value {
 	if x, ok := x.GetExtractionType().(*Extraction_JsonValue); ok {
 		return x.JsonValue
 	}
@@ -482,7 +482,7 @@ type Extraction_DynamicMetadata struct {
 
 type Extraction_GraphqlParent struct {
 	// Assigns the variable to the parent object
-	GraphqlParent *empty.Empty `protobuf:"bytes,3,opt,name=graphql_parent,json=graphqlParent,proto3,oneof"`
+	GraphqlParent *emptypb.Empty `protobuf:"bytes,3,opt,name=graphql_parent,json=graphqlParent,proto3,oneof"`
 }
 
 type Extraction_GraphqlArg struct {
@@ -496,12 +496,12 @@ type Extraction_ResolverResult struct {
 	// Assigns the variable to the GraphQL response body.
 	// This variable is only available during the pre_execution_transform and should not
 	// be used in the resolver-level variable transformations.
-	ResolverResult *empty.Empty `protobuf:"bytes,6,opt,name=resolver_result,json=resolverResult,proto3,oneof"`
+	ResolverResult *emptypb.Empty `protobuf:"bytes,6,opt,name=resolver_result,json=resolverResult,proto3,oneof"`
 }
 
 type Extraction_JsonValue struct {
 	// Assigns the variable to a JSON value specified here
-	JsonValue *_struct.Value `protobuf:"bytes,7,opt,name=json_value,json=jsonValue,proto3,oneof"`
+	JsonValue *structpb.Value `protobuf:"bytes,7,opt,name=json_value,json=jsonValue,proto3,oneof"`
 }
 
 func (*Extraction_RequestHeader) isExtraction_ExtractionType() {}
@@ -1220,7 +1220,7 @@ type CacheControl struct {
 	// - root fields (i.e. Query, Mutation, Subscription) default to 0s
 	// - non-root, non-scalar fields (i.e. object, interface, or union; or a list of those types) default to 0s
 	// - all other fields inherit the max_age from their parent.
-	MaxAge *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=max_age,json=maxAge,proto3" json:"max_age,omitempty"`
+	MaxAge *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=max_age,json=maxAge,proto3" json:"max_age,omitempty"`
 	// provide controls to which users can access cached content
 	Scope CacheControl_CacheControlScope `protobuf:"varint,2,opt,name=scope,proto3,enum=envoy.config.filter.http.graphql.v2.CacheControl_CacheControlScope" json:"scope,omitempty"`
 	// whether or not to inherit the caching configuration of any parent fields
@@ -1259,7 +1259,7 @@ func (*CacheControl) Descriptor() ([]byte, []int) {
 	return file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_filter_http_graphql_v2_graphql_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *CacheControl) GetMaxAge() *wrappers.UInt32Value {
+func (x *CacheControl) GetMaxAge() *wrapperspb.UInt32Value {
 	if x != nil {
 		return x.MaxAge
 	}
@@ -1457,7 +1457,7 @@ type ExecutableSchema struct {
 	// how to execute the schema
 	Executor *Executor `protobuf:"bytes,2,opt,name=executor,proto3" json:"executor,omitempty"`
 	// Schema extensions
-	Extensions map[string]*any1.Any `protobuf:"bytes,3,rep,name=extensions,proto3" json:"extensions,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Extensions map[string]*anypb.Any `protobuf:"bytes,3,rep,name=extensions,proto3" json:"extensions,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Logs request / response sensitive information
 	// By default, this is false so no request or response sensitive information is logged.
 	LogRequestResponseInfo bool `protobuf:"varint,4,opt,name=log_request_response_info,json=logRequestResponseInfo,proto3" json:"log_request_response_info,omitempty"`
@@ -1509,7 +1509,7 @@ func (x *ExecutableSchema) GetExecutor() *Executor {
 	return nil
 }
 
-func (x *ExecutableSchema) GetExtensions() map[string]*any1.Any {
+func (x *ExecutableSchema) GetExtensions() map[string]*anypb.Any {
 	if x != nil {
 		return x.Extensions
 	}
@@ -2868,7 +2868,7 @@ func (x *Executor_Remote_Extraction) GetDynamicMetadata() *Executor_Remote_Extra
 	return nil
 }
 
-func (x *Executor_Remote_Extraction) GetJsonValue() *_struct.Value {
+func (x *Executor_Remote_Extraction) GetJsonValue() *structpb.Value {
 	if x, ok := x.GetExtractionType().(*Executor_Remote_Extraction_JsonValue); ok {
 		return x.JsonValue
 	}
@@ -2897,7 +2897,7 @@ type Executor_Remote_Extraction_DynamicMetadata struct {
 
 type Executor_Remote_Extraction_JsonValue struct {
 	// Static json value to use for value
-	JsonValue *_struct.Value `protobuf:"bytes,4,opt,name=json_value,json=jsonValue,proto3,oneof"`
+	JsonValue *structpb.Value `protobuf:"bytes,4,opt,name=json_value,json=jsonValue,proto3,oneof"`
 }
 
 func (*Executor_Remote_Extraction_Value) isExecutor_Remote_Extraction_ExtractionType() {}
@@ -4170,13 +4170,13 @@ var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config
 	nil,                                           // 57: envoy.config.filter.http.graphql.v2.ValueProvider.ProvidersEntry
 	nil,                                           // 58: envoy.config.filter.http.graphql.v2.RequestTemplate.HeadersEntry
 	nil,                                           // 59: envoy.config.filter.http.graphql.v2.RequestTemplate.QueryParamsEntry
-	(*_struct.Value)(nil),                         // 60: google.protobuf.Value
-	(*empty.Empty)(nil),                           // 61: google.protobuf.Empty
+	(*structpb.Value)(nil),                        // 60: google.protobuf.Value
+	(*emptypb.Empty)(nil),                         // 61: google.protobuf.Empty
 	(*v3.HttpUri)(nil),                            // 62: envoy.config.core.v3.HttpUri
 	(*v3.DataSource)(nil),                         // 63: envoy.config.core.v3.DataSource
 	(*v3.TypedExtensionConfig)(nil),               // 64: envoy.config.core.v3.TypedExtensionConfig
-	(*wrappers.UInt32Value)(nil),                  // 65: google.protobuf.UInt32Value
-	(*any1.Any)(nil),                              // 66: google.protobuf.Any
+	(*wrapperspb.UInt32Value)(nil),                // 65: google.protobuf.UInt32Value
+	(*anypb.Any)(nil),                             // 66: google.protobuf.Any
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_config_filter_http_graphql_v2_graphql_proto_depIdxs = []int32{
 	19, // 0: envoy.config.filter.http.graphql.v2.ResponseTemplate.result_root:type_name -> envoy.config.filter.http.graphql.v2.PathSegment

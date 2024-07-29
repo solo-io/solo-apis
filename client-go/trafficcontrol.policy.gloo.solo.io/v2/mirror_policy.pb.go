@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -209,7 +209,7 @@ type MirrorPolicySpec_Config struct {
 	Destination *v2.DestinationReference `protobuf:"bytes,1,opt,name=destination,proto3" json:"destination,omitempty"`
 	// Percentage of traffic to mirror. If omitted all traffic will be mirrored. Values must be between 0 and 100.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#double-value).
-	Percentage *wrappers.DoubleValue `protobuf:"bytes,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
+	Percentage *wrapperspb.DoubleValue `protobuf:"bytes,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
 }
 
 func (x *MirrorPolicySpec_Config) Reset() {
@@ -251,7 +251,7 @@ func (x *MirrorPolicySpec_Config) GetDestination() *v2.DestinationReference {
 	return nil
 }
 
-func (x *MirrorPolicySpec_Config) GetPercentage() *wrappers.DoubleValue {
+func (x *MirrorPolicySpec_Config) GetPercentage() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.Percentage
 	}
@@ -368,7 +368,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_traff
 	(*v2.Status)(nil),               // 6: common.gloo.solo.io.Status
 	(*v2.RouteReference)(nil),       // 7: common.gloo.solo.io.RouteReference
 	(*v2.DestinationReference)(nil), // 8: common.gloo.solo.io.DestinationReference
-	(*wrappers.DoubleValue)(nil),    // 9: google.protobuf.DoubleValue
+	(*wrapperspb.DoubleValue)(nil),  // 9: google.protobuf.DoubleValue
 	(*v2.Report)(nil),               // 10: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_trafficcontrol_mirror_policy_proto_depIdxs = []int32{
