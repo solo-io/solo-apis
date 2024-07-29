@@ -1,3 +1,24 @@
+// {{% reuse "conrefs/snippets/policies/ov_outlier_detection.md" %}}
+//
+// Outlier detection is an important part of building resilient apps.
+// An outlier detection policy sets up several conditions,
+// such as retries and ejection percentages, that Gloo Mesh uses to determine
+// if a service is unhealthy. In case an unhealthy service is detected,
+// the outlier detection policy defines how Gloo Mesh removes (ejects) services
+// from the pool of healthy destinations to send traffic to.
+// For VirtualDestinations, traffic is not sent to deployments that are
+// unavailable by default.
+// Your apps then have time to recover before they are added back
+// to the load-balancing pool and checked again for consecutive errors.
+//
+// Outlier detection policies are applied at the *Destination* level. For more information, see the
+// [outlier detection policy guide]({{< link path="/resiliency/fault-injection/" >}}).
+//
+// ## Example
+//
+// ```yaml
+// {{% readfile file="/static/content/examples/generated/int/virtual_dest_locality_based_failover/cluster-1/outlier-detection-policy_bookinfo_outlier-detection.yaml" %}}
+// ```
 syntax = "proto3";
 
 package resilience.policy.gloo.solo.io;

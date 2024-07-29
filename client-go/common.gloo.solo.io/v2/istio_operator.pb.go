@@ -10,13 +10,13 @@ import (
 	reflect "reflect"
 	sync "sync"
 
-	any1 "github.com/golang/protobuf/ptypes/any"
-	_struct "github.com/golang/protobuf/ptypes/struct"
-	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	v1 "k8s.io/api/core/v1"
 	v11 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -135,7 +135,7 @@ type IstioOperatorSpec struct {
 	DefaultRevision bool `protobuf:"varint,17,opt,name=defaultRevision,proto3" json:"defaultRevision,omitempty"`
 	// Config used by control plane components internally.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
-	MeshConfig *_struct.Struct `protobuf:"bytes,40,opt,name=meshConfig,proto3" json:"meshConfig,omitempty"`
+	MeshConfig *structpb.Struct `protobuf:"bytes,40,opt,name=meshConfig,proto3" json:"meshConfig,omitempty"`
 	// Kubernetes resource settings, enablement and component-specific settings that are not internal to the
 	// component.
 	Components *IstioComponentSetSpec `protobuf:"bytes,50,opt,name=components,proto3" json:"components,omitempty"`
@@ -150,10 +150,10 @@ type IstioOperatorSpec struct {
 	// Anything that is available in `IstioOperatorSpec` should be set above rather than using the passthrough. This
 	// includes Kubernetes resource settings for components in `KubernetesResourcesSpec`.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
-	Values *_struct.Struct `protobuf:"bytes,100,opt,name=values,proto3" json:"values,omitempty"`
+	Values *structpb.Struct `protobuf:"bytes,100,opt,name=values,proto3" json:"values,omitempty"`
 	// Unvalidated overrides for default `values.yaml`. Used for custom templates where new parameters are added.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
-	UnvalidatedValues *_struct.Struct `protobuf:"bytes,101,opt,name=unvalidatedValues,proto3" json:"unvalidatedValues,omitempty"`
+	UnvalidatedValues *structpb.Struct `protobuf:"bytes,101,opt,name=unvalidatedValues,proto3" json:"unvalidatedValues,omitempty"`
 }
 
 func (x *IstioOperatorSpec) Reset() {
@@ -245,7 +245,7 @@ func (x *IstioOperatorSpec) GetDefaultRevision() bool {
 	return false
 }
 
-func (x *IstioOperatorSpec) GetMeshConfig() *_struct.Struct {
+func (x *IstioOperatorSpec) GetMeshConfig() *structpb.Struct {
 	if x != nil {
 		return x.MeshConfig
 	}
@@ -267,14 +267,14 @@ func (x *IstioOperatorSpec) GetAddonComponents() map[string]*ExternalComponentSp
 	return nil
 }
 
-func (x *IstioOperatorSpec) GetValues() *_struct.Struct {
+func (x *IstioOperatorSpec) GetValues() *structpb.Struct {
 	if x != nil {
 		return x.Values
 	}
 	return nil
 }
 
-func (x *IstioOperatorSpec) GetUnvalidatedValues() *_struct.Struct {
+func (x *IstioOperatorSpec) GetUnvalidatedValues() *structpb.Struct {
 	if x != nil {
 		return x.UnvalidatedValues
 	}
@@ -452,7 +452,7 @@ type BaseComponentSpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Selects whether this component is installed.
-	Enabled *wrappers.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Enabled *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	// Kubernetes resource spec.
 	K8S *KubernetesResourcesSpec `protobuf:"bytes,50,opt,name=k8s,proto3" json:"k8s,omitempty"`
 }
@@ -489,7 +489,7 @@ func (*BaseComponentSpec) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio_operator_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *BaseComponentSpec) GetEnabled() *wrappers.BoolValue {
+func (x *BaseComponentSpec) GetEnabled() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.Enabled
 	}
@@ -510,7 +510,7 @@ type ComponentSpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Selects whether this component is installed.
-	Enabled *wrappers.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Enabled *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	// Namespace for the component.
 	Namespace string `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Hub for the component (overrides top level hub setting).
@@ -519,7 +519,7 @@ type ComponentSpec struct {
 	Tag string `protobuf:"bytes,11,opt,name=tag,proto3" json:"tag,omitempty"`
 	// Arbitrary install time configuration for the component.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
-	Spec *_struct.Struct `protobuf:"bytes,30,opt,name=spec,proto3" json:"spec,omitempty"`
+	Spec *structpb.Struct `protobuf:"bytes,30,opt,name=spec,proto3" json:"spec,omitempty"`
 	// Kubernetes resource spec.
 	K8S *KubernetesResourcesSpec `protobuf:"bytes,50,opt,name=k8s,proto3" json:"k8s,omitempty"`
 }
@@ -556,7 +556,7 @@ func (*ComponentSpec) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio_operator_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *ComponentSpec) GetEnabled() *wrappers.BoolValue {
+func (x *ComponentSpec) GetEnabled() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.Enabled
 	}
@@ -584,7 +584,7 @@ func (x *ComponentSpec) GetTag() string {
 	return ""
 }
 
-func (x *ComponentSpec) GetSpec() *_struct.Struct {
+func (x *ComponentSpec) GetSpec() *structpb.Struct {
 	if x != nil {
 		return x.Spec
 	}
@@ -605,17 +605,17 @@ type ExternalComponentSpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Selects whether this component is installed.
-	Enabled *wrappers.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Enabled *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	// Namespace for the component.
 	Namespace string `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Arbitrary install time configuration for the component.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#struct).
-	Spec *_struct.Struct `protobuf:"bytes,10,opt,name=spec,proto3" json:"spec,omitempty"`
+	Spec *structpb.Struct `protobuf:"bytes,10,opt,name=spec,proto3" json:"spec,omitempty"`
 	// Chart path for addon components.
 	ChartPath string `protobuf:"bytes,30,opt,name=chartPath,proto3" json:"chartPath,omitempty"`
 	// Optional schema to validate spec against.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#any).
-	Schema *any1.Any `protobuf:"bytes,35,opt,name=schema,proto3" json:"schema,omitempty"`
+	Schema *anypb.Any `protobuf:"bytes,35,opt,name=schema,proto3" json:"schema,omitempty"`
 	// Kubernetes resource spec.
 	K8S *KubernetesResourcesSpec `protobuf:"bytes,50,opt,name=k8s,proto3" json:"k8s,omitempty"`
 }
@@ -652,7 +652,7 @@ func (*ExternalComponentSpec) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio_operator_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *ExternalComponentSpec) GetEnabled() *wrappers.BoolValue {
+func (x *ExternalComponentSpec) GetEnabled() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.Enabled
 	}
@@ -666,7 +666,7 @@ func (x *ExternalComponentSpec) GetNamespace() string {
 	return ""
 }
 
-func (x *ExternalComponentSpec) GetSpec() *_struct.Struct {
+func (x *ExternalComponentSpec) GetSpec() *structpb.Struct {
 	if x != nil {
 		return x.Spec
 	}
@@ -680,7 +680,7 @@ func (x *ExternalComponentSpec) GetChartPath() string {
 	return ""
 }
 
-func (x *ExternalComponentSpec) GetSchema() *any1.Any {
+func (x *ExternalComponentSpec) GetSchema() *anypb.Any {
 	if x != nil {
 		return x.Schema
 	}
@@ -701,7 +701,7 @@ type GatewaySpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Selects whether this gateway is installed.
-	Enabled *wrappers.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Enabled *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	// Namespace for the gateway.
 	Namespace string `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Name for the gateway.
@@ -748,7 +748,7 @@ func (*GatewaySpec) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio_operator_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *GatewaySpec) GetEnabled() *wrappers.BoolValue {
+func (x *GatewaySpec) GetEnabled() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.Enabled
 	}
@@ -1728,11 +1728,11 @@ type ExternalMetricSource struct {
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
-	TargetValue *_struct.Value `protobuf:"bytes,3,opt,name=targetValue,proto3" json:"targetValue,omitempty"`
+	TargetValue *structpb.Value `protobuf:"bytes,3,opt,name=targetValue,proto3" json:"targetValue,omitempty"`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
-	TargetAverageValue *_struct.Value    `protobuf:"bytes,4,opt,name=targetAverageValue,proto3" json:"targetAverageValue,omitempty"`
+	TargetAverageValue *structpb.Value   `protobuf:"bytes,4,opt,name=targetAverageValue,proto3" json:"targetAverageValue,omitempty"`
 	Metric             *MetricIdentifier `protobuf:"bytes,5,opt,name=metric,proto3" json:"metric,omitempty"`
 	Target             *MetricTarget     `protobuf:"bytes,6,opt,name=target,proto3" json:"target,omitempty"`
 }
@@ -1786,7 +1786,7 @@ func (x *ExternalMetricSource) GetMetricSelector() *v11.LabelSelector {
 }
 
 // Deprecated: Do not use.
-func (x *ExternalMetricSource) GetTargetValue() *_struct.Value {
+func (x *ExternalMetricSource) GetTargetValue() *structpb.Value {
 	if x != nil {
 		return x.TargetValue
 	}
@@ -1794,7 +1794,7 @@ func (x *ExternalMetricSource) GetTargetValue() *_struct.Value {
 }
 
 // Deprecated: Do not use.
-func (x *ExternalMetricSource) GetTargetAverageValue() *_struct.Value {
+func (x *ExternalMetricSource) GetTargetAverageValue() *structpb.Value {
 	if x != nil {
 		return x.TargetAverageValue
 	}
@@ -1879,10 +1879,10 @@ type HTTPGetAction struct {
 
 	Path string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	Port        *_struct.Value `protobuf:"bytes,2,opt,name=port,proto3" json:"port,omitempty"`
-	Host        string         `protobuf:"bytes,3,opt,name=host,proto3" json:"host,omitempty"`
-	Scheme      string         `protobuf:"bytes,4,opt,name=scheme,proto3" json:"scheme,omitempty"`
-	HttpHeaders []*HTTPHeader  `protobuf:"bytes,5,rep,name=httpHeaders,proto3" json:"httpHeaders,omitempty"`
+	Port        *structpb.Value `protobuf:"bytes,2,opt,name=port,proto3" json:"port,omitempty"`
+	Host        string          `protobuf:"bytes,3,opt,name=host,proto3" json:"host,omitempty"`
+	Scheme      string          `protobuf:"bytes,4,opt,name=scheme,proto3" json:"scheme,omitempty"`
+	HttpHeaders []*HTTPHeader   `protobuf:"bytes,5,rep,name=httpHeaders,proto3" json:"httpHeaders,omitempty"`
 }
 
 func (x *HTTPGetAction) Reset() {
@@ -1924,7 +1924,7 @@ func (x *HTTPGetAction) GetPath() string {
 	return ""
 }
 
-func (x *HTTPGetAction) GetPort() *_struct.Value {
+func (x *HTTPGetAction) GetPort() *structpb.Value {
 	if x != nil {
 		return x.Port
 	}
@@ -2561,10 +2561,10 @@ type MetricTarget struct {
 
 	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	Value *_struct.Value `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
+	Value *structpb.Value `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	AverageValue       *_struct.Value `protobuf:"bytes,3,opt,name=averageValue,proto3" json:"averageValue,omitempty"`
-	AverageUtilization int32          `protobuf:"varint,4,opt,name=averageUtilization,proto3" json:"averageUtilization,omitempty"`
+	AverageValue       *structpb.Value `protobuf:"bytes,3,opt,name=averageValue,proto3" json:"averageValue,omitempty"`
+	AverageUtilization int32           `protobuf:"varint,4,opt,name=averageUtilization,proto3" json:"averageUtilization,omitempty"`
 }
 
 func (x *MetricTarget) Reset() {
@@ -2606,14 +2606,14 @@ func (x *MetricTarget) GetType() string {
 	return ""
 }
 
-func (x *MetricTarget) GetValue() *_struct.Value {
+func (x *MetricTarget) GetValue() *structpb.Value {
 	if x != nil {
 		return x.Value
 	}
 	return nil
 }
 
-func (x *MetricTarget) GetAverageValue() *_struct.Value {
+func (x *MetricTarget) GetAverageValue() *structpb.Value {
 	if x != nil {
 		return x.AverageValue
 	}
@@ -2634,10 +2634,10 @@ type MetricValueStatus struct {
 	unknownFields protoimpl.UnknownFields
 
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	Value *_struct.Value `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value *structpb.Value `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	AverageValue       *_struct.Value `protobuf:"bytes,2,opt,name=averageValue,proto3" json:"averageValue,omitempty"`
-	AverageUtilization int32          `protobuf:"varint,3,opt,name=averageUtilization,proto3" json:"averageUtilization,omitempty"`
+	AverageValue       *structpb.Value `protobuf:"bytes,2,opt,name=averageValue,proto3" json:"averageValue,omitempty"`
+	AverageUtilization int32           `protobuf:"varint,3,opt,name=averageUtilization,proto3" json:"averageUtilization,omitempty"`
 }
 
 func (x *MetricValueStatus) Reset() {
@@ -2672,14 +2672,14 @@ func (*MetricValueStatus) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio_operator_proto_rawDescGZIP(), []int{32}
 }
 
-func (x *MetricValueStatus) GetValue() *_struct.Value {
+func (x *MetricValueStatus) GetValue() *structpb.Value {
 	if x != nil {
 		return x.Value
 	}
 	return nil
 }
 
-func (x *MetricValueStatus) GetAverageValue() *_struct.Value {
+func (x *MetricValueStatus) GetAverageValue() *structpb.Value {
 	if x != nil {
 		return x.AverageValue
 	}
@@ -3040,7 +3040,7 @@ type ObjectMetricSource struct {
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
-	TargetValue *_struct.Value `protobuf:"bytes,3,opt,name=targetValue,proto3" json:"targetValue,omitempty"`
+	TargetValue *structpb.Value `protobuf:"bytes,3,opt,name=targetValue,proto3" json:"targetValue,omitempty"`
 	// For information about the value format, see the [Kubernetes API reference documentation](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#labelselector-v1-meta).
 	//
 	// Deprecated: Do not use.
@@ -3048,11 +3048,11 @@ type ObjectMetricSource struct {
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
-	AverageValue *_struct.Value `protobuf:"bytes,5,opt,name=averageValue,proto3" json:"averageValue,omitempty"`
+	AverageValue *structpb.Value `protobuf:"bytes,5,opt,name=averageValue,proto3" json:"averageValue,omitempty"`
 	// Type changes from CrossVersionObjectReference to ResourceMetricTarget in autoscaling v2beta2/v2 compared with v2beta1
 	// Change it to dynamic type to keep backward compatible
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	Target          *_struct.Value               `protobuf:"bytes,1,opt,name=target,proto3" json:"target,omitempty"`
+	Target          *structpb.Value              `protobuf:"bytes,1,opt,name=target,proto3" json:"target,omitempty"`
 	DescribedObject *CrossVersionObjectReference `protobuf:"bytes,6,opt,name=describedObject,proto3" json:"describedObject,omitempty"`
 	Metric          *MetricIdentifier            `protobuf:"bytes,8,opt,name=metric,proto3" json:"metric,omitempty"`
 }
@@ -3098,7 +3098,7 @@ func (x *ObjectMetricSource) GetMetricName() string {
 }
 
 // Deprecated: Do not use.
-func (x *ObjectMetricSource) GetTargetValue() *_struct.Value {
+func (x *ObjectMetricSource) GetTargetValue() *structpb.Value {
 	if x != nil {
 		return x.TargetValue
 	}
@@ -3114,14 +3114,14 @@ func (x *ObjectMetricSource) GetSelector() *v11.LabelSelector {
 }
 
 // Deprecated: Do not use.
-func (x *ObjectMetricSource) GetAverageValue() *_struct.Value {
+func (x *ObjectMetricSource) GetAverageValue() *structpb.Value {
 	if x != nil {
 		return x.AverageValue
 	}
 	return nil
 }
 
-func (x *ObjectMetricSource) GetTarget() *_struct.Value {
+func (x *ObjectMetricSource) GetTarget() *structpb.Value {
 	if x != nil {
 		return x.Target
 	}
@@ -3390,11 +3390,11 @@ type PodDisruptionBudgetSpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	MinAvailable *_struct.Value `protobuf:"bytes,1,opt,name=minAvailable,proto3" json:"minAvailable,omitempty"`
+	MinAvailable *structpb.Value `protobuf:"bytes,1,opt,name=minAvailable,proto3" json:"minAvailable,omitempty"`
 	// For information about the value format, see the [Kubernetes API reference documentation](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#labelselector-v1-meta).
 	Selector *v11.LabelSelector `protobuf:"bytes,2,opt,name=selector,proto3" json:"selector,omitempty"`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	MaxUnavailable *_struct.Value `protobuf:"bytes,3,opt,name=maxUnavailable,proto3" json:"maxUnavailable,omitempty"`
+	MaxUnavailable *structpb.Value `protobuf:"bytes,3,opt,name=maxUnavailable,proto3" json:"maxUnavailable,omitempty"`
 }
 
 func (x *PodDisruptionBudgetSpec) Reset() {
@@ -3429,7 +3429,7 @@ func (*PodDisruptionBudgetSpec) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio_operator_proto_rawDescGZIP(), []int{44}
 }
 
-func (x *PodDisruptionBudgetSpec) GetMinAvailable() *_struct.Value {
+func (x *PodDisruptionBudgetSpec) GetMinAvailable() *structpb.Value {
 	if x != nil {
 		return x.MinAvailable
 	}
@@ -3443,7 +3443,7 @@ func (x *PodDisruptionBudgetSpec) GetSelector() *v11.LabelSelector {
 	return nil
 }
 
-func (x *PodDisruptionBudgetSpec) GetMaxUnavailable() *_struct.Value {
+func (x *PodDisruptionBudgetSpec) GetMaxUnavailable() *structpb.Value {
 	if x != nil {
 		return x.MaxUnavailable
 	}
@@ -3461,7 +3461,7 @@ type PodsMetricSource struct {
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
-	TargetAverageValue *_struct.Value `protobuf:"bytes,2,opt,name=targetAverageValue,proto3" json:"targetAverageValue,omitempty"`
+	TargetAverageValue *structpb.Value `protobuf:"bytes,2,opt,name=targetAverageValue,proto3" json:"targetAverageValue,omitempty"`
 	// For information about the value format, see the [Kubernetes API reference documentation](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#labelselector-v1-meta).
 	//
 	// Deprecated: Do not use.
@@ -3512,7 +3512,7 @@ func (x *PodsMetricSource) GetMetricName() string {
 }
 
 // Deprecated: Do not use.
-func (x *PodsMetricSource) GetTargetAverageValue() *_struct.Value {
+func (x *PodsMetricSource) GetTargetAverageValue() *structpb.Value {
 	if x != nil {
 		return x.TargetAverageValue
 	}
@@ -3766,7 +3766,7 @@ type ResourceFieldSelector struct {
 	ContainerName string `protobuf:"bytes,1,opt,name=containerName,proto3" json:"containerName,omitempty"`
 	Resource      string `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty"`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	Divisor *_struct.Value `protobuf:"bytes,3,opt,name=divisor,proto3" json:"divisor,omitempty"`
+	Divisor *structpb.Value `protobuf:"bytes,3,opt,name=divisor,proto3" json:"divisor,omitempty"`
 }
 
 func (x *ResourceFieldSelector) Reset() {
@@ -3815,7 +3815,7 @@ func (x *ResourceFieldSelector) GetResource() string {
 	return ""
 }
 
-func (x *ResourceFieldSelector) GetDivisor() *_struct.Value {
+func (x *ResourceFieldSelector) GetDivisor() *structpb.Value {
 	if x != nil {
 		return x.Divisor
 	}
@@ -3834,8 +3834,8 @@ type ResourceMetricSource struct {
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
 	//
 	// Deprecated: Do not use.
-	TargetAverageValue *_struct.Value `protobuf:"bytes,3,opt,name=targetAverageValue,proto3" json:"targetAverageValue,omitempty"`
-	Target             *MetricTarget  `protobuf:"bytes,4,opt,name=target,proto3" json:"target,omitempty"`
+	TargetAverageValue *structpb.Value `protobuf:"bytes,3,opt,name=targetAverageValue,proto3" json:"targetAverageValue,omitempty"`
+	Target             *MetricTarget   `protobuf:"bytes,4,opt,name=target,proto3" json:"target,omitempty"`
 }
 
 func (x *ResourceMetricSource) Reset() {
@@ -3886,7 +3886,7 @@ func (x *ResourceMetricSource) GetTargetAverageUtilization() int32 {
 }
 
 // Deprecated: Do not use.
-func (x *ResourceMetricSource) GetTargetAverageValue() *_struct.Value {
+func (x *ResourceMetricSource) GetTargetAverageValue() *structpb.Value {
 	if x != nil {
 		return x.TargetAverageValue
 	}
@@ -4019,9 +4019,9 @@ type RollingUpdateDeployment struct {
 	unknownFields protoimpl.UnknownFields
 
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	MaxUnavailable *_struct.Value `protobuf:"bytes,1,opt,name=maxUnavailable,proto3" json:"maxUnavailable,omitempty"`
+	MaxUnavailable *structpb.Value `protobuf:"bytes,1,opt,name=maxUnavailable,proto3" json:"maxUnavailable,omitempty"`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	MaxSurge *_struct.Value `protobuf:"bytes,2,opt,name=maxSurge,proto3" json:"maxSurge,omitempty"`
+	MaxSurge *structpb.Value `protobuf:"bytes,2,opt,name=maxSurge,proto3" json:"maxSurge,omitempty"`
 }
 
 func (x *RollingUpdateDeployment) Reset() {
@@ -4056,14 +4056,14 @@ func (*RollingUpdateDeployment) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio_operator_proto_rawDescGZIP(), []int{53}
 }
 
-func (x *RollingUpdateDeployment) GetMaxUnavailable() *_struct.Value {
+func (x *RollingUpdateDeployment) GetMaxUnavailable() *structpb.Value {
 	if x != nil {
 		return x.MaxUnavailable
 	}
 	return nil
 }
 
-func (x *RollingUpdateDeployment) GetMaxSurge() *_struct.Value {
+func (x *RollingUpdateDeployment) GetMaxSurge() *structpb.Value {
 	if x != nil {
 		return x.MaxSurge
 	}
@@ -4288,8 +4288,8 @@ type ServicePort struct {
 	Protocol string `protobuf:"bytes,2,opt,name=protocol,proto3" json:"protocol,omitempty"`
 	Port     int32  `protobuf:"varint,3,opt,name=port,proto3" json:"port,omitempty"`
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	TargetPort *_struct.Value `protobuf:"bytes,4,opt,name=targetPort,proto3" json:"targetPort,omitempty"`
-	NodePort   int32          `protobuf:"varint,5,opt,name=nodePort,proto3" json:"nodePort,omitempty"`
+	TargetPort *structpb.Value `protobuf:"bytes,4,opt,name=targetPort,proto3" json:"targetPort,omitempty"`
+	NodePort   int32           `protobuf:"varint,5,opt,name=nodePort,proto3" json:"nodePort,omitempty"`
 }
 
 func (x *ServicePort) Reset() {
@@ -4345,7 +4345,7 @@ func (x *ServicePort) GetPort() int32 {
 	return 0
 }
 
-func (x *ServicePort) GetTargetPort() *_struct.Value {
+func (x *ServicePort) GetTargetPort() *structpb.Value {
 	if x != nil {
 		return x.TargetPort
 	}
@@ -4414,8 +4414,8 @@ type TCPSocketAction struct {
 	unknownFields protoimpl.UnknownFields
 
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	Port *_struct.Value `protobuf:"bytes,1,opt,name=port,proto3" json:"port,omitempty"`
-	Host string         `protobuf:"bytes,2,opt,name=host,proto3" json:"host,omitempty"`
+	Port *structpb.Value `protobuf:"bytes,1,opt,name=port,proto3" json:"port,omitempty"`
+	Host string          `protobuf:"bytes,2,opt,name=host,proto3" json:"host,omitempty"`
 }
 
 func (x *TCPSocketAction) Reset() {
@@ -4450,7 +4450,7 @@ func (*TCPSocketAction) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio_operator_proto_rawDescGZIP(), []int{58}
 }
 
-func (x *TCPSocketAction) GetPort() *_struct.Value {
+func (x *TCPSocketAction) GetPort() *structpb.Value {
 	if x != nil {
 		return x.Port
 	}
@@ -5048,7 +5048,7 @@ type K8SObjectOverlay_PathValue struct {
 	// For replace, path should reference an existing node.
 	// All values are strings but are converted into appropriate type based on schema.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	Value *_struct.Value `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
+	Value *structpb.Value `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (x *K8SObjectOverlay_PathValue) Reset() {
@@ -5090,7 +5090,7 @@ func (x *K8SObjectOverlay_PathValue) GetPath() string {
 	return ""
 }
 
-func (x *K8SObjectOverlay_PathValue) GetValue() *_struct.Value {
+func (x *K8SObjectOverlay_PathValue) GetValue() *structpb.Value {
 	if x != nil {
 		return x.Value
 	}
@@ -6249,13 +6249,13 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio
 	nil,                                     // 75: common.gloo.solo.io.Resources.LimitsEntry
 	nil,                                     // 76: common.gloo.solo.io.Resources.RequestsEntry
 	nil,                                     // 77: common.gloo.solo.io.ServiceSpec.SelectorEntry
-	(*_struct.Struct)(nil),                  // 78: google.protobuf.Struct
-	(*wrappers.BoolValue)(nil),              // 79: google.protobuf.BoolValue
-	(*any1.Any)(nil),                        // 80: google.protobuf.Any
+	(*structpb.Struct)(nil),                 // 78: google.protobuf.Struct
+	(*wrapperspb.BoolValue)(nil),            // 79: google.protobuf.BoolValue
+	(*anypb.Any)(nil),                       // 80: google.protobuf.Any
 	(*v1.Volume)(nil),                       // 81: k8s.io.api.core.v1.Volume
 	(*v1.VolumeMount)(nil),                  // 82: k8s.io.api.core.v1.VolumeMount
 	(*v11.LabelSelector)(nil),               // 83: k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector
-	(*_struct.Value)(nil),                   // 84: google.protobuf.Value
+	(*structpb.Value)(nil),                  // 84: google.protobuf.Value
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_istio_operator_proto_depIdxs = []int32{
 	78,  // 0: common.gloo.solo.io.IstioOperatorSpec.meshConfig:type_name -> google.protobuf.Struct

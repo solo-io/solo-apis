@@ -14,9 +14,9 @@ import (
 	v3 "github.com/envoyproxy/go-control-plane/envoy/config/route/v3"
 	v31 "github.com/envoyproxy/go-control-plane/envoy/type/matcher/v3"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 const (
@@ -577,7 +577,7 @@ func (x *Extraction) GetHeader() string {
 	return ""
 }
 
-func (x *Extraction) GetBody() *empty.Empty {
+func (x *Extraction) GetBody() *emptypb.Empty {
 	if x, ok := x.GetSource().(*Extraction_Body); ok {
 		return x.Body
 	}
@@ -609,7 +609,7 @@ type Extraction_Header struct {
 
 type Extraction_Body struct {
 	// Extract information from the request/response body
-	Body *empty.Empty `protobuf:"bytes,4,opt,name=body,proto3,oneof"`
+	Body *emptypb.Empty `protobuf:"bytes,4,opt,name=body,proto3,oneof"`
 }
 
 func (*Extraction_Header) isExtraction_Source() {}
@@ -1776,7 +1776,7 @@ var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_fi
 	(*v3.HeaderMatcher)(nil),                            // 22: envoy.config.route.v3.HeaderMatcher
 	(*v31.StringMatcher)(nil),                           // 23: envoy.type.matcher.v3.StringMatcher
 	(*v32.TypedExtensionConfig)(nil),                    // 24: envoy.config.core.v3.TypedExtensionConfig
-	(*empty.Empty)(nil),                                 // 25: google.protobuf.Empty
+	(*emptypb.Empty)(nil),                               // 25: google.protobuf.Empty
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_filter_http_transformation_v2_transformation_filter_proto_depIdxs = []int32{
 	2,  // 0: envoy.api.v2.filter.http.FilterTransformations.transformations:type_name -> envoy.api.v2.filter.http.TransformationRule

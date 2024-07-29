@@ -20,7 +20,7 @@ option (extproto.clone_all) = true;
 // Before you create the Portal, you bundle the APIs that you want to expose into a route table.
 // Then, you prepare a usage plan to control access to your APIs
 // by applying rate limiting and external auth policies to the routes in the route table.
-// For more information, see the [Portal docs](https://docs.solo.io/gloo-gateway/main/portal/).
+// For more information, see the [Portal docs](https://docs.solo.io/gloo-mesh-gateway/2.4.x/portal/).
 //
 // The following examples show a Portal resource that refers to usage plans
 // that are named in the rate limit server config's descriptors, as well as a corresponding

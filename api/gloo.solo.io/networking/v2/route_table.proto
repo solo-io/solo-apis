@@ -24,7 +24,7 @@ option (extproto.clone_all) = true;
 
 // `RouteTables` define one or more hosts and a set of traffic route rules that describe how to handle traffic for these hosts.
 // Route tables support two types of routes: HTTP and TCP.
-// For more information, see see the [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+// For more information, see see the [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
 //
 // You can delegate HTTP routes to other route tables based on one or more matching hosts and specific route paths.
 // If your "parent" route table delegates some traffic rules to another "child" route table, the child route table must be in the same workspace
@@ -246,16 +246,16 @@ message RouteTableSpec {
 
   // The set of HTTP routes for this route table to serve. If no routes match the client request,
   // the client gets back a 404. For more information on supported HTTP features, see the
-  // [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+  // [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
   repeated HTTPRoute http = 3;
 
   // The set of TCP routes for this route table to serve. TCP routes are available only for internal
   // traffic within the cluster, not for ingress gateway traffic. For more information on supported
-  // TCP features see the [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+  // TCP features see the [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
   repeated TCPRoute tcp = 8;
 
   // The set of TLS routes for this route table to serve. For more information on supported
-  // TLS features see the [Routing overview concept docs](https://docs.solo.io/gloo-mesh-enterprise/main/concepts/traffic-management/routes/).
+  // TLS features see the [Routing overview concept docs]({{< link path="/traffic_management/concepts/routes/" >}}).
   repeated TLSRoute tls = 9;
 
   // Weight is used when sorting route tables in delegate action or routes when sorted by specificity.
@@ -539,7 +539,7 @@ message DelegateAction {
   }
 }
 
-// With [Portal](https://docs.solo.io/gloo-gateway/main/portal/) installed as part of Gloo Platform,
+// With [Portal](https://docs.solo.io/gloo-mesh-gateway/2.4.x/portal/) installed as part of Gloo Platform,
 // you can use route tables to bundle together individual routes into an API product.
 // When the Portal resource selects your route table, Gloo automatically generates an OpenAPI specification for the API product,
 // which includes all of the routes. You can use this `PortalMetadata` setting to customize details about your API product,
@@ -550,7 +550,7 @@ message PortalMetadata {
   // Group APIs from multiple route tables together as an API product in the portal.
   // For example, you might have separate route tables that route to different `v1` and `v2` versions of your `billing` services that have their own OpenAPI specs.
   // By setting the `apiProductId` metadata to the same `billing-api` value in each route table,
-  // the [/apis](https://docs.solo.io/gloo-gateway/main/portal/openapi/redocly/#tag/APIs/operation/ListAPIs) endpoint in the portal server returns the same `apiProduct` in the response.
+  // the [/apis](https://docs.solo.io/gloo-mesh-gateway/2.4.x/portal/redocly.html#tag/APIs/operation/ListAPIs) endpoint in the portal server returns the same `apiProduct` in the response.
   // Then, these APIs are grouped together and shown as a single `billing` API product with multiple `v1` and `v2` versions in the frontend portal for your end users to discover and use.
   string api_product_id = 1;
   // Optional: Give a name for the API product to display in the frontend portal. If omitted, the `apiProductId` value is used as the display name.

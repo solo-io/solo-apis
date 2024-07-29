@@ -13,7 +13,7 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_empty "github.com/golang/protobuf/ptypes/empty"
+	google_golang_org_protobuf_types_known_emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // ensure the imports are used
@@ -41,11 +41,11 @@ func (m *ClientMode) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetAuto()).(clone.Cloner); ok {
 			target.ClientMode = &ClientMode_Auto{
-				Auto: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
+				Auto: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		} else {
 			target.ClientMode = &ClientMode_Auto{
-				Auto: proto.Clone(m.GetAuto()).(*github_com_golang_protobuf_ptypes_empty.Empty),
+				Auto: proto.Clone(m.GetAuto()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		}
 
@@ -53,11 +53,11 @@ func (m *ClientMode) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetSniRouting()).(clone.Cloner); ok {
 			target.ClientMode = &ClientMode_SniRouting{
-				SniRouting: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
+				SniRouting: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		} else {
 			target.ClientMode = &ClientMode_SniRouting{
-				SniRouting: proto.Clone(m.GetSniRouting()).(*github_com_golang_protobuf_ptypes_empty.Empty),
+				SniRouting: proto.Clone(m.GetSniRouting()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		}
 
@@ -65,11 +65,11 @@ func (m *ClientMode) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetTlsTermination()).(clone.Cloner); ok {
 			target.ClientMode = &ClientMode_TlsTermination{
-				TlsTermination: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
+				TlsTermination: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		} else {
 			target.ClientMode = &ClientMode_TlsTermination{
-				TlsTermination: proto.Clone(m.GetTlsTermination()).(*github_com_golang_protobuf_ptypes_empty.Empty),
+				TlsTermination: proto.Clone(m.GetTlsTermination()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		}
 

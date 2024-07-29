@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
-
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
-
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+
+	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -126,21 +126,21 @@ func (m *LoadBalancerPolicySpec_Config) Clone() proto.Message {
 	target = &LoadBalancerPolicySpec_Config{}
 
 	if h, ok := interface{}(m.GetWarmupDurationSecs()).(clone.Cloner); ok {
-		target.WarmupDurationSecs = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.WarmupDurationSecs = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.WarmupDurationSecs = proto.Clone(m.GetWarmupDurationSecs()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.WarmupDurationSecs = proto.Clone(m.GetWarmupDurationSecs()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	if h, ok := interface{}(m.GetHealthyPanicThreshold()).(clone.Cloner); ok {
-		target.HealthyPanicThreshold = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
+		target.HealthyPanicThreshold = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
 	} else {
-		target.HealthyPanicThreshold = proto.Clone(m.GetHealthyPanicThreshold()).(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
+		target.HealthyPanicThreshold = proto.Clone(m.GetHealthyPanicThreshold()).(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
 	}
 
 	if h, ok := interface{}(m.GetUpdateMergeWindow()).(clone.Cloner); ok {
-		target.UpdateMergeWindow = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.UpdateMergeWindow = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.UpdateMergeWindow = proto.Clone(m.GetUpdateMergeWindow()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.UpdateMergeWindow = proto.Clone(m.GetUpdateMergeWindow()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	switch m.LbPolicy.(type) {
@@ -226,9 +226,9 @@ func (m *LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie) Clone() prot
 	target.Path = m.GetPath()
 
 	if h, ok := interface{}(m.GetTtl()).(clone.Cloner); ok {
-		target.Ttl = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Ttl = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.Ttl = proto.Clone(m.GetTtl()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.Ttl = proto.Clone(m.GetTtl()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	return target

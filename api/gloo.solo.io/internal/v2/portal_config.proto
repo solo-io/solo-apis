@@ -66,7 +66,7 @@ message PortalConfigSpec {
   // referenced RouteTable and api_schema is a reference to the stitched API schema for the RouteTable.
   // Also references a list of usage plan names that are associated with the API.
   message API {
-    // When set, the [/apis](https://docs.solo.io/gloo-gateway/main/portal/openapi/redocly/#tag/APIs/operation/ListAPIs)
+    // When set, the [/apis](https://docs.solo.io/gloo-mesh-gateway/2.4.x/portal/redocly.html#tag/APIs/operation/ListAPIs)
     // endpoint in the portal will return `apiProduct` in the response which can be used to group multiple APIs together.
     string api_product_id = 1;
     // The api product display name

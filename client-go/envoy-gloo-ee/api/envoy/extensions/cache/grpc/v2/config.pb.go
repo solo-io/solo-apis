@@ -12,9 +12,9 @@ import (
 
 	v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	duration "github.com/golang/protobuf/ptypes/duration"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 const (
@@ -33,7 +33,7 @@ type GrpcCacheConfig struct {
 	// A GRPC service: this maps exactly to envoy GRPC service defintions
 	Service *v3.GrpcService `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
 	// Connection timeout  for retrieval from cache
-	Timeout *duration.Duration `protobuf:"bytes,2,opt,name=timeout,proto3" json:"timeout,omitempty"`
+	Timeout *durationpb.Duration `protobuf:"bytes,2,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	// Max payload size to cache. This may be set to protect against large
 	// requests or responses by not caching them.
 	MaxPayloadSize uint64 `protobuf:"varint,3,opt,name=max_payload_size,json=maxPayloadSize,proto3" json:"max_payload_size,omitempty"`
@@ -78,7 +78,7 @@ func (x *GrpcCacheConfig) GetService() *v3.GrpcService {
 	return nil
 }
 
-func (x *GrpcCacheConfig) GetTimeout() *duration.Duration {
+func (x *GrpcCacheConfig) GetTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.Timeout
 	}
@@ -149,9 +149,9 @@ func file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_exten
 
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_extensions_cache_grpc_v2_config_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_extensions_cache_grpc_v2_config_proto_goTypes = []interface{}{
-	(*GrpcCacheConfig)(nil),   // 0: envoy.extensions.cache.grpc.v2.GrpcCacheConfig
-	(*v3.GrpcService)(nil),    // 1: envoy.config.core.v3.GrpcService
-	(*duration.Duration)(nil), // 2: google.protobuf.Duration
+	(*GrpcCacheConfig)(nil),     // 0: envoy.extensions.cache.grpc.v2.GrpcCacheConfig
+	(*v3.GrpcService)(nil),      // 1: envoy.config.core.v3.GrpcService
+	(*durationpb.Duration)(nil), // 2: google.protobuf.Duration
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_ee_api_envoy_extensions_cache_grpc_v2_config_proto_depIdxs = []int32{
 	1, // 0: envoy.extensions.cache.grpc.v2.GrpcCacheConfig.service:type_name -> envoy.config.core.v3.GrpcService

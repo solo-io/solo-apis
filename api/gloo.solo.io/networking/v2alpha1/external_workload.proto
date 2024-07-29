@@ -1,6 +1,6 @@
 // Create an in-mesh identity for workloads that are external to a Kubernetes workload
 // cluster to enable routing to and from those workloads in Gloo Mesh.
-// For example, after you [onboard a VM to Gloo Mesh](https://docs.solo.io/gloo-mesh-enterprise/main/setup/prod/ext_workload_int/),
+// For example, after you [onboard a VM to Gloo Mesh](https://docs.solo.io/gloo-mesh-enterprise/2.4.x/setup/prod/ext_workload_int/),
 // you might create an ExternalWorkload to represent a set of workloads
 // that run on the virtual machine or bare metal instance.
 // When an ExternalWorkload is defined for a given workspace, it can be referenced in:
@@ -8,7 +8,8 @@
 // - AccessPolicy resources, as an allowed client
 // - AccessPolicy resources targeting external workloads that match workload selectors
 //
-// **Example**: This example provisions an identity for services that listen on port 5000
+// ## Example
+// This example provisions an identity for services that listen on port 5000
 // and that run either on a GCP VM that uses the specified cloud IAM service account, or
 // an AWS VM that is in the specified security group ID.
 // The identity is created in the `vm-config` namespace of the `workload-cluster`.
