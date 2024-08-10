@@ -3,7 +3,7 @@ syntax = "proto3";
 package admin.gloo.solo.io;
 
 import "extproto/ext.proto";
-import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/approval_state.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "google/protobuf/duration.proto";
 
@@ -27,7 +27,8 @@ message ExtAuthServerSpec {
   // <li>Virtual destination: Group up to one external auth service for each registered cluster.
   // The external auth service names and namespaces must match on all clusters. Also, the namespaces must be enabled for Istio-injection
   // so that the external auth pods have sidecars.</li></ul>
-  // If omitted, Gloo looks for a service with the name `extauth` in the agent namespace in each cluster where the external auth service is deployed.
+  // If this field is omitted, Gloo looks for the default `ext-auth-service` Kubernetes service in the `gloo-mesh` namespace in all
+  // workload clusters where an `ExtAuthPolicy` that uses this `ExtAuthServer` must be applied.
   .common.gloo.solo.io.DestinationReference destination_server = 1;
 
   // If this is set, communication to the upstream will be via HTTP and not GRPC.
@@ -138,16 +139,28 @@ message ExtAuthServerSpec {
   }
 }
 
-// <!--todo:(tjons) do we need to update this?-->
+message ExtAuthServerReport {
+  
+    // The status of the resource in each workspace that it exists in.
+    map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+    // ExtAuthPolicies that reference this ExtAuthServer.
+    repeated .common.gloo.solo.io.ObjectReference applied_policies = 2;
+
+    // Backing services that this ExtAuthServer selects.
+    repeated .common.gloo.solo.io.ObjectReference selected_backing_services = 3;
+}
+
 // The status of the resource after it is applied to your Gloo environment.
 message ExtAuthServerStatus {
+    // The state and workspace conditions of the applied resource.
+    .common.gloo.solo.io.Status common = 1;
 
-  // The most recent generation observed in the object's metadata.
-  // If the `observedGeneration` does not match `metadata.generation`, Gloo Mesh has not processed the most
-  // recent version of this object.
-  int64 observed_generation = 1;
+    // The count of ExtAuthPolicies that reference this ExtAuthServer.
+    uint32 num_applied_policies = 2;
 
-  // Whether the resource has been accepted as valid and processed in the Gloo Mesh config translation.
-  .common.gloo.solo.io.ApprovalState state = 2;
-
+    // The count of backing services that this ExtAuthServer selects. In the case of a VirtualDestination,
+    // this will be the count of backing services that the VirtualDestination selects. Otherwise, this will be
+    // the count of backing kube services that the ExtAuthServer selects.
+    uint32 num_selected_backing_services = 3;
 }

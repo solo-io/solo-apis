@@ -42,7 +42,7 @@ const (
 // metadata:
 //
 //	name: customers-group
-//	namespace: gloo-mesh-addons
+//	namespace: gloo-mesh
 //
 // labels:
 //

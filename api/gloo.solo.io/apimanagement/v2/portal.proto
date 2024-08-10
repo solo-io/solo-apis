@@ -30,7 +30,7 @@ option (extproto.clone_all) = true;
 // kind: Portal
 //    metadata:
 //      name: public-portal
-//      namespace: gloo-mesh-addons
+//      namespace: gloo-mesh
 // spec:
 //    portalBackendSelectors:
 //      - selector:
@@ -57,7 +57,7 @@ option (extproto.clone_all) = true;
 // kind: RateLimitServerConfig
 //    metadata:
 //      name: usage-plans
-//      namespace: gloo-mesh-addons
+//      namespace: gloo-mesh
 // spec:
 //    destinationServers: [] # omitted, server refs
 //    raw:
@@ -99,7 +99,7 @@ option (extproto.clone_all) = true;
 //   config:
 //     server:
 //       name: ext-auth-server
-//       namespace: gloo-mesh-addons
+//       namespace: gloo-mesh
 //       cluster: cluster-1
 //     glooAuth:
 //       configs:
@@ -127,7 +127,7 @@ option (extproto.clone_all) = true;
 //   config:
 //     ratelimitServerConfig:
 //       name: usage-plans
-//       namespace: gloo-mesh-addons
+//       namespace: gloo-mesh
 //       cluster: cluster-1
 //     raw:
 //       rateLimits:

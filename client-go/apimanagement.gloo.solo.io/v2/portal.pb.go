@@ -41,7 +41,7 @@ const (
 //
 //	metadata:
 //	  name: public-portal
-//	  namespace: gloo-mesh-addons
+//	  namespace: gloo-mesh
 //
 // spec:
 //
@@ -72,7 +72,7 @@ const (
 //
 //	metadata:
 //	  name: usage-plans
-//	  namespace: gloo-mesh-addons
+//	  namespace: gloo-mesh
 //
 // spec:
 //
@@ -120,7 +120,7 @@ const (
 //	config:
 //	  server:
 //	    name: ext-auth-server
-//	    namespace: gloo-mesh-addons
+//	    namespace: gloo-mesh
 //	    cluster: cluster-1
 //	  glooAuth:
 //	    configs:
@@ -152,7 +152,7 @@ const (
 //	config:
 //	  ratelimitServerConfig:
 //	    name: usage-plans
-//	    namespace: gloo-mesh-addons
+//	    namespace: gloo-mesh
 //	    cluster: cluster-1
 //	  raw:
 //	    rateLimits:
