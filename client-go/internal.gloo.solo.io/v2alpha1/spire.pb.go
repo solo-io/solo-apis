@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -41,7 +41,7 @@ type SpireRegistrationEntrySpec struct {
 	// It is defined as a URI comprising a “trust domain” and an associated path.
 	SpiffeId string `protobuf:"bytes,3,opt,name=spiffe_id,json=spiffeId,proto3" json:"spiffe_id,omitempty"`
 	// Time to live for X509-SVIDs generated from this entry.
-	X509SvidTtl *wrapperspb.UInt32Value `protobuf:"bytes,4,opt,name=x509_svid_ttl,json=x509SvidTtl,proto3" json:"x509_svid_ttl,omitempty"`
+	X509SvidTtl *wrappers.UInt32Value `protobuf:"bytes,4,opt,name=x509_svid_ttl,json=x509SvidTtl,proto3" json:"x509_svid_ttl,omitempty"`
 	// DNS entries.
 	DnsNames []string `protobuf:"bytes,5,rep,name=dns_names,json=dnsNames,proto3" json:"dns_names,omitempty"`
 }
@@ -99,7 +99,7 @@ func (x *SpireRegistrationEntrySpec) GetSpiffeId() string {
 	return ""
 }
 
-func (x *SpireRegistrationEntrySpec) GetX509SvidTtl() *wrapperspb.UInt32Value {
+func (x *SpireRegistrationEntrySpec) GetX509SvidTtl() *wrappers.UInt32Value {
 	if x != nil {
 		return x.X509SvidTtl
 	}
@@ -289,7 +289,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_v2alph
 	(*SpireRegistrationEntrySpec)(nil),          // 0: internal.gloo.solo.io.SpireRegistrationEntrySpec
 	(*SpireRegistrationEntryStatus)(nil),        // 1: internal.gloo.solo.io.SpireRegistrationEntryStatus
 	(*SpireRegistrationEntrySpec_Selector)(nil), // 2: internal.gloo.solo.io.SpireRegistrationEntrySpec.Selector
-	(*wrapperspb.UInt32Value)(nil),              // 3: google.protobuf.UInt32Value
+	(*wrappers.UInt32Value)(nil),                // 3: google.protobuf.UInt32Value
 	(*v2.Status)(nil),                           // 4: common.gloo.solo.io.Status
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_v2alpha1_spire_proto_depIdxs = []int32{

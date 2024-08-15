@@ -13,7 +13,7 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	google_golang_org_protobuf_types_known_anypb "google.golang.org/protobuf/types/known/anypb"
+	github_com_golang_protobuf_ptypes_any "github.com/golang/protobuf/ptypes/any"
 )
 
 // ensure the imports are used
@@ -36,13 +36,13 @@ func (m *Reports) Clone() proto.Message {
 	target = &Reports{}
 
 	if m.GetReports() != nil {
-		target.Reports = make([]*google_golang_org_protobuf_types_known_anypb.Any, len(m.GetReports()))
+		target.Reports = make([]*github_com_golang_protobuf_ptypes_any.Any, len(m.GetReports()))
 		for idx, v := range m.GetReports() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Reports[idx] = h.Clone().(*google_golang_org_protobuf_types_known_anypb.Any)
+				target.Reports[idx] = h.Clone().(*github_com_golang_protobuf_ptypes_any.Any)
 			} else {
-				target.Reports[idx] = proto.Clone(v).(*google_golang_org_protobuf_types_known_anypb.Any)
+				target.Reports[idx] = proto.Clone(v).(*github_com_golang_protobuf_ptypes_any.Any)
 			}
 
 		}

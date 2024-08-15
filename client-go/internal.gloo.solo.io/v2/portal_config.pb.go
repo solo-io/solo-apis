@@ -10,11 +10,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	_struct "github.com/golang/protobuf/ptypes/struct"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	structpb "google.golang.org/protobuf/types/known/structpb"
 
 	v21 "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2"
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
@@ -94,7 +94,7 @@ type PortalConfigSpec struct {
 
 	// Portal level metadata configured by the user in the user facing Portal resource as a JSON value.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	PortalCustomMetadata *structpb.Value `protobuf:"bytes,1,opt,name=portal_custom_metadata,json=portalCustomMetadata,proto3" json:"portal_custom_metadata,omitempty"`
+	PortalCustomMetadata *_struct.Value `protobuf:"bytes,1,opt,name=portal_custom_metadata,json=portalCustomMetadata,proto3" json:"portal_custom_metadata,omitempty"`
 	// The list of API resources that are exposed by the Portal.
 	Apis []*PortalConfigSpec_API `protobuf:"bytes,2,rep,name=apis,proto3" json:"apis,omitempty"`
 	// The list of usage plans that are available across the Portal.
@@ -143,7 +143,7 @@ func (*PortalConfigSpec) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_v2_portal_config_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *PortalConfigSpec) GetPortalCustomMetadata() *structpb.Value {
+func (x *PortalConfigSpec) GetPortalCustomMetadata() *_struct.Value {
 	if x != nil {
 		return x.PortalCustomMetadata
 	}
@@ -1278,7 +1278,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_v2_por
 	nil,                                            // 13: internal.gloo.solo.io.PortalConfigSpec.API.CustomMetadataEntry
 	nil,                                            // 14: internal.gloo.solo.io.PortalConfigSpec.ApiKeyAuth.ExtAuthLabelSelectorEntry
 	nil,                                            // 15: internal.gloo.solo.io.PortalConfigReport.WorkspacesEntry
-	(*structpb.Value)(nil),                         // 16: google.protobuf.Value
+	(*_struct.Value)(nil),                          // 16: google.protobuf.Value
 	(*v2.ObjectReference)(nil),                     // 17: common.gloo.solo.io.ObjectReference
 	(*v2.Status)(nil),                              // 18: common.gloo.solo.io.Status
 	(*v21.Membership)(nil),                         // 19: apimanagement.gloo.solo.io.Membership

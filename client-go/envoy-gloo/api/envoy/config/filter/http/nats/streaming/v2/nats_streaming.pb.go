@@ -11,9 +11,9 @@ import (
 	sync "sync"
 
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
+	duration "github.com/golang/protobuf/ptypes/duration"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 const (
@@ -29,9 +29,9 @@ type NatsStreaming struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Cluster        string               `protobuf:"bytes,1,opt,name=cluster,proto3" json:"cluster,omitempty"`
-	MaxConnections uint32               `protobuf:"varint,2,opt,name=max_connections,json=maxConnections,proto3" json:"max_connections,omitempty"`
-	OpTimeout      *durationpb.Duration `protobuf:"bytes,3,opt,name=op_timeout,json=opTimeout,proto3" json:"op_timeout,omitempty"`
+	Cluster        string             `protobuf:"bytes,1,opt,name=cluster,proto3" json:"cluster,omitempty"`
+	MaxConnections uint32             `protobuf:"varint,2,opt,name=max_connections,json=maxConnections,proto3" json:"max_connections,omitempty"`
+	OpTimeout      *duration.Duration `protobuf:"bytes,3,opt,name=op_timeout,json=opTimeout,proto3" json:"op_timeout,omitempty"`
 }
 
 func (x *NatsStreaming) Reset() {
@@ -80,7 +80,7 @@ func (x *NatsStreaming) GetMaxConnections() uint32 {
 	return 0
 }
 
-func (x *NatsStreaming) GetOpTimeout() *durationpb.Duration {
+func (x *NatsStreaming) GetOpTimeout() *duration.Duration {
 	if x != nil {
 		return x.OpTimeout
 	}
@@ -217,7 +217,7 @@ var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_fi
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_filter_http_nats_streaming_v2_nats_streaming_proto_goTypes = []interface{}{
 	(*NatsStreaming)(nil),         // 0: envoy.config.filter.http.nats.streaming.v2.NatsStreaming
 	(*NatsStreamingPerRoute)(nil), // 1: envoy.config.filter.http.nats.streaming.v2.NatsStreamingPerRoute
-	(*durationpb.Duration)(nil),   // 2: google.protobuf.Duration
+	(*duration.Duration)(nil),     // 2: google.protobuf.Duration
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_filter_http_nats_streaming_v2_nats_streaming_proto_depIdxs = []int32{
 	2, // 0: envoy.config.filter.http.nats.streaming.v2.NatsStreaming.op_timeout:type_name -> google.protobuf.Duration

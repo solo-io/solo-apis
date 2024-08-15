@@ -10,15 +10,15 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	duration "github.com/golang/protobuf/ptypes/duration"
+	empty "github.com/golang/protobuf/ptypes/empty"
+	_struct "github.com/golang/protobuf/ptypes/struct"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	_ "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	structpb "google.golang.org/protobuf/types/known/structpb"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -226,7 +226,7 @@ func (x *VariableTransformation) GetJq() string {
 	return ""
 }
 
-func (x *VariableTransformation) GetJson() *structpb.Value {
+func (x *VariableTransformation) GetJson() *_struct.Value {
 	if x, ok := x.GetTransformation().(*VariableTransformation_Json); ok {
 		return x.Json
 	}
@@ -257,7 +257,7 @@ type VariableTransformation_Jq struct {
 type VariableTransformation_Json struct {
 	// Static JSON value.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	Json *structpb.Value `protobuf:"bytes,3,opt,name=json,proto3,oneof"`
+	Json *_struct.Value `protobuf:"bytes,3,opt,name=json,proto3,oneof"`
 }
 
 func (*VariableTransformation_Variable) isVariableTransformation_Transformation() {}
@@ -337,7 +337,7 @@ func (x *Extraction) GetDynamicMetadata() *DynamicMetadataExtraction {
 	return nil
 }
 
-func (x *Extraction) GetGraphqlParent() *emptypb.Empty {
+func (x *Extraction) GetGraphqlParent() *empty.Empty {
 	if x, ok := x.GetExtractionType().(*Extraction_GraphqlParent); ok {
 		return x.GraphqlParent
 	}
@@ -351,14 +351,14 @@ func (x *Extraction) GetGraphqlArg() string {
 	return ""
 }
 
-func (x *Extraction) GetResolverResult() *emptypb.Empty {
+func (x *Extraction) GetResolverResult() *empty.Empty {
 	if x, ok := x.GetExtractionType().(*Extraction_ResolverResult); ok {
 		return x.ResolverResult
 	}
 	return nil
 }
 
-func (x *Extraction) GetJson() *structpb.Value {
+func (x *Extraction) GetJson() *_struct.Value {
 	if x, ok := x.GetExtractionType().(*Extraction_Json); ok {
 		return x.Json
 	}
@@ -383,7 +383,7 @@ type Extraction_DynamicMetadata struct {
 type Extraction_GraphqlParent struct {
 	// Assigns the variable to the parent object
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
-	GraphqlParent *emptypb.Empty `protobuf:"bytes,3,opt,name=graphql_parent,json=graphqlParent,proto3,oneof"`
+	GraphqlParent *empty.Empty `protobuf:"bytes,3,opt,name=graphql_parent,json=graphqlParent,proto3,oneof"`
 }
 
 type Extraction_GraphqlArg struct {
@@ -397,13 +397,13 @@ type Extraction_ResolverResult struct {
 	// If this Extraction is used in a place where the resolver result is not available, an error
 	// will be thrown during configuration time.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
-	ResolverResult *emptypb.Empty `protobuf:"bytes,5,opt,name=resolver_result,json=resolverResult,proto3,oneof"`
+	ResolverResult *empty.Empty `protobuf:"bytes,5,opt,name=resolver_result,json=resolverResult,proto3,oneof"`
 }
 
 type Extraction_Json struct {
 	// Assigns the variable to a JSON value specified here
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#value).
-	Json *structpb.Value `protobuf:"bytes,6,opt,name=json,proto3,oneof"`
+	Json *_struct.Value `protobuf:"bytes,6,opt,name=json,proto3,oneof"`
 }
 
 func (*Extraction_RequestHeader) isExtraction_ExtractionType() {}
@@ -709,7 +709,7 @@ type GraphQLResolverMapSpec_Resolution_Resolvers struct {
 	Variables map[string]*Extraction `protobuf:"bytes,2,rep,name=variables,proto3" json:"variables,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The stats prefix which will be used for this resolver.
 	// If empty, will generate a stats prefix ${RESOLVER_NAME}
-	StatPrefix *wrapperspb.StringValue `protobuf:"bytes,4,opt,name=stat_prefix,json=statPrefix,proto3" json:"stat_prefix,omitempty"`
+	StatPrefix *wrappers.StringValue `protobuf:"bytes,4,opt,name=stat_prefix,json=statPrefix,proto3" json:"stat_prefix,omitempty"`
 }
 
 func (x *GraphQLResolverMapSpec_Resolution_Resolvers) Reset() {
@@ -758,7 +758,7 @@ func (x *GraphQLResolverMapSpec_Resolution_Resolvers) GetVariables() map[string]
 	return nil
 }
 
-func (x *GraphQLResolverMapSpec_Resolution_Resolvers) GetStatPrefix() *wrapperspb.StringValue {
+func (x *GraphQLResolverMapSpec_Resolution_Resolvers) GetStatPrefix() *wrappers.StringValue {
 	if x != nil {
 		return x.StatPrefix
 	}
@@ -899,10 +899,10 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver struct {
 	Variables map[string]*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver_RESTVariable `protobuf:"bytes,3,rep,name=variables,proto3" json:"variables,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The span name for the upstream REST request, used for tracing.
 	// If empty or omitted, the request span name will be set to the upstream cluster name.
-	SpanName *wrapperspb.StringValue `protobuf:"bytes,4,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
+	SpanName *wrappers.StringValue `protobuf:"bytes,4,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the REST service (default 5s)
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	Timeout *durationpb.Duration `protobuf:"bytes,5,opt,name=timeout,proto3" json:"timeout,omitempty"`
+	Timeout *duration.Duration `protobuf:"bytes,5,opt,name=timeout,proto3" json:"timeout,omitempty"`
 }
 
 func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) Reset() {
@@ -958,14 +958,14 @@ func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) GetV
 	return nil
 }
 
-func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) GetSpanName() *wrapperspb.StringValue {
+func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) GetSpanName() *wrappers.StringValue {
 	if x != nil {
 		return x.SpanName
 	}
 	return nil
 }
 
-func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) GetTimeout() *durationpb.Duration {
+func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_RestResolver) GetTimeout() *duration.Duration {
 	if x != nil {
 		return x.Timeout
 	}
@@ -985,10 +985,10 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver struct {
 	Request      *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
 	// The span name for the upstream gRPC request, used for tracing.
 	// If empty or omitted, the request span name will be set to the upstream cluster name.
-	SpanName *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
+	SpanName *wrappers.StringValue `protobuf:"bytes,3,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	// Set the timeout of the HTTP request to the gRPC service (default 5s)
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	Timeout *durationpb.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
+	Timeout *duration.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
 }
 
 func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) Reset() {
@@ -1037,14 +1037,14 @@ func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) GetR
 	return nil
 }
 
-func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) GetSpanName() *wrapperspb.StringValue {
+func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) GetSpanName() *wrappers.StringValue {
 	if x != nil {
 		return x.SpanName
 	}
 	return nil
 }
 
-func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) GetTimeout() *durationpb.Duration {
+func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver) GetTimeout() *duration.Duration {
 	if x != nil {
 		return x.Timeout
 	}
@@ -1322,7 +1322,7 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTe
 	// The :authority header to set on the gRPC request.
 	// If empty, the outgoing :authority header will be set to "envoy".
 	// This does not need to be set in most cases.
-	Authority *wrapperspb.StringValue `protobuf:"bytes,5,opt,name=authority,proto3" json:"authority,omitempty"`
+	Authority *wrappers.StringValue `protobuf:"bytes,5,opt,name=authority,proto3" json:"authority,omitempty"`
 }
 
 func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate) Reset() {
@@ -1386,7 +1386,7 @@ func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_Reque
 	return nil
 }
 
-func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate) GetAuthority() *wrapperspb.StringValue {
+func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_GrpcResolver_RequestTemplate) GetAuthority() *wrappers.StringValue {
 	if x != nil {
 		return x.Authority
 	}
@@ -1400,7 +1400,7 @@ type GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResp
 
 	// The delay before the response is returned.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	Delay *durationpb.Duration `protobuf:"bytes,1,opt,name=delay,proto3" json:"delay,omitempty"`
+	Delay *duration.Duration `protobuf:"bytes,1,opt,name=delay,proto3" json:"delay,omitempty"`
 	// The response to return.
 	// The response is a JSON object that can be templated from the `variables` field.
 	Response *VariableTransformation `protobuf:"bytes,2,opt,name=response,proto3" json:"response,omitempty"`
@@ -1439,7 +1439,7 @@ func (*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncRe
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_apimanagement_v2_graphql_resolver_map_proto_rawDescGZIP(), []int{0, 1, 1, 1, 2, 0}
 }
 
-func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse) GetDelay() *durationpb.Duration {
+func (x *GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse) GetDelay() *duration.Duration {
 	if x != nil {
 		return x.Delay
 	}
@@ -1874,13 +1874,13 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_apimanagement_v
 	nil, // 22: apimanagement.gloo.solo.io.GraphQLResolverMapSpec.Resolution.Resolvers.Resolver.GrpcResolver.RequestTemplate.RequestMetadataEntry
 	(*GraphQLResolverMapSpec_Resolution_Resolvers_Resolver_MockResolver_AsyncResponse)(nil), // 23: apimanagement.gloo.solo.io.GraphQLResolverMapSpec.Resolution.Resolvers.Resolver.MockResolver.AsyncResponse
 	nil,                             // 24: apimanagement.gloo.solo.io.GraphQLResolverMapReport.WorkspacesEntry
-	(*structpb.Value)(nil),          // 25: google.protobuf.Value
-	(*emptypb.Empty)(nil),           // 26: google.protobuf.Empty
+	(*_struct.Value)(nil),           // 25: google.protobuf.Value
+	(*empty.Empty)(nil),             // 26: google.protobuf.Empty
 	(*v2.Status)(nil),               // 27: common.gloo.solo.io.Status
 	(*v2.ObjectSelector)(nil),       // 28: common.gloo.solo.io.ObjectSelector
-	(*wrapperspb.StringValue)(nil),  // 29: google.protobuf.StringValue
+	(*wrappers.StringValue)(nil),    // 29: google.protobuf.StringValue
 	(*v2.DestinationReference)(nil), // 30: common.gloo.solo.io.DestinationReference
-	(*durationpb.Duration)(nil),     // 31: google.protobuf.Duration
+	(*duration.Duration)(nil),       // 31: google.protobuf.Duration
 	(*v2.Report)(nil),               // 32: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_apimanagement_v2_graphql_resolver_map_proto_depIdxs = []int32{

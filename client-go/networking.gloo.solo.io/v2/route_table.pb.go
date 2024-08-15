@@ -230,12 +230,12 @@ import (
 	sync "sync"
 
 	v3 "github.com/envoyproxy/go-control-plane/envoy/type/matcher/v3"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	_ "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2"
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
@@ -1994,7 +1994,7 @@ type GraphQLAction_Options struct {
 	// Include information about request/response in the envoy debug logs.
 	// This is helpful for debugging GraphQL.
 	// Defaults to false.
-	LogSensitiveInfo *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=log_sensitive_info,json=logSensitiveInfo,proto3" json:"log_sensitive_info,omitempty"`
+	LogSensitiveInfo *wrappers.BoolValue `protobuf:"bytes,1,opt,name=log_sensitive_info,json=logSensitiveInfo,proto3" json:"log_sensitive_info,omitempty"`
 }
 
 func (x *GraphQLAction_Options) Reset() {
@@ -2029,7 +2029,7 @@ func (*GraphQLAction_Options) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_route_table_proto_rawDescGZIP(), []int{4, 0}
 }
 
-func (x *GraphQLAction_Options) GetLogSensitiveInfo() *wrapperspb.BoolValue {
+func (x *GraphQLAction_Options) GetLogSensitiveInfo() *wrappers.BoolValue {
 	if x != nil {
 		return x.LogSensitiveInfo
 	}
@@ -2557,7 +2557,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_r
 	(*v2.ObjectSelector)(nil),                             // 33: common.gloo.solo.io.ObjectSelector
 	(*v2.RouteFilter)(nil),                                // 34: common.gloo.solo.io.RouteFilter
 	(*v2.Status)(nil),                                     // 35: common.gloo.solo.io.Status
-	(*wrapperspb.BoolValue)(nil),                          // 36: google.protobuf.BoolValue
+	(*wrappers.BoolValue)(nil),                            // 36: google.protobuf.BoolValue
 	(*v2.Report)(nil),                                     // 37: common.gloo.solo.io.Report
 	(*v2.AppliedRoutePolicies)(nil),                       // 38: common.gloo.solo.io.AppliedRoutePolicies
 }

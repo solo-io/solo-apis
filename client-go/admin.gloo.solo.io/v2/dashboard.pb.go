@@ -35,12 +35,12 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	duration "github.com/golang/protobuf/ptypes/duration"
+	empty "github.com/golang/protobuf/ptypes/empty"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -290,7 +290,7 @@ type OidcConfig struct {
 	DiscoveryOverride *OidcConfig_DiscoveryOverride `protobuf:"bytes,11,opt,name=discovery_override,json=discoveryOverride,proto3" json:"discovery_override,omitempty"`
 	// How often to poll the OIDC issuer for new configuration.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	DiscoveryPollInterval *durationpb.Duration `protobuf:"bytes,12,opt,name=discovery_poll_interval,json=discoveryPollInterval,proto3" json:"discovery_poll_interval,omitempty"`
+	DiscoveryPollInterval *duration.Duration `protobuf:"bytes,12,opt,name=discovery_poll_interval,json=discoveryPollInterval,proto3" json:"discovery_poll_interval,omitempty"`
 	// If a user sends a request with a key that is not found in the
 	// JWKS, the keys might have rotated on the remote source,
 	// but not yet in the local cache. Use this policy to configure
@@ -416,7 +416,7 @@ func (x *OidcConfig) GetDiscoveryOverride() *OidcConfig_DiscoveryOverride {
 	return nil
 }
 
-func (x *OidcConfig) GetDiscoveryPollInterval() *durationpb.Duration {
+func (x *OidcConfig) GetDiscoveryPollInterval() *duration.Duration {
 	if x != nil {
 		return x.DiscoveryPollInterval
 	}
@@ -506,14 +506,14 @@ func (m *JwksOnDemandCacheRefreshPolicy) GetPolicy() isJwksOnDemandCacheRefreshP
 	return nil
 }
 
-func (x *JwksOnDemandCacheRefreshPolicy) GetNever() *emptypb.Empty {
+func (x *JwksOnDemandCacheRefreshPolicy) GetNever() *empty.Empty {
 	if x, ok := x.GetPolicy().(*JwksOnDemandCacheRefreshPolicy_Never); ok {
 		return x.Never
 	}
 	return nil
 }
 
-func (x *JwksOnDemandCacheRefreshPolicy) GetAlways() *emptypb.Empty {
+func (x *JwksOnDemandCacheRefreshPolicy) GetAlways() *empty.Empty {
 	if x, ok := x.GetPolicy().(*JwksOnDemandCacheRefreshPolicy_Always); ok {
 		return x.Always
 	}
@@ -537,7 +537,7 @@ type JwksOnDemandCacheRefreshPolicy_Never struct {
 	// default policy, because IdPs typically publish keys before
 	// they rotate them, and frequent polling finds the newest keys.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
-	Never *emptypb.Empty `protobuf:"bytes,1,opt,name=never,proto3,oneof"`
+	Never *empty.Empty `protobuf:"bytes,1,opt,name=never,proto3,oneof"`
 }
 
 type JwksOnDemandCacheRefreshPolicy_Always struct {
@@ -549,7 +549,7 @@ type JwksOnDemandCacheRefreshPolicy_Always struct {
 	// attack by spamming protected endpoints with tokens signed by
 	// invalid keys.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
-	Always *emptypb.Empty `protobuf:"bytes,2,opt,name=always,proto3,oneof"`
+	Always *empty.Empty `protobuf:"bytes,2,opt,name=always,proto3,oneof"`
 }
 
 type JwksOnDemandCacheRefreshPolicy_MaxIdpReqPerPollingInterval struct {
@@ -922,7 +922,7 @@ type SessionConfig_RedisSession struct {
 	CookieName string `protobuf:"bytes,5,opt,name=cookie_name,json=cookieName,proto3" json:"cookie_name,omitempty"`
 	// Refresh expired ID tokens by using the refresh token. Defaults to true.
 	// To disable refreshing, set this field to false.
-	AllowRefreshing *wrapperspb.BoolValue `protobuf:"bytes,6,opt,name=allow_refreshing,json=allowRefreshing,proto3" json:"allow_refreshing,omitempty"`
+	AllowRefreshing *wrappers.BoolValue `protobuf:"bytes,6,opt,name=allow_refreshing,json=allowRefreshing,proto3" json:"allow_refreshing,omitempty"`
 }
 
 func (x *SessionConfig_RedisSession) Reset() {
@@ -992,7 +992,7 @@ func (x *SessionConfig_RedisSession) GetCookieName() string {
 	return ""
 }
 
-func (x *SessionConfig_RedisSession) GetAllowRefreshing() *wrapperspb.BoolValue {
+func (x *SessionConfig_RedisSession) GetAllowRefreshing() *wrappers.BoolValue {
 	if x != nil {
 		return x.AllowRefreshing
 	}
@@ -1007,13 +1007,13 @@ type SessionConfig_CookieOptions struct {
 
 	// Max age of the cookie. If unset, defaults to 30.
 	// To disable expiration, set this field to 0.
-	MaxAge *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=max_age,json=maxAge,proto3" json:"max_age,omitempty"`
+	MaxAge *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=max_age,json=maxAge,proto3" json:"max_age,omitempty"`
 	// Use an insecure cookie.
 	// Only set this field to true when testing in trusted environments.
 	NotSecure bool `protobuf:"varint,2,opt,name=not_secure,json=notSecure,proto3" json:"not_secure,omitempty"`
 	// Path of the cookie. Defaults to "/".
 	// To disable this option, set this field to "".
-	Path *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
+	Path *wrappers.StringValue `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
 	// Domain of the cookie.
 	Domain string `protobuf:"bytes,4,opt,name=domain,proto3" json:"domain,omitempty"`
 }
@@ -1050,7 +1050,7 @@ func (*SessionConfig_CookieOptions) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_dashboard_proto_rawDescGZIP(), []int{2, 2}
 }
 
-func (x *SessionConfig_CookieOptions) GetMaxAge() *wrapperspb.UInt32Value {
+func (x *SessionConfig_CookieOptions) GetMaxAge() *wrappers.UInt32Value {
 	if x != nil {
 		return x.MaxAge
 	}
@@ -1064,7 +1064,7 @@ func (x *SessionConfig_CookieOptions) GetNotSecure() bool {
 	return false
 }
 
-func (x *SessionConfig_CookieOptions) GetPath() *wrapperspb.StringValue {
+func (x *SessionConfig_CookieOptions) GetPath() *wrappers.StringValue {
 	if x != nil {
 		return x.Path
 	}
@@ -1450,12 +1450,12 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_dashbo
 	nil,                                    // 12: admin.gloo.solo.io.OidcConfig.AuthEndpointQueryParamsEntry
 	nil,                                    // 13: admin.gloo.solo.io.OidcConfig.TokenEndpointQueryParamsEntry
 	(*OidcConfig_DiscoveryOverride)(nil),   // 14: admin.gloo.solo.io.OidcConfig.DiscoveryOverride
-	(*durationpb.Duration)(nil),            // 15: google.protobuf.Duration
-	(*emptypb.Empty)(nil),                  // 16: google.protobuf.Empty
+	(*duration.Duration)(nil),              // 15: google.protobuf.Duration
+	(*empty.Empty)(nil),                    // 16: google.protobuf.Empty
 	(v2.ApprovalState)(0),                  // 17: common.gloo.solo.io.ApprovalState
-	(*wrapperspb.BoolValue)(nil),           // 18: google.protobuf.BoolValue
-	(*wrapperspb.UInt32Value)(nil),         // 19: google.protobuf.UInt32Value
-	(*wrapperspb.StringValue)(nil),         // 20: google.protobuf.StringValue
+	(*wrappers.BoolValue)(nil),             // 18: google.protobuf.BoolValue
+	(*wrappers.UInt32Value)(nil),           // 19: google.protobuf.UInt32Value
+	(*wrappers.StringValue)(nil),           // 20: google.protobuf.StringValue
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_dashboard_proto_depIdxs = []int32{
 	7,  // 0: admin.gloo.solo.io.DashboardSpec.authn:type_name -> admin.gloo.solo.io.DashboardSpec.AuthnConfig

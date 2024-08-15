@@ -281,7 +281,7 @@ type ExtAuthPolicySpec_Config struct {
 	//	*ExtAuthPolicySpec_Config_CustomAuth_
 	AuthType isExtAuthPolicySpec_Config_AuthType `protobuf_oneof:"auth_type"`
 	// Reference to the ExtAuthServer to use for this policy.
-	// To create an ExtAuthServer resource, see [External auth server setup]({{% link path="/security/external-auth/server/#setup" %}}).
+	// To create an ExtAuthServer resource, see [External auth server setup](../../../security/external-auth/server/#setup).
 	//
 	// </br>**Implementation notes**:<ul>
 	// <li>The ExtAuthServer must be in the same workspace as this ExtAuthPolicy. Be sure to select the appropriate ExtAuthServer to use,

@@ -10,11 +10,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	_ "github.com/golang/protobuf/ptypes/struct"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "google.golang.org/protobuf/types/known/structpb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -42,7 +42,7 @@ const (
 //
 //	metadata:
 //	  name: public-portal
-//	  namespace: gloo-mesh-addons
+//	  namespace: gloo-mesh
 //
 // spec:
 //
@@ -73,7 +73,7 @@ const (
 //
 //	metadata:
 //	  name: usage-plans
-//	  namespace: gloo-mesh-addons
+//	  namespace: gloo-mesh
 //
 // spec:
 //
@@ -121,7 +121,7 @@ const (
 //	config:
 //	  server:
 //	    name: ext-auth-server
-//	    namespace: gloo-mesh-addons
+//	    namespace: gloo-mesh
 //	    cluster: cluster-1
 //	  glooAuth:
 //	    configs:
@@ -153,7 +153,7 @@ const (
 //	config:
 //	  ratelimitServerConfig:
 //	    name: usage-plans
-//	    namespace: gloo-mesh-addons
+//	    namespace: gloo-mesh
 //	    cluster: cluster-1
 //	  raw:
 //	    rateLimits:

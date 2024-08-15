@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
+
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_apimanagement_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/apimanagement.gloo.solo.io/v2"
 
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
-
-	google_golang_org_protobuf_types_known_structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 // ensure the imports are used
@@ -40,9 +40,9 @@ func (m *PortalConfigSpec) Clone() proto.Message {
 	target = &PortalConfigSpec{}
 
 	if h, ok := interface{}(m.GetPortalCustomMetadata()).(clone.Cloner); ok {
-		target.PortalCustomMetadata = h.Clone().(*google_golang_org_protobuf_types_known_structpb.Value)
+		target.PortalCustomMetadata = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Value)
 	} else {
-		target.PortalCustomMetadata = proto.Clone(m.GetPortalCustomMetadata()).(*google_golang_org_protobuf_types_known_structpb.Value)
+		target.PortalCustomMetadata = proto.Clone(m.GetPortalCustomMetadata()).(*github_com_golang_protobuf_ptypes_struct.Value)
 	}
 
 	if m.GetApis() != nil {

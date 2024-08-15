@@ -74,11 +74,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	duration "github.com/golang/protobuf/ptypes/duration"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -354,7 +354,7 @@ type FaultInjectionPolicySpec_Config_Abort struct {
 	// <li>The value must be 0.0 or in the range 0.0001 - 100.0, inclusive.</li>
 	// <li>For information about the value format,
 	// see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#double-value).</li></ul>
-	Percentage *wrapperspb.DoubleValue `protobuf:"bytes,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
+	Percentage *wrappers.DoubleValue `protobuf:"bytes,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
 }
 
 func (x *FaultInjectionPolicySpec_Config_Abort) Reset() {
@@ -396,7 +396,7 @@ func (x *FaultInjectionPolicySpec_Config_Abort) GetHttpStatus() int32 {
 	return 0
 }
 
-func (x *FaultInjectionPolicySpec_Config_Abort) GetPercentage() *wrapperspb.DoubleValue {
+func (x *FaultInjectionPolicySpec_Config_Abort) GetPercentage() *wrappers.DoubleValue {
 	if x != nil {
 		return x.Percentage
 	}
@@ -419,14 +419,14 @@ type FaultInjectionPolicySpec_Config_Delay struct {
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
-	FixedDelay *durationpb.Duration `protobuf:"bytes,1,opt,name=fixed_delay,json=fixedDelay,proto3" json:"fixed_delay,omitempty"`
+	FixedDelay *duration.Duration `protobuf:"bytes,1,opt,name=fixed_delay,json=fixedDelay,proto3" json:"fixed_delay,omitempty"`
 	// Delay only a certain percentage of requests. If omitted, all requests are delayed.
 	//
 	// </br>**Configuration constraints**:<ul>
 	// <li>The value must be 0.0 or in the range 0.0001 - 100.0, inclusive.</li>
 	// <li>For information about the value format,
 	// see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#double-value).</li></ul>
-	Percentage *wrapperspb.DoubleValue `protobuf:"bytes,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
+	Percentage *wrappers.DoubleValue `protobuf:"bytes,2,opt,name=percentage,proto3" json:"percentage,omitempty"`
 }
 
 func (x *FaultInjectionPolicySpec_Config_Delay) Reset() {
@@ -461,14 +461,14 @@ func (*FaultInjectionPolicySpec_Config_Delay) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resilience_fault_injection_policy_proto_rawDescGZIP(), []int{0, 0, 1}
 }
 
-func (x *FaultInjectionPolicySpec_Config_Delay) GetFixedDelay() *durationpb.Duration {
+func (x *FaultInjectionPolicySpec_Config_Delay) GetFixedDelay() *duration.Duration {
 	if x != nil {
 		return x.FixedDelay
 	}
 	return nil
 }
 
-func (x *FaultInjectionPolicySpec_Config_Delay) GetPercentage() *wrapperspb.DoubleValue {
+func (x *FaultInjectionPolicySpec_Config_Delay) GetPercentage() *wrappers.DoubleValue {
 	if x != nil {
 		return x.Percentage
 	}
@@ -598,13 +598,13 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resil
 	(*FaultInjectionPolicySpec_Config)(nil),       // 3: resilience.policy.gloo.solo.io.FaultInjectionPolicySpec.Config
 	(*FaultInjectionPolicySpec_Config_Abort)(nil), // 4: resilience.policy.gloo.solo.io.FaultInjectionPolicySpec.Config.Abort
 	(*FaultInjectionPolicySpec_Config_Delay)(nil), // 5: resilience.policy.gloo.solo.io.FaultInjectionPolicySpec.Config.Delay
-	nil,                            // 6: resilience.policy.gloo.solo.io.FaultInjectionPolicyReport.WorkspacesEntry
-	(*v2.RouteSelector)(nil),       // 7: common.gloo.solo.io.RouteSelector
-	(*v2.Status)(nil),              // 8: common.gloo.solo.io.Status
-	(*v2.RouteReference)(nil),      // 9: common.gloo.solo.io.RouteReference
-	(*wrapperspb.DoubleValue)(nil), // 10: google.protobuf.DoubleValue
-	(*durationpb.Duration)(nil),    // 11: google.protobuf.Duration
-	(*v2.Report)(nil),              // 12: common.gloo.solo.io.Report
+	nil,                          // 6: resilience.policy.gloo.solo.io.FaultInjectionPolicyReport.WorkspacesEntry
+	(*v2.RouteSelector)(nil),     // 7: common.gloo.solo.io.RouteSelector
+	(*v2.Status)(nil),            // 8: common.gloo.solo.io.Status
+	(*v2.RouteReference)(nil),    // 9: common.gloo.solo.io.RouteReference
+	(*wrappers.DoubleValue)(nil), // 10: google.protobuf.DoubleValue
+	(*duration.Duration)(nil),    // 11: google.protobuf.Duration
+	(*v2.Report)(nil),            // 12: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resilience_fault_injection_policy_proto_depIdxs = []int32{
 	7,  // 0: resilience.policy.gloo.solo.io.FaultInjectionPolicySpec.apply_to_routes:type_name -> common.gloo.solo.io.RouteSelector

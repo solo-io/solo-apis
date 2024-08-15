@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -228,7 +228,7 @@ type ListenerConnectionPolicySpec_Config struct {
 	// Required: Soft limit on size of the listener’s new connection read
 	// and write buffers.
 	// Default value set by Envoy is 1MiB.
-	PerConnectionBufferLimitBytes *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=per_connection_buffer_limit_bytes,json=perConnectionBufferLimitBytes,proto3" json:"per_connection_buffer_limit_bytes,omitempty"`
+	PerConnectionBufferLimitBytes *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=per_connection_buffer_limit_bytes,json=perConnectionBufferLimitBytes,proto3" json:"per_connection_buffer_limit_bytes,omitempty"`
 	// Sets the TCP keep-alive settings to apply to selected listeners.
 	TcpKeepalive *v2.TCPKeepalive `protobuf:"bytes,2,opt,name=tcp_keepalive,json=tcpKeepalive,proto3" json:"tcp_keepalive,omitempty"`
 }
@@ -265,7 +265,7 @@ func (*ListenerConnectionPolicySpec_Config) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resilience_listener_connection_policy_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *ListenerConnectionPolicySpec_Config) GetPerConnectionBufferLimitBytes() *wrapperspb.UInt32Value {
+func (x *ListenerConnectionPolicySpec_Config) GetPerConnectionBufferLimitBytes() *wrappers.UInt32Value {
 	if x != nil {
 		return x.PerConnectionBufferLimitBytes
 	}
@@ -401,7 +401,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resil
 	(*v2.ListenerSelector)(nil),      // 5: common.gloo.solo.io.ListenerSelector
 	(*v2.Status)(nil),                // 6: common.gloo.solo.io.Status
 	(*v2.ListenerPortReference)(nil), // 7: common.gloo.solo.io.ListenerPortReference
-	(*wrapperspb.UInt32Value)(nil),   // 8: google.protobuf.UInt32Value
+	(*wrappers.UInt32Value)(nil),     // 8: google.protobuf.UInt32Value
 	(*v2.TCPKeepalive)(nil),          // 9: common.gloo.solo.io.TCPKeepalive
 	(*v2.Report)(nil),                // 10: common.gloo.solo.io.Report
 }

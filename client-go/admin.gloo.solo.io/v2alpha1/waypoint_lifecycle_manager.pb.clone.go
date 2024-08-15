@@ -13,9 +13,9 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
 
-	google_golang_org_protobuf_types_known_structpb "google.golang.org/protobuf/types/known/structpb"
+	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
 
 // ensure the imports are used
@@ -51,9 +51,9 @@ func (m *WaypointLifecycleManagerSpec) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetDeploymentSpec()).(clone.Cloner); ok {
-		target.DeploymentSpec = h.Clone().(*google_golang_org_protobuf_types_known_structpb.Struct)
+		target.DeploymentSpec = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
 	} else {
-		target.DeploymentSpec = proto.Clone(m.GetDeploymentSpec()).(*google_golang_org_protobuf_types_known_structpb.Struct)
+		target.DeploymentSpec = proto.Clone(m.GetDeploymentSpec()).(*github_com_golang_protobuf_ptypes_struct.Struct)
 	}
 
 	return target

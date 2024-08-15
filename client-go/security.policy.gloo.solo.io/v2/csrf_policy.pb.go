@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -219,7 +219,7 @@ type CSRFPolicySpec_Config struct {
 	//
 	// .. note:: This field defaults to 100
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#double-value).
-	Percentage *wrapperspb.DoubleValue `protobuf:"bytes,3,opt,name=percentage,proto3" json:"percentage,omitempty"`
+	Percentage *wrappers.DoubleValue `protobuf:"bytes,3,opt,name=percentage,proto3" json:"percentage,omitempty"`
 	// Specifies additional source origins that will be allowed in addition to
 	// the destination origin.
 	AdditionalOrigins []*v2.StringMatch `protobuf:"bytes,4,rep,name=additional_origins,json=additionalOrigins,proto3" json:"additional_origins,omitempty"`
@@ -271,7 +271,7 @@ func (x *CSRFPolicySpec_Config) GetShadowEnabled() bool {
 	return false
 }
 
-func (x *CSRFPolicySpec_Config) GetPercentage() *wrapperspb.DoubleValue {
+func (x *CSRFPolicySpec_Config) GetPercentage() *wrappers.DoubleValue {
 	if x != nil {
 		return x.Percentage
 	}
@@ -388,17 +388,17 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secu
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_csrf_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_csrf_policy_proto_goTypes = []interface{}{
-	(*CSRFPolicySpec)(nil),         // 0: security.policy.gloo.solo.io.CSRFPolicySpec
-	(*CSRFPolicyStatus)(nil),       // 1: security.policy.gloo.solo.io.CSRFPolicyStatus
-	(*CSRFPolicyReport)(nil),       // 2: security.policy.gloo.solo.io.CSRFPolicyReport
-	(*CSRFPolicySpec_Config)(nil),  // 3: security.policy.gloo.solo.io.CSRFPolicySpec.Config
-	nil,                            // 4: security.policy.gloo.solo.io.CSRFPolicyReport.WorkspacesEntry
-	(*v2.RouteSelector)(nil),       // 5: common.gloo.solo.io.RouteSelector
-	(*v2.Status)(nil),              // 6: common.gloo.solo.io.Status
-	(*v2.RouteReference)(nil),      // 7: common.gloo.solo.io.RouteReference
-	(*wrapperspb.DoubleValue)(nil), // 8: google.protobuf.DoubleValue
-	(*v2.StringMatch)(nil),         // 9: common.gloo.solo.io.StringMatch
-	(*v2.Report)(nil),              // 10: common.gloo.solo.io.Report
+	(*CSRFPolicySpec)(nil),        // 0: security.policy.gloo.solo.io.CSRFPolicySpec
+	(*CSRFPolicyStatus)(nil),      // 1: security.policy.gloo.solo.io.CSRFPolicyStatus
+	(*CSRFPolicyReport)(nil),      // 2: security.policy.gloo.solo.io.CSRFPolicyReport
+	(*CSRFPolicySpec_Config)(nil), // 3: security.policy.gloo.solo.io.CSRFPolicySpec.Config
+	nil,                           // 4: security.policy.gloo.solo.io.CSRFPolicyReport.WorkspacesEntry
+	(*v2.RouteSelector)(nil),      // 5: common.gloo.solo.io.RouteSelector
+	(*v2.Status)(nil),             // 6: common.gloo.solo.io.Status
+	(*v2.RouteReference)(nil),     // 7: common.gloo.solo.io.RouteReference
+	(*wrappers.DoubleValue)(nil),  // 8: google.protobuf.DoubleValue
+	(*v2.StringMatch)(nil),        // 9: common.gloo.solo.io.StringMatch
+	(*v2.Report)(nil),             // 10: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_csrf_policy_proto_depIdxs = []int32{
 	5,  // 0: security.policy.gloo.solo.io.CSRFPolicySpec.apply_to_routes:type_name -> common.gloo.solo.io.RouteSelector

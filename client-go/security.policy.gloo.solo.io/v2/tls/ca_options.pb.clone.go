@@ -13,7 +13,7 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	google_golang_org_protobuf_types_known_emptypb "google.golang.org/protobuf/types/known/emptypb"
+	github_com_golang_protobuf_ptypes_empty "github.com/golang/protobuf/ptypes/empty"
 )
 
 // ensure the imports are used
@@ -87,11 +87,11 @@ func (m *CertificateRotationVerificationMethod) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetNone()).(clone.Cloner); ok {
 			target.Method = &CertificateRotationVerificationMethod_None{
-				None: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
+				None: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
 			}
 		} else {
 			target.Method = &CertificateRotationVerificationMethod_None{
-				None: proto.Clone(m.GetNone()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
+				None: proto.Clone(m.GetNone()).(*github_com_golang_protobuf_ptypes_empty.Empty),
 			}
 		}
 
@@ -99,11 +99,11 @@ func (m *CertificateRotationVerificationMethod) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetManual()).(clone.Cloner); ok {
 			target.Method = &CertificateRotationVerificationMethod_Manual{
-				Manual: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
+				Manual: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
 			}
 		} else {
 			target.Method = &CertificateRotationVerificationMethod_Manual{
-				Manual: proto.Clone(m.GetManual()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
+				Manual: proto.Clone(m.GetManual()).(*github_com_golang_protobuf_ptypes_empty.Empty),
 			}
 		}
 
