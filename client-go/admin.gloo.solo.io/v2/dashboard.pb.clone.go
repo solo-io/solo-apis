@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
+	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
 
-	google_golang_org_protobuf_types_known_emptypb "google.golang.org/protobuf/types/known/emptypb"
+	github_com_golang_protobuf_ptypes_empty "github.com/golang/protobuf/ptypes/empty"
 
-	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
 )
 
 // ensure the imports are used
@@ -170,9 +170,9 @@ func (m *OidcConfig) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetDiscoveryPollInterval()).(clone.Cloner); ok {
-		target.DiscoveryPollInterval = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.DiscoveryPollInterval = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.DiscoveryPollInterval = proto.Clone(m.GetDiscoveryPollInterval()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.DiscoveryPollInterval = proto.Clone(m.GetDiscoveryPollInterval()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	if h, ok := interface{}(m.GetJwksCacheRefreshPolicy()).(clone.Cloner); ok {
@@ -206,11 +206,11 @@ func (m *JwksOnDemandCacheRefreshPolicy) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetNever()).(clone.Cloner); ok {
 			target.Policy = &JwksOnDemandCacheRefreshPolicy_Never{
-				Never: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
+				Never: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
 			}
 		} else {
 			target.Policy = &JwksOnDemandCacheRefreshPolicy_Never{
-				Never: proto.Clone(m.GetNever()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
+				Never: proto.Clone(m.GetNever()).(*github_com_golang_protobuf_ptypes_empty.Empty),
 			}
 		}
 
@@ -218,11 +218,11 @@ func (m *JwksOnDemandCacheRefreshPolicy) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetAlways()).(clone.Cloner); ok {
 			target.Policy = &JwksOnDemandCacheRefreshPolicy_Always{
-				Always: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
+				Always: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
 			}
 		} else {
 			target.Policy = &JwksOnDemandCacheRefreshPolicy_Always{
-				Always: proto.Clone(m.GetAlways()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
+				Always: proto.Clone(m.GetAlways()).(*github_com_golang_protobuf_ptypes_empty.Empty),
 			}
 		}
 
@@ -364,9 +364,9 @@ func (m *SessionConfig_RedisSession) Clone() proto.Message {
 	target.CookieName = m.GetCookieName()
 
 	if h, ok := interface{}(m.GetAllowRefreshing()).(clone.Cloner); ok {
-		target.AllowRefreshing = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
+		target.AllowRefreshing = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
-		target.AllowRefreshing = proto.Clone(m.GetAllowRefreshing()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
+		target.AllowRefreshing = proto.Clone(m.GetAllowRefreshing()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	}
 
 	return target
@@ -381,17 +381,17 @@ func (m *SessionConfig_CookieOptions) Clone() proto.Message {
 	target = &SessionConfig_CookieOptions{}
 
 	if h, ok := interface{}(m.GetMaxAge()).(clone.Cloner); ok {
-		target.MaxAge = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.MaxAge = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	} else {
-		target.MaxAge = proto.Clone(m.GetMaxAge()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.MaxAge = proto.Clone(m.GetMaxAge()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
 	target.NotSecure = m.GetNotSecure()
 
 	if h, ok := interface{}(m.GetPath()).(clone.Cloner); ok {
-		target.Path = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
+		target.Path = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	} else {
-		target.Path = proto.Clone(m.GetPath()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
+		target.Path = proto.Clone(m.GetPath()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	}
 
 	target.Domain = m.GetDomain()

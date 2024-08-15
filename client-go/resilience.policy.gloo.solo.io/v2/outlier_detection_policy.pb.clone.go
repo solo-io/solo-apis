@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
+
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
-
-	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
-
-	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -126,29 +126,29 @@ func (m *OutlierDetectionPolicySpec_Config) Clone() proto.Message {
 	target = &OutlierDetectionPolicySpec_Config{}
 
 	if h, ok := interface{}(m.GetConsecutiveErrors()).(clone.Cloner); ok {
-		target.ConsecutiveErrors = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.ConsecutiveErrors = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	} else {
-		target.ConsecutiveErrors = proto.Clone(m.GetConsecutiveErrors()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.ConsecutiveErrors = proto.Clone(m.GetConsecutiveErrors()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
 	if h, ok := interface{}(m.GetInterval()).(clone.Cloner); ok {
-		target.Interval = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.Interval = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.Interval = proto.Clone(m.GetInterval()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.Interval = proto.Clone(m.GetInterval()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	if h, ok := interface{}(m.GetBaseEjectionTime()).(clone.Cloner); ok {
-		target.BaseEjectionTime = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.BaseEjectionTime = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.BaseEjectionTime = proto.Clone(m.GetBaseEjectionTime()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.BaseEjectionTime = proto.Clone(m.GetBaseEjectionTime()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	target.MaxEjectionPercent = m.GetMaxEjectionPercent()
 
 	if h, ok := interface{}(m.GetConsecutiveGatewayErrors()).(clone.Cloner); ok {
-		target.ConsecutiveGatewayErrors = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.ConsecutiveGatewayErrors = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	} else {
-		target.ConsecutiveGatewayErrors = proto.Clone(m.GetConsecutiveGatewayErrors()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.ConsecutiveGatewayErrors = proto.Clone(m.GetConsecutiveGatewayErrors()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
 	return target

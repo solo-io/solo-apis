@@ -110,6 +110,81 @@ func (m *ExtAuthServerSpec) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *ExtAuthServerReport) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthServerReport)
+	if !ok {
+		that2, ok := that.(ExtAuthServerReport)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetWorkspaces()) != len(target.GetWorkspaces()) {
+		return false
+	}
+	for k, v := range m.GetWorkspaces() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetWorkspaces()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetWorkspaces()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetAppliedPolicies()) != len(target.GetAppliedPolicies()) {
+		return false
+	}
+	for idx, v := range m.GetAppliedPolicies() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAppliedPolicies()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetAppliedPolicies()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	if len(m.GetSelectedBackingServices()) != len(target.GetSelectedBackingServices()) {
+		return false
+	}
+	for idx, v := range m.GetSelectedBackingServices() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSelectedBackingServices()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSelectedBackingServices()[idx]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ExtAuthServerStatus) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -130,11 +205,21 @@ func (m *ExtAuthServerStatus) Equal(that interface{}) bool {
 		return false
 	}
 
-	if m.GetObservedGeneration() != target.GetObservedGeneration() {
+	if h, ok := interface{}(m.GetCommon()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCommon()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCommon(), target.GetCommon()) {
+			return false
+		}
+	}
+
+	if m.GetNumAppliedPolicies() != target.GetNumAppliedPolicies() {
 		return false
 	}
 
-	if m.GetState() != target.GetState() {
+	if m.GetNumSelectedBackingServices() != target.GetNumSelectedBackingServices() {
 		return false
 	}
 

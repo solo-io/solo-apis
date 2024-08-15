@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	empty "github.com/golang/protobuf/ptypes/empty"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 const (
@@ -376,14 +376,14 @@ func (m *CertificateRotationVerificationMethod) GetMethod() isCertificateRotatio
 	return nil
 }
 
-func (x *CertificateRotationVerificationMethod) GetNone() *emptypb.Empty {
+func (x *CertificateRotationVerificationMethod) GetNone() *empty.Empty {
 	if x, ok := x.GetMethod().(*CertificateRotationVerificationMethod_None); ok {
 		return x.None
 	}
 	return nil
 }
 
-func (x *CertificateRotationVerificationMethod) GetManual() *emptypb.Empty {
+func (x *CertificateRotationVerificationMethod) GetManual() *empty.Empty {
 	if x, ok := x.GetMethod().(*CertificateRotationVerificationMethod_Manual); ok {
 		return x.Manual
 	}
@@ -398,14 +398,14 @@ type CertificateRotationVerificationMethod_None struct {
 	// Verification not enabled. NOTE: This setting is only recommended for testing.
 	// When enabled rotation will continue from step to step without any kind of verification.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
-	None *emptypb.Empty `protobuf:"bytes,1,opt,name=none,proto3,oneof"`
+	None *empty.Empty `protobuf:"bytes,1,opt,name=none,proto3,oneof"`
 }
 
 type CertificateRotationVerificationMethod_Manual struct {
 	// Verification must be completed manually. This involves using our certificate verification
 	// endpoint when the certificates are in a VERIFYING state
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#empty).
-	Manual *emptypb.Empty `protobuf:"bytes,2,opt,name=manual,proto3,oneof"`
+	Manual *empty.Empty `protobuf:"bytes,2,opt,name=manual,proto3,oneof"`
 }
 
 func (*CertificateRotationVerificationMethod_None) isCertificateRotationVerificationMethod_Method() {}
@@ -600,7 +600,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_secur
 	(*CertificateRotationVerificationMethod)(nil), // 4: tls.security.policy.gloo.solo.io.CertificateRotationVerificationMethod
 	(*CertificateRotationCondition)(nil),          // 5: tls.security.policy.gloo.solo.io.CertificateRotationCondition
 	(*VaultCA)(nil),                               // 6: tls.security.policy.gloo.solo.io.VaultCA
-	(*emptypb.Empty)(nil),                         // 7: google.protobuf.Empty
+	(*empty.Empty)(nil),                           // 7: google.protobuf.Empty
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_security_tls_ca_options_proto_depIdxs = []int32{
 	6, // 0: tls.security.policy.gloo.solo.io.AgentCertificateAuthority.vault:type_name -> tls.security.policy.gloo.solo.io.VaultCA

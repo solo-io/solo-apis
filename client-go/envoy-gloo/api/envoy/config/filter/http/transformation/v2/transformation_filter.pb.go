@@ -15,10 +15,10 @@ import (
 	v31 "github.com/envoyproxy/go-control-plane/envoy/config/route/v3"
 	v32 "github.com/envoyproxy/go-control-plane/envoy/type/matcher/v3"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
+	empty "github.com/golang/protobuf/ptypes/empty"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -444,7 +444,7 @@ type Transformation struct {
 	// By default, this is false so no request or response sensitive information is logged.
 	// If set to true, the filter will log the request/response body and headers before and
 	// after this transformation is applied.
-	LogRequestResponseInfo *wrapperspb.BoolValue `protobuf:"bytes,4,opt,name=log_request_response_info,json=logRequestResponseInfo,proto3" json:"log_request_response_info,omitempty"`
+	LogRequestResponseInfo *wrappers.BoolValue `protobuf:"bytes,4,opt,name=log_request_response_info,json=logRequestResponseInfo,proto3" json:"log_request_response_info,omitempty"`
 }
 
 func (x *Transformation) Reset() {
@@ -507,7 +507,7 @@ func (x *Transformation) GetTransformerConfig() *v33.TypedExtensionConfig {
 	return nil
 }
 
-func (x *Transformation) GetLogRequestResponseInfo() *wrapperspb.BoolValue {
+func (x *Transformation) GetLogRequestResponseInfo() *wrappers.BoolValue {
 	if x != nil {
 		return x.LogRequestResponseInfo
 	}
@@ -612,7 +612,7 @@ func (x *Extraction) GetHeader() string {
 	return ""
 }
 
-func (x *Extraction) GetBody() *emptypb.Empty {
+func (x *Extraction) GetBody() *empty.Empty {
 	if x, ok := x.GetSource().(*Extraction_Body); ok {
 		return x.Body
 	}
@@ -644,7 +644,7 @@ type Extraction_Header struct {
 
 type Extraction_Body struct {
 	// Extract information from the request/response body
-	Body *emptypb.Empty `protobuf:"bytes,4,opt,name=body,proto3,oneof"`
+	Body *empty.Empty `protobuf:"bytes,4,opt,name=body,proto3,oneof"`
 }
 
 func (*Extraction_Header) isExtraction_Source() {}
@@ -1860,8 +1860,8 @@ var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_fi
 	(*v31.HeaderMatcher)(nil),        // 23: envoy.config.route.v3.HeaderMatcher
 	(*v32.StringMatcher)(nil),        // 24: envoy.type.matcher.v3.StringMatcher
 	(*v33.TypedExtensionConfig)(nil), // 25: envoy.config.core.v3.TypedExtensionConfig
-	(*wrapperspb.BoolValue)(nil),     // 26: google.protobuf.BoolValue
-	(*emptypb.Empty)(nil),            // 27: google.protobuf.Empty
+	(*wrappers.BoolValue)(nil),       // 26: google.protobuf.BoolValue
+	(*empty.Empty)(nil),              // 27: google.protobuf.Empty
 }
 var file_envoy_codegen_imports_github_com_solo_io_envoy_gloo_api_envoy_config_filter_http_transformation_v2_transformation_filter_proto_depIdxs = []int32{
 	2,  // 0: envoy.api.v2.filter.http.FilterTransformations.transformations:type_name -> envoy.api.v2.filter.http.TransformationRule

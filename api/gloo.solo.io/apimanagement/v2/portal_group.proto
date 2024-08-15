@@ -30,7 +30,7 @@ option (extproto.clone_all) = true;
 // kind: PortalGroup
 // metadata:
 //   name: customers-group
-//   namespace: gloo-mesh-addons
+//   namespace: gloo-mesh
 // labels:
 //   portal: sample-bank-portal
 // spec:

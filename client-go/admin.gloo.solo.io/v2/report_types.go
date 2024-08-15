@@ -12,6 +12,9 @@ func (o *WorkspaceSettingsReport) IsReport() {}
 // IsReport implements Reportable interface for KubernetesClusterReport
 func (o *KubernetesClusterReport) IsReport() {}
 
+// IsReport implements Reportable interface for ExtAuthServerReport
+func (o *ExtAuthServerReport) IsReport() {}
+
 // IsReport implements Reportable interface for RateLimitServerConfigReport
 func (o *RateLimitServerConfigReport) IsReport() {}
 

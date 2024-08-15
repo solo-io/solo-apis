@@ -13,7 +13,7 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
+	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
 )
 
 // ensure the imports are used
@@ -38,15 +38,15 @@ func (m *TCPKeepalive) Clone() proto.Message {
 	target.Probes = m.GetProbes()
 
 	if h, ok := interface{}(m.GetTime()).(clone.Cloner); ok {
-		target.Time = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.Time = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.Time = proto.Clone(m.GetTime()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.Time = proto.Clone(m.GetTime()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	if h, ok := interface{}(m.GetInterval()).(clone.Cloner); ok {
-		target.Interval = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.Interval = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.Interval = proto.Clone(m.GetInterval()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.Interval = proto.Clone(m.GetInterval()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	return target

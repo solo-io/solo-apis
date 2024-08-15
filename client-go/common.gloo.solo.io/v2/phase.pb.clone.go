@@ -13,7 +13,7 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
 )
 
 // ensure the imports are used
@@ -75,9 +75,9 @@ func (m *PrioritizedPhase_Phase) Clone() proto.Message {
 	target = &PrioritizedPhase_Phase{}
 
 	if h, ok := interface{}(m.GetPriority()).(clone.Cloner); ok {
-		target.Priority = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.Int32Value)
+		target.Priority = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.Int32Value)
 	} else {
-		target.Priority = proto.Clone(m.GetPriority()).(*google_golang_org_protobuf_types_known_wrapperspb.Int32Value)
+		target.Priority = proto.Clone(m.GetPriority()).(*github_com_golang_protobuf_ptypes_wrappers.Int32Value)
 	}
 
 	return target

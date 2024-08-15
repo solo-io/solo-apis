@@ -61,10 +61,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -605,7 +605,7 @@ type FailoverPolicySpec_Config_LocalityMappings_DestinationLocality struct {
 	// If not provided, weight is determined based on other destination locality weights.
 	// For information about the value format, see the
 	// [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
-	Weight *wrapperspb.UInt32Value `protobuf:"bytes,4,opt,name=weight,proto3" json:"weight,omitempty"`
+	Weight *wrappers.UInt32Value `protobuf:"bytes,4,opt,name=weight,proto3" json:"weight,omitempty"`
 }
 
 func (x *FailoverPolicySpec_Config_LocalityMappings_DestinationLocality) Reset() {
@@ -661,7 +661,7 @@ func (x *FailoverPolicySpec_Config_LocalityMappings_DestinationLocality) GetSubZ
 	return ""
 }
 
-func (x *FailoverPolicySpec_Config_LocalityMappings_DestinationLocality) GetWeight() *wrapperspb.UInt32Value {
+func (x *FailoverPolicySpec_Config_LocalityMappings_DestinationLocality) GetWeight() *wrappers.UInt32Value {
 	if x != nil {
 		return x.Weight
 	}
@@ -851,7 +851,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resil
 	(*v2.Status)(nil),               // 11: common.gloo.solo.io.Status
 	(*v2.DestinationReference)(nil), // 12: common.gloo.solo.io.DestinationReference
 	(*v2.ObjectReference)(nil),      // 13: common.gloo.solo.io.ObjectReference
-	(*wrapperspb.UInt32Value)(nil),  // 14: google.protobuf.UInt32Value
+	(*wrappers.UInt32Value)(nil),    // 14: google.protobuf.UInt32Value
 	(*v2.Report)(nil),               // 15: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resilience_failover_policy_proto_depIdxs = []int32{

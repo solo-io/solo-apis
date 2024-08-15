@@ -13,9 +13,9 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
 
-	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
+	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
 
 // ensure the imports are used
@@ -50,9 +50,9 @@ func (m *ExtAuthServerSpec) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetRequestTimeout()).(clone.Cloner); ok {
-		target.RequestTimeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.RequestTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	target.FailureModeAllow = m.GetFailureModeAllow()
@@ -75,6 +75,56 @@ func (m *ExtAuthServerSpec) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ExtAuthServerReport) Clone() proto.Message {
+	var target *ExtAuthServerReport
+	if m == nil {
+		return target
+	}
+	target = &ExtAuthServerReport{}
+
+	if m.GetWorkspaces() != nil {
+		target.Workspaces = make(map[string]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Report, len(m.GetWorkspaces()))
+		for k, v := range m.GetWorkspaces() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Workspaces[k] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Report)
+			} else {
+				target.Workspaces[k] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Report)
+			}
+
+		}
+	}
+
+	if m.GetAppliedPolicies() != nil {
+		target.AppliedPolicies = make([]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference, len(m.GetAppliedPolicies()))
+		for idx, v := range m.GetAppliedPolicies() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.AppliedPolicies[idx] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+			} else {
+				target.AppliedPolicies[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+			}
+
+		}
+	}
+
+	if m.GetSelectedBackingServices() != nil {
+		target.SelectedBackingServices = make([]*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference, len(m.GetSelectedBackingServices()))
+		for idx, v := range m.GetSelectedBackingServices() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SelectedBackingServices[idx] = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+			} else {
+				target.SelectedBackingServices[idx] = proto.Clone(v).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.ObjectReference)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
 func (m *ExtAuthServerStatus) Clone() proto.Message {
 	var target *ExtAuthServerStatus
 	if m == nil {
@@ -82,9 +132,15 @@ func (m *ExtAuthServerStatus) Clone() proto.Message {
 	}
 	target = &ExtAuthServerStatus{}
 
-	target.ObservedGeneration = m.GetObservedGeneration()
+	if h, ok := interface{}(m.GetCommon()).(clone.Cloner); ok {
+		target.Common = h.Clone().(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Status)
+	} else {
+		target.Common = proto.Clone(m.GetCommon()).(*github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2.Status)
+	}
 
-	target.State = m.GetState()
+	target.NumAppliedPolicies = m.GetNumAppliedPolicies()
+
+	target.NumSelectedBackingServices = m.GetNumSelectedBackingServices()
 
 	return target
 }

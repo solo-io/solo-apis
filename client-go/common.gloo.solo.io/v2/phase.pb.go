@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -146,7 +146,7 @@ type PrioritizedPhase_Phase struct {
 	// The priority at which this policy should be applied relative to other policies defined in the same phase.
 	// The lowest priority will be run first and the default priority value is 0.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#int32-value).
-	Priority *wrapperspb.Int32Value `protobuf:"bytes,1,opt,name=priority,proto3" json:"priority,omitempty"`
+	Priority *wrappers.Int32Value `protobuf:"bytes,1,opt,name=priority,proto3" json:"priority,omitempty"`
 }
 
 func (x *PrioritizedPhase_Phase) Reset() {
@@ -181,7 +181,7 @@ func (*PrioritizedPhase_Phase) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_phase_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *PrioritizedPhase_Phase) GetPriority() *wrapperspb.Int32Value {
+func (x *PrioritizedPhase_Phase) GetPriority() *wrappers.Int32Value {
 	if x != nil {
 		return x.Priority
 	}
@@ -241,7 +241,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_phase
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_phase_proto_goTypes = []interface{}{
 	(*PrioritizedPhase)(nil),       // 0: common.gloo.solo.io.PrioritizedPhase
 	(*PrioritizedPhase_Phase)(nil), // 1: common.gloo.solo.io.PrioritizedPhase.Phase
-	(*wrapperspb.Int32Value)(nil),  // 2: google.protobuf.Int32Value
+	(*wrappers.Int32Value)(nil),    // 2: google.protobuf.Int32Value
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_common_v2_phase_proto_depIdxs = []int32{
 	1, // 0: common.gloo.solo.io.PrioritizedPhase.pre_authz:type_name -> common.gloo.solo.io.PrioritizedPhase.Phase

@@ -13,9 +13,9 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
 
-	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
+	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
 
 // ensure the imports are used
@@ -124,15 +124,15 @@ func (m *AdaptiveRequestConcurrencyPolicySpec_Config) Clone() proto.Message {
 	target = &AdaptiveRequestConcurrencyPolicySpec_Config{}
 
 	if h, ok := interface{}(m.GetSampleAggregatePercentile()).(clone.Cloner); ok {
-		target.SampleAggregatePercentile = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.SampleAggregatePercentile = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	} else {
-		target.SampleAggregatePercentile = proto.Clone(m.GetSampleAggregatePercentile()).(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.SampleAggregatePercentile = proto.Clone(m.GetSampleAggregatePercentile()).(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	}
 
 	if h, ok := interface{}(m.GetMaxConcurrencyLimit()).(clone.Cloner); ok {
-		target.MaxConcurrencyLimit = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.MaxConcurrencyLimit = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	} else {
-		target.MaxConcurrencyLimit = proto.Clone(m.GetMaxConcurrencyLimit()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.MaxConcurrencyLimit = proto.Clone(m.GetMaxConcurrencyLimit()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
 	target.ConcurrencyUpdateIntervalMillis = m.GetConcurrencyUpdateIntervalMillis()
@@ -159,27 +159,27 @@ func (m *AdaptiveRequestConcurrencyPolicySpec_Config_MinRoundtripTimeCalculation
 	target.IntervalMillis = m.GetIntervalMillis()
 
 	if h, ok := interface{}(m.GetRequestCount()).(clone.Cloner); ok {
-		target.RequestCount = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.RequestCount = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	} else {
-		target.RequestCount = proto.Clone(m.GetRequestCount()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.RequestCount = proto.Clone(m.GetRequestCount()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
 	if h, ok := interface{}(m.GetMinConcurrency()).(clone.Cloner); ok {
-		target.MinConcurrency = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.MinConcurrency = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	} else {
-		target.MinConcurrency = proto.Clone(m.GetMinConcurrency()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
+		target.MinConcurrency = proto.Clone(m.GetMinConcurrency()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
 	}
 
 	if h, ok := interface{}(m.GetJitterPercentile()).(clone.Cloner); ok {
-		target.JitterPercentile = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.JitterPercentile = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	} else {
-		target.JitterPercentile = proto.Clone(m.GetJitterPercentile()).(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.JitterPercentile = proto.Clone(m.GetJitterPercentile()).(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	}
 
 	if h, ok := interface{}(m.GetBufferPercentile()).(clone.Cloner); ok {
-		target.BufferPercentile = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.BufferPercentile = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	} else {
-		target.BufferPercentile = proto.Clone(m.GetBufferPercentile()).(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.BufferPercentile = proto.Clone(m.GetBufferPercentile()).(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	}
 
 	return target

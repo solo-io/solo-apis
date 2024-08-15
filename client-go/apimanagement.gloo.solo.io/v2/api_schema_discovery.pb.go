@@ -20,11 +20,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	duration "github.com/golang/protobuf/ptypes/duration"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -302,7 +302,7 @@ type ApiSchemaDiscoverySpec_FetchEndpoint struct {
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// The retry delay when fetching the schema. If omitted, the default is 5s.
 	// You can also configure this setting for all resources by configuring the Gloo Platform agent during installation or upgrading with the `--api-discovery-polling-retry-delay` flag.
-	RetryDelay *durationpb.Duration `protobuf:"bytes,2,opt,name=retry_delay,json=retryDelay,proto3" json:"retry_delay,omitempty"`
+	RetryDelay *duration.Duration `protobuf:"bytes,2,opt,name=retry_delay,json=retryDelay,proto3" json:"retry_delay,omitempty"`
 	// The number of attempts to fetch the schema. If omitted, the default is 3.
 	// You can also configure this setting for all resources by configuring the Gloo Platform agent during installation or upgrading with the `--api-discovery-polling-pull-attempts` flag.
 	PullAttempts uint32 `protobuf:"varint,3,opt,name=pull_attempts,json=pullAttempts,proto3" json:"pull_attempts,omitempty"`
@@ -350,7 +350,7 @@ func (x *ApiSchemaDiscoverySpec_FetchEndpoint) GetUrl() string {
 	return ""
 }
 
-func (x *ApiSchemaDiscoverySpec_FetchEndpoint) GetRetryDelay() *durationpb.Duration {
+func (x *ApiSchemaDiscoverySpec_FetchEndpoint) GetRetryDelay() *duration.Duration {
 	if x != nil {
 		return x.RetryDelay
 	}
@@ -486,7 +486,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_apimanagement_v
 	(*ApiSchemaDiscoverySpec_FetchEndpoint)(nil), // 4: apimanagement.gloo.solo.io.ApiSchemaDiscoverySpec.FetchEndpoint
 	(*ServedBy)(nil),                             // 5: apimanagement.gloo.solo.io.ServedBy
 	(*v2.Status)(nil),                            // 6: common.gloo.solo.io.Status
-	(*durationpb.Duration)(nil),                  // 7: google.protobuf.Duration
+	(*duration.Duration)(nil),                    // 7: google.protobuf.Duration
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_apimanagement_v2_api_schema_discovery_proto_depIdxs = []int32{
 	3, // 0: apimanagement.gloo.solo.io.ApiSchemaDiscoverySpec.openapi:type_name -> apimanagement.gloo.solo.io.ApiSchemaDiscoverySpec.OpenAPI

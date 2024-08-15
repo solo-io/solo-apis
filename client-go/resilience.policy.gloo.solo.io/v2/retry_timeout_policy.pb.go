@@ -85,11 +85,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	duration "github.com/golang/protobuf/ptypes/duration"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -305,7 +305,7 @@ type RetryTimeoutPolicySpec_Config struct {
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
-	RequestTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
+	RequestTimeout *duration.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 }
 
 func (x *RetryTimeoutPolicySpec_Config) Reset() {
@@ -347,7 +347,7 @@ func (x *RetryTimeoutPolicySpec_Config) GetRetries() *RetryTimeoutPolicySpec_Con
 	return nil
 }
 
-func (x *RetryTimeoutPolicySpec_Config) GetRequestTimeout() *durationpb.Duration {
+func (x *RetryTimeoutPolicySpec_Config) GetRequestTimeout() *duration.Duration {
 	if x != nil {
 		return x.RequestTimeout
 	}
@@ -373,7 +373,7 @@ type RetryTimeoutPolicySpec_Config_RetryPolicy struct {
 	// **Configuration constraints**: If set, this value must be greater than or equal to `0`.
 	// For information about the value format, see the
 	// [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#int32-value).
-	Attempts *wrapperspb.Int32Value `protobuf:"bytes,1,opt,name=attempts,proto3" json:"attempts,omitempty"`
+	Attempts *wrappers.Int32Value `protobuf:"bytes,1,opt,name=attempts,proto3" json:"attempts,omitempty"`
 	// Timeout per retry attempt for a failed request.
 	// If unset, this field defaults to 0, which means that no timeout is set.
 	//
@@ -385,7 +385,7 @@ type RetryTimeoutPolicySpec_Config_RetryPolicy struct {
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
-	PerTryTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=per_try_timeout,json=perTryTimeout,proto3" json:"per_try_timeout,omitempty"`
+	PerTryTimeout *duration.Duration `protobuf:"bytes,2,opt,name=per_try_timeout,json=perTryTimeout,proto3" json:"per_try_timeout,omitempty"`
 	// The conditions under which a retry takes place.
 	// For more information, see the [retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on)
 	// and [gRPC retry policies](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on) in the Envoy docs.
@@ -416,7 +416,7 @@ type RetryTimeoutPolicySpec_Config_RetryPolicy struct {
 	// [retry plugin configuration](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http/http_connection_management#retry-plugin-configuration) in the Envoy docs.
 	//
 	// </br>**Configuration constraints**: If `attempts` is 0, this field must not be set.
-	RetryRemoteLocalities *wrapperspb.BoolValue `protobuf:"bytes,4,opt,name=retry_remote_localities,json=retryRemoteLocalities,proto3" json:"retry_remote_localities,omitempty"`
+	RetryRemoteLocalities *wrappers.BoolValue `protobuf:"bytes,4,opt,name=retry_remote_localities,json=retryRemoteLocalities,proto3" json:"retry_remote_localities,omitempty"`
 }
 
 func (x *RetryTimeoutPolicySpec_Config_RetryPolicy) Reset() {
@@ -451,14 +451,14 @@ func (*RetryTimeoutPolicySpec_Config_RetryPolicy) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resilience_retry_timeout_policy_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-func (x *RetryTimeoutPolicySpec_Config_RetryPolicy) GetAttempts() *wrapperspb.Int32Value {
+func (x *RetryTimeoutPolicySpec_Config_RetryPolicy) GetAttempts() *wrappers.Int32Value {
 	if x != nil {
 		return x.Attempts
 	}
 	return nil
 }
 
-func (x *RetryTimeoutPolicySpec_Config_RetryPolicy) GetPerTryTimeout() *durationpb.Duration {
+func (x *RetryTimeoutPolicySpec_Config_RetryPolicy) GetPerTryTimeout() *duration.Duration {
 	if x != nil {
 		return x.PerTryTimeout
 	}
@@ -472,7 +472,7 @@ func (x *RetryTimeoutPolicySpec_Config_RetryPolicy) GetRetryOn() string {
 	return ""
 }
 
-func (x *RetryTimeoutPolicySpec_Config_RetryPolicy) GetRetryRemoteLocalities() *wrapperspb.BoolValue {
+func (x *RetryTimeoutPolicySpec_Config_RetryPolicy) GetRetryRemoteLocalities() *wrappers.BoolValue {
 	if x != nil {
 		return x.RetryRemoteLocalities
 	}
@@ -600,14 +600,14 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resil
 	(*RetryTimeoutPolicyReport)(nil),                  // 2: resilience.policy.gloo.solo.io.RetryTimeoutPolicyReport
 	(*RetryTimeoutPolicySpec_Config)(nil),             // 3: resilience.policy.gloo.solo.io.RetryTimeoutPolicySpec.Config
 	(*RetryTimeoutPolicySpec_Config_RetryPolicy)(nil), // 4: resilience.policy.gloo.solo.io.RetryTimeoutPolicySpec.Config.RetryPolicy
-	nil,                           // 5: resilience.policy.gloo.solo.io.RetryTimeoutPolicyReport.WorkspacesEntry
-	(*v2.RouteSelector)(nil),      // 6: common.gloo.solo.io.RouteSelector
-	(*v2.Status)(nil),             // 7: common.gloo.solo.io.Status
-	(*v2.RouteReference)(nil),     // 8: common.gloo.solo.io.RouteReference
-	(*durationpb.Duration)(nil),   // 9: google.protobuf.Duration
-	(*wrapperspb.Int32Value)(nil), // 10: google.protobuf.Int32Value
-	(*wrapperspb.BoolValue)(nil),  // 11: google.protobuf.BoolValue
-	(*v2.Report)(nil),             // 12: common.gloo.solo.io.Report
+	nil,                         // 5: resilience.policy.gloo.solo.io.RetryTimeoutPolicyReport.WorkspacesEntry
+	(*v2.RouteSelector)(nil),    // 6: common.gloo.solo.io.RouteSelector
+	(*v2.Status)(nil),           // 7: common.gloo.solo.io.Status
+	(*v2.RouteReference)(nil),   // 8: common.gloo.solo.io.RouteReference
+	(*duration.Duration)(nil),   // 9: google.protobuf.Duration
+	(*wrappers.Int32Value)(nil), // 10: google.protobuf.Int32Value
+	(*wrappers.BoolValue)(nil),  // 11: google.protobuf.BoolValue
+	(*v2.Report)(nil),           // 12: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resilience_retry_timeout_policy_proto_depIdxs = []int32{
 	6,  // 0: resilience.policy.gloo.solo.io.RetryTimeoutPolicySpec.apply_to_routes:type_name -> common.gloo.solo.io.RouteSelector

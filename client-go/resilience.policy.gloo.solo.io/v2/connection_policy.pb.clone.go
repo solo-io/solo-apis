@@ -13,9 +13,9 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
 
-	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
+	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
 
 // ensure the imports are used
@@ -155,9 +155,9 @@ func (m *ConnectionPolicySpec_Config_TCPConfig) Clone() proto.Message {
 	target.MaxConnections = m.GetMaxConnections()
 
 	if h, ok := interface{}(m.GetConnectTimeout()).(clone.Cloner); ok {
-		target.ConnectTimeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.ConnectTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.ConnectTimeout = proto.Clone(m.GetConnectTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.ConnectTimeout = proto.Clone(m.GetConnectTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	return target
@@ -180,9 +180,9 @@ func (m *ConnectionPolicySpec_Config_HTTPConfig) Clone() proto.Message {
 	target.MaxPendingRequests = m.GetMaxPendingRequests()
 
 	if h, ok := interface{}(m.GetIdleTimeout()).(clone.Cloner); ok {
-		target.IdleTimeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.IdleTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.IdleTimeout = proto.Clone(m.GetIdleTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.IdleTimeout = proto.Clone(m.GetIdleTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	return target

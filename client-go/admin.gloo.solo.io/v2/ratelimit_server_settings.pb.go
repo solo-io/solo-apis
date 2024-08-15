@@ -10,11 +10,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	duration "github.com/golang/protobuf/ptypes/duration"
 	_ "github.com/solo-io/cue/encoding/protobuf/cue"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -42,7 +42,7 @@ type RateLimitServerSettingsSpec struct {
 	// The timeout in milliseconds for the rate limit service RPC. Defaults to 100ms.
 	// Behaviour after request timeout is reached is set by `deny_on_fail`.
 	// For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
-	RequestTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
+	RequestTimeout *duration.Duration `protobuf:"bytes,2,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 	// Behaviour in case the rate limiting service does not respond back.
 	// When it is set to true, Envoy will not allow traffic in case of communication failure between rate limiting service and the proxy.
 	// Defaults to false
@@ -88,7 +88,7 @@ func (x *RateLimitServerSettingsSpec) GetDestinationServer() *v2.DestinationRefe
 	return nil
 }
 
-func (x *RateLimitServerSettingsSpec) GetRequestTimeout() *durationpb.Duration {
+func (x *RateLimitServerSettingsSpec) GetRequestTimeout() *duration.Duration {
 	if x != nil {
 		return x.RequestTimeout
 	}
@@ -243,7 +243,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_rateli
 	(*RateLimitServerSettingsSpec)(nil),   // 0: admin.gloo.solo.io.RateLimitServerSettingsSpec
 	(*RateLimitServerSettingsStatus)(nil), // 1: admin.gloo.solo.io.RateLimitServerSettingsStatus
 	(*v2.DestinationReference)(nil),       // 2: common.gloo.solo.io.DestinationReference
-	(*durationpb.Duration)(nil),           // 3: google.protobuf.Duration
+	(*duration.Duration)(nil),             // 3: google.protobuf.Duration
 	(v2.ApprovalState)(0),                 // 4: common.gloo.solo.io.ApprovalState
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_ratelimit_server_settings_proto_depIdxs = []int32{

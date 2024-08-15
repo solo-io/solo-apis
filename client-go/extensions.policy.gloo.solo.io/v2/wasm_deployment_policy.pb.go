@@ -27,10 +27,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	any1 "github.com/golang/protobuf/ptypes/any"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	anypb "google.golang.org/protobuf/types/known/anypb"
 	v1alpha3 "istio.io/api/networking/v1alpha3"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
@@ -398,7 +398,7 @@ func (m *WasmDeploymentPolicySpec_Config_WasmFilter) GetFilterConfigSource() isW
 	return nil
 }
 
-func (x *WasmDeploymentPolicySpec_Config_WasmFilter) GetStaticFilterConfig() *anypb.Any {
+func (x *WasmDeploymentPolicySpec_Config_WasmFilter) GetStaticFilterConfig() *any1.Any {
 	if x, ok := x.GetFilterConfigSource().(*WasmDeploymentPolicySpec_Config_WasmFilter_StaticFilterConfig); ok {
 		return x.StaticFilterConfig
 	}
@@ -489,7 +489,7 @@ type WasmDeploymentPolicySpec_Config_WasmFilter_StaticFilterConfig struct {
 	//
 	// For information about the value format, see the
 	// [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#any).
-	StaticFilterConfig *anypb.Any `protobuf:"bytes,4,opt,name=static_filter_config,json=staticFilterConfig,proto3,oneof"`
+	StaticFilterConfig *any1.Any `protobuf:"bytes,4,opt,name=static_filter_config,json=staticFilterConfig,proto3,oneof"`
 }
 
 type WasmDeploymentPolicySpec_Config_WasmFilter_DynamicFilterConfig struct {
@@ -787,7 +787,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_exten
 	(*v2.WorkloadSelector)(nil),            // 8: common.gloo.solo.io.WorkloadSelector
 	(*v2.Status)(nil),                      // 9: common.gloo.solo.io.Status
 	(*v2.WorkloadReference)(nil),           // 10: common.gloo.solo.io.WorkloadReference
-	(*anypb.Any)(nil),                      // 11: google.protobuf.Any
+	(*any1.Any)(nil),                       // 11: google.protobuf.Any
 	(v1alpha3.EnvoyFilter_PatchContext)(0), // 12: istio.networking.v1alpha3.EnvoyFilter.PatchContext
 	(*v2.Report)(nil),                      // 13: common.gloo.solo.io.Report
 }

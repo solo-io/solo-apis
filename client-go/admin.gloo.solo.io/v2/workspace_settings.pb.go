@@ -10,10 +10,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -745,7 +745,7 @@ type WorkspaceSettingsSpec_Options_ServiceIsolation struct {
 	// When enabled, trim the outbound config from the Istio sidecar proxies for any destination outside the workspace.
 	// The sidecar proxies keep the configuration for all destinations in the workspace (including imported destinations).
 	// To trim proxies for specific destinations with the workspace, you can use the `TrimProxyConfigPolicy` instead.
-	TrimProxyConfig *wrapperspb.BoolValue `protobuf:"bytes,2,opt,name=trim_proxy_config,json=trimProxyConfig,proto3" json:"trim_proxy_config,omitempty"`
+	TrimProxyConfig *wrappers.BoolValue `protobuf:"bytes,2,opt,name=trim_proxy_config,json=trimProxyConfig,proto3" json:"trim_proxy_config,omitempty"`
 	// Optional: When NetworkPolicy translation is enabled, by default, all available layers will be used to enforce Service Isolation.
 	// You can optionally explicitly define which available layers will enforce Service Isolation. Only the layers set here will be used.
 	EnforcementLayers *v2.EnforcementLayers `protobuf:"bytes,3,opt,name=enforcement_layers,json=enforcementLayers,proto3" json:"enforcement_layers,omitempty"`
@@ -790,7 +790,7 @@ func (x *WorkspaceSettingsSpec_Options_ServiceIsolation) GetEnabled() bool {
 	return false
 }
 
-func (x *WorkspaceSettingsSpec_Options_ServiceIsolation) GetTrimProxyConfig() *wrapperspb.BoolValue {
+func (x *WorkspaceSettingsSpec_Options_ServiceIsolation) GetTrimProxyConfig() *wrappers.BoolValue {
 	if x != nil {
 		return x.TrimProxyConfig
 	}
@@ -1313,7 +1313,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_admin_v2_worksp
 	(*v2.ObjectReference)(nil),   // 14: common.gloo.solo.io.ObjectReference
 	(*v2.WorkspaceSelector)(nil), // 15: common.gloo.solo.io.WorkspaceSelector
 	(*v2.ClientMode)(nil),        // 16: common.gloo.solo.io.ClientMode
-	(*wrapperspb.BoolValue)(nil), // 17: google.protobuf.BoolValue
+	(*wrappers.BoolValue)(nil),   // 17: google.protobuf.BoolValue
 	(*v2.EnforcementLayers)(nil), // 18: common.gloo.solo.io.EnforcementLayers
 	(*v2.ObjectSelector)(nil),    // 19: common.gloo.solo.io.ObjectSelector
 	(*v2.PortSelector)(nil),      // 20: common.gloo.solo.io.PortSelector

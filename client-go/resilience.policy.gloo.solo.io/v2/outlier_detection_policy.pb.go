@@ -32,11 +32,11 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	duration "github.com/golang/protobuf/ptypes/duration"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -246,7 +246,7 @@ type OutlierDetectionPolicySpec_Config struct {
 	// <li>The maximum value must fit the `int32` format.
 	// For information about the value format, see the
 	// [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).</li></ul>
-	ConsecutiveErrors *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=consecutive_errors,json=consecutiveErrors,proto3" json:"consecutive_errors,omitempty"`
+	ConsecutiveErrors *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=consecutive_errors,json=consecutiveErrors,proto3" json:"consecutive_errors,omitempty"`
 	// The amount of time between analyzing destinations for ejection.
 	// Defaults to 10s.
 	//
@@ -257,7 +257,7 @@ type OutlierDetectionPolicySpec_Config struct {
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
-	Interval *durationpb.Duration `protobuf:"bytes,2,opt,name=interval,proto3" json:"interval,omitempty"`
+	Interval *duration.Duration `protobuf:"bytes,2,opt,name=interval,proto3" json:"interval,omitempty"`
 	// The minimum time duration for ejection, or the time when a destination
 	// is considered unhealthy and not used for load balancing.
 	// Defaults to 30s.
@@ -269,7 +269,7 @@ type OutlierDetectionPolicySpec_Config struct {
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
-	BaseEjectionTime *durationpb.Duration `protobuf:"bytes,3,opt,name=base_ejection_time,json=baseEjectionTime,proto3" json:"base_ejection_time,omitempty"`
+	BaseEjectionTime *duration.Duration `protobuf:"bytes,3,opt,name=base_ejection_time,json=baseEjectionTime,proto3" json:"base_ejection_time,omitempty"`
 	// The maximum percentage of destinations that can be removed
 	// from the healthy connection pool at a time.
 	// For example, if you have 10 total destinations that the policy selects,
@@ -301,7 +301,7 @@ type OutlierDetectionPolicySpec_Config struct {
 	// <li>The maximum value must fit the `int32` format.
 	// For information about the value format, see the
 	// [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).</li></ul>
-	ConsecutiveGatewayErrors *wrapperspb.UInt32Value `protobuf:"bytes,5,opt,name=consecutive_gateway_errors,json=consecutiveGatewayErrors,proto3" json:"consecutive_gateway_errors,omitempty"`
+	ConsecutiveGatewayErrors *wrappers.UInt32Value `protobuf:"bytes,5,opt,name=consecutive_gateway_errors,json=consecutiveGatewayErrors,proto3" json:"consecutive_gateway_errors,omitempty"`
 }
 
 func (x *OutlierDetectionPolicySpec_Config) Reset() {
@@ -336,21 +336,21 @@ func (*OutlierDetectionPolicySpec_Config) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resilience_outlier_detection_policy_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *OutlierDetectionPolicySpec_Config) GetConsecutiveErrors() *wrapperspb.UInt32Value {
+func (x *OutlierDetectionPolicySpec_Config) GetConsecutiveErrors() *wrappers.UInt32Value {
 	if x != nil {
 		return x.ConsecutiveErrors
 	}
 	return nil
 }
 
-func (x *OutlierDetectionPolicySpec_Config) GetInterval() *durationpb.Duration {
+func (x *OutlierDetectionPolicySpec_Config) GetInterval() *duration.Duration {
 	if x != nil {
 		return x.Interval
 	}
 	return nil
 }
 
-func (x *OutlierDetectionPolicySpec_Config) GetBaseEjectionTime() *durationpb.Duration {
+func (x *OutlierDetectionPolicySpec_Config) GetBaseEjectionTime() *duration.Duration {
 	if x != nil {
 		return x.BaseEjectionTime
 	}
@@ -364,7 +364,7 @@ func (x *OutlierDetectionPolicySpec_Config) GetMaxEjectionPercent() uint32 {
 	return 0
 }
 
-func (x *OutlierDetectionPolicySpec_Config) GetConsecutiveGatewayErrors() *wrapperspb.UInt32Value {
+func (x *OutlierDetectionPolicySpec_Config) GetConsecutiveGatewayErrors() *wrappers.UInt32Value {
 	if x != nil {
 		return x.ConsecutiveGatewayErrors
 	}
@@ -502,8 +502,8 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resil
 	(*v2.DestinationSelector)(nil),  // 5: common.gloo.solo.io.DestinationSelector
 	(*v2.Status)(nil),               // 6: common.gloo.solo.io.Status
 	(*v2.DestinationReference)(nil), // 7: common.gloo.solo.io.DestinationReference
-	(*wrapperspb.UInt32Value)(nil),  // 8: google.protobuf.UInt32Value
-	(*durationpb.Duration)(nil),     // 9: google.protobuf.Duration
+	(*wrappers.UInt32Value)(nil),    // 8: google.protobuf.UInt32Value
+	(*duration.Duration)(nil),       // 9: google.protobuf.Duration
 	(*v2.Report)(nil),               // 10: common.gloo.solo.io.Report
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_policy_v2_resilience_outlier_detection_policy_proto_depIdxs = []int32{

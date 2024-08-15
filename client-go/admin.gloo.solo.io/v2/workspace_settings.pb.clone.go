@@ -13,9 +13,9 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
 
-	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
+	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
 
 // ensure the imports are used
@@ -275,9 +275,9 @@ func (m *WorkspaceSettingsSpec_Options_ServiceIsolation) Clone() proto.Message {
 	target.Enabled = m.GetEnabled()
 
 	if h, ok := interface{}(m.GetTrimProxyConfig()).(clone.Cloner); ok {
-		target.TrimProxyConfig = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
+		target.TrimProxyConfig = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
-		target.TrimProxyConfig = proto.Clone(m.GetTrimProxyConfig()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
+		target.TrimProxyConfig = proto.Clone(m.GetTrimProxyConfig()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	}
 
 	if h, ok := interface{}(m.GetEnforcementLayers()).(clone.Cloner); ok {

@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_envoy_gloo_ee_api_envoy_config_filter_http_transformation_ee_v2 "github.com/solo-io/solo-apis/client-go/envoy-gloo-ee/api/envoy/config/filter/http/transformation_ee/v2"
-
-	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -70,9 +70,9 @@ func (m *DlpAction) Clone() proto.Message {
 	target = &DlpAction{}
 
 	if h, ok := interface{}(m.GetShadow()).(clone.Cloner); ok {
-		target.Shadow = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
+		target.Shadow = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
-		target.Shadow = proto.Clone(m.GetShadow()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
+		target.Shadow = proto.Clone(m.GetShadow()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	}
 
 	switch m.Action.(type) {
@@ -123,15 +123,15 @@ func (m *DlpCustomAction) Clone() proto.Message {
 	target.Name = m.GetName()
 
 	if h, ok := interface{}(m.GetMaskChar()).(clone.Cloner); ok {
-		target.MaskChar = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
+		target.MaskChar = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	} else {
-		target.MaskChar = proto.Clone(m.GetMaskChar()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
+		target.MaskChar = proto.Clone(m.GetMaskChar()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	}
 
 	if h, ok := interface{}(m.GetPercent()).(clone.Cloner); ok {
-		target.Percent = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.FloatValue)
+		target.Percent = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.FloatValue)
 	} else {
-		target.Percent = proto.Clone(m.GetPercent()).(*google_golang_org_protobuf_types_known_wrapperspb.FloatValue)
+		target.Percent = proto.Clone(m.GetPercent()).(*github_com_golang_protobuf_ptypes_wrappers.FloatValue)
 	}
 
 	if m.GetRegexActions() != nil {
@@ -161,15 +161,15 @@ func (m *DlpKeyValueAction) Clone() proto.Message {
 	target.Name = m.GetName()
 
 	if h, ok := interface{}(m.GetMaskChar()).(clone.Cloner); ok {
-		target.MaskChar = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
+		target.MaskChar = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	} else {
-		target.MaskChar = proto.Clone(m.GetMaskChar()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
+		target.MaskChar = proto.Clone(m.GetMaskChar()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
 	}
 
 	if h, ok := interface{}(m.GetPercent()).(clone.Cloner); ok {
-		target.Percent = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.FloatValue)
+		target.Percent = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.FloatValue)
 	} else {
-		target.Percent = proto.Clone(m.GetPercent()).(*google_golang_org_protobuf_types_known_wrapperspb.FloatValue)
+		target.Percent = proto.Clone(m.GetPercent()).(*github_com_golang_protobuf_ptypes_wrappers.FloatValue)
 	}
 
 	if m.GetKeysToMask() != nil {

@@ -47,10 +47,10 @@ import (
 	reflect "reflect"
 	sync "sync"
 
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 )
@@ -486,19 +486,19 @@ type ExternalWorkloadSpec_Probe struct {
 
 	// Optional: Number of seconds after the external workload startup before the probes are initiated.
 	// Defaults to 0 seconds.
-	InitialDelaySeconds *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=initial_delay_seconds,json=initialDelaySeconds,proto3" json:"initial_delay_seconds,omitempty"`
+	InitialDelaySeconds *wrappers.UInt32Value `protobuf:"bytes,1,opt,name=initial_delay_seconds,json=initialDelaySeconds,proto3" json:"initial_delay_seconds,omitempty"`
 	// Optional: Number of seconds after which the probe times out.
 	// Defaults to 1 second. Minimum value is 1 second.
-	TimeoutSeconds *wrapperspb.UInt32Value `protobuf:"bytes,2,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
+	TimeoutSeconds *wrappers.UInt32Value `protobuf:"bytes,2,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
 	// Optional: How often (in seconds) to perform the probe.
 	// Defaults to 10 seconds. Minimum value is 1 second.
-	PeriodSeconds *wrapperspb.UInt32Value `protobuf:"bytes,3,opt,name=period_seconds,json=periodSeconds,proto3" json:"period_seconds,omitempty"`
+	PeriodSeconds *wrappers.UInt32Value `protobuf:"bytes,3,opt,name=period_seconds,json=periodSeconds,proto3" json:"period_seconds,omitempty"`
 	// Optional: Minimum consecutive successes for the probe to be considered successful after having failed.
 	// Defaults to 1.
-	SuccessThreshold *wrapperspb.UInt32Value `protobuf:"bytes,4,opt,name=success_threshold,json=successThreshold,proto3" json:"success_threshold,omitempty"`
+	SuccessThreshold *wrappers.UInt32Value `protobuf:"bytes,4,opt,name=success_threshold,json=successThreshold,proto3" json:"success_threshold,omitempty"`
 	// Optional: Minimum consecutive failures for the probe to be considered failed after having succeeded.
 	// Defaults to 3.
-	FailureThreshold *wrapperspb.UInt32Value `protobuf:"bytes,5,opt,name=failure_threshold,json=failureThreshold,proto3" json:"failure_threshold,omitempty"`
+	FailureThreshold *wrappers.UInt32Value `protobuf:"bytes,5,opt,name=failure_threshold,json=failureThreshold,proto3" json:"failure_threshold,omitempty"`
 	// The handler corresponding to the probe. Specify only one of: httpGet, tcpSocket, exec
 	//
 	// Types that are assignable to Handler:
@@ -541,35 +541,35 @@ func (*ExternalWorkloadSpec_Probe) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2alpha1_external_workload_proto_rawDescGZIP(), []int{0, 3}
 }
 
-func (x *ExternalWorkloadSpec_Probe) GetInitialDelaySeconds() *wrapperspb.UInt32Value {
+func (x *ExternalWorkloadSpec_Probe) GetInitialDelaySeconds() *wrappers.UInt32Value {
 	if x != nil {
 		return x.InitialDelaySeconds
 	}
 	return nil
 }
 
-func (x *ExternalWorkloadSpec_Probe) GetTimeoutSeconds() *wrapperspb.UInt32Value {
+func (x *ExternalWorkloadSpec_Probe) GetTimeoutSeconds() *wrappers.UInt32Value {
 	if x != nil {
 		return x.TimeoutSeconds
 	}
 	return nil
 }
 
-func (x *ExternalWorkloadSpec_Probe) GetPeriodSeconds() *wrapperspb.UInt32Value {
+func (x *ExternalWorkloadSpec_Probe) GetPeriodSeconds() *wrappers.UInt32Value {
 	if x != nil {
 		return x.PeriodSeconds
 	}
 	return nil
 }
 
-func (x *ExternalWorkloadSpec_Probe) GetSuccessThreshold() *wrapperspb.UInt32Value {
+func (x *ExternalWorkloadSpec_Probe) GetSuccessThreshold() *wrappers.UInt32Value {
 	if x != nil {
 		return x.SuccessThreshold
 	}
 	return nil
 }
 
-func (x *ExternalWorkloadSpec_Probe) GetFailureThreshold() *wrapperspb.UInt32Value {
+func (x *ExternalWorkloadSpec_Probe) GetFailureThreshold() *wrappers.UInt32Value {
 	if x != nil {
 		return x.FailureThreshold
 	}
@@ -1654,12 +1654,12 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2al
 	(*ExternalWorkloadSpec_Probe_HTTPHeader)(nil),           // 15: networking.gloo.solo.io.ExternalWorkloadSpec.Probe.HTTPHeader
 	(*ExternalWorkloadSpec_Probe_TCPSocketConfig)(nil),      // 16: networking.gloo.solo.io.ExternalWorkloadSpec.Probe.TCPSocketConfig
 	(*ExternalWorkloadSpec_Probe_ExecConfig)(nil),           // 17: networking.gloo.solo.io.ExternalWorkloadSpec.Probe.ExecConfig
-	nil,                            // 18: networking.gloo.solo.io.ExternalWorkloadStatus.NumAppliedPoliciesEntry
-	nil,                            // 19: networking.gloo.solo.io.ExternalWorkloadReport.WorkspacesEntry
-	nil,                            // 20: networking.gloo.solo.io.ExternalWorkloadReport.AppliedDestinationPoliciesEntry
-	(*v2.Status)(nil),              // 21: common.gloo.solo.io.Status
-	(*wrapperspb.UInt32Value)(nil), // 22: google.protobuf.UInt32Value
-	(*v2.Report)(nil),              // 23: common.gloo.solo.io.Report
+	nil,                          // 18: networking.gloo.solo.io.ExternalWorkloadStatus.NumAppliedPoliciesEntry
+	nil,                          // 19: networking.gloo.solo.io.ExternalWorkloadReport.WorkspacesEntry
+	nil,                          // 20: networking.gloo.solo.io.ExternalWorkloadReport.AppliedDestinationPoliciesEntry
+	(*v2.Status)(nil),            // 21: common.gloo.solo.io.Status
+	(*wrappers.UInt32Value)(nil), // 22: google.protobuf.UInt32Value
+	(*v2.Report)(nil),            // 23: common.gloo.solo.io.Report
 	(*v2.AppliedDestinationPortPolicies)(nil), // 24: common.gloo.solo.io.AppliedDestinationPortPolicies
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2alpha1_external_workload_proto_depIdxs = []int32{

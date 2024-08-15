@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
+	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
+
+	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
-
-	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
-
-	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -151,9 +151,9 @@ func (m *FaultInjectionPolicySpec_Config_Abort) Clone() proto.Message {
 	target.HttpStatus = m.GetHttpStatus()
 
 	if h, ok := interface{}(m.GetPercentage()).(clone.Cloner); ok {
-		target.Percentage = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.Percentage = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	} else {
-		target.Percentage = proto.Clone(m.GetPercentage()).(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.Percentage = proto.Clone(m.GetPercentage()).(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	}
 
 	return target
@@ -168,15 +168,15 @@ func (m *FaultInjectionPolicySpec_Config_Delay) Clone() proto.Message {
 	target = &FaultInjectionPolicySpec_Config_Delay{}
 
 	if h, ok := interface{}(m.GetFixedDelay()).(clone.Cloner); ok {
-		target.FixedDelay = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.FixedDelay = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.FixedDelay = proto.Clone(m.GetFixedDelay()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
+		target.FixedDelay = proto.Clone(m.GetFixedDelay()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	if h, ok := interface{}(m.GetPercentage()).(clone.Cloner); ok {
-		target.Percentage = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.Percentage = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	} else {
-		target.Percentage = proto.Clone(m.GetPercentage()).(*google_golang_org_protobuf_types_known_wrapperspb.DoubleValue)
+		target.Percentage = proto.Clone(m.GetPercentage()).(*github_com_golang_protobuf_ptypes_wrappers.DoubleValue)
 	}
 
 	return target
