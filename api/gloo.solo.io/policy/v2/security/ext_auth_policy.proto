@@ -84,12 +84,13 @@ message ExtAuthPolicySpec {
     }
 
     // Reference to the ExtAuthServer to use for this policy.
-    // To create an ExtAuthServer resource, see [External auth server setup]({{% link path="/security/external-auth/server/#setup" %}}).
+    // To create an ExtAuthServer resource, see [External auth server setup](../../../security/external-auth/server/#setup).
     //
     // </br>**Implementation notes**:<ul>
     // <li>The ExtAuthServer must be in the same workspace as this ExtAuthPolicy. Be sure to select the appropriate ExtAuthServer to use,
     // which might be in a different cluster and namespace than the policy.</li>
-    // <li>If omitted, this value defaults to the default `ext-auth-service` in the `gloo-mesh` namespace.</li></ul>
+    // <li>If this field is omitted, Gloo generates a default ExtAuthServer configuration.
+    // To review the default values for an ExtAuthServer, see the [API reference](../ext_auth_server/).</li></ul>
     //
     // </br>**Configuration constraints:**<ul>
     // <li>Routes on a single gateway must share a single ExtAuthServer.</li>
