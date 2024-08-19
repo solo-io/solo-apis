@@ -848,6 +848,8 @@ message OidcAuthorizationCode {
         // To turn on Redis user session caching, use the `userSessionConfig` field.
         RedisOptions claims_caching_options = 4;
     }
+
+    string front_channel_logout_uri = 28;
 }
 
 message PlainOAuth2 {
@@ -1852,6 +1854,7 @@ message ExtAuthConfig {
             // To turn on Redis user session caching, use the `userSessionConfig` field.
             RedisOptions claims_caching_options = 4;
         }
+        string front_channel_logout_uri = 28;
     }
 
     message AccessTokenValidationConfig {
