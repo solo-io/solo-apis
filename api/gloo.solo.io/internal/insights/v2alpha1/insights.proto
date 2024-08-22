@@ -104,9 +104,6 @@ message Insight {
       SYS0019Data SYS0019 = 29; // Adding so UI works for mock - might change later
       SYS0020Data SYS0020 = 30;
       SYS0025Data SYS0025 = 31;
-      SYS0021Data SYS0021 = 32;
-      SYS0022Data SYS0022 = 33;
-      SYS0023Data SYS0023 = 34;
     }
   }
 
@@ -168,12 +165,6 @@ message Insight {
   // Kubernetes Gateway certificates
   message SYS0025Data {
     repeated ReferencedCertificateSecret certificates = 1;
-  }
-
-  // Endpoint policy info
-  message SYS0021Data {
-    uint32 endpoints_with_policies = 1;
-    uint32 total_endpoints = 2;
   }
 
   message ReferencedCertificateSecret {
@@ -250,18 +241,6 @@ message Insight {
     int32 k8s_resources = 3;
     int32 gateway_resources = 4;
     int32 solo_resources = 5;
-  }
-
-  // Cilium policy violation info
-  message SYS0022Data {
-    uint32 count = 1;
-    string time_window = 2;
-  }
-
-  // Cilium node connectivity info
-  message SYS0023Data {
-    uint32 connected = 1;
-    uint32 disconnected = 2;
   }
 
 }
