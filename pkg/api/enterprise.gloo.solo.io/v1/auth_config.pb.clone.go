@@ -884,6 +884,8 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 		target.ClientAuthentication = proto.Clone(m.GetClientAuthentication()).(*OidcAuthorizationCode_ClientAuthentication)
 	}
 
+	target.FrontChannelLogoutPath = m.GetFrontChannelLogoutPath()
+
 	switch m.Provider.(type) {
 
 	case *OidcAuthorizationCode_Default_:
@@ -2641,6 +2643,19 @@ func (m *OidcAuthorizationCode_Azure) Clone() proto.Message {
 }
 
 // Clone function
+func (m *OidcAuthorizationCode_FrontChannelLogout) Clone() proto.Message {
+	var target *OidcAuthorizationCode_FrontChannelLogout
+	if m == nil {
+		return target
+	}
+	target = &OidcAuthorizationCode_FrontChannelLogout{}
+
+	target.Path = m.GetPath()
+
+	return target
+}
+
+// Clone function
 func (m *OidcAuthorizationCode_ClientAuthentication_ClientSecret) Clone() proto.Message {
 	var target *OidcAuthorizationCode_ClientAuthentication_ClientSecret
 	if m == nil {
@@ -3216,6 +3231,8 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Clone() proto.Message {
 	} else {
 		target.IdentityToken = proto.Clone(m.GetIdentityToken()).(*ExtAuthConfig_OidcAuthorizationCodeConfig_IdentityToken)
 	}
+
+	target.FrontChannelLogoutPath = m.GetFrontChannelLogoutPath()
 
 	switch m.Provider.(type) {
 
