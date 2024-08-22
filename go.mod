@@ -21,7 +21,7 @@ require (
 	github.com/rotisserie/eris v0.5.4
 	github.com/solo-io/go-utils v0.25.1 // indirect
 	github.com/solo-io/protoc-gen-ext v0.0.24
-	github.com/solo-io/skv2 v0.40.4
+	github.com/solo-io/skv2 v0.40.5
 	github.com/solo-io/solo-kit v0.35.0
 	github.com/spf13/pflag v1.0.6-0.20210604193023-d5e0c0615ace // indirect
 	go.uber.org/multierr v1.11.0 // indirect
