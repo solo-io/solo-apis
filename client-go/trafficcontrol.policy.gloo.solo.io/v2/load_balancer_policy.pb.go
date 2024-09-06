@@ -438,7 +438,7 @@ type LoadBalancerPolicySpec_Config struct {
 	// <li>The value cannot have granularity smaller than one millisecond.</li></ul>
 	//
 	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
-	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than milliseconds."
 	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
 	WarmupDurationSecs *durationpb.Duration `protobuf:"bytes,3,opt,name=warmup_duration_secs,json=warmupDurationSecs,proto3" json:"warmup_duration_secs,omitempty"`
 	// The threshold at which Envoy disregards the upstream health status and either
@@ -466,7 +466,7 @@ type LoadBalancerPolicySpec_Config struct {
 	// <li>The value cannot have granularity smaller than one millisecond.</li></ul>
 	//
 	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
-	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than milliseconds."
 	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
 	UpdateMergeWindow *durationpb.Duration `protobuf:"bytes,5,opt,name=update_merge_window,json=updateMergeWindow,proto3" json:"update_merge_window,omitempty"`
 }
@@ -733,13 +733,11 @@ type LoadBalancerPolicySpec_Config_ConsistentHashLB_HTTPCookie struct {
 	Path string `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	// Lifetime of the cookie.
 	//
-	// </br>**Configuration constraints**:<ul>
-	// <li>The value must be at least 1ms.</li>
-	// <li>The value cannot have granularity smaller than one millisecond.</li></ul>
+	// **Configuration constraints**: The value cannot have granularity smaller than one millisecond.
 	//
-	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
-	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
-	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
+	// +kubebuilder:validation:XValidation:rule="duration(self).getMilliseconds() >= 0",message="The value must be a valid non-negative duration."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="!self.matches('[1-9]') || (duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
 	Ttl *durationpb.Duration `protobuf:"bytes,3,opt,name=ttl,proto3" json:"ttl,omitempty"`
 }
 
