@@ -151,7 +151,7 @@ message FaultInjectionPolicySpec {
       // 
       // +kubebuilder:validation:Required
       // +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
-      // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+      // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than milliseconds."
       // +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
       google.protobuf.Duration fixed_delay = 1;
 

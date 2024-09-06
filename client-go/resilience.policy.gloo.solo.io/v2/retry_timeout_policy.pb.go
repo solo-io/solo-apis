@@ -310,7 +310,7 @@ type RetryTimeoutPolicySpec_Config struct {
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
 	//
 	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
-	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than milliseconds."
 	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
 	RequestTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 }
@@ -398,7 +398,7 @@ type RetryTimeoutPolicySpec_Config_RetryPolicy struct {
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
 	//
 	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
-	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than milliseconds."
 	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
 	PerTryTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=per_try_timeout,json=perTryTimeout,proto3" json:"per_try_timeout,omitempty"`
 	// The conditions under which a retry takes place.
