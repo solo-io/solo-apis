@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
-
 	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1"
+
+	google_golang_org_protobuf_types_known_structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 // ensure the imports are used
@@ -179,9 +179,9 @@ func (m *VirtualHostOptionStatus) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetDetails()).(clone.Cloner); ok {
-		target.Details = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
+		target.Details = h.Clone().(*google_golang_org_protobuf_types_known_structpb.Struct)
 	} else {
-		target.Details = proto.Clone(m.GetDetails()).(*github_com_golang_protobuf_ptypes_struct.Struct)
+		target.Details = proto.Clone(m.GetDetails()).(*google_golang_org_protobuf_types_known_structpb.Struct)
 	}
 
 	return target
@@ -239,9 +239,9 @@ func (m *RouteOptionStatus) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetDetails()).(clone.Cloner); ok {
-		target.Details = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
+		target.Details = h.Clone().(*google_golang_org_protobuf_types_known_structpb.Struct)
 	} else {
-		target.Details = proto.Clone(m.GetDetails()).(*github_com_golang_protobuf_ptypes_struct.Struct)
+		target.Details = proto.Clone(m.GetDetails()).(*google_golang_org_protobuf_types_known_structpb.Struct)
 	}
 
 	return target

@@ -68,18 +68,18 @@ type GraphQLApiReconcileLoop interface {
 	RunGraphQLApiReconciler(ctx context.Context, rec GraphQLApiReconciler, predicates ...predicate.Predicate) error
 }
 
-type graphQLApiReconcileLoop struct {
+type graphQlapiReconcileLoop struct {
 	loop reconcile.Loop
 }
 
 func NewGraphQLApiReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) GraphQLApiReconcileLoop {
-	return &graphQLApiReconcileLoop{
+	return &graphQlapiReconcileLoop{
 		// empty cluster indicates this reconciler is built for the local cluster
 		loop: reconcile.NewLoop(name, "", mgr, &graphql_gloo_solo_io_v1beta1.GraphQLApi{}, options),
 	}
 }
 
-func (c *graphQLApiReconcileLoop) RunGraphQLApiReconciler(ctx context.Context, reconciler GraphQLApiReconciler, predicates ...predicate.Predicate) error {
+func (c *graphQlapiReconcileLoop) RunGraphQLApiReconciler(ctx context.Context, reconciler GraphQLApiReconciler, predicates ...predicate.Predicate) error {
 	genericReconciler := genericGraphQLApiReconciler{
 		reconciler: reconciler,
 	}

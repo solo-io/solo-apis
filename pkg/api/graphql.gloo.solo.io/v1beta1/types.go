@@ -20,7 +20,7 @@ var GraphQLApiGVK = schema.GroupVersionKind{
 	Kind:    "GraphQLApi",
 }
 
-// GraphQLApi is the Schema for the graphQLApi API
+// GraphQLApi is the Schema for the graphQlapi API
 type GraphQLApi struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
