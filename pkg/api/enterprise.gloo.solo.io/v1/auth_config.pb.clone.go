@@ -1212,6 +1212,8 @@ func (m *ApiKeyAuth) Clone() proto.Message {
 		}
 	}
 
+	target.EnableDataPlaneMetadataValidation = m.GetEnableDataPlaneMetadataValidation()
+
 	switch m.StorageBackend.(type) {
 
 	case *ApiKeyAuth_K8SSecretApikeyStorage:
@@ -3492,6 +3494,8 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig) Clone() proto.Message {
 
 		}
 	}
+
+	target.EnableDataPlaneMetadataValidation = m.GetEnableDataPlaneMetadataValidation()
 
 	switch m.StorageBackend.(type) {
 
