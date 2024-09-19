@@ -2348,6 +2348,11 @@ func (m *ApiKeyAuth) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetEnableDataPlaneMetadataValidation())
+	if err != nil {
+		return 0, err
+	}
+
 	switch m.StorageBackend.(type) {
 
 	case *ApiKeyAuth_K8SSecretApikeyStorage:
@@ -6646,6 +6651,11 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig) Hash(hasher hash.Hash64) (uint64, error
 
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetEnableDataPlaneMetadataValidation())
+	if err != nil {
+		return 0, err
+	}
+
 	switch m.StorageBackend.(type) {
 
 	case *ExtAuthConfig_ApiKeyAuthConfig_K8SSecretApikeyStorage:
@@ -8005,6 +8015,10 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Hash(hasher hash.Hash64) (u
 			return 0, err
 		}
 
+	}
+
+	if _, err = hasher.Write([]byte(m.GetName())); err != nil {
+		return 0, err
 	}
 
 	return hasher.Sum64(), nil

@@ -1212,6 +1212,8 @@ func (m *ApiKeyAuth) Clone() proto.Message {
 		}
 	}
 
+	target.EnableDataPlaneMetadataValidation = m.GetEnableDataPlaneMetadataValidation()
+
 	switch m.StorageBackend.(type) {
 
 	case *ApiKeyAuth_K8SSecretApikeyStorage:
@@ -3493,6 +3495,8 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig) Clone() proto.Message {
 		}
 	}
 
+	target.EnableDataPlaneMetadataValidation = m.GetEnableDataPlaneMetadataValidation()
+
 	switch m.StorageBackend.(type) {
 
 	case *ExtAuthConfig_ApiKeyAuthConfig_K8SSecretApikeyStorage:
@@ -4248,6 +4252,8 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Clone() proto.Message {
 
 		}
 	}
+
+	target.Name = m.GetName()
 
 	return target
 }

@@ -2019,6 +2019,10 @@ func (m *ApiKeyAuth) Equal(that interface{}) bool {
 
 	}
 
+	if m.GetEnableDataPlaneMetadataValidation() != target.GetEnableDataPlaneMetadataValidation() {
+		return false
+	}
+
 	switch m.StorageBackend.(type) {
 
 	case *ApiKeyAuth_K8SSecretApikeyStorage:
@@ -5915,6 +5919,10 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig) Equal(that interface{}) bool {
 
 	}
 
+	if m.GetEnableDataPlaneMetadataValidation() != target.GetEnableDataPlaneMetadataValidation() {
+		return false
+	}
+
 	switch m.StorageBackend.(type) {
 
 	case *ExtAuthConfig_ApiKeyAuthConfig_K8SSecretApikeyStorage:
@@ -7216,6 +7224,10 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Equal(that interface{}) boo
 			return false
 		}
 
+	}
+
+	if strings.Compare(m.GetName(), target.GetName()) != 0 {
+		return false
 	}
 
 	return true
