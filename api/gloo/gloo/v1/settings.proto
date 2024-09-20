@@ -600,6 +600,7 @@ message SettingsSpec {
 // A label selector requirement is a selector that contains values, a key, and an operator that
 // relates the key and values.
 // Copied from Kubernetes to avoid expensive dependency on Kubernetes libraries.
+// Ref: https://github.com/kubernetes/apimachinery/blob/f7615f37d717297aca51101478406af712553c5b/pkg/apis/meta/v1/generated.proto#L442-L453
 message LabelSelector {
     // matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
     // map is equivalent to an element of matchExpressions, whose key field is "key", the
@@ -615,6 +616,7 @@ message LabelSelector {
 // A label selector requirement is a selector that contains values, a key, and an operator that
 // relates the key and values.
 // Copied from Kubernetes to avoid expensive dependency on Kubernetes libraries.
+// Ref: https://github.com/kubernetes/apimachinery/blob/f7615f37d717297aca51101478406af712553c5b/pkg/apis/meta/v1/generated.proto#L455-L472
 message LabelSelectorRequirement {
     // key is the label key that the selector applies to.
     // +patchMergeKey=key
@@ -901,6 +903,13 @@ message GatewayOptions {
         // as a warning instead of an error. This will allow for eventually consistent workloads, but will also permit
         // the accidental deletion of secrets being referenced, which would cause disruption in traffic.
         google.protobuf.BoolValue warn_missing_tls_secret = 13;
+
+        // Configures the Gloo translation loop to send the final product of translation through Envoy 
+        // validation mode. This has an negative impact on the total translation throughput, but it 
+        // helps ensure the configuration will not be nacked when served to Envoy. 
+        //
+        // This feature is not yet implemented.
+        google.protobuf.BoolValue full_envoy_validation = 14;
     }
 
     // If provided, the Gateway will perform [Dynamic Admission Control](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)
