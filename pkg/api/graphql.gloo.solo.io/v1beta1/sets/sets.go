@@ -25,13 +25,13 @@ type GraphQLApiSet interface {
 	// Return the Set as a map of key to resource.
 	Map() map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	// Insert a resource into the set.
-	Insert(graphQLApi ...*graphql_gloo_solo_io_v1beta1.GraphQLApi)
+	Insert(graphQlapi ...*graphql_gloo_solo_io_v1beta1.GraphQLApi)
 	// Compare the equality of the keys in two sets (not the resources themselves)
-	Equal(graphQLApiSet GraphQLApiSet) bool
+	Equal(graphQlapiSet GraphQLApiSet) bool
 	// Check if the set contains a key matching the resource (not the resource itself)
-	Has(graphQLApi ezkube.ResourceId) bool
+	Has(graphQlapi ezkube.ResourceId) bool
 	// Delete the key matching the resource
-	Delete(graphQLApi ezkube.ResourceId)
+	Delete(graphQlapi ezkube.ResourceId)
 	// Return the union with the provided set
 	Union(set GraphQLApiSet) GraphQLApiSet
 	// Return the difference with the provided set
@@ -50,38 +50,38 @@ type GraphQLApiSet interface {
 	Clone() GraphQLApiSet
 }
 
-func makeGenericGraphQLApiSet(graphQLApiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi) sksets.ResourceSet {
+func makeGenericGraphQLApiSet(graphQlapiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi) sksets.ResourceSet {
 	var genericResources []ezkube.ResourceId
-	for _, obj := range graphQLApiList {
+	for _, obj := range graphQlapiList {
 		genericResources = append(genericResources, obj)
 	}
 	return sksets.NewResourceSet(genericResources...)
 }
 
-type graphQLApiSet struct {
+type graphQlapiSet struct {
 	set sksets.ResourceSet
 }
 
-func NewGraphQLApiSet(graphQLApiList ...*graphql_gloo_solo_io_v1beta1.GraphQLApi) GraphQLApiSet {
-	return &graphQLApiSet{set: makeGenericGraphQLApiSet(graphQLApiList)}
+func NewGraphQLApiSet(graphQlapiList ...*graphql_gloo_solo_io_v1beta1.GraphQLApi) GraphQLApiSet {
+	return &graphQlapiSet{set: makeGenericGraphQLApiSet(graphQlapiList)}
 }
 
-func NewGraphQLApiSetFromList(graphQLApiList *graphql_gloo_solo_io_v1beta1.GraphQLApiList) GraphQLApiSet {
-	list := make([]*graphql_gloo_solo_io_v1beta1.GraphQLApi, 0, len(graphQLApiList.Items))
-	for idx := range graphQLApiList.Items {
-		list = append(list, &graphQLApiList.Items[idx])
+func NewGraphQLApiSetFromList(graphQlapiList *graphql_gloo_solo_io_v1beta1.GraphQLApiList) GraphQLApiSet {
+	list := make([]*graphql_gloo_solo_io_v1beta1.GraphQLApi, 0, len(graphQlapiList.Items))
+	for idx := range graphQlapiList.Items {
+		list = append(list, &graphQlapiList.Items[idx])
 	}
-	return &graphQLApiSet{set: makeGenericGraphQLApiSet(list)}
+	return &graphQlapiSet{set: makeGenericGraphQLApiSet(list)}
 }
 
-func (s *graphQLApiSet) Keys() sets.String {
+func (s *graphQlapiSet) Keys() sets.String {
 	if s == nil {
 		return sets.String{}
 	}
 	return s.Generic().Keys()
 }
 
-func (s *graphQLApiSet) List(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi {
+func (s *graphQlapiSet) List(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi {
 	if s == nil {
 		return nil
 	}
@@ -94,14 +94,14 @@ func (s *graphQLApiSet) List(filterResource ...func(*graphql_gloo_solo_io_v1beta
 	}
 
 	objs := s.Generic().List(genericFilters...)
-	graphQLApiList := make([]*graphql_gloo_solo_io_v1beta1.GraphQLApi, 0, len(objs))
+	graphQlapiList := make([]*graphql_gloo_solo_io_v1beta1.GraphQLApi, 0, len(objs))
 	for _, obj := range objs {
-		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
+		graphQlapiList = append(graphQlapiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
 	}
-	return graphQLApiList
+	return graphQlapiList
 }
 
-func (s *graphQLApiSet) UnsortedList(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi {
+func (s *graphQlapiSet) UnsortedList(filterResource ...func(*graphql_gloo_solo_io_v1beta1.GraphQLApi) bool) []*graphql_gloo_solo_io_v1beta1.GraphQLApi {
 	if s == nil {
 		return nil
 	}
@@ -113,14 +113,14 @@ func (s *graphQLApiSet) UnsortedList(filterResource ...func(*graphql_gloo_solo_i
 		})
 	}
 
-	var graphQLApiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi
+	var graphQlapiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
+		graphQlapiList = append(graphQlapiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
 	}
-	return graphQLApiList
+	return graphQlapiList
 }
 
-func (s *graphQLApiSet) Map() map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi {
+func (s *graphQlapiSet) Map() map[string]*graphql_gloo_solo_io_v1beta1.GraphQLApi {
 	if s == nil {
 		return nil
 	}
@@ -132,69 +132,69 @@ func (s *graphQLApiSet) Map() map[string]*graphql_gloo_solo_io_v1beta1.GraphQLAp
 	return newMap
 }
 
-func (s *graphQLApiSet) Insert(
-	graphQLApiList ...*graphql_gloo_solo_io_v1beta1.GraphQLApi,
+func (s *graphQlapiSet) Insert(
+	graphQlapiList ...*graphql_gloo_solo_io_v1beta1.GraphQLApi,
 ) {
 	if s == nil {
 		panic("cannot insert into nil set")
 	}
 
-	for _, obj := range graphQLApiList {
+	for _, obj := range graphQlapiList {
 		s.Generic().Insert(obj)
 	}
 }
 
-func (s *graphQLApiSet) Has(graphQLApi ezkube.ResourceId) bool {
+func (s *graphQlapiSet) Has(graphQlapi ezkube.ResourceId) bool {
 	if s == nil {
 		return false
 	}
-	return s.Generic().Has(graphQLApi)
+	return s.Generic().Has(graphQlapi)
 }
 
-func (s *graphQLApiSet) Equal(
-	graphQLApiSet GraphQLApiSet,
+func (s *graphQlapiSet) Equal(
+	graphQlapiSet GraphQLApiSet,
 ) bool {
 	if s == nil {
-		return graphQLApiSet == nil
+		return graphQlapiSet == nil
 	}
-	return s.Generic().Equal(graphQLApiSet.Generic())
+	return s.Generic().Equal(graphQlapiSet.Generic())
 }
 
-func (s *graphQLApiSet) Delete(GraphQLApi ezkube.ResourceId) {
+func (s *graphQlapiSet) Delete(GraphQLApi ezkube.ResourceId) {
 	if s == nil {
 		return
 	}
 	s.Generic().Delete(GraphQLApi)
 }
 
-func (s *graphQLApiSet) Union(set GraphQLApiSet) GraphQLApiSet {
+func (s *graphQlapiSet) Union(set GraphQLApiSet) GraphQLApiSet {
 	if s == nil {
 		return set
 	}
 	return NewGraphQLApiSet(append(s.List(), set.List()...)...)
 }
 
-func (s *graphQLApiSet) Difference(set GraphQLApiSet) GraphQLApiSet {
+func (s *graphQlapiSet) Difference(set GraphQLApiSet) GraphQLApiSet {
 	if s == nil {
 		return set
 	}
 	newSet := s.Generic().Difference(set.Generic())
-	return &graphQLApiSet{set: newSet}
+	return &graphQlapiSet{set: newSet}
 }
 
-func (s *graphQLApiSet) Intersection(set GraphQLApiSet) GraphQLApiSet {
+func (s *graphQlapiSet) Intersection(set GraphQLApiSet) GraphQLApiSet {
 	if s == nil {
 		return nil
 	}
 	newSet := s.Generic().Intersection(set.Generic())
-	var graphQLApiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi
+	var graphQlapiList []*graphql_gloo_solo_io_v1beta1.GraphQLApi
 	for _, obj := range newSet.List() {
-		graphQLApiList = append(graphQLApiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
+		graphQlapiList = append(graphQlapiList, obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi))
 	}
-	return NewGraphQLApiSet(graphQLApiList...)
+	return NewGraphQLApiSet(graphQlapiList...)
 }
 
-func (s *graphQLApiSet) Find(id ezkube.ResourceId) (*graphql_gloo_solo_io_v1beta1.GraphQLApi, error) {
+func (s *graphQlapiSet) Find(id ezkube.ResourceId) (*graphql_gloo_solo_io_v1beta1.GraphQLApi, error) {
 	if s == nil {
 		return nil, eris.Errorf("empty set, cannot find GraphQLApi %v", sksets.Key(id))
 	}
@@ -206,21 +206,21 @@ func (s *graphQLApiSet) Find(id ezkube.ResourceId) (*graphql_gloo_solo_io_v1beta
 	return obj.(*graphql_gloo_solo_io_v1beta1.GraphQLApi), nil
 }
 
-func (s *graphQLApiSet) Length() int {
+func (s *graphQlapiSet) Length() int {
 	if s == nil {
 		return 0
 	}
 	return s.Generic().Length()
 }
 
-func (s *graphQLApiSet) Generic() sksets.ResourceSet {
+func (s *graphQlapiSet) Generic() sksets.ResourceSet {
 	if s == nil {
 		return nil
 	}
 	return s.set
 }
 
-func (s *graphQLApiSet) Delta(newSet GraphQLApiSet) sksets.ResourceDelta {
+func (s *graphQlapiSet) Delta(newSet GraphQLApiSet) sksets.ResourceDelta {
 	if s == nil {
 		return sksets.ResourceDelta{
 			Inserted: newSet.Generic(),
@@ -229,9 +229,9 @@ func (s *graphQLApiSet) Delta(newSet GraphQLApiSet) sksets.ResourceDelta {
 	return s.Generic().Delta(newSet.Generic())
 }
 
-func (s *graphQLApiSet) Clone() GraphQLApiSet {
+func (s *graphQlapiSet) Clone() GraphQLApiSet {
 	if s == nil {
 		return nil
 	}
-	return &graphQLApiSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+	return &graphQlapiSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
