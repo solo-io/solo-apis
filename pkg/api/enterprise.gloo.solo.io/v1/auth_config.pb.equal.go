@@ -2019,6 +2019,10 @@ func (m *ApiKeyAuth) Equal(that interface{}) bool {
 
 	}
 
+	if m.GetEnableDataPlaneMetadataValidation() != target.GetEnableDataPlaneMetadataValidation() {
+		return false
+	}
+
 	switch m.StorageBackend.(type) {
 
 	case *ApiKeyAuth_K8SSecretApikeyStorage:
@@ -5913,6 +5917,10 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig) Equal(that interface{}) bool {
 			return false
 		}
 
+	}
+
+	if m.GetEnableDataPlaneMetadataValidation() != target.GetEnableDataPlaneMetadataValidation() {
+		return false
 	}
 
 	switch m.StorageBackend.(type) {
