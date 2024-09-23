@@ -2348,6 +2348,26 @@ func (m *ApiKeyAuth) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	if h, ok := interface{}(m.GetMetadataValidation()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("MetadataValidation")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetMetadataValidation(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("MetadataValidation")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	switch m.StorageBackend.(type) {
 
 	case *ApiKeyAuth_K8SSecretApikeyStorage:
@@ -5286,6 +5306,47 @@ func (m *ApiKeyAuth_MetadataEntry) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
+func (m *ApiKeyAuth_MetaDataValidation) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ApiKeyAuth_MetaDataValidation")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetEnableDataPlaneMetadataValidation())
+	if err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetInvalidStatusReturnCode()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("InvalidStatusReturnCode")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetInvalidStatusReturnCode(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("InvalidStatusReturnCode")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *AerospikeApiKeyStorageReadModeSc) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -6644,6 +6705,26 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig) Hash(hasher hash.Hash64) (uint64, error
 			return 0, err
 		}
 
+	}
+
+	if h, ok := interface{}(m.GetMetadataValidation()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("MetadataValidation")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetMetadataValidation(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("MetadataValidation")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
 	}
 
 	switch m.StorageBackend.(type) {
@@ -8005,6 +8086,47 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Hash(hasher hash.Hash64) (u
 			return 0, err
 		}
 
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *ExtAuthConfig_ApiKeyAuthConfig_MetaDataValidation) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ExtAuthConfig_ApiKeyAuthConfig_MetaDataValidation")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetEnableDataPlaneMetadataValidation())
+	if err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetInvalidStatusReturnCode()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("InvalidStatusReturnCode")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetInvalidStatusReturnCode(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("InvalidStatusReturnCode")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
 	}
 
 	return hasher.Sum64(), nil

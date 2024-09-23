@@ -21,6 +21,8 @@ import (
 
 	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/type/v3"
+
 	github_com_solo_io_solo_kit_pkg_api_v1_resources_core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
@@ -1210,6 +1212,12 @@ func (m *ApiKeyAuth) Clone() proto.Message {
 			}
 
 		}
+	}
+
+	if h, ok := interface{}(m.GetMetadataValidation()).(clone.Cloner); ok {
+		target.MetadataValidation = h.Clone().(*ApiKeyAuth_MetaDataValidation)
+	} else {
+		target.MetadataValidation = proto.Clone(m.GetMetadataValidation()).(*ApiKeyAuth_MetaDataValidation)
 	}
 
 	switch m.StorageBackend.(type) {
@@ -2788,6 +2796,25 @@ func (m *ApiKeyAuth_MetadataEntry) Clone() proto.Message {
 }
 
 // Clone function
+func (m *ApiKeyAuth_MetaDataValidation) Clone() proto.Message {
+	var target *ApiKeyAuth_MetaDataValidation
+	if m == nil {
+		return target
+	}
+	target = &ApiKeyAuth_MetaDataValidation{}
+
+	target.EnableDataPlaneMetadataValidation = m.GetEnableDataPlaneMetadataValidation()
+
+	if h, ok := interface{}(m.GetInvalidStatusReturnCode()).(clone.Cloner); ok {
+		target.InvalidStatusReturnCode = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_v3.HttpStatus)
+	} else {
+		target.InvalidStatusReturnCode = proto.Clone(m.GetInvalidStatusReturnCode()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_v3.HttpStatus)
+	}
+
+	return target
+}
+
+// Clone function
 func (m *AerospikeApiKeyStorageReadModeSc) Clone() proto.Message {
 	var target *AerospikeApiKeyStorageReadModeSc
 	if m == nil {
@@ -3491,6 +3518,12 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig) Clone() proto.Message {
 			target.HeadersFromKeyMetadata[k] = v
 
 		}
+	}
+
+	if h, ok := interface{}(m.GetMetadataValidation()).(clone.Cloner); ok {
+		target.MetadataValidation = h.Clone().(*ExtAuthConfig_ApiKeyAuthConfig_MetaDataValidation)
+	} else {
+		target.MetadataValidation = proto.Clone(m.GetMetadataValidation()).(*ExtAuthConfig_ApiKeyAuthConfig_MetaDataValidation)
 	}
 
 	switch m.StorageBackend.(type) {
@@ -4247,6 +4280,25 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Clone() proto.Message {
 			target.Metadata[k] = v
 
 		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ExtAuthConfig_ApiKeyAuthConfig_MetaDataValidation) Clone() proto.Message {
+	var target *ExtAuthConfig_ApiKeyAuthConfig_MetaDataValidation
+	if m == nil {
+		return target
+	}
+	target = &ExtAuthConfig_ApiKeyAuthConfig_MetaDataValidation{}
+
+	target.EnableDataPlaneMetadataValidation = m.GetEnableDataPlaneMetadataValidation()
+
+	if h, ok := interface{}(m.GetInvalidStatusReturnCode()).(clone.Cloner); ok {
+		target.InvalidStatusReturnCode = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_v3.HttpStatus)
+	} else {
+		target.InvalidStatusReturnCode = proto.Clone(m.GetInvalidStatusReturnCode()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_type_v3.HttpStatus)
 	}
 
 	return target
