@@ -4,6 +4,8 @@ package enterprise.gloo.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1";
 
 import "github.com/solo-io/solo-kit/api/v1/ref.proto";
+import "github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/type/v3/http_status.proto";
+
 
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
@@ -1157,6 +1159,9 @@ message ApiKeyAuth {
         // to the request.
         bool required = 2;
     }
+
+        // Skip dataplane validation of header values.
+        bool skip_metadata_validation = 8;
 }
 message K8sSecretApiKeyStorage {
     // Identify all valid API key secrets that match the provided label selector.<br/>
@@ -2109,6 +2114,9 @@ message ExtAuthConfig {
             K8sSecretApiKeyStorage k8s_secret_apikey_storage = 4;
             AerospikeApiKeyStorage aerospike_apikey_storage = 5;
         }
+    
+        // Skip dataplane validation of header values.
+        bool skip_metadata_validation = 6;
     }
 
     message OpaAuthConfig {
