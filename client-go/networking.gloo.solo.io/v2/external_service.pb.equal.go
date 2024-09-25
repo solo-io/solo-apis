@@ -370,6 +370,20 @@ func (m *ExternalServiceSpec_Port_TlsConfig) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetCredentialName(), target.GetCredentialName()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetInsecureSkipVerify()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetInsecureSkipVerify()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetInsecureSkipVerify(), target.GetInsecureSkipVerify()) {
+			return false
+		}
+	}
+
 	return true
 }
 

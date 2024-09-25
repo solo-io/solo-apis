@@ -304,13 +304,13 @@ type RetryTimeoutPolicySpec_Config struct {
 	// </br>**Configuration constraints**:<ul>
 	// <li>The value must be an integer or decimal value and a preferred unit, or multiple of these concatenated.
 	// Examples: `1m`, `1h`, `1.5h`, `1s500ms`</li>
-	// <li>The value cannot have granularity smaller than milliseconds.</li>
+	// <li>The value cannot have granularity smaller than one millisecond.</li>
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
 	//
 	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
-	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than one millisecond."
 	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
 	RequestTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`
 }
@@ -392,13 +392,13 @@ type RetryTimeoutPolicySpec_Config_RetryPolicy struct {
 	// <li>If `attempts` is 0, this field must not be set.</li>
 	// <li>The value must be an integer or decimal value and a preferred unit, or multiple of these concatenated.
 	// Examples: `1m`, `1h`, `1.5h`, `1s500ms`</li></ul></li>
-	// <li>The value cannot have granularity smaller than milliseconds.</li>
+	// <li>The value cannot have granularity smaller than one millisecond.</li>
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
 	//
 	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
-	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than one millisecond."
 	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
 	PerTryTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=per_try_timeout,json=perTryTimeout,proto3" json:"per_try_timeout,omitempty"`
 	// The conditions under which a retry takes place.

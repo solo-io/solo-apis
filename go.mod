@@ -19,7 +19,7 @@ require (
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.53.0 // indirect
 	github.com/rotisserie/eris v0.5.4
-	github.com/solo-io/go-utils v0.25.1 // indirect
+	github.com/solo-io/go-utils v0.25.3 // indirect
 	github.com/solo-io/protoc-gen-ext v0.0.24
 	github.com/solo-io/skv2 v0.40.5
 	github.com/solo-io/solo-kit v0.35.0

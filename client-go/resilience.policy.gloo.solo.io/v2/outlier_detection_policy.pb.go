@@ -253,7 +253,7 @@ type OutlierDetectionPolicySpec_Config struct {
 	// </br>**Configuration constraints**:<ul>
 	// <li>The value must be an integer or decimal value and a preferred unit, or multiple of these concatenated.
 	// Examples: `1m`, `1h`, `1.5h`, `1s500ms`</li>
-	// <li>The value cannot have granularity smaller than milliseconds.</li>
+	// <li>The value cannot have granularity smaller than one millisecond.</li>
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
@@ -265,7 +265,7 @@ type OutlierDetectionPolicySpec_Config struct {
 	// </br>**Configuration constraints**:<ul>
 	// <li>The value must be an integer or decimal value and a preferred unit, or multiple of these concatenated.
 	// Examples: `1m`, `1h`, `1.5h`, `1s500ms`</li>
-	// <li>The value cannot have granularity smaller than milliseconds.</li>
+	// <li>The value cannot have granularity smaller than one millisecond.</li>
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>

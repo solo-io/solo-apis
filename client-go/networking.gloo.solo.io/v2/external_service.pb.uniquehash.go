@@ -570,6 +570,33 @@ func (m *ExternalServiceSpec_Port_TlsConfig) HashUnique(hasher hash.Hash64) (uin
 		return 0, err
 	}
 
+	if _, err = hasher.Write([]byte("CredentialName")); err != nil {
+		return 0, err
+	}
+	if _, err = hasher.Write([]byte(m.GetCredentialName())); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetInsecureSkipVerify()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("InsecureSkipVerify")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetInsecureSkipVerify(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("InsecureSkipVerify")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return hasher.Sum64(), nil
 }
 

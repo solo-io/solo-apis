@@ -14,6 +14,8 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -236,6 +238,14 @@ func (m *ExternalServiceSpec_Port_TlsConfig) Clone() proto.Message {
 	target.PrivateKey = m.GetPrivateKey()
 
 	target.CaCertificates = m.GetCaCertificates()
+
+	target.CredentialName = m.GetCredentialName()
+
+	if h, ok := interface{}(m.GetInsecureSkipVerify()).(clone.Cloner); ok {
+		target.InsecureSkipVerify = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
+	} else {
+		target.InsecureSkipVerify = proto.Clone(m.GetInsecureSkipVerify()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
+	}
 
 	return target
 }
