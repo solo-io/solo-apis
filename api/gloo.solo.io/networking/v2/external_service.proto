@@ -6,6 +6,7 @@ import "extproto/ext.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/port.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2";
 
@@ -105,6 +106,14 @@ message ExternalServiceSpec {
       // The file path to the file containing CA certificates used to verify server certificates, which should be mounted onto the proxy of the specific workload communicating with the external service.
       // If omitted, the proxy will not verify the server’s certificate.
       string ca_certificates = 5;
+
+      // The path to the file containing certificate authority certificates to use in verifying a presented server certificate.
+      // Should be empty if mode is ISTIO_MUTUAL.
+      string credential_name = 6;
+
+      // insecureSkipVerify specifies whether the proxy should skip verifying the CA signature and SAN for the server certificate corresponding to the host. 
+      // The default value of this field is false.
+      google.protobuf.BoolValue insecure_skip_verify = 7; 
 
       enum TLSMode {
         SIMPLE = 0;

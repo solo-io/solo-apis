@@ -137,9 +137,9 @@ An expression specified by the `+kubebuilder:validation:XValidation:` marker can
 
 1. `rule` [required]: e.g., `// +kubebuilder:validation:XValidation:rule="self.x > 0"`
 
-1. `message` [optional]: e.g., `// +kubebuilder:validation:XValidation:rule="self.x > 0",message="x must be greater than 0"`
+1. `message` [optional]: e.g., `// +kubebuilder:validation:XValidation:rule="self.x > 0",message="x must be greater than 0."`
 
-1. `messageExpression` [optional]: e.g., `// +kubebuilder:validation:XValidation:rule="self.x > 0",messageExpression="'x must be greater than 0, got: ' + string(self.x)"`
+1. `messageExpression` [optional]: e.g., `// +kubebuilder:validation:XValidation:rule="self.x > 0",messageExpression="'x must be greater than 0, got: \\'' + string(self.x) + '\\'.'"`
   > Note: single quotes must be used within the double quoted value of a `messageExpression`.
 
 
@@ -147,8 +147,8 @@ Multiple expressions for a message or field may be grouped together:
 ```proto
 // This is a top-level message.
 //
-// +kubebuilder:validation:XValidation:rule="self.x > 5",message="x must be greater than 5"
-// +kubebuilder:validation:XValidation:rule="has(self.foo) && self.foo.baz != 'invalid'",messageExpression="'foo.baz is invalid:' + self.foo.baz"
+// +kubebuilder:validation:XValidation:rule="self.x > 5",message="x must be greater than 5."
+// +kubebuilder:validation:XValidation:rule="has(self.foo) && self.foo.baz != 'invalid'",messageExpression="'foo.baz is invalid:\\'' + self.foo.baz + '\\'.'"
 message Msg {
   ...
 }
@@ -164,7 +164,7 @@ package test;
 
 // This is a top-level message.
 //
-// +kubebuilder:validation:XValidation:rule="self.x > 5",message="x must be greater than 5"
+// +kubebuilder:validation:XValidation:rule="self.x > 5",message="x must be greater than 5."
 message Msg {
 
   // x is an integer
@@ -174,12 +174,12 @@ message Msg {
   // a is a nested
   // field.
   //
-  // +kubebuilder:validation:XValidation:rule="self.a != ''",message="a cannot be empty"
+  // +kubebuilder:validation:XValidation:rule="self.a != ''",message="a cannot be empty."
   Nested w = 2;
 
   // z is an integer that must be less than 100
   //
-  // +kubebuilder:validation:XValidation:rule="self < 100",messageExpression="'z got invalid value: ' + self"
+  // +kubebuilder:validation:XValidation:rule="self < 100",messageExpression="'z got invalid value: \\'' + string(self) + '\\'.'"
   uint32 z = 3;
 
   // Nested message
@@ -244,9 +244,9 @@ and must only represent durations with granularity greater than or equal to one 
 This can be largely enforced in CEL with the following rules:
 
 ```
-// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="Must be greater than or equal to 1ms"
-// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us')",message="Cannot have granularity smaller than 1 millisecond"
-// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="Cannot have granularity smaller than 1 millisecond"
+// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than one millisecond."
+// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
 ```
 - The first rule is straight forward; it checks that the duration is greater than or equal to 1 millisecond.
 
@@ -269,6 +269,27 @@ However, "1s0.5ns" will still be accepted by k8s and will show up as 1 second in
 
 With the combination of these rules, "1s0.0000001ms" will still be accepted and will result in a 1-second delay.
 
+##### Other google.protobuf.Duration fields
+
+E.g. LoadBalancerPolicy : spec.config.warmupDurationSecs
+
+Fields with the `google.protobuf.Duration` type that are not validated by Istio's `ValidateDuration()` function
+can represent any duration that can be parsed by the [ParseDuration method](https://pkg.go.dev/time#ParseDuration).
+These do not have a minimum or maximum value but must have granularity greater than or equal to one nanosecond.
+
+The CEL `duration()` function, like Istio, will ignore granularities less than one nanosecond.
+For example, `duration('1s0.5ns')` is equal to `duration('1s')`.
+Therefore, the granularity restriction cannot be enforced; "1s0.5ns" will still be accepted by k8s and will show up as 1 second in our generated Istio resource.
+
+However, we can use the following rule to ensure that only valid durations are used:
+```
+// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('0s') || duration(self) < duration('0s')",message="The value must be a valid duration."
+```
+
+Unfortunately, we cannot replace this with `// +kubebuilder:validation:Format=duration` since it also [accepts the day and week units](https://github.com/kubernetes/apiextensions-apiserver/issues/56), `d` and `w`, that Istio does not.
+We could opt for a regex such as [this one](https://github.com/openshift/api/blob/b632c5fc10c0ea86cb18577db9388109a43d465f/machine/v1beta1/types_machinehealthcheck.go#L111),
+but the chosen approach ensures consistency with the rules for the `google.protobuf.Duration` fields that Istio validates.
+
 ##### `has(self.foo)` where `foo` is google.protobuf.Empty or equivalent
 
 E.g. VirtualGateway : spec.listeners.http
@@ -281,7 +302,7 @@ This is needed at least on k8s versions <1.29 due to https://github.com/kubernet
 
 For example, the VirtualGateway resource includes the following:
 ```
-// +kubebuilder:validation:XValidation:rule="!has(self.http) ? !has(self.httpsRedirect) : true",message="if listener type is tcp or unspecified, httpsRedirect must not be set"
+// +kubebuilder:validation:XValidation:rule="!has(self.http) ? !has(self.httpsRedirect) : true",message="If the listener type is tcp (the tcp field is set, or neither the tcp nor http field is set), httpsRedirect must not be set."
 message Listener {
 
     bool https_redirect = 3;
@@ -307,7 +328,7 @@ If the field has a fixed set of valid values that are all less than or equal to 
 
 For example, the VirtualGateway resource includes the following:
 ```
-// +kubebuilder:validation:XValidation:rule="!has(self.appProtocol) || self.appProtocol.upperAscii() in ['GRPC','GRPC-WEB','HTTP','HTTP_PROXY','HTTP2','HTTPS','TCP','TLS','MONGO','REDIS','MYSQL']",message="appProtocol must be one of GRPC, GRPC-WEB, HTTP, HTTP_PROXY, HTTP2, HTTPS, TCP, TLS, MONGO, REDIS, or MYSQL"
+// +kubebuilder:validation:XValidation:rule="!has(self.appProtocol) || self.appProtocol.upperAscii() in ['GRPC','GRPC-WEB','HTTP','HTTP_PROXY','HTTP2','HTTPS','TCP','TLS','MONGO','REDIS','MYSQL']",message="appProtocol must be one of: GRPC, GRPC-WEB, HTTP, HTTP_PROXY, HTTP2, HTTPS, TCP, TLS, MONGO, REDIS, or MYSQL."
 message Listener {
 
     // +kubebuilder:validation:MaxLength=10

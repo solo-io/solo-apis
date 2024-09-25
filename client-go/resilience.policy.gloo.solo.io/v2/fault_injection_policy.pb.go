@@ -423,14 +423,14 @@ type FaultInjectionPolicySpec_Config_Delay struct {
 	// </br>**Configuration constraints**:<ul>
 	// <li>The value must be an integer or decimal value and a preferred unit, or multiple of these concatenated.
 	// Examples: `1m`, `1h`, `1.5h`, `1s500ms`</li>
-	// <li>The value cannot have granularity smaller than milliseconds.</li>
+	// <li>The value cannot have granularity smaller than one millisecond.</li>
 	// <li>The value must be at least 1ms.</li>
 	// <li>For information about the value format,
 	// see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
 	//
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
-	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than milliseconds."
+	// +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than one millisecond."
 	// +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
 	FixedDelay *durationpb.Duration `protobuf:"bytes,1,opt,name=fixed_delay,json=fixedDelay,proto3" json:"fixed_delay,omitempty"`
 	// Delay only a certain percentage of requests. If omitted, all requests are delayed.
