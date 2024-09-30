@@ -42,3 +42,7 @@ done
 
 # convert protos used by skv1 into protos that can be used by skv2.
 go run hack/convert.go
+
+# Gateway2 changes (Go only, no protos)
+mkdir -p ./pkg/api/gateway.gloo.solo.io/
+rsync -ax --delete  ../gloo/projects/gateway2/api/  ./pkg/api/gateway.gloo.solo.io/
