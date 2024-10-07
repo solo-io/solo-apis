@@ -15,6 +15,7 @@ option (extproto.hash_all) = true;
 option (extproto.clone_all) = true;
 
 // Specifications for the policy.
+// $hide_from_docs
 message LuaPolicySpec {
   // Select the routes where the policy will be applied.
   // If empty (`{}`), the policy applies to all routes in the workspace.
@@ -31,6 +32,7 @@ message LuaPolicySpec {
   Config config = 3;
 
   // The details of the Lua policy to apply to the selected routes and destinations.
+  // $hide_from_docs
   message Config {
     // Lua code to be executed by the policy.
     // Both envoy_on_request and envoy_on_response functions are supported.
@@ -49,6 +51,7 @@ message LuaPolicySpec {
 }
 
 // The status of the policy after it is applied to your Gloo environment.Status
+// $hide_from_docs
 message LuaPolicyStatus {
   // The state and workspace conditions of the applied resource.
   .common.gloo.solo.io.Status common = 1;
@@ -61,6 +64,7 @@ message LuaPolicyStatus {
 }
 
 // The report shows the resources that the policy selects after the policy is successfully applied.
+// $hide_from_docs
 message LuaPolicyReport {
   // The status of the resource in each workspace that it exists in.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;

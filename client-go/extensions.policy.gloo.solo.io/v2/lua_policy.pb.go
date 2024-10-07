@@ -25,6 +25,7 @@ const (
 )
 
 // Specifications for the policy.
+// $hide_from_docs
 type LuaPolicySpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -97,6 +98,7 @@ func (x *LuaPolicySpec) GetConfig() *LuaPolicySpec_Config {
 }
 
 // The status of the policy after it is applied to your Gloo environment.Status
+// $hide_from_docs
 type LuaPolicyStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,6 +166,7 @@ func (x *LuaPolicyStatus) GetNumSelectedDestinationPorts() uint32 {
 }
 
 // The report shows the resources that the policy selects after the policy is successfully applied.
+// $hide_from_docs
 type LuaPolicyReport struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -231,6 +234,7 @@ func (x *LuaPolicyReport) GetSelectedDestinationPorts() []*v2.DestinationReferen
 }
 
 // The details of the Lua policy to apply to the selected routes and destinations.
+// $hide_from_docs
 type LuaPolicySpec_Config struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

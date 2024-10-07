@@ -36,7 +36,7 @@ message TransformationPolicySpec {
 
     message RequestTransformation {
 
-      // If set to **true**, recalculate the routing destination and select a new route for transformed requests. 
+      // If set to **true**, recalculate the routing destination and select a new route for transformed requests.
       // For example, if you have a request that is transformed to match a new route, the new route is selected 
       // when calculating the routing destination. The default value is **false**. 
       bool recalculate_routing_destination = 1;

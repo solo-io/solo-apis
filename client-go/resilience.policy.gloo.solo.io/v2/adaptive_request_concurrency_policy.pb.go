@@ -21,7 +21,7 @@
 // * Cap the concurrency limit to a maximum of 6 connections (`maxConcurrencyLimit: 6`), in the case that the calculated concurrency limit exceeds this value.
 // * When the service has 6 concurrent connections, return a 503 HTTP response code to any new client requests (`concurrencyLimitExceededStatus: 503`).
 // * When measuring the minRTT to determine the concurrency limit:
-//   * Gather 1 request latency sample (`requestCount: 1`) in a timefame of 3000ms (`concurrencyUpdateIntervalMillis: 3000`).
+//   * Gather 1 request latency sample (`requestCount: 1`) in a timeframe of 3000ms (`concurrencyUpdateIntervalMillis: 3000`).
 //   * Recalculate the minRTT every 1000ms (`intervalMillis: 1000`).
 //   * Until the latest minRTT measurement is complete, temporarily set the concurrency limit to 6 connections (`minConcurrency: 6`).
 //   * Do not add a jitter (random delay) to the start of each minRTT measurement (`jitterPercentile: 0`).
@@ -65,6 +65,7 @@ type AdaptiveRequestConcurrencyPolicySpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Destinations to apply the concurrency limit to.
+	// Note that external services are not supported as destinations with this policy.
 	// If empty, the policy applies to all destinations in the workspace.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// Details of the policy to apply to the selected destinations.
