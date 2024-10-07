@@ -260,7 +260,7 @@ type AccessPolicySpec struct {
 	// {{< /alert >}}
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// Workloads to apply the policy to. For security reasons,
-	// this field is prefered over `applyToDestinations`. If an empty selector is
+	// this field is preferred over `applyToDestinations`. If an empty selector is
 	// provided in the list, the policy applies to all workloads in a namespace, cluster,
 	// and workspace that are available in the parent object's workspace.
 	ApplyToWorkloads []*AccessPolicySpec_NamespaceWorkloadSelector `protobuf:"bytes,3,rep,name=apply_to_workloads,json=applyToWorkloads,proto3" json:"apply_to_workloads,omitempty"`
