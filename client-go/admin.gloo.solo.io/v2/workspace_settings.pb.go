@@ -561,7 +561,7 @@ type WorkspaceSettingsSpec_Options struct {
 	// ports are defined.
 	EastWestGateways []*WorkspaceSettingsSpec_Options_EastWestGatewaySelector `protobuf:"bytes,3,rep,name=east_west_gateways,json=eastWestGateways,proto3" json:"east_west_gateways,omitempty"`
 	// Optional: Virtual destination client mode determines how VirtualDestinations will be translated.
-	// If nil, the default value of auto mode will be used. Any configuration here can be overriden
+	// If nil, the default value of auto mode will be used. Any configuration here can be overridden
 	// on any individual virtual destination. The settings defined here apply to both user-provided
 	// VirtualDestinations and those generated internally when federation is enabled.
 	VirtualDestClientMode *v2.ClientMode `protobuf:"bytes,4,opt,name=virtual_dest_client_mode,json=virtualDestClientMode,proto3" json:"virtual_dest_client_mode,omitempty"`
@@ -572,6 +572,7 @@ type WorkspaceSettingsSpec_Options struct {
 	// You can add destinations back into the sidecar proxy config
 	// by enabling the `serviceIsolation.trimProxyConfig` field in the workspace settings or by using a `TrimProxyConfigPolicy`.
 	// The preferred way is the `TrimProxyConfigPolicy`, which gives you more fine-grained control over the allowed destinations than the workspace-wide `serviceIsolation.trimProxyConfig` setting.
+	// {{< reuse "conrefs/snippets/policies/trim-proxy-workloads-limit.md" >}}
 	// For more information, see the
 	// [Trim proxy config guide](https://docs.solo.io/gloo-mesh-enterprise/latest/resiliency/trim-proxy-config/workspace-service-isolation/).
 	TrimAllProxyConfig bool `protobuf:"varint,5,opt,name=trim_all_proxy_config,json=trimAllProxyConfig,proto3" json:"trim_all_proxy_config,omitempty"`
@@ -745,6 +746,7 @@ type WorkspaceSettingsSpec_Options_ServiceIsolation struct {
 	// When enabled, trim the outbound config from the Istio sidecar proxies for any destination outside the workspace.
 	// The sidecar proxies keep the configuration for all destinations in the workspace (including imported destinations).
 	// To trim proxies for specific destinations with the workspace, you can use the `TrimProxyConfigPolicy` instead.
+	// {{< reuse "conrefs/snippets/policies/trim-proxy-workloads-limit.md" >}}
 	TrimProxyConfig *wrapperspb.BoolValue `protobuf:"bytes,2,opt,name=trim_proxy_config,json=trimProxyConfig,proto3" json:"trim_proxy_config,omitempty"`
 	// Optional: When NetworkPolicy translation is enabled, by default, all available layers will be used to enforce Service Isolation.
 	// You can optionally explicitly define which available layers will enforce Service Isolation. Only the layers set here will be used.

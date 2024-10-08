@@ -253,7 +253,7 @@ message WorkspaceSettingsSpec {
     repeated EastWestGatewaySelector east_west_gateways = 3;
 
     // Optional: Virtual destination client mode determines how VirtualDestinations will be translated.
-    // If nil, the default value of auto mode will be used. Any configuration here can be overriden
+    // If nil, the default value of auto mode will be used. Any configuration here can be overridden
     // on any individual virtual destination. The settings defined here apply to both user-provided
     // VirtualDestinations and those generated internally when federation is enabled.
     .common.gloo.solo.io.ClientMode virtual_dest_client_mode = 4;
@@ -265,6 +265,7 @@ message WorkspaceSettingsSpec {
     // You can add destinations back into the sidecar proxy config
     // by enabling the `serviceIsolation.trimProxyConfig` field in the workspace settings or by using a `TrimProxyConfigPolicy`.
     // The preferred way is the `TrimProxyConfigPolicy`, which gives you more fine-grained control over the allowed destinations than the workspace-wide `serviceIsolation.trimProxyConfig` setting.
+    // {{< reuse "conrefs/snippets/policies/trim-proxy-workloads-limit.md" >}}
     // For more information, see the
     // [Trim proxy config guide](https://docs.solo.io/gloo-mesh-enterprise/latest/resiliency/trim-proxy-config/workspace-service-isolation/).
     bool trim_all_proxy_config = 5;
@@ -277,6 +278,7 @@ message WorkspaceSettingsSpec {
       // When enabled, trim the outbound config from the Istio sidecar proxies for any destination outside the workspace.
       // The sidecar proxies keep the configuration for all destinations in the workspace (including imported destinations).
       // To trim proxies for specific destinations with the workspace, you can use the `TrimProxyConfigPolicy` instead.
+      // {{< reuse "conrefs/snippets/policies/trim-proxy-workloads-limit.md" >}}
       google.protobuf.BoolValue trim_proxy_config = 2;
 
       // Optional: When NetworkPolicy translation is enabled, by default, all available layers will be used to enforce Service Isolation.

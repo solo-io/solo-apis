@@ -10,10 +10,10 @@
 // selectors are applied to the translated Istio AuthorizationPolicy resource directly,
 // destination selectors require the translation of the selected destination first
 // before the access policy is enforced. This can lead to a window where traffic is unsecured
-// if a new destination is added to the cluster. However, keep in mind that workloads selectors
+// if a new destination is added to the cluster. However, keep in mind that workload selector
 // cannot be used when service isolation is enabled in your workspace.
-// If service isolation is enabled, you must use destination selectors
-// instead.
+// If service isolation is enabled, you must use destination selectors instead.
+// Note that virtual destinations are not supported as destinations with this policy.
 //
 // ## Examples
 // The following example is for a simple access policy that allows
@@ -250,15 +250,17 @@ type AccessPolicySpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Destinations to apply the policy to. If `applyToWorkloads` is non-empty,
-	// this field is ignored. If this field and `applyToWorkloads` are both empty,
+	// Destinations to apply the policy to.
+	// Note that virtual destinations are not supported as destinations with this policy.
+	// If `applyToWorkloads` is non-empty, this field is ignored.
+	// If this field and `applyToWorkloads` are both empty,
 	// the policy applies to all ports on all destinations in the workspace.
 	// {{< alert context="info" >}}
 	// For security reasons, <code>applyToWorkloads</code> is preferred.
 	// {{< /alert >}}
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// Workloads to apply the policy to. For security reasons,
-	// this field is prefered over `applyToDestinations`. If an empty selector is
+	// this field is preferred over `applyToDestinations`. If an empty selector is
 	// provided in the list, the policy applies to all workloads in a namespace, cluster,
 	// and workspace that are available in the parent object's workspace.
 	ApplyToWorkloads []*AccessPolicySpec_NamespaceWorkloadSelector `protobuf:"bytes,3,rep,name=apply_to_workloads,json=applyToWorkloads,proto3" json:"apply_to_workloads,omitempty"`
