@@ -175,9 +175,9 @@ option (extproto.clone_all) = true;
 // Specifications for the policy.
 message AccessPolicySpec {
 
-  // Destinations to apply the policy to. 
+  // Destinations to apply the policy to.
   // Note that virtual destinations are not supported as destinations with this policy.
-  // If `applyToWorkloads` is non-empty, this field is ignored. 
+  // If `applyToWorkloads` is non-empty, this field is ignored.
   // If this field and `applyToWorkloads` are both empty,
   // the policy applies to all ports on all destinations in the workspace.
   // {{< alert context="info" >}}
@@ -186,7 +186,7 @@ message AccessPolicySpec {
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
 
   // Workloads to apply the policy to. For security reasons,
-  // this field is prefered over `applyToDestinations`. If an empty selector is
+  // this field is preferred over `applyToDestinations`. If an empty selector is
   // provided in the list, the policy applies to all workloads in a namespace, cluster,
   // and workspace that are available in the parent object's workspace.
   repeated NamespaceWorkloadSelector apply_to_workloads = 3;

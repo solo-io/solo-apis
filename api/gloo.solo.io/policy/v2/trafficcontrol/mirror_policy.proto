@@ -50,6 +50,6 @@ message MirrorPolicyReport {
   // The status of the resource in each workspace that it exists in.
   map<string, .common.gloo.solo.io.Report> workspaces = 1;
 
-  // A list of references to all rotues selected by the policy.
+  // A list of references to all routes selected by the policy.
   repeated .common.gloo.solo.io.RouteReference selected_routes = 2;
 }
