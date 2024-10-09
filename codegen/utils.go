@@ -67,3 +67,34 @@ func makeGroup(
 		SkipTemplatedCRDManifest:  true, // do not make a copy of crds in templates dir
 	}
 }
+
+func makeGatewayExtensionGroup(groupPrefix, version, kind string) model.Group {
+	res := model.Resource{
+		Kind: kind,
+		Spec: model.Field{
+			Type: model.Type{
+				Name: kind + "Spec",
+			},
+		},
+		StrictUnmarshal: false,
+		Stored:          true,
+	}
+
+	return model.Group{
+		GroupVersion: schema.GroupVersion{
+			Group:   groupPrefix + "." + "solo.io",
+			Version: version,
+		},
+		Module:                    module,
+		Resources:                 []model.Resource{res},
+		RenderManifests:           false,
+		RenderTypes:               false,
+		RenderClients:             true,
+		RenderController:          false,
+		MockgenDirective:          false,
+		ApiRoot:                   apiRoot,
+		SkipSpecHash:              true,
+		SkipConditionalCRDLoading: true,
+		SkipTemplatedCRDManifest:  true,
+	}
+}

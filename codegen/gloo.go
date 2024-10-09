@@ -1,7 +1,7 @@
 package codegen
 
 import (
-	"io/ioutil"
+	"os"
 
 	"github.com/solo-io/skv2/codegen/model"
 	"github.com/solo-io/skv2/codegen/util"
@@ -9,6 +9,7 @@ import (
 
 func init() {
 	groups = append(groups, GlooGroups()...)
+	groups = append(groups, GlooGatewayExtensionGroups()...)
 }
 
 func GlooGroups() []model.Group {
@@ -45,6 +46,12 @@ func GlooGroups() []model.Group {
 	}
 }
 
+func GlooGatewayExtensionGroups() []model.Group {
+	return []model.Group{
+		makeGatewayExtensionGroup("gateway.gloo", "v1alpha1", "GatewayParameters"),
+	}
+}
+
 // Gloo resources, backed by solo-kit, support reporting statuses for multiple controllers (1 per namespace)
 // Gloo-Fed resources, backed by skv2, do not yet. To reduce the complexity of the change, we
 // chose to not introduce namespaced statuses support for gloo-fed resources as part of this PR.
@@ -63,7 +70,7 @@ const (
 JsonStatuses custom template
 */
 var JsonStatuses = func() model.CustomTemplates {
-	templateContentsBytes, err := ioutil.ReadFile(templatesDir + GlooJsonCustomTemplatePath)
+	templateContentsBytes, err := os.ReadFile(templatesDir + GlooJsonCustomTemplatePath)
 	if err != nil {
 		panic(err)
 	}
