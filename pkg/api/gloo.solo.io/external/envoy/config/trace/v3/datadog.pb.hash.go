@@ -26,6 +26,62 @@ var (
 )
 
 // Hash function
+func (m *DatadogRemoteConfig) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("solo.io.envoy.config.trace.v3.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/trace/v3.DatadogRemoteConfig")); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetPollingInterval()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("PollingInterval")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetPollingInterval(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("PollingInterval")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if h, ok := interface{}(m.GetDisabled()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Disabled")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetDisabled(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Disabled")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
 func (m *DatadogConfig) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -50,6 +106,30 @@ func (m *DatadogConfig) Hash(hasher hash.Hash64) (uint64, error) {
 			return 0, err
 		} else {
 			if _, err = hasher.Write([]byte("ServiceName")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	if _, err = hasher.Write([]byte(m.GetCollectorHostname())); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetRemoteConfig()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("RemoteConfig")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetRemoteConfig(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("RemoteConfig")); err != nil {
 				return 0, err
 			}
 			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
