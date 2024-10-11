@@ -2261,6 +2261,30 @@ func (m *AerospikeApiKeyStorage) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *DefaultApiKeyStorage) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*DefaultApiKeyStorage)
+	if !ok {
+		that2, ok := that.(DefaultApiKeyStorage)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
 func (m *ApiKey) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -5523,6 +5547,17 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Equal(that interface{}) bool
 		}
 	}
 
+	if len(m.GetDynamicMetadataFromClaims()) != len(target.GetDynamicMetadataFromClaims()) {
+		return false
+	}
+	for k, v := range m.GetDynamicMetadataFromClaims() {
+
+		if strings.Compare(v, target.GetDynamicMetadataFromClaims()[k]) != 0 {
+			return false
+		}
+
+	}
+
 	switch m.Provider.(type) {
 
 	case *ExtAuthConfig_OidcAuthorizationCodeConfig_Default_:
@@ -5598,6 +5633,17 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig) Equal(that interface{}) bool
 		if !proto.Equal(m.GetCacheTimeout(), target.GetCacheTimeout()) {
 			return false
 		}
+	}
+
+	if len(m.GetDynamicMetadataFromClaims()) != len(target.GetDynamicMetadataFromClaims()) {
+		return false
+	}
+	for k, v := range m.GetDynamicMetadataFromClaims() {
+
+		if strings.Compare(v, target.GetDynamicMetadataFromClaims()[k]) != 0 {
+			return false
+		}
+
 	}
 
 	switch m.ValidationType.(type) {
@@ -5951,6 +5997,21 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetAerospikeApikeyStorage(), target.GetAerospikeApikeyStorage()) {
+				return false
+			}
+		}
+
+	case *ExtAuthConfig_ApiKeyAuthConfig_DefaultApikeyStorage:
+		if _, ok := target.StorageBackend.(*ExtAuthConfig_ApiKeyAuthConfig_DefaultApikeyStorage); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetDefaultApikeyStorage()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetDefaultApikeyStorage()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetDefaultApikeyStorage(), target.GetDefaultApikeyStorage()) {
 				return false
 			}
 		}
