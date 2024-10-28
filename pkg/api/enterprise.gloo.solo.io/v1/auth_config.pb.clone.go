@@ -753,6 +753,33 @@ func (m *ClaimToHeader) Clone() proto.Message {
 }
 
 // Clone function
+func (m *Azure) Clone() proto.Message {
+	var target *Azure
+	if m == nil {
+		return target
+	}
+	target = &Azure{}
+
+	target.ClientId = m.GetClientId()
+
+	target.TenantId = m.GetTenantId()
+
+	if h, ok := interface{}(m.GetClientSecret()).(clone.Cloner); ok {
+		target.ClientSecret = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
+	} else {
+		target.ClientSecret = proto.Clone(m.GetClientSecret()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
+	}
+
+	if h, ok := interface{}(m.GetClaimsCachingOptions()).(clone.Cloner); ok {
+		target.ClaimsCachingOptions = h.Clone().(*RedisOptions)
+	} else {
+		target.ClaimsCachingOptions = proto.Clone(m.GetClaimsCachingOptions()).(*RedisOptions)
+	}
+
+	return target
+}
+
+// Clone function
 func (m *OidcAuthorizationCode) Clone() proto.Message {
 	var target *OidcAuthorizationCode
 	if m == nil {
@@ -904,15 +931,15 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 			}
 		}
 
-	case *OidcAuthorizationCode_Azure_:
+	case *OidcAuthorizationCode_Azure:
 
 		if h, ok := interface{}(m.GetAzure()).(clone.Cloner); ok {
-			target.Provider = &OidcAuthorizationCode_Azure_{
-				Azure: h.Clone().(*OidcAuthorizationCode_Azure),
+			target.Provider = &OidcAuthorizationCode_Azure{
+				Azure: h.Clone().(*Azure),
 			}
 		} else {
-			target.Provider = &OidcAuthorizationCode_Azure_{
-				Azure: proto.Clone(m.GetAzure()).(*OidcAuthorizationCode_Azure),
+			target.Provider = &OidcAuthorizationCode_Azure{
+				Azure: proto.Clone(m.GetAzure()).(*Azure),
 			}
 		}
 
@@ -1088,6 +1115,19 @@ func (m *AccessTokenValidation) Clone() proto.Message {
 		}
 	}
 
+	if m.GetClaimsToHeaders() != nil {
+		target.ClaimsToHeaders = make([]*ClaimToHeader, len(m.GetClaimsToHeaders()))
+		for idx, v := range m.GetClaimsToHeaders() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ClaimsToHeaders[idx] = h.Clone().(*ClaimToHeader)
+			} else {
+				target.ClaimsToHeaders[idx] = proto.Clone(v).(*ClaimToHeader)
+			}
+
+		}
+	}
+
 	switch m.ValidationType.(type) {
 
 	case *AccessTokenValidation_IntrospectionUrl:
@@ -1133,6 +1173,34 @@ func (m *AccessTokenValidation) Clone() proto.Message {
 		} else {
 			target.ScopeValidation = &AccessTokenValidation_RequiredScopes{
 				RequiredScopes: proto.Clone(m.GetRequiredScopes()).(*AccessTokenValidation_ScopeList),
+			}
+		}
+
+	}
+
+	switch m.Provider.(type) {
+
+	case *AccessTokenValidation_Default_:
+
+		if h, ok := interface{}(m.GetDefault()).(clone.Cloner); ok {
+			target.Provider = &AccessTokenValidation_Default_{
+				Default: h.Clone().(*AccessTokenValidation_Default),
+			}
+		} else {
+			target.Provider = &AccessTokenValidation_Default_{
+				Default: proto.Clone(m.GetDefault()).(*AccessTokenValidation_Default),
+			}
+		}
+
+	case *AccessTokenValidation_Azure:
+
+		if h, ok := interface{}(m.GetAzure()).(clone.Cloner); ok {
+			target.Provider = &AccessTokenValidation_Azure{
+				Azure: h.Clone().(*Azure),
+			}
+		} else {
+			target.Provider = &AccessTokenValidation_Azure{
+				Azure: proto.Clone(m.GetAzure()).(*Azure),
 			}
 		}
 
@@ -2622,33 +2690,6 @@ func (m *OidcAuthorizationCode_Default) Clone() proto.Message {
 }
 
 // Clone function
-func (m *OidcAuthorizationCode_Azure) Clone() proto.Message {
-	var target *OidcAuthorizationCode_Azure
-	if m == nil {
-		return target
-	}
-	target = &OidcAuthorizationCode_Azure{}
-
-	target.ClientId = m.GetClientId()
-
-	target.TenantId = m.GetTenantId()
-
-	if h, ok := interface{}(m.GetClientSecret()).(clone.Cloner); ok {
-		target.ClientSecret = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
-	} else {
-		target.ClientSecret = proto.Clone(m.GetClientSecret()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
-	}
-
-	if h, ok := interface{}(m.GetClaimsCachingOptions()).(clone.Cloner); ok {
-		target.ClaimsCachingOptions = h.Clone().(*RedisOptions)
-	} else {
-		target.ClaimsCachingOptions = proto.Clone(m.GetClaimsCachingOptions()).(*RedisOptions)
-	}
-
-	return target
-}
-
-// Clone function
 func (m *OidcAuthorizationCode_FrontChannelLogout) Clone() proto.Message {
 	var target *OidcAuthorizationCode_FrontChannelLogout
 	if m == nil {
@@ -2735,6 +2776,17 @@ func (m *JwtValidation_LocalJwks) Clone() proto.Message {
 	target = &JwtValidation_LocalJwks{}
 
 	target.InlineString = m.GetInlineString()
+
+	return target
+}
+
+// Clone function
+func (m *AccessTokenValidation_Default) Clone() proto.Message {
+	var target *AccessTokenValidation_Default
+	if m == nil {
+		return target
+	}
+	target = &AccessTokenValidation_Default{}
 
 	return target
 }
