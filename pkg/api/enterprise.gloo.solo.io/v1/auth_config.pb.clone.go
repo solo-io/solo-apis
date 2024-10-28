@@ -753,6 +753,33 @@ func (m *ClaimToHeader) Clone() proto.Message {
 }
 
 // Clone function
+func (m *Azure) Clone() proto.Message {
+	var target *Azure
+	if m == nil {
+		return target
+	}
+	target = &Azure{}
+
+	target.ClientId = m.GetClientId()
+
+	target.TenantId = m.GetTenantId()
+
+	if h, ok := interface{}(m.GetClientSecret()).(clone.Cloner); ok {
+		target.ClientSecret = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
+	} else {
+		target.ClientSecret = proto.Clone(m.GetClientSecret()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
+	}
+
+	if h, ok := interface{}(m.GetClaimsCachingOptions()).(clone.Cloner); ok {
+		target.ClaimsCachingOptions = h.Clone().(*RedisOptions)
+	} else {
+		target.ClaimsCachingOptions = proto.Clone(m.GetClaimsCachingOptions()).(*RedisOptions)
+	}
+
+	return target
+}
+
+// Clone function
 func (m *OidcAuthorizationCode) Clone() proto.Message {
 	var target *OidcAuthorizationCode
 	if m == nil {
@@ -904,15 +931,15 @@ func (m *OidcAuthorizationCode) Clone() proto.Message {
 			}
 		}
 
-	case *OidcAuthorizationCode_Azure_:
+	case *OidcAuthorizationCode_Azure:
 
 		if h, ok := interface{}(m.GetAzure()).(clone.Cloner); ok {
-			target.Provider = &OidcAuthorizationCode_Azure_{
-				Azure: h.Clone().(*OidcAuthorizationCode_Azure),
+			target.Provider = &OidcAuthorizationCode_Azure{
+				Azure: h.Clone().(*Azure),
 			}
 		} else {
-			target.Provider = &OidcAuthorizationCode_Azure_{
-				Azure: proto.Clone(m.GetAzure()).(*OidcAuthorizationCode_Azure),
+			target.Provider = &OidcAuthorizationCode_Azure{
+				Azure: proto.Clone(m.GetAzure()).(*Azure),
 			}
 		}
 
@@ -1086,6 +1113,25 @@ func (m *AccessTokenValidation) Clone() proto.Message {
 			target.DynamicMetadataFromClaims[k] = v
 
 		}
+	}
+
+	if m.GetClaimsToHeaders() != nil {
+		target.ClaimsToHeaders = make([]*ClaimToHeader, len(m.GetClaimsToHeaders()))
+		for idx, v := range m.GetClaimsToHeaders() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ClaimsToHeaders[idx] = h.Clone().(*ClaimToHeader)
+			} else {
+				target.ClaimsToHeaders[idx] = proto.Clone(v).(*ClaimToHeader)
+			}
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetAzure()).(clone.Cloner); ok {
+		target.Azure = h.Clone().(*Azure)
+	} else {
+		target.Azure = proto.Clone(m.GetAzure()).(*Azure)
 	}
 
 	switch m.ValidationType.(type) {
@@ -1357,6 +1403,17 @@ func (m *AerospikeApiKeyStorage) Clone() proto.Message {
 		}
 
 	}
+
+	return target
+}
+
+// Clone function
+func (m *ServerDefaultApiKeyStorage) Clone() proto.Message {
+	var target *ServerDefaultApiKeyStorage
+	if m == nil {
+		return target
+	}
+	target = &ServerDefaultApiKeyStorage{}
 
 	return target
 }
@@ -2622,33 +2679,6 @@ func (m *OidcAuthorizationCode_Default) Clone() proto.Message {
 }
 
 // Clone function
-func (m *OidcAuthorizationCode_Azure) Clone() proto.Message {
-	var target *OidcAuthorizationCode_Azure
-	if m == nil {
-		return target
-	}
-	target = &OidcAuthorizationCode_Azure{}
-
-	target.ClientId = m.GetClientId()
-
-	target.TenantId = m.GetTenantId()
-
-	if h, ok := interface{}(m.GetClientSecret()).(clone.Cloner); ok {
-		target.ClientSecret = h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
-	} else {
-		target.ClientSecret = proto.Clone(m.GetClientSecret()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef)
-	}
-
-	if h, ok := interface{}(m.GetClaimsCachingOptions()).(clone.Cloner); ok {
-		target.ClaimsCachingOptions = h.Clone().(*RedisOptions)
-	} else {
-		target.ClaimsCachingOptions = proto.Clone(m.GetClaimsCachingOptions()).(*RedisOptions)
-	}
-
-	return target
-}
-
-// Clone function
 func (m *OidcAuthorizationCode_FrontChannelLogout) Clone() proto.Message {
 	var target *OidcAuthorizationCode_FrontChannelLogout
 	if m == nil {
@@ -3244,6 +3274,15 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Clone() proto.Message {
 		target.FrontChannelLogout = proto.Clone(m.GetFrontChannelLogout()).(*ExtAuthConfig_OidcAuthorizationCodeConfig_FrontChannelLogout)
 	}
 
+	if m.GetDynamicMetadataFromClaims() != nil {
+		target.DynamicMetadataFromClaims = make(map[string]string, len(m.GetDynamicMetadataFromClaims()))
+		for k, v := range m.GetDynamicMetadataFromClaims() {
+
+			target.DynamicMetadataFromClaims[k] = v
+
+		}
+	}
+
 	switch m.Provider.(type) {
 
 	case *ExtAuthConfig_OidcAuthorizationCodeConfig_Default_:
@@ -3289,6 +3328,34 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig) Clone() proto.Message {
 		target.CacheTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
 		target.CacheTimeout = proto.Clone(m.GetCacheTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+	}
+
+	if m.GetDynamicMetadataFromClaims() != nil {
+		target.DynamicMetadataFromClaims = make(map[string]string, len(m.GetDynamicMetadataFromClaims()))
+		for k, v := range m.GetDynamicMetadataFromClaims() {
+
+			target.DynamicMetadataFromClaims[k] = v
+
+		}
+	}
+
+	if m.GetClaimsToHeaders() != nil {
+		target.ClaimsToHeaders = make([]*ClaimToHeader, len(m.GetClaimsToHeaders()))
+		for idx, v := range m.GetClaimsToHeaders() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.ClaimsToHeaders[idx] = h.Clone().(*ClaimToHeader)
+			} else {
+				target.ClaimsToHeaders[idx] = proto.Clone(v).(*ClaimToHeader)
+			}
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetAzure()).(clone.Cloner); ok {
+		target.Azure = h.Clone().(*Azure)
+	} else {
+		target.Azure = proto.Clone(m.GetAzure()).(*Azure)
 	}
 
 	switch m.ValidationType.(type) {
@@ -3520,6 +3587,18 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig) Clone() proto.Message {
 		} else {
 			target.StorageBackend = &ExtAuthConfig_ApiKeyAuthConfig_AerospikeApikeyStorage{
 				AerospikeApikeyStorage: proto.Clone(m.GetAerospikeApikeyStorage()).(*AerospikeApiKeyStorage),
+			}
+		}
+
+	case *ExtAuthConfig_ApiKeyAuthConfig_ServerDefaultApikeyStorage:
+
+		if h, ok := interface{}(m.GetServerDefaultApikeyStorage()).(clone.Cloner); ok {
+			target.StorageBackend = &ExtAuthConfig_ApiKeyAuthConfig_ServerDefaultApikeyStorage{
+				ServerDefaultApikeyStorage: h.Clone().(*ServerDefaultApiKeyStorage),
+			}
+		} else {
+			target.StorageBackend = &ExtAuthConfig_ApiKeyAuthConfig_ServerDefaultApikeyStorage{
+				ServerDefaultApikeyStorage: proto.Clone(m.GetServerDefaultApikeyStorage()).(*ServerDefaultApiKeyStorage),
 			}
 		}
 
