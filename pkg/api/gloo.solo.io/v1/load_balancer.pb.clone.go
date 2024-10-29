@@ -57,6 +57,8 @@ func (m *LoadBalancerConfig) Clone() proto.Message {
 		target.UseHostnameForHashing = proto.Clone(m.GetUseHostnameForHashing()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	}
 
+	target.CloseConnectionsOnHostSetChange = m.GetCloseConnectionsOnHostSetChange()
+
 	switch m.Type.(type) {
 
 	case *LoadBalancerConfig_RoundRobin_:
