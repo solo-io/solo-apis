@@ -540,13 +540,16 @@ type RouteTableSpec struct {
 	// <li>For delegated child route tables, this field must be empty or unset.
 	// The values from the parent route table are always used for destination selection.</li></ul>
 	//
-	// +kubebuilder:validation:XValidation:rule="self.all(s, !has(s.kind) || s.kind == 'KUBE')",message="selector kind must be KUBE or not set"
+	// +kubebuilder:validation:XValidation:rule="self.all(s, !has(s.kind) || s.kind == 'KUBE')",message="Selector kind must be KUBE or not set."
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,10,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// Optional: Routes that do not specify a destination forward traffic to this destination.
 	// This field applies only to `forwardTo` routes.
 	//
-	// </br>**Configuration constraints**: If you define a `http.forwardTo`, `tcp.forwardTo`, or `tls.forwardTo` action that does not specify at least one destination,
-	// you must set this field.
+	// </br>**Configuration constraints**:<ul>
+	// <li>If you define a `http.forwardTo`, `tcp.forwardTo`, or `tls.forwardTo` action that does not specify at least one destination, you must set this field.</li>
+	// <li>The `subset` must not be set to the empty object `{}`.</li></ul>
+	//
+	// +kubebuilder:validation:XValidation:rule="!has(self.subset) || self.subset.size() > 0",message="subset must not be an empty map."
 	DefaultDestination *v2.DestinationReference `protobuf:"bytes,2,opt,name=default_destination,json=defaultDestination,proto3" json:"default_destination,omitempty"`
 	// The HTTP routes that this route table serves. If no routes match the client request,
 	// the client receives a 404 error code. For more information on supported HTTP features, see the
@@ -1218,6 +1221,7 @@ type ForwardToAction struct {
 	//
 	// </br>**Configuration constraints**:<ul>
 	// <li>If `defaultDestination` is empty, you must specify at least one destination in this field.</li>
+	// <li>A destination `subset` must not be set to the empty object `{}`.</li>
 	// <li>You can optionally specify a destination `weight` to indicate the proportion of traffic
 	// to forward to this destination. Weights across all destinations must sum to 100.
 	// If the sum is less than 100, the remainder is distributed across destinations that do not specify a weight,
@@ -1232,7 +1236,8 @@ type ForwardToAction struct {
 	// <li>Invalid example: Port 80 specifies a weight of `50`, port 81 a weight of `50`, and port 82 does not
 	// specify a weight. All weights equal 100, but no remainder exists for port 82.</li></ul></li></ul>
 	//
-	// +kubebuilder:validation:MaxItems=100
+	// +kubebuilder:validation:MaxItems=99
+	// +kubebuilder:validation:XValidation:rule="self.all(d, !has(d.subset) || d.subset.size() > 0)",message="Destination subset must not be an empty map."
 	Destinations []*v2.DestinationReference `protobuf:"bytes,1,rep,name=destinations,proto3" json:"destinations,omitempty"`
 	// Types that are assignable to PathRewriteSpecifier:
 	//
@@ -1812,6 +1817,7 @@ type TLSRoute_TLSForwardToAction struct {
 	//
 	// </br>**Configuration constraints**:<ul>
 	// <li>If `defaultDestination` is empty, you must specify at least one destination in this field.</li>
+	// <li>A destination `subset` must not be set to the empty object `{}`.</li>
 	// <li>You can optionally specify a destination `weight` to indicate the proportion of traffic
 	// to forward to this destination. Weights across all destinations must sum to 100.
 	// If the sum is less than 100, the remainder is distributed across destinations that do not specify a weight,
@@ -1828,7 +1834,8 @@ type TLSRoute_TLSForwardToAction struct {
 	//
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MinItems=1
-	// +kubebuilder:validation:MaxItems=100
+	// +kubebuilder:validation:MaxItems=99
+	// +kubebuilder:validation:XValidation:rule="self.all(d, !has(d.subset) || d.subset.size() > 0)",message="Destination subset must not be an empty map."
 	Destinations []*v2.DestinationReference `protobuf:"bytes,1,rep,name=destinations,proto3" json:"destinations,omitempty"`
 }
 

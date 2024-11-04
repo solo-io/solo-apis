@@ -578,6 +578,13 @@ func (m *JWTPolicySpec_Config_Provider) HashUnique(hasher hash.Hash64) (uint64, 
 		return 0, err
 	}
 
+	if _, err = hasher.Write([]byte("CustomDelimiter")); err != nil {
+		return 0, err
+	}
+	if _, err = hasher.Write([]byte(m.GetCustomDelimiter())); err != nil {
+		return 0, err
+	}
+
 	switch m.JwksSource.(type) {
 
 	case *JWTPolicySpec_Config_Provider_Local:

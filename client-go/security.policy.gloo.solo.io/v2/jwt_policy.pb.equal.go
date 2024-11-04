@@ -382,6 +382,10 @@ func (m *JWTPolicySpec_Config_Provider) Equal(that interface{}) bool {
 		return false
 	}
 
+	if strings.Compare(m.GetCustomDelimiter(), target.GetCustomDelimiter()) != 0 {
+		return false
+	}
+
 	switch m.JwksSource.(type) {
 
 	case *JWTPolicySpec_Config_Provider_Local:

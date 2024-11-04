@@ -498,6 +498,10 @@ func (m *JWTPolicySpec_Config_Provider) Hash(hasher hash.Hash64) (uint64, error)
 		return 0, err
 	}
 
+	if _, err = hasher.Write([]byte(m.GetCustomDelimiter())); err != nil {
+		return 0, err
+	}
+
 	switch m.JwksSource.(type) {
 
 	case *JWTPolicySpec_Config_Provider_Local:
