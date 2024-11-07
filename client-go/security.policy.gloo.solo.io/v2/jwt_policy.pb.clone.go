@@ -251,6 +251,8 @@ func (m *JWTPolicySpec_Config_Provider) Clone() proto.Message {
 
 	target.OutputPayloadToHeader = m.GetOutputPayloadToHeader()
 
+	target.CustomDelimiter = m.GetCustomDelimiter()
+
 	switch m.JwksSource.(type) {
 
 	case *JWTPolicySpec_Config_Provider_Local:

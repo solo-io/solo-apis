@@ -1,6 +1,6 @@
 module github.com/solo-io/solo-apis
 
-go 1.22.4
+go 1.22.7
 
 require (
 	github.com/cncf/xds/go v0.0.0-20240318125728-8a4994d93e50
