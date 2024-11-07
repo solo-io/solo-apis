@@ -1,0 +1,42 @@
+syntax = "proto3";
+package admin.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+
+option go_package = "github.com/solo-io/solo-apis/client-go/admin.gloo.solo.io/v2alpha1";
+
+option (extproto.hash_all) = true;
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+
+// `InsightsConfig` describes the configuration for the Gloo Mesh Core Insight Engine.
+// Define either an list of enabled insights or a list of disabled insights, 
+// based on the insight code.
+// For example, to disable the insight CFG002:
+//```yaml
+// apiVersion: admin.gloo.solo.io/v2alpha1
+// kind: InsightsConfig
+// metadata:
+//   name: insights-config
+//   namespace: gloo-mesh
+// spec:
+//   disabledInsights:
+//     - CFG0002
+//    ```
+message InsightsConfigSpec {
+  // A list of insight codes, such as `CFG0002` that disables insights. If included in this list, insights will not show up in the Gloo Core Dashboard insights list.
+  repeated string disabled_insights = 2;
+}
+
+message InsightsConfigStatus {
+  .common.gloo.solo.io.Status common = 1;
+}
+
+message InsightsConfigReport {
+  .common.gloo.solo.io.Report report = 1;
+}
