@@ -262,6 +262,9 @@ message JWTPolicySpec {
       // If this field is omitted or empty, the payload is not forwarded with the request.
       // To send select claims in the payload in individual headers, use the ClaimsToHeaders field instead.
       string output_payload_to_header = 9;
+
+      // Optional: Specify a custom delimiter to append claims. Defaults to a comma (`,`).
+      string custom_delimiter = 10;
     }
 
     // Set up the provider for the JWT configuration.
