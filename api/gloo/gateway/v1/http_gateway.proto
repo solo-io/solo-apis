@@ -2,6 +2,7 @@ syntax = "proto3";
 package gateway.solo.io;
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1";
 
+import "google/protobuf/struct.proto";
 import "extproto/ext.proto";
 option (extproto.equal_all) = true;
 option (extproto.hash_all) = true;
@@ -12,7 +13,7 @@ import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto";
 import "github.com/solo-io/solo-apis/api/gloo/gloo/v1/http_listener_options.proto";
 
-message HttpGateway {
+message HttpGatewaySpec {
   // Names & namespace refs of the virtual services which contain the actual routes for the gateway.
   // If the list is empty, all virtual services in all namespaces that Gloo watches will apply,
   // with accordance to `ssl` flag on `Gateway` above.
@@ -87,4 +88,36 @@ message VirtualServiceSelectorExpressions {
   // Expressions allow for more flexible virtual service label matching, such as equality-based requirements, set-based requirements, or a combination of both.
   // https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#equality-based-requirement
   repeated Expression expressions = 3;
+}
+
+message HttpGatewayStatus {
+	enum State {
+			// Pending status indicates the resource has not yet been validated
+			Pending = 0;
+			// Accepted indicates the resource has been validated
+			Accepted = 1;
+			// Rejected indicates an invalid configuration by the user
+			// Rejected resources may be propagated to the xDS server depending on their severity
+			Rejected = 2;
+			// Warning indicates a partially invalid configuration by the user
+			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+			Warning = 3;
+	}
+	// State is the enum indicating the state of the resource
+	State state = 1;
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	string reason = 2;
+	// Reference to the reporter who wrote this status
+	string reported_by = 3;
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	map<string, HttpGatewayStatus> subresource_statuses = 4;
+
+	// Opaque details about status results
+	google.protobuf.Struct details = 5;
+}
+
+
+
+message HttpGatewayNamespacedStatuses {
+	map<string, HttpGatewayStatus> statuses = 1;
 }
