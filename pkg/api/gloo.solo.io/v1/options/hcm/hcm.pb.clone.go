@@ -17,6 +17,8 @@ import (
 
 	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
 
+	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_headers "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/headers"
+
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_protocol "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/protocol"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_protocol_upgrade "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/protocol_upgrade"
@@ -256,6 +258,12 @@ func (m *HttpConnectionManagerSettings) Clone() proto.Message {
 		target.AppendXForwardedPort = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
 	} else {
 		target.AppendXForwardedPort = proto.Clone(m.GetAppendXForwardedPort()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
+	if h, ok := interface{}(m.GetEarlyHeaderManipulation()).(clone.Cloner); ok {
+		target.EarlyHeaderManipulation = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_headers.EarlyHeaderManipulation)
+	} else {
+		target.EarlyHeaderManipulation = proto.Clone(m.GetEarlyHeaderManipulation()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_headers.EarlyHeaderManipulation)
 	}
 
 	switch m.HeaderFormat.(type) {
