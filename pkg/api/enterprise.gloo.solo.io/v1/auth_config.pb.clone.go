@@ -1883,10 +1883,10 @@ func (m *PortalAuth) Clone() proto.Message {
 
 	target.ApiKeyHeader = m.GetApiKeyHeader()
 
-	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
-		target.Options = h.Clone().(*RedisOptions)
+	if h, ok := interface{}(m.GetRedisOptions()).(clone.Cloner); ok {
+		target.RedisOptions = h.Clone().(*RedisOptions)
 	} else {
-		target.Options = proto.Clone(m.GetOptions()).(*RedisOptions)
+		target.RedisOptions = proto.Clone(m.GetRedisOptions()).(*RedisOptions)
 	}
 
 	if h, ok := interface{}(m.GetCacheDuration()).(clone.Cloner); ok {
