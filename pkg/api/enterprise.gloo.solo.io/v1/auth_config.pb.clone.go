@@ -1881,16 +1881,18 @@ func (m *PortalAuth) Clone() proto.Message {
 
 	target.Url = m.GetUrl()
 
+	target.ApiKeyHeader = m.GetApiKeyHeader()
+
 	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
 		target.Options = h.Clone().(*RedisOptions)
 	} else {
 		target.Options = proto.Clone(m.GetOptions()).(*RedisOptions)
 	}
 
-	if h, ok := interface{}(m.GetRefreshInterval()).(clone.Cloner); ok {
-		target.RefreshInterval = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+	if h, ok := interface{}(m.GetCacheDuration()).(clone.Cloner); ok {
+		target.CacheDuration = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
 	} else {
-		target.RefreshInterval = proto.Clone(m.GetRefreshInterval()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.CacheDuration = proto.Clone(m.GetCacheDuration()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
 	if h, ok := interface{}(m.GetRequestTimeout()).(clone.Cloner); ok {
