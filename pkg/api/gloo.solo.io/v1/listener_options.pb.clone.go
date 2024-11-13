@@ -90,6 +90,12 @@ func (m *ListenerOptions) Clone() proto.Message {
 		target.ListenerAccessLoggingService = proto.Clone(m.GetListenerAccessLoggingService()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_als.AccessLoggingService)
 	}
 
+	if h, ok := interface{}(m.GetTcpStats()).(clone.Cloner); ok {
+		target.TcpStats = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	} else {
+		target.TcpStats = proto.Clone(m.GetTcpStats()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+	}
+
 	return target
 }
 
