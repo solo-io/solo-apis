@@ -252,7 +252,7 @@ message RouteOptionSpec {
   repeated core.skv2.solo.io.PolicyTargetReference target_refs = 5;
 }
 
-message ListenerOption {
+message ListenerOptionSpec {
 
 
   // Listener options
@@ -266,7 +266,7 @@ message ListenerOption {
   repeated core.skv2.solo.io.PolicyTargetReferenceWithSectionName target_refs = 3;
 }
 
-message HttpListenerOption {
+message HttpListenerOptionSpec {
 
 
   // HttpListener options
@@ -281,7 +281,7 @@ message HttpListenerOption {
 }
 
 
-message VirtualHostOptionStatus {
+message HttpListenerOptionStatus {
 	enum State {
 			// Pending status indicates the resource has not yet been validated
 			Pending = 0;
@@ -301,7 +301,7 @@ message VirtualHostOptionStatus {
 	// Reference to the reporter who wrote this status
 	string reported_by = 3;
 	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
-	map<string, VirtualHostOptionStatus> subresource_statuses = 4;
+	map<string, HttpListenerOptionStatus> subresource_statuses = 4;
 
 	// Opaque details about status results
 	google.protobuf.Struct details = 5;
@@ -309,8 +309,42 @@ message VirtualHostOptionStatus {
 
 
 
-message VirtualHostOptionNamespacedStatuses {
-	map<string, VirtualHostOptionStatus> statuses = 1;
+message HttpListenerOptionNamespacedStatuses {
+	map<string, HttpListenerOptionStatus> statuses = 1;
+}
+
+
+
+message ListenerOptionStatus {
+	enum State {
+			// Pending status indicates the resource has not yet been validated
+			Pending = 0;
+			// Accepted indicates the resource has been validated
+			Accepted = 1;
+			// Rejected indicates an invalid configuration by the user
+			// Rejected resources may be propagated to the xDS server depending on their severity
+			Rejected = 2;
+			// Warning indicates a partially invalid configuration by the user
+			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+			Warning = 3;
+	}
+	// State is the enum indicating the state of the resource
+	State state = 1;
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	string reason = 2;
+	// Reference to the reporter who wrote this status
+	string reported_by = 3;
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	map<string, ListenerOptionStatus> subresource_statuses = 4;
+
+	// Opaque details about status results
+	google.protobuf.Struct details = 5;
+}
+
+
+
+message ListenerOptionNamespacedStatuses {
+	map<string, ListenerOptionStatus> statuses = 1;
 }
 
 
@@ -345,4 +379,38 @@ message RouteOptionStatus {
 
 message RouteOptionNamespacedStatuses {
 	map<string, RouteOptionStatus> statuses = 1;
+}
+
+
+
+message VirtualHostOptionStatus {
+	enum State {
+			// Pending status indicates the resource has not yet been validated
+			Pending = 0;
+			// Accepted indicates the resource has been validated
+			Accepted = 1;
+			// Rejected indicates an invalid configuration by the user
+			// Rejected resources may be propagated to the xDS server depending on their severity
+			Rejected = 2;
+			// Warning indicates a partially invalid configuration by the user
+			// Resources with Warnings may be partially accepted by a controller, depending on the implementation
+			Warning = 3;
+	}
+	// State is the enum indicating the state of the resource
+	State state = 1;
+	// Reason is a description of the error for Rejected resources. If the resource is pending or accepted, this field will be empty
+	string reason = 2;
+	// Reference to the reporter who wrote this status
+	string reported_by = 3;
+	// Reference to statuses (by resource-ref string: "Kind.Namespace.Name") of subresources of the parent resource
+	map<string, VirtualHostOptionStatus> subresource_statuses = 4;
+
+	// Opaque details about status results
+	google.protobuf.Struct details = 5;
+}
+
+
+
+message VirtualHostOptionNamespacedStatuses {
+	map<string, VirtualHostOptionStatus> statuses = 1;
 }
