@@ -31,6 +31,50 @@ func (in *GatewayStatus) DeepCopyInto(out *GatewayStatus) {
 	*out = *p
 }
 
+// DeepCopyInto for the HttpListenerOption.Spec
+func (in *HttpListenerOptionSpec) DeepCopyInto(out *HttpListenerOptionSpec) {
+	var p *HttpListenerOptionSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*HttpListenerOptionSpec)
+	} else {
+		p = proto.Clone(in).(*HttpListenerOptionSpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the HttpListenerOption.Status
+func (in *HttpListenerOptionStatus) DeepCopyInto(out *HttpListenerOptionStatus) {
+	var p *HttpListenerOptionStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*HttpListenerOptionStatus)
+	} else {
+		p = proto.Clone(in).(*HttpListenerOptionStatus)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the ListenerOption.Spec
+func (in *ListenerOptionSpec) DeepCopyInto(out *ListenerOptionSpec) {
+	var p *ListenerOptionSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ListenerOptionSpec)
+	} else {
+		p = proto.Clone(in).(*ListenerOptionSpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the ListenerOption.Status
+func (in *ListenerOptionStatus) DeepCopyInto(out *ListenerOptionStatus) {
+	var p *ListenerOptionStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ListenerOptionStatus)
+	} else {
+		p = proto.Clone(in).(*ListenerOptionStatus)
+	}
+	*out = *p
+}
+
 // DeepCopyInto for the MatchableHttpGateway.Spec
 func (in *MatchableHttpGatewaySpec) DeepCopyInto(out *MatchableHttpGatewaySpec) {
 	var p *MatchableHttpGatewaySpec
@@ -71,6 +115,28 @@ func (in *MatchableTcpGatewayStatus) DeepCopyInto(out *MatchableTcpGatewayStatus
 		p = h.Clone().(*MatchableTcpGatewayStatus)
 	} else {
 		p = proto.Clone(in).(*MatchableTcpGatewayStatus)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the RouteOption.Spec
+func (in *RouteOptionSpec) DeepCopyInto(out *RouteOptionSpec) {
+	var p *RouteOptionSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RouteOptionSpec)
+	} else {
+		p = proto.Clone(in).(*RouteOptionSpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the RouteOption.Status
+func (in *RouteOptionStatus) DeepCopyInto(out *RouteOptionStatus) {
+	var p *RouteOptionStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*RouteOptionStatus)
+	} else {
+		p = proto.Clone(in).(*RouteOptionStatus)
 	}
 	*out = *p
 }
@@ -137,28 +203,6 @@ func (in *VirtualHostOptionStatus) DeepCopyInto(out *VirtualHostOptionStatus) {
 		p = h.Clone().(*VirtualHostOptionStatus)
 	} else {
 		p = proto.Clone(in).(*VirtualHostOptionStatus)
-	}
-	*out = *p
-}
-
-// DeepCopyInto for the RouteOption.Spec
-func (in *RouteOptionSpec) DeepCopyInto(out *RouteOptionSpec) {
-	var p *RouteOptionSpec
-	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*RouteOptionSpec)
-	} else {
-		p = proto.Clone(in).(*RouteOptionSpec)
-	}
-	*out = *p
-}
-
-// DeepCopyInto for the RouteOption.Status
-func (in *RouteOptionStatus) DeepCopyInto(out *RouteOptionStatus) {
-	var p *RouteOptionStatus
-	if h, ok := interface{}(in).(clone.Cloner); ok {
-		p = h.Clone().(*RouteOptionStatus)
-	} else {
-		p = proto.Clone(in).(*RouteOptionStatus)
 	}
 	*out = *p
 }

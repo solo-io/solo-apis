@@ -124,6 +124,220 @@ func (h genericGatewayHandler) Generic(object client.Object) error {
 	return h.handler.GenericGateway(obj)
 }
 
+// Handle events for the HttpListenerOption Resource
+// DEPRECATED: Prefer reconciler pattern.
+type HttpListenerOptionEventHandler interface {
+	CreateHttpListenerOption(obj *gateway_solo_io_v1.HttpListenerOption) error
+	UpdateHttpListenerOption(old, new *gateway_solo_io_v1.HttpListenerOption) error
+	DeleteHttpListenerOption(obj *gateway_solo_io_v1.HttpListenerOption) error
+	GenericHttpListenerOption(obj *gateway_solo_io_v1.HttpListenerOption) error
+}
+
+type HttpListenerOptionEventHandlerFuncs struct {
+	OnCreate  func(obj *gateway_solo_io_v1.HttpListenerOption) error
+	OnUpdate  func(old, new *gateway_solo_io_v1.HttpListenerOption) error
+	OnDelete  func(obj *gateway_solo_io_v1.HttpListenerOption) error
+	OnGeneric func(obj *gateway_solo_io_v1.HttpListenerOption) error
+}
+
+func (f *HttpListenerOptionEventHandlerFuncs) CreateHttpListenerOption(obj *gateway_solo_io_v1.HttpListenerOption) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *HttpListenerOptionEventHandlerFuncs) DeleteHttpListenerOption(obj *gateway_solo_io_v1.HttpListenerOption) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *HttpListenerOptionEventHandlerFuncs) UpdateHttpListenerOption(objOld, objNew *gateway_solo_io_v1.HttpListenerOption) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *HttpListenerOptionEventHandlerFuncs) GenericHttpListenerOption(obj *gateway_solo_io_v1.HttpListenerOption) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type HttpListenerOptionEventWatcher interface {
+	AddEventHandler(ctx context.Context, h HttpListenerOptionEventHandler, predicates ...predicate.Predicate) error
+}
+
+type httpListenerOptionEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewHttpListenerOptionEventWatcher(name string, mgr manager.Manager) HttpListenerOptionEventWatcher {
+	return &httpListenerOptionEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &gateway_solo_io_v1.HttpListenerOption{}),
+	}
+}
+
+func (c *httpListenerOptionEventWatcher) AddEventHandler(ctx context.Context, h HttpListenerOptionEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericHttpListenerOptionHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericHttpListenerOptionHandler implements a generic events.EventHandler
+type genericHttpListenerOptionHandler struct {
+	handler HttpListenerOptionEventHandler
+}
+
+func (h genericHttpListenerOptionHandler) Create(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.HttpListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: HttpListenerOption handler received event for %T", object)
+	}
+	return h.handler.CreateHttpListenerOption(obj)
+}
+
+func (h genericHttpListenerOptionHandler) Delete(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.HttpListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: HttpListenerOption handler received event for %T", object)
+	}
+	return h.handler.DeleteHttpListenerOption(obj)
+}
+
+func (h genericHttpListenerOptionHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*gateway_solo_io_v1.HttpListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: HttpListenerOption handler received event for %T", old)
+	}
+	objNew, ok := new.(*gateway_solo_io_v1.HttpListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: HttpListenerOption handler received event for %T", new)
+	}
+	return h.handler.UpdateHttpListenerOption(objOld, objNew)
+}
+
+func (h genericHttpListenerOptionHandler) Generic(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.HttpListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: HttpListenerOption handler received event for %T", object)
+	}
+	return h.handler.GenericHttpListenerOption(obj)
+}
+
+// Handle events for the ListenerOption Resource
+// DEPRECATED: Prefer reconciler pattern.
+type ListenerOptionEventHandler interface {
+	CreateListenerOption(obj *gateway_solo_io_v1.ListenerOption) error
+	UpdateListenerOption(old, new *gateway_solo_io_v1.ListenerOption) error
+	DeleteListenerOption(obj *gateway_solo_io_v1.ListenerOption) error
+	GenericListenerOption(obj *gateway_solo_io_v1.ListenerOption) error
+}
+
+type ListenerOptionEventHandlerFuncs struct {
+	OnCreate  func(obj *gateway_solo_io_v1.ListenerOption) error
+	OnUpdate  func(old, new *gateway_solo_io_v1.ListenerOption) error
+	OnDelete  func(obj *gateway_solo_io_v1.ListenerOption) error
+	OnGeneric func(obj *gateway_solo_io_v1.ListenerOption) error
+}
+
+func (f *ListenerOptionEventHandlerFuncs) CreateListenerOption(obj *gateway_solo_io_v1.ListenerOption) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *ListenerOptionEventHandlerFuncs) DeleteListenerOption(obj *gateway_solo_io_v1.ListenerOption) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *ListenerOptionEventHandlerFuncs) UpdateListenerOption(objOld, objNew *gateway_solo_io_v1.ListenerOption) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *ListenerOptionEventHandlerFuncs) GenericListenerOption(obj *gateway_solo_io_v1.ListenerOption) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type ListenerOptionEventWatcher interface {
+	AddEventHandler(ctx context.Context, h ListenerOptionEventHandler, predicates ...predicate.Predicate) error
+}
+
+type listenerOptionEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewListenerOptionEventWatcher(name string, mgr manager.Manager) ListenerOptionEventWatcher {
+	return &listenerOptionEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &gateway_solo_io_v1.ListenerOption{}),
+	}
+}
+
+func (c *listenerOptionEventWatcher) AddEventHandler(ctx context.Context, h ListenerOptionEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericListenerOptionHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericListenerOptionHandler implements a generic events.EventHandler
+type genericListenerOptionHandler struct {
+	handler ListenerOptionEventHandler
+}
+
+func (h genericListenerOptionHandler) Create(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.ListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: ListenerOption handler received event for %T", object)
+	}
+	return h.handler.CreateListenerOption(obj)
+}
+
+func (h genericListenerOptionHandler) Delete(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.ListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: ListenerOption handler received event for %T", object)
+	}
+	return h.handler.DeleteListenerOption(obj)
+}
+
+func (h genericListenerOptionHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*gateway_solo_io_v1.ListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: ListenerOption handler received event for %T", old)
+	}
+	objNew, ok := new.(*gateway_solo_io_v1.ListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: ListenerOption handler received event for %T", new)
+	}
+	return h.handler.UpdateListenerOption(objOld, objNew)
+}
+
+func (h genericListenerOptionHandler) Generic(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.ListenerOption)
+	if !ok {
+		return errors.Errorf("internal error: ListenerOption handler received event for %T", object)
+	}
+	return h.handler.GenericListenerOption(obj)
+}
+
 // Handle events for the MatchableHttpGateway Resource
 // DEPRECATED: Prefer reconciler pattern.
 type MatchableHttpGatewayEventHandler interface {
@@ -336,6 +550,113 @@ func (h genericMatchableTcpGatewayHandler) Generic(object client.Object) error {
 		return errors.Errorf("internal error: MatchableTcpGateway handler received event for %T", object)
 	}
 	return h.handler.GenericMatchableTcpGateway(obj)
+}
+
+// Handle events for the RouteOption Resource
+// DEPRECATED: Prefer reconciler pattern.
+type RouteOptionEventHandler interface {
+	CreateRouteOption(obj *gateway_solo_io_v1.RouteOption) error
+	UpdateRouteOption(old, new *gateway_solo_io_v1.RouteOption) error
+	DeleteRouteOption(obj *gateway_solo_io_v1.RouteOption) error
+	GenericRouteOption(obj *gateway_solo_io_v1.RouteOption) error
+}
+
+type RouteOptionEventHandlerFuncs struct {
+	OnCreate  func(obj *gateway_solo_io_v1.RouteOption) error
+	OnUpdate  func(old, new *gateway_solo_io_v1.RouteOption) error
+	OnDelete  func(obj *gateway_solo_io_v1.RouteOption) error
+	OnGeneric func(obj *gateway_solo_io_v1.RouteOption) error
+}
+
+func (f *RouteOptionEventHandlerFuncs) CreateRouteOption(obj *gateway_solo_io_v1.RouteOption) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *RouteOptionEventHandlerFuncs) DeleteRouteOption(obj *gateway_solo_io_v1.RouteOption) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *RouteOptionEventHandlerFuncs) UpdateRouteOption(objOld, objNew *gateway_solo_io_v1.RouteOption) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *RouteOptionEventHandlerFuncs) GenericRouteOption(obj *gateway_solo_io_v1.RouteOption) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type RouteOptionEventWatcher interface {
+	AddEventHandler(ctx context.Context, h RouteOptionEventHandler, predicates ...predicate.Predicate) error
+}
+
+type routeOptionEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewRouteOptionEventWatcher(name string, mgr manager.Manager) RouteOptionEventWatcher {
+	return &routeOptionEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &gateway_solo_io_v1.RouteOption{}),
+	}
+}
+
+func (c *routeOptionEventWatcher) AddEventHandler(ctx context.Context, h RouteOptionEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericRouteOptionHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericRouteOptionHandler implements a generic events.EventHandler
+type genericRouteOptionHandler struct {
+	handler RouteOptionEventHandler
+}
+
+func (h genericRouteOptionHandler) Create(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
+	}
+	return h.handler.CreateRouteOption(obj)
+}
+
+func (h genericRouteOptionHandler) Delete(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
+	}
+	return h.handler.DeleteRouteOption(obj)
+}
+
+func (h genericRouteOptionHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", old)
+	}
+	objNew, ok := new.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", new)
+	}
+	return h.handler.UpdateRouteOption(objOld, objNew)
+}
+
+func (h genericRouteOptionHandler) Generic(object client.Object) error {
+	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
+	if !ok {
+		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
+	}
+	return h.handler.GenericRouteOption(obj)
 }
 
 // Handle events for the RouteTable Resource
@@ -657,111 +978,4 @@ func (h genericVirtualHostOptionHandler) Generic(object client.Object) error {
 		return errors.Errorf("internal error: VirtualHostOption handler received event for %T", object)
 	}
 	return h.handler.GenericVirtualHostOption(obj)
-}
-
-// Handle events for the RouteOption Resource
-// DEPRECATED: Prefer reconciler pattern.
-type RouteOptionEventHandler interface {
-	CreateRouteOption(obj *gateway_solo_io_v1.RouteOption) error
-	UpdateRouteOption(old, new *gateway_solo_io_v1.RouteOption) error
-	DeleteRouteOption(obj *gateway_solo_io_v1.RouteOption) error
-	GenericRouteOption(obj *gateway_solo_io_v1.RouteOption) error
-}
-
-type RouteOptionEventHandlerFuncs struct {
-	OnCreate  func(obj *gateway_solo_io_v1.RouteOption) error
-	OnUpdate  func(old, new *gateway_solo_io_v1.RouteOption) error
-	OnDelete  func(obj *gateway_solo_io_v1.RouteOption) error
-	OnGeneric func(obj *gateway_solo_io_v1.RouteOption) error
-}
-
-func (f *RouteOptionEventHandlerFuncs) CreateRouteOption(obj *gateway_solo_io_v1.RouteOption) error {
-	if f.OnCreate == nil {
-		return nil
-	}
-	return f.OnCreate(obj)
-}
-
-func (f *RouteOptionEventHandlerFuncs) DeleteRouteOption(obj *gateway_solo_io_v1.RouteOption) error {
-	if f.OnDelete == nil {
-		return nil
-	}
-	return f.OnDelete(obj)
-}
-
-func (f *RouteOptionEventHandlerFuncs) UpdateRouteOption(objOld, objNew *gateway_solo_io_v1.RouteOption) error {
-	if f.OnUpdate == nil {
-		return nil
-	}
-	return f.OnUpdate(objOld, objNew)
-}
-
-func (f *RouteOptionEventHandlerFuncs) GenericRouteOption(obj *gateway_solo_io_v1.RouteOption) error {
-	if f.OnGeneric == nil {
-		return nil
-	}
-	return f.OnGeneric(obj)
-}
-
-type RouteOptionEventWatcher interface {
-	AddEventHandler(ctx context.Context, h RouteOptionEventHandler, predicates ...predicate.Predicate) error
-}
-
-type routeOptionEventWatcher struct {
-	watcher events.EventWatcher
-}
-
-func NewRouteOptionEventWatcher(name string, mgr manager.Manager) RouteOptionEventWatcher {
-	return &routeOptionEventWatcher{
-		watcher: events.NewWatcher(name, mgr, &gateway_solo_io_v1.RouteOption{}),
-	}
-}
-
-func (c *routeOptionEventWatcher) AddEventHandler(ctx context.Context, h RouteOptionEventHandler, predicates ...predicate.Predicate) error {
-	handler := genericRouteOptionHandler{handler: h}
-	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
-		return err
-	}
-	return nil
-}
-
-// genericRouteOptionHandler implements a generic events.EventHandler
-type genericRouteOptionHandler struct {
-	handler RouteOptionEventHandler
-}
-
-func (h genericRouteOptionHandler) Create(object client.Object) error {
-	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
-	if !ok {
-		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
-	}
-	return h.handler.CreateRouteOption(obj)
-}
-
-func (h genericRouteOptionHandler) Delete(object client.Object) error {
-	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
-	if !ok {
-		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
-	}
-	return h.handler.DeleteRouteOption(obj)
-}
-
-func (h genericRouteOptionHandler) Update(old, new client.Object) error {
-	objOld, ok := old.(*gateway_solo_io_v1.RouteOption)
-	if !ok {
-		return errors.Errorf("internal error: RouteOption handler received event for %T", old)
-	}
-	objNew, ok := new.(*gateway_solo_io_v1.RouteOption)
-	if !ok {
-		return errors.Errorf("internal error: RouteOption handler received event for %T", new)
-	}
-	return h.handler.UpdateRouteOption(objOld, objNew)
-}
-
-func (h genericRouteOptionHandler) Generic(object client.Object) error {
-	obj, ok := object.(*gateway_solo_io_v1.RouteOption)
-	if !ok {
-		return errors.Errorf("internal error: RouteOption handler received event for %T", object)
-	}
-	return h.handler.GenericRouteOption(obj)
 }

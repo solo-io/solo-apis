@@ -236,6 +236,452 @@ func (s *gatewaySet) Clone() GatewaySet {
 	return &gatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
+type HttpListenerOptionSet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*gateway_solo_io_v1.HttpListenerOption) bool) []*gateway_solo_io_v1.HttpListenerOption
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*gateway_solo_io_v1.HttpListenerOption) bool) []*gateway_solo_io_v1.HttpListenerOption
+	// Return the Set as a map of key to resource.
+	Map() map[string]*gateway_solo_io_v1.HttpListenerOption
+	// Insert a resource into the set.
+	Insert(httpListenerOption ...*gateway_solo_io_v1.HttpListenerOption)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(httpListenerOptionSet HttpListenerOptionSet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(httpListenerOption ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(httpListenerOption ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set HttpListenerOptionSet) HttpListenerOptionSet
+	// Return the difference with the provided set
+	Difference(set HttpListenerOptionSet) HttpListenerOptionSet
+	// Return the intersection with the provided set
+	Intersection(set HttpListenerOptionSet) HttpListenerOptionSet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.HttpListenerOption, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another HttpListenerOptionSet
+	Delta(newSet HttpListenerOptionSet) sksets.ResourceDelta
+	// Create a deep copy of the current HttpListenerOptionSet
+	Clone() HttpListenerOptionSet
+}
+
+func makeGenericHttpListenerOptionSet(httpListenerOptionList []*gateway_solo_io_v1.HttpListenerOption) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range httpListenerOptionList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type httpListenerOptionSet struct {
+	set sksets.ResourceSet
+}
+
+func NewHttpListenerOptionSet(httpListenerOptionList ...*gateway_solo_io_v1.HttpListenerOption) HttpListenerOptionSet {
+	return &httpListenerOptionSet{set: makeGenericHttpListenerOptionSet(httpListenerOptionList)}
+}
+
+func NewHttpListenerOptionSetFromList(httpListenerOptionList *gateway_solo_io_v1.HttpListenerOptionList) HttpListenerOptionSet {
+	list := make([]*gateway_solo_io_v1.HttpListenerOption, 0, len(httpListenerOptionList.Items))
+	for idx := range httpListenerOptionList.Items {
+		list = append(list, &httpListenerOptionList.Items[idx])
+	}
+	return &httpListenerOptionSet{set: makeGenericHttpListenerOptionSet(list)}
+}
+
+func (s *httpListenerOptionSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *httpListenerOptionSet) List(filterResource ...func(*gateway_solo_io_v1.HttpListenerOption) bool) []*gateway_solo_io_v1.HttpListenerOption {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.HttpListenerOption))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	httpListenerOptionList := make([]*gateway_solo_io_v1.HttpListenerOption, 0, len(objs))
+	for _, obj := range objs {
+		httpListenerOptionList = append(httpListenerOptionList, obj.(*gateway_solo_io_v1.HttpListenerOption))
+	}
+	return httpListenerOptionList
+}
+
+func (s *httpListenerOptionSet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.HttpListenerOption) bool) []*gateway_solo_io_v1.HttpListenerOption {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.HttpListenerOption))
+		})
+	}
+
+	var httpListenerOptionList []*gateway_solo_io_v1.HttpListenerOption
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		httpListenerOptionList = append(httpListenerOptionList, obj.(*gateway_solo_io_v1.HttpListenerOption))
+	}
+	return httpListenerOptionList
+}
+
+func (s *httpListenerOptionSet) Map() map[string]*gateway_solo_io_v1.HttpListenerOption {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*gateway_solo_io_v1.HttpListenerOption{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*gateway_solo_io_v1.HttpListenerOption)
+	}
+	return newMap
+}
+
+func (s *httpListenerOptionSet) Insert(
+	httpListenerOptionList ...*gateway_solo_io_v1.HttpListenerOption,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range httpListenerOptionList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *httpListenerOptionSet) Has(httpListenerOption ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(httpListenerOption)
+}
+
+func (s *httpListenerOptionSet) Equal(
+	httpListenerOptionSet HttpListenerOptionSet,
+) bool {
+	if s == nil {
+		return httpListenerOptionSet == nil
+	}
+	return s.Generic().Equal(httpListenerOptionSet.Generic())
+}
+
+func (s *httpListenerOptionSet) Delete(HttpListenerOption ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(HttpListenerOption)
+}
+
+func (s *httpListenerOptionSet) Union(set HttpListenerOptionSet) HttpListenerOptionSet {
+	if s == nil {
+		return set
+	}
+	return NewHttpListenerOptionSet(append(s.List(), set.List()...)...)
+}
+
+func (s *httpListenerOptionSet) Difference(set HttpListenerOptionSet) HttpListenerOptionSet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &httpListenerOptionSet{set: newSet}
+}
+
+func (s *httpListenerOptionSet) Intersection(set HttpListenerOptionSet) HttpListenerOptionSet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var httpListenerOptionList []*gateway_solo_io_v1.HttpListenerOption
+	for _, obj := range newSet.List() {
+		httpListenerOptionList = append(httpListenerOptionList, obj.(*gateway_solo_io_v1.HttpListenerOption))
+	}
+	return NewHttpListenerOptionSet(httpListenerOptionList...)
+}
+
+func (s *httpListenerOptionSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.HttpListenerOption, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find HttpListenerOption %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&gateway_solo_io_v1.HttpListenerOption{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*gateway_solo_io_v1.HttpListenerOption), nil
+}
+
+func (s *httpListenerOptionSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *httpListenerOptionSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *httpListenerOptionSet) Delta(newSet HttpListenerOptionSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *httpListenerOptionSet) Clone() HttpListenerOptionSet {
+	if s == nil {
+		return nil
+	}
+	return &httpListenerOptionSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
+type ListenerOptionSet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*gateway_solo_io_v1.ListenerOption) bool) []*gateway_solo_io_v1.ListenerOption
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*gateway_solo_io_v1.ListenerOption) bool) []*gateway_solo_io_v1.ListenerOption
+	// Return the Set as a map of key to resource.
+	Map() map[string]*gateway_solo_io_v1.ListenerOption
+	// Insert a resource into the set.
+	Insert(listenerOption ...*gateway_solo_io_v1.ListenerOption)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(listenerOptionSet ListenerOptionSet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(listenerOption ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(listenerOption ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set ListenerOptionSet) ListenerOptionSet
+	// Return the difference with the provided set
+	Difference(set ListenerOptionSet) ListenerOptionSet
+	// Return the intersection with the provided set
+	Intersection(set ListenerOptionSet) ListenerOptionSet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.ListenerOption, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another ListenerOptionSet
+	Delta(newSet ListenerOptionSet) sksets.ResourceDelta
+	// Create a deep copy of the current ListenerOptionSet
+	Clone() ListenerOptionSet
+}
+
+func makeGenericListenerOptionSet(listenerOptionList []*gateway_solo_io_v1.ListenerOption) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range listenerOptionList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type listenerOptionSet struct {
+	set sksets.ResourceSet
+}
+
+func NewListenerOptionSet(listenerOptionList ...*gateway_solo_io_v1.ListenerOption) ListenerOptionSet {
+	return &listenerOptionSet{set: makeGenericListenerOptionSet(listenerOptionList)}
+}
+
+func NewListenerOptionSetFromList(listenerOptionList *gateway_solo_io_v1.ListenerOptionList) ListenerOptionSet {
+	list := make([]*gateway_solo_io_v1.ListenerOption, 0, len(listenerOptionList.Items))
+	for idx := range listenerOptionList.Items {
+		list = append(list, &listenerOptionList.Items[idx])
+	}
+	return &listenerOptionSet{set: makeGenericListenerOptionSet(list)}
+}
+
+func (s *listenerOptionSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *listenerOptionSet) List(filterResource ...func(*gateway_solo_io_v1.ListenerOption) bool) []*gateway_solo_io_v1.ListenerOption {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.ListenerOption))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	listenerOptionList := make([]*gateway_solo_io_v1.ListenerOption, 0, len(objs))
+	for _, obj := range objs {
+		listenerOptionList = append(listenerOptionList, obj.(*gateway_solo_io_v1.ListenerOption))
+	}
+	return listenerOptionList
+}
+
+func (s *listenerOptionSet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.ListenerOption) bool) []*gateway_solo_io_v1.ListenerOption {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.ListenerOption))
+		})
+	}
+
+	var listenerOptionList []*gateway_solo_io_v1.ListenerOption
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		listenerOptionList = append(listenerOptionList, obj.(*gateway_solo_io_v1.ListenerOption))
+	}
+	return listenerOptionList
+}
+
+func (s *listenerOptionSet) Map() map[string]*gateway_solo_io_v1.ListenerOption {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*gateway_solo_io_v1.ListenerOption{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*gateway_solo_io_v1.ListenerOption)
+	}
+	return newMap
+}
+
+func (s *listenerOptionSet) Insert(
+	listenerOptionList ...*gateway_solo_io_v1.ListenerOption,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range listenerOptionList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *listenerOptionSet) Has(listenerOption ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(listenerOption)
+}
+
+func (s *listenerOptionSet) Equal(
+	listenerOptionSet ListenerOptionSet,
+) bool {
+	if s == nil {
+		return listenerOptionSet == nil
+	}
+	return s.Generic().Equal(listenerOptionSet.Generic())
+}
+
+func (s *listenerOptionSet) Delete(ListenerOption ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(ListenerOption)
+}
+
+func (s *listenerOptionSet) Union(set ListenerOptionSet) ListenerOptionSet {
+	if s == nil {
+		return set
+	}
+	return NewListenerOptionSet(append(s.List(), set.List()...)...)
+}
+
+func (s *listenerOptionSet) Difference(set ListenerOptionSet) ListenerOptionSet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &listenerOptionSet{set: newSet}
+}
+
+func (s *listenerOptionSet) Intersection(set ListenerOptionSet) ListenerOptionSet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var listenerOptionList []*gateway_solo_io_v1.ListenerOption
+	for _, obj := range newSet.List() {
+		listenerOptionList = append(listenerOptionList, obj.(*gateway_solo_io_v1.ListenerOption))
+	}
+	return NewListenerOptionSet(listenerOptionList...)
+}
+
+func (s *listenerOptionSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.ListenerOption, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find ListenerOption %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&gateway_solo_io_v1.ListenerOption{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*gateway_solo_io_v1.ListenerOption), nil
+}
+
+func (s *listenerOptionSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *listenerOptionSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *listenerOptionSet) Delta(newSet ListenerOptionSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *listenerOptionSet) Clone() ListenerOptionSet {
+	if s == nil {
+		return nil
+	}
+	return &listenerOptionSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
 type MatchableHttpGatewaySet interface {
 	// Get the set stored keys
 	Keys() sets.String
@@ -680,6 +1126,229 @@ func (s *matchableTcpGatewaySet) Clone() MatchableTcpGatewaySet {
 		return nil
 	}
 	return &matchableTcpGatewaySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}
+
+type RouteOptionSet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption
+	// Return the Set as a map of key to resource.
+	Map() map[string]*gateway_solo_io_v1.RouteOption
+	// Insert a resource into the set.
+	Insert(routeOption ...*gateway_solo_io_v1.RouteOption)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(routeOptionSet RouteOptionSet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(routeOption ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(routeOption ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set RouteOptionSet) RouteOptionSet
+	// Return the difference with the provided set
+	Difference(set RouteOptionSet) RouteOptionSet
+	// Return the intersection with the provided set
+	Intersection(set RouteOptionSet) RouteOptionSet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.RouteOption, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another RouteOptionSet
+	Delta(newSet RouteOptionSet) sksets.ResourceDelta
+	// Create a deep copy of the current RouteOptionSet
+	Clone() RouteOptionSet
+}
+
+func makeGenericRouteOptionSet(routeOptionList []*gateway_solo_io_v1.RouteOption) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range routeOptionList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type routeOptionSet struct {
+	set sksets.ResourceSet
+}
+
+func NewRouteOptionSet(routeOptionList ...*gateway_solo_io_v1.RouteOption) RouteOptionSet {
+	return &routeOptionSet{set: makeGenericRouteOptionSet(routeOptionList)}
+}
+
+func NewRouteOptionSetFromList(routeOptionList *gateway_solo_io_v1.RouteOptionList) RouteOptionSet {
+	list := make([]*gateway_solo_io_v1.RouteOption, 0, len(routeOptionList.Items))
+	for idx := range routeOptionList.Items {
+		list = append(list, &routeOptionList.Items[idx])
+	}
+	return &routeOptionSet{set: makeGenericRouteOptionSet(list)}
+}
+
+func (s *routeOptionSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *routeOptionSet) List(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.RouteOption))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	routeOptionList := make([]*gateway_solo_io_v1.RouteOption, 0, len(objs))
+	for _, obj := range objs {
+		routeOptionList = append(routeOptionList, obj.(*gateway_solo_io_v1.RouteOption))
+	}
+	return routeOptionList
+}
+
+func (s *routeOptionSet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_solo_io_v1.RouteOption))
+		})
+	}
+
+	var routeOptionList []*gateway_solo_io_v1.RouteOption
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		routeOptionList = append(routeOptionList, obj.(*gateway_solo_io_v1.RouteOption))
+	}
+	return routeOptionList
+}
+
+func (s *routeOptionSet) Map() map[string]*gateway_solo_io_v1.RouteOption {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*gateway_solo_io_v1.RouteOption{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*gateway_solo_io_v1.RouteOption)
+	}
+	return newMap
+}
+
+func (s *routeOptionSet) Insert(
+	routeOptionList ...*gateway_solo_io_v1.RouteOption,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range routeOptionList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *routeOptionSet) Has(routeOption ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(routeOption)
+}
+
+func (s *routeOptionSet) Equal(
+	routeOptionSet RouteOptionSet,
+) bool {
+	if s == nil {
+		return routeOptionSet == nil
+	}
+	return s.Generic().Equal(routeOptionSet.Generic())
+}
+
+func (s *routeOptionSet) Delete(RouteOption ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(RouteOption)
+}
+
+func (s *routeOptionSet) Union(set RouteOptionSet) RouteOptionSet {
+	if s == nil {
+		return set
+	}
+	return NewRouteOptionSet(append(s.List(), set.List()...)...)
+}
+
+func (s *routeOptionSet) Difference(set RouteOptionSet) RouteOptionSet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &routeOptionSet{set: newSet}
+}
+
+func (s *routeOptionSet) Intersection(set RouteOptionSet) RouteOptionSet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var routeOptionList []*gateway_solo_io_v1.RouteOption
+	for _, obj := range newSet.List() {
+		routeOptionList = append(routeOptionList, obj.(*gateway_solo_io_v1.RouteOption))
+	}
+	return NewRouteOptionSet(routeOptionList...)
+}
+
+func (s *routeOptionSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.RouteOption, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find RouteOption %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&gateway_solo_io_v1.RouteOption{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*gateway_solo_io_v1.RouteOption), nil
+}
+
+func (s *routeOptionSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *routeOptionSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *routeOptionSet) Delta(newSet RouteOptionSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *routeOptionSet) Clone() RouteOptionSet {
+	if s == nil {
+		return nil
+	}
+	return &routeOptionSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
 
 type RouteTableSet interface {
@@ -1349,227 +2018,4 @@ func (s *virtualHostOptionSet) Clone() VirtualHostOptionSet {
 		return nil
 	}
 	return &virtualHostOptionSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
-}
-
-type RouteOptionSet interface {
-	// Get the set stored keys
-	Keys() sets.String
-	// List of resources stored in the set. Pass an optional filter function to filter on the list.
-	// The filter function should return false to keep the resource, true to drop it.
-	List(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption
-	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
-	// The filter function should return false to keep the resource, true to drop it.
-	UnsortedList(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption
-	// Return the Set as a map of key to resource.
-	Map() map[string]*gateway_solo_io_v1.RouteOption
-	// Insert a resource into the set.
-	Insert(routeOption ...*gateway_solo_io_v1.RouteOption)
-	// Compare the equality of the keys in two sets (not the resources themselves)
-	Equal(routeOptionSet RouteOptionSet) bool
-	// Check if the set contains a key matching the resource (not the resource itself)
-	Has(routeOption ezkube.ResourceId) bool
-	// Delete the key matching the resource
-	Delete(routeOption ezkube.ResourceId)
-	// Return the union with the provided set
-	Union(set RouteOptionSet) RouteOptionSet
-	// Return the difference with the provided set
-	Difference(set RouteOptionSet) RouteOptionSet
-	// Return the intersection with the provided set
-	Intersection(set RouteOptionSet) RouteOptionSet
-	// Find the resource with the given ID
-	Find(id ezkube.ResourceId) (*gateway_solo_io_v1.RouteOption, error)
-	// Get the length of the set
-	Length() int
-	// returns the generic implementation of the set
-	Generic() sksets.ResourceSet
-	// returns the delta between this and and another RouteOptionSet
-	Delta(newSet RouteOptionSet) sksets.ResourceDelta
-	// Create a deep copy of the current RouteOptionSet
-	Clone() RouteOptionSet
-}
-
-func makeGenericRouteOptionSet(routeOptionList []*gateway_solo_io_v1.RouteOption) sksets.ResourceSet {
-	var genericResources []ezkube.ResourceId
-	for _, obj := range routeOptionList {
-		genericResources = append(genericResources, obj)
-	}
-	return sksets.NewResourceSet(genericResources...)
-}
-
-type routeOptionSet struct {
-	set sksets.ResourceSet
-}
-
-func NewRouteOptionSet(routeOptionList ...*gateway_solo_io_v1.RouteOption) RouteOptionSet {
-	return &routeOptionSet{set: makeGenericRouteOptionSet(routeOptionList)}
-}
-
-func NewRouteOptionSetFromList(routeOptionList *gateway_solo_io_v1.RouteOptionList) RouteOptionSet {
-	list := make([]*gateway_solo_io_v1.RouteOption, 0, len(routeOptionList.Items))
-	for idx := range routeOptionList.Items {
-		list = append(list, &routeOptionList.Items[idx])
-	}
-	return &routeOptionSet{set: makeGenericRouteOptionSet(list)}
-}
-
-func (s *routeOptionSet) Keys() sets.String {
-	if s == nil {
-		return sets.String{}
-	}
-	return s.Generic().Keys()
-}
-
-func (s *routeOptionSet) List(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption {
-	if s == nil {
-		return nil
-	}
-	var genericFilters []func(ezkube.ResourceId) bool
-	for _, filter := range filterResource {
-		filter := filter
-		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*gateway_solo_io_v1.RouteOption))
-		})
-	}
-
-	objs := s.Generic().List(genericFilters...)
-	routeOptionList := make([]*gateway_solo_io_v1.RouteOption, 0, len(objs))
-	for _, obj := range objs {
-		routeOptionList = append(routeOptionList, obj.(*gateway_solo_io_v1.RouteOption))
-	}
-	return routeOptionList
-}
-
-func (s *routeOptionSet) UnsortedList(filterResource ...func(*gateway_solo_io_v1.RouteOption) bool) []*gateway_solo_io_v1.RouteOption {
-	if s == nil {
-		return nil
-	}
-	var genericFilters []func(ezkube.ResourceId) bool
-	for _, filter := range filterResource {
-		filter := filter
-		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
-			return filter(obj.(*gateway_solo_io_v1.RouteOption))
-		})
-	}
-
-	var routeOptionList []*gateway_solo_io_v1.RouteOption
-	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
-		routeOptionList = append(routeOptionList, obj.(*gateway_solo_io_v1.RouteOption))
-	}
-	return routeOptionList
-}
-
-func (s *routeOptionSet) Map() map[string]*gateway_solo_io_v1.RouteOption {
-	if s == nil {
-		return nil
-	}
-
-	newMap := map[string]*gateway_solo_io_v1.RouteOption{}
-	for k, v := range s.Generic().Map() {
-		newMap[k] = v.(*gateway_solo_io_v1.RouteOption)
-	}
-	return newMap
-}
-
-func (s *routeOptionSet) Insert(
-	routeOptionList ...*gateway_solo_io_v1.RouteOption,
-) {
-	if s == nil {
-		panic("cannot insert into nil set")
-	}
-
-	for _, obj := range routeOptionList {
-		s.Generic().Insert(obj)
-	}
-}
-
-func (s *routeOptionSet) Has(routeOption ezkube.ResourceId) bool {
-	if s == nil {
-		return false
-	}
-	return s.Generic().Has(routeOption)
-}
-
-func (s *routeOptionSet) Equal(
-	routeOptionSet RouteOptionSet,
-) bool {
-	if s == nil {
-		return routeOptionSet == nil
-	}
-	return s.Generic().Equal(routeOptionSet.Generic())
-}
-
-func (s *routeOptionSet) Delete(RouteOption ezkube.ResourceId) {
-	if s == nil {
-		return
-	}
-	s.Generic().Delete(RouteOption)
-}
-
-func (s *routeOptionSet) Union(set RouteOptionSet) RouteOptionSet {
-	if s == nil {
-		return set
-	}
-	return NewRouteOptionSet(append(s.List(), set.List()...)...)
-}
-
-func (s *routeOptionSet) Difference(set RouteOptionSet) RouteOptionSet {
-	if s == nil {
-		return set
-	}
-	newSet := s.Generic().Difference(set.Generic())
-	return &routeOptionSet{set: newSet}
-}
-
-func (s *routeOptionSet) Intersection(set RouteOptionSet) RouteOptionSet {
-	if s == nil {
-		return nil
-	}
-	newSet := s.Generic().Intersection(set.Generic())
-	var routeOptionList []*gateway_solo_io_v1.RouteOption
-	for _, obj := range newSet.List() {
-		routeOptionList = append(routeOptionList, obj.(*gateway_solo_io_v1.RouteOption))
-	}
-	return NewRouteOptionSet(routeOptionList...)
-}
-
-func (s *routeOptionSet) Find(id ezkube.ResourceId) (*gateway_solo_io_v1.RouteOption, error) {
-	if s == nil {
-		return nil, eris.Errorf("empty set, cannot find RouteOption %v", sksets.Key(id))
-	}
-	obj, err := s.Generic().Find(&gateway_solo_io_v1.RouteOption{}, id)
-	if err != nil {
-		return nil, err
-	}
-
-	return obj.(*gateway_solo_io_v1.RouteOption), nil
-}
-
-func (s *routeOptionSet) Length() int {
-	if s == nil {
-		return 0
-	}
-	return s.Generic().Length()
-}
-
-func (s *routeOptionSet) Generic() sksets.ResourceSet {
-	if s == nil {
-		return nil
-	}
-	return s.set
-}
-
-func (s *routeOptionSet) Delta(newSet RouteOptionSet) sksets.ResourceDelta {
-	if s == nil {
-		return sksets.ResourceDelta{
-			Inserted: newSet.Generic(),
-		}
-	}
-	return s.Generic().Delta(newSet.Generic())
-}
-
-func (s *routeOptionSet) Clone() RouteOptionSet {
-	if s == nil {
-		return nil
-	}
-	return &routeOptionSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }

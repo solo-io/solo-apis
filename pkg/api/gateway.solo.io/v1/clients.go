@@ -42,17 +42,21 @@ type Clientset interface {
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	Gateways() GatewayClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
+	HttpListenerOptions() HttpListenerOptionClient
+	// clienset for the gateway.solo.io/v1/v1 APIs
+	ListenerOptions() ListenerOptionClient
+	// clienset for the gateway.solo.io/v1/v1 APIs
 	MatchableHttpGateways() MatchableHttpGatewayClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	MatchableTcpGateways() MatchableTcpGatewayClient
+	// clienset for the gateway.solo.io/v1/v1 APIs
+	RouteOptions() RouteOptionClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	RouteTables() RouteTableClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	VirtualServices() VirtualServiceClient
 	// clienset for the gateway.solo.io/v1/v1 APIs
 	VirtualHostOptions() VirtualHostOptionClient
-	// clienset for the gateway.solo.io/v1/v1 APIs
-	RouteOptions() RouteOptionClient
 }
 
 type clientSet struct {
@@ -83,6 +87,16 @@ func (c *clientSet) Gateways() GatewayClient {
 }
 
 // clienset for the gateway.solo.io/v1/v1 APIs
+func (c *clientSet) HttpListenerOptions() HttpListenerOptionClient {
+	return NewHttpListenerOptionClient(c.client)
+}
+
+// clienset for the gateway.solo.io/v1/v1 APIs
+func (c *clientSet) ListenerOptions() ListenerOptionClient {
+	return NewListenerOptionClient(c.client)
+}
+
+// clienset for the gateway.solo.io/v1/v1 APIs
 func (c *clientSet) MatchableHttpGateways() MatchableHttpGatewayClient {
 	return NewMatchableHttpGatewayClient(c.client)
 }
@@ -90,6 +104,11 @@ func (c *clientSet) MatchableHttpGateways() MatchableHttpGatewayClient {
 // clienset for the gateway.solo.io/v1/v1 APIs
 func (c *clientSet) MatchableTcpGateways() MatchableTcpGatewayClient {
 	return NewMatchableTcpGatewayClient(c.client)
+}
+
+// clienset for the gateway.solo.io/v1/v1 APIs
+func (c *clientSet) RouteOptions() RouteOptionClient {
+	return NewRouteOptionClient(c.client)
 }
 
 // clienset for the gateway.solo.io/v1/v1 APIs
@@ -105,11 +124,6 @@ func (c *clientSet) VirtualServices() VirtualServiceClient {
 // clienset for the gateway.solo.io/v1/v1 APIs
 func (c *clientSet) VirtualHostOptions() VirtualHostOptionClient {
 	return NewVirtualHostOptionClient(c.client)
-}
-
-// clienset for the gateway.solo.io/v1/v1 APIs
-func (c *clientSet) RouteOptions() RouteOptionClient {
-	return NewRouteOptionClient(c.client)
 }
 
 // Reader knows how to read and list Gateways.
@@ -252,6 +266,290 @@ func (m *multiclusterGatewayClient) Cluster(cluster string) (GatewayClient, erro
 		return nil, err
 	}
 	return NewGatewayClient(client), nil
+}
+
+// Reader knows how to read and list HttpListenerOptions.
+type HttpListenerOptionReader interface {
+	// Get retrieves a HttpListenerOption for the given object key
+	GetHttpListenerOption(ctx context.Context, key client.ObjectKey) (*HttpListenerOption, error)
+
+	// List retrieves list of HttpListenerOptions for a given namespace and list options.
+	ListHttpListenerOption(ctx context.Context, opts ...client.ListOption) (*HttpListenerOptionList, error)
+}
+
+// HttpListenerOptionTransitionFunction instructs the HttpListenerOptionWriter how to transition between an existing
+// HttpListenerOption object and a desired on an Upsert
+type HttpListenerOptionTransitionFunction func(existing, desired *HttpListenerOption) error
+
+// Writer knows how to create, delete, and update HttpListenerOptions.
+type HttpListenerOptionWriter interface {
+	// Create saves the HttpListenerOption object.
+	CreateHttpListenerOption(ctx context.Context, obj *HttpListenerOption, opts ...client.CreateOption) error
+
+	// Delete deletes the HttpListenerOption object.
+	DeleteHttpListenerOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given HttpListenerOption object.
+	UpdateHttpListenerOption(ctx context.Context, obj *HttpListenerOption, opts ...client.UpdateOption) error
+
+	// Patch patches the given HttpListenerOption object.
+	PatchHttpListenerOption(ctx context.Context, obj *HttpListenerOption, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all HttpListenerOption objects matching the given options.
+	DeleteAllOfHttpListenerOption(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the HttpListenerOption object.
+	UpsertHttpListenerOption(ctx context.Context, obj *HttpListenerOption, transitionFuncs ...HttpListenerOptionTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a HttpListenerOption object.
+type HttpListenerOptionStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given HttpListenerOption object.
+	UpdateHttpListenerOptionStatus(ctx context.Context, obj *HttpListenerOption, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given HttpListenerOption object's subresource.
+	PatchHttpListenerOptionStatus(ctx context.Context, obj *HttpListenerOption, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on HttpListenerOptions.
+type HttpListenerOptionClient interface {
+	HttpListenerOptionReader
+	HttpListenerOptionWriter
+	HttpListenerOptionStatusWriter
+}
+
+type httpListenerOptionClient struct {
+	client client.Client
+}
+
+func NewHttpListenerOptionClient(client client.Client) *httpListenerOptionClient {
+	return &httpListenerOptionClient{client: client}
+}
+
+func (c *httpListenerOptionClient) GetHttpListenerOption(ctx context.Context, key client.ObjectKey) (*HttpListenerOption, error) {
+	obj := &HttpListenerOption{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *httpListenerOptionClient) ListHttpListenerOption(ctx context.Context, opts ...client.ListOption) (*HttpListenerOptionList, error) {
+	list := &HttpListenerOptionList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *httpListenerOptionClient) CreateHttpListenerOption(ctx context.Context, obj *HttpListenerOption, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *httpListenerOptionClient) DeleteHttpListenerOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &HttpListenerOption{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *httpListenerOptionClient) UpdateHttpListenerOption(ctx context.Context, obj *HttpListenerOption, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *httpListenerOptionClient) PatchHttpListenerOption(ctx context.Context, obj *HttpListenerOption, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *httpListenerOptionClient) DeleteAllOfHttpListenerOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &HttpListenerOption{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *httpListenerOptionClient) UpsertHttpListenerOption(ctx context.Context, obj *HttpListenerOption, transitionFuncs ...HttpListenerOptionTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*HttpListenerOption), desired.(*HttpListenerOption)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *httpListenerOptionClient) UpdateHttpListenerOptionStatus(ctx context.Context, obj *HttpListenerOption, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *httpListenerOptionClient) PatchHttpListenerOptionStatus(ctx context.Context, obj *HttpListenerOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides HttpListenerOptionClients for multiple clusters.
+type MulticlusterHttpListenerOptionClient interface {
+	// Cluster returns a HttpListenerOptionClient for the given cluster
+	Cluster(cluster string) (HttpListenerOptionClient, error)
+}
+
+type multiclusterHttpListenerOptionClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterHttpListenerOptionClient(client multicluster.Client) MulticlusterHttpListenerOptionClient {
+	return &multiclusterHttpListenerOptionClient{client: client}
+}
+
+func (m *multiclusterHttpListenerOptionClient) Cluster(cluster string) (HttpListenerOptionClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewHttpListenerOptionClient(client), nil
+}
+
+// Reader knows how to read and list ListenerOptions.
+type ListenerOptionReader interface {
+	// Get retrieves a ListenerOption for the given object key
+	GetListenerOption(ctx context.Context, key client.ObjectKey) (*ListenerOption, error)
+
+	// List retrieves list of ListenerOptions for a given namespace and list options.
+	ListListenerOption(ctx context.Context, opts ...client.ListOption) (*ListenerOptionList, error)
+}
+
+// ListenerOptionTransitionFunction instructs the ListenerOptionWriter how to transition between an existing
+// ListenerOption object and a desired on an Upsert
+type ListenerOptionTransitionFunction func(existing, desired *ListenerOption) error
+
+// Writer knows how to create, delete, and update ListenerOptions.
+type ListenerOptionWriter interface {
+	// Create saves the ListenerOption object.
+	CreateListenerOption(ctx context.Context, obj *ListenerOption, opts ...client.CreateOption) error
+
+	// Delete deletes the ListenerOption object.
+	DeleteListenerOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given ListenerOption object.
+	UpdateListenerOption(ctx context.Context, obj *ListenerOption, opts ...client.UpdateOption) error
+
+	// Patch patches the given ListenerOption object.
+	PatchListenerOption(ctx context.Context, obj *ListenerOption, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all ListenerOption objects matching the given options.
+	DeleteAllOfListenerOption(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the ListenerOption object.
+	UpsertListenerOption(ctx context.Context, obj *ListenerOption, transitionFuncs ...ListenerOptionTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a ListenerOption object.
+type ListenerOptionStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given ListenerOption object.
+	UpdateListenerOptionStatus(ctx context.Context, obj *ListenerOption, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given ListenerOption object's subresource.
+	PatchListenerOptionStatus(ctx context.Context, obj *ListenerOption, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on ListenerOptions.
+type ListenerOptionClient interface {
+	ListenerOptionReader
+	ListenerOptionWriter
+	ListenerOptionStatusWriter
+}
+
+type listenerOptionClient struct {
+	client client.Client
+}
+
+func NewListenerOptionClient(client client.Client) *listenerOptionClient {
+	return &listenerOptionClient{client: client}
+}
+
+func (c *listenerOptionClient) GetListenerOption(ctx context.Context, key client.ObjectKey) (*ListenerOption, error) {
+	obj := &ListenerOption{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *listenerOptionClient) ListListenerOption(ctx context.Context, opts ...client.ListOption) (*ListenerOptionList, error) {
+	list := &ListenerOptionList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *listenerOptionClient) CreateListenerOption(ctx context.Context, obj *ListenerOption, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *listenerOptionClient) DeleteListenerOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &ListenerOption{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *listenerOptionClient) UpdateListenerOption(ctx context.Context, obj *ListenerOption, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *listenerOptionClient) PatchListenerOption(ctx context.Context, obj *ListenerOption, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *listenerOptionClient) DeleteAllOfListenerOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &ListenerOption{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *listenerOptionClient) UpsertListenerOption(ctx context.Context, obj *ListenerOption, transitionFuncs ...ListenerOptionTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*ListenerOption), desired.(*ListenerOption)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *listenerOptionClient) UpdateListenerOptionStatus(ctx context.Context, obj *ListenerOption, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *listenerOptionClient) PatchListenerOptionStatus(ctx context.Context, obj *ListenerOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides ListenerOptionClients for multiple clusters.
+type MulticlusterListenerOptionClient interface {
+	// Cluster returns a ListenerOptionClient for the given cluster
+	Cluster(cluster string) (ListenerOptionClient, error)
+}
+
+type multiclusterListenerOptionClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterListenerOptionClient(client multicluster.Client) MulticlusterListenerOptionClient {
+	return &multiclusterListenerOptionClient{client: client}
+}
+
+func (m *multiclusterListenerOptionClient) Cluster(cluster string) (ListenerOptionClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewListenerOptionClient(client), nil
 }
 
 // Reader knows how to read and list MatchableHttpGateways.
@@ -536,6 +834,148 @@ func (m *multiclusterMatchableTcpGatewayClient) Cluster(cluster string) (Matchab
 		return nil, err
 	}
 	return NewMatchableTcpGatewayClient(client), nil
+}
+
+// Reader knows how to read and list RouteOptions.
+type RouteOptionReader interface {
+	// Get retrieves a RouteOption for the given object key
+	GetRouteOption(ctx context.Context, key client.ObjectKey) (*RouteOption, error)
+
+	// List retrieves list of RouteOptions for a given namespace and list options.
+	ListRouteOption(ctx context.Context, opts ...client.ListOption) (*RouteOptionList, error)
+}
+
+// RouteOptionTransitionFunction instructs the RouteOptionWriter how to transition between an existing
+// RouteOption object and a desired on an Upsert
+type RouteOptionTransitionFunction func(existing, desired *RouteOption) error
+
+// Writer knows how to create, delete, and update RouteOptions.
+type RouteOptionWriter interface {
+	// Create saves the RouteOption object.
+	CreateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.CreateOption) error
+
+	// Delete deletes the RouteOption object.
+	DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given RouteOption object.
+	UpdateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.UpdateOption) error
+
+	// Patch patches the given RouteOption object.
+	PatchRouteOption(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all RouteOption objects matching the given options.
+	DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the RouteOption object.
+	UpsertRouteOption(ctx context.Context, obj *RouteOption, transitionFuncs ...RouteOptionTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a RouteOption object.
+type RouteOptionStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given RouteOption object.
+	UpdateRouteOptionStatus(ctx context.Context, obj *RouteOption, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given RouteOption object's subresource.
+	PatchRouteOptionStatus(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on RouteOptions.
+type RouteOptionClient interface {
+	RouteOptionReader
+	RouteOptionWriter
+	RouteOptionStatusWriter
+}
+
+type routeOptionClient struct {
+	client client.Client
+}
+
+func NewRouteOptionClient(client client.Client) *routeOptionClient {
+	return &routeOptionClient{client: client}
+}
+
+func (c *routeOptionClient) GetRouteOption(ctx context.Context, key client.ObjectKey) (*RouteOption, error) {
+	obj := &RouteOption{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *routeOptionClient) ListRouteOption(ctx context.Context, opts ...client.ListOption) (*RouteOptionList, error) {
+	list := &RouteOptionList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *routeOptionClient) CreateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &RouteOption{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) UpdateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) PatchRouteOption(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *routeOptionClient) DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &RouteOption{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) UpsertRouteOption(ctx context.Context, obj *RouteOption, transitionFuncs ...RouteOptionTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*RouteOption), desired.(*RouteOption)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *routeOptionClient) UpdateRouteOptionStatus(ctx context.Context, obj *RouteOption, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *routeOptionClient) PatchRouteOptionStatus(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides RouteOptionClients for multiple clusters.
+type MulticlusterRouteOptionClient interface {
+	// Cluster returns a RouteOptionClient for the given cluster
+	Cluster(cluster string) (RouteOptionClient, error)
+}
+
+type multiclusterRouteOptionClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterRouteOptionClient(client multicluster.Client) MulticlusterRouteOptionClient {
+	return &multiclusterRouteOptionClient{client: client}
+}
+
+func (m *multiclusterRouteOptionClient) Cluster(cluster string) (RouteOptionClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewRouteOptionClient(client), nil
 }
 
 // Reader knows how to read and list RouteTables.
@@ -962,146 +1402,4 @@ func (m *multiclusterVirtualHostOptionClient) Cluster(cluster string) (VirtualHo
 		return nil, err
 	}
 	return NewVirtualHostOptionClient(client), nil
-}
-
-// Reader knows how to read and list RouteOptions.
-type RouteOptionReader interface {
-	// Get retrieves a RouteOption for the given object key
-	GetRouteOption(ctx context.Context, key client.ObjectKey) (*RouteOption, error)
-
-	// List retrieves list of RouteOptions for a given namespace and list options.
-	ListRouteOption(ctx context.Context, opts ...client.ListOption) (*RouteOptionList, error)
-}
-
-// RouteOptionTransitionFunction instructs the RouteOptionWriter how to transition between an existing
-// RouteOption object and a desired on an Upsert
-type RouteOptionTransitionFunction func(existing, desired *RouteOption) error
-
-// Writer knows how to create, delete, and update RouteOptions.
-type RouteOptionWriter interface {
-	// Create saves the RouteOption object.
-	CreateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.CreateOption) error
-
-	// Delete deletes the RouteOption object.
-	DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
-
-	// Update updates the given RouteOption object.
-	UpdateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.UpdateOption) error
-
-	// Patch patches the given RouteOption object.
-	PatchRouteOption(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.PatchOption) error
-
-	// DeleteAllOf deletes all RouteOption objects matching the given options.
-	DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error
-
-	// Create or Update the RouteOption object.
-	UpsertRouteOption(ctx context.Context, obj *RouteOption, transitionFuncs ...RouteOptionTransitionFunction) error
-}
-
-// StatusWriter knows how to update status subresource of a RouteOption object.
-type RouteOptionStatusWriter interface {
-	// Update updates the fields corresponding to the status subresource for the
-	// given RouteOption object.
-	UpdateRouteOptionStatus(ctx context.Context, obj *RouteOption, opts ...client.SubResourceUpdateOption) error
-
-	// Patch patches the given RouteOption object's subresource.
-	PatchRouteOptionStatus(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error
-}
-
-// Client knows how to perform CRUD operations on RouteOptions.
-type RouteOptionClient interface {
-	RouteOptionReader
-	RouteOptionWriter
-	RouteOptionStatusWriter
-}
-
-type routeOptionClient struct {
-	client client.Client
-}
-
-func NewRouteOptionClient(client client.Client) *routeOptionClient {
-	return &routeOptionClient{client: client}
-}
-
-func (c *routeOptionClient) GetRouteOption(ctx context.Context, key client.ObjectKey) (*RouteOption, error) {
-	obj := &RouteOption{}
-	if err := c.client.Get(ctx, key, obj); err != nil {
-		return nil, err
-	}
-	return obj, nil
-}
-
-func (c *routeOptionClient) ListRouteOption(ctx context.Context, opts ...client.ListOption) (*RouteOptionList, error) {
-	list := &RouteOptionList{}
-	if err := c.client.List(ctx, list, opts...); err != nil {
-		return nil, err
-	}
-	return list, nil
-}
-
-func (c *routeOptionClient) CreateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.CreateOption) error {
-	return c.client.Create(ctx, obj, opts...)
-}
-
-func (c *routeOptionClient) DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	obj := &RouteOption{}
-	obj.SetName(key.Name)
-	obj.SetNamespace(key.Namespace)
-	return c.client.Delete(ctx, obj, opts...)
-}
-
-func (c *routeOptionClient) UpdateRouteOption(ctx context.Context, obj *RouteOption, opts ...client.UpdateOption) error {
-	return c.client.Update(ctx, obj, opts...)
-}
-
-func (c *routeOptionClient) PatchRouteOption(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.PatchOption) error {
-	return c.client.Patch(ctx, obj, patch, opts...)
-}
-
-func (c *routeOptionClient) DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
-	obj := &RouteOption{}
-	return c.client.DeleteAllOf(ctx, obj, opts...)
-}
-
-func (c *routeOptionClient) UpsertRouteOption(ctx context.Context, obj *RouteOption, transitionFuncs ...RouteOptionTransitionFunction) error {
-	genericTxFunc := func(existing, desired runtime.Object) error {
-		for _, txFunc := range transitionFuncs {
-			if err := txFunc(existing.(*RouteOption), desired.(*RouteOption)); err != nil {
-				return err
-			}
-		}
-		return nil
-	}
-	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
-	return err
-}
-
-func (c *routeOptionClient) UpdateRouteOptionStatus(ctx context.Context, obj *RouteOption, opts ...client.SubResourceUpdateOption) error {
-	return c.client.Status().Update(ctx, obj, opts...)
-}
-
-func (c *routeOptionClient) PatchRouteOptionStatus(ctx context.Context, obj *RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
-	return c.client.Status().Patch(ctx, obj, patch, opts...)
-}
-
-// Provides RouteOptionClients for multiple clusters.
-type MulticlusterRouteOptionClient interface {
-	// Cluster returns a RouteOptionClient for the given cluster
-	Cluster(cluster string) (RouteOptionClient, error)
-}
-
-type multiclusterRouteOptionClient struct {
-	client multicluster.Client
-}
-
-func NewMulticlusterRouteOptionClient(client multicluster.Client) MulticlusterRouteOptionClient {
-	return &multiclusterRouteOptionClient{client: client}
-}
-
-func (m *multiclusterRouteOptionClient) Cluster(cluster string) (RouteOptionClient, error) {
-	client, err := m.client.Cluster(cluster)
-	if err != nil {
-		return nil, err
-	}
-	return NewRouteOptionClient(client), nil
 }

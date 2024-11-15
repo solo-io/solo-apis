@@ -92,12 +92,12 @@ func (m *RouteOptionSpec) Clone() proto.Message {
 }
 
 // Clone function
-func (m *ListenerOption) Clone() proto.Message {
-	var target *ListenerOption
+func (m *ListenerOptionSpec) Clone() proto.Message {
+	var target *ListenerOptionSpec
 	if m == nil {
 		return target
 	}
-	target = &ListenerOption{}
+	target = &ListenerOptionSpec{}
 
 	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
 		target.Options = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1.ListenerOptions)
@@ -122,12 +122,12 @@ func (m *ListenerOption) Clone() proto.Message {
 }
 
 // Clone function
-func (m *HttpListenerOption) Clone() proto.Message {
-	var target *HttpListenerOption
+func (m *HttpListenerOptionSpec) Clone() proto.Message {
+	var target *HttpListenerOptionSpec
 	if m == nil {
 		return target
 	}
-	target = &HttpListenerOption{}
+	target = &HttpListenerOptionSpec{}
 
 	if h, ok := interface{}(m.GetOptions()).(clone.Cloner); ok {
 		target.Options = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1.HttpListenerOptions)
@@ -152,12 +152,12 @@ func (m *HttpListenerOption) Clone() proto.Message {
 }
 
 // Clone function
-func (m *VirtualHostOptionStatus) Clone() proto.Message {
-	var target *VirtualHostOptionStatus
+func (m *HttpListenerOptionStatus) Clone() proto.Message {
+	var target *HttpListenerOptionStatus
 	if m == nil {
 		return target
 	}
-	target = &VirtualHostOptionStatus{}
+	target = &HttpListenerOptionStatus{}
 
 	target.State = m.GetState()
 
@@ -166,13 +166,13 @@ func (m *VirtualHostOptionStatus) Clone() proto.Message {
 	target.ReportedBy = m.GetReportedBy()
 
 	if m.GetSubresourceStatuses() != nil {
-		target.SubresourceStatuses = make(map[string]*VirtualHostOptionStatus, len(m.GetSubresourceStatuses()))
+		target.SubresourceStatuses = make(map[string]*HttpListenerOptionStatus, len(m.GetSubresourceStatuses()))
 		for k, v := range m.GetSubresourceStatuses() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.SubresourceStatuses[k] = h.Clone().(*VirtualHostOptionStatus)
+				target.SubresourceStatuses[k] = h.Clone().(*HttpListenerOptionStatus)
 			} else {
-				target.SubresourceStatuses[k] = proto.Clone(v).(*VirtualHostOptionStatus)
+				target.SubresourceStatuses[k] = proto.Clone(v).(*HttpListenerOptionStatus)
 			}
 
 		}
@@ -188,21 +188,81 @@ func (m *VirtualHostOptionStatus) Clone() proto.Message {
 }
 
 // Clone function
-func (m *VirtualHostOptionNamespacedStatuses) Clone() proto.Message {
-	var target *VirtualHostOptionNamespacedStatuses
+func (m *HttpListenerOptionNamespacedStatuses) Clone() proto.Message {
+	var target *HttpListenerOptionNamespacedStatuses
 	if m == nil {
 		return target
 	}
-	target = &VirtualHostOptionNamespacedStatuses{}
+	target = &HttpListenerOptionNamespacedStatuses{}
 
 	if m.GetStatuses() != nil {
-		target.Statuses = make(map[string]*VirtualHostOptionStatus, len(m.GetStatuses()))
+		target.Statuses = make(map[string]*HttpListenerOptionStatus, len(m.GetStatuses()))
 		for k, v := range m.GetStatuses() {
 
 			if h, ok := interface{}(v).(clone.Cloner); ok {
-				target.Statuses[k] = h.Clone().(*VirtualHostOptionStatus)
+				target.Statuses[k] = h.Clone().(*HttpListenerOptionStatus)
 			} else {
-				target.Statuses[k] = proto.Clone(v).(*VirtualHostOptionStatus)
+				target.Statuses[k] = proto.Clone(v).(*HttpListenerOptionStatus)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ListenerOptionStatus) Clone() proto.Message {
+	var target *ListenerOptionStatus
+	if m == nil {
+		return target
+	}
+	target = &ListenerOptionStatus{}
+
+	target.State = m.GetState()
+
+	target.Reason = m.GetReason()
+
+	target.ReportedBy = m.GetReportedBy()
+
+	if m.GetSubresourceStatuses() != nil {
+		target.SubresourceStatuses = make(map[string]*ListenerOptionStatus, len(m.GetSubresourceStatuses()))
+		for k, v := range m.GetSubresourceStatuses() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SubresourceStatuses[k] = h.Clone().(*ListenerOptionStatus)
+			} else {
+				target.SubresourceStatuses[k] = proto.Clone(v).(*ListenerOptionStatus)
+			}
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(clone.Cloner); ok {
+		target.Details = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
+	} else {
+		target.Details = proto.Clone(m.GetDetails()).(*github_com_golang_protobuf_ptypes_struct.Struct)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ListenerOptionNamespacedStatuses) Clone() proto.Message {
+	var target *ListenerOptionNamespacedStatuses
+	if m == nil {
+		return target
+	}
+	target = &ListenerOptionNamespacedStatuses{}
+
+	if m.GetStatuses() != nil {
+		target.Statuses = make(map[string]*ListenerOptionStatus, len(m.GetStatuses()))
+		for k, v := range m.GetStatuses() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Statuses[k] = h.Clone().(*ListenerOptionStatus)
+			} else {
+				target.Statuses[k] = proto.Clone(v).(*ListenerOptionStatus)
 			}
 
 		}
@@ -263,6 +323,66 @@ func (m *RouteOptionNamespacedStatuses) Clone() proto.Message {
 				target.Statuses[k] = h.Clone().(*RouteOptionStatus)
 			} else {
 				target.Statuses[k] = proto.Clone(v).(*RouteOptionStatus)
+			}
+
+		}
+	}
+
+	return target
+}
+
+// Clone function
+func (m *VirtualHostOptionStatus) Clone() proto.Message {
+	var target *VirtualHostOptionStatus
+	if m == nil {
+		return target
+	}
+	target = &VirtualHostOptionStatus{}
+
+	target.State = m.GetState()
+
+	target.Reason = m.GetReason()
+
+	target.ReportedBy = m.GetReportedBy()
+
+	if m.GetSubresourceStatuses() != nil {
+		target.SubresourceStatuses = make(map[string]*VirtualHostOptionStatus, len(m.GetSubresourceStatuses()))
+		for k, v := range m.GetSubresourceStatuses() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.SubresourceStatuses[k] = h.Clone().(*VirtualHostOptionStatus)
+			} else {
+				target.SubresourceStatuses[k] = proto.Clone(v).(*VirtualHostOptionStatus)
+			}
+
+		}
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(clone.Cloner); ok {
+		target.Details = h.Clone().(*github_com_golang_protobuf_ptypes_struct.Struct)
+	} else {
+		target.Details = proto.Clone(m.GetDetails()).(*github_com_golang_protobuf_ptypes_struct.Struct)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *VirtualHostOptionNamespacedStatuses) Clone() proto.Message {
+	var target *VirtualHostOptionNamespacedStatuses
+	if m == nil {
+		return target
+	}
+	target = &VirtualHostOptionNamespacedStatuses{}
+
+	if m.GetStatuses() != nil {
+		target.Statuses = make(map[string]*VirtualHostOptionStatus, len(m.GetStatuses()))
+		for k, v := range m.GetStatuses() {
+
+			if h, ok := interface{}(v).(clone.Cloner); ok {
+				target.Statuses[k] = h.Clone().(*VirtualHostOptionStatus)
+			} else {
+				target.Statuses[k] = proto.Clone(v).(*VirtualHostOptionStatus)
 			}
 
 		}

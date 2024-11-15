@@ -146,7 +146,7 @@ func (m *RouteOptionSpec) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *ListenerOption) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *ListenerOptionSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -154,7 +154,7 @@ func (m *ListenerOption) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.ListenerOption")); err != nil {
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.ListenerOptionSpec")); err != nil {
 		return 0, err
 	}
 
@@ -206,7 +206,7 @@ func (m *ListenerOption) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *HttpListenerOption) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *HttpListenerOptionSpec) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -214,7 +214,7 @@ func (m *HttpListenerOption) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.HttpListenerOption")); err != nil {
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.HttpListenerOptionSpec")); err != nil {
 		return 0, err
 	}
 
@@ -266,7 +266,7 @@ func (m *HttpListenerOption) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *VirtualHostOptionStatus) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *HttpListenerOptionStatus) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -274,7 +274,7 @@ func (m *VirtualHostOptionStatus) Hash(hasher hash.Hash64) (uint64, error) {
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.VirtualHostOptionStatus")); err != nil {
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.HttpListenerOptionStatus")); err != nil {
 		return 0, err
 	}
 
@@ -354,7 +354,7 @@ func (m *VirtualHostOptionStatus) Hash(hasher hash.Hash64) (uint64, error) {
 }
 
 // Hash function
-func (m *VirtualHostOptionNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
+func (m *HttpListenerOptionNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
 	}
@@ -362,7 +362,150 @@ func (m *VirtualHostOptionNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, 
 		hasher = fnv.New64()
 	}
 	var err error
-	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.VirtualHostOptionNamespacedStatuses")); err != nil {
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.HttpListenerOptionNamespacedStatuses")); err != nil {
+		return 0, err
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetStatuses() {
+			innerHash.Reset()
+
+			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+				if _, err = innerHash.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if _, err = h.Hash(innerHash); err != nil {
+					return 0, err
+				}
+			} else {
+				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+					return 0, err
+				} else {
+					if _, err = innerHash.Write([]byte("")); err != nil {
+						return 0, err
+					}
+					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+						return 0, err
+					}
+				}
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *ListenerOptionStatus) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.ListenerOptionStatus")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetState())
+	if err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetReason())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetReportedBy())); err != nil {
+		return 0, err
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetSubresourceStatuses() {
+			innerHash.Reset()
+
+			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+				if _, err = innerHash.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if _, err = h.Hash(innerHash); err != nil {
+					return 0, err
+				}
+			} else {
+				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+					return 0, err
+				} else {
+					if _, err = innerHash.Write([]byte("")); err != nil {
+						return 0, err
+					}
+					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+						return 0, err
+					}
+				}
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Details")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetDetails(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Details")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *ListenerOptionNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.ListenerOptionNamespacedStatuses")); err != nil {
 		return 0, err
 	}
 
@@ -506,6 +649,149 @@ func (m *RouteOptionNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error)
 	}
 	var err error
 	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.RouteOptionNamespacedStatuses")); err != nil {
+		return 0, err
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetStatuses() {
+			innerHash.Reset()
+
+			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+				if _, err = innerHash.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if _, err = h.Hash(innerHash); err != nil {
+					return 0, err
+				}
+			} else {
+				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+					return 0, err
+				} else {
+					if _, err = innerHash.Write([]byte("")); err != nil {
+						return 0, err
+					}
+					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+						return 0, err
+					}
+				}
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *VirtualHostOptionStatus) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.VirtualHostOptionStatus")); err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetState())
+	if err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetReason())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetReportedBy())); err != nil {
+		return 0, err
+	}
+
+	{
+		var result uint64
+		innerHash := fnv.New64()
+		for k, v := range m.GetSubresourceStatuses() {
+			innerHash.Reset()
+
+			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
+				if _, err = innerHash.Write([]byte("")); err != nil {
+					return 0, err
+				}
+				if _, err = h.Hash(innerHash); err != nil {
+					return 0, err
+				}
+			} else {
+				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
+					return 0, err
+				} else {
+					if _, err = innerHash.Write([]byte("")); err != nil {
+						return 0, err
+					}
+					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
+						return 0, err
+					}
+				}
+			}
+
+			if _, err = innerHash.Write([]byte(k)); err != nil {
+				return 0, err
+			}
+
+			result = result ^ innerHash.Sum64()
+		}
+		err = binary.Write(hasher, binary.LittleEndian, result)
+		if err != nil {
+			return 0, err
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Details")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetDetails(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Details")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+func (m *VirtualHostOptionNamespacedStatuses) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("gateway.solo.io.github.com/solo-io/solo-apis/pkg/api/gateway.solo.io/v1.VirtualHostOptionNamespacedStatuses")); err != nil {
 		return 0, err
 	}
 

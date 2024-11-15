@@ -198,6 +198,372 @@ func (mr *MockGatewayReconcileLoopMockRecorder) RunGatewayReconciler(ctx, rec in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunGatewayReconciler", reflect.TypeOf((*MockGatewayReconcileLoop)(nil).RunGatewayReconciler), varargs...)
 }
 
+// MockHttpListenerOptionReconciler is a mock of HttpListenerOptionReconciler interface.
+type MockHttpListenerOptionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionReconcilerMockRecorder
+}
+
+// MockHttpListenerOptionReconcilerMockRecorder is the mock recorder for MockHttpListenerOptionReconciler.
+type MockHttpListenerOptionReconcilerMockRecorder struct {
+	mock *MockHttpListenerOptionReconciler
+}
+
+// NewMockHttpListenerOptionReconciler creates a new mock instance.
+func NewMockHttpListenerOptionReconciler(ctrl *gomock.Controller) *MockHttpListenerOptionReconciler {
+	mock := &MockHttpListenerOptionReconciler{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionReconciler) EXPECT() *MockHttpListenerOptionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionReconciler) ReconcileHttpListenerOption(obj *v1.HttpListenerOption) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileHttpListenerOption", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileHttpListenerOption indicates an expected call of ReconcileHttpListenerOption.
+func (mr *MockHttpListenerOptionReconcilerMockRecorder) ReconcileHttpListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionReconciler)(nil).ReconcileHttpListenerOption), obj)
+}
+
+// MockHttpListenerOptionDeletionReconciler is a mock of HttpListenerOptionDeletionReconciler interface.
+type MockHttpListenerOptionDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionDeletionReconcilerMockRecorder
+}
+
+// MockHttpListenerOptionDeletionReconcilerMockRecorder is the mock recorder for MockHttpListenerOptionDeletionReconciler.
+type MockHttpListenerOptionDeletionReconcilerMockRecorder struct {
+	mock *MockHttpListenerOptionDeletionReconciler
+}
+
+// NewMockHttpListenerOptionDeletionReconciler creates a new mock instance.
+func NewMockHttpListenerOptionDeletionReconciler(ctrl *gomock.Controller) *MockHttpListenerOptionDeletionReconciler {
+	mock := &MockHttpListenerOptionDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionDeletionReconciler) EXPECT() *MockHttpListenerOptionDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileHttpListenerOptionDeletion mocks base method.
+func (m *MockHttpListenerOptionDeletionReconciler) ReconcileHttpListenerOptionDeletion(req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileHttpListenerOptionDeletion", req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileHttpListenerOptionDeletion indicates an expected call of ReconcileHttpListenerOptionDeletion.
+func (mr *MockHttpListenerOptionDeletionReconcilerMockRecorder) ReconcileHttpListenerOptionDeletion(req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileHttpListenerOptionDeletion", reflect.TypeOf((*MockHttpListenerOptionDeletionReconciler)(nil).ReconcileHttpListenerOptionDeletion), req)
+}
+
+// MockHttpListenerOptionFinalizer is a mock of HttpListenerOptionFinalizer interface.
+type MockHttpListenerOptionFinalizer struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionFinalizerMockRecorder
+}
+
+// MockHttpListenerOptionFinalizerMockRecorder is the mock recorder for MockHttpListenerOptionFinalizer.
+type MockHttpListenerOptionFinalizerMockRecorder struct {
+	mock *MockHttpListenerOptionFinalizer
+}
+
+// NewMockHttpListenerOptionFinalizer creates a new mock instance.
+func NewMockHttpListenerOptionFinalizer(ctrl *gomock.Controller) *MockHttpListenerOptionFinalizer {
+	mock := &MockHttpListenerOptionFinalizer{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionFinalizerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionFinalizer) EXPECT() *MockHttpListenerOptionFinalizerMockRecorder {
+	return m.recorder
+}
+
+// FinalizeHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionFinalizer) FinalizeHttpListenerOption(obj *v1.HttpListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FinalizeHttpListenerOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// FinalizeHttpListenerOption indicates an expected call of FinalizeHttpListenerOption.
+func (mr *MockHttpListenerOptionFinalizerMockRecorder) FinalizeHttpListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionFinalizer)(nil).FinalizeHttpListenerOption), obj)
+}
+
+// HttpListenerOptionFinalizerName mocks base method.
+func (m *MockHttpListenerOptionFinalizer) HttpListenerOptionFinalizerName() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HttpListenerOptionFinalizerName")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// HttpListenerOptionFinalizerName indicates an expected call of HttpListenerOptionFinalizerName.
+func (mr *MockHttpListenerOptionFinalizerMockRecorder) HttpListenerOptionFinalizerName() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HttpListenerOptionFinalizerName", reflect.TypeOf((*MockHttpListenerOptionFinalizer)(nil).HttpListenerOptionFinalizerName))
+}
+
+// ReconcileHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionFinalizer) ReconcileHttpListenerOption(obj *v1.HttpListenerOption) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileHttpListenerOption", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileHttpListenerOption indicates an expected call of ReconcileHttpListenerOption.
+func (mr *MockHttpListenerOptionFinalizerMockRecorder) ReconcileHttpListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionFinalizer)(nil).ReconcileHttpListenerOption), obj)
+}
+
+// MockHttpListenerOptionReconcileLoop is a mock of HttpListenerOptionReconcileLoop interface.
+type MockHttpListenerOptionReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionReconcileLoopMockRecorder
+}
+
+// MockHttpListenerOptionReconcileLoopMockRecorder is the mock recorder for MockHttpListenerOptionReconcileLoop.
+type MockHttpListenerOptionReconcileLoopMockRecorder struct {
+	mock *MockHttpListenerOptionReconcileLoop
+}
+
+// NewMockHttpListenerOptionReconcileLoop creates a new mock instance.
+func NewMockHttpListenerOptionReconcileLoop(ctrl *gomock.Controller) *MockHttpListenerOptionReconcileLoop {
+	mock := &MockHttpListenerOptionReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionReconcileLoop) EXPECT() *MockHttpListenerOptionReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// RunHttpListenerOptionReconciler mocks base method.
+func (m *MockHttpListenerOptionReconcileLoop) RunHttpListenerOptionReconciler(ctx context.Context, rec controller.HttpListenerOptionReconciler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RunHttpListenerOptionReconciler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RunHttpListenerOptionReconciler indicates an expected call of RunHttpListenerOptionReconciler.
+func (mr *MockHttpListenerOptionReconcileLoopMockRecorder) RunHttpListenerOptionReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunHttpListenerOptionReconciler", reflect.TypeOf((*MockHttpListenerOptionReconcileLoop)(nil).RunHttpListenerOptionReconciler), varargs...)
+}
+
+// MockListenerOptionReconciler is a mock of ListenerOptionReconciler interface.
+type MockListenerOptionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionReconcilerMockRecorder
+}
+
+// MockListenerOptionReconcilerMockRecorder is the mock recorder for MockListenerOptionReconciler.
+type MockListenerOptionReconcilerMockRecorder struct {
+	mock *MockListenerOptionReconciler
+}
+
+// NewMockListenerOptionReconciler creates a new mock instance.
+func NewMockListenerOptionReconciler(ctrl *gomock.Controller) *MockListenerOptionReconciler {
+	mock := &MockListenerOptionReconciler{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionReconciler) EXPECT() *MockListenerOptionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileListenerOption mocks base method.
+func (m *MockListenerOptionReconciler) ReconcileListenerOption(obj *v1.ListenerOption) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileListenerOption", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileListenerOption indicates an expected call of ReconcileListenerOption.
+func (mr *MockListenerOptionReconcilerMockRecorder) ReconcileListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileListenerOption", reflect.TypeOf((*MockListenerOptionReconciler)(nil).ReconcileListenerOption), obj)
+}
+
+// MockListenerOptionDeletionReconciler is a mock of ListenerOptionDeletionReconciler interface.
+type MockListenerOptionDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionDeletionReconcilerMockRecorder
+}
+
+// MockListenerOptionDeletionReconcilerMockRecorder is the mock recorder for MockListenerOptionDeletionReconciler.
+type MockListenerOptionDeletionReconcilerMockRecorder struct {
+	mock *MockListenerOptionDeletionReconciler
+}
+
+// NewMockListenerOptionDeletionReconciler creates a new mock instance.
+func NewMockListenerOptionDeletionReconciler(ctrl *gomock.Controller) *MockListenerOptionDeletionReconciler {
+	mock := &MockListenerOptionDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionDeletionReconciler) EXPECT() *MockListenerOptionDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileListenerOptionDeletion mocks base method.
+func (m *MockListenerOptionDeletionReconciler) ReconcileListenerOptionDeletion(req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileListenerOptionDeletion", req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileListenerOptionDeletion indicates an expected call of ReconcileListenerOptionDeletion.
+func (mr *MockListenerOptionDeletionReconcilerMockRecorder) ReconcileListenerOptionDeletion(req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileListenerOptionDeletion", reflect.TypeOf((*MockListenerOptionDeletionReconciler)(nil).ReconcileListenerOptionDeletion), req)
+}
+
+// MockListenerOptionFinalizer is a mock of ListenerOptionFinalizer interface.
+type MockListenerOptionFinalizer struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionFinalizerMockRecorder
+}
+
+// MockListenerOptionFinalizerMockRecorder is the mock recorder for MockListenerOptionFinalizer.
+type MockListenerOptionFinalizerMockRecorder struct {
+	mock *MockListenerOptionFinalizer
+}
+
+// NewMockListenerOptionFinalizer creates a new mock instance.
+func NewMockListenerOptionFinalizer(ctrl *gomock.Controller) *MockListenerOptionFinalizer {
+	mock := &MockListenerOptionFinalizer{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionFinalizerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionFinalizer) EXPECT() *MockListenerOptionFinalizerMockRecorder {
+	return m.recorder
+}
+
+// FinalizeListenerOption mocks base method.
+func (m *MockListenerOptionFinalizer) FinalizeListenerOption(obj *v1.ListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FinalizeListenerOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// FinalizeListenerOption indicates an expected call of FinalizeListenerOption.
+func (mr *MockListenerOptionFinalizerMockRecorder) FinalizeListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeListenerOption", reflect.TypeOf((*MockListenerOptionFinalizer)(nil).FinalizeListenerOption), obj)
+}
+
+// ListenerOptionFinalizerName mocks base method.
+func (m *MockListenerOptionFinalizer) ListenerOptionFinalizerName() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListenerOptionFinalizerName")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// ListenerOptionFinalizerName indicates an expected call of ListenerOptionFinalizerName.
+func (mr *MockListenerOptionFinalizerMockRecorder) ListenerOptionFinalizerName() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListenerOptionFinalizerName", reflect.TypeOf((*MockListenerOptionFinalizer)(nil).ListenerOptionFinalizerName))
+}
+
+// ReconcileListenerOption mocks base method.
+func (m *MockListenerOptionFinalizer) ReconcileListenerOption(obj *v1.ListenerOption) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileListenerOption", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileListenerOption indicates an expected call of ReconcileListenerOption.
+func (mr *MockListenerOptionFinalizerMockRecorder) ReconcileListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileListenerOption", reflect.TypeOf((*MockListenerOptionFinalizer)(nil).ReconcileListenerOption), obj)
+}
+
+// MockListenerOptionReconcileLoop is a mock of ListenerOptionReconcileLoop interface.
+type MockListenerOptionReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionReconcileLoopMockRecorder
+}
+
+// MockListenerOptionReconcileLoopMockRecorder is the mock recorder for MockListenerOptionReconcileLoop.
+type MockListenerOptionReconcileLoopMockRecorder struct {
+	mock *MockListenerOptionReconcileLoop
+}
+
+// NewMockListenerOptionReconcileLoop creates a new mock instance.
+func NewMockListenerOptionReconcileLoop(ctrl *gomock.Controller) *MockListenerOptionReconcileLoop {
+	mock := &MockListenerOptionReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionReconcileLoop) EXPECT() *MockListenerOptionReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// RunListenerOptionReconciler mocks base method.
+func (m *MockListenerOptionReconcileLoop) RunListenerOptionReconciler(ctx context.Context, rec controller.ListenerOptionReconciler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RunListenerOptionReconciler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RunListenerOptionReconciler indicates an expected call of RunListenerOptionReconciler.
+func (mr *MockListenerOptionReconcileLoopMockRecorder) RunListenerOptionReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunListenerOptionReconciler", reflect.TypeOf((*MockListenerOptionReconcileLoop)(nil).RunListenerOptionReconciler), varargs...)
+}
+
 // MockMatchableHttpGatewayReconciler is a mock of MatchableHttpGatewayReconciler interface.
 type MockMatchableHttpGatewayReconciler struct {
 	ctrl     *gomock.Controller
@@ -562,6 +928,189 @@ func (mr *MockMatchableTcpGatewayReconcileLoopMockRecorder) RunMatchableTcpGatew
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunMatchableTcpGatewayReconciler", reflect.TypeOf((*MockMatchableTcpGatewayReconcileLoop)(nil).RunMatchableTcpGatewayReconciler), varargs...)
+}
+
+// MockRouteOptionReconciler is a mock of RouteOptionReconciler interface.
+type MockRouteOptionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionReconcilerMockRecorder
+}
+
+// MockRouteOptionReconcilerMockRecorder is the mock recorder for MockRouteOptionReconciler.
+type MockRouteOptionReconcilerMockRecorder struct {
+	mock *MockRouteOptionReconciler
+}
+
+// NewMockRouteOptionReconciler creates a new mock instance.
+func NewMockRouteOptionReconciler(ctrl *gomock.Controller) *MockRouteOptionReconciler {
+	mock := &MockRouteOptionReconciler{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionReconciler) EXPECT() *MockRouteOptionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileRouteOption mocks base method.
+func (m *MockRouteOptionReconciler) ReconcileRouteOption(obj *v1.RouteOption) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileRouteOption", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileRouteOption indicates an expected call of ReconcileRouteOption.
+func (mr *MockRouteOptionReconcilerMockRecorder) ReconcileRouteOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileRouteOption", reflect.TypeOf((*MockRouteOptionReconciler)(nil).ReconcileRouteOption), obj)
+}
+
+// MockRouteOptionDeletionReconciler is a mock of RouteOptionDeletionReconciler interface.
+type MockRouteOptionDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionDeletionReconcilerMockRecorder
+}
+
+// MockRouteOptionDeletionReconcilerMockRecorder is the mock recorder for MockRouteOptionDeletionReconciler.
+type MockRouteOptionDeletionReconcilerMockRecorder struct {
+	mock *MockRouteOptionDeletionReconciler
+}
+
+// NewMockRouteOptionDeletionReconciler creates a new mock instance.
+func NewMockRouteOptionDeletionReconciler(ctrl *gomock.Controller) *MockRouteOptionDeletionReconciler {
+	mock := &MockRouteOptionDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionDeletionReconciler) EXPECT() *MockRouteOptionDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileRouteOptionDeletion mocks base method.
+func (m *MockRouteOptionDeletionReconciler) ReconcileRouteOptionDeletion(req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileRouteOptionDeletion", req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileRouteOptionDeletion indicates an expected call of ReconcileRouteOptionDeletion.
+func (mr *MockRouteOptionDeletionReconcilerMockRecorder) ReconcileRouteOptionDeletion(req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileRouteOptionDeletion", reflect.TypeOf((*MockRouteOptionDeletionReconciler)(nil).ReconcileRouteOptionDeletion), req)
+}
+
+// MockRouteOptionFinalizer is a mock of RouteOptionFinalizer interface.
+type MockRouteOptionFinalizer struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionFinalizerMockRecorder
+}
+
+// MockRouteOptionFinalizerMockRecorder is the mock recorder for MockRouteOptionFinalizer.
+type MockRouteOptionFinalizerMockRecorder struct {
+	mock *MockRouteOptionFinalizer
+}
+
+// NewMockRouteOptionFinalizer creates a new mock instance.
+func NewMockRouteOptionFinalizer(ctrl *gomock.Controller) *MockRouteOptionFinalizer {
+	mock := &MockRouteOptionFinalizer{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionFinalizerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionFinalizer) EXPECT() *MockRouteOptionFinalizerMockRecorder {
+	return m.recorder
+}
+
+// FinalizeRouteOption mocks base method.
+func (m *MockRouteOptionFinalizer) FinalizeRouteOption(obj *v1.RouteOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FinalizeRouteOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// FinalizeRouteOption indicates an expected call of FinalizeRouteOption.
+func (mr *MockRouteOptionFinalizerMockRecorder) FinalizeRouteOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeRouteOption", reflect.TypeOf((*MockRouteOptionFinalizer)(nil).FinalizeRouteOption), obj)
+}
+
+// ReconcileRouteOption mocks base method.
+func (m *MockRouteOptionFinalizer) ReconcileRouteOption(obj *v1.RouteOption) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileRouteOption", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileRouteOption indicates an expected call of ReconcileRouteOption.
+func (mr *MockRouteOptionFinalizerMockRecorder) ReconcileRouteOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileRouteOption", reflect.TypeOf((*MockRouteOptionFinalizer)(nil).ReconcileRouteOption), obj)
+}
+
+// RouteOptionFinalizerName mocks base method.
+func (m *MockRouteOptionFinalizer) RouteOptionFinalizerName() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RouteOptionFinalizerName")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// RouteOptionFinalizerName indicates an expected call of RouteOptionFinalizerName.
+func (mr *MockRouteOptionFinalizerMockRecorder) RouteOptionFinalizerName() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RouteOptionFinalizerName", reflect.TypeOf((*MockRouteOptionFinalizer)(nil).RouteOptionFinalizerName))
+}
+
+// MockRouteOptionReconcileLoop is a mock of RouteOptionReconcileLoop interface.
+type MockRouteOptionReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionReconcileLoopMockRecorder
+}
+
+// MockRouteOptionReconcileLoopMockRecorder is the mock recorder for MockRouteOptionReconcileLoop.
+type MockRouteOptionReconcileLoopMockRecorder struct {
+	mock *MockRouteOptionReconcileLoop
+}
+
+// NewMockRouteOptionReconcileLoop creates a new mock instance.
+func NewMockRouteOptionReconcileLoop(ctrl *gomock.Controller) *MockRouteOptionReconcileLoop {
+	mock := &MockRouteOptionReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionReconcileLoop) EXPECT() *MockRouteOptionReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// RunRouteOptionReconciler mocks base method.
+func (m *MockRouteOptionReconcileLoop) RunRouteOptionReconciler(ctx context.Context, rec controller.RouteOptionReconciler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RunRouteOptionReconciler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RunRouteOptionReconciler indicates an expected call of RunRouteOptionReconciler.
+func (mr *MockRouteOptionReconcileLoopMockRecorder) RunRouteOptionReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunRouteOptionReconciler", reflect.TypeOf((*MockRouteOptionReconcileLoop)(nil).RunRouteOptionReconciler), varargs...)
 }
 
 // MockRouteTableReconciler is a mock of RouteTableReconciler interface.
@@ -1111,187 +1660,4 @@ func (mr *MockVirtualHostOptionReconcileLoopMockRecorder) RunVirtualHostOptionRe
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunVirtualHostOptionReconciler", reflect.TypeOf((*MockVirtualHostOptionReconcileLoop)(nil).RunVirtualHostOptionReconciler), varargs...)
-}
-
-// MockRouteOptionReconciler is a mock of RouteOptionReconciler interface.
-type MockRouteOptionReconciler struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionReconcilerMockRecorder
-}
-
-// MockRouteOptionReconcilerMockRecorder is the mock recorder for MockRouteOptionReconciler.
-type MockRouteOptionReconcilerMockRecorder struct {
-	mock *MockRouteOptionReconciler
-}
-
-// NewMockRouteOptionReconciler creates a new mock instance.
-func NewMockRouteOptionReconciler(ctrl *gomock.Controller) *MockRouteOptionReconciler {
-	mock := &MockRouteOptionReconciler{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionReconcilerMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionReconciler) EXPECT() *MockRouteOptionReconcilerMockRecorder {
-	return m.recorder
-}
-
-// ReconcileRouteOption mocks base method.
-func (m *MockRouteOptionReconciler) ReconcileRouteOption(obj *v1.RouteOption) (reconcile.Result, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReconcileRouteOption", obj)
-	ret0, _ := ret[0].(reconcile.Result)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ReconcileRouteOption indicates an expected call of ReconcileRouteOption.
-func (mr *MockRouteOptionReconcilerMockRecorder) ReconcileRouteOption(obj interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileRouteOption", reflect.TypeOf((*MockRouteOptionReconciler)(nil).ReconcileRouteOption), obj)
-}
-
-// MockRouteOptionDeletionReconciler is a mock of RouteOptionDeletionReconciler interface.
-type MockRouteOptionDeletionReconciler struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionDeletionReconcilerMockRecorder
-}
-
-// MockRouteOptionDeletionReconcilerMockRecorder is the mock recorder for MockRouteOptionDeletionReconciler.
-type MockRouteOptionDeletionReconcilerMockRecorder struct {
-	mock *MockRouteOptionDeletionReconciler
-}
-
-// NewMockRouteOptionDeletionReconciler creates a new mock instance.
-func NewMockRouteOptionDeletionReconciler(ctrl *gomock.Controller) *MockRouteOptionDeletionReconciler {
-	mock := &MockRouteOptionDeletionReconciler{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionDeletionReconcilerMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionDeletionReconciler) EXPECT() *MockRouteOptionDeletionReconcilerMockRecorder {
-	return m.recorder
-}
-
-// ReconcileRouteOptionDeletion mocks base method.
-func (m *MockRouteOptionDeletionReconciler) ReconcileRouteOptionDeletion(req reconcile.Request) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReconcileRouteOptionDeletion", req)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// ReconcileRouteOptionDeletion indicates an expected call of ReconcileRouteOptionDeletion.
-func (mr *MockRouteOptionDeletionReconcilerMockRecorder) ReconcileRouteOptionDeletion(req interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileRouteOptionDeletion", reflect.TypeOf((*MockRouteOptionDeletionReconciler)(nil).ReconcileRouteOptionDeletion), req)
-}
-
-// MockRouteOptionFinalizer is a mock of RouteOptionFinalizer interface.
-type MockRouteOptionFinalizer struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionFinalizerMockRecorder
-}
-
-// MockRouteOptionFinalizerMockRecorder is the mock recorder for MockRouteOptionFinalizer.
-type MockRouteOptionFinalizerMockRecorder struct {
-	mock *MockRouteOptionFinalizer
-}
-
-// NewMockRouteOptionFinalizer creates a new mock instance.
-func NewMockRouteOptionFinalizer(ctrl *gomock.Controller) *MockRouteOptionFinalizer {
-	mock := &MockRouteOptionFinalizer{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionFinalizerMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionFinalizer) EXPECT() *MockRouteOptionFinalizerMockRecorder {
-	return m.recorder
-}
-
-// FinalizeRouteOption mocks base method.
-func (m *MockRouteOptionFinalizer) FinalizeRouteOption(obj *v1.RouteOption) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FinalizeRouteOption", obj)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// FinalizeRouteOption indicates an expected call of FinalizeRouteOption.
-func (mr *MockRouteOptionFinalizerMockRecorder) FinalizeRouteOption(obj interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeRouteOption", reflect.TypeOf((*MockRouteOptionFinalizer)(nil).FinalizeRouteOption), obj)
-}
-
-// ReconcileRouteOption mocks base method.
-func (m *MockRouteOptionFinalizer) ReconcileRouteOption(obj *v1.RouteOption) (reconcile.Result, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReconcileRouteOption", obj)
-	ret0, _ := ret[0].(reconcile.Result)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ReconcileRouteOption indicates an expected call of ReconcileRouteOption.
-func (mr *MockRouteOptionFinalizerMockRecorder) ReconcileRouteOption(obj interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileRouteOption", reflect.TypeOf((*MockRouteOptionFinalizer)(nil).ReconcileRouteOption), obj)
-}
-
-// RouteOptionFinalizerName mocks base method.
-func (m *MockRouteOptionFinalizer) RouteOptionFinalizerName() string {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RouteOptionFinalizerName")
-	ret0, _ := ret[0].(string)
-	return ret0
-}
-
-// RouteOptionFinalizerName indicates an expected call of RouteOptionFinalizerName.
-func (mr *MockRouteOptionFinalizerMockRecorder) RouteOptionFinalizerName() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RouteOptionFinalizerName", reflect.TypeOf((*MockRouteOptionFinalizer)(nil).RouteOptionFinalizerName))
-}
-
-// MockRouteOptionReconcileLoop is a mock of RouteOptionReconcileLoop interface.
-type MockRouteOptionReconcileLoop struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionReconcileLoopMockRecorder
-}
-
-// MockRouteOptionReconcileLoopMockRecorder is the mock recorder for MockRouteOptionReconcileLoop.
-type MockRouteOptionReconcileLoopMockRecorder struct {
-	mock *MockRouteOptionReconcileLoop
-}
-
-// NewMockRouteOptionReconcileLoop creates a new mock instance.
-func NewMockRouteOptionReconcileLoop(ctrl *gomock.Controller) *MockRouteOptionReconcileLoop {
-	mock := &MockRouteOptionReconcileLoop{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionReconcileLoopMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionReconcileLoop) EXPECT() *MockRouteOptionReconcileLoopMockRecorder {
-	return m.recorder
-}
-
-// RunRouteOptionReconciler mocks base method.
-func (m *MockRouteOptionReconcileLoop) RunRouteOptionReconciler(ctx context.Context, rec controller.RouteOptionReconciler, predicates ...predicate.Predicate) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, rec}
-	for _, a := range predicates {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "RunRouteOptionReconciler", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// RunRouteOptionReconciler indicates an expected call of RunRouteOptionReconciler.
-func (mr *MockRouteOptionReconcileLoopMockRecorder) RunRouteOptionReconciler(ctx, rec interface{}, predicates ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, rec}, predicates...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunRouteOptionReconciler", reflect.TypeOf((*MockRouteOptionReconcileLoop)(nil).RunRouteOptionReconciler), varargs...)
 }

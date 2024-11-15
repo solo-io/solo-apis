@@ -128,14 +128,14 @@ func (m *RouteOptionSpec) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *ListenerOption) Equal(that interface{}) bool {
+func (m *ListenerOptionSpec) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*ListenerOption)
+	target, ok := that.(*ListenerOptionSpec)
 	if !ok {
-		that2, ok := that.(ListenerOption)
+		that2, ok := that.(ListenerOptionSpec)
 		if ok {
 			target = &that2
 		} else {
@@ -179,14 +179,14 @@ func (m *ListenerOption) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *HttpListenerOption) Equal(that interface{}) bool {
+func (m *HttpListenerOptionSpec) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*HttpListenerOption)
+	target, ok := that.(*HttpListenerOptionSpec)
 	if !ok {
-		that2, ok := that.(HttpListenerOption)
+		that2, ok := that.(HttpListenerOptionSpec)
 		if ok {
 			target = &that2
 		} else {
@@ -230,14 +230,14 @@ func (m *HttpListenerOption) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *VirtualHostOptionStatus) Equal(that interface{}) bool {
+func (m *HttpListenerOptionStatus) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*VirtualHostOptionStatus)
+	target, ok := that.(*HttpListenerOptionStatus)
 	if !ok {
-		that2, ok := that.(VirtualHostOptionStatus)
+		that2, ok := that.(HttpListenerOptionStatus)
 		if ok {
 			target = &that2
 		} else {
@@ -293,14 +293,118 @@ func (m *VirtualHostOptionStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *VirtualHostOptionNamespacedStatuses) Equal(that interface{}) bool {
+func (m *HttpListenerOptionNamespacedStatuses) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
 	}
 
-	target, ok := that.(*VirtualHostOptionNamespacedStatuses)
+	target, ok := that.(*HttpListenerOptionNamespacedStatuses)
 	if !ok {
-		that2, ok := that.(VirtualHostOptionNamespacedStatuses)
+		that2, ok := that.(HttpListenerOptionNamespacedStatuses)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetStatuses()) != len(target.GetStatuses()) {
+		return false
+	}
+	for k, v := range m.GetStatuses() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStatuses()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetStatuses()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ListenerOptionStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ListenerOptionStatus)
+	if !ok {
+		that2, ok := that.(ListenerOptionStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetState() != target.GetState() {
+		return false
+	}
+
+	if strings.Compare(m.GetReason(), target.GetReason()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetReportedBy(), target.GetReportedBy()) != 0 {
+		return false
+	}
+
+	if len(m.GetSubresourceStatuses()) != len(target.GetSubresourceStatuses()) {
+		return false
+	}
+	for k, v := range m.GetSubresourceStatuses() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSubresourceStatuses()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSubresourceStatuses()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDetails()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDetails(), target.GetDetails()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ListenerOptionNamespacedStatuses) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ListenerOptionNamespacedStatuses)
+	if !ok {
+		that2, ok := that.(ListenerOptionNamespacedStatuses)
 		if ok {
 			target = &that2
 		} else {
@@ -405,6 +509,110 @@ func (m *RouteOptionNamespacedStatuses) Equal(that interface{}) bool {
 	target, ok := that.(*RouteOptionNamespacedStatuses)
 	if !ok {
 		that2, ok := that.(RouteOptionNamespacedStatuses)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetStatuses()) != len(target.GetStatuses()) {
+		return false
+	}
+	for k, v := range m.GetStatuses() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStatuses()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetStatuses()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+// Equal function
+func (m *VirtualHostOptionStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*VirtualHostOptionStatus)
+	if !ok {
+		that2, ok := that.(VirtualHostOptionStatus)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if m.GetState() != target.GetState() {
+		return false
+	}
+
+	if strings.Compare(m.GetReason(), target.GetReason()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetReportedBy(), target.GetReportedBy()) != 0 {
+		return false
+	}
+
+	if len(m.GetSubresourceStatuses()) != len(target.GetSubresourceStatuses()) {
+		return false
+	}
+	for k, v := range m.GetSubresourceStatuses() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetSubresourceStatuses()[k]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetSubresourceStatuses()[k]) {
+				return false
+			}
+		}
+
+	}
+
+	if h, ok := interface{}(m.GetDetails()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetDetails()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetDetails(), target.GetDetails()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *VirtualHostOptionNamespacedStatuses) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*VirtualHostOptionNamespacedStatuses)
+	if !ok {
+		that2, ok := that.(VirtualHostOptionNamespacedStatuses)
 		if ok {
 			target = &that2
 		} else {
