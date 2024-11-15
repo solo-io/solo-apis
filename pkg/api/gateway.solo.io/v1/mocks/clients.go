@@ -88,6 +88,34 @@ func (mr *MockClientsetMockRecorder) Gateways() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Gateways", reflect.TypeOf((*MockClientset)(nil).Gateways))
 }
 
+// HttpListenerOptions mocks base method.
+func (m *MockClientset) HttpListenerOptions() v1.HttpListenerOptionClient {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HttpListenerOptions")
+	ret0, _ := ret[0].(v1.HttpListenerOptionClient)
+	return ret0
+}
+
+// HttpListenerOptions indicates an expected call of HttpListenerOptions.
+func (mr *MockClientsetMockRecorder) HttpListenerOptions() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HttpListenerOptions", reflect.TypeOf((*MockClientset)(nil).HttpListenerOptions))
+}
+
+// ListenerOptions mocks base method.
+func (m *MockClientset) ListenerOptions() v1.ListenerOptionClient {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListenerOptions")
+	ret0, _ := ret[0].(v1.ListenerOptionClient)
+	return ret0
+}
+
+// ListenerOptions indicates an expected call of ListenerOptions.
+func (mr *MockClientsetMockRecorder) ListenerOptions() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListenerOptions", reflect.TypeOf((*MockClientset)(nil).ListenerOptions))
+}
+
 // MatchableHttpGateways mocks base method.
 func (m *MockClientset) MatchableHttpGateways() v1.MatchableHttpGatewayClient {
 	m.ctrl.T.Helper()
@@ -674,6 +702,1014 @@ func (m *MockMulticlusterGatewayClient) Cluster(cluster string) (v1.GatewayClien
 func (mr *MockMulticlusterGatewayClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterGatewayClient)(nil).Cluster), cluster)
+}
+
+// MockHttpListenerOptionReader is a mock of HttpListenerOptionReader interface.
+type MockHttpListenerOptionReader struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionReaderMockRecorder
+}
+
+// MockHttpListenerOptionReaderMockRecorder is the mock recorder for MockHttpListenerOptionReader.
+type MockHttpListenerOptionReaderMockRecorder struct {
+	mock *MockHttpListenerOptionReader
+}
+
+// NewMockHttpListenerOptionReader creates a new mock instance.
+func NewMockHttpListenerOptionReader(ctrl *gomock.Controller) *MockHttpListenerOptionReader {
+	mock := &MockHttpListenerOptionReader{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionReaderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionReader) EXPECT() *MockHttpListenerOptionReaderMockRecorder {
+	return m.recorder
+}
+
+// GetHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionReader) GetHttpListenerOption(ctx context.Context, key client.ObjectKey) (*v1.HttpListenerOption, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetHttpListenerOption", ctx, key)
+	ret0, _ := ret[0].(*v1.HttpListenerOption)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetHttpListenerOption indicates an expected call of GetHttpListenerOption.
+func (mr *MockHttpListenerOptionReaderMockRecorder) GetHttpListenerOption(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionReader)(nil).GetHttpListenerOption), ctx, key)
+}
+
+// ListHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionReader) ListHttpListenerOption(ctx context.Context, opts ...client.ListOption) (*v1.HttpListenerOptionList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(*v1.HttpListenerOptionList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListHttpListenerOption indicates an expected call of ListHttpListenerOption.
+func (mr *MockHttpListenerOptionReaderMockRecorder) ListHttpListenerOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionReader)(nil).ListHttpListenerOption), varargs...)
+}
+
+// MockHttpListenerOptionWriter is a mock of HttpListenerOptionWriter interface.
+type MockHttpListenerOptionWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionWriterMockRecorder
+}
+
+// MockHttpListenerOptionWriterMockRecorder is the mock recorder for MockHttpListenerOptionWriter.
+type MockHttpListenerOptionWriterMockRecorder struct {
+	mock *MockHttpListenerOptionWriter
+}
+
+// NewMockHttpListenerOptionWriter creates a new mock instance.
+func NewMockHttpListenerOptionWriter(ctrl *gomock.Controller) *MockHttpListenerOptionWriter {
+	mock := &MockHttpListenerOptionWriter{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionWriter) EXPECT() *MockHttpListenerOptionWriterMockRecorder {
+	return m.recorder
+}
+
+// CreateHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionWriter) CreateHttpListenerOption(ctx context.Context, obj *v1.HttpListenerOption, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateHttpListenerOption indicates an expected call of CreateHttpListenerOption.
+func (mr *MockHttpListenerOptionWriterMockRecorder) CreateHttpListenerOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionWriter)(nil).CreateHttpListenerOption), varargs...)
+}
+
+// DeleteAllOfHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionWriter) DeleteAllOfHttpListenerOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfHttpListenerOption indicates an expected call of DeleteAllOfHttpListenerOption.
+func (mr *MockHttpListenerOptionWriterMockRecorder) DeleteAllOfHttpListenerOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionWriter)(nil).DeleteAllOfHttpListenerOption), varargs...)
+}
+
+// DeleteHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionWriter) DeleteHttpListenerOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteHttpListenerOption indicates an expected call of DeleteHttpListenerOption.
+func (mr *MockHttpListenerOptionWriterMockRecorder) DeleteHttpListenerOption(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionWriter)(nil).DeleteHttpListenerOption), varargs...)
+}
+
+// PatchHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionWriter) PatchHttpListenerOption(ctx context.Context, obj *v1.HttpListenerOption, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchHttpListenerOption indicates an expected call of PatchHttpListenerOption.
+func (mr *MockHttpListenerOptionWriterMockRecorder) PatchHttpListenerOption(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionWriter)(nil).PatchHttpListenerOption), varargs...)
+}
+
+// UpdateHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionWriter) UpdateHttpListenerOption(ctx context.Context, obj *v1.HttpListenerOption, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateHttpListenerOption indicates an expected call of UpdateHttpListenerOption.
+func (mr *MockHttpListenerOptionWriterMockRecorder) UpdateHttpListenerOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionWriter)(nil).UpdateHttpListenerOption), varargs...)
+}
+
+// UpsertHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionWriter) UpsertHttpListenerOption(ctx context.Context, obj *v1.HttpListenerOption, transitionFuncs ...v1.HttpListenerOptionTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertHttpListenerOption indicates an expected call of UpsertHttpListenerOption.
+func (mr *MockHttpListenerOptionWriterMockRecorder) UpsertHttpListenerOption(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionWriter)(nil).UpsertHttpListenerOption), varargs...)
+}
+
+// MockHttpListenerOptionStatusWriter is a mock of HttpListenerOptionStatusWriter interface.
+type MockHttpListenerOptionStatusWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionStatusWriterMockRecorder
+}
+
+// MockHttpListenerOptionStatusWriterMockRecorder is the mock recorder for MockHttpListenerOptionStatusWriter.
+type MockHttpListenerOptionStatusWriterMockRecorder struct {
+	mock *MockHttpListenerOptionStatusWriter
+}
+
+// NewMockHttpListenerOptionStatusWriter creates a new mock instance.
+func NewMockHttpListenerOptionStatusWriter(ctrl *gomock.Controller) *MockHttpListenerOptionStatusWriter {
+	mock := &MockHttpListenerOptionStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionStatusWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionStatusWriter) EXPECT() *MockHttpListenerOptionStatusWriterMockRecorder {
+	return m.recorder
+}
+
+// PatchHttpListenerOptionStatus mocks base method.
+func (m *MockHttpListenerOptionStatusWriter) PatchHttpListenerOptionStatus(ctx context.Context, obj *v1.HttpListenerOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchHttpListenerOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchHttpListenerOptionStatus indicates an expected call of PatchHttpListenerOptionStatus.
+func (mr *MockHttpListenerOptionStatusWriterMockRecorder) PatchHttpListenerOptionStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchHttpListenerOptionStatus", reflect.TypeOf((*MockHttpListenerOptionStatusWriter)(nil).PatchHttpListenerOptionStatus), varargs...)
+}
+
+// UpdateHttpListenerOptionStatus mocks base method.
+func (m *MockHttpListenerOptionStatusWriter) UpdateHttpListenerOptionStatus(ctx context.Context, obj *v1.HttpListenerOption, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateHttpListenerOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateHttpListenerOptionStatus indicates an expected call of UpdateHttpListenerOptionStatus.
+func (mr *MockHttpListenerOptionStatusWriterMockRecorder) UpdateHttpListenerOptionStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateHttpListenerOptionStatus", reflect.TypeOf((*MockHttpListenerOptionStatusWriter)(nil).UpdateHttpListenerOptionStatus), varargs...)
+}
+
+// MockHttpListenerOptionClient is a mock of HttpListenerOptionClient interface.
+type MockHttpListenerOptionClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionClientMockRecorder
+}
+
+// MockHttpListenerOptionClientMockRecorder is the mock recorder for MockHttpListenerOptionClient.
+type MockHttpListenerOptionClientMockRecorder struct {
+	mock *MockHttpListenerOptionClient
+}
+
+// NewMockHttpListenerOptionClient creates a new mock instance.
+func NewMockHttpListenerOptionClient(ctrl *gomock.Controller) *MockHttpListenerOptionClient {
+	mock := &MockHttpListenerOptionClient{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionClient) EXPECT() *MockHttpListenerOptionClientMockRecorder {
+	return m.recorder
+}
+
+// CreateHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionClient) CreateHttpListenerOption(ctx context.Context, obj *v1.HttpListenerOption, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateHttpListenerOption indicates an expected call of CreateHttpListenerOption.
+func (mr *MockHttpListenerOptionClientMockRecorder) CreateHttpListenerOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).CreateHttpListenerOption), varargs...)
+}
+
+// DeleteAllOfHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionClient) DeleteAllOfHttpListenerOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfHttpListenerOption indicates an expected call of DeleteAllOfHttpListenerOption.
+func (mr *MockHttpListenerOptionClientMockRecorder) DeleteAllOfHttpListenerOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).DeleteAllOfHttpListenerOption), varargs...)
+}
+
+// DeleteHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionClient) DeleteHttpListenerOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteHttpListenerOption indicates an expected call of DeleteHttpListenerOption.
+func (mr *MockHttpListenerOptionClientMockRecorder) DeleteHttpListenerOption(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).DeleteHttpListenerOption), varargs...)
+}
+
+// GetHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionClient) GetHttpListenerOption(ctx context.Context, key client.ObjectKey) (*v1.HttpListenerOption, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetHttpListenerOption", ctx, key)
+	ret0, _ := ret[0].(*v1.HttpListenerOption)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetHttpListenerOption indicates an expected call of GetHttpListenerOption.
+func (mr *MockHttpListenerOptionClientMockRecorder) GetHttpListenerOption(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).GetHttpListenerOption), ctx, key)
+}
+
+// ListHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionClient) ListHttpListenerOption(ctx context.Context, opts ...client.ListOption) (*v1.HttpListenerOptionList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(*v1.HttpListenerOptionList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListHttpListenerOption indicates an expected call of ListHttpListenerOption.
+func (mr *MockHttpListenerOptionClientMockRecorder) ListHttpListenerOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).ListHttpListenerOption), varargs...)
+}
+
+// PatchHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionClient) PatchHttpListenerOption(ctx context.Context, obj *v1.HttpListenerOption, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchHttpListenerOption indicates an expected call of PatchHttpListenerOption.
+func (mr *MockHttpListenerOptionClientMockRecorder) PatchHttpListenerOption(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).PatchHttpListenerOption), varargs...)
+}
+
+// PatchHttpListenerOptionStatus mocks base method.
+func (m *MockHttpListenerOptionClient) PatchHttpListenerOptionStatus(ctx context.Context, obj *v1.HttpListenerOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchHttpListenerOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchHttpListenerOptionStatus indicates an expected call of PatchHttpListenerOptionStatus.
+func (mr *MockHttpListenerOptionClientMockRecorder) PatchHttpListenerOptionStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchHttpListenerOptionStatus", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).PatchHttpListenerOptionStatus), varargs...)
+}
+
+// UpdateHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionClient) UpdateHttpListenerOption(ctx context.Context, obj *v1.HttpListenerOption, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateHttpListenerOption indicates an expected call of UpdateHttpListenerOption.
+func (mr *MockHttpListenerOptionClientMockRecorder) UpdateHttpListenerOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).UpdateHttpListenerOption), varargs...)
+}
+
+// UpdateHttpListenerOptionStatus mocks base method.
+func (m *MockHttpListenerOptionClient) UpdateHttpListenerOptionStatus(ctx context.Context, obj *v1.HttpListenerOption, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateHttpListenerOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateHttpListenerOptionStatus indicates an expected call of UpdateHttpListenerOptionStatus.
+func (mr *MockHttpListenerOptionClientMockRecorder) UpdateHttpListenerOptionStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateHttpListenerOptionStatus", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).UpdateHttpListenerOptionStatus), varargs...)
+}
+
+// UpsertHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionClient) UpsertHttpListenerOption(ctx context.Context, obj *v1.HttpListenerOption, transitionFuncs ...v1.HttpListenerOptionTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertHttpListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertHttpListenerOption indicates an expected call of UpsertHttpListenerOption.
+func (mr *MockHttpListenerOptionClientMockRecorder) UpsertHttpListenerOption(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionClient)(nil).UpsertHttpListenerOption), varargs...)
+}
+
+// MockMulticlusterHttpListenerOptionClient is a mock of MulticlusterHttpListenerOptionClient interface.
+type MockMulticlusterHttpListenerOptionClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterHttpListenerOptionClientMockRecorder
+}
+
+// MockMulticlusterHttpListenerOptionClientMockRecorder is the mock recorder for MockMulticlusterHttpListenerOptionClient.
+type MockMulticlusterHttpListenerOptionClientMockRecorder struct {
+	mock *MockMulticlusterHttpListenerOptionClient
+}
+
+// NewMockMulticlusterHttpListenerOptionClient creates a new mock instance.
+func NewMockMulticlusterHttpListenerOptionClient(ctrl *gomock.Controller) *MockMulticlusterHttpListenerOptionClient {
+	mock := &MockMulticlusterHttpListenerOptionClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterHttpListenerOptionClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterHttpListenerOptionClient) EXPECT() *MockMulticlusterHttpListenerOptionClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterHttpListenerOptionClient) Cluster(cluster string) (v1.HttpListenerOptionClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v1.HttpListenerOptionClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterHttpListenerOptionClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterHttpListenerOptionClient)(nil).Cluster), cluster)
+}
+
+// MockListenerOptionReader is a mock of ListenerOptionReader interface.
+type MockListenerOptionReader struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionReaderMockRecorder
+}
+
+// MockListenerOptionReaderMockRecorder is the mock recorder for MockListenerOptionReader.
+type MockListenerOptionReaderMockRecorder struct {
+	mock *MockListenerOptionReader
+}
+
+// NewMockListenerOptionReader creates a new mock instance.
+func NewMockListenerOptionReader(ctrl *gomock.Controller) *MockListenerOptionReader {
+	mock := &MockListenerOptionReader{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionReaderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionReader) EXPECT() *MockListenerOptionReaderMockRecorder {
+	return m.recorder
+}
+
+// GetListenerOption mocks base method.
+func (m *MockListenerOptionReader) GetListenerOption(ctx context.Context, key client.ObjectKey) (*v1.ListenerOption, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetListenerOption", ctx, key)
+	ret0, _ := ret[0].(*v1.ListenerOption)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetListenerOption indicates an expected call of GetListenerOption.
+func (mr *MockListenerOptionReaderMockRecorder) GetListenerOption(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetListenerOption", reflect.TypeOf((*MockListenerOptionReader)(nil).GetListenerOption), ctx, key)
+}
+
+// ListListenerOption mocks base method.
+func (m *MockListenerOptionReader) ListListenerOption(ctx context.Context, opts ...client.ListOption) (*v1.ListenerOptionList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListListenerOption", varargs...)
+	ret0, _ := ret[0].(*v1.ListenerOptionList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListListenerOption indicates an expected call of ListListenerOption.
+func (mr *MockListenerOptionReaderMockRecorder) ListListenerOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListListenerOption", reflect.TypeOf((*MockListenerOptionReader)(nil).ListListenerOption), varargs...)
+}
+
+// MockListenerOptionWriter is a mock of ListenerOptionWriter interface.
+type MockListenerOptionWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionWriterMockRecorder
+}
+
+// MockListenerOptionWriterMockRecorder is the mock recorder for MockListenerOptionWriter.
+type MockListenerOptionWriterMockRecorder struct {
+	mock *MockListenerOptionWriter
+}
+
+// NewMockListenerOptionWriter creates a new mock instance.
+func NewMockListenerOptionWriter(ctrl *gomock.Controller) *MockListenerOptionWriter {
+	mock := &MockListenerOptionWriter{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionWriter) EXPECT() *MockListenerOptionWriterMockRecorder {
+	return m.recorder
+}
+
+// CreateListenerOption mocks base method.
+func (m *MockListenerOptionWriter) CreateListenerOption(ctx context.Context, obj *v1.ListenerOption, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateListenerOption indicates an expected call of CreateListenerOption.
+func (mr *MockListenerOptionWriterMockRecorder) CreateListenerOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateListenerOption", reflect.TypeOf((*MockListenerOptionWriter)(nil).CreateListenerOption), varargs...)
+}
+
+// DeleteAllOfListenerOption mocks base method.
+func (m *MockListenerOptionWriter) DeleteAllOfListenerOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfListenerOption indicates an expected call of DeleteAllOfListenerOption.
+func (mr *MockListenerOptionWriterMockRecorder) DeleteAllOfListenerOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfListenerOption", reflect.TypeOf((*MockListenerOptionWriter)(nil).DeleteAllOfListenerOption), varargs...)
+}
+
+// DeleteListenerOption mocks base method.
+func (m *MockListenerOptionWriter) DeleteListenerOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteListenerOption indicates an expected call of DeleteListenerOption.
+func (mr *MockListenerOptionWriterMockRecorder) DeleteListenerOption(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteListenerOption", reflect.TypeOf((*MockListenerOptionWriter)(nil).DeleteListenerOption), varargs...)
+}
+
+// PatchListenerOption mocks base method.
+func (m *MockListenerOptionWriter) PatchListenerOption(ctx context.Context, obj *v1.ListenerOption, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchListenerOption indicates an expected call of PatchListenerOption.
+func (mr *MockListenerOptionWriterMockRecorder) PatchListenerOption(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchListenerOption", reflect.TypeOf((*MockListenerOptionWriter)(nil).PatchListenerOption), varargs...)
+}
+
+// UpdateListenerOption mocks base method.
+func (m *MockListenerOptionWriter) UpdateListenerOption(ctx context.Context, obj *v1.ListenerOption, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateListenerOption indicates an expected call of UpdateListenerOption.
+func (mr *MockListenerOptionWriterMockRecorder) UpdateListenerOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateListenerOption", reflect.TypeOf((*MockListenerOptionWriter)(nil).UpdateListenerOption), varargs...)
+}
+
+// UpsertListenerOption mocks base method.
+func (m *MockListenerOptionWriter) UpsertListenerOption(ctx context.Context, obj *v1.ListenerOption, transitionFuncs ...v1.ListenerOptionTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertListenerOption indicates an expected call of UpsertListenerOption.
+func (mr *MockListenerOptionWriterMockRecorder) UpsertListenerOption(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertListenerOption", reflect.TypeOf((*MockListenerOptionWriter)(nil).UpsertListenerOption), varargs...)
+}
+
+// MockListenerOptionStatusWriter is a mock of ListenerOptionStatusWriter interface.
+type MockListenerOptionStatusWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionStatusWriterMockRecorder
+}
+
+// MockListenerOptionStatusWriterMockRecorder is the mock recorder for MockListenerOptionStatusWriter.
+type MockListenerOptionStatusWriterMockRecorder struct {
+	mock *MockListenerOptionStatusWriter
+}
+
+// NewMockListenerOptionStatusWriter creates a new mock instance.
+func NewMockListenerOptionStatusWriter(ctrl *gomock.Controller) *MockListenerOptionStatusWriter {
+	mock := &MockListenerOptionStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionStatusWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionStatusWriter) EXPECT() *MockListenerOptionStatusWriterMockRecorder {
+	return m.recorder
+}
+
+// PatchListenerOptionStatus mocks base method.
+func (m *MockListenerOptionStatusWriter) PatchListenerOptionStatus(ctx context.Context, obj *v1.ListenerOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchListenerOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchListenerOptionStatus indicates an expected call of PatchListenerOptionStatus.
+func (mr *MockListenerOptionStatusWriterMockRecorder) PatchListenerOptionStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchListenerOptionStatus", reflect.TypeOf((*MockListenerOptionStatusWriter)(nil).PatchListenerOptionStatus), varargs...)
+}
+
+// UpdateListenerOptionStatus mocks base method.
+func (m *MockListenerOptionStatusWriter) UpdateListenerOptionStatus(ctx context.Context, obj *v1.ListenerOption, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateListenerOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateListenerOptionStatus indicates an expected call of UpdateListenerOptionStatus.
+func (mr *MockListenerOptionStatusWriterMockRecorder) UpdateListenerOptionStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateListenerOptionStatus", reflect.TypeOf((*MockListenerOptionStatusWriter)(nil).UpdateListenerOptionStatus), varargs...)
+}
+
+// MockListenerOptionClient is a mock of ListenerOptionClient interface.
+type MockListenerOptionClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionClientMockRecorder
+}
+
+// MockListenerOptionClientMockRecorder is the mock recorder for MockListenerOptionClient.
+type MockListenerOptionClientMockRecorder struct {
+	mock *MockListenerOptionClient
+}
+
+// NewMockListenerOptionClient creates a new mock instance.
+func NewMockListenerOptionClient(ctrl *gomock.Controller) *MockListenerOptionClient {
+	mock := &MockListenerOptionClient{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionClient) EXPECT() *MockListenerOptionClientMockRecorder {
+	return m.recorder
+}
+
+// CreateListenerOption mocks base method.
+func (m *MockListenerOptionClient) CreateListenerOption(ctx context.Context, obj *v1.ListenerOption, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateListenerOption indicates an expected call of CreateListenerOption.
+func (mr *MockListenerOptionClientMockRecorder) CreateListenerOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateListenerOption", reflect.TypeOf((*MockListenerOptionClient)(nil).CreateListenerOption), varargs...)
+}
+
+// DeleteAllOfListenerOption mocks base method.
+func (m *MockListenerOptionClient) DeleteAllOfListenerOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfListenerOption indicates an expected call of DeleteAllOfListenerOption.
+func (mr *MockListenerOptionClientMockRecorder) DeleteAllOfListenerOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfListenerOption", reflect.TypeOf((*MockListenerOptionClient)(nil).DeleteAllOfListenerOption), varargs...)
+}
+
+// DeleteListenerOption mocks base method.
+func (m *MockListenerOptionClient) DeleteListenerOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteListenerOption indicates an expected call of DeleteListenerOption.
+func (mr *MockListenerOptionClientMockRecorder) DeleteListenerOption(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteListenerOption", reflect.TypeOf((*MockListenerOptionClient)(nil).DeleteListenerOption), varargs...)
+}
+
+// GetListenerOption mocks base method.
+func (m *MockListenerOptionClient) GetListenerOption(ctx context.Context, key client.ObjectKey) (*v1.ListenerOption, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetListenerOption", ctx, key)
+	ret0, _ := ret[0].(*v1.ListenerOption)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetListenerOption indicates an expected call of GetListenerOption.
+func (mr *MockListenerOptionClientMockRecorder) GetListenerOption(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetListenerOption", reflect.TypeOf((*MockListenerOptionClient)(nil).GetListenerOption), ctx, key)
+}
+
+// ListListenerOption mocks base method.
+func (m *MockListenerOptionClient) ListListenerOption(ctx context.Context, opts ...client.ListOption) (*v1.ListenerOptionList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListListenerOption", varargs...)
+	ret0, _ := ret[0].(*v1.ListenerOptionList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListListenerOption indicates an expected call of ListListenerOption.
+func (mr *MockListenerOptionClientMockRecorder) ListListenerOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListListenerOption", reflect.TypeOf((*MockListenerOptionClient)(nil).ListListenerOption), varargs...)
+}
+
+// PatchListenerOption mocks base method.
+func (m *MockListenerOptionClient) PatchListenerOption(ctx context.Context, obj *v1.ListenerOption, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchListenerOption indicates an expected call of PatchListenerOption.
+func (mr *MockListenerOptionClientMockRecorder) PatchListenerOption(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchListenerOption", reflect.TypeOf((*MockListenerOptionClient)(nil).PatchListenerOption), varargs...)
+}
+
+// PatchListenerOptionStatus mocks base method.
+func (m *MockListenerOptionClient) PatchListenerOptionStatus(ctx context.Context, obj *v1.ListenerOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchListenerOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchListenerOptionStatus indicates an expected call of PatchListenerOptionStatus.
+func (mr *MockListenerOptionClientMockRecorder) PatchListenerOptionStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchListenerOptionStatus", reflect.TypeOf((*MockListenerOptionClient)(nil).PatchListenerOptionStatus), varargs...)
+}
+
+// UpdateListenerOption mocks base method.
+func (m *MockListenerOptionClient) UpdateListenerOption(ctx context.Context, obj *v1.ListenerOption, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateListenerOption indicates an expected call of UpdateListenerOption.
+func (mr *MockListenerOptionClientMockRecorder) UpdateListenerOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateListenerOption", reflect.TypeOf((*MockListenerOptionClient)(nil).UpdateListenerOption), varargs...)
+}
+
+// UpdateListenerOptionStatus mocks base method.
+func (m *MockListenerOptionClient) UpdateListenerOptionStatus(ctx context.Context, obj *v1.ListenerOption, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateListenerOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateListenerOptionStatus indicates an expected call of UpdateListenerOptionStatus.
+func (mr *MockListenerOptionClientMockRecorder) UpdateListenerOptionStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateListenerOptionStatus", reflect.TypeOf((*MockListenerOptionClient)(nil).UpdateListenerOptionStatus), varargs...)
+}
+
+// UpsertListenerOption mocks base method.
+func (m *MockListenerOptionClient) UpsertListenerOption(ctx context.Context, obj *v1.ListenerOption, transitionFuncs ...v1.ListenerOptionTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertListenerOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertListenerOption indicates an expected call of UpsertListenerOption.
+func (mr *MockListenerOptionClientMockRecorder) UpsertListenerOption(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertListenerOption", reflect.TypeOf((*MockListenerOptionClient)(nil).UpsertListenerOption), varargs...)
+}
+
+// MockMulticlusterListenerOptionClient is a mock of MulticlusterListenerOptionClient interface.
+type MockMulticlusterListenerOptionClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterListenerOptionClientMockRecorder
+}
+
+// MockMulticlusterListenerOptionClientMockRecorder is the mock recorder for MockMulticlusterListenerOptionClient.
+type MockMulticlusterListenerOptionClientMockRecorder struct {
+	mock *MockMulticlusterListenerOptionClient
+}
+
+// NewMockMulticlusterListenerOptionClient creates a new mock instance.
+func NewMockMulticlusterListenerOptionClient(ctrl *gomock.Controller) *MockMulticlusterListenerOptionClient {
+	mock := &MockMulticlusterListenerOptionClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterListenerOptionClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterListenerOptionClient) EXPECT() *MockMulticlusterListenerOptionClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterListenerOptionClient) Cluster(cluster string) (v1.ListenerOptionClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v1.ListenerOptionClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterListenerOptionClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterListenerOptionClient)(nil).Cluster), cluster)
 }
 
 // MockMatchableHttpGatewayReader is a mock of MatchableHttpGatewayReader interface.
@@ -1682,6 +2718,510 @@ func (m *MockMulticlusterMatchableTcpGatewayClient) Cluster(cluster string) (v1.
 func (mr *MockMulticlusterMatchableTcpGatewayClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterMatchableTcpGatewayClient)(nil).Cluster), cluster)
+}
+
+// MockRouteOptionReader is a mock of RouteOptionReader interface.
+type MockRouteOptionReader struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionReaderMockRecorder
+}
+
+// MockRouteOptionReaderMockRecorder is the mock recorder for MockRouteOptionReader.
+type MockRouteOptionReaderMockRecorder struct {
+	mock *MockRouteOptionReader
+}
+
+// NewMockRouteOptionReader creates a new mock instance.
+func NewMockRouteOptionReader(ctrl *gomock.Controller) *MockRouteOptionReader {
+	mock := &MockRouteOptionReader{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionReaderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionReader) EXPECT() *MockRouteOptionReaderMockRecorder {
+	return m.recorder
+}
+
+// GetRouteOption mocks base method.
+func (m *MockRouteOptionReader) GetRouteOption(ctx context.Context, key client.ObjectKey) (*v1.RouteOption, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRouteOption", ctx, key)
+	ret0, _ := ret[0].(*v1.RouteOption)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRouteOption indicates an expected call of GetRouteOption.
+func (mr *MockRouteOptionReaderMockRecorder) GetRouteOption(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRouteOption", reflect.TypeOf((*MockRouteOptionReader)(nil).GetRouteOption), ctx, key)
+}
+
+// ListRouteOption mocks base method.
+func (m *MockRouteOptionReader) ListRouteOption(ctx context.Context, opts ...client.ListOption) (*v1.RouteOptionList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListRouteOption", varargs...)
+	ret0, _ := ret[0].(*v1.RouteOptionList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListRouteOption indicates an expected call of ListRouteOption.
+func (mr *MockRouteOptionReaderMockRecorder) ListRouteOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRouteOption", reflect.TypeOf((*MockRouteOptionReader)(nil).ListRouteOption), varargs...)
+}
+
+// MockRouteOptionWriter is a mock of RouteOptionWriter interface.
+type MockRouteOptionWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionWriterMockRecorder
+}
+
+// MockRouteOptionWriterMockRecorder is the mock recorder for MockRouteOptionWriter.
+type MockRouteOptionWriterMockRecorder struct {
+	mock *MockRouteOptionWriter
+}
+
+// NewMockRouteOptionWriter creates a new mock instance.
+func NewMockRouteOptionWriter(ctrl *gomock.Controller) *MockRouteOptionWriter {
+	mock := &MockRouteOptionWriter{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionWriter) EXPECT() *MockRouteOptionWriterMockRecorder {
+	return m.recorder
+}
+
+// CreateRouteOption mocks base method.
+func (m *MockRouteOptionWriter) CreateRouteOption(ctx context.Context, obj *v1.RouteOption, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateRouteOption indicates an expected call of CreateRouteOption.
+func (mr *MockRouteOptionWriterMockRecorder) CreateRouteOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).CreateRouteOption), varargs...)
+}
+
+// DeleteAllOfRouteOption mocks base method.
+func (m *MockRouteOptionWriter) DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfRouteOption indicates an expected call of DeleteAllOfRouteOption.
+func (mr *MockRouteOptionWriterMockRecorder) DeleteAllOfRouteOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).DeleteAllOfRouteOption), varargs...)
+}
+
+// DeleteRouteOption mocks base method.
+func (m *MockRouteOptionWriter) DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteRouteOption indicates an expected call of DeleteRouteOption.
+func (mr *MockRouteOptionWriterMockRecorder) DeleteRouteOption(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).DeleteRouteOption), varargs...)
+}
+
+// PatchRouteOption mocks base method.
+func (m *MockRouteOptionWriter) PatchRouteOption(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchRouteOption indicates an expected call of PatchRouteOption.
+func (mr *MockRouteOptionWriterMockRecorder) PatchRouteOption(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).PatchRouteOption), varargs...)
+}
+
+// UpdateRouteOption mocks base method.
+func (m *MockRouteOptionWriter) UpdateRouteOption(ctx context.Context, obj *v1.RouteOption, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRouteOption indicates an expected call of UpdateRouteOption.
+func (mr *MockRouteOptionWriterMockRecorder) UpdateRouteOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).UpdateRouteOption), varargs...)
+}
+
+// UpsertRouteOption mocks base method.
+func (m *MockRouteOptionWriter) UpsertRouteOption(ctx context.Context, obj *v1.RouteOption, transitionFuncs ...v1.RouteOptionTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertRouteOption indicates an expected call of UpsertRouteOption.
+func (mr *MockRouteOptionWriterMockRecorder) UpsertRouteOption(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).UpsertRouteOption), varargs...)
+}
+
+// MockRouteOptionStatusWriter is a mock of RouteOptionStatusWriter interface.
+type MockRouteOptionStatusWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionStatusWriterMockRecorder
+}
+
+// MockRouteOptionStatusWriterMockRecorder is the mock recorder for MockRouteOptionStatusWriter.
+type MockRouteOptionStatusWriterMockRecorder struct {
+	mock *MockRouteOptionStatusWriter
+}
+
+// NewMockRouteOptionStatusWriter creates a new mock instance.
+func NewMockRouteOptionStatusWriter(ctrl *gomock.Controller) *MockRouteOptionStatusWriter {
+	mock := &MockRouteOptionStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionStatusWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionStatusWriter) EXPECT() *MockRouteOptionStatusWriterMockRecorder {
+	return m.recorder
+}
+
+// PatchRouteOptionStatus mocks base method.
+func (m *MockRouteOptionStatusWriter) PatchRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchRouteOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchRouteOptionStatus indicates an expected call of PatchRouteOptionStatus.
+func (mr *MockRouteOptionStatusWriterMockRecorder) PatchRouteOptionStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRouteOptionStatus", reflect.TypeOf((*MockRouteOptionStatusWriter)(nil).PatchRouteOptionStatus), varargs...)
+}
+
+// UpdateRouteOptionStatus mocks base method.
+func (m *MockRouteOptionStatusWriter) UpdateRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateRouteOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRouteOptionStatus indicates an expected call of UpdateRouteOptionStatus.
+func (mr *MockRouteOptionStatusWriterMockRecorder) UpdateRouteOptionStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOptionStatus", reflect.TypeOf((*MockRouteOptionStatusWriter)(nil).UpdateRouteOptionStatus), varargs...)
+}
+
+// MockRouteOptionClient is a mock of RouteOptionClient interface.
+type MockRouteOptionClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionClientMockRecorder
+}
+
+// MockRouteOptionClientMockRecorder is the mock recorder for MockRouteOptionClient.
+type MockRouteOptionClientMockRecorder struct {
+	mock *MockRouteOptionClient
+}
+
+// NewMockRouteOptionClient creates a new mock instance.
+func NewMockRouteOptionClient(ctrl *gomock.Controller) *MockRouteOptionClient {
+	mock := &MockRouteOptionClient{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionClient) EXPECT() *MockRouteOptionClientMockRecorder {
+	return m.recorder
+}
+
+// CreateRouteOption mocks base method.
+func (m *MockRouteOptionClient) CreateRouteOption(ctx context.Context, obj *v1.RouteOption, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateRouteOption indicates an expected call of CreateRouteOption.
+func (mr *MockRouteOptionClientMockRecorder) CreateRouteOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).CreateRouteOption), varargs...)
+}
+
+// DeleteAllOfRouteOption mocks base method.
+func (m *MockRouteOptionClient) DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfRouteOption indicates an expected call of DeleteAllOfRouteOption.
+func (mr *MockRouteOptionClientMockRecorder) DeleteAllOfRouteOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).DeleteAllOfRouteOption), varargs...)
+}
+
+// DeleteRouteOption mocks base method.
+func (m *MockRouteOptionClient) DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteRouteOption indicates an expected call of DeleteRouteOption.
+func (mr *MockRouteOptionClientMockRecorder) DeleteRouteOption(ctx, key interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).DeleteRouteOption), varargs...)
+}
+
+// GetRouteOption mocks base method.
+func (m *MockRouteOptionClient) GetRouteOption(ctx context.Context, key client.ObjectKey) (*v1.RouteOption, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRouteOption", ctx, key)
+	ret0, _ := ret[0].(*v1.RouteOption)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRouteOption indicates an expected call of GetRouteOption.
+func (mr *MockRouteOptionClientMockRecorder) GetRouteOption(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).GetRouteOption), ctx, key)
+}
+
+// ListRouteOption mocks base method.
+func (m *MockRouteOptionClient) ListRouteOption(ctx context.Context, opts ...client.ListOption) (*v1.RouteOptionList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListRouteOption", varargs...)
+	ret0, _ := ret[0].(*v1.RouteOptionList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListRouteOption indicates an expected call of ListRouteOption.
+func (mr *MockRouteOptionClientMockRecorder) ListRouteOption(ctx interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).ListRouteOption), varargs...)
+}
+
+// PatchRouteOption mocks base method.
+func (m *MockRouteOptionClient) PatchRouteOption(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchRouteOption indicates an expected call of PatchRouteOption.
+func (mr *MockRouteOptionClientMockRecorder) PatchRouteOption(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).PatchRouteOption), varargs...)
+}
+
+// PatchRouteOptionStatus mocks base method.
+func (m *MockRouteOptionClient) PatchRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchRouteOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchRouteOptionStatus indicates an expected call of PatchRouteOptionStatus.
+func (mr *MockRouteOptionClientMockRecorder) PatchRouteOptionStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRouteOptionStatus", reflect.TypeOf((*MockRouteOptionClient)(nil).PatchRouteOptionStatus), varargs...)
+}
+
+// UpdateRouteOption mocks base method.
+func (m *MockRouteOptionClient) UpdateRouteOption(ctx context.Context, obj *v1.RouteOption, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRouteOption indicates an expected call of UpdateRouteOption.
+func (mr *MockRouteOptionClientMockRecorder) UpdateRouteOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).UpdateRouteOption), varargs...)
+}
+
+// UpdateRouteOptionStatus mocks base method.
+func (m *MockRouteOptionClient) UpdateRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateRouteOptionStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRouteOptionStatus indicates an expected call of UpdateRouteOptionStatus.
+func (mr *MockRouteOptionClientMockRecorder) UpdateRouteOptionStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOptionStatus", reflect.TypeOf((*MockRouteOptionClient)(nil).UpdateRouteOptionStatus), varargs...)
+}
+
+// UpsertRouteOption mocks base method.
+func (m *MockRouteOptionClient) UpsertRouteOption(ctx context.Context, obj *v1.RouteOption, transitionFuncs ...v1.RouteOptionTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertRouteOption", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertRouteOption indicates an expected call of UpsertRouteOption.
+func (mr *MockRouteOptionClientMockRecorder) UpsertRouteOption(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).UpsertRouteOption), varargs...)
+}
+
+// MockMulticlusterRouteOptionClient is a mock of MulticlusterRouteOptionClient interface.
+type MockMulticlusterRouteOptionClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterRouteOptionClientMockRecorder
+}
+
+// MockMulticlusterRouteOptionClientMockRecorder is the mock recorder for MockMulticlusterRouteOptionClient.
+type MockMulticlusterRouteOptionClientMockRecorder struct {
+	mock *MockMulticlusterRouteOptionClient
+}
+
+// NewMockMulticlusterRouteOptionClient creates a new mock instance.
+func NewMockMulticlusterRouteOptionClient(ctrl *gomock.Controller) *MockMulticlusterRouteOptionClient {
+	mock := &MockMulticlusterRouteOptionClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterRouteOptionClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterRouteOptionClient) EXPECT() *MockMulticlusterRouteOptionClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterRouteOptionClient) Cluster(cluster string) (v1.RouteOptionClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v1.RouteOptionClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterRouteOptionClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterRouteOptionClient)(nil).Cluster), cluster)
 }
 
 // MockRouteTableReader is a mock of RouteTableReader interface.
@@ -3194,508 +4734,4 @@ func (m *MockMulticlusterVirtualHostOptionClient) Cluster(cluster string) (v1.Vi
 func (mr *MockMulticlusterVirtualHostOptionClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterVirtualHostOptionClient)(nil).Cluster), cluster)
-}
-
-// MockRouteOptionReader is a mock of RouteOptionReader interface.
-type MockRouteOptionReader struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionReaderMockRecorder
-}
-
-// MockRouteOptionReaderMockRecorder is the mock recorder for MockRouteOptionReader.
-type MockRouteOptionReaderMockRecorder struct {
-	mock *MockRouteOptionReader
-}
-
-// NewMockRouteOptionReader creates a new mock instance.
-func NewMockRouteOptionReader(ctrl *gomock.Controller) *MockRouteOptionReader {
-	mock := &MockRouteOptionReader{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionReaderMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionReader) EXPECT() *MockRouteOptionReaderMockRecorder {
-	return m.recorder
-}
-
-// GetRouteOption mocks base method.
-func (m *MockRouteOptionReader) GetRouteOption(ctx context.Context, key client.ObjectKey) (*v1.RouteOption, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRouteOption", ctx, key)
-	ret0, _ := ret[0].(*v1.RouteOption)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetRouteOption indicates an expected call of GetRouteOption.
-func (mr *MockRouteOptionReaderMockRecorder) GetRouteOption(ctx, key interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRouteOption", reflect.TypeOf((*MockRouteOptionReader)(nil).GetRouteOption), ctx, key)
-}
-
-// ListRouteOption mocks base method.
-func (m *MockRouteOptionReader) ListRouteOption(ctx context.Context, opts ...client.ListOption) (*v1.RouteOptionList, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "ListRouteOption", varargs...)
-	ret0, _ := ret[0].(*v1.RouteOptionList)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ListRouteOption indicates an expected call of ListRouteOption.
-func (mr *MockRouteOptionReaderMockRecorder) ListRouteOption(ctx interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRouteOption", reflect.TypeOf((*MockRouteOptionReader)(nil).ListRouteOption), varargs...)
-}
-
-// MockRouteOptionWriter is a mock of RouteOptionWriter interface.
-type MockRouteOptionWriter struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionWriterMockRecorder
-}
-
-// MockRouteOptionWriterMockRecorder is the mock recorder for MockRouteOptionWriter.
-type MockRouteOptionWriterMockRecorder struct {
-	mock *MockRouteOptionWriter
-}
-
-// NewMockRouteOptionWriter creates a new mock instance.
-func NewMockRouteOptionWriter(ctrl *gomock.Controller) *MockRouteOptionWriter {
-	mock := &MockRouteOptionWriter{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionWriterMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionWriter) EXPECT() *MockRouteOptionWriterMockRecorder {
-	return m.recorder
-}
-
-// CreateRouteOption mocks base method.
-func (m *MockRouteOptionWriter) CreateRouteOption(ctx context.Context, obj *v1.RouteOption, opts ...client.CreateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "CreateRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// CreateRouteOption indicates an expected call of CreateRouteOption.
-func (mr *MockRouteOptionWriterMockRecorder) CreateRouteOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).CreateRouteOption), varargs...)
-}
-
-// DeleteAllOfRouteOption mocks base method.
-func (m *MockRouteOptionWriter) DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteAllOfRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteAllOfRouteOption indicates an expected call of DeleteAllOfRouteOption.
-func (mr *MockRouteOptionWriterMockRecorder) DeleteAllOfRouteOption(ctx interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).DeleteAllOfRouteOption), varargs...)
-}
-
-// DeleteRouteOption mocks base method.
-func (m *MockRouteOptionWriter) DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteRouteOption indicates an expected call of DeleteRouteOption.
-func (mr *MockRouteOptionWriterMockRecorder) DeleteRouteOption(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).DeleteRouteOption), varargs...)
-}
-
-// PatchRouteOption mocks base method.
-func (m *MockRouteOptionWriter) PatchRouteOption(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.PatchOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj, patch}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PatchRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// PatchRouteOption indicates an expected call of PatchRouteOption.
-func (mr *MockRouteOptionWriterMockRecorder) PatchRouteOption(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).PatchRouteOption), varargs...)
-}
-
-// UpdateRouteOption mocks base method.
-func (m *MockRouteOptionWriter) UpdateRouteOption(ctx context.Context, obj *v1.RouteOption, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRouteOption indicates an expected call of UpdateRouteOption.
-func (mr *MockRouteOptionWriterMockRecorder) UpdateRouteOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).UpdateRouteOption), varargs...)
-}
-
-// UpsertRouteOption mocks base method.
-func (m *MockRouteOptionWriter) UpsertRouteOption(ctx context.Context, obj *v1.RouteOption, transitionFuncs ...v1.RouteOptionTransitionFunction) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range transitionFuncs {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpsertRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpsertRouteOption indicates an expected call of UpsertRouteOption.
-func (mr *MockRouteOptionWriterMockRecorder) UpsertRouteOption(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRouteOption", reflect.TypeOf((*MockRouteOptionWriter)(nil).UpsertRouteOption), varargs...)
-}
-
-// MockRouteOptionStatusWriter is a mock of RouteOptionStatusWriter interface.
-type MockRouteOptionStatusWriter struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionStatusWriterMockRecorder
-}
-
-// MockRouteOptionStatusWriterMockRecorder is the mock recorder for MockRouteOptionStatusWriter.
-type MockRouteOptionStatusWriterMockRecorder struct {
-	mock *MockRouteOptionStatusWriter
-}
-
-// NewMockRouteOptionStatusWriter creates a new mock instance.
-func NewMockRouteOptionStatusWriter(ctrl *gomock.Controller) *MockRouteOptionStatusWriter {
-	mock := &MockRouteOptionStatusWriter{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionStatusWriterMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionStatusWriter) EXPECT() *MockRouteOptionStatusWriterMockRecorder {
-	return m.recorder
-}
-
-// PatchRouteOptionStatus mocks base method.
-func (m *MockRouteOptionStatusWriter) PatchRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj, patch}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PatchRouteOptionStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// PatchRouteOptionStatus indicates an expected call of PatchRouteOptionStatus.
-func (mr *MockRouteOptionStatusWriterMockRecorder) PatchRouteOptionStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRouteOptionStatus", reflect.TypeOf((*MockRouteOptionStatusWriter)(nil).PatchRouteOptionStatus), varargs...)
-}
-
-// UpdateRouteOptionStatus mocks base method.
-func (m *MockRouteOptionStatusWriter) UpdateRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, opts ...client.SubResourceUpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateRouteOptionStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRouteOptionStatus indicates an expected call of UpdateRouteOptionStatus.
-func (mr *MockRouteOptionStatusWriterMockRecorder) UpdateRouteOptionStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOptionStatus", reflect.TypeOf((*MockRouteOptionStatusWriter)(nil).UpdateRouteOptionStatus), varargs...)
-}
-
-// MockRouteOptionClient is a mock of RouteOptionClient interface.
-type MockRouteOptionClient struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionClientMockRecorder
-}
-
-// MockRouteOptionClientMockRecorder is the mock recorder for MockRouteOptionClient.
-type MockRouteOptionClientMockRecorder struct {
-	mock *MockRouteOptionClient
-}
-
-// NewMockRouteOptionClient creates a new mock instance.
-func NewMockRouteOptionClient(ctrl *gomock.Controller) *MockRouteOptionClient {
-	mock := &MockRouteOptionClient{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionClientMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionClient) EXPECT() *MockRouteOptionClientMockRecorder {
-	return m.recorder
-}
-
-// CreateRouteOption mocks base method.
-func (m *MockRouteOptionClient) CreateRouteOption(ctx context.Context, obj *v1.RouteOption, opts ...client.CreateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "CreateRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// CreateRouteOption indicates an expected call of CreateRouteOption.
-func (mr *MockRouteOptionClientMockRecorder) CreateRouteOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).CreateRouteOption), varargs...)
-}
-
-// DeleteAllOfRouteOption mocks base method.
-func (m *MockRouteOptionClient) DeleteAllOfRouteOption(ctx context.Context, opts ...client.DeleteAllOfOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteAllOfRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteAllOfRouteOption indicates an expected call of DeleteAllOfRouteOption.
-func (mr *MockRouteOptionClientMockRecorder) DeleteAllOfRouteOption(ctx interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).DeleteAllOfRouteOption), varargs...)
-}
-
-// DeleteRouteOption mocks base method.
-func (m *MockRouteOptionClient) DeleteRouteOption(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, key}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DeleteRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteRouteOption indicates an expected call of DeleteRouteOption.
-func (mr *MockRouteOptionClientMockRecorder) DeleteRouteOption(ctx, key interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, key}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).DeleteRouteOption), varargs...)
-}
-
-// GetRouteOption mocks base method.
-func (m *MockRouteOptionClient) GetRouteOption(ctx context.Context, key client.ObjectKey) (*v1.RouteOption, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRouteOption", ctx, key)
-	ret0, _ := ret[0].(*v1.RouteOption)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetRouteOption indicates an expected call of GetRouteOption.
-func (mr *MockRouteOptionClientMockRecorder) GetRouteOption(ctx, key interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).GetRouteOption), ctx, key)
-}
-
-// ListRouteOption mocks base method.
-func (m *MockRouteOptionClient) ListRouteOption(ctx context.Context, opts ...client.ListOption) (*v1.RouteOptionList, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "ListRouteOption", varargs...)
-	ret0, _ := ret[0].(*v1.RouteOptionList)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ListRouteOption indicates an expected call of ListRouteOption.
-func (mr *MockRouteOptionClientMockRecorder) ListRouteOption(ctx interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).ListRouteOption), varargs...)
-}
-
-// PatchRouteOption mocks base method.
-func (m *MockRouteOptionClient) PatchRouteOption(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.PatchOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj, patch}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PatchRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// PatchRouteOption indicates an expected call of PatchRouteOption.
-func (mr *MockRouteOptionClientMockRecorder) PatchRouteOption(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).PatchRouteOption), varargs...)
-}
-
-// PatchRouteOptionStatus mocks base method.
-func (m *MockRouteOptionClient) PatchRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, patch client.Patch, opts ...client.SubResourcePatchOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj, patch}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "PatchRouteOptionStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// PatchRouteOptionStatus indicates an expected call of PatchRouteOptionStatus.
-func (mr *MockRouteOptionClientMockRecorder) PatchRouteOptionStatus(ctx, obj, patch interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj, patch}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchRouteOptionStatus", reflect.TypeOf((*MockRouteOptionClient)(nil).PatchRouteOptionStatus), varargs...)
-}
-
-// UpdateRouteOption mocks base method.
-func (m *MockRouteOptionClient) UpdateRouteOption(ctx context.Context, obj *v1.RouteOption, opts ...client.UpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRouteOption indicates an expected call of UpdateRouteOption.
-func (mr *MockRouteOptionClientMockRecorder) UpdateRouteOption(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).UpdateRouteOption), varargs...)
-}
-
-// UpdateRouteOptionStatus mocks base method.
-func (m *MockRouteOptionClient) UpdateRouteOptionStatus(ctx context.Context, obj *v1.RouteOption, opts ...client.SubResourceUpdateOption) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpdateRouteOptionStatus", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRouteOptionStatus indicates an expected call of UpdateRouteOptionStatus.
-func (mr *MockRouteOptionClientMockRecorder) UpdateRouteOptionStatus(ctx, obj interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOptionStatus", reflect.TypeOf((*MockRouteOptionClient)(nil).UpdateRouteOptionStatus), varargs...)
-}
-
-// UpsertRouteOption mocks base method.
-func (m *MockRouteOptionClient) UpsertRouteOption(ctx context.Context, obj *v1.RouteOption, transitionFuncs ...v1.RouteOptionTransitionFunction) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, obj}
-	for _, a := range transitionFuncs {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "UpsertRouteOption", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpsertRouteOption indicates an expected call of UpsertRouteOption.
-func (mr *MockRouteOptionClientMockRecorder) UpsertRouteOption(ctx, obj interface{}, transitionFuncs ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, obj}, transitionFuncs...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertRouteOption", reflect.TypeOf((*MockRouteOptionClient)(nil).UpsertRouteOption), varargs...)
-}
-
-// MockMulticlusterRouteOptionClient is a mock of MulticlusterRouteOptionClient interface.
-type MockMulticlusterRouteOptionClient struct {
-	ctrl     *gomock.Controller
-	recorder *MockMulticlusterRouteOptionClientMockRecorder
-}
-
-// MockMulticlusterRouteOptionClientMockRecorder is the mock recorder for MockMulticlusterRouteOptionClient.
-type MockMulticlusterRouteOptionClientMockRecorder struct {
-	mock *MockMulticlusterRouteOptionClient
-}
-
-// NewMockMulticlusterRouteOptionClient creates a new mock instance.
-func NewMockMulticlusterRouteOptionClient(ctrl *gomock.Controller) *MockMulticlusterRouteOptionClient {
-	mock := &MockMulticlusterRouteOptionClient{ctrl: ctrl}
-	mock.recorder = &MockMulticlusterRouteOptionClientMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockMulticlusterRouteOptionClient) EXPECT() *MockMulticlusterRouteOptionClientMockRecorder {
-	return m.recorder
-}
-
-// Cluster mocks base method.
-func (m *MockMulticlusterRouteOptionClient) Cluster(cluster string) (v1.RouteOptionClient, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Cluster", cluster)
-	ret0, _ := ret[0].(v1.RouteOptionClient)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// Cluster indicates an expected call of Cluster.
-func (mr *MockMulticlusterRouteOptionClientMockRecorder) Cluster(cluster interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterRouteOptionClient)(nil).Cluster), cluster)
 }

@@ -33,6 +33,60 @@ metadata:
   labels:
     app: ""
     app.kubernetes.io/name: ""
+  name: httplisteneroptions.gateway.solo.io
+spec:
+  group: gateway.solo.io
+  names:
+    kind: HttpListenerOption
+    listKind: HttpListenerOptionList
+    plural: httplisteneroptions
+    singular: httplisteneroption
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        type: object
+        x-kubernetes-preserve-unknown-fields: true
+    served: true
+    storage: true
+    subresources:
+      status: {}
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    app: ""
+    app.kubernetes.io/name: ""
+  name: listeneroptions.gateway.solo.io
+spec:
+  group: gateway.solo.io
+  names:
+    kind: ListenerOption
+    listKind: ListenerOptionList
+    plural: listeneroptions
+    singular: listeneroption
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        type: object
+        x-kubernetes-preserve-unknown-fields: true
+    served: true
+    storage: true
+    subresources:
+      status: {}
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    app: ""
+    app.kubernetes.io/name: ""
   name: matchablehttpgateways.gateway.solo.io
 spec:
   group: gateway.solo.io

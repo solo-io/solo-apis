@@ -68,6 +68,126 @@ func (in *GatewayList) DeepCopyObject() runtime.Object {
 	return nil
 }
 
+// Generated Deepcopy methods for HttpListenerOption
+
+func (in *HttpListenerOption) DeepCopyInto(out *HttpListenerOption) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *HttpListenerOption) DeepCopy() *HttpListenerOption {
+	if in == nil {
+		return nil
+	}
+	out := new(HttpListenerOption)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *HttpListenerOption) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *HttpListenerOptionList) DeepCopyInto(out *HttpListenerOptionList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]HttpListenerOption, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *HttpListenerOptionList) DeepCopy() *HttpListenerOptionList {
+	if in == nil {
+		return nil
+	}
+	out := new(HttpListenerOptionList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *HttpListenerOptionList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+// Generated Deepcopy methods for ListenerOption
+
+func (in *ListenerOption) DeepCopyInto(out *ListenerOption) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *ListenerOption) DeepCopy() *ListenerOption {
+	if in == nil {
+		return nil
+	}
+	out := new(ListenerOption)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *ListenerOption) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *ListenerOptionList) DeepCopyInto(out *ListenerOptionList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]ListenerOption, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *ListenerOptionList) DeepCopy() *ListenerOptionList {
+	if in == nil {
+		return nil
+	}
+	out := new(ListenerOptionList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *ListenerOptionList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
 // Generated Deepcopy methods for MatchableHttpGateway
 
 func (in *MatchableHttpGateway) DeepCopyInto(out *MatchableHttpGateway) {
@@ -182,6 +302,66 @@ func (in *MatchableTcpGatewayList) DeepCopy() *MatchableTcpGatewayList {
 }
 
 func (in *MatchableTcpGatewayList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+// Generated Deepcopy methods for RouteOption
+
+func (in *RouteOption) DeepCopyInto(out *RouteOption) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *RouteOption) DeepCopy() *RouteOption {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteOption)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *RouteOption) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *RouteOptionList) DeepCopyInto(out *RouteOptionList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]RouteOption, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *RouteOptionList) DeepCopy() *RouteOptionList {
+	if in == nil {
+		return nil
+	}
+	out := new(RouteOptionList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *RouteOptionList) DeepCopyObject() runtime.Object {
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
@@ -362,66 +542,6 @@ func (in *VirtualHostOptionList) DeepCopy() *VirtualHostOptionList {
 }
 
 func (in *VirtualHostOptionList) DeepCopyObject() runtime.Object {
-	if c := in.DeepCopy(); c != nil {
-		return c
-	}
-	return nil
-}
-
-// Generated Deepcopy methods for RouteOption
-
-func (in *RouteOption) DeepCopyInto(out *RouteOption) {
-	out.TypeMeta = in.TypeMeta
-	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
-
-	// deepcopy spec
-	in.Spec.DeepCopyInto(&out.Spec)
-	// deepcopy status
-	in.Status.DeepCopyInto(&out.Status)
-
-	return
-}
-
-func (in *RouteOption) DeepCopy() *RouteOption {
-	if in == nil {
-		return nil
-	}
-	out := new(RouteOption)
-	in.DeepCopyInto(out)
-	return out
-}
-
-func (in *RouteOption) DeepCopyObject() runtime.Object {
-	if c := in.DeepCopy(); c != nil {
-		return c
-	}
-	return nil
-}
-
-func (in *RouteOptionList) DeepCopyInto(out *RouteOptionList) {
-	*out = *in
-	out.TypeMeta = in.TypeMeta
-	in.ListMeta.DeepCopyInto(&out.ListMeta)
-	if in.Items != nil {
-		in, out := &in.Items, &out.Items
-		*out = make([]RouteOption, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	return
-}
-
-func (in *RouteOptionList) DeepCopy() *RouteOptionList {
-	if in == nil {
-		return nil
-	}
-	out := new(RouteOptionList)
-	in.DeepCopyInto(out)
-	return out
-}
-
-func (in *RouteOptionList) DeepCopyObject() runtime.Object {
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}

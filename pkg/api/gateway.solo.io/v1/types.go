@@ -48,6 +48,76 @@ type GatewayList struct {
 // +k8s:openapi-gen=true
 // +kubebuilder:subresource:status
 
+// GroupVersionKind for HttpListenerOption
+var HttpListenerOptionGVK = schema.GroupVersionKind{
+	Group:   "gateway.solo.io",
+	Version: "v1",
+	Kind:    "HttpListenerOption",
+}
+
+// HttpListenerOption is the Schema for the httpListenerOption API
+type HttpListenerOption struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   HttpListenerOptionSpec   `json:"spec,omitempty"`
+	Status HttpListenerOptionStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (HttpListenerOption) GVK() schema.GroupVersionKind {
+	return HttpListenerOptionGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// HttpListenerOptionList contains a list of HttpListenerOption
+type HttpListenerOptionList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []HttpListenerOption `json:"items"`
+}
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
+// GroupVersionKind for ListenerOption
+var ListenerOptionGVK = schema.GroupVersionKind{
+	Group:   "gateway.solo.io",
+	Version: "v1",
+	Kind:    "ListenerOption",
+}
+
+// ListenerOption is the Schema for the listenerOption API
+type ListenerOption struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   ListenerOptionSpec   `json:"spec,omitempty"`
+	Status ListenerOptionStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (ListenerOption) GVK() schema.GroupVersionKind {
+	return ListenerOptionGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ListenerOptionList contains a list of ListenerOption
+type ListenerOptionList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ListenerOption `json:"items"`
+}
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
 // GroupVersionKind for MatchableHttpGateway
 var MatchableHttpGatewayGVK = schema.GroupVersionKind{
 	Group:   "gateway.solo.io",
@@ -111,6 +181,41 @@ type MatchableTcpGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MatchableTcpGateway `json:"items"`
+}
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
+// GroupVersionKind for RouteOption
+var RouteOptionGVK = schema.GroupVersionKind{
+	Group:   "gateway.solo.io",
+	Version: "v1",
+	Kind:    "RouteOption",
+}
+
+// RouteOption is the Schema for the routeOption API
+type RouteOption struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   RouteOptionSpec   `json:"spec,omitempty"`
+	Status RouteOptionStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (RouteOption) GVK() schema.GroupVersionKind {
+	return RouteOptionGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// RouteOptionList contains a list of RouteOption
+type RouteOptionList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []RouteOption `json:"items"`
 }
 
 // +genclient
@@ -218,47 +323,14 @@ type VirtualHostOptionList struct {
 	Items           []VirtualHostOption `json:"items"`
 }
 
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +k8s:openapi-gen=true
-// +kubebuilder:subresource:status
-
-// GroupVersionKind for RouteOption
-var RouteOptionGVK = schema.GroupVersionKind{
-	Group:   "gateway.solo.io",
-	Version: "v1",
-	Kind:    "RouteOption",
-}
-
-// RouteOption is the Schema for the routeOption API
-type RouteOption struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   RouteOptionSpec   `json:"spec,omitempty"`
-	Status RouteOptionStatus `json:"status,omitempty"`
-}
-
-// GVK returns the GroupVersionKind associated with the resource type.
-func (RouteOption) GVK() schema.GroupVersionKind {
-	return RouteOptionGVK
-}
-
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// RouteOptionList contains a list of RouteOption
-type RouteOptionList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []RouteOption `json:"items"`
-}
-
 func init() {
 	SchemeBuilder.Register(&Gateway{}, &GatewayList{})
+	SchemeBuilder.Register(&HttpListenerOption{}, &HttpListenerOptionList{})
+	SchemeBuilder.Register(&ListenerOption{}, &ListenerOptionList{})
 	SchemeBuilder.Register(&MatchableHttpGateway{}, &MatchableHttpGatewayList{})
 	SchemeBuilder.Register(&MatchableTcpGateway{}, &MatchableTcpGatewayList{})
+	SchemeBuilder.Register(&RouteOption{}, &RouteOptionList{})
 	SchemeBuilder.Register(&RouteTable{}, &RouteTableList{})
 	SchemeBuilder.Register(&VirtualService{}, &VirtualServiceList{})
 	SchemeBuilder.Register(&VirtualHostOption{}, &VirtualHostOptionList{})
-	SchemeBuilder.Register(&RouteOption{}, &RouteOptionList{})
 }

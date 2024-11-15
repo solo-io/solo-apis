@@ -45,6 +45,62 @@ func GatewayClientFromConfigFactoryProvider() GatewayClientFromConfigFactory {
 	}
 }
 
+// Provider for HttpListenerOptionClient from Clientset
+func HttpListenerOptionClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.HttpListenerOptionClient {
+	return clients.HttpListenerOptions()
+}
+
+// Provider for HttpListenerOption Client from Client
+func HttpListenerOptionClientProvider(client client.Client) gateway_solo_io_v1.HttpListenerOptionClient {
+	return gateway_solo_io_v1.NewHttpListenerOptionClient(client)
+}
+
+type HttpListenerOptionClientFactory func(client client.Client) gateway_solo_io_v1.HttpListenerOptionClient
+
+func HttpListenerOptionClientFactoryProvider() HttpListenerOptionClientFactory {
+	return HttpListenerOptionClientProvider
+}
+
+type HttpListenerOptionClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.HttpListenerOptionClient, error)
+
+func HttpListenerOptionClientFromConfigFactoryProvider() HttpListenerOptionClientFromConfigFactory {
+	return func(cfg *rest.Config) (gateway_solo_io_v1.HttpListenerOptionClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.HttpListenerOptions(), nil
+	}
+}
+
+// Provider for ListenerOptionClient from Clientset
+func ListenerOptionClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.ListenerOptionClient {
+	return clients.ListenerOptions()
+}
+
+// Provider for ListenerOption Client from Client
+func ListenerOptionClientProvider(client client.Client) gateway_solo_io_v1.ListenerOptionClient {
+	return gateway_solo_io_v1.NewListenerOptionClient(client)
+}
+
+type ListenerOptionClientFactory func(client client.Client) gateway_solo_io_v1.ListenerOptionClient
+
+func ListenerOptionClientFactoryProvider() ListenerOptionClientFactory {
+	return ListenerOptionClientProvider
+}
+
+type ListenerOptionClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.ListenerOptionClient, error)
+
+func ListenerOptionClientFromConfigFactoryProvider() ListenerOptionClientFromConfigFactory {
+	return func(cfg *rest.Config) (gateway_solo_io_v1.ListenerOptionClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.ListenerOptions(), nil
+	}
+}
+
 // Provider for MatchableHttpGatewayClient from Clientset
 func MatchableHttpGatewayClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.MatchableHttpGatewayClient {
 	return clients.MatchableHttpGateways()
@@ -98,6 +154,34 @@ func MatchableTcpGatewayClientFromConfigFactoryProvider() MatchableTcpGatewayCli
 			return nil, err
 		}
 		return clients.MatchableTcpGateways(), nil
+	}
+}
+
+// Provider for RouteOptionClient from Clientset
+func RouteOptionClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.RouteOptionClient {
+	return clients.RouteOptions()
+}
+
+// Provider for RouteOption Client from Client
+func RouteOptionClientProvider(client client.Client) gateway_solo_io_v1.RouteOptionClient {
+	return gateway_solo_io_v1.NewRouteOptionClient(client)
+}
+
+type RouteOptionClientFactory func(client client.Client) gateway_solo_io_v1.RouteOptionClient
+
+func RouteOptionClientFactoryProvider() RouteOptionClientFactory {
+	return RouteOptionClientProvider
+}
+
+type RouteOptionClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.RouteOptionClient, error)
+
+func RouteOptionClientFromConfigFactoryProvider() RouteOptionClientFromConfigFactory {
+	return func(cfg *rest.Config) (gateway_solo_io_v1.RouteOptionClient, error) {
+		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.RouteOptions(), nil
 	}
 }
 
@@ -182,33 +266,5 @@ func VirtualHostOptionClientFromConfigFactoryProvider() VirtualHostOptionClientF
 			return nil, err
 		}
 		return clients.VirtualHostOptions(), nil
-	}
-}
-
-// Provider for RouteOptionClient from Clientset
-func RouteOptionClientFromClientsetProvider(clients gateway_solo_io_v1.Clientset) gateway_solo_io_v1.RouteOptionClient {
-	return clients.RouteOptions()
-}
-
-// Provider for RouteOption Client from Client
-func RouteOptionClientProvider(client client.Client) gateway_solo_io_v1.RouteOptionClient {
-	return gateway_solo_io_v1.NewRouteOptionClient(client)
-}
-
-type RouteOptionClientFactory func(client client.Client) gateway_solo_io_v1.RouteOptionClient
-
-func RouteOptionClientFactoryProvider() RouteOptionClientFactory {
-	return RouteOptionClientProvider
-}
-
-type RouteOptionClientFromConfigFactory func(cfg *rest.Config) (gateway_solo_io_v1.RouteOptionClient, error)
-
-func RouteOptionClientFromConfigFactoryProvider() RouteOptionClientFromConfigFactory {
-	return func(cfg *rest.Config) (gateway_solo_io_v1.RouteOptionClient, error) {
-		clients, err := gateway_solo_io_v1.NewClientsetFromConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-		return clients.RouteOptions(), nil
 	}
 }

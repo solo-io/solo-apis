@@ -6,11 +6,20 @@ package v1
 // GatewaySlice represents a slice of *Gateway
 type GatewaySlice []*Gateway
 
+// HttpListenerOptionSlice represents a slice of *HttpListenerOption
+type HttpListenerOptionSlice []*HttpListenerOption
+
+// ListenerOptionSlice represents a slice of *ListenerOption
+type ListenerOptionSlice []*ListenerOption
+
 // MatchableHttpGatewaySlice represents a slice of *MatchableHttpGateway
 type MatchableHttpGatewaySlice []*MatchableHttpGateway
 
 // MatchableTcpGatewaySlice represents a slice of *MatchableTcpGateway
 type MatchableTcpGatewaySlice []*MatchableTcpGateway
+
+// RouteOptionSlice represents a slice of *RouteOption
+type RouteOptionSlice []*RouteOption
 
 // RouteTableSlice represents a slice of *RouteTable
 type RouteTableSlice []*RouteTable
@@ -20,6 +29,3 @@ type VirtualServiceSlice []*VirtualService
 
 // VirtualHostOptionSlice represents a slice of *VirtualHostOption
 type VirtualHostOptionSlice []*VirtualHostOption
-
-// RouteOptionSlice represents a slice of *RouteOption
-type RouteOptionSlice []*RouteOption

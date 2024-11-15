@@ -135,6 +135,248 @@ func (mr *MockGatewayEventWatcherMockRecorder) AddEventHandler(ctx, h interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockGatewayEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
+// MockHttpListenerOptionEventHandler is a mock of HttpListenerOptionEventHandler interface.
+type MockHttpListenerOptionEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionEventHandlerMockRecorder
+}
+
+// MockHttpListenerOptionEventHandlerMockRecorder is the mock recorder for MockHttpListenerOptionEventHandler.
+type MockHttpListenerOptionEventHandlerMockRecorder struct {
+	mock *MockHttpListenerOptionEventHandler
+}
+
+// NewMockHttpListenerOptionEventHandler creates a new mock instance.
+func NewMockHttpListenerOptionEventHandler(ctrl *gomock.Controller) *MockHttpListenerOptionEventHandler {
+	mock := &MockHttpListenerOptionEventHandler{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionEventHandler) EXPECT() *MockHttpListenerOptionEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionEventHandler) CreateHttpListenerOption(obj *v1.HttpListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateHttpListenerOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateHttpListenerOption indicates an expected call of CreateHttpListenerOption.
+func (mr *MockHttpListenerOptionEventHandlerMockRecorder) CreateHttpListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionEventHandler)(nil).CreateHttpListenerOption), obj)
+}
+
+// DeleteHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionEventHandler) DeleteHttpListenerOption(obj *v1.HttpListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteHttpListenerOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteHttpListenerOption indicates an expected call of DeleteHttpListenerOption.
+func (mr *MockHttpListenerOptionEventHandlerMockRecorder) DeleteHttpListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionEventHandler)(nil).DeleteHttpListenerOption), obj)
+}
+
+// GenericHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionEventHandler) GenericHttpListenerOption(obj *v1.HttpListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericHttpListenerOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericHttpListenerOption indicates an expected call of GenericHttpListenerOption.
+func (mr *MockHttpListenerOptionEventHandlerMockRecorder) GenericHttpListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionEventHandler)(nil).GenericHttpListenerOption), obj)
+}
+
+// UpdateHttpListenerOption mocks base method.
+func (m *MockHttpListenerOptionEventHandler) UpdateHttpListenerOption(old, new *v1.HttpListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateHttpListenerOption", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateHttpListenerOption indicates an expected call of UpdateHttpListenerOption.
+func (mr *MockHttpListenerOptionEventHandlerMockRecorder) UpdateHttpListenerOption(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateHttpListenerOption", reflect.TypeOf((*MockHttpListenerOptionEventHandler)(nil).UpdateHttpListenerOption), old, new)
+}
+
+// MockHttpListenerOptionEventWatcher is a mock of HttpListenerOptionEventWatcher interface.
+type MockHttpListenerOptionEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockHttpListenerOptionEventWatcherMockRecorder
+}
+
+// MockHttpListenerOptionEventWatcherMockRecorder is the mock recorder for MockHttpListenerOptionEventWatcher.
+type MockHttpListenerOptionEventWatcherMockRecorder struct {
+	mock *MockHttpListenerOptionEventWatcher
+}
+
+// NewMockHttpListenerOptionEventWatcher creates a new mock instance.
+func NewMockHttpListenerOptionEventWatcher(ctrl *gomock.Controller) *MockHttpListenerOptionEventWatcher {
+	mock := &MockHttpListenerOptionEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockHttpListenerOptionEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockHttpListenerOptionEventWatcher) EXPECT() *MockHttpListenerOptionEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockHttpListenerOptionEventWatcher) AddEventHandler(ctx context.Context, h controller.HttpListenerOptionEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockHttpListenerOptionEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockHttpListenerOptionEventWatcher)(nil).AddEventHandler), varargs...)
+}
+
+// MockListenerOptionEventHandler is a mock of ListenerOptionEventHandler interface.
+type MockListenerOptionEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionEventHandlerMockRecorder
+}
+
+// MockListenerOptionEventHandlerMockRecorder is the mock recorder for MockListenerOptionEventHandler.
+type MockListenerOptionEventHandlerMockRecorder struct {
+	mock *MockListenerOptionEventHandler
+}
+
+// NewMockListenerOptionEventHandler creates a new mock instance.
+func NewMockListenerOptionEventHandler(ctrl *gomock.Controller) *MockListenerOptionEventHandler {
+	mock := &MockListenerOptionEventHandler{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionEventHandler) EXPECT() *MockListenerOptionEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateListenerOption mocks base method.
+func (m *MockListenerOptionEventHandler) CreateListenerOption(obj *v1.ListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateListenerOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateListenerOption indicates an expected call of CreateListenerOption.
+func (mr *MockListenerOptionEventHandlerMockRecorder) CreateListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateListenerOption", reflect.TypeOf((*MockListenerOptionEventHandler)(nil).CreateListenerOption), obj)
+}
+
+// DeleteListenerOption mocks base method.
+func (m *MockListenerOptionEventHandler) DeleteListenerOption(obj *v1.ListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteListenerOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteListenerOption indicates an expected call of DeleteListenerOption.
+func (mr *MockListenerOptionEventHandlerMockRecorder) DeleteListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteListenerOption", reflect.TypeOf((*MockListenerOptionEventHandler)(nil).DeleteListenerOption), obj)
+}
+
+// GenericListenerOption mocks base method.
+func (m *MockListenerOptionEventHandler) GenericListenerOption(obj *v1.ListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericListenerOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericListenerOption indicates an expected call of GenericListenerOption.
+func (mr *MockListenerOptionEventHandlerMockRecorder) GenericListenerOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericListenerOption", reflect.TypeOf((*MockListenerOptionEventHandler)(nil).GenericListenerOption), obj)
+}
+
+// UpdateListenerOption mocks base method.
+func (m *MockListenerOptionEventHandler) UpdateListenerOption(old, new *v1.ListenerOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateListenerOption", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateListenerOption indicates an expected call of UpdateListenerOption.
+func (mr *MockListenerOptionEventHandlerMockRecorder) UpdateListenerOption(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateListenerOption", reflect.TypeOf((*MockListenerOptionEventHandler)(nil).UpdateListenerOption), old, new)
+}
+
+// MockListenerOptionEventWatcher is a mock of ListenerOptionEventWatcher interface.
+type MockListenerOptionEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockListenerOptionEventWatcherMockRecorder
+}
+
+// MockListenerOptionEventWatcherMockRecorder is the mock recorder for MockListenerOptionEventWatcher.
+type MockListenerOptionEventWatcherMockRecorder struct {
+	mock *MockListenerOptionEventWatcher
+}
+
+// NewMockListenerOptionEventWatcher creates a new mock instance.
+func NewMockListenerOptionEventWatcher(ctrl *gomock.Controller) *MockListenerOptionEventWatcher {
+	mock := &MockListenerOptionEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockListenerOptionEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockListenerOptionEventWatcher) EXPECT() *MockListenerOptionEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockListenerOptionEventWatcher) AddEventHandler(ctx context.Context, h controller.ListenerOptionEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockListenerOptionEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockListenerOptionEventWatcher)(nil).AddEventHandler), varargs...)
+}
+
 // MockMatchableHttpGatewayEventHandler is a mock of MatchableHttpGatewayEventHandler interface.
 type MockMatchableHttpGatewayEventHandler struct {
 	ctrl     *gomock.Controller
@@ -375,6 +617,127 @@ func (mr *MockMatchableTcpGatewayEventWatcherMockRecorder) AddEventHandler(ctx, 
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockMatchableTcpGatewayEventWatcher)(nil).AddEventHandler), varargs...)
+}
+
+// MockRouteOptionEventHandler is a mock of RouteOptionEventHandler interface.
+type MockRouteOptionEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionEventHandlerMockRecorder
+}
+
+// MockRouteOptionEventHandlerMockRecorder is the mock recorder for MockRouteOptionEventHandler.
+type MockRouteOptionEventHandlerMockRecorder struct {
+	mock *MockRouteOptionEventHandler
+}
+
+// NewMockRouteOptionEventHandler creates a new mock instance.
+func NewMockRouteOptionEventHandler(ctrl *gomock.Controller) *MockRouteOptionEventHandler {
+	mock := &MockRouteOptionEventHandler{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionEventHandler) EXPECT() *MockRouteOptionEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateRouteOption mocks base method.
+func (m *MockRouteOptionEventHandler) CreateRouteOption(obj *v1.RouteOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateRouteOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateRouteOption indicates an expected call of CreateRouteOption.
+func (mr *MockRouteOptionEventHandlerMockRecorder) CreateRouteOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRouteOption", reflect.TypeOf((*MockRouteOptionEventHandler)(nil).CreateRouteOption), obj)
+}
+
+// DeleteRouteOption mocks base method.
+func (m *MockRouteOptionEventHandler) DeleteRouteOption(obj *v1.RouteOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteRouteOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteRouteOption indicates an expected call of DeleteRouteOption.
+func (mr *MockRouteOptionEventHandlerMockRecorder) DeleteRouteOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRouteOption", reflect.TypeOf((*MockRouteOptionEventHandler)(nil).DeleteRouteOption), obj)
+}
+
+// GenericRouteOption mocks base method.
+func (m *MockRouteOptionEventHandler) GenericRouteOption(obj *v1.RouteOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericRouteOption", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericRouteOption indicates an expected call of GenericRouteOption.
+func (mr *MockRouteOptionEventHandlerMockRecorder) GenericRouteOption(obj interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericRouteOption", reflect.TypeOf((*MockRouteOptionEventHandler)(nil).GenericRouteOption), obj)
+}
+
+// UpdateRouteOption mocks base method.
+func (m *MockRouteOptionEventHandler) UpdateRouteOption(old, new *v1.RouteOption) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateRouteOption", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateRouteOption indicates an expected call of UpdateRouteOption.
+func (mr *MockRouteOptionEventHandlerMockRecorder) UpdateRouteOption(old, new interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOption", reflect.TypeOf((*MockRouteOptionEventHandler)(nil).UpdateRouteOption), old, new)
+}
+
+// MockRouteOptionEventWatcher is a mock of RouteOptionEventWatcher interface.
+type MockRouteOptionEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockRouteOptionEventWatcherMockRecorder
+}
+
+// MockRouteOptionEventWatcherMockRecorder is the mock recorder for MockRouteOptionEventWatcher.
+type MockRouteOptionEventWatcherMockRecorder struct {
+	mock *MockRouteOptionEventWatcher
+}
+
+// NewMockRouteOptionEventWatcher creates a new mock instance.
+func NewMockRouteOptionEventWatcher(ctrl *gomock.Controller) *MockRouteOptionEventWatcher {
+	mock := &MockRouteOptionEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockRouteOptionEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRouteOptionEventWatcher) EXPECT() *MockRouteOptionEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockRouteOptionEventWatcher) AddEventHandler(ctx context.Context, h controller.RouteOptionEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockRouteOptionEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockRouteOptionEventWatcher)(nil).AddEventHandler), varargs...)
 }
 
 // MockRouteTableEventHandler is a mock of RouteTableEventHandler interface.
@@ -738,125 +1101,4 @@ func (mr *MockVirtualHostOptionEventWatcherMockRecorder) AddEventHandler(ctx, h 
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockVirtualHostOptionEventWatcher)(nil).AddEventHandler), varargs...)
-}
-
-// MockRouteOptionEventHandler is a mock of RouteOptionEventHandler interface.
-type MockRouteOptionEventHandler struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionEventHandlerMockRecorder
-}
-
-// MockRouteOptionEventHandlerMockRecorder is the mock recorder for MockRouteOptionEventHandler.
-type MockRouteOptionEventHandlerMockRecorder struct {
-	mock *MockRouteOptionEventHandler
-}
-
-// NewMockRouteOptionEventHandler creates a new mock instance.
-func NewMockRouteOptionEventHandler(ctrl *gomock.Controller) *MockRouteOptionEventHandler {
-	mock := &MockRouteOptionEventHandler{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionEventHandlerMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionEventHandler) EXPECT() *MockRouteOptionEventHandlerMockRecorder {
-	return m.recorder
-}
-
-// CreateRouteOption mocks base method.
-func (m *MockRouteOptionEventHandler) CreateRouteOption(obj *v1.RouteOption) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateRouteOption", obj)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// CreateRouteOption indicates an expected call of CreateRouteOption.
-func (mr *MockRouteOptionEventHandlerMockRecorder) CreateRouteOption(obj interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRouteOption", reflect.TypeOf((*MockRouteOptionEventHandler)(nil).CreateRouteOption), obj)
-}
-
-// DeleteRouteOption mocks base method.
-func (m *MockRouteOptionEventHandler) DeleteRouteOption(obj *v1.RouteOption) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteRouteOption", obj)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteRouteOption indicates an expected call of DeleteRouteOption.
-func (mr *MockRouteOptionEventHandlerMockRecorder) DeleteRouteOption(obj interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRouteOption", reflect.TypeOf((*MockRouteOptionEventHandler)(nil).DeleteRouteOption), obj)
-}
-
-// GenericRouteOption mocks base method.
-func (m *MockRouteOptionEventHandler) GenericRouteOption(obj *v1.RouteOption) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GenericRouteOption", obj)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// GenericRouteOption indicates an expected call of GenericRouteOption.
-func (mr *MockRouteOptionEventHandlerMockRecorder) GenericRouteOption(obj interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericRouteOption", reflect.TypeOf((*MockRouteOptionEventHandler)(nil).GenericRouteOption), obj)
-}
-
-// UpdateRouteOption mocks base method.
-func (m *MockRouteOptionEventHandler) UpdateRouteOption(old, new *v1.RouteOption) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateRouteOption", old, new)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateRouteOption indicates an expected call of UpdateRouteOption.
-func (mr *MockRouteOptionEventHandlerMockRecorder) UpdateRouteOption(old, new interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRouteOption", reflect.TypeOf((*MockRouteOptionEventHandler)(nil).UpdateRouteOption), old, new)
-}
-
-// MockRouteOptionEventWatcher is a mock of RouteOptionEventWatcher interface.
-type MockRouteOptionEventWatcher struct {
-	ctrl     *gomock.Controller
-	recorder *MockRouteOptionEventWatcherMockRecorder
-}
-
-// MockRouteOptionEventWatcherMockRecorder is the mock recorder for MockRouteOptionEventWatcher.
-type MockRouteOptionEventWatcherMockRecorder struct {
-	mock *MockRouteOptionEventWatcher
-}
-
-// NewMockRouteOptionEventWatcher creates a new mock instance.
-func NewMockRouteOptionEventWatcher(ctrl *gomock.Controller) *MockRouteOptionEventWatcher {
-	mock := &MockRouteOptionEventWatcher{ctrl: ctrl}
-	mock.recorder = &MockRouteOptionEventWatcherMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRouteOptionEventWatcher) EXPECT() *MockRouteOptionEventWatcherMockRecorder {
-	return m.recorder
-}
-
-// AddEventHandler mocks base method.
-func (m *MockRouteOptionEventWatcher) AddEventHandler(ctx context.Context, h controller.RouteOptionEventHandler, predicates ...predicate.Predicate) error {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, h}
-	for _, a := range predicates {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// AddEventHandler indicates an expected call of AddEventHandler.
-func (mr *MockRouteOptionEventWatcherMockRecorder) AddEventHandler(ctx, h interface{}, predicates ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, h}, predicates...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockRouteOptionEventWatcher)(nil).AddEventHandler), varargs...)
 }
