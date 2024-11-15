@@ -30,7 +30,6 @@ func GlooGroups() []model.Group {
 			{kind: "RouteTable"},
 			{kind: "VirtualService"},
 			{kind: "VirtualHostOption"},
-			{kind: "RouteOption"},
 		}, GlooCustomTemplates),
 		makeGroup("enterprise.gloo", "v1", []resourceToGenerate{
 			{
