@@ -22,8 +22,11 @@ func GlooGroups() []model.Group {
 		}, GlooCustomTemplates),
 		makeGroup("gateway", "v1", []resourceToGenerate{
 			{kind: "Gateway"},
+			{kind: "HttpListenerOption"},
+			{kind: "ListenerOption"},
 			{kind: "MatchableHttpGateway"},
 			{kind: "MatchableTcpGateway"},
+			{kind: "RouteOption"},
 			{kind: "RouteTable"},
 			{kind: "VirtualService"},
 			{kind: "VirtualHostOption"},
