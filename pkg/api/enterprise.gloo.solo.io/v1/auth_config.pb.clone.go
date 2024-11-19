@@ -1812,6 +1812,39 @@ func (m *PassThroughHttp) Clone() proto.Message {
 }
 
 // Clone function
+func (m *PortalAuth) Clone() proto.Message {
+	var target *PortalAuth
+	if m == nil {
+		return target
+	}
+	target = &PortalAuth{}
+
+	target.Url = m.GetUrl()
+
+	target.ApiKeyHeader = m.GetApiKeyHeader()
+
+	if h, ok := interface{}(m.GetRedisOptions()).(clone.Cloner); ok {
+		target.RedisOptions = h.Clone().(*RedisOptions)
+	} else {
+		target.RedisOptions = proto.Clone(m.GetRedisOptions()).(*RedisOptions)
+	}
+
+	if h, ok := interface{}(m.GetCacheDuration()).(clone.Cloner); ok {
+		target.CacheDuration = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+	} else {
+		target.CacheDuration = proto.Clone(m.GetCacheDuration()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+	}
+
+	if h, ok := interface{}(m.GetRequestTimeout()).(clone.Cloner); ok {
+		target.RequestTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+	} else {
+		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+	}
+
+	return target
+}
+
+// Clone function
 func (m *AuthConfigStatus) Clone() proto.Message {
 	var target *AuthConfigStatus
 	if m == nil {
@@ -2016,6 +2049,18 @@ func (m *AuthConfigSpec_Config) Clone() proto.Message {
 		} else {
 			target.AuthConfig = &AuthConfigSpec_Config_OpaServerAuth{
 				OpaServerAuth: proto.Clone(m.GetOpaServerAuth()).(*OpaServerAuth),
+			}
+		}
+
+	case *AuthConfigSpec_Config_PortalAuth:
+
+		if h, ok := interface{}(m.GetPortalAuth()).(clone.Cloner); ok {
+			target.AuthConfig = &AuthConfigSpec_Config_PortalAuth{
+				PortalAuth: h.Clone().(*PortalAuth),
+			}
+		} else {
+			target.AuthConfig = &AuthConfigSpec_Config_PortalAuth{
+				PortalAuth: proto.Clone(m.GetPortalAuth()).(*PortalAuth),
 			}
 		}
 

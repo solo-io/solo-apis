@@ -3062,6 +3062,68 @@ func (m *PassThroughHttp) Equal(that interface{}) bool {
 }
 
 // Equal function
+func (m *PortalAuth) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PortalAuth)
+	if !ok {
+		that2, ok := that.(PortalAuth)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetUrl(), target.GetUrl()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetApiKeyHeader(), target.GetApiKeyHeader()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetRedisOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetRedisOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetRedisOptions(), target.GetRedisOptions()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetCacheDuration()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetCacheDuration()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetCacheDuration(), target.GetCacheDuration()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetRequestTimeout()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetRequestTimeout()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetRequestTimeout(), target.GetRequestTimeout()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
 func (m *AuthConfigStatus) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -3359,6 +3421,21 @@ func (m *AuthConfigSpec_Config) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetOpaServerAuth(), target.GetOpaServerAuth()) {
+				return false
+			}
+		}
+
+	case *AuthConfigSpec_Config_PortalAuth:
+		if _, ok := target.AuthConfig.(*AuthConfigSpec_Config_PortalAuth); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetPortalAuth()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetPortalAuth()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetPortalAuth(), target.GetPortalAuth()) {
 				return false
 			}
 		}

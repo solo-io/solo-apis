@@ -86,6 +86,7 @@ func (GraphQLApiStatus_State) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{13, 0}
 }
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 // Defines a configuration for generating outgoing requests for a resolver.
 type RequestTemplate struct {
 	state         protoimpl.MessageState
@@ -173,6 +174,7 @@ func (x *RequestTemplate) GetBody() *_struct.Value {
 	return nil
 }
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type ResponseTemplate struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -261,6 +263,7 @@ func (x *ResponseTemplate) GetSetters() map[string]string {
 	return nil
 }
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 // Defines a configuration for generating outgoing requests for a resolver.
 type GrpcRequestTemplate struct {
 	state         protoimpl.MessageState
@@ -340,6 +343,7 @@ func (x *GrpcRequestTemplate) GetRequestMetadata() map[string]string {
 	return nil
 }
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 // control-plane API
 type RESTResolver struct {
 	state         protoimpl.MessageState
@@ -425,6 +429,7 @@ func (x *RESTResolver) GetTimeout() *duration.Duration {
 	return nil
 }
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 // Defines a configuration for serializing and deserializing requests for a gRPC resolver.
 // Is a Schema Extension
 type GrpcDescriptorRegistry struct {
@@ -608,6 +613,7 @@ func (x *GrpcResolver) GetTimeout() *duration.Duration {
 	return nil
 }
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type StitchedSchema struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -656,6 +662,7 @@ func (x *StitchedSchema) GetSubschemas() []*StitchedSchema_SubschemaConfig {
 	return nil
 }
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type MockResolver struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -754,6 +761,7 @@ func (*MockResolver_AsyncResponse_) isMockResolver_Response() {}
 
 func (*MockResolver_ErrorResponse) isMockResolver_Response() {}
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 // Define a named resolver which can be then matched to a field using the `resolve` directive.
 // if a field does not have resolver, the default resolver will be used.
 // the default resolver takes the field with the same name from the parent, and uses that value
@@ -874,7 +882,7 @@ func (*Resolution_GrpcResolver) isResolution_Resolver() {}
 
 func (*Resolution_MockResolver) isResolution_Resolver() {}
 
-// Enterprise-Only: THIS FEATURE IS IN TECH PREVIEW. APIs are versioned as alpha and subject to change.
+// Deprecated, Enterprise-Only: THIS FEATURE IS DEPRECATED AND WILL BE REMOVED IN A FUTURE RELEASE. APIs are versioned as alpha and subject to change.
 // User-facing CR config for resolving client requests to graphql schemas.
 // Routes that have this config will execute graphql queries, and will not make it to the router filter. i.e. this
 // filter will terminate the request for these routes.
@@ -1003,6 +1011,7 @@ func (*GraphQLApiSpec_ExecutableSchema) isGraphQLApiSpec_Schema() {}
 
 func (*GraphQLApiSpec_StitchedSchema) isGraphQLApiSpec_Schema() {}
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 // This message specifies Persisted Query Cache configuration.
 type PersistedQueryCacheConfig struct {
 	state         protoimpl.MessageState
@@ -1052,6 +1061,7 @@ func (x *PersistedQueryCacheConfig) GetCacheSize() uint32 {
 	return 0
 }
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type ExecutableSchema struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1137,6 +1147,7 @@ func (x *ExecutableSchema) GetGrpcDescriptorRegistry() *GrpcDescriptorRegistry {
 	return nil
 }
 
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type Executor struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
