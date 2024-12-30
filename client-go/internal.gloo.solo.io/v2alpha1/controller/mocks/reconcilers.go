@@ -203,3 +203,186 @@ func (mr *MockSpireRegistrationEntryReconcileLoopMockRecorder) RunSpireRegistrat
 	varargs := append([]any{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunSpireRegistrationEntryReconciler", reflect.TypeOf((*MockSpireRegistrationEntryReconcileLoop)(nil).RunSpireRegistrationEntryReconciler), varargs...)
 }
+
+// MockVirtualServiceBackupReconciler is a mock of VirtualServiceBackupReconciler interface.
+type MockVirtualServiceBackupReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupReconcilerMockRecorder
+}
+
+// MockVirtualServiceBackupReconcilerMockRecorder is the mock recorder for MockVirtualServiceBackupReconciler.
+type MockVirtualServiceBackupReconcilerMockRecorder struct {
+	mock *MockVirtualServiceBackupReconciler
+}
+
+// NewMockVirtualServiceBackupReconciler creates a new mock instance.
+func NewMockVirtualServiceBackupReconciler(ctrl *gomock.Controller) *MockVirtualServiceBackupReconciler {
+	mock := &MockVirtualServiceBackupReconciler{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupReconciler) EXPECT() *MockVirtualServiceBackupReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupReconciler) ReconcileVirtualServiceBackup(obj *v2alpha1.VirtualServiceBackup) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileVirtualServiceBackup", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileVirtualServiceBackup indicates an expected call of ReconcileVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupReconcilerMockRecorder) ReconcileVirtualServiceBackup(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupReconciler)(nil).ReconcileVirtualServiceBackup), obj)
+}
+
+// MockVirtualServiceBackupDeletionReconciler is a mock of VirtualServiceBackupDeletionReconciler interface.
+type MockVirtualServiceBackupDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupDeletionReconcilerMockRecorder
+}
+
+// MockVirtualServiceBackupDeletionReconcilerMockRecorder is the mock recorder for MockVirtualServiceBackupDeletionReconciler.
+type MockVirtualServiceBackupDeletionReconcilerMockRecorder struct {
+	mock *MockVirtualServiceBackupDeletionReconciler
+}
+
+// NewMockVirtualServiceBackupDeletionReconciler creates a new mock instance.
+func NewMockVirtualServiceBackupDeletionReconciler(ctrl *gomock.Controller) *MockVirtualServiceBackupDeletionReconciler {
+	mock := &MockVirtualServiceBackupDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupDeletionReconciler) EXPECT() *MockVirtualServiceBackupDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileVirtualServiceBackupDeletion mocks base method.
+func (m *MockVirtualServiceBackupDeletionReconciler) ReconcileVirtualServiceBackupDeletion(req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileVirtualServiceBackupDeletion", req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileVirtualServiceBackupDeletion indicates an expected call of ReconcileVirtualServiceBackupDeletion.
+func (mr *MockVirtualServiceBackupDeletionReconcilerMockRecorder) ReconcileVirtualServiceBackupDeletion(req any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileVirtualServiceBackupDeletion", reflect.TypeOf((*MockVirtualServiceBackupDeletionReconciler)(nil).ReconcileVirtualServiceBackupDeletion), req)
+}
+
+// MockVirtualServiceBackupFinalizer is a mock of VirtualServiceBackupFinalizer interface.
+type MockVirtualServiceBackupFinalizer struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupFinalizerMockRecorder
+}
+
+// MockVirtualServiceBackupFinalizerMockRecorder is the mock recorder for MockVirtualServiceBackupFinalizer.
+type MockVirtualServiceBackupFinalizerMockRecorder struct {
+	mock *MockVirtualServiceBackupFinalizer
+}
+
+// NewMockVirtualServiceBackupFinalizer creates a new mock instance.
+func NewMockVirtualServiceBackupFinalizer(ctrl *gomock.Controller) *MockVirtualServiceBackupFinalizer {
+	mock := &MockVirtualServiceBackupFinalizer{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupFinalizerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupFinalizer) EXPECT() *MockVirtualServiceBackupFinalizerMockRecorder {
+	return m.recorder
+}
+
+// FinalizeVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupFinalizer) FinalizeVirtualServiceBackup(obj *v2alpha1.VirtualServiceBackup) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FinalizeVirtualServiceBackup", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// FinalizeVirtualServiceBackup indicates an expected call of FinalizeVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupFinalizerMockRecorder) FinalizeVirtualServiceBackup(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupFinalizer)(nil).FinalizeVirtualServiceBackup), obj)
+}
+
+// ReconcileVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupFinalizer) ReconcileVirtualServiceBackup(obj *v2alpha1.VirtualServiceBackup) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileVirtualServiceBackup", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileVirtualServiceBackup indicates an expected call of ReconcileVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupFinalizerMockRecorder) ReconcileVirtualServiceBackup(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupFinalizer)(nil).ReconcileVirtualServiceBackup), obj)
+}
+
+// VirtualServiceBackupFinalizerName mocks base method.
+func (m *MockVirtualServiceBackupFinalizer) VirtualServiceBackupFinalizerName() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "VirtualServiceBackupFinalizerName")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// VirtualServiceBackupFinalizerName indicates an expected call of VirtualServiceBackupFinalizerName.
+func (mr *MockVirtualServiceBackupFinalizerMockRecorder) VirtualServiceBackupFinalizerName() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VirtualServiceBackupFinalizerName", reflect.TypeOf((*MockVirtualServiceBackupFinalizer)(nil).VirtualServiceBackupFinalizerName))
+}
+
+// MockVirtualServiceBackupReconcileLoop is a mock of VirtualServiceBackupReconcileLoop interface.
+type MockVirtualServiceBackupReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupReconcileLoopMockRecorder
+}
+
+// MockVirtualServiceBackupReconcileLoopMockRecorder is the mock recorder for MockVirtualServiceBackupReconcileLoop.
+type MockVirtualServiceBackupReconcileLoopMockRecorder struct {
+	mock *MockVirtualServiceBackupReconcileLoop
+}
+
+// NewMockVirtualServiceBackupReconcileLoop creates a new mock instance.
+func NewMockVirtualServiceBackupReconcileLoop(ctrl *gomock.Controller) *MockVirtualServiceBackupReconcileLoop {
+	mock := &MockVirtualServiceBackupReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupReconcileLoop) EXPECT() *MockVirtualServiceBackupReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// RunVirtualServiceBackupReconciler mocks base method.
+func (m *MockVirtualServiceBackupReconcileLoop) RunVirtualServiceBackupReconciler(ctx context.Context, rec controller.VirtualServiceBackupReconciler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RunVirtualServiceBackupReconciler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RunVirtualServiceBackupReconciler indicates an expected call of RunVirtualServiceBackupReconciler.
+func (mr *MockVirtualServiceBackupReconcileLoopMockRecorder) RunVirtualServiceBackupReconciler(ctx, rec any, predicates ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunVirtualServiceBackupReconciler", reflect.TypeOf((*MockVirtualServiceBackupReconcileLoop)(nil).RunVirtualServiceBackupReconciler), varargs...)
+}

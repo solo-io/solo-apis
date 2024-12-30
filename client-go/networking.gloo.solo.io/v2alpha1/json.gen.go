@@ -48,3 +48,25 @@ func (this *ExternalWorkloadStatus) MarshalJSON() ([]byte, error) {
 func (this *ExternalWorkloadStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
+// MarshalJSON is a custom marshaler for ProgressiveDeliverySpec
+func (this *ProgressiveDeliverySpec) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for ProgressiveDeliverySpec
+func (this *ProgressiveDeliverySpec) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for ProgressiveDeliveryStatus
+func (this *ProgressiveDeliveryStatus) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for ProgressiveDeliveryStatus
+func (this *ProgressiveDeliveryStatus) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}

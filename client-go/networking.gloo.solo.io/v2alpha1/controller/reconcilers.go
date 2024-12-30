@@ -133,3 +133,120 @@ func (r genericExternalWorkloadFinalizer) Finalize(object ezkube.Object) error {
 	}
 	return r.finalizingReconciler.FinalizeExternalWorkload(obj)
 }
+
+// Reconcile Upsert events for the ProgressiveDelivery Resource.
+// implemented by the user
+type ProgressiveDeliveryReconciler interface {
+	ReconcileProgressiveDelivery(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the ProgressiveDelivery Resource.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type ProgressiveDeliveryDeletionReconciler interface {
+	ReconcileProgressiveDeliveryDeletion(req reconcile.Request) error
+}
+
+type ProgressiveDeliveryReconcilerFuncs struct {
+	OnReconcileProgressiveDelivery         func(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) (reconcile.Result, error)
+	OnReconcileProgressiveDeliveryDeletion func(req reconcile.Request) error
+}
+
+func (f *ProgressiveDeliveryReconcilerFuncs) ReconcileProgressiveDelivery(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) (reconcile.Result, error) {
+	if f.OnReconcileProgressiveDelivery == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileProgressiveDelivery(obj)
+}
+
+func (f *ProgressiveDeliveryReconcilerFuncs) ReconcileProgressiveDeliveryDeletion(req reconcile.Request) error {
+	if f.OnReconcileProgressiveDeliveryDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileProgressiveDeliveryDeletion(req)
+}
+
+// Reconcile and finalize the ProgressiveDelivery Resource
+// implemented by the user
+type ProgressiveDeliveryFinalizer interface {
+	ProgressiveDeliveryReconciler
+
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	ProgressiveDeliveryFinalizerName() string
+
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeProgressiveDelivery(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error
+}
+
+type ProgressiveDeliveryReconcileLoop interface {
+	RunProgressiveDeliveryReconciler(ctx context.Context, rec ProgressiveDeliveryReconciler, predicates ...predicate.Predicate) error
+}
+
+type progressiveDeliveryReconcileLoop struct {
+	loop reconcile.Loop
+}
+
+func NewProgressiveDeliveryReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) ProgressiveDeliveryReconcileLoop {
+	return &progressiveDeliveryReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &networking_gloo_solo_io_v2alpha1.ProgressiveDelivery{}, options),
+	}
+}
+
+func (c *progressiveDeliveryReconcileLoop) RunProgressiveDeliveryReconciler(ctx context.Context, reconciler ProgressiveDeliveryReconciler, predicates ...predicate.Predicate) error {
+	genericReconciler := genericProgressiveDeliveryReconciler{
+		reconciler: reconciler,
+	}
+
+	var reconcilerWrapper reconcile.Reconciler
+	if finalizingReconciler, ok := reconciler.(ProgressiveDeliveryFinalizer); ok {
+		reconcilerWrapper = genericProgressiveDeliveryFinalizer{
+			genericProgressiveDeliveryReconciler: genericReconciler,
+			finalizingReconciler:                 finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
+	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
+}
+
+// genericProgressiveDeliveryHandler implements a generic reconcile.Reconciler
+type genericProgressiveDeliveryReconciler struct {
+	reconciler ProgressiveDeliveryReconciler
+}
+
+func (r genericProgressiveDeliveryReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: ProgressiveDelivery handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileProgressiveDelivery(obj)
+}
+
+func (r genericProgressiveDeliveryReconciler) ReconcileDeletion(request reconcile.Request) error {
+	if deletionReconciler, ok := r.reconciler.(ProgressiveDeliveryDeletionReconciler); ok {
+		return deletionReconciler.ReconcileProgressiveDeliveryDeletion(request)
+	}
+	return nil
+}
+
+// genericProgressiveDeliveryFinalizer implements a generic reconcile.FinalizingReconciler
+type genericProgressiveDeliveryFinalizer struct {
+	genericProgressiveDeliveryReconciler
+	finalizingReconciler ProgressiveDeliveryFinalizer
+}
+
+func (r genericProgressiveDeliveryFinalizer) FinalizerName() string {
+	return r.finalizingReconciler.ProgressiveDeliveryFinalizerName()
+}
+
+func (r genericProgressiveDeliveryFinalizer) Finalize(object ezkube.Object) error {
+	obj, ok := object.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	if !ok {
+		return errors.Errorf("internal error: ProgressiveDelivery handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeProgressiveDelivery(obj)
+}

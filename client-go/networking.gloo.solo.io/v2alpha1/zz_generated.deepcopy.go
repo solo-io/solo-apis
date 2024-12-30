@@ -67,3 +67,63 @@ func (in *ExternalWorkloadList) DeepCopyObject() runtime.Object {
 	}
 	return nil
 }
+
+// Generated Deepcopy methods for ProgressiveDelivery
+
+func (in *ProgressiveDelivery) DeepCopyInto(out *ProgressiveDelivery) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+	// deepcopy status
+	in.Status.DeepCopyInto(&out.Status)
+
+	return
+}
+
+func (in *ProgressiveDelivery) DeepCopy() *ProgressiveDelivery {
+	if in == nil {
+		return nil
+	}
+	out := new(ProgressiveDelivery)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *ProgressiveDelivery) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *ProgressiveDeliveryList) DeepCopyInto(out *ProgressiveDeliveryList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]ProgressiveDelivery, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *ProgressiveDeliveryList) DeepCopy() *ProgressiveDeliveryList {
+	if in == nil {
+		return nil
+	}
+	out := new(ProgressiveDeliveryList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *ProgressiveDeliveryList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}

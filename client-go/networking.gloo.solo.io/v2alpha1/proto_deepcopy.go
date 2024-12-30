@@ -30,3 +30,25 @@ func (in *ExternalWorkloadStatus) DeepCopyInto(out *ExternalWorkloadStatus) {
 	}
 	*out = *p
 }
+
+// DeepCopyInto for the ProgressiveDelivery.Spec
+func (in *ProgressiveDeliverySpec) DeepCopyInto(out *ProgressiveDeliverySpec) {
+	var p *ProgressiveDeliverySpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ProgressiveDeliverySpec)
+	} else {
+		p = proto.Clone(in).(*ProgressiveDeliverySpec)
+	}
+	*out = *p
+}
+
+// DeepCopyInto for the ProgressiveDelivery.Status
+func (in *ProgressiveDeliveryStatus) DeepCopyInto(out *ProgressiveDeliveryStatus) {
+	var p *ProgressiveDeliveryStatus
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*ProgressiveDeliveryStatus)
+	} else {
+		p = proto.Clone(in).(*ProgressiveDeliveryStatus)
+	}
+	*out = *p
+}

@@ -276,3 +276,259 @@ func (mr *MockExternalWorkloadSetMockRecorder) UnsortedList(filterResource ...an
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockExternalWorkloadSet)(nil).UnsortedList), filterResource...)
 }
+
+// MockProgressiveDeliverySet is a mock of ProgressiveDeliverySet interface.
+type MockProgressiveDeliverySet struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliverySetMockRecorder
+}
+
+// MockProgressiveDeliverySetMockRecorder is the mock recorder for MockProgressiveDeliverySet.
+type MockProgressiveDeliverySetMockRecorder struct {
+	mock *MockProgressiveDeliverySet
+}
+
+// NewMockProgressiveDeliverySet creates a new mock instance.
+func NewMockProgressiveDeliverySet(ctrl *gomock.Controller) *MockProgressiveDeliverySet {
+	mock := &MockProgressiveDeliverySet{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliverySetMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliverySet) EXPECT() *MockProgressiveDeliverySetMockRecorder {
+	return m.recorder
+}
+
+// Clone mocks base method.
+func (m *MockProgressiveDeliverySet) Clone() v2alpha1sets.ProgressiveDeliverySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2alpha1sets.ProgressiveDeliverySet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockProgressiveDeliverySetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockProgressiveDeliverySet) Delete(progressiveDelivery ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", progressiveDelivery)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockProgressiveDeliverySetMockRecorder) Delete(progressiveDelivery any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Delete), progressiveDelivery)
+}
+
+// Delta mocks base method.
+func (m *MockProgressiveDeliverySet) Delta(newSet v2alpha1sets.ProgressiveDeliverySet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockProgressiveDeliverySetMockRecorder) Delta(newSet any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockProgressiveDeliverySet) Difference(set v2alpha1sets.ProgressiveDeliverySet) v2alpha1sets.ProgressiveDeliverySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2alpha1sets.ProgressiveDeliverySet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockProgressiveDeliverySetMockRecorder) Difference(set any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockProgressiveDeliverySet) Equal(progressiveDeliverySet v2alpha1sets.ProgressiveDeliverySet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", progressiveDeliverySet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockProgressiveDeliverySetMockRecorder) Equal(progressiveDeliverySet any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Equal), progressiveDeliverySet)
+}
+
+// Find mocks base method.
+func (m *MockProgressiveDeliverySet) Find(id ezkube.ResourceId) (*v2alpha1.ProgressiveDelivery, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2alpha1.ProgressiveDelivery)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockProgressiveDeliverySetMockRecorder) Find(id any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockProgressiveDeliverySet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockProgressiveDeliverySetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockProgressiveDeliverySet) Has(progressiveDelivery ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", progressiveDelivery)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockProgressiveDeliverySetMockRecorder) Has(progressiveDelivery any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Has), progressiveDelivery)
+}
+
+// Insert mocks base method.
+func (m *MockProgressiveDeliverySet) Insert(progressiveDelivery ...*v2alpha1.ProgressiveDelivery) {
+	m.ctrl.T.Helper()
+	varargs := []any{}
+	for _, a := range progressiveDelivery {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockProgressiveDeliverySetMockRecorder) Insert(progressiveDelivery ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Insert), progressiveDelivery...)
+}
+
+// Intersection mocks base method.
+func (m *MockProgressiveDeliverySet) Intersection(set v2alpha1sets.ProgressiveDeliverySet) v2alpha1sets.ProgressiveDeliverySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2alpha1sets.ProgressiveDeliverySet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockProgressiveDeliverySetMockRecorder) Intersection(set any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
+func (m *MockProgressiveDeliverySet) Keys() sets0.String {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Keys")
+	ret0, _ := ret[0].(sets0.String)
+	return ret0
+}
+
+// Keys indicates an expected call of Keys.
+func (mr *MockProgressiveDeliverySetMockRecorder) Keys() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Keys))
+}
+
+// Length mocks base method.
+func (m *MockProgressiveDeliverySet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockProgressiveDeliverySetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Length))
+}
+
+// List mocks base method.
+func (m *MockProgressiveDeliverySet) List(filterResource ...func(*v2alpha1.ProgressiveDelivery) bool) []*v2alpha1.ProgressiveDelivery {
+	m.ctrl.T.Helper()
+	varargs := []any{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "List", varargs...)
+	ret0, _ := ret[0].([]*v2alpha1.ProgressiveDelivery)
+	return ret0
+}
+
+// List indicates an expected call of List.
+func (mr *MockProgressiveDeliverySetMockRecorder) List(filterResource ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).List), filterResource...)
+}
+
+// Map mocks base method.
+func (m *MockProgressiveDeliverySet) Map() map[string]*v2alpha1.ProgressiveDelivery {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2alpha1.ProgressiveDelivery)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockProgressiveDeliverySetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockProgressiveDeliverySet) Union(set v2alpha1sets.ProgressiveDeliverySet) v2alpha1sets.ProgressiveDeliverySet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2alpha1sets.ProgressiveDeliverySet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockProgressiveDeliverySetMockRecorder) Union(set any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
+func (m *MockProgressiveDeliverySet) UnsortedList(filterResource ...func(*v2alpha1.ProgressiveDelivery) bool) []*v2alpha1.ProgressiveDelivery {
+	m.ctrl.T.Helper()
+	varargs := []any{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v2alpha1.ProgressiveDelivery)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList.
+func (mr *MockProgressiveDeliverySetMockRecorder) UnsortedList(filterResource ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockProgressiveDeliverySet)(nil).UnsortedList), filterResource...)
+}

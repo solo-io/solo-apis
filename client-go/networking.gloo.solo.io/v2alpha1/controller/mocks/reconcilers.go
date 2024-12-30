@@ -203,3 +203,186 @@ func (mr *MockExternalWorkloadReconcileLoopMockRecorder) RunExternalWorkloadReco
 	varargs := append([]any{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunExternalWorkloadReconciler", reflect.TypeOf((*MockExternalWorkloadReconcileLoop)(nil).RunExternalWorkloadReconciler), varargs...)
 }
+
+// MockProgressiveDeliveryReconciler is a mock of ProgressiveDeliveryReconciler interface.
+type MockProgressiveDeliveryReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryReconcilerMockRecorder
+}
+
+// MockProgressiveDeliveryReconcilerMockRecorder is the mock recorder for MockProgressiveDeliveryReconciler.
+type MockProgressiveDeliveryReconcilerMockRecorder struct {
+	mock *MockProgressiveDeliveryReconciler
+}
+
+// NewMockProgressiveDeliveryReconciler creates a new mock instance.
+func NewMockProgressiveDeliveryReconciler(ctrl *gomock.Controller) *MockProgressiveDeliveryReconciler {
+	mock := &MockProgressiveDeliveryReconciler{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryReconciler) EXPECT() *MockProgressiveDeliveryReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryReconciler) ReconcileProgressiveDelivery(obj *v2alpha1.ProgressiveDelivery) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileProgressiveDelivery", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileProgressiveDelivery indicates an expected call of ReconcileProgressiveDelivery.
+func (mr *MockProgressiveDeliveryReconcilerMockRecorder) ReconcileProgressiveDelivery(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryReconciler)(nil).ReconcileProgressiveDelivery), obj)
+}
+
+// MockProgressiveDeliveryDeletionReconciler is a mock of ProgressiveDeliveryDeletionReconciler interface.
+type MockProgressiveDeliveryDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryDeletionReconcilerMockRecorder
+}
+
+// MockProgressiveDeliveryDeletionReconcilerMockRecorder is the mock recorder for MockProgressiveDeliveryDeletionReconciler.
+type MockProgressiveDeliveryDeletionReconcilerMockRecorder struct {
+	mock *MockProgressiveDeliveryDeletionReconciler
+}
+
+// NewMockProgressiveDeliveryDeletionReconciler creates a new mock instance.
+func NewMockProgressiveDeliveryDeletionReconciler(ctrl *gomock.Controller) *MockProgressiveDeliveryDeletionReconciler {
+	mock := &MockProgressiveDeliveryDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryDeletionReconciler) EXPECT() *MockProgressiveDeliveryDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileProgressiveDeliveryDeletion mocks base method.
+func (m *MockProgressiveDeliveryDeletionReconciler) ReconcileProgressiveDeliveryDeletion(req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileProgressiveDeliveryDeletion", req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileProgressiveDeliveryDeletion indicates an expected call of ReconcileProgressiveDeliveryDeletion.
+func (mr *MockProgressiveDeliveryDeletionReconcilerMockRecorder) ReconcileProgressiveDeliveryDeletion(req any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileProgressiveDeliveryDeletion", reflect.TypeOf((*MockProgressiveDeliveryDeletionReconciler)(nil).ReconcileProgressiveDeliveryDeletion), req)
+}
+
+// MockProgressiveDeliveryFinalizer is a mock of ProgressiveDeliveryFinalizer interface.
+type MockProgressiveDeliveryFinalizer struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryFinalizerMockRecorder
+}
+
+// MockProgressiveDeliveryFinalizerMockRecorder is the mock recorder for MockProgressiveDeliveryFinalizer.
+type MockProgressiveDeliveryFinalizerMockRecorder struct {
+	mock *MockProgressiveDeliveryFinalizer
+}
+
+// NewMockProgressiveDeliveryFinalizer creates a new mock instance.
+func NewMockProgressiveDeliveryFinalizer(ctrl *gomock.Controller) *MockProgressiveDeliveryFinalizer {
+	mock := &MockProgressiveDeliveryFinalizer{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryFinalizerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryFinalizer) EXPECT() *MockProgressiveDeliveryFinalizerMockRecorder {
+	return m.recorder
+}
+
+// FinalizeProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryFinalizer) FinalizeProgressiveDelivery(obj *v2alpha1.ProgressiveDelivery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FinalizeProgressiveDelivery", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// FinalizeProgressiveDelivery indicates an expected call of FinalizeProgressiveDelivery.
+func (mr *MockProgressiveDeliveryFinalizerMockRecorder) FinalizeProgressiveDelivery(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FinalizeProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryFinalizer)(nil).FinalizeProgressiveDelivery), obj)
+}
+
+// ProgressiveDeliveryFinalizerName mocks base method.
+func (m *MockProgressiveDeliveryFinalizer) ProgressiveDeliveryFinalizerName() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ProgressiveDeliveryFinalizerName")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// ProgressiveDeliveryFinalizerName indicates an expected call of ProgressiveDeliveryFinalizerName.
+func (mr *MockProgressiveDeliveryFinalizerMockRecorder) ProgressiveDeliveryFinalizerName() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProgressiveDeliveryFinalizerName", reflect.TypeOf((*MockProgressiveDeliveryFinalizer)(nil).ProgressiveDeliveryFinalizerName))
+}
+
+// ReconcileProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryFinalizer) ReconcileProgressiveDelivery(obj *v2alpha1.ProgressiveDelivery) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileProgressiveDelivery", obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileProgressiveDelivery indicates an expected call of ReconcileProgressiveDelivery.
+func (mr *MockProgressiveDeliveryFinalizerMockRecorder) ReconcileProgressiveDelivery(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryFinalizer)(nil).ReconcileProgressiveDelivery), obj)
+}
+
+// MockProgressiveDeliveryReconcileLoop is a mock of ProgressiveDeliveryReconcileLoop interface.
+type MockProgressiveDeliveryReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryReconcileLoopMockRecorder
+}
+
+// MockProgressiveDeliveryReconcileLoopMockRecorder is the mock recorder for MockProgressiveDeliveryReconcileLoop.
+type MockProgressiveDeliveryReconcileLoopMockRecorder struct {
+	mock *MockProgressiveDeliveryReconcileLoop
+}
+
+// NewMockProgressiveDeliveryReconcileLoop creates a new mock instance.
+func NewMockProgressiveDeliveryReconcileLoop(ctrl *gomock.Controller) *MockProgressiveDeliveryReconcileLoop {
+	mock := &MockProgressiveDeliveryReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryReconcileLoop) EXPECT() *MockProgressiveDeliveryReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// RunProgressiveDeliveryReconciler mocks base method.
+func (m *MockProgressiveDeliveryReconcileLoop) RunProgressiveDeliveryReconciler(ctx context.Context, rec controller.ProgressiveDeliveryReconciler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RunProgressiveDeliveryReconciler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RunProgressiveDeliveryReconciler indicates an expected call of RunProgressiveDeliveryReconciler.
+func (mr *MockProgressiveDeliveryReconcileLoopMockRecorder) RunProgressiveDeliveryReconciler(ctx, rec any, predicates ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunProgressiveDeliveryReconciler", reflect.TypeOf((*MockProgressiveDeliveryReconcileLoop)(nil).RunProgressiveDeliveryReconciler), varargs...)
+}

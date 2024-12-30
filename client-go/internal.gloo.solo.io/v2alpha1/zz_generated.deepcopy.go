@@ -67,3 +67,61 @@ func (in *SpireRegistrationEntryList) DeepCopyObject() runtime.Object {
 	}
 	return nil
 }
+
+// Generated Deepcopy methods for VirtualServiceBackup
+
+func (in *VirtualServiceBackup) DeepCopyInto(out *VirtualServiceBackup) {
+	out.TypeMeta = in.TypeMeta
+	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+
+	// deepcopy spec
+	in.Spec.DeepCopyInto(&out.Spec)
+
+	return
+}
+
+func (in *VirtualServiceBackup) DeepCopy() *VirtualServiceBackup {
+	if in == nil {
+		return nil
+	}
+	out := new(VirtualServiceBackup)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *VirtualServiceBackup) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+func (in *VirtualServiceBackupList) DeepCopyInto(out *VirtualServiceBackupList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]VirtualServiceBackup, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	return
+}
+
+func (in *VirtualServiceBackupList) DeepCopy() *VirtualServiceBackupList {
+	if in == nil {
+		return nil
+	}
+	out := new(VirtualServiceBackupList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+func (in *VirtualServiceBackupList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}

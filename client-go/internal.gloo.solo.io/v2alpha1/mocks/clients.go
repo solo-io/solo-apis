@@ -94,6 +94,20 @@ func (mr *MockClientsetMockRecorder) SpireRegistrationEntries() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SpireRegistrationEntries", reflect.TypeOf((*MockClientset)(nil).SpireRegistrationEntries))
 }
 
+// VirtualServiceBackups mocks base method.
+func (m *MockClientset) VirtualServiceBackups() v2alpha1.VirtualServiceBackupClient {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "VirtualServiceBackups")
+	ret0, _ := ret[0].(v2alpha1.VirtualServiceBackupClient)
+	return ret0
+}
+
+// VirtualServiceBackups indicates an expected call of VirtualServiceBackups.
+func (mr *MockClientsetMockRecorder) VirtualServiceBackups() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VirtualServiceBackups", reflect.TypeOf((*MockClientset)(nil).VirtualServiceBackups))
+}
+
 // MockSpireRegistrationEntryReader is a mock of SpireRegistrationEntryReader interface.
 type MockSpireRegistrationEntryReader struct {
 	ctrl     *gomock.Controller
@@ -596,4 +610,508 @@ func (m *MockMulticlusterSpireRegistrationEntryClient) Cluster(cluster string) (
 func (mr *MockMulticlusterSpireRegistrationEntryClientMockRecorder) Cluster(cluster any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterSpireRegistrationEntryClient)(nil).Cluster), cluster)
+}
+
+// MockVirtualServiceBackupReader is a mock of VirtualServiceBackupReader interface.
+type MockVirtualServiceBackupReader struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupReaderMockRecorder
+}
+
+// MockVirtualServiceBackupReaderMockRecorder is the mock recorder for MockVirtualServiceBackupReader.
+type MockVirtualServiceBackupReaderMockRecorder struct {
+	mock *MockVirtualServiceBackupReader
+}
+
+// NewMockVirtualServiceBackupReader creates a new mock instance.
+func NewMockVirtualServiceBackupReader(ctrl *gomock.Controller) *MockVirtualServiceBackupReader {
+	mock := &MockVirtualServiceBackupReader{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupReaderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupReader) EXPECT() *MockVirtualServiceBackupReaderMockRecorder {
+	return m.recorder
+}
+
+// GetVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupReader) GetVirtualServiceBackup(ctx context.Context, key client.ObjectKey) (*v2alpha1.VirtualServiceBackup, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetVirtualServiceBackup", ctx, key)
+	ret0, _ := ret[0].(*v2alpha1.VirtualServiceBackup)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetVirtualServiceBackup indicates an expected call of GetVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupReaderMockRecorder) GetVirtualServiceBackup(ctx, key any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupReader)(nil).GetVirtualServiceBackup), ctx, key)
+}
+
+// ListVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupReader) ListVirtualServiceBackup(ctx context.Context, opts ...client.ListOption) (*v2alpha1.VirtualServiceBackupList, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(*v2alpha1.VirtualServiceBackupList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListVirtualServiceBackup indicates an expected call of ListVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupReaderMockRecorder) ListVirtualServiceBackup(ctx any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupReader)(nil).ListVirtualServiceBackup), varargs...)
+}
+
+// MockVirtualServiceBackupWriter is a mock of VirtualServiceBackupWriter interface.
+type MockVirtualServiceBackupWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupWriterMockRecorder
+}
+
+// MockVirtualServiceBackupWriterMockRecorder is the mock recorder for MockVirtualServiceBackupWriter.
+type MockVirtualServiceBackupWriterMockRecorder struct {
+	mock *MockVirtualServiceBackupWriter
+}
+
+// NewMockVirtualServiceBackupWriter creates a new mock instance.
+func NewMockVirtualServiceBackupWriter(ctrl *gomock.Controller) *MockVirtualServiceBackupWriter {
+	mock := &MockVirtualServiceBackupWriter{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupWriter) EXPECT() *MockVirtualServiceBackupWriterMockRecorder {
+	return m.recorder
+}
+
+// CreateVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupWriter) CreateVirtualServiceBackup(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateVirtualServiceBackup indicates an expected call of CreateVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupWriterMockRecorder) CreateVirtualServiceBackup(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupWriter)(nil).CreateVirtualServiceBackup), varargs...)
+}
+
+// DeleteAllOfVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupWriter) DeleteAllOfVirtualServiceBackup(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfVirtualServiceBackup indicates an expected call of DeleteAllOfVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupWriterMockRecorder) DeleteAllOfVirtualServiceBackup(ctx any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupWriter)(nil).DeleteAllOfVirtualServiceBackup), varargs...)
+}
+
+// DeleteVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupWriter) DeleteVirtualServiceBackup(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteVirtualServiceBackup indicates an expected call of DeleteVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupWriterMockRecorder) DeleteVirtualServiceBackup(ctx, key any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupWriter)(nil).DeleteVirtualServiceBackup), varargs...)
+}
+
+// PatchVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupWriter) PatchVirtualServiceBackup(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchVirtualServiceBackup indicates an expected call of PatchVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupWriterMockRecorder) PatchVirtualServiceBackup(ctx, obj, patch any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupWriter)(nil).PatchVirtualServiceBackup), varargs...)
+}
+
+// UpdateVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupWriter) UpdateVirtualServiceBackup(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateVirtualServiceBackup indicates an expected call of UpdateVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupWriterMockRecorder) UpdateVirtualServiceBackup(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupWriter)(nil).UpdateVirtualServiceBackup), varargs...)
+}
+
+// UpsertVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupWriter) UpsertVirtualServiceBackup(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, transitionFuncs ...v2alpha1.VirtualServiceBackupTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertVirtualServiceBackup indicates an expected call of UpsertVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupWriterMockRecorder) UpsertVirtualServiceBackup(ctx, obj any, transitionFuncs ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupWriter)(nil).UpsertVirtualServiceBackup), varargs...)
+}
+
+// MockVirtualServiceBackupStatusWriter is a mock of VirtualServiceBackupStatusWriter interface.
+type MockVirtualServiceBackupStatusWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupStatusWriterMockRecorder
+}
+
+// MockVirtualServiceBackupStatusWriterMockRecorder is the mock recorder for MockVirtualServiceBackupStatusWriter.
+type MockVirtualServiceBackupStatusWriterMockRecorder struct {
+	mock *MockVirtualServiceBackupStatusWriter
+}
+
+// NewMockVirtualServiceBackupStatusWriter creates a new mock instance.
+func NewMockVirtualServiceBackupStatusWriter(ctrl *gomock.Controller) *MockVirtualServiceBackupStatusWriter {
+	mock := &MockVirtualServiceBackupStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupStatusWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupStatusWriter) EXPECT() *MockVirtualServiceBackupStatusWriterMockRecorder {
+	return m.recorder
+}
+
+// PatchVirtualServiceBackupStatus mocks base method.
+func (m *MockVirtualServiceBackupStatusWriter) PatchVirtualServiceBackupStatus(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchVirtualServiceBackupStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchVirtualServiceBackupStatus indicates an expected call of PatchVirtualServiceBackupStatus.
+func (mr *MockVirtualServiceBackupStatusWriterMockRecorder) PatchVirtualServiceBackupStatus(ctx, obj, patch any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchVirtualServiceBackupStatus", reflect.TypeOf((*MockVirtualServiceBackupStatusWriter)(nil).PatchVirtualServiceBackupStatus), varargs...)
+}
+
+// UpdateVirtualServiceBackupStatus mocks base method.
+func (m *MockVirtualServiceBackupStatusWriter) UpdateVirtualServiceBackupStatus(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateVirtualServiceBackupStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateVirtualServiceBackupStatus indicates an expected call of UpdateVirtualServiceBackupStatus.
+func (mr *MockVirtualServiceBackupStatusWriterMockRecorder) UpdateVirtualServiceBackupStatus(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateVirtualServiceBackupStatus", reflect.TypeOf((*MockVirtualServiceBackupStatusWriter)(nil).UpdateVirtualServiceBackupStatus), varargs...)
+}
+
+// MockVirtualServiceBackupClient is a mock of VirtualServiceBackupClient interface.
+type MockVirtualServiceBackupClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupClientMockRecorder
+}
+
+// MockVirtualServiceBackupClientMockRecorder is the mock recorder for MockVirtualServiceBackupClient.
+type MockVirtualServiceBackupClientMockRecorder struct {
+	mock *MockVirtualServiceBackupClient
+}
+
+// NewMockVirtualServiceBackupClient creates a new mock instance.
+func NewMockVirtualServiceBackupClient(ctrl *gomock.Controller) *MockVirtualServiceBackupClient {
+	mock := &MockVirtualServiceBackupClient{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupClient) EXPECT() *MockVirtualServiceBackupClientMockRecorder {
+	return m.recorder
+}
+
+// CreateVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupClient) CreateVirtualServiceBackup(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateVirtualServiceBackup indicates an expected call of CreateVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupClientMockRecorder) CreateVirtualServiceBackup(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).CreateVirtualServiceBackup), varargs...)
+}
+
+// DeleteAllOfVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupClient) DeleteAllOfVirtualServiceBackup(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfVirtualServiceBackup indicates an expected call of DeleteAllOfVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupClientMockRecorder) DeleteAllOfVirtualServiceBackup(ctx any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).DeleteAllOfVirtualServiceBackup), varargs...)
+}
+
+// DeleteVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupClient) DeleteVirtualServiceBackup(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteVirtualServiceBackup indicates an expected call of DeleteVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupClientMockRecorder) DeleteVirtualServiceBackup(ctx, key any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).DeleteVirtualServiceBackup), varargs...)
+}
+
+// GetVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupClient) GetVirtualServiceBackup(ctx context.Context, key client.ObjectKey) (*v2alpha1.VirtualServiceBackup, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetVirtualServiceBackup", ctx, key)
+	ret0, _ := ret[0].(*v2alpha1.VirtualServiceBackup)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetVirtualServiceBackup indicates an expected call of GetVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupClientMockRecorder) GetVirtualServiceBackup(ctx, key any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).GetVirtualServiceBackup), ctx, key)
+}
+
+// ListVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupClient) ListVirtualServiceBackup(ctx context.Context, opts ...client.ListOption) (*v2alpha1.VirtualServiceBackupList, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(*v2alpha1.VirtualServiceBackupList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListVirtualServiceBackup indicates an expected call of ListVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupClientMockRecorder) ListVirtualServiceBackup(ctx any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).ListVirtualServiceBackup), varargs...)
+}
+
+// PatchVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupClient) PatchVirtualServiceBackup(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchVirtualServiceBackup indicates an expected call of PatchVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupClientMockRecorder) PatchVirtualServiceBackup(ctx, obj, patch any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).PatchVirtualServiceBackup), varargs...)
+}
+
+// PatchVirtualServiceBackupStatus mocks base method.
+func (m *MockVirtualServiceBackupClient) PatchVirtualServiceBackupStatus(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchVirtualServiceBackupStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchVirtualServiceBackupStatus indicates an expected call of PatchVirtualServiceBackupStatus.
+func (mr *MockVirtualServiceBackupClientMockRecorder) PatchVirtualServiceBackupStatus(ctx, obj, patch any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchVirtualServiceBackupStatus", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).PatchVirtualServiceBackupStatus), varargs...)
+}
+
+// UpdateVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupClient) UpdateVirtualServiceBackup(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateVirtualServiceBackup indicates an expected call of UpdateVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupClientMockRecorder) UpdateVirtualServiceBackup(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).UpdateVirtualServiceBackup), varargs...)
+}
+
+// UpdateVirtualServiceBackupStatus mocks base method.
+func (m *MockVirtualServiceBackupClient) UpdateVirtualServiceBackupStatus(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateVirtualServiceBackupStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateVirtualServiceBackupStatus indicates an expected call of UpdateVirtualServiceBackupStatus.
+func (mr *MockVirtualServiceBackupClientMockRecorder) UpdateVirtualServiceBackupStatus(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateVirtualServiceBackupStatus", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).UpdateVirtualServiceBackupStatus), varargs...)
+}
+
+// UpsertVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupClient) UpsertVirtualServiceBackup(ctx context.Context, obj *v2alpha1.VirtualServiceBackup, transitionFuncs ...v2alpha1.VirtualServiceBackupTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertVirtualServiceBackup", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertVirtualServiceBackup indicates an expected call of UpsertVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupClientMockRecorder) UpsertVirtualServiceBackup(ctx, obj any, transitionFuncs ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupClient)(nil).UpsertVirtualServiceBackup), varargs...)
+}
+
+// MockMulticlusterVirtualServiceBackupClient is a mock of MulticlusterVirtualServiceBackupClient interface.
+type MockMulticlusterVirtualServiceBackupClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterVirtualServiceBackupClientMockRecorder
+}
+
+// MockMulticlusterVirtualServiceBackupClientMockRecorder is the mock recorder for MockMulticlusterVirtualServiceBackupClient.
+type MockMulticlusterVirtualServiceBackupClientMockRecorder struct {
+	mock *MockMulticlusterVirtualServiceBackupClient
+}
+
+// NewMockMulticlusterVirtualServiceBackupClient creates a new mock instance.
+func NewMockMulticlusterVirtualServiceBackupClient(ctrl *gomock.Controller) *MockMulticlusterVirtualServiceBackupClient {
+	mock := &MockMulticlusterVirtualServiceBackupClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterVirtualServiceBackupClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterVirtualServiceBackupClient) EXPECT() *MockMulticlusterVirtualServiceBackupClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterVirtualServiceBackupClient) Cluster(cluster string) (v2alpha1.VirtualServiceBackupClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v2alpha1.VirtualServiceBackupClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterVirtualServiceBackupClientMockRecorder) Cluster(cluster any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterVirtualServiceBackupClient)(nil).Cluster), cluster)
 }

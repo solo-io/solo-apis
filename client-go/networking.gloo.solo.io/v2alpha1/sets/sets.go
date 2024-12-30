@@ -235,3 +235,226 @@ func (s *externalWorkloadSet) Clone() ExternalWorkloadSet {
 	}
 	return &externalWorkloadSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
+
+type ProgressiveDeliverySet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) bool) []*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) bool) []*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery
+	// Return the Set as a map of key to resource.
+	Map() map[string]*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery
+	// Insert a resource into the set.
+	Insert(progressiveDelivery ...*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(progressiveDeliverySet ProgressiveDeliverySet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(progressiveDelivery ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(progressiveDelivery ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set ProgressiveDeliverySet) ProgressiveDeliverySet
+	// Return the difference with the provided set
+	Difference(set ProgressiveDeliverySet) ProgressiveDeliverySet
+	// Return the intersection with the provided set
+	Intersection(set ProgressiveDeliverySet) ProgressiveDeliverySet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another ProgressiveDeliverySet
+	Delta(newSet ProgressiveDeliverySet) sksets.ResourceDelta
+	// Create a deep copy of the current ProgressiveDeliverySet
+	Clone() ProgressiveDeliverySet
+}
+
+func makeGenericProgressiveDeliverySet(progressiveDeliveryList []*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range progressiveDeliveryList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type progressiveDeliverySet struct {
+	set sksets.ResourceSet
+}
+
+func NewProgressiveDeliverySet(progressiveDeliveryList ...*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) ProgressiveDeliverySet {
+	return &progressiveDeliverySet{set: makeGenericProgressiveDeliverySet(progressiveDeliveryList)}
+}
+
+func NewProgressiveDeliverySetFromList(progressiveDeliveryList *networking_gloo_solo_io_v2alpha1.ProgressiveDeliveryList) ProgressiveDeliverySet {
+	list := make([]*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery, 0, len(progressiveDeliveryList.Items))
+	for idx := range progressiveDeliveryList.Items {
+		list = append(list, &progressiveDeliveryList.Items[idx])
+	}
+	return &progressiveDeliverySet{set: makeGenericProgressiveDeliverySet(list)}
+}
+
+func (s *progressiveDeliverySet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *progressiveDeliverySet) List(filterResource ...func(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) bool) []*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	progressiveDeliveryList := make([]*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery, 0, len(objs))
+	for _, obj := range objs {
+		progressiveDeliveryList = append(progressiveDeliveryList, obj.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery))
+	}
+	return progressiveDeliveryList
+}
+
+func (s *progressiveDeliverySet) UnsortedList(filterResource ...func(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) bool) []*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery))
+		})
+	}
+
+	var progressiveDeliveryList []*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		progressiveDeliveryList = append(progressiveDeliveryList, obj.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery))
+	}
+	return progressiveDeliveryList
+}
+
+func (s *progressiveDeliverySet) Map() map[string]*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	}
+	return newMap
+}
+
+func (s *progressiveDeliverySet) Insert(
+	progressiveDeliveryList ...*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range progressiveDeliveryList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *progressiveDeliverySet) Has(progressiveDelivery ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(progressiveDelivery)
+}
+
+func (s *progressiveDeliverySet) Equal(
+	progressiveDeliverySet ProgressiveDeliverySet,
+) bool {
+	if s == nil {
+		return progressiveDeliverySet == nil
+	}
+	return s.Generic().Equal(progressiveDeliverySet.Generic())
+}
+
+func (s *progressiveDeliverySet) Delete(ProgressiveDelivery ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(ProgressiveDelivery)
+}
+
+func (s *progressiveDeliverySet) Union(set ProgressiveDeliverySet) ProgressiveDeliverySet {
+	if s == nil {
+		return set
+	}
+	return NewProgressiveDeliverySet(append(s.List(), set.List()...)...)
+}
+
+func (s *progressiveDeliverySet) Difference(set ProgressiveDeliverySet) ProgressiveDeliverySet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &progressiveDeliverySet{set: newSet}
+}
+
+func (s *progressiveDeliverySet) Intersection(set ProgressiveDeliverySet) ProgressiveDeliverySet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var progressiveDeliveryList []*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery
+	for _, obj := range newSet.List() {
+		progressiveDeliveryList = append(progressiveDeliveryList, obj.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery))
+	}
+	return NewProgressiveDeliverySet(progressiveDeliveryList...)
+}
+
+func (s *progressiveDeliverySet) Find(id ezkube.ResourceId) (*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find ProgressiveDelivery %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&networking_gloo_solo_io_v2alpha1.ProgressiveDelivery{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery), nil
+}
+
+func (s *progressiveDeliverySet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *progressiveDeliverySet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *progressiveDeliverySet) Delta(newSet ProgressiveDeliverySet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *progressiveDeliverySet) Clone() ProgressiveDeliverySet {
+	if s == nil {
+		return nil
+	}
+	return &progressiveDeliverySet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}

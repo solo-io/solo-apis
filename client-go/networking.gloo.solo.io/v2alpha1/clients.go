@@ -41,6 +41,8 @@ func (m *multiclusterClientset) Cluster(cluster string) (Clientset, error) {
 type Clientset interface {
 	// clienset for the networking.gloo.solo.io/v2alpha1/v2alpha1 APIs
 	ExternalWorkloads() ExternalWorkloadClient
+	// clienset for the networking.gloo.solo.io/v2alpha1/v2alpha1 APIs
+	ProgressiveDeliveries() ProgressiveDeliveryClient
 }
 
 type clientSet struct {
@@ -68,6 +70,11 @@ func NewClientset(client client.Client) Clientset {
 // clienset for the networking.gloo.solo.io/v2alpha1/v2alpha1 APIs
 func (c *clientSet) ExternalWorkloads() ExternalWorkloadClient {
 	return NewExternalWorkloadClient(c.client)
+}
+
+// clienset for the networking.gloo.solo.io/v2alpha1/v2alpha1 APIs
+func (c *clientSet) ProgressiveDeliveries() ProgressiveDeliveryClient {
+	return NewProgressiveDeliveryClient(c.client)
 }
 
 // Reader knows how to read and list ExternalWorkloads.
@@ -210,4 +217,146 @@ func (m *multiclusterExternalWorkloadClient) Cluster(cluster string) (ExternalWo
 		return nil, err
 	}
 	return NewExternalWorkloadClient(client), nil
+}
+
+// Reader knows how to read and list ProgressiveDeliverys.
+type ProgressiveDeliveryReader interface {
+	// Get retrieves a ProgressiveDelivery for the given object key
+	GetProgressiveDelivery(ctx context.Context, key client.ObjectKey) (*ProgressiveDelivery, error)
+
+	// List retrieves list of ProgressiveDeliverys for a given namespace and list options.
+	ListProgressiveDelivery(ctx context.Context, opts ...client.ListOption) (*ProgressiveDeliveryList, error)
+}
+
+// ProgressiveDeliveryTransitionFunction instructs the ProgressiveDeliveryWriter how to transition between an existing
+// ProgressiveDelivery object and a desired on an Upsert
+type ProgressiveDeliveryTransitionFunction func(existing, desired *ProgressiveDelivery) error
+
+// Writer knows how to create, delete, and update ProgressiveDeliverys.
+type ProgressiveDeliveryWriter interface {
+	// Create saves the ProgressiveDelivery object.
+	CreateProgressiveDelivery(ctx context.Context, obj *ProgressiveDelivery, opts ...client.CreateOption) error
+
+	// Delete deletes the ProgressiveDelivery object.
+	DeleteProgressiveDelivery(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given ProgressiveDelivery object.
+	UpdateProgressiveDelivery(ctx context.Context, obj *ProgressiveDelivery, opts ...client.UpdateOption) error
+
+	// Patch patches the given ProgressiveDelivery object.
+	PatchProgressiveDelivery(ctx context.Context, obj *ProgressiveDelivery, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all ProgressiveDelivery objects matching the given options.
+	DeleteAllOfProgressiveDelivery(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the ProgressiveDelivery object.
+	UpsertProgressiveDelivery(ctx context.Context, obj *ProgressiveDelivery, transitionFuncs ...ProgressiveDeliveryTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a ProgressiveDelivery object.
+type ProgressiveDeliveryStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given ProgressiveDelivery object.
+	UpdateProgressiveDeliveryStatus(ctx context.Context, obj *ProgressiveDelivery, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given ProgressiveDelivery object's subresource.
+	PatchProgressiveDeliveryStatus(ctx context.Context, obj *ProgressiveDelivery, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on ProgressiveDeliverys.
+type ProgressiveDeliveryClient interface {
+	ProgressiveDeliveryReader
+	ProgressiveDeliveryWriter
+	ProgressiveDeliveryStatusWriter
+}
+
+type progressiveDeliveryClient struct {
+	client client.Client
+}
+
+func NewProgressiveDeliveryClient(client client.Client) *progressiveDeliveryClient {
+	return &progressiveDeliveryClient{client: client}
+}
+
+func (c *progressiveDeliveryClient) GetProgressiveDelivery(ctx context.Context, key client.ObjectKey) (*ProgressiveDelivery, error) {
+	obj := &ProgressiveDelivery{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *progressiveDeliveryClient) ListProgressiveDelivery(ctx context.Context, opts ...client.ListOption) (*ProgressiveDeliveryList, error) {
+	list := &ProgressiveDeliveryList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *progressiveDeliveryClient) CreateProgressiveDelivery(ctx context.Context, obj *ProgressiveDelivery, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *progressiveDeliveryClient) DeleteProgressiveDelivery(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &ProgressiveDelivery{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *progressiveDeliveryClient) UpdateProgressiveDelivery(ctx context.Context, obj *ProgressiveDelivery, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *progressiveDeliveryClient) PatchProgressiveDelivery(ctx context.Context, obj *ProgressiveDelivery, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *progressiveDeliveryClient) DeleteAllOfProgressiveDelivery(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &ProgressiveDelivery{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *progressiveDeliveryClient) UpsertProgressiveDelivery(ctx context.Context, obj *ProgressiveDelivery, transitionFuncs ...ProgressiveDeliveryTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*ProgressiveDelivery), desired.(*ProgressiveDelivery)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *progressiveDeliveryClient) UpdateProgressiveDeliveryStatus(ctx context.Context, obj *ProgressiveDelivery, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *progressiveDeliveryClient) PatchProgressiveDeliveryStatus(ctx context.Context, obj *ProgressiveDelivery, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides ProgressiveDeliveryClients for multiple clusters.
+type MulticlusterProgressiveDeliveryClient interface {
+	// Cluster returns a ProgressiveDeliveryClient for the given cluster
+	Cluster(cluster string) (ProgressiveDeliveryClient, error)
+}
+
+type multiclusterProgressiveDeliveryClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterProgressiveDeliveryClient(client multicluster.Client) MulticlusterProgressiveDeliveryClient {
+	return &multiclusterProgressiveDeliveryClient{client: client}
+}
+
+func (m *multiclusterProgressiveDeliveryClient) Cluster(cluster string) (ProgressiveDeliveryClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewProgressiveDeliveryClient(client), nil
 }

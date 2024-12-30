@@ -43,6 +43,41 @@ type SpireRegistrationEntryList struct {
 	Items           []SpireRegistrationEntry `json:"items"`
 }
 
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +genclient:noStatus
+
+// GroupVersionKind for VirtualServiceBackup
+var VirtualServiceBackupGVK = schema.GroupVersionKind{
+	Group:   "internal.gloo.solo.io",
+	Version: "v2alpha1",
+	Kind:    "VirtualServiceBackup",
+}
+
+// VirtualServiceBackup is the Schema for the virtualServiceBackup API
+type VirtualServiceBackup struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec VirtualServiceBackupSpec `json:"spec,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (VirtualServiceBackup) GVK() schema.GroupVersionKind {
+	return VirtualServiceBackupGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// VirtualServiceBackupList contains a list of VirtualServiceBackup
+type VirtualServiceBackupList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []VirtualServiceBackup `json:"items"`
+}
+
 func init() {
 	SchemeBuilder.Register(&SpireRegistrationEntry{}, &SpireRegistrationEntryList{})
+	SchemeBuilder.Register(&VirtualServiceBackup{}, &VirtualServiceBackupList{})
 }

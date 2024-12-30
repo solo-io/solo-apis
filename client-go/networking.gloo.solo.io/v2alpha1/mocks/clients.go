@@ -94,6 +94,20 @@ func (mr *MockClientsetMockRecorder) ExternalWorkloads() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExternalWorkloads", reflect.TypeOf((*MockClientset)(nil).ExternalWorkloads))
 }
 
+// ProgressiveDeliveries mocks base method.
+func (m *MockClientset) ProgressiveDeliveries() v2alpha1.ProgressiveDeliveryClient {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ProgressiveDeliveries")
+	ret0, _ := ret[0].(v2alpha1.ProgressiveDeliveryClient)
+	return ret0
+}
+
+// ProgressiveDeliveries indicates an expected call of ProgressiveDeliveries.
+func (mr *MockClientsetMockRecorder) ProgressiveDeliveries() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProgressiveDeliveries", reflect.TypeOf((*MockClientset)(nil).ProgressiveDeliveries))
+}
+
 // MockExternalWorkloadReader is a mock of ExternalWorkloadReader interface.
 type MockExternalWorkloadReader struct {
 	ctrl     *gomock.Controller
@@ -596,4 +610,508 @@ func (m *MockMulticlusterExternalWorkloadClient) Cluster(cluster string) (v2alph
 func (mr *MockMulticlusterExternalWorkloadClientMockRecorder) Cluster(cluster any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterExternalWorkloadClient)(nil).Cluster), cluster)
+}
+
+// MockProgressiveDeliveryReader is a mock of ProgressiveDeliveryReader interface.
+type MockProgressiveDeliveryReader struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryReaderMockRecorder
+}
+
+// MockProgressiveDeliveryReaderMockRecorder is the mock recorder for MockProgressiveDeliveryReader.
+type MockProgressiveDeliveryReaderMockRecorder struct {
+	mock *MockProgressiveDeliveryReader
+}
+
+// NewMockProgressiveDeliveryReader creates a new mock instance.
+func NewMockProgressiveDeliveryReader(ctrl *gomock.Controller) *MockProgressiveDeliveryReader {
+	mock := &MockProgressiveDeliveryReader{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryReaderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryReader) EXPECT() *MockProgressiveDeliveryReaderMockRecorder {
+	return m.recorder
+}
+
+// GetProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryReader) GetProgressiveDelivery(ctx context.Context, key client.ObjectKey) (*v2alpha1.ProgressiveDelivery, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProgressiveDelivery", ctx, key)
+	ret0, _ := ret[0].(*v2alpha1.ProgressiveDelivery)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProgressiveDelivery indicates an expected call of GetProgressiveDelivery.
+func (mr *MockProgressiveDeliveryReaderMockRecorder) GetProgressiveDelivery(ctx, key any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryReader)(nil).GetProgressiveDelivery), ctx, key)
+}
+
+// ListProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryReader) ListProgressiveDelivery(ctx context.Context, opts ...client.ListOption) (*v2alpha1.ProgressiveDeliveryList, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(*v2alpha1.ProgressiveDeliveryList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListProgressiveDelivery indicates an expected call of ListProgressiveDelivery.
+func (mr *MockProgressiveDeliveryReaderMockRecorder) ListProgressiveDelivery(ctx any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryReader)(nil).ListProgressiveDelivery), varargs...)
+}
+
+// MockProgressiveDeliveryWriter is a mock of ProgressiveDeliveryWriter interface.
+type MockProgressiveDeliveryWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryWriterMockRecorder
+}
+
+// MockProgressiveDeliveryWriterMockRecorder is the mock recorder for MockProgressiveDeliveryWriter.
+type MockProgressiveDeliveryWriterMockRecorder struct {
+	mock *MockProgressiveDeliveryWriter
+}
+
+// NewMockProgressiveDeliveryWriter creates a new mock instance.
+func NewMockProgressiveDeliveryWriter(ctrl *gomock.Controller) *MockProgressiveDeliveryWriter {
+	mock := &MockProgressiveDeliveryWriter{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryWriter) EXPECT() *MockProgressiveDeliveryWriterMockRecorder {
+	return m.recorder
+}
+
+// CreateProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryWriter) CreateProgressiveDelivery(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateProgressiveDelivery indicates an expected call of CreateProgressiveDelivery.
+func (mr *MockProgressiveDeliveryWriterMockRecorder) CreateProgressiveDelivery(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryWriter)(nil).CreateProgressiveDelivery), varargs...)
+}
+
+// DeleteAllOfProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryWriter) DeleteAllOfProgressiveDelivery(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfProgressiveDelivery indicates an expected call of DeleteAllOfProgressiveDelivery.
+func (mr *MockProgressiveDeliveryWriterMockRecorder) DeleteAllOfProgressiveDelivery(ctx any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryWriter)(nil).DeleteAllOfProgressiveDelivery), varargs...)
+}
+
+// DeleteProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryWriter) DeleteProgressiveDelivery(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteProgressiveDelivery indicates an expected call of DeleteProgressiveDelivery.
+func (mr *MockProgressiveDeliveryWriterMockRecorder) DeleteProgressiveDelivery(ctx, key any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryWriter)(nil).DeleteProgressiveDelivery), varargs...)
+}
+
+// PatchProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryWriter) PatchProgressiveDelivery(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchProgressiveDelivery indicates an expected call of PatchProgressiveDelivery.
+func (mr *MockProgressiveDeliveryWriterMockRecorder) PatchProgressiveDelivery(ctx, obj, patch any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryWriter)(nil).PatchProgressiveDelivery), varargs...)
+}
+
+// UpdateProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryWriter) UpdateProgressiveDelivery(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateProgressiveDelivery indicates an expected call of UpdateProgressiveDelivery.
+func (mr *MockProgressiveDeliveryWriterMockRecorder) UpdateProgressiveDelivery(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryWriter)(nil).UpdateProgressiveDelivery), varargs...)
+}
+
+// UpsertProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryWriter) UpsertProgressiveDelivery(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, transitionFuncs ...v2alpha1.ProgressiveDeliveryTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertProgressiveDelivery indicates an expected call of UpsertProgressiveDelivery.
+func (mr *MockProgressiveDeliveryWriterMockRecorder) UpsertProgressiveDelivery(ctx, obj any, transitionFuncs ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryWriter)(nil).UpsertProgressiveDelivery), varargs...)
+}
+
+// MockProgressiveDeliveryStatusWriter is a mock of ProgressiveDeliveryStatusWriter interface.
+type MockProgressiveDeliveryStatusWriter struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryStatusWriterMockRecorder
+}
+
+// MockProgressiveDeliveryStatusWriterMockRecorder is the mock recorder for MockProgressiveDeliveryStatusWriter.
+type MockProgressiveDeliveryStatusWriterMockRecorder struct {
+	mock *MockProgressiveDeliveryStatusWriter
+}
+
+// NewMockProgressiveDeliveryStatusWriter creates a new mock instance.
+func NewMockProgressiveDeliveryStatusWriter(ctrl *gomock.Controller) *MockProgressiveDeliveryStatusWriter {
+	mock := &MockProgressiveDeliveryStatusWriter{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryStatusWriterMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryStatusWriter) EXPECT() *MockProgressiveDeliveryStatusWriterMockRecorder {
+	return m.recorder
+}
+
+// PatchProgressiveDeliveryStatus mocks base method.
+func (m *MockProgressiveDeliveryStatusWriter) PatchProgressiveDeliveryStatus(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchProgressiveDeliveryStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchProgressiveDeliveryStatus indicates an expected call of PatchProgressiveDeliveryStatus.
+func (mr *MockProgressiveDeliveryStatusWriterMockRecorder) PatchProgressiveDeliveryStatus(ctx, obj, patch any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchProgressiveDeliveryStatus", reflect.TypeOf((*MockProgressiveDeliveryStatusWriter)(nil).PatchProgressiveDeliveryStatus), varargs...)
+}
+
+// UpdateProgressiveDeliveryStatus mocks base method.
+func (m *MockProgressiveDeliveryStatusWriter) UpdateProgressiveDeliveryStatus(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateProgressiveDeliveryStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateProgressiveDeliveryStatus indicates an expected call of UpdateProgressiveDeliveryStatus.
+func (mr *MockProgressiveDeliveryStatusWriterMockRecorder) UpdateProgressiveDeliveryStatus(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProgressiveDeliveryStatus", reflect.TypeOf((*MockProgressiveDeliveryStatusWriter)(nil).UpdateProgressiveDeliveryStatus), varargs...)
+}
+
+// MockProgressiveDeliveryClient is a mock of ProgressiveDeliveryClient interface.
+type MockProgressiveDeliveryClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryClientMockRecorder
+}
+
+// MockProgressiveDeliveryClientMockRecorder is the mock recorder for MockProgressiveDeliveryClient.
+type MockProgressiveDeliveryClientMockRecorder struct {
+	mock *MockProgressiveDeliveryClient
+}
+
+// NewMockProgressiveDeliveryClient creates a new mock instance.
+func NewMockProgressiveDeliveryClient(ctrl *gomock.Controller) *MockProgressiveDeliveryClient {
+	mock := &MockProgressiveDeliveryClient{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryClient) EXPECT() *MockProgressiveDeliveryClientMockRecorder {
+	return m.recorder
+}
+
+// CreateProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryClient) CreateProgressiveDelivery(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, opts ...client.CreateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateProgressiveDelivery indicates an expected call of CreateProgressiveDelivery.
+func (mr *MockProgressiveDeliveryClientMockRecorder) CreateProgressiveDelivery(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).CreateProgressiveDelivery), varargs...)
+}
+
+// DeleteAllOfProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryClient) DeleteAllOfProgressiveDelivery(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAllOfProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteAllOfProgressiveDelivery indicates an expected call of DeleteAllOfProgressiveDelivery.
+func (mr *MockProgressiveDeliveryClientMockRecorder) DeleteAllOfProgressiveDelivery(ctx any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAllOfProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).DeleteAllOfProgressiveDelivery), varargs...)
+}
+
+// DeleteProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryClient) DeleteProgressiveDelivery(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, key}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteProgressiveDelivery indicates an expected call of DeleteProgressiveDelivery.
+func (mr *MockProgressiveDeliveryClientMockRecorder) DeleteProgressiveDelivery(ctx, key any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, key}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).DeleteProgressiveDelivery), varargs...)
+}
+
+// GetProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryClient) GetProgressiveDelivery(ctx context.Context, key client.ObjectKey) (*v2alpha1.ProgressiveDelivery, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProgressiveDelivery", ctx, key)
+	ret0, _ := ret[0].(*v2alpha1.ProgressiveDelivery)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProgressiveDelivery indicates an expected call of GetProgressiveDelivery.
+func (mr *MockProgressiveDeliveryClientMockRecorder) GetProgressiveDelivery(ctx, key any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).GetProgressiveDelivery), ctx, key)
+}
+
+// ListProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryClient) ListProgressiveDelivery(ctx context.Context, opts ...client.ListOption) (*v2alpha1.ProgressiveDeliveryList, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(*v2alpha1.ProgressiveDeliveryList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListProgressiveDelivery indicates an expected call of ListProgressiveDelivery.
+func (mr *MockProgressiveDeliveryClientMockRecorder) ListProgressiveDelivery(ctx any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).ListProgressiveDelivery), varargs...)
+}
+
+// PatchProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryClient) PatchProgressiveDelivery(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, patch client.Patch, opts ...client.PatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchProgressiveDelivery indicates an expected call of PatchProgressiveDelivery.
+func (mr *MockProgressiveDeliveryClientMockRecorder) PatchProgressiveDelivery(ctx, obj, patch any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).PatchProgressiveDelivery), varargs...)
+}
+
+// PatchProgressiveDeliveryStatus mocks base method.
+func (m *MockProgressiveDeliveryClient) PatchProgressiveDeliveryStatus(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj, patch}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PatchProgressiveDeliveryStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// PatchProgressiveDeliveryStatus indicates an expected call of PatchProgressiveDeliveryStatus.
+func (mr *MockProgressiveDeliveryClientMockRecorder) PatchProgressiveDeliveryStatus(ctx, obj, patch any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj, patch}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PatchProgressiveDeliveryStatus", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).PatchProgressiveDeliveryStatus), varargs...)
+}
+
+// UpdateProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryClient) UpdateProgressiveDelivery(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, opts ...client.UpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateProgressiveDelivery indicates an expected call of UpdateProgressiveDelivery.
+func (mr *MockProgressiveDeliveryClientMockRecorder) UpdateProgressiveDelivery(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).UpdateProgressiveDelivery), varargs...)
+}
+
+// UpdateProgressiveDeliveryStatus mocks base method.
+func (m *MockProgressiveDeliveryClient) UpdateProgressiveDeliveryStatus(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, opts ...client.SubResourceUpdateOption) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateProgressiveDeliveryStatus", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateProgressiveDeliveryStatus indicates an expected call of UpdateProgressiveDeliveryStatus.
+func (mr *MockProgressiveDeliveryClientMockRecorder) UpdateProgressiveDeliveryStatus(ctx, obj any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProgressiveDeliveryStatus", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).UpdateProgressiveDeliveryStatus), varargs...)
+}
+
+// UpsertProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryClient) UpsertProgressiveDelivery(ctx context.Context, obj *v2alpha1.ProgressiveDelivery, transitionFuncs ...v2alpha1.ProgressiveDeliveryTransitionFunction) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, obj}
+	for _, a := range transitionFuncs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpsertProgressiveDelivery", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertProgressiveDelivery indicates an expected call of UpsertProgressiveDelivery.
+func (mr *MockProgressiveDeliveryClientMockRecorder) UpsertProgressiveDelivery(ctx, obj any, transitionFuncs ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, obj}, transitionFuncs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryClient)(nil).UpsertProgressiveDelivery), varargs...)
+}
+
+// MockMulticlusterProgressiveDeliveryClient is a mock of MulticlusterProgressiveDeliveryClient interface.
+type MockMulticlusterProgressiveDeliveryClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterProgressiveDeliveryClientMockRecorder
+}
+
+// MockMulticlusterProgressiveDeliveryClientMockRecorder is the mock recorder for MockMulticlusterProgressiveDeliveryClient.
+type MockMulticlusterProgressiveDeliveryClientMockRecorder struct {
+	mock *MockMulticlusterProgressiveDeliveryClient
+}
+
+// NewMockMulticlusterProgressiveDeliveryClient creates a new mock instance.
+func NewMockMulticlusterProgressiveDeliveryClient(ctrl *gomock.Controller) *MockMulticlusterProgressiveDeliveryClient {
+	mock := &MockMulticlusterProgressiveDeliveryClient{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterProgressiveDeliveryClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterProgressiveDeliveryClient) EXPECT() *MockMulticlusterProgressiveDeliveryClientMockRecorder {
+	return m.recorder
+}
+
+// Cluster mocks base method.
+func (m *MockMulticlusterProgressiveDeliveryClient) Cluster(cluster string) (v2alpha1.ProgressiveDeliveryClient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Cluster", cluster)
+	ret0, _ := ret[0].(v2alpha1.ProgressiveDeliveryClient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Cluster indicates an expected call of Cluster.
+func (mr *MockMulticlusterProgressiveDeliveryClientMockRecorder) Cluster(cluster any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cluster", reflect.TypeOf((*MockMulticlusterProgressiveDeliveryClient)(nil).Cluster), cluster)
 }

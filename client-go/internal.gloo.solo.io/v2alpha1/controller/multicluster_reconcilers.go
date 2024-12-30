@@ -88,3 +88,74 @@ func (g genericSpireRegistrationEntryMulticlusterReconciler) Reconcile(cluster s
 	}
 	return g.reconciler.ReconcileSpireRegistrationEntry(cluster, obj)
 }
+
+// Reconcile Upsert events for the VirtualServiceBackup Resource across clusters.
+// implemented by the user
+type MulticlusterVirtualServiceBackupReconciler interface {
+	ReconcileVirtualServiceBackup(clusterName string, obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the VirtualServiceBackup Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterVirtualServiceBackupDeletionReconciler interface {
+	ReconcileVirtualServiceBackupDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterVirtualServiceBackupReconcilerFuncs struct {
+	OnReconcileVirtualServiceBackup         func(clusterName string, obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) (reconcile.Result, error)
+	OnReconcileVirtualServiceBackupDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterVirtualServiceBackupReconcilerFuncs) ReconcileVirtualServiceBackup(clusterName string, obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) (reconcile.Result, error) {
+	if f.OnReconcileVirtualServiceBackup == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileVirtualServiceBackup(clusterName, obj)
+}
+
+func (f *MulticlusterVirtualServiceBackupReconcilerFuncs) ReconcileVirtualServiceBackupDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileVirtualServiceBackupDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileVirtualServiceBackupDeletion(clusterName, req)
+}
+
+type MulticlusterVirtualServiceBackupReconcileLoop interface {
+	// AddMulticlusterVirtualServiceBackupReconciler adds a MulticlusterVirtualServiceBackupReconciler to the MulticlusterVirtualServiceBackupReconcileLoop.
+	AddMulticlusterVirtualServiceBackupReconciler(ctx context.Context, rec MulticlusterVirtualServiceBackupReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterVirtualServiceBackupReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterVirtualServiceBackupReconcileLoop) AddMulticlusterVirtualServiceBackupReconciler(ctx context.Context, rec MulticlusterVirtualServiceBackupReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericVirtualServiceBackupMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterVirtualServiceBackupReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterVirtualServiceBackupReconcileLoop {
+	return &multiclusterVirtualServiceBackupReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &internal_gloo_solo_io_v2alpha1.VirtualServiceBackup{}, options)}
+}
+
+type genericVirtualServiceBackupMulticlusterReconciler struct {
+	reconciler MulticlusterVirtualServiceBackupReconciler
+}
+
+func (g genericVirtualServiceBackupMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterVirtualServiceBackupDeletionReconciler); ok {
+		return deletionReconciler.ReconcileVirtualServiceBackupDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericVirtualServiceBackupMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*internal_gloo_solo_io_v2alpha1.VirtualServiceBackup)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: VirtualServiceBackup handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileVirtualServiceBackup(cluster, obj)
+}

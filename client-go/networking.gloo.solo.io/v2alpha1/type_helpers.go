@@ -5,3 +5,6 @@ package v2alpha1
 
 // ExternalWorkloadSlice represents a slice of *ExternalWorkload
 type ExternalWorkloadSlice []*ExternalWorkload
+
+// ProgressiveDeliverySlice represents a slice of *ProgressiveDelivery
+type ProgressiveDeliverySlice []*ProgressiveDelivery

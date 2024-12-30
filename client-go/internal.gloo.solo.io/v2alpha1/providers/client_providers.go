@@ -44,3 +44,31 @@ func SpireRegistrationEntryClientFromConfigFactoryProvider() SpireRegistrationEn
 		return clients.SpireRegistrationEntries(), nil
 	}
 }
+
+// Provider for VirtualServiceBackupClient from Clientset
+func VirtualServiceBackupClientFromClientsetProvider(clients internal_gloo_solo_io_v2alpha1.Clientset) internal_gloo_solo_io_v2alpha1.VirtualServiceBackupClient {
+	return clients.VirtualServiceBackups()
+}
+
+// Provider for VirtualServiceBackup Client from Client
+func VirtualServiceBackupClientProvider(client client.Client) internal_gloo_solo_io_v2alpha1.VirtualServiceBackupClient {
+	return internal_gloo_solo_io_v2alpha1.NewVirtualServiceBackupClient(client)
+}
+
+type VirtualServiceBackupClientFactory func(client client.Client) internal_gloo_solo_io_v2alpha1.VirtualServiceBackupClient
+
+func VirtualServiceBackupClientFactoryProvider() VirtualServiceBackupClientFactory {
+	return VirtualServiceBackupClientProvider
+}
+
+type VirtualServiceBackupClientFromConfigFactory func(cfg *rest.Config) (internal_gloo_solo_io_v2alpha1.VirtualServiceBackupClient, error)
+
+func VirtualServiceBackupClientFromConfigFactoryProvider() VirtualServiceBackupClientFromConfigFactory {
+	return func(cfg *rest.Config) (internal_gloo_solo_io_v2alpha1.VirtualServiceBackupClient, error) {
+		clients, err := internal_gloo_solo_io_v2alpha1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.VirtualServiceBackups(), nil
+	}
+}
