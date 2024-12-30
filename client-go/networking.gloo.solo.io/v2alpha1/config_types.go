@@ -5,3 +5,6 @@ package v2alpha1
 
 // IsConfigObject implements ConfigObject interface for ExternalWorkload
 func (o *ExternalWorkload) IsConfigObject() {}
+
+// IsConfigObject implements ConfigObject interface for ProgressiveDelivery
+func (o *ProgressiveDelivery) IsConfigObject() {}

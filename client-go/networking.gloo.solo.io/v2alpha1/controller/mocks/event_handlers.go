@@ -140,3 +140,124 @@ func (mr *MockExternalWorkloadEventWatcherMockRecorder) AddEventHandler(ctx, h a
 	varargs := append([]any{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockExternalWorkloadEventWatcher)(nil).AddEventHandler), varargs...)
 }
+
+// MockProgressiveDeliveryEventHandler is a mock of ProgressiveDeliveryEventHandler interface.
+type MockProgressiveDeliveryEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryEventHandlerMockRecorder
+}
+
+// MockProgressiveDeliveryEventHandlerMockRecorder is the mock recorder for MockProgressiveDeliveryEventHandler.
+type MockProgressiveDeliveryEventHandlerMockRecorder struct {
+	mock *MockProgressiveDeliveryEventHandler
+}
+
+// NewMockProgressiveDeliveryEventHandler creates a new mock instance.
+func NewMockProgressiveDeliveryEventHandler(ctrl *gomock.Controller) *MockProgressiveDeliveryEventHandler {
+	mock := &MockProgressiveDeliveryEventHandler{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryEventHandler) EXPECT() *MockProgressiveDeliveryEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryEventHandler) CreateProgressiveDelivery(obj *v2alpha1.ProgressiveDelivery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateProgressiveDelivery", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateProgressiveDelivery indicates an expected call of CreateProgressiveDelivery.
+func (mr *MockProgressiveDeliveryEventHandlerMockRecorder) CreateProgressiveDelivery(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryEventHandler)(nil).CreateProgressiveDelivery), obj)
+}
+
+// DeleteProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryEventHandler) DeleteProgressiveDelivery(obj *v2alpha1.ProgressiveDelivery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteProgressiveDelivery", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteProgressiveDelivery indicates an expected call of DeleteProgressiveDelivery.
+func (mr *MockProgressiveDeliveryEventHandlerMockRecorder) DeleteProgressiveDelivery(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryEventHandler)(nil).DeleteProgressiveDelivery), obj)
+}
+
+// GenericProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryEventHandler) GenericProgressiveDelivery(obj *v2alpha1.ProgressiveDelivery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericProgressiveDelivery", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericProgressiveDelivery indicates an expected call of GenericProgressiveDelivery.
+func (mr *MockProgressiveDeliveryEventHandlerMockRecorder) GenericProgressiveDelivery(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryEventHandler)(nil).GenericProgressiveDelivery), obj)
+}
+
+// UpdateProgressiveDelivery mocks base method.
+func (m *MockProgressiveDeliveryEventHandler) UpdateProgressiveDelivery(old, new *v2alpha1.ProgressiveDelivery) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateProgressiveDelivery", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateProgressiveDelivery indicates an expected call of UpdateProgressiveDelivery.
+func (mr *MockProgressiveDeliveryEventHandlerMockRecorder) UpdateProgressiveDelivery(old, new any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProgressiveDelivery", reflect.TypeOf((*MockProgressiveDeliveryEventHandler)(nil).UpdateProgressiveDelivery), old, new)
+}
+
+// MockProgressiveDeliveryEventWatcher is a mock of ProgressiveDeliveryEventWatcher interface.
+type MockProgressiveDeliveryEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockProgressiveDeliveryEventWatcherMockRecorder
+}
+
+// MockProgressiveDeliveryEventWatcherMockRecorder is the mock recorder for MockProgressiveDeliveryEventWatcher.
+type MockProgressiveDeliveryEventWatcherMockRecorder struct {
+	mock *MockProgressiveDeliveryEventWatcher
+}
+
+// NewMockProgressiveDeliveryEventWatcher creates a new mock instance.
+func NewMockProgressiveDeliveryEventWatcher(ctrl *gomock.Controller) *MockProgressiveDeliveryEventWatcher {
+	mock := &MockProgressiveDeliveryEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockProgressiveDeliveryEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockProgressiveDeliveryEventWatcher) EXPECT() *MockProgressiveDeliveryEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockProgressiveDeliveryEventWatcher) AddEventHandler(ctx context.Context, h controller.ProgressiveDeliveryEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockProgressiveDeliveryEventWatcherMockRecorder) AddEventHandler(ctx, h any, predicates ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockProgressiveDeliveryEventWatcher)(nil).AddEventHandler), varargs...)
+}

@@ -133,3 +133,120 @@ func (r genericSpireRegistrationEntryFinalizer) Finalize(object ezkube.Object) e
 	}
 	return r.finalizingReconciler.FinalizeSpireRegistrationEntry(obj)
 }
+
+// Reconcile Upsert events for the VirtualServiceBackup Resource.
+// implemented by the user
+type VirtualServiceBackupReconciler interface {
+	ReconcileVirtualServiceBackup(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the VirtualServiceBackup Resource.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type VirtualServiceBackupDeletionReconciler interface {
+	ReconcileVirtualServiceBackupDeletion(req reconcile.Request) error
+}
+
+type VirtualServiceBackupReconcilerFuncs struct {
+	OnReconcileVirtualServiceBackup         func(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) (reconcile.Result, error)
+	OnReconcileVirtualServiceBackupDeletion func(req reconcile.Request) error
+}
+
+func (f *VirtualServiceBackupReconcilerFuncs) ReconcileVirtualServiceBackup(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) (reconcile.Result, error) {
+	if f.OnReconcileVirtualServiceBackup == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileVirtualServiceBackup(obj)
+}
+
+func (f *VirtualServiceBackupReconcilerFuncs) ReconcileVirtualServiceBackupDeletion(req reconcile.Request) error {
+	if f.OnReconcileVirtualServiceBackupDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileVirtualServiceBackupDeletion(req)
+}
+
+// Reconcile and finalize the VirtualServiceBackup Resource
+// implemented by the user
+type VirtualServiceBackupFinalizer interface {
+	VirtualServiceBackupReconciler
+
+	// name of the finalizer used by this handler.
+	// finalizer names should be unique for a single task
+	VirtualServiceBackupFinalizerName() string
+
+	// finalize the object before it is deleted.
+	// Watchers created with a finalizing handler will a
+	FinalizeVirtualServiceBackup(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error
+}
+
+type VirtualServiceBackupReconcileLoop interface {
+	RunVirtualServiceBackupReconciler(ctx context.Context, rec VirtualServiceBackupReconciler, predicates ...predicate.Predicate) error
+}
+
+type virtualServiceBackupReconcileLoop struct {
+	loop reconcile.Loop
+}
+
+func NewVirtualServiceBackupReconcileLoop(name string, mgr manager.Manager, options reconcile.Options) VirtualServiceBackupReconcileLoop {
+	return &virtualServiceBackupReconcileLoop{
+		// empty cluster indicates this reconciler is built for the local cluster
+		loop: reconcile.NewLoop(name, "", mgr, &internal_gloo_solo_io_v2alpha1.VirtualServiceBackup{}, options),
+	}
+}
+
+func (c *virtualServiceBackupReconcileLoop) RunVirtualServiceBackupReconciler(ctx context.Context, reconciler VirtualServiceBackupReconciler, predicates ...predicate.Predicate) error {
+	genericReconciler := genericVirtualServiceBackupReconciler{
+		reconciler: reconciler,
+	}
+
+	var reconcilerWrapper reconcile.Reconciler
+	if finalizingReconciler, ok := reconciler.(VirtualServiceBackupFinalizer); ok {
+		reconcilerWrapper = genericVirtualServiceBackupFinalizer{
+			genericVirtualServiceBackupReconciler: genericReconciler,
+			finalizingReconciler:                  finalizingReconciler,
+		}
+	} else {
+		reconcilerWrapper = genericReconciler
+	}
+	return c.loop.RunReconciler(ctx, reconcilerWrapper, predicates...)
+}
+
+// genericVirtualServiceBackupHandler implements a generic reconcile.Reconciler
+type genericVirtualServiceBackupReconciler struct {
+	reconciler VirtualServiceBackupReconciler
+}
+
+func (r genericVirtualServiceBackupReconciler) Reconcile(object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*internal_gloo_solo_io_v2alpha1.VirtualServiceBackup)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: VirtualServiceBackup handler received event for %T", object)
+	}
+	return r.reconciler.ReconcileVirtualServiceBackup(obj)
+}
+
+func (r genericVirtualServiceBackupReconciler) ReconcileDeletion(request reconcile.Request) error {
+	if deletionReconciler, ok := r.reconciler.(VirtualServiceBackupDeletionReconciler); ok {
+		return deletionReconciler.ReconcileVirtualServiceBackupDeletion(request)
+	}
+	return nil
+}
+
+// genericVirtualServiceBackupFinalizer implements a generic reconcile.FinalizingReconciler
+type genericVirtualServiceBackupFinalizer struct {
+	genericVirtualServiceBackupReconciler
+	finalizingReconciler VirtualServiceBackupFinalizer
+}
+
+func (r genericVirtualServiceBackupFinalizer) FinalizerName() string {
+	return r.finalizingReconciler.VirtualServiceBackupFinalizerName()
+}
+
+func (r genericVirtualServiceBackupFinalizer) Finalize(object ezkube.Object) error {
+	obj, ok := object.(*internal_gloo_solo_io_v2alpha1.VirtualServiceBackup)
+	if !ok {
+		return errors.Errorf("internal error: VirtualServiceBackup handler received event for %T", object)
+	}
+	return r.finalizingReconciler.FinalizeVirtualServiceBackup(obj)
+}

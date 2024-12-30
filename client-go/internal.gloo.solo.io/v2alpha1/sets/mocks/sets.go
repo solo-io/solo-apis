@@ -276,3 +276,259 @@ func (mr *MockSpireRegistrationEntrySetMockRecorder) UnsortedList(filterResource
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockSpireRegistrationEntrySet)(nil).UnsortedList), filterResource...)
 }
+
+// MockVirtualServiceBackupSet is a mock of VirtualServiceBackupSet interface.
+type MockVirtualServiceBackupSet struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupSetMockRecorder
+}
+
+// MockVirtualServiceBackupSetMockRecorder is the mock recorder for MockVirtualServiceBackupSet.
+type MockVirtualServiceBackupSetMockRecorder struct {
+	mock *MockVirtualServiceBackupSet
+}
+
+// NewMockVirtualServiceBackupSet creates a new mock instance.
+func NewMockVirtualServiceBackupSet(ctrl *gomock.Controller) *MockVirtualServiceBackupSet {
+	mock := &MockVirtualServiceBackupSet{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupSetMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupSet) EXPECT() *MockVirtualServiceBackupSetMockRecorder {
+	return m.recorder
+}
+
+// Clone mocks base method.
+func (m *MockVirtualServiceBackupSet) Clone() v2alpha1sets.VirtualServiceBackupSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Clone")
+	ret0, _ := ret[0].(v2alpha1sets.VirtualServiceBackupSet)
+	return ret0
+}
+
+// Clone indicates an expected call of Clone.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Clone() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Clone", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Clone))
+}
+
+// Delete mocks base method.
+func (m *MockVirtualServiceBackupSet) Delete(virtualServiceBackup ezkube.ResourceId) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Delete", virtualServiceBackup)
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Delete(virtualServiceBackup any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Delete), virtualServiceBackup)
+}
+
+// Delta mocks base method.
+func (m *MockVirtualServiceBackupSet) Delta(newSet v2alpha1sets.VirtualServiceBackupSet) sets.ResourceDelta {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delta", newSet)
+	ret0, _ := ret[0].(sets.ResourceDelta)
+	return ret0
+}
+
+// Delta indicates an expected call of Delta.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Delta(newSet any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delta", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Delta), newSet)
+}
+
+// Difference mocks base method.
+func (m *MockVirtualServiceBackupSet) Difference(set v2alpha1sets.VirtualServiceBackupSet) v2alpha1sets.VirtualServiceBackupSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Difference", set)
+	ret0, _ := ret[0].(v2alpha1sets.VirtualServiceBackupSet)
+	return ret0
+}
+
+// Difference indicates an expected call of Difference.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Difference(set any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Difference", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Difference), set)
+}
+
+// Equal mocks base method.
+func (m *MockVirtualServiceBackupSet) Equal(virtualServiceBackupSet v2alpha1sets.VirtualServiceBackupSet) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Equal", virtualServiceBackupSet)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Equal indicates an expected call of Equal.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Equal(virtualServiceBackupSet any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Equal), virtualServiceBackupSet)
+}
+
+// Find mocks base method.
+func (m *MockVirtualServiceBackupSet) Find(id ezkube.ResourceId) (*v2alpha1.VirtualServiceBackup, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", id)
+	ret0, _ := ret[0].(*v2alpha1.VirtualServiceBackup)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Find(id any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Find), id)
+}
+
+// Generic mocks base method.
+func (m *MockVirtualServiceBackupSet) Generic() sets.ResourceSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Generic")
+	ret0, _ := ret[0].(sets.ResourceSet)
+	return ret0
+}
+
+// Generic indicates an expected call of Generic.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Generic() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generic", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Generic))
+}
+
+// Has mocks base method.
+func (m *MockVirtualServiceBackupSet) Has(virtualServiceBackup ezkube.ResourceId) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Has", virtualServiceBackup)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Has indicates an expected call of Has.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Has(virtualServiceBackup any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Has), virtualServiceBackup)
+}
+
+// Insert mocks base method.
+func (m *MockVirtualServiceBackupSet) Insert(virtualServiceBackup ...*v2alpha1.VirtualServiceBackup) {
+	m.ctrl.T.Helper()
+	varargs := []any{}
+	for _, a := range virtualServiceBackup {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "Insert", varargs...)
+}
+
+// Insert indicates an expected call of Insert.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Insert(virtualServiceBackup ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Insert), virtualServiceBackup...)
+}
+
+// Intersection mocks base method.
+func (m *MockVirtualServiceBackupSet) Intersection(set v2alpha1sets.VirtualServiceBackupSet) v2alpha1sets.VirtualServiceBackupSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Intersection", set)
+	ret0, _ := ret[0].(v2alpha1sets.VirtualServiceBackupSet)
+	return ret0
+}
+
+// Intersection indicates an expected call of Intersection.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Intersection(set any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Intersection", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Intersection), set)
+}
+
+// Keys mocks base method.
+func (m *MockVirtualServiceBackupSet) Keys() sets0.String {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Keys")
+	ret0, _ := ret[0].(sets0.String)
+	return ret0
+}
+
+// Keys indicates an expected call of Keys.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Keys() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Keys", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Keys))
+}
+
+// Length mocks base method.
+func (m *MockVirtualServiceBackupSet) Length() int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Length")
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Length indicates an expected call of Length.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Length() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Length", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Length))
+}
+
+// List mocks base method.
+func (m *MockVirtualServiceBackupSet) List(filterResource ...func(*v2alpha1.VirtualServiceBackup) bool) []*v2alpha1.VirtualServiceBackup {
+	m.ctrl.T.Helper()
+	varargs := []any{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "List", varargs...)
+	ret0, _ := ret[0].([]*v2alpha1.VirtualServiceBackup)
+	return ret0
+}
+
+// List indicates an expected call of List.
+func (mr *MockVirtualServiceBackupSetMockRecorder) List(filterResource ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).List), filterResource...)
+}
+
+// Map mocks base method.
+func (m *MockVirtualServiceBackupSet) Map() map[string]*v2alpha1.VirtualServiceBackup {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Map")
+	ret0, _ := ret[0].(map[string]*v2alpha1.VirtualServiceBackup)
+	return ret0
+}
+
+// Map indicates an expected call of Map.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Map() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Map", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Map))
+}
+
+// Union mocks base method.
+func (m *MockVirtualServiceBackupSet) Union(set v2alpha1sets.VirtualServiceBackupSet) v2alpha1sets.VirtualServiceBackupSet {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Union", set)
+	ret0, _ := ret[0].(v2alpha1sets.VirtualServiceBackupSet)
+	return ret0
+}
+
+// Union indicates an expected call of Union.
+func (mr *MockVirtualServiceBackupSetMockRecorder) Union(set any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Union", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).Union), set)
+}
+
+// UnsortedList mocks base method.
+func (m *MockVirtualServiceBackupSet) UnsortedList(filterResource ...func(*v2alpha1.VirtualServiceBackup) bool) []*v2alpha1.VirtualServiceBackup {
+	m.ctrl.T.Helper()
+	varargs := []any{}
+	for _, a := range filterResource {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UnsortedList", varargs...)
+	ret0, _ := ret[0].([]*v2alpha1.VirtualServiceBackup)
+	return ret0
+}
+
+// UnsortedList indicates an expected call of UnsortedList.
+func (mr *MockVirtualServiceBackupSetMockRecorder) UnsortedList(filterResource ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsortedList", reflect.TypeOf((*MockVirtualServiceBackupSet)(nil).UnsortedList), filterResource...)
+}

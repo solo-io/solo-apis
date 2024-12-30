@@ -41,6 +41,8 @@ func (m *multiclusterClientset) Cluster(cluster string) (Clientset, error) {
 type Clientset interface {
 	// clienset for the internal.gloo.solo.io/v2alpha1/v2alpha1 APIs
 	SpireRegistrationEntries() SpireRegistrationEntryClient
+	// clienset for the internal.gloo.solo.io/v2alpha1/v2alpha1 APIs
+	VirtualServiceBackups() VirtualServiceBackupClient
 }
 
 type clientSet struct {
@@ -68,6 +70,11 @@ func NewClientset(client client.Client) Clientset {
 // clienset for the internal.gloo.solo.io/v2alpha1/v2alpha1 APIs
 func (c *clientSet) SpireRegistrationEntries() SpireRegistrationEntryClient {
 	return NewSpireRegistrationEntryClient(c.client)
+}
+
+// clienset for the internal.gloo.solo.io/v2alpha1/v2alpha1 APIs
+func (c *clientSet) VirtualServiceBackups() VirtualServiceBackupClient {
+	return NewVirtualServiceBackupClient(c.client)
 }
 
 // Reader knows how to read and list SpireRegistrationEntrys.
@@ -210,4 +217,146 @@ func (m *multiclusterSpireRegistrationEntryClient) Cluster(cluster string) (Spir
 		return nil, err
 	}
 	return NewSpireRegistrationEntryClient(client), nil
+}
+
+// Reader knows how to read and list VirtualServiceBackups.
+type VirtualServiceBackupReader interface {
+	// Get retrieves a VirtualServiceBackup for the given object key
+	GetVirtualServiceBackup(ctx context.Context, key client.ObjectKey) (*VirtualServiceBackup, error)
+
+	// List retrieves list of VirtualServiceBackups for a given namespace and list options.
+	ListVirtualServiceBackup(ctx context.Context, opts ...client.ListOption) (*VirtualServiceBackupList, error)
+}
+
+// VirtualServiceBackupTransitionFunction instructs the VirtualServiceBackupWriter how to transition between an existing
+// VirtualServiceBackup object and a desired on an Upsert
+type VirtualServiceBackupTransitionFunction func(existing, desired *VirtualServiceBackup) error
+
+// Writer knows how to create, delete, and update VirtualServiceBackups.
+type VirtualServiceBackupWriter interface {
+	// Create saves the VirtualServiceBackup object.
+	CreateVirtualServiceBackup(ctx context.Context, obj *VirtualServiceBackup, opts ...client.CreateOption) error
+
+	// Delete deletes the VirtualServiceBackup object.
+	DeleteVirtualServiceBackup(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given VirtualServiceBackup object.
+	UpdateVirtualServiceBackup(ctx context.Context, obj *VirtualServiceBackup, opts ...client.UpdateOption) error
+
+	// Patch patches the given VirtualServiceBackup object.
+	PatchVirtualServiceBackup(ctx context.Context, obj *VirtualServiceBackup, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all VirtualServiceBackup objects matching the given options.
+	DeleteAllOfVirtualServiceBackup(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the VirtualServiceBackup object.
+	UpsertVirtualServiceBackup(ctx context.Context, obj *VirtualServiceBackup, transitionFuncs ...VirtualServiceBackupTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a VirtualServiceBackup object.
+type VirtualServiceBackupStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given VirtualServiceBackup object.
+	UpdateVirtualServiceBackupStatus(ctx context.Context, obj *VirtualServiceBackup, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given VirtualServiceBackup object's subresource.
+	PatchVirtualServiceBackupStatus(ctx context.Context, obj *VirtualServiceBackup, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on VirtualServiceBackups.
+type VirtualServiceBackupClient interface {
+	VirtualServiceBackupReader
+	VirtualServiceBackupWriter
+	VirtualServiceBackupStatusWriter
+}
+
+type virtualServiceBackupClient struct {
+	client client.Client
+}
+
+func NewVirtualServiceBackupClient(client client.Client) *virtualServiceBackupClient {
+	return &virtualServiceBackupClient{client: client}
+}
+
+func (c *virtualServiceBackupClient) GetVirtualServiceBackup(ctx context.Context, key client.ObjectKey) (*VirtualServiceBackup, error) {
+	obj := &VirtualServiceBackup{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *virtualServiceBackupClient) ListVirtualServiceBackup(ctx context.Context, opts ...client.ListOption) (*VirtualServiceBackupList, error) {
+	list := &VirtualServiceBackupList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *virtualServiceBackupClient) CreateVirtualServiceBackup(ctx context.Context, obj *VirtualServiceBackup, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *virtualServiceBackupClient) DeleteVirtualServiceBackup(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &VirtualServiceBackup{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *virtualServiceBackupClient) UpdateVirtualServiceBackup(ctx context.Context, obj *VirtualServiceBackup, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *virtualServiceBackupClient) PatchVirtualServiceBackup(ctx context.Context, obj *VirtualServiceBackup, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *virtualServiceBackupClient) DeleteAllOfVirtualServiceBackup(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &VirtualServiceBackup{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *virtualServiceBackupClient) UpsertVirtualServiceBackup(ctx context.Context, obj *VirtualServiceBackup, transitionFuncs ...VirtualServiceBackupTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*VirtualServiceBackup), desired.(*VirtualServiceBackup)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *virtualServiceBackupClient) UpdateVirtualServiceBackupStatus(ctx context.Context, obj *VirtualServiceBackup, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *virtualServiceBackupClient) PatchVirtualServiceBackupStatus(ctx context.Context, obj *VirtualServiceBackup, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides VirtualServiceBackupClients for multiple clusters.
+type MulticlusterVirtualServiceBackupClient interface {
+	// Cluster returns a VirtualServiceBackupClient for the given cluster
+	Cluster(cluster string) (VirtualServiceBackupClient, error)
+}
+
+type multiclusterVirtualServiceBackupClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterVirtualServiceBackupClient(client multicluster.Client) MulticlusterVirtualServiceBackupClient {
+	return &multiclusterVirtualServiceBackupClient{client: client}
+}
+
+func (m *multiclusterVirtualServiceBackupClient) Cluster(cluster string) (VirtualServiceBackupClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewVirtualServiceBackupClient(client), nil
 }

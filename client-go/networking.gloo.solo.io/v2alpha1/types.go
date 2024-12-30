@@ -43,6 +43,42 @@ type ExternalWorkloadList struct {
 	Items           []ExternalWorkload `json:"items"`
 }
 
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +kubebuilder:subresource:status
+
+// GroupVersionKind for ProgressiveDelivery
+var ProgressiveDeliveryGVK = schema.GroupVersionKind{
+	Group:   "networking.gloo.solo.io",
+	Version: "v2alpha1",
+	Kind:    "ProgressiveDelivery",
+}
+
+// ProgressiveDelivery is the Schema for the progressiveDelivery API
+type ProgressiveDelivery struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   ProgressiveDeliverySpec   `json:"spec,omitempty"`
+	Status ProgressiveDeliveryStatus `json:"status,omitempty"`
+}
+
+// GVK returns the GroupVersionKind associated with the resource type.
+func (ProgressiveDelivery) GVK() schema.GroupVersionKind {
+	return ProgressiveDeliveryGVK
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ProgressiveDeliveryList contains a list of ProgressiveDelivery
+type ProgressiveDeliveryList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ProgressiveDelivery `json:"items"`
+}
+
 func init() {
 	SchemeBuilder.Register(&ExternalWorkload{}, &ExternalWorkloadList{})
+	SchemeBuilder.Register(&ProgressiveDelivery{}, &ProgressiveDeliveryList{})
 }

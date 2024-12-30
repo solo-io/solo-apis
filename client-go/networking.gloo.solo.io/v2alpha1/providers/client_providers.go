@@ -44,3 +44,31 @@ func ExternalWorkloadClientFromConfigFactoryProvider() ExternalWorkloadClientFro
 		return clients.ExternalWorkloads(), nil
 	}
 }
+
+// Provider for ProgressiveDeliveryClient from Clientset
+func ProgressiveDeliveryClientFromClientsetProvider(clients networking_gloo_solo_io_v2alpha1.Clientset) networking_gloo_solo_io_v2alpha1.ProgressiveDeliveryClient {
+	return clients.ProgressiveDeliveries()
+}
+
+// Provider for ProgressiveDelivery Client from Client
+func ProgressiveDeliveryClientProvider(client client.Client) networking_gloo_solo_io_v2alpha1.ProgressiveDeliveryClient {
+	return networking_gloo_solo_io_v2alpha1.NewProgressiveDeliveryClient(client)
+}
+
+type ProgressiveDeliveryClientFactory func(client client.Client) networking_gloo_solo_io_v2alpha1.ProgressiveDeliveryClient
+
+func ProgressiveDeliveryClientFactoryProvider() ProgressiveDeliveryClientFactory {
+	return ProgressiveDeliveryClientProvider
+}
+
+type ProgressiveDeliveryClientFromConfigFactory func(cfg *rest.Config) (networking_gloo_solo_io_v2alpha1.ProgressiveDeliveryClient, error)
+
+func ProgressiveDeliveryClientFromConfigFactoryProvider() ProgressiveDeliveryClientFromConfigFactory {
+	return func(cfg *rest.Config) (networking_gloo_solo_io_v2alpha1.ProgressiveDeliveryClient, error) {
+		clients, err := networking_gloo_solo_io_v2alpha1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.ProgressiveDeliveries(), nil
+	}
+}

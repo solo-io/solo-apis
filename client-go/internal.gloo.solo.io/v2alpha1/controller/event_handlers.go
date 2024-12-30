@@ -123,3 +123,110 @@ func (h genericSpireRegistrationEntryHandler) Generic(object client.Object) erro
 	}
 	return h.handler.GenericSpireRegistrationEntry(obj)
 }
+
+// Handle events for the VirtualServiceBackup Resource
+// DEPRECATED: Prefer reconciler pattern.
+type VirtualServiceBackupEventHandler interface {
+	CreateVirtualServiceBackup(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error
+	UpdateVirtualServiceBackup(old, new *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error
+	DeleteVirtualServiceBackup(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error
+	GenericVirtualServiceBackup(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error
+}
+
+type VirtualServiceBackupEventHandlerFuncs struct {
+	OnCreate  func(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error
+	OnUpdate  func(old, new *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error
+	OnDelete  func(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error
+	OnGeneric func(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error
+}
+
+func (f *VirtualServiceBackupEventHandlerFuncs) CreateVirtualServiceBackup(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *VirtualServiceBackupEventHandlerFuncs) DeleteVirtualServiceBackup(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *VirtualServiceBackupEventHandlerFuncs) UpdateVirtualServiceBackup(objOld, objNew *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *VirtualServiceBackupEventHandlerFuncs) GenericVirtualServiceBackup(obj *internal_gloo_solo_io_v2alpha1.VirtualServiceBackup) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type VirtualServiceBackupEventWatcher interface {
+	AddEventHandler(ctx context.Context, h VirtualServiceBackupEventHandler, predicates ...predicate.Predicate) error
+}
+
+type virtualServiceBackupEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewVirtualServiceBackupEventWatcher(name string, mgr manager.Manager) VirtualServiceBackupEventWatcher {
+	return &virtualServiceBackupEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &internal_gloo_solo_io_v2alpha1.VirtualServiceBackup{}),
+	}
+}
+
+func (c *virtualServiceBackupEventWatcher) AddEventHandler(ctx context.Context, h VirtualServiceBackupEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericVirtualServiceBackupHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericVirtualServiceBackupHandler implements a generic events.EventHandler
+type genericVirtualServiceBackupHandler struct {
+	handler VirtualServiceBackupEventHandler
+}
+
+func (h genericVirtualServiceBackupHandler) Create(object client.Object) error {
+	obj, ok := object.(*internal_gloo_solo_io_v2alpha1.VirtualServiceBackup)
+	if !ok {
+		return errors.Errorf("internal error: VirtualServiceBackup handler received event for %T", object)
+	}
+	return h.handler.CreateVirtualServiceBackup(obj)
+}
+
+func (h genericVirtualServiceBackupHandler) Delete(object client.Object) error {
+	obj, ok := object.(*internal_gloo_solo_io_v2alpha1.VirtualServiceBackup)
+	if !ok {
+		return errors.Errorf("internal error: VirtualServiceBackup handler received event for %T", object)
+	}
+	return h.handler.DeleteVirtualServiceBackup(obj)
+}
+
+func (h genericVirtualServiceBackupHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*internal_gloo_solo_io_v2alpha1.VirtualServiceBackup)
+	if !ok {
+		return errors.Errorf("internal error: VirtualServiceBackup handler received event for %T", old)
+	}
+	objNew, ok := new.(*internal_gloo_solo_io_v2alpha1.VirtualServiceBackup)
+	if !ok {
+		return errors.Errorf("internal error: VirtualServiceBackup handler received event for %T", new)
+	}
+	return h.handler.UpdateVirtualServiceBackup(objOld, objNew)
+}
+
+func (h genericVirtualServiceBackupHandler) Generic(object client.Object) error {
+	obj, ok := object.(*internal_gloo_solo_io_v2alpha1.VirtualServiceBackup)
+	if !ok {
+		return errors.Errorf("internal error: VirtualServiceBackup handler received event for %T", object)
+	}
+	return h.handler.GenericVirtualServiceBackup(obj)
+}

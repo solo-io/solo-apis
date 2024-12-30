@@ -48,3 +48,14 @@ func (this *SpireRegistrationEntryStatus) MarshalJSON() ([]byte, error) {
 func (this *SpireRegistrationEntryStatus) UnmarshalJSON(b []byte) error {
 	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
 }
+
+// MarshalJSON is a custom marshaler for VirtualServiceBackupSpec
+func (this *VirtualServiceBackupSpec) MarshalJSON() ([]byte, error) {
+	str, err := marshaller.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for VirtualServiceBackupSpec
+func (this *VirtualServiceBackupSpec) UnmarshalJSON(b []byte) error {
+	return unmarshaller.Unmarshal(bytes.NewReader(b), this)
+}

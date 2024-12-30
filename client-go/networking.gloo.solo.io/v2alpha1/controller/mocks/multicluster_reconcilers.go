@@ -135,3 +135,118 @@ func (mr *MockMulticlusterExternalWorkloadReconcileLoopMockRecorder) AddMulticlu
 	varargs := append([]any{ctx, rec}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterExternalWorkloadReconciler", reflect.TypeOf((*MockMulticlusterExternalWorkloadReconcileLoop)(nil).AddMulticlusterExternalWorkloadReconciler), varargs...)
 }
+
+// MockMulticlusterProgressiveDeliveryReconciler is a mock of MulticlusterProgressiveDeliveryReconciler interface.
+type MockMulticlusterProgressiveDeliveryReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterProgressiveDeliveryReconcilerMockRecorder
+}
+
+// MockMulticlusterProgressiveDeliveryReconcilerMockRecorder is the mock recorder for MockMulticlusterProgressiveDeliveryReconciler.
+type MockMulticlusterProgressiveDeliveryReconcilerMockRecorder struct {
+	mock *MockMulticlusterProgressiveDeliveryReconciler
+}
+
+// NewMockMulticlusterProgressiveDeliveryReconciler creates a new mock instance.
+func NewMockMulticlusterProgressiveDeliveryReconciler(ctrl *gomock.Controller) *MockMulticlusterProgressiveDeliveryReconciler {
+	mock := &MockMulticlusterProgressiveDeliveryReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterProgressiveDeliveryReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterProgressiveDeliveryReconciler) EXPECT() *MockMulticlusterProgressiveDeliveryReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileProgressiveDelivery mocks base method.
+func (m *MockMulticlusterProgressiveDeliveryReconciler) ReconcileProgressiveDelivery(clusterName string, obj *v2alpha1.ProgressiveDelivery) (reconcile.Result, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileProgressiveDelivery", clusterName, obj)
+	ret0, _ := ret[0].(reconcile.Result)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReconcileProgressiveDelivery indicates an expected call of ReconcileProgressiveDelivery.
+func (mr *MockMulticlusterProgressiveDeliveryReconcilerMockRecorder) ReconcileProgressiveDelivery(clusterName, obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileProgressiveDelivery", reflect.TypeOf((*MockMulticlusterProgressiveDeliveryReconciler)(nil).ReconcileProgressiveDelivery), clusterName, obj)
+}
+
+// MockMulticlusterProgressiveDeliveryDeletionReconciler is a mock of MulticlusterProgressiveDeliveryDeletionReconciler interface.
+type MockMulticlusterProgressiveDeliveryDeletionReconciler struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterProgressiveDeliveryDeletionReconcilerMockRecorder
+}
+
+// MockMulticlusterProgressiveDeliveryDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterProgressiveDeliveryDeletionReconciler.
+type MockMulticlusterProgressiveDeliveryDeletionReconcilerMockRecorder struct {
+	mock *MockMulticlusterProgressiveDeliveryDeletionReconciler
+}
+
+// NewMockMulticlusterProgressiveDeliveryDeletionReconciler creates a new mock instance.
+func NewMockMulticlusterProgressiveDeliveryDeletionReconciler(ctrl *gomock.Controller) *MockMulticlusterProgressiveDeliveryDeletionReconciler {
+	mock := &MockMulticlusterProgressiveDeliveryDeletionReconciler{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterProgressiveDeliveryDeletionReconcilerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterProgressiveDeliveryDeletionReconciler) EXPECT() *MockMulticlusterProgressiveDeliveryDeletionReconcilerMockRecorder {
+	return m.recorder
+}
+
+// ReconcileProgressiveDeliveryDeletion mocks base method.
+func (m *MockMulticlusterProgressiveDeliveryDeletionReconciler) ReconcileProgressiveDeliveryDeletion(clusterName string, req reconcile.Request) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReconcileProgressiveDeliveryDeletion", clusterName, req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ReconcileProgressiveDeliveryDeletion indicates an expected call of ReconcileProgressiveDeliveryDeletion.
+func (mr *MockMulticlusterProgressiveDeliveryDeletionReconcilerMockRecorder) ReconcileProgressiveDeliveryDeletion(clusterName, req any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileProgressiveDeliveryDeletion", reflect.TypeOf((*MockMulticlusterProgressiveDeliveryDeletionReconciler)(nil).ReconcileProgressiveDeliveryDeletion), clusterName, req)
+}
+
+// MockMulticlusterProgressiveDeliveryReconcileLoop is a mock of MulticlusterProgressiveDeliveryReconcileLoop interface.
+type MockMulticlusterProgressiveDeliveryReconcileLoop struct {
+	ctrl     *gomock.Controller
+	recorder *MockMulticlusterProgressiveDeliveryReconcileLoopMockRecorder
+}
+
+// MockMulticlusterProgressiveDeliveryReconcileLoopMockRecorder is the mock recorder for MockMulticlusterProgressiveDeliveryReconcileLoop.
+type MockMulticlusterProgressiveDeliveryReconcileLoopMockRecorder struct {
+	mock *MockMulticlusterProgressiveDeliveryReconcileLoop
+}
+
+// NewMockMulticlusterProgressiveDeliveryReconcileLoop creates a new mock instance.
+func NewMockMulticlusterProgressiveDeliveryReconcileLoop(ctrl *gomock.Controller) *MockMulticlusterProgressiveDeliveryReconcileLoop {
+	mock := &MockMulticlusterProgressiveDeliveryReconcileLoop{ctrl: ctrl}
+	mock.recorder = &MockMulticlusterProgressiveDeliveryReconcileLoopMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMulticlusterProgressiveDeliveryReconcileLoop) EXPECT() *MockMulticlusterProgressiveDeliveryReconcileLoopMockRecorder {
+	return m.recorder
+}
+
+// AddMulticlusterProgressiveDeliveryReconciler mocks base method.
+func (m *MockMulticlusterProgressiveDeliveryReconcileLoop) AddMulticlusterProgressiveDeliveryReconciler(ctx context.Context, rec controller.MulticlusterProgressiveDeliveryReconciler, predicates ...predicate.Predicate) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, rec}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	m.ctrl.Call(m, "AddMulticlusterProgressiveDeliveryReconciler", varargs...)
+}
+
+// AddMulticlusterProgressiveDeliveryReconciler indicates an expected call of AddMulticlusterProgressiveDeliveryReconciler.
+func (mr *MockMulticlusterProgressiveDeliveryReconcileLoopMockRecorder) AddMulticlusterProgressiveDeliveryReconciler(ctx, rec any, predicates ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, rec}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMulticlusterProgressiveDeliveryReconciler", reflect.TypeOf((*MockMulticlusterProgressiveDeliveryReconcileLoop)(nil).AddMulticlusterProgressiveDeliveryReconciler), varargs...)
+}

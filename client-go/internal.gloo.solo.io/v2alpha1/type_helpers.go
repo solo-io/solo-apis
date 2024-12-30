@@ -5,3 +5,6 @@ package v2alpha1
 
 // SpireRegistrationEntrySlice represents a slice of *SpireRegistrationEntry
 type SpireRegistrationEntrySlice []*SpireRegistrationEntry
+
+// VirtualServiceBackupSlice represents a slice of *VirtualServiceBackup
+type VirtualServiceBackupSlice []*VirtualServiceBackup

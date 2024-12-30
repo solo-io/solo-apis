@@ -123,3 +123,110 @@ func (h genericExternalWorkloadHandler) Generic(object client.Object) error {
 	}
 	return h.handler.GenericExternalWorkload(obj)
 }
+
+// Handle events for the ProgressiveDelivery Resource
+// DEPRECATED: Prefer reconciler pattern.
+type ProgressiveDeliveryEventHandler interface {
+	CreateProgressiveDelivery(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error
+	UpdateProgressiveDelivery(old, new *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error
+	DeleteProgressiveDelivery(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error
+	GenericProgressiveDelivery(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error
+}
+
+type ProgressiveDeliveryEventHandlerFuncs struct {
+	OnCreate  func(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error
+	OnUpdate  func(old, new *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error
+	OnDelete  func(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error
+	OnGeneric func(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error
+}
+
+func (f *ProgressiveDeliveryEventHandlerFuncs) CreateProgressiveDelivery(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error {
+	if f.OnCreate == nil {
+		return nil
+	}
+	return f.OnCreate(obj)
+}
+
+func (f *ProgressiveDeliveryEventHandlerFuncs) DeleteProgressiveDelivery(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error {
+	if f.OnDelete == nil {
+		return nil
+	}
+	return f.OnDelete(obj)
+}
+
+func (f *ProgressiveDeliveryEventHandlerFuncs) UpdateProgressiveDelivery(objOld, objNew *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error {
+	if f.OnUpdate == nil {
+		return nil
+	}
+	return f.OnUpdate(objOld, objNew)
+}
+
+func (f *ProgressiveDeliveryEventHandlerFuncs) GenericProgressiveDelivery(obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) error {
+	if f.OnGeneric == nil {
+		return nil
+	}
+	return f.OnGeneric(obj)
+}
+
+type ProgressiveDeliveryEventWatcher interface {
+	AddEventHandler(ctx context.Context, h ProgressiveDeliveryEventHandler, predicates ...predicate.Predicate) error
+}
+
+type progressiveDeliveryEventWatcher struct {
+	watcher events.EventWatcher
+}
+
+func NewProgressiveDeliveryEventWatcher(name string, mgr manager.Manager) ProgressiveDeliveryEventWatcher {
+	return &progressiveDeliveryEventWatcher{
+		watcher: events.NewWatcher(name, mgr, &networking_gloo_solo_io_v2alpha1.ProgressiveDelivery{}),
+	}
+}
+
+func (c *progressiveDeliveryEventWatcher) AddEventHandler(ctx context.Context, h ProgressiveDeliveryEventHandler, predicates ...predicate.Predicate) error {
+	handler := genericProgressiveDeliveryHandler{handler: h}
+	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
+		return err
+	}
+	return nil
+}
+
+// genericProgressiveDeliveryHandler implements a generic events.EventHandler
+type genericProgressiveDeliveryHandler struct {
+	handler ProgressiveDeliveryEventHandler
+}
+
+func (h genericProgressiveDeliveryHandler) Create(object client.Object) error {
+	obj, ok := object.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	if !ok {
+		return errors.Errorf("internal error: ProgressiveDelivery handler received event for %T", object)
+	}
+	return h.handler.CreateProgressiveDelivery(obj)
+}
+
+func (h genericProgressiveDeliveryHandler) Delete(object client.Object) error {
+	obj, ok := object.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	if !ok {
+		return errors.Errorf("internal error: ProgressiveDelivery handler received event for %T", object)
+	}
+	return h.handler.DeleteProgressiveDelivery(obj)
+}
+
+func (h genericProgressiveDeliveryHandler) Update(old, new client.Object) error {
+	objOld, ok := old.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	if !ok {
+		return errors.Errorf("internal error: ProgressiveDelivery handler received event for %T", old)
+	}
+	objNew, ok := new.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	if !ok {
+		return errors.Errorf("internal error: ProgressiveDelivery handler received event for %T", new)
+	}
+	return h.handler.UpdateProgressiveDelivery(objOld, objNew)
+}
+
+func (h genericProgressiveDeliveryHandler) Generic(object client.Object) error {
+	obj, ok := object.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	if !ok {
+		return errors.Errorf("internal error: ProgressiveDelivery handler received event for %T", object)
+	}
+	return h.handler.GenericProgressiveDelivery(obj)
+}

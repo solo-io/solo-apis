@@ -18,7 +18,7 @@ option (extproto.clone_all) = true;
 // ListenerConnectionPolicy is used to set configuration for gateway listeners.
 //
 // ```
-// apiVersion: trafficcontrol.policy.gloo.solo.io/v2
+// apiVersion: resilience.policy.gloo.solo.io/v2
 // kind: ListenerConnectionPolicy
 // metadata:
 //   name: my-policy

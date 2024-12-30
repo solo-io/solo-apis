@@ -88,3 +88,74 @@ func (g genericExternalWorkloadMulticlusterReconciler) Reconcile(cluster string,
 	}
 	return g.reconciler.ReconcileExternalWorkload(cluster, obj)
 }
+
+// Reconcile Upsert events for the ProgressiveDelivery Resource across clusters.
+// implemented by the user
+type MulticlusterProgressiveDeliveryReconciler interface {
+	ReconcileProgressiveDelivery(clusterName string, obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) (reconcile.Result, error)
+}
+
+// Reconcile deletion events for the ProgressiveDelivery Resource across clusters.
+// Deletion receives a reconcile.Request as we cannot guarantee the last state of the object
+// before being deleted.
+// implemented by the user
+type MulticlusterProgressiveDeliveryDeletionReconciler interface {
+	ReconcileProgressiveDeliveryDeletion(clusterName string, req reconcile.Request) error
+}
+
+type MulticlusterProgressiveDeliveryReconcilerFuncs struct {
+	OnReconcileProgressiveDelivery         func(clusterName string, obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) (reconcile.Result, error)
+	OnReconcileProgressiveDeliveryDeletion func(clusterName string, req reconcile.Request) error
+}
+
+func (f *MulticlusterProgressiveDeliveryReconcilerFuncs) ReconcileProgressiveDelivery(clusterName string, obj *networking_gloo_solo_io_v2alpha1.ProgressiveDelivery) (reconcile.Result, error) {
+	if f.OnReconcileProgressiveDelivery == nil {
+		return reconcile.Result{}, nil
+	}
+	return f.OnReconcileProgressiveDelivery(clusterName, obj)
+}
+
+func (f *MulticlusterProgressiveDeliveryReconcilerFuncs) ReconcileProgressiveDeliveryDeletion(clusterName string, req reconcile.Request) error {
+	if f.OnReconcileProgressiveDeliveryDeletion == nil {
+		return nil
+	}
+	return f.OnReconcileProgressiveDeliveryDeletion(clusterName, req)
+}
+
+type MulticlusterProgressiveDeliveryReconcileLoop interface {
+	// AddMulticlusterProgressiveDeliveryReconciler adds a MulticlusterProgressiveDeliveryReconciler to the MulticlusterProgressiveDeliveryReconcileLoop.
+	AddMulticlusterProgressiveDeliveryReconciler(ctx context.Context, rec MulticlusterProgressiveDeliveryReconciler, predicates ...predicate.Predicate)
+}
+
+type multiclusterProgressiveDeliveryReconcileLoop struct {
+	loop multicluster.Loop
+}
+
+func (m *multiclusterProgressiveDeliveryReconcileLoop) AddMulticlusterProgressiveDeliveryReconciler(ctx context.Context, rec MulticlusterProgressiveDeliveryReconciler, predicates ...predicate.Predicate) {
+	genericReconciler := genericProgressiveDeliveryMulticlusterReconciler{reconciler: rec}
+
+	m.loop.AddReconciler(ctx, genericReconciler, predicates...)
+}
+
+func NewMulticlusterProgressiveDeliveryReconcileLoop(name string, cw multicluster.ClusterWatcher, options reconcile.Options) MulticlusterProgressiveDeliveryReconcileLoop {
+	return &multiclusterProgressiveDeliveryReconcileLoop{loop: mc_reconcile.NewLoop(name, cw, &networking_gloo_solo_io_v2alpha1.ProgressiveDelivery{}, options)}
+}
+
+type genericProgressiveDeliveryMulticlusterReconciler struct {
+	reconciler MulticlusterProgressiveDeliveryReconciler
+}
+
+func (g genericProgressiveDeliveryMulticlusterReconciler) ReconcileDeletion(cluster string, req reconcile.Request) error {
+	if deletionReconciler, ok := g.reconciler.(MulticlusterProgressiveDeliveryDeletionReconciler); ok {
+		return deletionReconciler.ReconcileProgressiveDeliveryDeletion(cluster, req)
+	}
+	return nil
+}
+
+func (g genericProgressiveDeliveryMulticlusterReconciler) Reconcile(cluster string, object ezkube.Object) (reconcile.Result, error) {
+	obj, ok := object.(*networking_gloo_solo_io_v2alpha1.ProgressiveDelivery)
+	if !ok {
+		return reconcile.Result{}, errors.Errorf("internal error: ProgressiveDelivery handler received event for %T", object)
+	}
+	return g.reconciler.ReconcileProgressiveDelivery(cluster, obj)
+}

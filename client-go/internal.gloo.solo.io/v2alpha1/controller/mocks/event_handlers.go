@@ -140,3 +140,124 @@ func (mr *MockSpireRegistrationEntryEventWatcherMockRecorder) AddEventHandler(ct
 	varargs := append([]any{ctx, h}, predicates...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockSpireRegistrationEntryEventWatcher)(nil).AddEventHandler), varargs...)
 }
+
+// MockVirtualServiceBackupEventHandler is a mock of VirtualServiceBackupEventHandler interface.
+type MockVirtualServiceBackupEventHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupEventHandlerMockRecorder
+}
+
+// MockVirtualServiceBackupEventHandlerMockRecorder is the mock recorder for MockVirtualServiceBackupEventHandler.
+type MockVirtualServiceBackupEventHandlerMockRecorder struct {
+	mock *MockVirtualServiceBackupEventHandler
+}
+
+// NewMockVirtualServiceBackupEventHandler creates a new mock instance.
+func NewMockVirtualServiceBackupEventHandler(ctrl *gomock.Controller) *MockVirtualServiceBackupEventHandler {
+	mock := &MockVirtualServiceBackupEventHandler{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupEventHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupEventHandler) EXPECT() *MockVirtualServiceBackupEventHandlerMockRecorder {
+	return m.recorder
+}
+
+// CreateVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupEventHandler) CreateVirtualServiceBackup(obj *v2alpha1.VirtualServiceBackup) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateVirtualServiceBackup", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateVirtualServiceBackup indicates an expected call of CreateVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupEventHandlerMockRecorder) CreateVirtualServiceBackup(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupEventHandler)(nil).CreateVirtualServiceBackup), obj)
+}
+
+// DeleteVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupEventHandler) DeleteVirtualServiceBackup(obj *v2alpha1.VirtualServiceBackup) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteVirtualServiceBackup", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteVirtualServiceBackup indicates an expected call of DeleteVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupEventHandlerMockRecorder) DeleteVirtualServiceBackup(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupEventHandler)(nil).DeleteVirtualServiceBackup), obj)
+}
+
+// GenericVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupEventHandler) GenericVirtualServiceBackup(obj *v2alpha1.VirtualServiceBackup) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenericVirtualServiceBackup", obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GenericVirtualServiceBackup indicates an expected call of GenericVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupEventHandlerMockRecorder) GenericVirtualServiceBackup(obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenericVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupEventHandler)(nil).GenericVirtualServiceBackup), obj)
+}
+
+// UpdateVirtualServiceBackup mocks base method.
+func (m *MockVirtualServiceBackupEventHandler) UpdateVirtualServiceBackup(old, new *v2alpha1.VirtualServiceBackup) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateVirtualServiceBackup", old, new)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateVirtualServiceBackup indicates an expected call of UpdateVirtualServiceBackup.
+func (mr *MockVirtualServiceBackupEventHandlerMockRecorder) UpdateVirtualServiceBackup(old, new any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateVirtualServiceBackup", reflect.TypeOf((*MockVirtualServiceBackupEventHandler)(nil).UpdateVirtualServiceBackup), old, new)
+}
+
+// MockVirtualServiceBackupEventWatcher is a mock of VirtualServiceBackupEventWatcher interface.
+type MockVirtualServiceBackupEventWatcher struct {
+	ctrl     *gomock.Controller
+	recorder *MockVirtualServiceBackupEventWatcherMockRecorder
+}
+
+// MockVirtualServiceBackupEventWatcherMockRecorder is the mock recorder for MockVirtualServiceBackupEventWatcher.
+type MockVirtualServiceBackupEventWatcherMockRecorder struct {
+	mock *MockVirtualServiceBackupEventWatcher
+}
+
+// NewMockVirtualServiceBackupEventWatcher creates a new mock instance.
+func NewMockVirtualServiceBackupEventWatcher(ctrl *gomock.Controller) *MockVirtualServiceBackupEventWatcher {
+	mock := &MockVirtualServiceBackupEventWatcher{ctrl: ctrl}
+	mock.recorder = &MockVirtualServiceBackupEventWatcherMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockVirtualServiceBackupEventWatcher) EXPECT() *MockVirtualServiceBackupEventWatcherMockRecorder {
+	return m.recorder
+}
+
+// AddEventHandler mocks base method.
+func (m *MockVirtualServiceBackupEventWatcher) AddEventHandler(ctx context.Context, h controller.VirtualServiceBackupEventHandler, predicates ...predicate.Predicate) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, h}
+	for _, a := range predicates {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddEventHandler", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddEventHandler indicates an expected call of AddEventHandler.
+func (mr *MockVirtualServiceBackupEventWatcherMockRecorder) AddEventHandler(ctx, h any, predicates ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, h}, predicates...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEventHandler", reflect.TypeOf((*MockVirtualServiceBackupEventWatcher)(nil).AddEventHandler), varargs...)
+}

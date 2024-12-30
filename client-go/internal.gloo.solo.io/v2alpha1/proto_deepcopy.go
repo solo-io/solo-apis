@@ -30,3 +30,14 @@ func (in *SpireRegistrationEntryStatus) DeepCopyInto(out *SpireRegistrationEntry
 	}
 	*out = *p
 }
+
+// DeepCopyInto for the VirtualServiceBackup.Spec
+func (in *VirtualServiceBackupSpec) DeepCopyInto(out *VirtualServiceBackupSpec) {
+	var p *VirtualServiceBackupSpec
+	if h, ok := interface{}(in).(clone.Cloner); ok {
+		p = h.Clone().(*VirtualServiceBackupSpec)
+	} else {
+		p = proto.Clone(in).(*VirtualServiceBackupSpec)
+	}
+	*out = *p
+}
