@@ -101,10 +101,11 @@ message Insight {
       SYS0012Data SYS0012 = 25;
       SYS0014Data SYS0014 = 27;
       SYS0015Data SYS0015 = 28;
-      SYS0019Data SYS0019 = 29; // Adding so UI works for mock - might change later
       SYS0020Data SYS0020 = 30;
       SYS0025Data SYS0025 = 31;
     }
+
+    reserved 29;
   }
 
   // Agent Deployent Reference
@@ -229,17 +230,13 @@ message Insight {
     int32 value = 1;
   }
 
-  // Adding so UI works for mock - might change later
-  message SYS0019Data {
-    string cilium_version = 1;
-  }
-
   // resource counts
   message SYS0020Data {
     int32 istio_resources = 1;
-    int32 cilium_resources = 2;
     int32 k8s_resources = 3;
     int32 gateway_resources = 4;
     int32 solo_resources = 5;
+
+    reserved 2;
   }
 }

@@ -953,7 +953,9 @@ func (*VirtualGatewaySpec_Listener_HTTPServer) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_networking_v2_virtual_gateway_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
-// $hide_from_docs TODO: TCPServer
+// Serve TCP routes for RouteTables that select this gateway.
+// Make sure to open a TCP port on the backing Istio ingress gateway,
+// which might require upgrading your IstioLifecycleManager or Helm installation.
 type VirtualGatewaySpec_Listener_TCPServer struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
