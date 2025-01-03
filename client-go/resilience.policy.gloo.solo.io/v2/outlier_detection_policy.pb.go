@@ -58,11 +58,8 @@ type OutlierDetectionPolicySpec struct {
 	//
 	// </br>**Implementation notes**:<ul>
 	// <li>If empty, the policy applies to all destinations in the workspace.</li>
-	// <li>The outlier detection policy currently supports selecting Gloo virtual destinations.
-	// Selecting Kubernetes services is not supported. To select a Gloo external service,
-	// the external service must refer to a service that is outside the service mesh
-	// but within the same cluster environment. Selecting Gloo external services that
-	// refer to a service outside the cluster is not supported.</li></ul>
+	// <li>This policy currently supports selecting Gloo virtual destinations or external services.
+	// Selecting Kubernetes services is not supported.</li></ul>
 	//
 	// **Configuration constraints**: `applyToDestinations.kind` must equal either `VIRTUAL_DESTINATION` or `EXTERNAL_SERVICE`.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`

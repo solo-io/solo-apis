@@ -230,8 +230,10 @@ message VirtualGatewaySpec {
     message HTTPServer {
 
     }
-
-    // $hide_from_docs TODO: TCPServer
+    
+    // Serve TCP routes for RouteTables that select this gateway.
+    // Make sure to open a TCP port on the backing Istio ingress gateway,
+    // which might require upgrading your IstioLifecycleManager or Helm installation.
     message TCPServer {
 
     }

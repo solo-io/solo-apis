@@ -69,7 +69,7 @@ type ExtAuthPolicySpec struct {
 	// Destinations to apply the policy to.
 	//
 	// </br>**Implementation notes**:
-	// <li>Only Kubernetes services can be specified. Virtual destinations or external services are not supported.</li>
+	// <li>{{< reuse "conrefs/snippets/field-desc/dest-no-vdest.md" >}}</li>
 	// <li>If empty and `applyToRoutes` is unset, the policy applies to all destinations in the workspace.</li>
 	// <li>If empty and `applyToRoutes` is set, the policy does not apply to any destinations in the workspace.</li></ul>
 	//

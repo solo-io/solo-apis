@@ -4,7 +4,6 @@
 // The ApiDoc type is used to represent different types of API schema specification languages:
 // - OpenAPI
 // - gRPC
-// - GraphQL
 syntax = "proto3";
 
 package apimanagement.gloo.solo.io;
@@ -46,6 +45,8 @@ message ApiDocSpec {
     // The gRPC schema specification language. Specify only one schema type.
     GrpcSchema grpc = 2;
 
+    // <b>Unsupported</b>: The GraphQL integration is no longer supported.
+    //
     // The graphQL schema specification language. Specify only one schema type.
     GraphQLSchema graphql = 3;
   }
@@ -82,17 +83,9 @@ message ApiDocSpec {
     string inline_string = 1;
   }
 
-  // A complete gRPC schema describing the API.
+  // <b>Unsupported</b>: The GraphQL integration is no longer supported.
   //
-  // **Example**: In this gRPC example for a basic user service app,
-  // the base64-encoded descriptor includes a set of fields that are defined
-  // for various queries, such as `UserSearch` and `UserByCountry`. For detailed
-  // information about the settings in this example, see
-  // [gRPC schema](https://docs.solo.io/gloo-mesh-gateway/latest/graphql/resolvers/resolved/resolver_grpc/)
-  // in the GraphQL integration documentation.
-  // ```yaml
-  // {{% readfile file="static/content/examples/generated/int/graphql_routes/cluster-1/api-doc_bookinfo_grpc-schema.yaml" %}}
-  // ```
+  // A complete gRPC schema describing the API.
   message GrpcSchema {
     // Protobuf descriptors that represent the gRPC services provided by your API, encoded in base64.
     // For more information, see the
@@ -101,19 +94,13 @@ message ApiDocSpec {
 
   }
 
+  // <b>Unsupported</b>: The GraphQL integration is no longer supported.
+  //
   // Provide a schema definition in GraphQL SDL format.
   // The GraphQL schema also has logging options for logging sensitive
   // request-related information, and schema extension configuration such as
   // custom type definitions. For more information about the different schema features,
   // see the [GraphQL documentation](https://graphql.org/learn/schema/).
-  //
-  // **Example**: In this GraphQL example for the Bookinfo sample app, a query type and object
-  // types are defined. For detailed information about the settings in this example, see
-  // [Example GraphQL ApiDoc](https://docs.solo.io/gloo-mesh-gateway/latest/graphql/apidoc/#example-graphql-apidoc)
-  // in the GraphQL integration documentation.
-  // ```yaml
-  // {{% readfile file="static/content/examples/generated/int/graphql_proxied_introspection/cluster-1/api-doc_bookinfo_music-schema.yaml" %}}
-  // ```
   message GraphQLSchema {
     // Required: The GraphQL schema definition. Root-level query and mutation
     // types are supported, and you must define at least a query type.
