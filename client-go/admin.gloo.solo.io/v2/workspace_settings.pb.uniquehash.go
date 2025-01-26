@@ -915,5 +915,13 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo) HashUni
 		return 0, err
 	}
 
+	if _, err = hasher.Write([]byte("PortType")); err != nil {
+		return 0, err
+	}
+	err = binary.Write(hasher, binary.LittleEndian, m.GetPortType())
+	if err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }

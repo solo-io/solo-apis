@@ -103,6 +103,7 @@ message Insight {
       SYS0015Data SYS0015 = 28;
       SYS0020Data SYS0020 = 30;
       SYS0025Data SYS0025 = 31;
+      ConfigCountsData configCounts = 32; // SYS0027, SYS0028, SYS0029, SYS0030,
     }
   }
 
@@ -234,6 +235,17 @@ message Insight {
     int32 k8s_resources = 3;
     int32 gateway_resources = 4;
     int32 solo_resources = 5;
+  }
+
+  message ConfigCountsData {
+    int32 routes = 1;
+    repeated string route_errors = 2;
+    int32 policies = 3;
+    repeated string policy_errors = 4;
+    int32 gateways = 5;
+    repeated string gateway_errors = 6;
+    int32 destinations = 7;
+    repeated string destination_errors = 8;
   }
 
 }

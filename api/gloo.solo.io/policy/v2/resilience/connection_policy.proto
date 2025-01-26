@@ -35,6 +35,9 @@ message ConnectionPolicySpec {
 
     message TCPConfig {
       // Sets the TCP keep-alive settings to apply to selected destinations.
+      // If the EnableDefaultTcpKeepalive feature gate is enabled, TCP keep-alive is configured on all VirtualDestinations by default,
+      // with the probes field set to 9 and the time and interval fields set to 180s,
+      // and setting these values will override the defaults for selected VirtualDestinations.
       .common.gloo.solo.io.TCPKeepalive tcp_keepalive = 1;
 
       // Sets the maximum allowed connections to the destination host.

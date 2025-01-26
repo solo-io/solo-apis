@@ -819,5 +819,10 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo) Hash(ha
 		return 0, err
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetPortType())
+	if err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }

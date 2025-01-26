@@ -11,19 +11,42 @@ option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;
 option (extproto.hash_all) = true;
 
-// Configure TCP keepalive for the ingress gateways of all meshes in this VirtualMesh.
+// Configure TCP keepalive settings.
 message TCPKeepalive {
 
   // Maximum number of TCP keepalive probes to send before determining that connection is dead.
+  // Defaults to the OS-level configuration. For Linux, the default is 9, unless overridden.
   uint32 probes = 1;
 
   // The time duration a connection needs to be idle before keep-alive probes start being sent.
-  // Format examples: `1h`/`1m`/`1s`/`1ms`.
-  // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
+  // Defaults to the OS-level configuration. For Linux, the default is 7200s (2 hours), unless overridden.
+  //
+  // </br>**Configuration constraints**:<ul>
+  // <li>The value must be an integer or decimal value and a preferred unit, or multiple of these concatenated.
+  // Examples: `1m`, `1h`, `1.5h`, `1s500ms`</li>
+  // <li>The value cannot have granularity smaller than one millisecond.</li>
+  // <li>The value must be at least 1ms.</li>
+  // <li>For information about the value format,
+  // see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
+  //
+  // +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+  // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than one millisecond."
+  // +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
   google.protobuf.Duration time = 2;
 
   // The time duration between keep-alive probes.
-  // Format examples: `1h`/`1m`/`1s`/`1ms`
-  // For information about the value format, see the [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#duration).
+  // Defaults to the OS-level configuration. For Linux, the default is 75s, unless overridden.
+  //
+  // </br>**Configuration constraints**:<ul>
+  // <li>The value must be an integer or decimal value and a preferred unit, or multiple of these concatenated.
+  // Examples: `1m`, `1h`, `1.5h`, `1s500ms`</li>
+  // <li>The value cannot have granularity smaller than one millisecond.</li>
+  // <li>The value must be at least 1ms.</li>
+  // <li>For information about the value format,
+  // see the [ParseDuration documentation](https://pkg.go.dev/time#ParseDuration).</li></ul>
+  //
+  // +kubebuilder:validation:XValidation:rule="duration(self) >= duration('1ms')",message="The value must be at least 1ms."
+  // +kubebuilder:validation:XValidation:rule="!self.contains('ns') && !self.contains('us') && !self.contains('μs')",message="The value cannot have granularity smaller than one millisecond."
+  // +kubebuilder:validation:XValidation:rule="(duration(self)-duration('1ns')).getMilliseconds() == duration(self).getMilliseconds()-1",message="The value cannot have granularity smaller than one millisecond."
   google.protobuf.Duration interval = 3;
 }

@@ -1,7 +1,7 @@
 syntax = "proto3";
 package internal.gloo.solo.io;
 
-import "istio.io/api/networking/v1beta1/virtual_service.proto";
+import "istio.io/api/networking/v1alpha3/virtual_service.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2alpha1";
@@ -9,5 +9,5 @@ option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.i
 message VirtualServiceBackupSpec {
   // The VirtualService spec that is being backed up
   // $hide_from_docs
-  istio.networking.v1beta1.VirtualService spec = 1;
+  istio.networking.v1alpha3.VirtualService spec = 1;
 }
