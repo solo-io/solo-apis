@@ -2,20 +2,6 @@ module github.com/solo-io/solo-apis
 
 go 1.23.1
 
-replace (
-	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
-
-	// skv2 uses a newer version than the imported solo-kit version which causes issues. Replaces the version with the solo-kit version
-	github.com/pseudomuto/protoc-gen-doc => github.com/pseudomuto/protoc-gen-doc v1.0.0
-	k8s.io/api => k8s.io/api v0.29.2
-	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.29.2
-	k8s.io/apimachinery => k8s.io/apimachinery v0.29.2
-	k8s.io/cli-runtime => k8s.io/cli-runtime v0.29.2
-	k8s.io/client-go => k8s.io/client-go v0.29.2
-	k8s.io/code-generator => k8s.io/code-generator v0.29.2
-	k8s.io/component-base => k8s.io/component-base v0.29.2
-)
-
 require (
 	github.com/cncf/xds/go v0.0.0-20230607035331-e9ce68804cb4
 	github.com/envoyproxy/protoc-gen-validate v1.0.2
@@ -31,15 +17,12 @@ require (
 	github.com/solo-io/protoc-gen-ext v0.0.18
 	github.com/solo-io/skv2 v0.39.1
 	github.com/solo-io/solo-kit v0.35.0
-	golang.org/x/tools v0.16.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20230822172742-b8732ec3820d
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
-	istio.io/tools v0.0.0-20200918020118-6d0a0e49b5d3
 	k8s.io/api v0.29.2
 	k8s.io/apimachinery v0.29.2
 	k8s.io/client-go v0.29.2
-	k8s.io/code-generator v0.29.2
 	sigs.k8s.io/controller-runtime v0.17.4
 )
 
@@ -84,8 +67,6 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/k0kubun/pp v2.3.0+incompatible // indirect
-	github.com/lyft/protoc-gen-star v0.6.1 // indirect
-	github.com/lyft/protoc-gen-star/v2 v2.0.3 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
@@ -113,13 +94,11 @@ require (
 	github.com/solo-io/cue v0.4.7 // indirect
 	github.com/spf13/afero v1.9.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.26.0 // indirect
 	golang.org/x/crypto v0.16.0 // indirect
 	golang.org/x/exp v0.0.0-20220921164117-439092de6870 // indirect
-	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/net v0.19.0 // indirect
 	golang.org/x/oauth2 v0.12.0 // indirect
@@ -138,36 +117,10 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/apiextensions-apiserver v0.29.2 // indirect
 	k8s.io/component-base v0.29.2 // indirect
-	k8s.io/gengo v0.0.0-20230829151522-9cce18d56c01 // indirect
 	k8s.io/klog/v2 v2.110.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00 // indirect
 	k8s.io/utils v0.0.0-20230726121419-3b25d923346b // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
-)
-
-exclude (
-	// Exclude pre-go-mod kubernetes tags, because they are older
-	// than v0.x releases but are picked when updating dependencies.
-	k8s.io/client-go v1.4.0
-	k8s.io/client-go v1.5.0
-	k8s.io/client-go v1.5.1
-	k8s.io/client-go v1.5.2
-	k8s.io/client-go v2.0.0-alpha.1+incompatible
-	k8s.io/client-go v2.0.0+incompatible
-	k8s.io/client-go v3.0.0-beta.0+incompatible
-	k8s.io/client-go v3.0.0+incompatible
-	k8s.io/client-go v4.0.0-beta.0+incompatible
-	k8s.io/client-go v4.0.0+incompatible
-	k8s.io/client-go v5.0.0+incompatible
-	k8s.io/client-go v5.0.1+incompatible
-	k8s.io/client-go v6.0.0+incompatible
-	k8s.io/client-go v7.0.0+incompatible
-	k8s.io/client-go v8.0.0+incompatible
-	k8s.io/client-go v9.0.0-invalid+incompatible
-	k8s.io/client-go v9.0.0+incompatible
-	k8s.io/client-go v10.0.0+incompatible
-	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
-	k8s.io/client-go v12.0.0+incompatible
 )
