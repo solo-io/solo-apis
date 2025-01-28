@@ -337,6 +337,18 @@ message WorkspaceSettingsSpec {
 
         // Port to be used to direct traffic to instead of the default gateway discovered port.
         uint32 port = 2;
+
+        // The type of the specified port. Default is SNI passthrough.
+        PortType port_type = 3;
+
+        // Types of host info ports (default is SNI_PASSTHROUGH).
+        enum PortType {
+          // The port is used for passthrough TLS.
+          SNI_PASSTHROUGH = 0;
+
+          // The port is used for TLS termination.
+          TLS_TERMINATION = 1;
+        }
       }
     }
   }

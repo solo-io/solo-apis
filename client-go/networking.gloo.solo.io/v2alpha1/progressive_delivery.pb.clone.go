@@ -15,7 +15,7 @@ import (
 
 	github_com_solo_io_gloo_mesh_solo_apis_client_go_common_gloo_solo_io_v2 "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2"
 
-	istio_io_api_networking_v1beta1 "istio.io/api/networking/v1beta1"
+	istio_io_api_networking_v1alpha3 "istio.io/api/networking/v1alpha3"
 )
 
 // ensure the imports are used
@@ -119,9 +119,9 @@ func (m *Destination) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetPort()).(clone.Cloner); ok {
-		target.Port = h.Clone().(*istio_io_api_networking_v1beta1.PortSelector)
+		target.Port = h.Clone().(*istio_io_api_networking_v1alpha3.PortSelector)
 	} else {
-		target.Port = proto.Clone(m.GetPort()).(*istio_io_api_networking_v1beta1.PortSelector)
+		target.Port = proto.Clone(m.GetPort()).(*istio_io_api_networking_v1alpha3.PortSelector)
 	}
 
 	return target

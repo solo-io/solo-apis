@@ -628,5 +628,9 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo) Equal(t
 		return false
 	}
 
+	if m.GetPortType() != target.GetPortType() {
+		return false
+	}
+
 	return true
 }

@@ -456,6 +456,7 @@ type Insight_Data struct {
 	//	*Insight_Data_SYS0015
 	//	*Insight_Data_SYS0020
 	//	*Insight_Data_SYS0025
+	//	*Insight_Data_ConfigCounts
 	Data isInsight_Data_Data `protobuf_oneof:"data"`
 }
 
@@ -582,6 +583,13 @@ func (x *Insight_Data) GetSYS0025() *Insight_SYS0025Data {
 	return nil
 }
 
+func (x *Insight_Data) GetConfigCounts() *Insight_ConfigCountsData {
+	if x, ok := x.GetData().(*Insight_Data_ConfigCounts); ok {
+		return x.ConfigCounts
+	}
+	return nil
+}
+
 type isInsight_Data_Data interface {
 	isInsight_Data_Data()
 }
@@ -634,6 +642,10 @@ type Insight_Data_SYS0025 struct {
 	SYS0025 *Insight_SYS0025Data `protobuf:"bytes,31,opt,name=SYS0025,proto3,oneof"`
 }
 
+type Insight_Data_ConfigCounts struct {
+	ConfigCounts *Insight_ConfigCountsData `protobuf:"bytes,32,opt,name=configCounts,proto3,oneof"` // SYS0027, SYS0028, SYS0029, SYS0030,
+}
+
 func (*Insight_Data_SYS0003) isInsight_Data_Data() {}
 
 func (*Insight_Data_SYS0006) isInsight_Data_Data() {}
@@ -657,6 +669,8 @@ func (*Insight_Data_SYS0015) isInsight_Data_Data() {}
 func (*Insight_Data_SYS0020) isInsight_Data_Data() {}
 
 func (*Insight_Data_SYS0025) isInsight_Data_Data() {}
+
+func (*Insight_Data_ConfigCounts) isInsight_Data_Data() {}
 
 // Agent Deployent Reference
 type Insight_SYS0003Data struct {
@@ -1743,6 +1757,109 @@ func (x *Insight_SYS0020Data) GetSoloResources() int32 {
 	return 0
 }
 
+type Insight_ConfigCountsData struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Routes            int32    `protobuf:"varint,1,opt,name=routes,proto3" json:"routes,omitempty"`
+	RouteErrors       []string `protobuf:"bytes,2,rep,name=route_errors,json=routeErrors,proto3" json:"route_errors,omitempty"`
+	Policies          int32    `protobuf:"varint,3,opt,name=policies,proto3" json:"policies,omitempty"`
+	PolicyErrors      []string `protobuf:"bytes,4,rep,name=policy_errors,json=policyErrors,proto3" json:"policy_errors,omitempty"`
+	Gateways          int32    `protobuf:"varint,5,opt,name=gateways,proto3" json:"gateways,omitempty"`
+	GatewayErrors     []string `protobuf:"bytes,6,rep,name=gateway_errors,json=gatewayErrors,proto3" json:"gateway_errors,omitempty"`
+	Destinations      int32    `protobuf:"varint,7,opt,name=destinations,proto3" json:"destinations,omitempty"`
+	DestinationErrors []string `protobuf:"bytes,8,rep,name=destination_errors,json=destinationErrors,proto3" json:"destination_errors,omitempty"`
+}
+
+func (x *Insight_ConfigCountsData) Reset() {
+	*x = Insight_ConfigCountsData{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Insight_ConfigCountsData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Insight_ConfigCountsData) ProtoMessage() {}
+
+func (x *Insight_ConfigCountsData) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Insight_ConfigCountsData.ProtoReflect.Descriptor instead.
+func (*Insight_ConfigCountsData) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_rawDescGZIP(), []int{0, 19}
+}
+
+func (x *Insight_ConfigCountsData) GetRoutes() int32 {
+	if x != nil {
+		return x.Routes
+	}
+	return 0
+}
+
+func (x *Insight_ConfigCountsData) GetRouteErrors() []string {
+	if x != nil {
+		return x.RouteErrors
+	}
+	return nil
+}
+
+func (x *Insight_ConfigCountsData) GetPolicies() int32 {
+	if x != nil {
+		return x.Policies
+	}
+	return 0
+}
+
+func (x *Insight_ConfigCountsData) GetPolicyErrors() []string {
+	if x != nil {
+		return x.PolicyErrors
+	}
+	return nil
+}
+
+func (x *Insight_ConfigCountsData) GetGateways() int32 {
+	if x != nil {
+		return x.Gateways
+	}
+	return 0
+}
+
+func (x *Insight_ConfigCountsData) GetGatewayErrors() []string {
+	if x != nil {
+		return x.GatewayErrors
+	}
+	return nil
+}
+
+func (x *Insight_ConfigCountsData) GetDestinations() int32 {
+	if x != nil {
+		return x.Destinations
+	}
+	return 0
+}
+
+func (x *Insight_ConfigCountsData) GetDestinationErrors() []string {
+	if x != nil {
+		return x.DestinationErrors
+	}
+	return nil
+}
+
 type Insight_SYS0007Data_Fingerprints struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1755,7 +1872,7 @@ type Insight_SYS0007Data_Fingerprints struct {
 func (x *Insight_SYS0007Data_Fingerprints) Reset() {
 	*x = Insight_SYS0007Data_Fingerprints{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[20]
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1768,7 +1885,7 @@ func (x *Insight_SYS0007Data_Fingerprints) String() string {
 func (*Insight_SYS0007Data_Fingerprints) ProtoMessage() {}
 
 func (x *Insight_SYS0007Data_Fingerprints) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[20]
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1810,7 +1927,7 @@ type Insight_SYS0008Data_Fingerprints struct {
 func (x *Insight_SYS0008Data_Fingerprints) Reset() {
 	*x = Insight_SYS0008Data_Fingerprints{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[21]
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1823,7 +1940,7 @@ func (x *Insight_SYS0008Data_Fingerprints) String() string {
 func (*Insight_SYS0008Data_Fingerprints) ProtoMessage() {}
 
 func (x *Insight_SYS0008Data_Fingerprints) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[21]
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1865,7 +1982,7 @@ type Insight_CertificateInformation_Fingerprints struct {
 func (x *Insight_CertificateInformation_Fingerprints) Reset() {
 	*x = Insight_CertificateInformation_Fingerprints{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[22]
+		mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1878,7 +1995,7 @@ func (x *Insight_CertificateInformation_Fingerprints) String() string {
 func (*Insight_CertificateInformation_Fingerprints) ProtoMessage() {}
 
 func (x *Insight_CertificateInformation_Fingerprints) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[22]
+	mi := &file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1924,7 +2041,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insigh
 	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x72, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f, 0x72,
 	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
-	0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb1, 0x2d, 0x0a, 0x07, 0x49, 0x6e, 0x73,
+	0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb8, 0x30, 0x0a, 0x07, 0x49, 0x6e, 0x73,
 	0x69, 0x67, 0x68, 0x74, 0x12, 0x4c, 0x0a, 0x08, 0x73, 0x65, 0x76, 0x65, 0x72, 0x69, 0x74, 0x79,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x30, 0x2e, 0x69, 0x6e, 0x73, 0x69, 0x67, 0x68, 0x74,
 	0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e,
@@ -1985,7 +2102,7 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insigh
 	0x74, 0x52, 0x65, 0x66, 0x48, 0x00, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
 	0x12, 0x18, 0x0a, 0x06, 0x67, 0x6c, 0x6f, 0x62, 0x61, 0x6c, 0x18, 0x10, 0x20, 0x01, 0x28, 0x08,
 	0x48, 0x00, 0x52, 0x06, 0x67, 0x6c, 0x6f, 0x62, 0x61, 0x6c, 0x42, 0x08, 0x0a, 0x06, 0x74, 0x61,
-	0x72, 0x67, 0x65, 0x74, 0x1a, 0xda, 0x07, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61, 0x12, 0x4f, 0x0a,
+	0x72, 0x67, 0x65, 0x74, 0x1a, 0xba, 0x08, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61, 0x12, 0x4f, 0x0a,
 	0x07, 0x53, 0x59, 0x53, 0x30, 0x30, 0x30, 0x33, 0x18, 0x12, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x33,
 	0x2e, 0x69, 0x6e, 0x73, 0x69, 0x67, 0x68, 0x74, 0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
 	0x61, 0x6c, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e,
@@ -2046,7 +2163,13 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insigh
 	0x67, 0x68, 0x74, 0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2e, 0x67, 0x6c,
 	0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2e, 0x49, 0x6e, 0x73, 0x69, 0x67,
 	0x68, 0x74, 0x2e, 0x53, 0x59, 0x53, 0x30, 0x30, 0x32, 0x35, 0x44, 0x61, 0x74, 0x61, 0x48, 0x00,
-	0x52, 0x07, 0x53, 0x59, 0x53, 0x30, 0x30, 0x32, 0x35, 0x42, 0x06, 0x0a, 0x04, 0x64, 0x61, 0x74,
+	0x52, 0x07, 0x53, 0x59, 0x53, 0x30, 0x30, 0x32, 0x35, 0x12, 0x5e, 0x0a, 0x0c, 0x63, 0x6f, 0x6e,
+	0x66, 0x69, 0x67, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x18, 0x20, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x38, 0x2e, 0x69, 0x6e, 0x73, 0x69, 0x67, 0x68, 0x74, 0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72,
+	0x6e, 0x61, 0x6c, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f,
+	0x2e, 0x49, 0x6e, 0x73, 0x69, 0x67, 0x68, 0x74, 0x2e, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x43,
+	0x6f, 0x75, 0x6e, 0x74, 0x73, 0x44, 0x61, 0x74, 0x61, 0x48, 0x00, 0x52, 0x0c, 0x63, 0x6f, 0x6e,
+	0x66, 0x69, 0x67, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x42, 0x06, 0x0a, 0x04, 0x64, 0x61, 0x74,
 	0x61, 0x1a, 0x5e, 0x0a, 0x0b, 0x53, 0x59, 0x53, 0x30, 0x30, 0x30, 0x33, 0x44, 0x61, 0x74, 0x61,
 	0x12, 0x4f, 0x0a, 0x0e, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x72,
 	0x65, 0x66, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x28, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x2e,
@@ -2283,18 +2406,36 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insigh
 	0x65, 0x77, 0x61, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x12, 0x25, 0x0a,
 	0x0e, 0x73, 0x6f, 0x6c, 0x6f, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x18,
 	0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0d, 0x73, 0x6f, 0x6c, 0x6f, 0x52, 0x65, 0x73, 0x6f, 0x75,
-	0x72, 0x63, 0x65, 0x73, 0x22, 0x46, 0x0a, 0x08, 0x53, 0x65, 0x76, 0x65, 0x72, 0x69, 0x74, 0x79,
-	0x12, 0x18, 0x0a, 0x14, 0x53, 0x45, 0x56, 0x45, 0x52, 0x49, 0x54, 0x59, 0x5f, 0x55, 0x4e, 0x53,
-	0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x08, 0x0a, 0x04, 0x49, 0x4e,
-	0x46, 0x4f, 0x10, 0x01, 0x12, 0x0b, 0x0a, 0x07, 0x57, 0x41, 0x52, 0x4e, 0x49, 0x4e, 0x47, 0x10,
-	0x02, 0x12, 0x09, 0x0a, 0x05, 0x45, 0x52, 0x52, 0x4f, 0x52, 0x10, 0x03, 0x42, 0x5c, 0x5a, 0x5a,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d,
-	0x69, 0x6f, 0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2d, 0x6d, 0x65, 0x73, 0x68, 0x2d, 0x65, 0x6e, 0x74,
-	0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65, 0x2f, 0x76, 0x32, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61,
-	0x70, 0x69, 0x2f, 0x69, 0x6e, 0x73, 0x69, 0x67, 0x68, 0x74, 0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65,
-	0x72, 0x6e, 0x61, 0x6c, 0x2e, 0x67, 0x6c, 0x6f, 0x6f, 0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69,
-	0x6f, 0x2f, 0x76, 0x32, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x72, 0x63, 0x65, 0x73, 0x1a, 0xa4, 0x02, 0x0a, 0x10, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x43,
+	0x6f, 0x75, 0x6e, 0x74, 0x73, 0x44, 0x61, 0x74, 0x61, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x6f, 0x75,
+	0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x72, 0x6f, 0x75, 0x74, 0x65,
+	0x73, 0x12, 0x21, 0x0a, 0x0c, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x5f, 0x65, 0x72, 0x72, 0x6f, 0x72,
+	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0b, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x45, 0x72,
+	0x72, 0x6f, 0x72, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73,
+	0x12, 0x23, 0x0a, 0x0d, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x5f, 0x65, 0x72, 0x72, 0x6f, 0x72,
+	0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0c, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x45,
+	0x72, 0x72, 0x6f, 0x72, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79,
+	0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79,
+	0x73, 0x12, 0x25, 0x0a, 0x0e, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x5f, 0x65, 0x72, 0x72,
+	0x6f, 0x72, 0x73, 0x18, 0x06, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0d, 0x67, 0x61, 0x74, 0x65, 0x77,
+	0x61, 0x79, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x12, 0x22, 0x0a, 0x0c, 0x64, 0x65, 0x73, 0x74,
+	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0c,
+	0x64, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x2d, 0x0a, 0x12,
+	0x64, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x65, 0x72, 0x72, 0x6f,
+	0x72, 0x73, 0x18, 0x08, 0x20, 0x03, 0x28, 0x09, 0x52, 0x11, 0x64, 0x65, 0x73, 0x74, 0x69, 0x6e,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x22, 0x46, 0x0a, 0x08, 0x53,
+	0x65, 0x76, 0x65, 0x72, 0x69, 0x74, 0x79, 0x12, 0x18, 0x0a, 0x14, 0x53, 0x45, 0x56, 0x45, 0x52,
+	0x49, 0x54, 0x59, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10,
+	0x00, 0x12, 0x08, 0x0a, 0x04, 0x49, 0x4e, 0x46, 0x4f, 0x10, 0x01, 0x12, 0x0b, 0x0a, 0x07, 0x57,
+	0x41, 0x52, 0x4e, 0x49, 0x4e, 0x47, 0x10, 0x02, 0x12, 0x09, 0x0a, 0x05, 0x45, 0x52, 0x52, 0x4f,
+	0x52, 0x10, 0x03, 0x42, 0x5c, 0x5a, 0x5a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x73, 0x6f, 0x6c, 0x6f, 0x2d, 0x69, 0x6f, 0x2f, 0x67, 0x6c, 0x6f, 0x6f, 0x2d, 0x6d,
+	0x65, 0x73, 0x68, 0x2d, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65, 0x2f, 0x76,
+	0x32, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x6e, 0x73, 0x69, 0x67, 0x68,
+	0x74, 0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2e, 0x67, 0x6c, 0x6f, 0x6f,
+	0x2e, 0x73, 0x6f, 0x6c, 0x6f, 0x2e, 0x69, 0x6f, 0x2f, 0x76, 0x32, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2310,7 +2451,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insig
 }
 
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_goTypes = []interface{}{
 	(Insight_Severity)(0),                               // 0: insights.internal.gloo.solo.io.Insight.Severity
 	(*Insight)(nil),                                     // 1: insights.internal.gloo.solo.io.Insight
@@ -2333,23 +2474,24 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insigh
 	(*Insight_SYS0013Data)(nil),                         // 18: insights.internal.gloo.solo.io.Insight.SYS0013Data
 	(*Insight_SYS0014Data)(nil),                         // 19: insights.internal.gloo.solo.io.Insight.SYS0014Data
 	(*Insight_SYS0020Data)(nil),                         // 20: insights.internal.gloo.solo.io.Insight.SYS0020Data
-	(*Insight_SYS0007Data_Fingerprints)(nil),            // 21: insights.internal.gloo.solo.io.Insight.SYS0007Data.Fingerprints
-	(*Insight_SYS0008Data_Fingerprints)(nil),            // 22: insights.internal.gloo.solo.io.Insight.SYS0008Data.Fingerprints
-	(*Insight_CertificateInformation_Fingerprints)(nil), // 23: insights.internal.gloo.solo.io.Insight.CertificateInformation.Fingerprints
-	(*timestamppb.Timestamp)(nil),                       // 24: google.protobuf.Timestamp
-	(*v1.TypedClusterObjectRef)(nil),                    // 25: core.skv2.solo.io.TypedClusterObjectRef
+	(*Insight_ConfigCountsData)(nil),                    // 21: insights.internal.gloo.solo.io.Insight.ConfigCountsData
+	(*Insight_SYS0007Data_Fingerprints)(nil),            // 22: insights.internal.gloo.solo.io.Insight.SYS0007Data.Fingerprints
+	(*Insight_SYS0008Data_Fingerprints)(nil),            // 23: insights.internal.gloo.solo.io.Insight.SYS0008Data.Fingerprints
+	(*Insight_CertificateInformation_Fingerprints)(nil), // 24: insights.internal.gloo.solo.io.Insight.CertificateInformation.Fingerprints
+	(*timestamppb.Timestamp)(nil),                       // 25: google.protobuf.Timestamp
+	(*v1.TypedClusterObjectRef)(nil),                    // 26: core.skv2.solo.io.TypedClusterObjectRef
 }
 var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_depIdxs = []int32{
 	0,  // 0: insights.internal.gloo.solo.io.Insight.severity:type_name -> insights.internal.gloo.solo.io.Insight.Severity
-	24, // 1: insights.internal.gloo.solo.io.Insight.last_observed:type_name -> google.protobuf.Timestamp
-	24, // 2: insights.internal.gloo.solo.io.Insight.created:type_name -> google.protobuf.Timestamp
+	25, // 1: insights.internal.gloo.solo.io.Insight.last_observed:type_name -> google.protobuf.Timestamp
+	25, // 2: insights.internal.gloo.solo.io.Insight.created:type_name -> google.protobuf.Timestamp
 	2,  // 3: insights.internal.gloo.solo.io.Insight.code:type_name -> insights.internal.gloo.solo.io.Insight.Code
 	4,  // 4: insights.internal.gloo.solo.io.Insight.target:type_name -> insights.internal.gloo.solo.io.Insight.Target
-	24, // 5: insights.internal.gloo.solo.io.Insight.expirey_time:type_name -> google.protobuf.Timestamp
-	24, // 6: insights.internal.gloo.solo.io.Insight.last_processed_time:type_name -> google.protobuf.Timestamp
+	25, // 5: insights.internal.gloo.solo.io.Insight.expirey_time:type_name -> google.protobuf.Timestamp
+	25, // 6: insights.internal.gloo.solo.io.Insight.last_processed_time:type_name -> google.protobuf.Timestamp
 	5,  // 7: insights.internal.gloo.solo.io.Insight.data:type_name -> insights.internal.gloo.solo.io.Insight.Data
 	3,  // 8: insights.internal.gloo.solo.io.Insight.Target.cluster:type_name -> insights.internal.gloo.solo.io.Insight.ClusterRef
-	25, // 9: insights.internal.gloo.solo.io.Insight.Target.resource:type_name -> core.skv2.solo.io.TypedClusterObjectRef
+	26, // 9: insights.internal.gloo.solo.io.Insight.Target.resource:type_name -> core.skv2.solo.io.TypedClusterObjectRef
 	6,  // 10: insights.internal.gloo.solo.io.Insight.Data.SYS0003:type_name -> insights.internal.gloo.solo.io.Insight.SYS0003Data
 	7,  // 11: insights.internal.gloo.solo.io.Insight.Data.SYS0006:type_name -> insights.internal.gloo.solo.io.Insight.SYS0006Data
 	8,  // 12: insights.internal.gloo.solo.io.Insight.Data.SYS0007:type_name -> insights.internal.gloo.solo.io.Insight.SYS0007Data
@@ -2362,25 +2504,26 @@ var file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insigh
 	10, // 19: insights.internal.gloo.solo.io.Insight.Data.SYS0015:type_name -> insights.internal.gloo.solo.io.Insight.SYS0015Data
 	20, // 20: insights.internal.gloo.solo.io.Insight.Data.SYS0020:type_name -> insights.internal.gloo.solo.io.Insight.SYS0020Data
 	11, // 21: insights.internal.gloo.solo.io.Insight.Data.SYS0025:type_name -> insights.internal.gloo.solo.io.Insight.SYS0025Data
-	25, // 22: insights.internal.gloo.solo.io.Insight.SYS0003Data.deployment_ref:type_name -> core.skv2.solo.io.TypedClusterObjectRef
-	24, // 23: insights.internal.gloo.solo.io.Insight.SYS0007Data.issued_on:type_name -> google.protobuf.Timestamp
-	24, // 24: insights.internal.gloo.solo.io.Insight.SYS0007Data.expires_on:type_name -> google.protobuf.Timestamp
-	21, // 25: insights.internal.gloo.solo.io.Insight.SYS0007Data.fingerprints:type_name -> insights.internal.gloo.solo.io.Insight.SYS0007Data.Fingerprints
-	24, // 26: insights.internal.gloo.solo.io.Insight.SYS0008Data.issued_on:type_name -> google.protobuf.Timestamp
-	24, // 27: insights.internal.gloo.solo.io.Insight.SYS0008Data.expires_on:type_name -> google.protobuf.Timestamp
-	22, // 28: insights.internal.gloo.solo.io.Insight.SYS0008Data.fingerprints:type_name -> insights.internal.gloo.solo.io.Insight.SYS0008Data.Fingerprints
-	12, // 29: insights.internal.gloo.solo.io.Insight.SYS0015Data.certificates:type_name -> insights.internal.gloo.solo.io.Insight.ReferencedCertificateSecret
-	12, // 30: insights.internal.gloo.solo.io.Insight.SYS0025Data.certificates:type_name -> insights.internal.gloo.solo.io.Insight.ReferencedCertificateSecret
-	25, // 31: insights.internal.gloo.solo.io.Insight.ReferencedCertificateSecret.ref:type_name -> core.skv2.solo.io.TypedClusterObjectRef
-	13, // 32: insights.internal.gloo.solo.io.Insight.ReferencedCertificateSecret.certificate:type_name -> insights.internal.gloo.solo.io.Insight.CertificateInformation
-	24, // 33: insights.internal.gloo.solo.io.Insight.CertificateInformation.issued_on:type_name -> google.protobuf.Timestamp
-	24, // 34: insights.internal.gloo.solo.io.Insight.CertificateInformation.expires_on:type_name -> google.protobuf.Timestamp
-	23, // 35: insights.internal.gloo.solo.io.Insight.CertificateInformation.fingerprints:type_name -> insights.internal.gloo.solo.io.Insight.CertificateInformation.Fingerprints
-	36, // [36:36] is the sub-list for method output_type
-	36, // [36:36] is the sub-list for method input_type
-	36, // [36:36] is the sub-list for extension type_name
-	36, // [36:36] is the sub-list for extension extendee
-	0,  // [0:36] is the sub-list for field type_name
+	21, // 22: insights.internal.gloo.solo.io.Insight.Data.configCounts:type_name -> insights.internal.gloo.solo.io.Insight.ConfigCountsData
+	26, // 23: insights.internal.gloo.solo.io.Insight.SYS0003Data.deployment_ref:type_name -> core.skv2.solo.io.TypedClusterObjectRef
+	25, // 24: insights.internal.gloo.solo.io.Insight.SYS0007Data.issued_on:type_name -> google.protobuf.Timestamp
+	25, // 25: insights.internal.gloo.solo.io.Insight.SYS0007Data.expires_on:type_name -> google.protobuf.Timestamp
+	22, // 26: insights.internal.gloo.solo.io.Insight.SYS0007Data.fingerprints:type_name -> insights.internal.gloo.solo.io.Insight.SYS0007Data.Fingerprints
+	25, // 27: insights.internal.gloo.solo.io.Insight.SYS0008Data.issued_on:type_name -> google.protobuf.Timestamp
+	25, // 28: insights.internal.gloo.solo.io.Insight.SYS0008Data.expires_on:type_name -> google.protobuf.Timestamp
+	23, // 29: insights.internal.gloo.solo.io.Insight.SYS0008Data.fingerprints:type_name -> insights.internal.gloo.solo.io.Insight.SYS0008Data.Fingerprints
+	12, // 30: insights.internal.gloo.solo.io.Insight.SYS0015Data.certificates:type_name -> insights.internal.gloo.solo.io.Insight.ReferencedCertificateSecret
+	12, // 31: insights.internal.gloo.solo.io.Insight.SYS0025Data.certificates:type_name -> insights.internal.gloo.solo.io.Insight.ReferencedCertificateSecret
+	26, // 32: insights.internal.gloo.solo.io.Insight.ReferencedCertificateSecret.ref:type_name -> core.skv2.solo.io.TypedClusterObjectRef
+	13, // 33: insights.internal.gloo.solo.io.Insight.ReferencedCertificateSecret.certificate:type_name -> insights.internal.gloo.solo.io.Insight.CertificateInformation
+	25, // 34: insights.internal.gloo.solo.io.Insight.CertificateInformation.issued_on:type_name -> google.protobuf.Timestamp
+	25, // 35: insights.internal.gloo.solo.io.Insight.CertificateInformation.expires_on:type_name -> google.protobuf.Timestamp
+	24, // 36: insights.internal.gloo.solo.io.Insight.CertificateInformation.fingerprints:type_name -> insights.internal.gloo.solo.io.Insight.CertificateInformation.Fingerprints
+	37, // [37:37] is the sub-list for method output_type
+	37, // [37:37] is the sub-list for method input_type
+	37, // [37:37] is the sub-list for extension type_name
+	37, // [37:37] is the sub-list for extension extendee
+	0,  // [0:37] is the sub-list for field type_name
 }
 
 func init() {
@@ -2632,7 +2775,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insig
 			}
 		}
 		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Insight_SYS0007Data_Fingerprints); i {
+			switch v := v.(*Insight_ConfigCountsData); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2644,7 +2787,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insig
 			}
 		}
 		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Insight_SYS0008Data_Fingerprints); i {
+			switch v := v.(*Insight_SYS0007Data_Fingerprints); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2656,6 +2799,18 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insig
 			}
 		}
 		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Insight_SYS0008Data_Fingerprints); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Insight_CertificateInformation_Fingerprints); i {
 			case 0:
 				return &v.state
@@ -2686,6 +2841,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insig
 		(*Insight_Data_SYS0015)(nil),
 		(*Insight_Data_SYS0020)(nil),
 		(*Insight_Data_SYS0025)(nil),
+		(*Insight_Data_ConfigCounts)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2693,7 +2849,7 @@ func file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insig
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_solo_io_gloo_mesh_solo_apis_api_gloo_solo_io_internal_insights_v2alpha1_insights_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   23,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

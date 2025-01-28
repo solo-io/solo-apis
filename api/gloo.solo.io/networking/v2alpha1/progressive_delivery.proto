@@ -2,7 +2,7 @@ syntax = "proto3";
 package networking.gloo.solo.io;
 
 import "extproto/ext.proto";
-import "istio.io/api/networking/v1beta1/virtual_service.proto";
+import "istio.io/api/networking/v1alpha3/virtual_service.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
 import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
 
@@ -67,7 +67,7 @@ message Destination {
   SubsetSelector subset = 2;
   
   // Specifies the port on the host that is being addressed.
-  istio.networking.v1beta1.PortSelector port = 3;
+  istio.networking.v1alpha3.PortSelector port = 3;
 }
 
 // $hide_from_docs

@@ -384,5 +384,7 @@ func (m *WorkspaceSettingsSpec_Options_EastWestGatewaySelector_HostInfo) Clone()
 
 	target.Port = m.GetPort()
 
+	target.PortType = m.GetPortType()
+
 	return target
 }

@@ -262,6 +262,9 @@ type ConnectionPolicySpec_Config_TCPConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Sets the TCP keep-alive settings to apply to selected destinations.
+	// If the EnableDefaultTcpKeepalive feature gate is enabled, TCP keep-alive is configured on all VirtualDestinations by default,
+	// with the probes field set to 9 and the time and interval fields set to 180s,
+	// and setting these values will override the defaults for selected VirtualDestinations.
 	TcpKeepalive *v2.TCPKeepalive `protobuf:"bytes,1,opt,name=tcp_keepalive,json=tcpKeepalive,proto3" json:"tcp_keepalive,omitempty"`
 	// Sets the maximum allowed connections to the destination host.
 	MaxConnections int32 `protobuf:"varint,2,opt,name=max_connections,json=maxConnections,proto3" json:"max_connections,omitempty"`
