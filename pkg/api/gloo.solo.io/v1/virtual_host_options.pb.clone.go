@@ -13,8 +13,6 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
-
 	github_com_solo_io_solo_apis_pkg_api_enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_extensions_filters_http_buffer_v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/extensions/filters/http/buffer/v3"
@@ -42,6 +40,8 @@ import (
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_stats "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/stats"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_transformation "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/transformation"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -142,15 +142,15 @@ func (m *VirtualHostOptions) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetIncludeRequestAttemptCount()).(clone.Cloner); ok {
-		target.IncludeRequestAttemptCount = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.IncludeRequestAttemptCount = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	} else {
-		target.IncludeRequestAttemptCount = proto.Clone(m.GetIncludeRequestAttemptCount()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.IncludeRequestAttemptCount = proto.Clone(m.GetIncludeRequestAttemptCount()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	}
 
 	if h, ok := interface{}(m.GetIncludeAttemptCountInResponse()).(clone.Cloner); ok {
-		target.IncludeAttemptCountInResponse = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.IncludeAttemptCountInResponse = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	} else {
-		target.IncludeAttemptCountInResponse = proto.Clone(m.GetIncludeAttemptCountInResponse()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.IncludeAttemptCountInResponse = proto.Clone(m.GetIncludeAttemptCountInResponse()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	}
 
 	if h, ok := interface{}(m.GetStagedTransformations()).(clone.Cloner); ok {

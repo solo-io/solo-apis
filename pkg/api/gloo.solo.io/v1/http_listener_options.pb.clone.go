@@ -13,8 +13,6 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
-
 	github_com_solo_io_solo_apis_pkg_api_enterprise_gloo_solo_io_v1 "github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_filter_http_gzip_v2 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/filter/http/gzip/v2"
@@ -58,6 +56,8 @@ import (
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_tap "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/tap"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_options_wasm "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/wasm"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -170,15 +170,15 @@ func (m *HttpListenerOptions) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetSanitizeClusterHeader()).(clone.Cloner); ok {
-		target.SanitizeClusterHeader = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.SanitizeClusterHeader = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	} else {
-		target.SanitizeClusterHeader = proto.Clone(m.GetSanitizeClusterHeader()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.SanitizeClusterHeader = proto.Clone(m.GetSanitizeClusterHeader()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	}
 
 	if h, ok := interface{}(m.GetLeftmostXffAddress()).(clone.Cloner); ok {
-		target.LeftmostXffAddress = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.LeftmostXffAddress = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	} else {
-		target.LeftmostXffAddress = proto.Clone(m.GetLeftmostXffAddress()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.LeftmostXffAddress = proto.Clone(m.GetLeftmostXffAddress()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	}
 
 	if h, ok := interface{}(m.GetDynamicForwardProxy()).(clone.Cloner); ok {
@@ -235,11 +235,11 @@ func (m *HttpListenerOptions) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetDisableExtProc()).(clone.Cloner); ok {
 			target.ExtProcConfig = &HttpListenerOptions_DisableExtProc{
-				DisableExtProc: h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue),
+				DisableExtProc: h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue),
 			}
 		} else {
 			target.ExtProcConfig = &HttpListenerOptions_DisableExtProc{
-				DisableExtProc: proto.Clone(m.GetDisableExtProc()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue),
+				DisableExtProc: proto.Clone(m.GetDisableExtProc()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue),
 			}
 		}
 
