@@ -65,17 +65,17 @@ type GraphQLApiEventWatcher interface {
 	AddEventHandler(ctx context.Context, h GraphQLApiEventHandler, predicates ...predicate.Predicate) error
 }
 
-type graphQLApiEventWatcher struct {
+type graphQlapiEventWatcher struct {
 	watcher events.EventWatcher
 }
 
 func NewGraphQLApiEventWatcher(name string, mgr manager.Manager) GraphQLApiEventWatcher {
-	return &graphQLApiEventWatcher{
+	return &graphQlapiEventWatcher{
 		watcher: events.NewWatcher(name, mgr, &graphql_gloo_solo_io_v1beta1.GraphQLApi{}),
 	}
 }
 
-func (c *graphQLApiEventWatcher) AddEventHandler(ctx context.Context, h GraphQLApiEventHandler, predicates ...predicate.Predicate) error {
+func (c *graphQlapiEventWatcher) AddEventHandler(ctx context.Context, h GraphQLApiEventHandler, predicates ...predicate.Predicate) error {
 	handler := genericGraphQLApiHandler{handler: h}
 	if err := c.watcher.Watch(ctx, handler, predicates...); err != nil {
 		return err

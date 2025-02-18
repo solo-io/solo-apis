@@ -121,15 +121,15 @@ type GraphQLApiClient interface {
 	GraphQLApiStatusWriter
 }
 
-type graphQLApiClient struct {
+type graphQlapiClient struct {
 	client client.Client
 }
 
-func NewGraphQLApiClient(client client.Client) *graphQLApiClient {
-	return &graphQLApiClient{client: client}
+func NewGraphQLApiClient(client client.Client) *graphQlapiClient {
+	return &graphQlapiClient{client: client}
 }
 
-func (c *graphQLApiClient) GetGraphQLApi(ctx context.Context, key client.ObjectKey) (*GraphQLApi, error) {
+func (c *graphQlapiClient) GetGraphQLApi(ctx context.Context, key client.ObjectKey) (*GraphQLApi, error) {
 	obj := &GraphQLApi{}
 	if err := c.client.Get(ctx, key, obj); err != nil {
 		return nil, err
@@ -137,7 +137,7 @@ func (c *graphQLApiClient) GetGraphQLApi(ctx context.Context, key client.ObjectK
 	return obj, nil
 }
 
-func (c *graphQLApiClient) ListGraphQLApi(ctx context.Context, opts ...client.ListOption) (*GraphQLApiList, error) {
+func (c *graphQlapiClient) ListGraphQLApi(ctx context.Context, opts ...client.ListOption) (*GraphQLApiList, error) {
 	list := &GraphQLApiList{}
 	if err := c.client.List(ctx, list, opts...); err != nil {
 		return nil, err
@@ -145,31 +145,31 @@ func (c *graphQLApiClient) ListGraphQLApi(ctx context.Context, opts ...client.Li
 	return list, nil
 }
 
-func (c *graphQLApiClient) CreateGraphQLApi(ctx context.Context, obj *GraphQLApi, opts ...client.CreateOption) error {
+func (c *graphQlapiClient) CreateGraphQLApi(ctx context.Context, obj *GraphQLApi, opts ...client.CreateOption) error {
 	return c.client.Create(ctx, obj, opts...)
 }
 
-func (c *graphQLApiClient) DeleteGraphQLApi(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+func (c *graphQlapiClient) DeleteGraphQLApi(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
 	obj := &GraphQLApi{}
 	obj.SetName(key.Name)
 	obj.SetNamespace(key.Namespace)
 	return c.client.Delete(ctx, obj, opts...)
 }
 
-func (c *graphQLApiClient) UpdateGraphQLApi(ctx context.Context, obj *GraphQLApi, opts ...client.UpdateOption) error {
+func (c *graphQlapiClient) UpdateGraphQLApi(ctx context.Context, obj *GraphQLApi, opts ...client.UpdateOption) error {
 	return c.client.Update(ctx, obj, opts...)
 }
 
-func (c *graphQLApiClient) PatchGraphQLApi(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
+func (c *graphQlapiClient) PatchGraphQLApi(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.PatchOption) error {
 	return c.client.Patch(ctx, obj, patch, opts...)
 }
 
-func (c *graphQLApiClient) DeleteAllOfGraphQLApi(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+func (c *graphQlapiClient) DeleteAllOfGraphQLApi(ctx context.Context, opts ...client.DeleteAllOfOption) error {
 	obj := &GraphQLApi{}
 	return c.client.DeleteAllOf(ctx, obj, opts...)
 }
 
-func (c *graphQLApiClient) UpsertGraphQLApi(ctx context.Context, obj *GraphQLApi, transitionFuncs ...GraphQLApiTransitionFunction) error {
+func (c *graphQlapiClient) UpsertGraphQLApi(ctx context.Context, obj *GraphQLApi, transitionFuncs ...GraphQLApiTransitionFunction) error {
 	genericTxFunc := func(existing, desired runtime.Object) error {
 		for _, txFunc := range transitionFuncs {
 			if err := txFunc(existing.(*GraphQLApi), desired.(*GraphQLApi)); err != nil {
@@ -182,11 +182,11 @@ func (c *graphQLApiClient) UpsertGraphQLApi(ctx context.Context, obj *GraphQLApi
 	return err
 }
 
-func (c *graphQLApiClient) UpdateGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, opts ...client.SubResourceUpdateOption) error {
+func (c *graphQlapiClient) UpdateGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, opts ...client.SubResourceUpdateOption) error {
 	return c.client.Status().Update(ctx, obj, opts...)
 }
 
-func (c *graphQLApiClient) PatchGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+func (c *graphQlapiClient) PatchGraphQLApiStatus(ctx context.Context, obj *GraphQLApi, patch client.Patch, opts ...client.SubResourcePatchOption) error {
 	return c.client.Status().Patch(ctx, obj, patch, opts...)
 }
 

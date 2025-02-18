@@ -53,15 +53,15 @@ func (mr *MockGraphQLApiSetMockRecorder) Clone() *gomock.Call {
 }
 
 // Delete mocks base method.
-func (m *MockGraphQLApiSet) Delete(graphQLApi ezkube.ResourceId) {
+func (m *MockGraphQLApiSet) Delete(graphQlapi ezkube.ResourceId) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Delete", graphQLApi)
+	m.ctrl.Call(m, "Delete", graphQlapi)
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockGraphQLApiSetMockRecorder) Delete(graphQLApi interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Delete(graphQlapi interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockGraphQLApiSet)(nil).Delete), graphQLApi)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockGraphQLApiSet)(nil).Delete), graphQlapi)
 }
 
 // Delta mocks base method.
@@ -93,17 +93,17 @@ func (mr *MockGraphQLApiSetMockRecorder) Difference(set interface{}) *gomock.Cal
 }
 
 // Equal mocks base method.
-func (m *MockGraphQLApiSet) Equal(graphQLApiSet v1beta1sets.GraphQLApiSet) bool {
+func (m *MockGraphQLApiSet) Equal(graphQlapiSet v1beta1sets.GraphQLApiSet) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Equal", graphQLApiSet)
+	ret := m.ctrl.Call(m, "Equal", graphQlapiSet)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // Equal indicates an expected call of Equal.
-func (mr *MockGraphQLApiSetMockRecorder) Equal(graphQLApiSet interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Equal(graphQlapiSet interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockGraphQLApiSet)(nil).Equal), graphQLApiSet)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Equal", reflect.TypeOf((*MockGraphQLApiSet)(nil).Equal), graphQlapiSet)
 }
 
 // Find mocks base method.
@@ -136,33 +136,33 @@ func (mr *MockGraphQLApiSetMockRecorder) Generic() *gomock.Call {
 }
 
 // Has mocks base method.
-func (m *MockGraphQLApiSet) Has(graphQLApi ezkube.ResourceId) bool {
+func (m *MockGraphQLApiSet) Has(graphQlapi ezkube.ResourceId) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Has", graphQLApi)
+	ret := m.ctrl.Call(m, "Has", graphQlapi)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // Has indicates an expected call of Has.
-func (mr *MockGraphQLApiSetMockRecorder) Has(graphQLApi interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Has(graphQlapi interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockGraphQLApiSet)(nil).Has), graphQLApi)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Has", reflect.TypeOf((*MockGraphQLApiSet)(nil).Has), graphQlapi)
 }
 
 // Insert mocks base method.
-func (m *MockGraphQLApiSet) Insert(graphQLApi ...*v1beta1.GraphQLApi) {
+func (m *MockGraphQLApiSet) Insert(graphQlapi ...*v1beta1.GraphQLApi) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{}
-	for _, a := range graphQLApi {
+	for _, a := range graphQlapi {
 		varargs = append(varargs, a)
 	}
 	m.ctrl.Call(m, "Insert", varargs...)
 }
 
 // Insert indicates an expected call of Insert.
-func (mr *MockGraphQLApiSetMockRecorder) Insert(graphQLApi ...interface{}) *gomock.Call {
+func (mr *MockGraphQLApiSetMockRecorder) Insert(graphQlapi ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockGraphQLApiSet)(nil).Insert), graphQLApi...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockGraphQLApiSet)(nil).Insert), graphQlapi...)
 }
 
 // Intersection mocks base method.

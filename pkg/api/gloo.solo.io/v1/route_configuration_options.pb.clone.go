@@ -13,7 +13,7 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -36,15 +36,15 @@ func (m *RouteConfigurationOptions) Clone() proto.Message {
 	target = &RouteConfigurationOptions{}
 
 	if h, ok := interface{}(m.GetMaxDirectResponseBodySizeBytes()).(clone.Cloner); ok {
-		target.MaxDirectResponseBodySizeBytes = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+		target.MaxDirectResponseBodySizeBytes = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
 	} else {
-		target.MaxDirectResponseBodySizeBytes = proto.Clone(m.GetMaxDirectResponseBodySizeBytes()).(*github_com_golang_protobuf_ptypes_wrappers.UInt32Value)
+		target.MaxDirectResponseBodySizeBytes = proto.Clone(m.GetMaxDirectResponseBodySizeBytes()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
 	}
 
 	if h, ok := interface{}(m.GetMostSpecificHeaderMutationsWins()).(clone.Cloner); ok {
-		target.MostSpecificHeaderMutationsWins = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.MostSpecificHeaderMutationsWins = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	} else {
-		target.MostSpecificHeaderMutationsWins = proto.Clone(m.GetMostSpecificHeaderMutationsWins()).(*github_com_golang_protobuf_ptypes_wrappers.BoolValue)
+		target.MostSpecificHeaderMutationsWins = proto.Clone(m.GetMostSpecificHeaderMutationsWins()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	}
 
 	return target

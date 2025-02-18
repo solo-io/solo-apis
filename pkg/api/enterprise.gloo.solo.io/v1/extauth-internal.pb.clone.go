@@ -13,11 +13,11 @@ import (
 	"github.com/solo-io/protoc-gen-ext/pkg/clone"
 	"google.golang.org/protobuf/proto"
 
-	github_com_golang_protobuf_ptypes_duration "github.com/golang/protobuf/ptypes/duration"
+	google_golang_org_protobuf_types_known_durationpb "google.golang.org/protobuf/types/known/durationpb"
 
-	github_com_golang_protobuf_ptypes_empty "github.com/golang/protobuf/ptypes/empty"
+	google_golang_org_protobuf_types_known_emptypb "google.golang.org/protobuf/types/known/emptypb"
 
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -55,9 +55,9 @@ func (m *ExtAuthConfig) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetBooleanExpr()).(clone.Cloner); ok {
-		target.BooleanExpr = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.BooleanExpr = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	} else {
-		target.BooleanExpr = proto.Clone(m.GetBooleanExpr()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.BooleanExpr = proto.Clone(m.GetBooleanExpr()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	}
 
 	target.FailOnRedirect = m.GetFailOnRedirect()
@@ -509,9 +509,9 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetDiscoveryPollInterval()).(clone.Cloner); ok {
-		target.DiscoveryPollInterval = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.DiscoveryPollInterval = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.DiscoveryPollInterval = proto.Clone(m.GetDiscoveryPollInterval()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.DiscoveryPollInterval = proto.Clone(m.GetDiscoveryPollInterval()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	if h, ok := interface{}(m.GetJwksCacheRefreshPolicy()).(clone.Cloner); ok {
@@ -617,9 +617,9 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig) Clone() proto.Message {
 	target.UserinfoUrl = m.GetUserinfoUrl()
 
 	if h, ok := interface{}(m.GetCacheTimeout()).(clone.Cloner); ok {
-		target.CacheTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.CacheTimeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.CacheTimeout = proto.Clone(m.GetCacheTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.CacheTimeout = proto.Clone(m.GetCacheTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	if m.GetDynamicMetadataFromClaims() != nil {
@@ -1093,15 +1093,15 @@ func (m *ExtAuthConfig_PortalAuthConfig) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetCacheDuration()).(clone.Cloner); ok {
-		target.CacheDuration = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.CacheDuration = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.CacheDuration = proto.Clone(m.GetCacheDuration()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.CacheDuration = proto.Clone(m.GetCacheDuration()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	if h, ok := interface{}(m.GetRequestTimeout()).(clone.Cloner); ok {
-		target.RequestTimeout = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.RequestTimeout = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	return target
@@ -1136,9 +1136,9 @@ func (m *ExtAuthConfig_Config) Clone() proto.Message {
 	target = &ExtAuthConfig_Config{}
 
 	if h, ok := interface{}(m.GetName()).(clone.Cloner); ok {
-		target.Name = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.Name = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	} else {
-		target.Name = proto.Clone(m.GetName()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
+		target.Name = proto.Clone(m.GetName()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	}
 
 	switch m.AuthConfig.(type) {
@@ -1255,11 +1255,11 @@ func (m *ExtAuthConfig_Config) Clone() proto.Message {
 
 		if h, ok := interface{}(m.GetJwt()).(clone.Cloner); ok {
 			target.AuthConfig = &ExtAuthConfig_Config_Jwt{
-				Jwt: h.Clone().(*github_com_golang_protobuf_ptypes_empty.Empty),
+				Jwt: h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		} else {
 			target.AuthConfig = &ExtAuthConfig_Config_Jwt{
-				Jwt: proto.Clone(m.GetJwt()).(*github_com_golang_protobuf_ptypes_empty.Empty),
+				Jwt: proto.Clone(m.GetJwt()).(*google_golang_org_protobuf_types_known_emptypb.Empty),
 			}
 		}
 
@@ -1440,9 +1440,9 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig_PkJwtClientAuthenticationConf
 	target.SigningKey = m.GetSigningKey()
 
 	if h, ok := interface{}(m.GetValidFor()).(clone.Cloner); ok {
-		target.ValidFor = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.ValidFor = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.ValidFor = proto.Clone(m.GetValidFor()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.ValidFor = proto.Clone(m.GetValidFor()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	return target
@@ -1622,9 +1622,9 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation_RemoteJwks) Clo
 	target.Url = m.GetUrl()
 
 	if h, ok := interface{}(m.GetRefreshInterval()).(clone.Cloner); ok {
-		target.RefreshInterval = h.Clone().(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.RefreshInterval = h.Clone().(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	} else {
-		target.RefreshInterval = proto.Clone(m.GetRefreshInterval()).(*github_com_golang_protobuf_ptypes_duration.Duration)
+		target.RefreshInterval = proto.Clone(m.GetRefreshInterval()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
 	return target
