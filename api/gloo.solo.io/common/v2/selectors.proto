@@ -128,9 +128,9 @@ message ListenerSelector {
 }
 
 // WorkloadSelector is a Selector specifically built for selecting individual workloads.
-// Workloads must have injected (sidecars) or be standalone proxies (gateways) to be selected by Gloo Mesh policies.
+// Workloads must have injected sidecar proxies or be standalone gateway proxies to be selected by Gloo Mesh policies.
 //
-// This selector can be used to select pods or injected external endpoints (vms).
+// This selector can be used to select Kubernetes workloads (KUBE) or sidecar-injected external endpoints (VM).
 message WorkloadSelector {
 
   // Selector used to match Workload objects by their metadata.
@@ -144,10 +144,11 @@ message WorkloadSelector {
   PortSelector port = 4;
 
   enum WorkloadKind {
-    // Select kubernetes workloads (deployment, statefulset, daemonset, etc.).
+    // Select [Kubernetes workloads](https://kubernetes.io/docs/concepts/workloads/), such as Deployment, StatefulSet, or DaemonSet.
+    // Note that Kubernetes workloads do not include the Pods that the workload manages. Make sure that the selector label matches the workload label, not just the pod label.
     KUBE = 0;
 
-    // Select vms which are external, non-kube workloads.
+    // Select VMs, which are external, non-Kubernetes workloads that are added to the service mesh by using an ExternalWorkload resource.
     VM = 1;
   }
 }
