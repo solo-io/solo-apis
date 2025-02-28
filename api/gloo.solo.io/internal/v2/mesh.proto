@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package internal.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+/*
+    A Mesh is an internal representation of a service mesh control plane deployment.
+*/
+message MeshSpec {
+
+  message Installation {
+
+    // Namespace in which the control plane has been installed.
+    string namespace = 1;
+
+    // The Gloo Mesh cluster in which the control plane has been installed.
+    string cluster = 2;
+
+    // The labels on the control plane pods (read from the deployment).
+    map<string, string> pod_labels = 3;
+
+    // The version of the Mesh that has been installed, which is determined using the image tag on the
+    // mesh's primary control plane image (e.g. the istio-pilot image tag).
+    string version = 4;
+
+    // The revision of the Istio control plane that has been installed.
+    string revision = 5;
+  }
+
+  // Describes the Istio control plane deployment.
+  Installation installation = 1;
+
+  // The Istio trust domain used for https/[spiffe](https://spiffe.io/spiffe/concepts/#trust-domain) [identity](https://istio.io/docs/reference/glossary/#identity).
+  // If empty will default to ["cluster.local"](https://github.com/istio/istio/blob/e768f408a7de224e64ccdfb2634442541ce08e6a/pilot/cmd/pilot-agent/main.go#L118).
+  string trust_domain = 2;
+
+  // The istiod service account which determines identity for the Istio CA cert.
+  string istiod_service_account = 3;
+
+  // The list of namespaces that are part of the mesh, which is computed based
+  // on the [discovery selectors](https://istio.io/latest/blog/2021/discovery-selectors/)
+  // defined in the Istio Mesh Config.
+  // And empty value implies that the Istio control place processes resources from all namespaces.
+  repeated string discovery_namespaces = 4;
+
+  // True if smart DNS proxying is enabled, which allows for arbitrary DNS domains.
+  bool smart_dns_proxying_enabled = 5;
+
+  // Root Namespace as specified in the Istio Mesh Config.
+  // This namespace will be treated as the home for all root Istio config.
+  string root_namespace = 6;
+
+  // Describes the Gloo Mesh agent which may be installed
+  // to the managed cluster containing the mesh control plane.
+  message AgentInfo {
+
+    // The namespace in which the Gloo Mesh agent is installed.
+    string namespace = 1;
+
+    // The version of the Gloo Mesh agent.
+    string version = 2;
+
+    // The location of the relay root tls secret
+    .core.skv2.solo.io.ObjectRef relay_root_tls_secret = 3;
+  }
+
+  // Describes the Gloo Mesh agent if it has been installed to the managed cluster.
+  AgentInfo agent_info = 7;
+
+  // istiod image hub
+  string hub = 8;
+
+  // istiod image tag
+  string tag = 9;
+
+  enum IPFamily {
+    // The cluster suports only IPv4 addresses.
+    IPV4 = 0;
+
+    // The cluster suports only IPv6 addresses.
+    IPV6 = 1;
+
+    // The cluster suports both IPv4 and IPv6 addresses.
+    DUAL = 2;
+  }
+
+  // Optional: The IPFamily supported by the cluster. Defaults to 'IPV4'.
+  IPFamily ip_family = 10;
+
+  // If true, the mesh is capable of ambient dataplane mode.
+  bool ambient_capable = 11;
+}
+
+message MeshStatus {
+
+  // The observed generation of the Mesh.
+  // When this matches the Mesh's metadata.generation, it indicates that Gloo Mesh
+  // has processed the latest version of the Mesh.
+  int64 observed_generation = 1;
+}

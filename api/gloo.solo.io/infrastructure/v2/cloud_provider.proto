@@ -1,0 +1,102 @@
+syntax = "proto3";
+package infrastructure.gloo.solo.io;
+option go_package = "github.com/solo-io/solo-apis/client-go/infrastructure.gloo.solo.io/v2";
+
+import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// A CloudProvider is a representation of a cloud/infrastructure provider, and allows you to specify the configuration used to communicate
+// with that cloud provider, as well as how to discover the set of backing functionality associated with that CloudProvider.
+message CloudProviderSpec {
+  oneof provider {
+    // AWS cloud provider configuration.
+    AWSProvider aws = 1;
+  }
+}
+
+// AWSProvider is the implementation for AWS, used for specifying how functionality should be discovered and which
+// credentials should be used, unless otherwise discovered using the aws credentials in the workspace settings.
+message AWSProvider {
+  // AWS account ID
+  string account_id = 1;
+
+  // AWS region
+  string region = 2;
+
+  // STS endpoint to reach out to for AWS credentials
+  string sts_endpoint = 3;
+
+  // Lambda configuration
+  LambdaOptions lambda = 4;
+
+  // LambdaOptions specifies options for configuring invocation and filtering of lambda functions
+  message LambdaOptions {
+    // Optional. The name of the IAM role to assume when calling the specified Cloud Function, associated with the account ID
+    // and region specified on the CloudProvider. If omitted, the IAM role specified on the gateway is used,
+    // unless referencing an imported CloudProvider. If importing a CloudProvider, you must specify this field. You can also
+    // specify a default invokeRole in a RouteTable by using the 'gloo.solo.io/defaultInvokeRole' annotation.
+    string invoke_role_name = 1;
+
+    // Discovery of lambda functions
+    LambdaDiscovery discovery = 2;
+
+    // LambdaDiscovery specifies options for discovering lambda functions
+    message LambdaDiscovery {
+      // Enable discovery of lambda functions.
+      bool enabled = 1;
+
+      // Optional. The name of role to use for discovering CloudResources, associated with the account ID and region specified
+      // on the CloudProvider. If set, this name will be used to override the value found in the $AWS_ROLE_ARN environment variable
+      // on the mgmt-server pod.
+      string role_name = 2;
+
+      // Lambda function configuration specifies how lambda functions will be discovered.
+      LambdaFilter filter = 3;
+
+      message LambdaFilter {
+        // filter by the names of the functions. Functions that do not match this selector will not be included. Regex supported.
+        repeated string names = 1;
+
+        // select only Lambda functions with the $LATEST version, to reduce the amount of discovered functions. If disabled, the
+        // generated resources will contain all versions associated with the functions specified.
+        bool latest_only = 2;
+      }
+    }
+  }
+}
+
+// The status of the resource after it is applied to your Gloo environment.
+message CloudProviderStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // A map of CloudResources to the number of routable functions
+  // provided by that CloudResource.
+  map<string,uint32> num_applied_routable_functions = 2;
+
+  // The number of CloudResources that back this CloudProvider.
+  uint32 num_child_cloud_resources = 3;
+}
+
+// reflects the report of the Cloud Provider
+message CloudProviderReport {
+  .common.gloo.solo.io.Report report = 1;
+
+  message LambdaFunctions {
+    repeated string functions = 1;
+  }
+
+  // A map of CloudResources to the number of routable functions
+  // provided by that CloudResource.
+  map<string,LambdaFunctions> applied_routable_functions = 2;
+
+  // A list of CloudResources that back this CloudProvider.
+  repeated .common.gloo.solo.io.ObjectReference child_cloud_resources = 3;
+}
