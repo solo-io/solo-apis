@@ -78,9 +78,10 @@ func (DestinationKind) EnumDescriptor() ([]byte, []int) {
 type WorkloadSelector_WorkloadKind int32
 
 const (
-	// Select kubernetes workloads (deployment, statefulset, daemonset, etc.).
+	// Select [Kubernetes workloads](https://kubernetes.io/docs/concepts/workloads/), such as Deployment, StatefulSet, or DaemonSet.
+	// Note that Kubernetes workloads do not include the Pods that the workload manages. Make sure that the selector label matches the workload label, not just the pod label.
 	WorkloadSelector_KUBE WorkloadSelector_WorkloadKind = 0
-	// Select vms which are external, non-kube workloads.
+	// Select VMs, which are external, non-Kubernetes workloads that are added to the service mesh by using an ExternalWorkload resource.
 	WorkloadSelector_VM WorkloadSelector_WorkloadKind = 1
 )
 
@@ -621,9 +622,9 @@ func (x *ListenerSelector) GetPort() *PortSelector {
 }
 
 // WorkloadSelector is a Selector specifically built for selecting individual workloads.
-// Workloads must have injected (sidecars) or be standalone proxies (gateways) to be selected by Gloo Mesh policies.
+// Workloads must have injected sidecar proxies or be standalone gateway proxies to be selected by Gloo Mesh policies.
 //
-// This selector can be used to select pods or injected external endpoints (vms).
+// This selector can be used to select Kubernetes workloads (KUBE) or sidecar-injected external endpoints (VM).
 type WorkloadSelector struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
