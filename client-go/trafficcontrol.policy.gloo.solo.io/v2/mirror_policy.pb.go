@@ -150,7 +150,7 @@ type MirrorPolicyReport struct {
 
 	// The status of the resource in each workspace that it exists in.
 	Workspaces map[string]*v2.Report `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// A list of references to all rotues selected by the policy.
+	// A list of references to all routes selected by the policy.
 	SelectedRoutes []*v2.RouteReference `protobuf:"bytes,2,rep,name=selected_routes,json=selectedRoutes,proto3" json:"selected_routes,omitempty"`
 }
 

@@ -174,7 +174,8 @@ type JWTPolicySpec struct {
 	// If omitted and the policy also does not select any destinations, the policy applies to all routes in the workspace.
 	// If omitted and the policy selects a destination, the policy does not apply to any routes.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
-	// Select the destinations where the policy will be applied. Only Kubernetes services are supported.
+	// Select the destinations where the policy will be applied.
+	// {{< reuse "conrefs/snippets/field-desc/dest-no-vdest.md" >}}
 	// By default if omitted, the policy does not apply to any destinations.
 	// If empty (`{}`), the policy applies to all destinations in the workspace.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,3,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`

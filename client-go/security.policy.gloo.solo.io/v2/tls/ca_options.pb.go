@@ -413,7 +413,7 @@ func (*CertificateRotationVerificationMethod_None) isCertificateRotationVerifica
 func (*CertificateRotationVerificationMethod_Manual) isCertificateRotationVerificationMethod_Method() {
 }
 
-// CertificateRotationCondition represents a timesptamped snapshot of the certificate
+// CertificateRotationCondition represents a timestamped snapshot of the certificate
 // rotation workflow. This is used to keep track of the steps which have been completed
 // thus far.
 type CertificateRotationCondition struct {

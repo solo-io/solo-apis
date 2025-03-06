@@ -84,10 +84,6 @@ type FailoverPolicySpec struct {
 
 	// Select the destinations to apply the policy to by using labels.
 	// If empty, the policy applies to all destinations in the workspace.
-	// {{< alert context="info" >}}
-	// The destinations can be Kubernetes services or virtual destinations.
-	// Note that external services are not supported as destinations with this policy.
-	// {{< /alert >}}
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,1,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
 	// The details of the failover policy to apply to the selected virtual destinations.
 	Config *FailoverPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
