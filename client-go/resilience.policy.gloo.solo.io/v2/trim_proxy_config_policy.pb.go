@@ -1,4 +1,5 @@
 // {{% reuse "conrefs/snippets/policies/ov_trimproxy.md" %}}
+// {{< reuse "conrefs/snippets/policies/trim-proxy-workloads-limit.md" >}}
 // For more information, see the [Trim proxy config guide](https://docs.solo.io/gloo-mesh-enterprise/latest/resiliency/trim-proxy-config/trim-proxy-policy/).
 //
 // ## Example
@@ -44,6 +45,7 @@ type TrimProxyConfigPolicySpec struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Select the workloads for the policy to trim the Istio sidecar config. If omitted, all workloads are selected.
+	// {{< reuse "conrefs/snippets/policies/trim-proxy-workloads-limit.md" >}}
 	ApplyToWorkloads []*v2.WorkloadSelector `protobuf:"bytes,1,rep,name=apply_to_workloads,json=applyToWorkloads,proto3" json:"apply_to_workloads,omitempty"`
 	// Trim Proxy Config
 	Config *TrimProxyConfigPolicySpec_Config `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`

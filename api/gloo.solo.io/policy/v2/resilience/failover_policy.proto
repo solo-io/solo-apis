@@ -69,10 +69,6 @@ message FailoverPolicySpec {
 
   // Select the destinations to apply the policy to by using labels.
   // If empty, the policy applies to all destinations in the workspace.
-  // {{< alert context="info" >}}
-  // The destinations can be Kubernetes services or virtual destinations. 
-  // Note that external services are not supported as destinations with this policy.
-  // {{< /alert >}}
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
 
   // The details of the failover policy to apply to the selected virtual destinations.

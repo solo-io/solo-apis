@@ -415,7 +415,7 @@ func (x *GraphQLSchemaSpec_ProxiedGraphQL) GetOptions() *GraphQLSchemaSpec_Proxi
 }
 
 // Set additional options on the references to GraphQLResolverMap resources.
-// As as simple example for the `mex_depth` option, if the schema is
+// As a simple example for the `max_depth` option, if the schema is
 // ```gql
 //
 //	type Query {
