@@ -53,7 +53,6 @@ message Transformation {
     // Template is in the transformed request language domain
     oneof transformation_type {
         DlpTransformation dlp_transformation = 1;
-        AiTransformation ai_transformation = 2;
     }
 }
 
@@ -119,8 +118,4 @@ message RegexAction {
     string regex = 1 [ (validate.rules).string.min_bytes = 1 ];
     // If provided and not 0, only this specific subgroup of the regex will be masked.
     uint32 subgroup = 2;
-}
-
-message AiTransformation {
-    bool enable_chat_streaming = 1;
 }
