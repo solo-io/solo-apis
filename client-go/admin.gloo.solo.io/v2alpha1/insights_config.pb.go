@@ -27,7 +27,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// `InsightsConfig` describes the configuration for the Gloo Mesh Core Insight Engine.
+// `InsightsConfig` describes the configuration for the Gloo Mesh Insight Engine.
 // Define either an list of enabled insights or a list of disabled insights,
 // based on the insight code.
 // For example, to disable the insight CFG002:
