@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package rpc.solo.io;
+
+option go_package = "github.com/solo-io/solo-apis/client-go/rpc.solo.io/v2";
+
+message GetDebugBundleRequest {}
+
+message GetDebugBundleResponse {
+  // A piece of a zip file representing the debug bundle.
+  // These pieces should be reassembled in order to create the bundle file.
+  bytes file_part = 1;
+} 
+
+// The Gloo Admin Service provides a view into the state of its cluster as an alternative to accessing the cluster directly.
+// Its two primary clients are:
+// - The Gloo UI backend
+// - The unified `gloo` CLI
+service GlooAdminService {
+  // GetDebugBundle collects and packages information about the user's ecosystem
+  // that may be useful when debugging an issue.
+  rpc GetDebugBundle(GetDebugBundleRequest) returns (stream GetDebugBundleResponse) {}
+}

@@ -14,6 +14,8 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	github_com_solo_io_skv2_pkg_api_core_skv2_solo_io_v1 "github.com/solo-io/skv2/pkg/api/core.skv2.solo.io/v1"
+
+	google_golang_org_protobuf_types_known_emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // ensure the imports are used
@@ -71,6 +73,12 @@ func (m *MeshSpec) Clone() proto.Message {
 	target.IpFamily = m.GetIpFamily()
 
 	target.AmbientCapable = m.GetAmbientCapable()
+
+	if h, ok := interface{}(m.GetSpire()).(clone.Cloner); ok {
+		target.Spire = h.Clone().(*google_golang_org_protobuf_types_known_emptypb.Empty)
+	} else {
+		target.Spire = proto.Clone(m.GetSpire()).(*google_golang_org_protobuf_types_known_emptypb.Empty)
+	}
 
 	return target
 }

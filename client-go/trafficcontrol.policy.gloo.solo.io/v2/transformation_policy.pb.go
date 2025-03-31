@@ -275,7 +275,8 @@ type TransformationPolicySpec_Config_RequestTransformation struct {
 	// For example, if you have a request that is transformed to match a new route, the new route is selected
 	// when calculating the routing destination. The default value is **false**.
 	RecalculateRoutingDestination bool `protobuf:"varint,1,opt,name=recalculate_routing_destination,json=recalculateRoutingDestination,proto3" json:"recalculate_routing_destination,omitempty"`
-	// transform HTTP body and headers using Inja templates.
+	// Transform HTTP body and headers using Inja templates.
+	// Note that the dynamicMetadataValues.jsonToProto subfield is only supported by Istio versions 1.22 and later.
 	// For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
 	InjaTemplate *v21.TransformationTemplate `protobuf:"bytes,2,opt,name=inja_template,json=injaTemplate,proto3" json:"inja_template,omitempty"`
 }
@@ -332,7 +333,8 @@ type TransformationPolicySpec_Config_ResponseTransformation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// transform response body and headers using Inja templates.
+	// Transform response body and headers using Inja templates.
+	// Note that the dynamicMetadataValues.jsonToProto subfield is only supported by Istio versions 1.22 and later.
 	// For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
 	InjaTemplate *v21.TransformationTemplate `protobuf:"bytes,1,opt,name=inja_template,json=injaTemplate,proto3" json:"inja_template,omitempty"`
 }
