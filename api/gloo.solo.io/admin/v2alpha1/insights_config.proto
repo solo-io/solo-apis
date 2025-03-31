@@ -14,7 +14,7 @@ option (extproto.hash_all) = true;
 option (extproto.equal_all) = true;
 option (extproto.clone_all) = true;
 
-// `InsightsConfig` describes the configuration for the Gloo Mesh Core Insight Engine.
+// `InsightsConfig` describes the configuration for the Gloo Mesh Insight Engine.
 // Define either an list of enabled insights or a list of disabled insights, 
 // based on the insight code.
 // For example, to disable the insight CFG002:

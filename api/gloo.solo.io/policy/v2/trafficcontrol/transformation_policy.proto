@@ -41,7 +41,8 @@ message TransformationPolicySpec {
       // when calculating the routing destination. The default value is **false**. 
       bool recalculate_routing_destination = 1;
 
-      // transform HTTP body and headers using Inja templates.
+      // Transform HTTP body and headers using Inja templates.
+      // Note that the dynamicMetadataValues.jsonToProto subfield is only supported by Istio versions 1.22 and later.
       // For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
       envoy.api.v2.filter.http.TransformationTemplate inja_template = 2;
 
@@ -54,7 +55,8 @@ message TransformationPolicySpec {
     // Configure response transformations for a selected route
     message ResponseTransformation {
 
-      // transform response body and headers using Inja templates.
+      // Transform response body and headers using Inja templates.
+      // Note that the dynamicMetadataValues.jsonToProto subfield is only supported by Istio versions 1.22 and later.
       // For more information, see the [Envoy `transformation_filter.proto`](https://github.com/solo-io/envoy-gloo/blob/master/api/envoy/config/filter/http/transformation/v2/transformation_filter.proto#L155).
       envoy.api.v2.filter.http.TransformationTemplate inja_template = 1;
 

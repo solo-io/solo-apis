@@ -4,6 +4,7 @@ package internal.gloo.solo.io;
 
 import "extproto/ext.proto";
 import "github.com/solo-io/skv2/api/core/v1/core.proto";
+import "google/protobuf/empty.proto";
 
 option go_package = "github.com/solo-io/solo-apis/client-go/internal.gloo.solo.io/v2";
 
@@ -97,6 +98,9 @@ message MeshSpec {
 
   // If true, the mesh is capable of ambient dataplane mode.
   bool ambient_capable = 11;
+
+  // If set, SPIRE is installed.
+  google.protobuf.Empty spire = 12;
 }
 
 message MeshStatus {

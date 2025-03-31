@@ -109,6 +109,16 @@ func (m *MeshSpec) Equal(that interface{}) bool {
 		return false
 	}
 
+	if h, ok := interface{}(m.GetSpire()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetSpire()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetSpire(), target.GetSpire()) {
+			return false
+		}
+	}
+
 	return true
 }
 

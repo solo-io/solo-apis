@@ -89,6 +89,10 @@ message Insight {
   // Storage for extra custom data that is output by the insights engine and consumed directly by the UI for custom components.
   Data data = 15;
 
+  // If relevant, the identifier for the schema that generated this insight instance
+  // Used by the UI to request resolution steps for a particular schema
+  string schema = 16;
+
   message Data {
     oneof data {
       SYS0003Data SYS0003 = 18;
