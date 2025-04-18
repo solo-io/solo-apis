@@ -107,9 +107,6 @@ replace (
 
 	github.com/distribution/reference => github.com/distribution/reference v0.5.0
 
-	// Portal plugins need to be updated to use the newer version
-	github.com/getkin/kin-openapi => github.com/getkin/kin-openapi v0.107.0
-
 	// anyvendor (used in check-code-gen in CI) requires version v5.3.0, but solo-io/go-utils overrides it
 	github.com/go-git/go-git/v5 => github.com/go-git/go-git/v5 v5.3.0
 
@@ -120,6 +117,9 @@ replace (
 
 	// skv2 uses a newer version than the imported solo-kit version which causes issues. Replaces the version with the solo-kit version
 	github.com/pseudomuto/protoc-gen-doc => github.com/pseudomuto/protoc-gen-doc v1.5.1
+
+	// Resolves ambigious import error.
+	github.com/ugorji/go => github.com/ugorji/go v1.2.12
 
 	// Using private fork of controller-tools. See commit msg for more context
 	// as to why we are using a private fork.
