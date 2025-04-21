@@ -79,34 +79,6 @@ func (m *SessionConfig) Clone() proto.Message {
 		target.CookieOptions = proto.Clone(m.GetCookieOptions()).(*SessionConfig_CookieOptions)
 	}
 
-	switch m.Backend.(type) {
-
-	case *SessionConfig_Cookie:
-
-		if h, ok := interface{}(m.GetCookie()).(clone.Cloner); ok {
-			target.Backend = &SessionConfig_Cookie{
-				Cookie: h.Clone().(*SessionConfig_CookieSession),
-			}
-		} else {
-			target.Backend = &SessionConfig_Cookie{
-				Cookie: proto.Clone(m.GetCookie()).(*SessionConfig_CookieSession),
-			}
-		}
-
-	case *SessionConfig_Redis:
-
-		if h, ok := interface{}(m.GetRedis()).(clone.Cloner); ok {
-			target.Backend = &SessionConfig_Redis{
-				Redis: h.Clone().(*SessionConfig_RedisSession),
-			}
-		} else {
-			target.Backend = &SessionConfig_Redis{
-				Redis: proto.Clone(m.GetRedis()).(*SessionConfig_RedisSession),
-			}
-		}
-
-	}
-
 	return target
 }
 
@@ -329,44 +301,6 @@ func (m *DashboardSpec_AuthzConfig) Clone() proto.Message {
 			}
 		}
 
-	}
-
-	return target
-}
-
-// Clone function
-func (m *SessionConfig_CookieSession) Clone() proto.Message {
-	var target *SessionConfig_CookieSession
-	if m == nil {
-		return target
-	}
-	target = &SessionConfig_CookieSession{}
-
-	return target
-}
-
-// Clone function
-func (m *SessionConfig_RedisSession) Clone() proto.Message {
-	var target *SessionConfig_RedisSession
-	if m == nil {
-		return target
-	}
-	target = &SessionConfig_RedisSession{}
-
-	target.Host = m.GetHost()
-
-	target.Db = m.GetDb()
-
-	target.PoolSize = m.GetPoolSize()
-
-	target.KeyPrefix = m.GetKeyPrefix()
-
-	target.CookieName = m.GetCookieName()
-
-	if h, ok := interface{}(m.GetAllowRefreshing()).(clone.Cloner); ok {
-		target.AllowRefreshing = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
-	} else {
-		target.AllowRefreshing = proto.Clone(m.GetAllowRefreshing()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
 	}
 
 	return target

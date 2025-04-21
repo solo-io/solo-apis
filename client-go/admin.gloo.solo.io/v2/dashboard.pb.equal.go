@@ -124,45 +124,6 @@ func (m *SessionConfig) Equal(that interface{}) bool {
 		}
 	}
 
-	switch m.Backend.(type) {
-
-	case *SessionConfig_Cookie:
-		if _, ok := target.Backend.(*SessionConfig_Cookie); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetCookie()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetCookie()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetCookie(), target.GetCookie()) {
-				return false
-			}
-		}
-
-	case *SessionConfig_Redis:
-		if _, ok := target.Backend.(*SessionConfig_Redis); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetRedis()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetRedis()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetRedis(), target.GetRedis()) {
-				return false
-			}
-		}
-
-	default:
-		// m is nil but target is not nil
-		if m.Backend != target.Backend {
-			return false
-		}
-	}
-
 	return true
 }
 
@@ -545,84 +506,6 @@ func (m *DashboardSpec_AuthzConfig) Equal(that interface{}) bool {
 	default:
 		// m is nil but target is not nil
 		if m.Backend != target.Backend {
-			return false
-		}
-	}
-
-	return true
-}
-
-// Equal function
-func (m *SessionConfig_CookieSession) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*SessionConfig_CookieSession)
-	if !ok {
-		that2, ok := that.(SessionConfig_CookieSession)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *SessionConfig_RedisSession) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*SessionConfig_RedisSession)
-	if !ok {
-		that2, ok := that.(SessionConfig_RedisSession)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetHost(), target.GetHost()) != 0 {
-		return false
-	}
-
-	if m.GetDb() != target.GetDb() {
-		return false
-	}
-
-	if m.GetPoolSize() != target.GetPoolSize() {
-		return false
-	}
-
-	if strings.Compare(m.GetKeyPrefix(), target.GetKeyPrefix()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetCookieName(), target.GetCookieName()) != 0 {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetAllowRefreshing()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetAllowRefreshing()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetAllowRefreshing(), target.GetAllowRefreshing()) {
 			return false
 		}
 	}

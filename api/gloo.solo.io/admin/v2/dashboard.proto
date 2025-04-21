@@ -78,34 +78,6 @@ message MultiClusterRbac {
 
 // Configuration for session data storage.
 message SessionConfig {
-  // Store all session data in a cookie header. This is the default.
-  message CookieSession {}
-
-  // Store the session data in a Redis instance.
-  message RedisSession {
-    // The address of the Redis instance to use, in the format `address:port` or `unix://path-to-unix.sock`.
-    string host = 1;
-
-    // The Redis database to use, indexed to start at `0`.
-    // If unset, defaults to `0`.
-    int32 db = 2;
-
-    // The maximum number of connections to establish at once.
-    // If unset, defaults to 10 connections per CPU.
-    int32 pool_size = 3;
-
-    // Redis key prefix.
-    string key_prefix = 4;
-
-    // The name of the cookie header to set and store the session ID.
-    // If unset, defaults to `"__session”`.
-    string cookie_name = 5;
-
-    // Refresh expired ID tokens by using the refresh token. Defaults to true.
-    // To disable refreshing, set this field to false.
-    google.protobuf.BoolValue allow_refreshing = 6;
-  }
-
   // Configuration for storing the session data in a session cookie header.
   message CookieOptions {
     // Max age of the cookie. If unset, defaults to 30.
@@ -127,13 +99,8 @@ message SessionConfig {
   // Configuration for storing the session data in the session cookie.
   CookieOptions cookie_options = 1;
 
-  oneof backend {
-    // Store the session data in the session cookie.
-    CookieSession cookie = 2;
-
-    // Store the session data in a Redis instance.
-    RedisSession redis = 3;
-  }
+  // Removed - storage backend options
+  reserved 2, 3;
 }
 
 // Configuration for an OpenID Connect (OIDC) identity provider
