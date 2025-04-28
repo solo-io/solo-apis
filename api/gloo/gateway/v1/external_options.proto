@@ -251,6 +251,7 @@ message RouteOptionSpec {
 message ListenerOptionSpec {
 
 
+
   // Listener options
   gloo.solo.io.ListenerOptions options = 2;
 
@@ -261,6 +262,7 @@ message ListenerOptionSpec {
 }
 
 message HttpListenerOptionSpec {
+
 
 
   // HttpListener options

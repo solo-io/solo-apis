@@ -31,6 +31,7 @@ require (
 	github.com/solo-io/protoc-gen-ext v0.0.20
 	github.com/solo-io/skv2 v0.42.0
 	github.com/solo-io/solo-kit v0.37.0
+	go.opentelemetry.io/proto/otlp v1.3.1
 	golang.org/x/tools v0.26.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240826202546-f6391c0de4c7
 	google.golang.org/grpc v1.65.0
