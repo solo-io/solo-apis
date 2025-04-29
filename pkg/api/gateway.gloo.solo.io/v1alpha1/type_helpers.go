@@ -5,3 +5,6 @@ package v1alpha1
 
 // GatewayParametersSlice represents a slice of *GatewayParameters
 type GatewayParametersSlice []*GatewayParameters
+
+// DirectResponseSlice represents a slice of *DirectResponse
+type DirectResponseSlice []*DirectResponse
