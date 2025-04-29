@@ -68,16 +68,19 @@ func makeGroup(
 	}
 }
 
-func makeGatewayExtensionGroup(groupPrefix, version, kind string) model.Group {
-	res := model.Resource{
-		Kind: kind,
-		Spec: model.Field{
-			Type: model.Type{
-				Name: kind + "Spec",
+func makeGatewayExtensionGroup(groupPrefix, version, kinds ...string) model.Group {
+	var resources []model.Resource
+	for _, kind := range kinds {
+		resources = append(resources, model.Resource{
+			Kind: kind,
+			Spec: model.Field{
+				Type: model.Type{
+					Name: kind + "Spec",
+				},
 			},
-		},
-		StrictUnmarshal: false,
-		Stored:          true,
+			StrictUnmarshal: false,
+			Stored:          true,
+		})
 	}
 
 	return model.Group{
@@ -86,7 +89,7 @@ func makeGatewayExtensionGroup(groupPrefix, version, kind string) model.Group {
 			Version: version,
 		},
 		Module:                    module,
-		Resources:                 []model.Resource{res},
+		Resources:                 resources,
 		RenderManifests:           false,
 		RenderTypes:               false,
 		RenderClients:             true,

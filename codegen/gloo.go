@@ -50,7 +50,7 @@ func GlooGroups() []model.Group {
 
 func GlooGatewayExtensionGroups() []model.Group {
 	return []model.Group{
-		makeGatewayExtensionGroup("gateway.gloo", "v1alpha1", "GatewayParameters"),
+		makeGatewayExtensionGroup("gateway.gloo", "v1alpha1", "GatewayParameters", "DirectResponse"),
 	}
 }
 
