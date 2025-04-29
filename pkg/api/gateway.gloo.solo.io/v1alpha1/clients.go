@@ -39,6 +39,8 @@ func (m *multiclusterClientset) Cluster(cluster string) (Clientset, error) {
 type Clientset interface {
 	// clienset for the gateway.gloo.solo.io/v1alpha1/v1alpha1 APIs
 	GatewayParameters() GatewayParametersClient
+	// clienset for the gateway.gloo.solo.io/v1alpha1/v1alpha1 APIs
+	DirectResponses() DirectResponseClient
 }
 
 type clientSet struct {
@@ -66,6 +68,11 @@ func NewClientset(client client.Client) Clientset {
 // clienset for the gateway.gloo.solo.io/v1alpha1/v1alpha1 APIs
 func (c *clientSet) GatewayParameters() GatewayParametersClient {
 	return NewGatewayParametersClient(c.client)
+}
+
+// clienset for the gateway.gloo.solo.io/v1alpha1/v1alpha1 APIs
+func (c *clientSet) DirectResponses() DirectResponseClient {
+	return NewDirectResponseClient(c.client)
 }
 
 // Reader knows how to read and list GatewayParameterss.
@@ -208,4 +215,146 @@ func (m *multiclusterGatewayParametersClient) Cluster(cluster string) (GatewayPa
 		return nil, err
 	}
 	return NewGatewayParametersClient(client), nil
+}
+
+// Reader knows how to read and list DirectResponses.
+type DirectResponseReader interface {
+	// Get retrieves a DirectResponse for the given object key
+	GetDirectResponse(ctx context.Context, key client.ObjectKey) (*DirectResponse, error)
+
+	// List retrieves list of DirectResponses for a given namespace and list options.
+	ListDirectResponse(ctx context.Context, opts ...client.ListOption) (*DirectResponseList, error)
+}
+
+// DirectResponseTransitionFunction instructs the DirectResponseWriter how to transition between an existing
+// DirectResponse object and a desired on an Upsert
+type DirectResponseTransitionFunction func(existing, desired *DirectResponse) error
+
+// Writer knows how to create, delete, and update DirectResponses.
+type DirectResponseWriter interface {
+	// Create saves the DirectResponse object.
+	CreateDirectResponse(ctx context.Context, obj *DirectResponse, opts ...client.CreateOption) error
+
+	// Delete deletes the DirectResponse object.
+	DeleteDirectResponse(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given DirectResponse object.
+	UpdateDirectResponse(ctx context.Context, obj *DirectResponse, opts ...client.UpdateOption) error
+
+	// Patch patches the given DirectResponse object.
+	PatchDirectResponse(ctx context.Context, obj *DirectResponse, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all DirectResponse objects matching the given options.
+	DeleteAllOfDirectResponse(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the DirectResponse object.
+	UpsertDirectResponse(ctx context.Context, obj *DirectResponse, transitionFuncs ...DirectResponseTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a DirectResponse object.
+type DirectResponseStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given DirectResponse object.
+	UpdateDirectResponseStatus(ctx context.Context, obj *DirectResponse, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given DirectResponse object's subresource.
+	PatchDirectResponseStatus(ctx context.Context, obj *DirectResponse, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on DirectResponses.
+type DirectResponseClient interface {
+	DirectResponseReader
+	DirectResponseWriter
+	DirectResponseStatusWriter
+}
+
+type directResponseClient struct {
+	client client.Client
+}
+
+func NewDirectResponseClient(client client.Client) *directResponseClient {
+	return &directResponseClient{client: client}
+}
+
+func (c *directResponseClient) GetDirectResponse(ctx context.Context, key client.ObjectKey) (*DirectResponse, error) {
+	obj := &DirectResponse{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *directResponseClient) ListDirectResponse(ctx context.Context, opts ...client.ListOption) (*DirectResponseList, error) {
+	list := &DirectResponseList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *directResponseClient) CreateDirectResponse(ctx context.Context, obj *DirectResponse, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *directResponseClient) DeleteDirectResponse(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &DirectResponse{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *directResponseClient) UpdateDirectResponse(ctx context.Context, obj *DirectResponse, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *directResponseClient) PatchDirectResponse(ctx context.Context, obj *DirectResponse, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *directResponseClient) DeleteAllOfDirectResponse(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &DirectResponse{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *directResponseClient) UpsertDirectResponse(ctx context.Context, obj *DirectResponse, transitionFuncs ...DirectResponseTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*DirectResponse), desired.(*DirectResponse)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *directResponseClient) UpdateDirectResponseStatus(ctx context.Context, obj *DirectResponse, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *directResponseClient) PatchDirectResponseStatus(ctx context.Context, obj *DirectResponse, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides DirectResponseClients for multiple clusters.
+type MulticlusterDirectResponseClient interface {
+	// Cluster returns a DirectResponseClient for the given cluster
+	Cluster(cluster string) (DirectResponseClient, error)
+}
+
+type multiclusterDirectResponseClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterDirectResponseClient(client multicluster.Client) MulticlusterDirectResponseClient {
+	return &multiclusterDirectResponseClient{client: client}
+}
+
+func (m *multiclusterDirectResponseClient) Cluster(cluster string) (DirectResponseClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewDirectResponseClient(client), nil
 }
