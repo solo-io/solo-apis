@@ -68,7 +68,7 @@ func makeGroup(
 	}
 }
 
-func makeGatewayExtensionGroup(groupPrefix, version, kinds ...string) model.Group {
+func makeGatewayExtensionGroup(groupPrefix, version string, kinds ...string) model.Group {
 	var resources []model.Resource
 	for _, kind := range kinds {
 		resources = append(resources, model.Resource{
