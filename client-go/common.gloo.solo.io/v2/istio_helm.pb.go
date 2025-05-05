@@ -42,7 +42,7 @@ type IstioLifecycleHelmGlobals struct {
 	// must exist on all the clusters where you want the Gloo agent to install Istio.
 	RepoSecrets []*v1.ObjectReference `protobuf:"bytes,2,rep,name=repo_secrets,json=repoSecrets,proto3" json:"repo_secrets,omitempty"`
 	// Optional. If true, skip TLS verification when pulling Helm charts from a given OCI repository.
-	// Use this setting for testing, quick demos, and exploration purposes only. In production setup, make sure that each
+	// Use this setting for testing, quick demos, and exploration purposes only. In production setups, make sure that each
 	// node is configured to trust the certificate that is presented by the chart OCI registry.
 	RepoSkipTlsVerify bool `protobuf:"varint,3,opt,name=repo_skip_tls_verify,json=repoSkipTlsVerify,proto3" json:"repo_skip_tls_verify,omitempty"`
 }
