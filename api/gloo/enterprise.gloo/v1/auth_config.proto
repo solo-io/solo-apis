@@ -1631,6 +1631,7 @@ message PortalAuth {
     google.protobuf.Duration request_timeout = 5;
 }
 
+
 message AuthConfigStatus {
 	enum State {
 			// Pending status indicates the resource has not yet been validated
