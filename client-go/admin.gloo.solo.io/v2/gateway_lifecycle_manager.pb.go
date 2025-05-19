@@ -1,3 +1,7 @@
+// {{% alert context="success" %}}
+// In Gloo Mesh version 2.7 and later, Solo has a new way of installing Istio with the [Gloo Operator](https://docs.solo.io/gloo-mesh-enterprise/latest/istio/operator/install/).
+// {{% /alert %}}
+//
 // Use Gloo Platform to install Istio ingress, egress, and east-west gateways in your workload clusters,
 // as part of the Istio lifecycle management.
 // In your `GatewayLifecycleManager` resource, you provide gateway settings in an `IstioOperator` configuration.
