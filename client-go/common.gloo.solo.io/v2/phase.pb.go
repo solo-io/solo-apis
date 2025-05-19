@@ -53,7 +53,7 @@ const (
 // The following policies currently implement prioritized staging:
 // - RateLimit
 // - JwtAuth
-// - Transformation
+// - Transformation: Note that the [limitation of one transformation policy per phase]({{< link path="/concepts/about/policies/overview/#policy-conflict" >}}) still applies, even if you have multiple policies prioritized per phase.
 type PrioritizedPhase struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

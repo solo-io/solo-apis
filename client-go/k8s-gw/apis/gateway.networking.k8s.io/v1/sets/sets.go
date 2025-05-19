@@ -679,3 +679,226 @@ func (s *hTTPRouteSet) Clone() HTTPRouteSet {
 	}
 	return &hTTPRouteSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
 }
+
+type GRPCRouteSet interface {
+	// Get the set stored keys
+	Keys() sets.String
+	// List of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	List(filterResource ...func(*gateway_networking_k8s_io_v1.GRPCRoute) bool) []*gateway_networking_k8s_io_v1.GRPCRoute
+	// Unsorted list of resources stored in the set. Pass an optional filter function to filter on the list.
+	// The filter function should return false to keep the resource, true to drop it.
+	UnsortedList(filterResource ...func(*gateway_networking_k8s_io_v1.GRPCRoute) bool) []*gateway_networking_k8s_io_v1.GRPCRoute
+	// Return the Set as a map of key to resource.
+	Map() map[string]*gateway_networking_k8s_io_v1.GRPCRoute
+	// Insert a resource into the set.
+	Insert(gRPCRoute ...*gateway_networking_k8s_io_v1.GRPCRoute)
+	// Compare the equality of the keys in two sets (not the resources themselves)
+	Equal(gRPCRouteSet GRPCRouteSet) bool
+	// Check if the set contains a key matching the resource (not the resource itself)
+	Has(gRPCRoute ezkube.ResourceId) bool
+	// Delete the key matching the resource
+	Delete(gRPCRoute ezkube.ResourceId)
+	// Return the union with the provided set
+	Union(set GRPCRouteSet) GRPCRouteSet
+	// Return the difference with the provided set
+	Difference(set GRPCRouteSet) GRPCRouteSet
+	// Return the intersection with the provided set
+	Intersection(set GRPCRouteSet) GRPCRouteSet
+	// Find the resource with the given ID
+	Find(id ezkube.ResourceId) (*gateway_networking_k8s_io_v1.GRPCRoute, error)
+	// Get the length of the set
+	Length() int
+	// returns the generic implementation of the set
+	Generic() sksets.ResourceSet
+	// returns the delta between this and and another GRPCRouteSet
+	Delta(newSet GRPCRouteSet) sksets.ResourceDelta
+	// Create a deep copy of the current GRPCRouteSet
+	Clone() GRPCRouteSet
+}
+
+func makeGenericGRPCRouteSet(gRPCRouteList []*gateway_networking_k8s_io_v1.GRPCRoute) sksets.ResourceSet {
+	var genericResources []ezkube.ResourceId
+	for _, obj := range gRPCRouteList {
+		genericResources = append(genericResources, obj)
+	}
+	return sksets.NewResourceSet(genericResources...)
+}
+
+type gRPCRouteSet struct {
+	set sksets.ResourceSet
+}
+
+func NewGRPCRouteSet(gRPCRouteList ...*gateway_networking_k8s_io_v1.GRPCRoute) GRPCRouteSet {
+	return &gRPCRouteSet{set: makeGenericGRPCRouteSet(gRPCRouteList)}
+}
+
+func NewGRPCRouteSetFromList(gRPCRouteList *gateway_networking_k8s_io_v1.GRPCRouteList) GRPCRouteSet {
+	list := make([]*gateway_networking_k8s_io_v1.GRPCRoute, 0, len(gRPCRouteList.Items))
+	for idx := range gRPCRouteList.Items {
+		list = append(list, &gRPCRouteList.Items[idx])
+	}
+	return &gRPCRouteSet{set: makeGenericGRPCRouteSet(list)}
+}
+
+func (s *gRPCRouteSet) Keys() sets.String {
+	if s == nil {
+		return sets.String{}
+	}
+	return s.Generic().Keys()
+}
+
+func (s *gRPCRouteSet) List(filterResource ...func(*gateway_networking_k8s_io_v1.GRPCRoute) bool) []*gateway_networking_k8s_io_v1.GRPCRoute {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_networking_k8s_io_v1.GRPCRoute))
+		})
+	}
+
+	objs := s.Generic().List(genericFilters...)
+	gRPCRouteList := make([]*gateway_networking_k8s_io_v1.GRPCRoute, 0, len(objs))
+	for _, obj := range objs {
+		gRPCRouteList = append(gRPCRouteList, obj.(*gateway_networking_k8s_io_v1.GRPCRoute))
+	}
+	return gRPCRouteList
+}
+
+func (s *gRPCRouteSet) UnsortedList(filterResource ...func(*gateway_networking_k8s_io_v1.GRPCRoute) bool) []*gateway_networking_k8s_io_v1.GRPCRoute {
+	if s == nil {
+		return nil
+	}
+	var genericFilters []func(ezkube.ResourceId) bool
+	for _, filter := range filterResource {
+		filter := filter
+		genericFilters = append(genericFilters, func(obj ezkube.ResourceId) bool {
+			return filter(obj.(*gateway_networking_k8s_io_v1.GRPCRoute))
+		})
+	}
+
+	var gRPCRouteList []*gateway_networking_k8s_io_v1.GRPCRoute
+	for _, obj := range s.Generic().UnsortedList(genericFilters...) {
+		gRPCRouteList = append(gRPCRouteList, obj.(*gateway_networking_k8s_io_v1.GRPCRoute))
+	}
+	return gRPCRouteList
+}
+
+func (s *gRPCRouteSet) Map() map[string]*gateway_networking_k8s_io_v1.GRPCRoute {
+	if s == nil {
+		return nil
+	}
+
+	newMap := map[string]*gateway_networking_k8s_io_v1.GRPCRoute{}
+	for k, v := range s.Generic().Map() {
+		newMap[k] = v.(*gateway_networking_k8s_io_v1.GRPCRoute)
+	}
+	return newMap
+}
+
+func (s *gRPCRouteSet) Insert(
+	gRPCRouteList ...*gateway_networking_k8s_io_v1.GRPCRoute,
+) {
+	if s == nil {
+		panic("cannot insert into nil set")
+	}
+
+	for _, obj := range gRPCRouteList {
+		s.Generic().Insert(obj)
+	}
+}
+
+func (s *gRPCRouteSet) Has(gRPCRoute ezkube.ResourceId) bool {
+	if s == nil {
+		return false
+	}
+	return s.Generic().Has(gRPCRoute)
+}
+
+func (s *gRPCRouteSet) Equal(
+	gRPCRouteSet GRPCRouteSet,
+) bool {
+	if s == nil {
+		return gRPCRouteSet == nil
+	}
+	return s.Generic().Equal(gRPCRouteSet.Generic())
+}
+
+func (s *gRPCRouteSet) Delete(GRPCRoute ezkube.ResourceId) {
+	if s == nil {
+		return
+	}
+	s.Generic().Delete(GRPCRoute)
+}
+
+func (s *gRPCRouteSet) Union(set GRPCRouteSet) GRPCRouteSet {
+	if s == nil {
+		return set
+	}
+	return NewGRPCRouteSet(append(s.List(), set.List()...)...)
+}
+
+func (s *gRPCRouteSet) Difference(set GRPCRouteSet) GRPCRouteSet {
+	if s == nil {
+		return set
+	}
+	newSet := s.Generic().Difference(set.Generic())
+	return &gRPCRouteSet{set: newSet}
+}
+
+func (s *gRPCRouteSet) Intersection(set GRPCRouteSet) GRPCRouteSet {
+	if s == nil {
+		return nil
+	}
+	newSet := s.Generic().Intersection(set.Generic())
+	var gRPCRouteList []*gateway_networking_k8s_io_v1.GRPCRoute
+	for _, obj := range newSet.List() {
+		gRPCRouteList = append(gRPCRouteList, obj.(*gateway_networking_k8s_io_v1.GRPCRoute))
+	}
+	return NewGRPCRouteSet(gRPCRouteList...)
+}
+
+func (s *gRPCRouteSet) Find(id ezkube.ResourceId) (*gateway_networking_k8s_io_v1.GRPCRoute, error) {
+	if s == nil {
+		return nil, eris.Errorf("empty set, cannot find GRPCRoute %v", sksets.Key(id))
+	}
+	obj, err := s.Generic().Find(&gateway_networking_k8s_io_v1.GRPCRoute{}, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return obj.(*gateway_networking_k8s_io_v1.GRPCRoute), nil
+}
+
+func (s *gRPCRouteSet) Length() int {
+	if s == nil {
+		return 0
+	}
+	return s.Generic().Length()
+}
+
+func (s *gRPCRouteSet) Generic() sksets.ResourceSet {
+	if s == nil {
+		return nil
+	}
+	return s.set
+}
+
+func (s *gRPCRouteSet) Delta(newSet GRPCRouteSet) sksets.ResourceDelta {
+	if s == nil {
+		return sksets.ResourceDelta{
+			Inserted: newSet.Generic(),
+		}
+	}
+	return s.Generic().Delta(newSet.Generic())
+}
+
+func (s *gRPCRouteSet) Clone() GRPCRouteSet {
+	if s == nil {
+		return nil
+	}
+	return &gRPCRouteSet{set: sksets.NewResourceSet(s.Generic().Clone().List()...)}
+}

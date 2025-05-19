@@ -100,3 +100,31 @@ func HTTPRouteClientFromConfigFactoryProvider() HTTPRouteClientFromConfigFactory
 		return clients.HTTPRoutes(), nil
 	}
 }
+
+// Provider for GRPCRouteClient from Clientset
+func GRPCRouteClientFromClientsetProvider(clients gateway_networking_k8s_io_v1.Clientset) gateway_networking_k8s_io_v1.GRPCRouteClient {
+	return clients.GRPCRoutes()
+}
+
+// Provider for GRPCRoute Client from Client
+func GRPCRouteClientProvider(client client.Client) gateway_networking_k8s_io_v1.GRPCRouteClient {
+	return gateway_networking_k8s_io_v1.NewGRPCRouteClient(client)
+}
+
+type GRPCRouteClientFactory func(client client.Client) gateway_networking_k8s_io_v1.GRPCRouteClient
+
+func GRPCRouteClientFactoryProvider() GRPCRouteClientFactory {
+	return GRPCRouteClientProvider
+}
+
+type GRPCRouteClientFromConfigFactory func(cfg *rest.Config) (gateway_networking_k8s_io_v1.GRPCRouteClient, error)
+
+func GRPCRouteClientFromConfigFactoryProvider() GRPCRouteClientFromConfigFactory {
+	return func(cfg *rest.Config) (gateway_networking_k8s_io_v1.GRPCRouteClient, error) {
+		clients, err := gateway_networking_k8s_io_v1.NewClientsetFromConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
+		return clients.GRPCRoutes(), nil
+	}
+}
