@@ -7,20 +7,20 @@ replace (
 
 	// skv2 uses a newer version than the imported solo-kit version which causes issues. Replaces the version with the solo-kit version
 	github.com/pseudomuto/protoc-gen-doc => github.com/pseudomuto/protoc-gen-doc v1.0.0
-	k8s.io/api => k8s.io/api v0.32.2
-	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.32.2
-	k8s.io/apimachinery => k8s.io/apimachinery v0.32.2
-	k8s.io/cli-runtime => k8s.io/cli-runtime v0.32.2
-	k8s.io/client-go => k8s.io/client-go v0.32.2
-	k8s.io/code-generator => k8s.io/code-generator v0.32.2
-	k8s.io/component-base => k8s.io/component-base v0.32.2
+	k8s.io/api => k8s.io/api v0.33.1
+	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.33.1
+	k8s.io/apimachinery => k8s.io/apimachinery v0.33.1
+	k8s.io/cli-runtime => k8s.io/cli-runtime v0.33.1
+	k8s.io/client-go => k8s.io/client-go v0.33.1
+	k8s.io/code-generator => k8s.io/code-generator v0.33.1
+	k8s.io/component-base => k8s.io/component-base v0.33.1
 )
 
 require (
 	github.com/cncf/xds/go v0.0.0-20240905190251-b4127c9b8d78
 	github.com/envoyproxy/protoc-gen-validate v1.1.0
 	github.com/gogo/protobuf v1.3.2
-	github.com/golang/mock v1.6.0
+	github.com/golang/mock v1.7.0-rc.1
 	github.com/golang/protobuf v1.5.4
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/onsi/ginkgo v1.16.5
@@ -74,7 +74,6 @@ require (
 	github.com/google/btree v1.1.3 // indirect
 	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
