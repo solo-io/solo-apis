@@ -24,13 +24,13 @@ message IstioLifecycleHelmGlobals {
   string repo = 1;
   
   // Optional. If present, the Gloo agent uses the credentials in the given secrets to log in to the OCI
-  // registry to access Istio charts.  
-  // Similar to ImagePullSecrets, the secrets that you specify in this section must be of type `kubernetes.io/dockerconfigjson` and 
+  // registry to access Istio charts.
+  // Similar to ImagePullSecrets, the secrets that you specify in this section must be of type `kubernetes.io/dockerconfigjson` and
   // must exist on all the clusters where you want the Gloo agent to install Istio.
   repeated .k8s.io.api.core.v1.ObjectReference repo_secrets = 2;
 
   // Optional. If true, skip TLS verification when pulling Helm charts from a given OCI repository.
-  // Use this setting for testing, quick demos, and exploration purposes only. In production setup, make sure that each
+  // Use this setting for testing, quick demos, and exploration purposes only. In production setups, make sure that each
   // node is configured to trust the certificate that is presented by the chart OCI registry.
   bool repo_skip_tls_verify = 3;
 }

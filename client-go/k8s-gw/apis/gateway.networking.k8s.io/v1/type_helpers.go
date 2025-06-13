@@ -15,3 +15,6 @@ type GatewaySlice []*Gateway
 
 // HTTPRouteSlice represents a slice of *HTTPRoute
 type HTTPRouteSlice []*HTTPRoute
+
+// GRPCRouteSlice represents a slice of *GRPCRoute
+type GRPCRouteSlice []*GRPCRoute

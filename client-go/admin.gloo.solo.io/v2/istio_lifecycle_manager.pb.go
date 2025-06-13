@@ -1,5 +1,5 @@
-// {{% alert context="success" %}}
-// In Gloo Mesh version 2.7 and later, Solo has a new way of installing Istio with the [Gloo Operator](https://docs.solo.io/gloo-mesh-enterprise/latest/istio/operator/install/).
+// {{% alert context="warning" %}}
+// The IstioLifecycleManager is considered legacy in Gloo Mesh versions 2.7 and 2.8, and deprecated in version 2.9. Instead, you can use the new way of installing Istio with the [Gloo Operator](https://docs.solo.io/gloo-mesh-enterprise/latest/istio/operator/install/). For migration steps, see [Migrate to the Gloo Operator from the Istio lifecycle manager](https://docs.solo.io/gloo-mesh-enterprise/latest/istio/operator/onboard/#ilm).
 // {{% /alert %}}
 //
 // Use Gloo Platform to install Istio control planes in your workload clusters,
