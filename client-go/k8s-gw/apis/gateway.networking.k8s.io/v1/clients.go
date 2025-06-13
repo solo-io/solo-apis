@@ -44,6 +44,8 @@ type Clientset interface {
 	Gateways() GatewayClient
 	// clienset for the gateway.networking.k8s.io/v1/v1 APIs
 	HTTPRoutes() HTTPRouteClient
+	// clienset for the gateway.networking.k8s.io/v1/v1 APIs
+	GRPCRoutes() GRPCRouteClient
 }
 
 type clientSet struct {
@@ -81,6 +83,11 @@ func (c *clientSet) Gateways() GatewayClient {
 // clienset for the gateway.networking.k8s.io/v1/v1 APIs
 func (c *clientSet) HTTPRoutes() HTTPRouteClient {
 	return NewHTTPRouteClient(c.client)
+}
+
+// clienset for the gateway.networking.k8s.io/v1/v1 APIs
+func (c *clientSet) GRPCRoutes() GRPCRouteClient {
+	return NewGRPCRouteClient(c.client)
 }
 
 // Reader knows how to read and list GatewayClasss.
@@ -507,4 +514,146 @@ func (m *multiclusterHTTPRouteClient) Cluster(cluster string) (HTTPRouteClient, 
 		return nil, err
 	}
 	return NewHTTPRouteClient(client), nil
+}
+
+// Reader knows how to read and list GRPCRoutes.
+type GRPCRouteReader interface {
+	// Get retrieves a GRPCRoute for the given object key
+	GetGRPCRoute(ctx context.Context, key client.ObjectKey) (*gateway_networking_k8s_io_v1.GRPCRoute, error)
+
+	// List retrieves list of GRPCRoutes for a given namespace and list options.
+	ListGRPCRoute(ctx context.Context, opts ...client.ListOption) (*gateway_networking_k8s_io_v1.GRPCRouteList, error)
+}
+
+// GRPCRouteTransitionFunction instructs the GRPCRouteWriter how to transition between an existing
+// GRPCRoute object and a desired on an Upsert
+type GRPCRouteTransitionFunction func(existing, desired *gateway_networking_k8s_io_v1.GRPCRoute) error
+
+// Writer knows how to create, delete, and update GRPCRoutes.
+type GRPCRouteWriter interface {
+	// Create saves the GRPCRoute object.
+	CreateGRPCRoute(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, opts ...client.CreateOption) error
+
+	// Delete deletes the GRPCRoute object.
+	DeleteGRPCRoute(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error
+
+	// Update updates the given GRPCRoute object.
+	UpdateGRPCRoute(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, opts ...client.UpdateOption) error
+
+	// Patch patches the given GRPCRoute object.
+	PatchGRPCRoute(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, patch client.Patch, opts ...client.PatchOption) error
+
+	// DeleteAllOf deletes all GRPCRoute objects matching the given options.
+	DeleteAllOfGRPCRoute(ctx context.Context, opts ...client.DeleteAllOfOption) error
+
+	// Create or Update the GRPCRoute object.
+	UpsertGRPCRoute(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, transitionFuncs ...GRPCRouteTransitionFunction) error
+}
+
+// StatusWriter knows how to update status subresource of a GRPCRoute object.
+type GRPCRouteStatusWriter interface {
+	// Update updates the fields corresponding to the status subresource for the
+	// given GRPCRoute object.
+	UpdateGRPCRouteStatus(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, opts ...client.SubResourceUpdateOption) error
+
+	// Patch patches the given GRPCRoute object's subresource.
+	PatchGRPCRouteStatus(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, patch client.Patch, opts ...client.SubResourcePatchOption) error
+}
+
+// Client knows how to perform CRUD operations on GRPCRoutes.
+type GRPCRouteClient interface {
+	GRPCRouteReader
+	GRPCRouteWriter
+	GRPCRouteStatusWriter
+}
+
+type gRPCRouteClient struct {
+	client client.Client
+}
+
+func NewGRPCRouteClient(client client.Client) *gRPCRouteClient {
+	return &gRPCRouteClient{client: client}
+}
+
+func (c *gRPCRouteClient) GetGRPCRoute(ctx context.Context, key client.ObjectKey) (*gateway_networking_k8s_io_v1.GRPCRoute, error) {
+	obj := &gateway_networking_k8s_io_v1.GRPCRoute{}
+	if err := c.client.Get(ctx, key, obj); err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (c *gRPCRouteClient) ListGRPCRoute(ctx context.Context, opts ...client.ListOption) (*gateway_networking_k8s_io_v1.GRPCRouteList, error) {
+	list := &gateway_networking_k8s_io_v1.GRPCRouteList{}
+	if err := c.client.List(ctx, list, opts...); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (c *gRPCRouteClient) CreateGRPCRoute(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, opts ...client.CreateOption) error {
+	return c.client.Create(ctx, obj, opts...)
+}
+
+func (c *gRPCRouteClient) DeleteGRPCRoute(ctx context.Context, key client.ObjectKey, opts ...client.DeleteOption) error {
+	obj := &gateway_networking_k8s_io_v1.GRPCRoute{}
+	obj.SetName(key.Name)
+	obj.SetNamespace(key.Namespace)
+	return c.client.Delete(ctx, obj, opts...)
+}
+
+func (c *gRPCRouteClient) UpdateGRPCRoute(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, opts ...client.UpdateOption) error {
+	return c.client.Update(ctx, obj, opts...)
+}
+
+func (c *gRPCRouteClient) PatchGRPCRoute(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, patch client.Patch, opts ...client.PatchOption) error {
+	return c.client.Patch(ctx, obj, patch, opts...)
+}
+
+func (c *gRPCRouteClient) DeleteAllOfGRPCRoute(ctx context.Context, opts ...client.DeleteAllOfOption) error {
+	obj := &gateway_networking_k8s_io_v1.GRPCRoute{}
+	return c.client.DeleteAllOf(ctx, obj, opts...)
+}
+
+func (c *gRPCRouteClient) UpsertGRPCRoute(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, transitionFuncs ...GRPCRouteTransitionFunction) error {
+	genericTxFunc := func(existing, desired runtime.Object) error {
+		for _, txFunc := range transitionFuncs {
+			if err := txFunc(existing.(*gateway_networking_k8s_io_v1.GRPCRoute), desired.(*gateway_networking_k8s_io_v1.GRPCRoute)); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	_, err := controllerutils.Upsert(ctx, c.client, obj, genericTxFunc)
+	return err
+}
+
+func (c *gRPCRouteClient) UpdateGRPCRouteStatus(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, opts ...client.SubResourceUpdateOption) error {
+	return c.client.Status().Update(ctx, obj, opts...)
+}
+
+func (c *gRPCRouteClient) PatchGRPCRouteStatus(ctx context.Context, obj *gateway_networking_k8s_io_v1.GRPCRoute, patch client.Patch, opts ...client.SubResourcePatchOption) error {
+	return c.client.Status().Patch(ctx, obj, patch, opts...)
+}
+
+// Provides GRPCRouteClients for multiple clusters.
+type MulticlusterGRPCRouteClient interface {
+	// Cluster returns a GRPCRouteClient for the given cluster
+	Cluster(cluster string) (GRPCRouteClient, error)
+}
+
+type multiclusterGRPCRouteClient struct {
+	client multicluster.Client
+}
+
+func NewMulticlusterGRPCRouteClient(client multicluster.Client) MulticlusterGRPCRouteClient {
+	return &multiclusterGRPCRouteClient{client: client}
+}
+
+func (m *multiclusterGRPCRouteClient) Cluster(cluster string) (GRPCRouteClient, error) {
+	client, err := m.client.Cluster(cluster)
+	if err != nil {
+		return nil, err
+	}
+	return NewGRPCRouteClient(client), nil
 }
