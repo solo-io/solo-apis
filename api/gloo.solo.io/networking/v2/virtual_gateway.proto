@@ -316,9 +316,9 @@ message VirtualGatewaySpec {
 //
 // +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'SIMPLE' ? has(self.secretName) || (has(self.files) && has(self.files.serverCert)) : true",message="If mode is SIMPLE, either secretName or both files.serverCert and files.privateKey must be set."
 // +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'SIMPLE' ? has(self.secretName) || (has(self.files) && has(self.files.privateKey)) : true",message="If mode is SIMPLE, either secretName or both files.serverCert and files.privateKey must be set."
-// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'MUTUAL' ? has(self.secretName) || (has(self.files) && has(self.files.serverCert)) : true",message="If mode is MUTUAL, you must either set secretName or set files and all its subfields."
-// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'MUTUAL' ? has(self.secretName) || (has(self.files) && has(self.files.privateKey)) : true",message="If mode is MUTUAL, you must either set secretName or set files and all its subfields."
-// +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'MUTUAL' ? has(self.secretName) || (has(self.files) && has(self.files.caCerts)) : true",message="If mode is MUTUAL, you must either set secretName or set files and all its subfields."
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && (self.mode == 'MUTUAL' || self.mode == 'OPTIONAL_MUTUAL') ? has(self.secretName) || (has(self.files) && has(self.files.serverCert)) : true",message="If mode is MUTUAL or OPTIONAL_MUTUAL, you must either set secretName or set files and all its subfields."
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && (self.mode == 'MUTUAL' || self.mode == 'OPTIONAL_MUTUAL') ? has(self.secretName) || (has(self.files) && has(self.files.privateKey)) : true",message="If mode is MUTUAL or OPTIONAL_MUTUAL, you must either set secretName or set files and all its subfields."
+// +kubebuilder:validation:XValidation:rule="has(self.mode) && (self.mode == 'MUTUAL' || self.mode == 'OPTIONAL_MUTUAL') ? has(self.secretName) || (has(self.files) && has(self.files.caCerts)) : true",message="If mode is MUTUAL or OPTIONAL_MUTUAL, you must either set secretName or set files and all its subfields."
 // +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'ISTIO_MUTUAL' ? !has(self.secretName) : true",message="If mode is ISTIO_MUTUAL, secretName must not be set."
 // +kubebuilder:validation:XValidation:rule="has(self.mode) && self.mode == 'ISTIO_MUTUAL' ? !has(self.files) : true",message="If mode is ISTIO_MUTUAL, files must not be set."
 message TLSConfig {
@@ -327,7 +327,7 @@ message TLSConfig {
   //
   // </br>**Configuration constraints**:<ul>
   // <li>If `mode` is `SIMPLE`, either `secretName` or both `files.serverCert` and `files.privateKey` must be set.</li>
-  // <li>If `mode` is `MUTUAL`, you must either set `secretName` or set `files` and all its subfields.</li>
+  // <li>If `mode` is `MUTUAL` or `OPTIONAL_MUTUAL`, you must either set `secretName` or set `files` and all its subfields.</li>
   // <li>If `mode` is `ISTIO_MUTUAL`, `secretName` and `files` must not be set.</li></ul>
   oneof certificates {
     // The name of the Kubernetes secret that contains the SSL secret. Each
@@ -339,7 +339,7 @@ message TLSConfig {
     // <li>The value must name a real secret in the given namespace and cluster.</li>
     // <li>An Opaque secret must contain either `tls.key: <privateKey>` and `tls.crt: <serverCert>`,
     // or `key: <privateKey>` and `cert: <serverCert>`.
-    // For mutual TLS, you can provide `cacert: <CACertificate>` and `crl: <CertificateRevocationList>`
+    // For mutual TLS or optional mutual TLS, you can provide `cacert: <CACertificate>` and `crl: <CertificateRevocationList>`
     // in the same secret, or a separate secret named `<secret>-cacert`.
     // You can also provide a TLS secret for server certificates with an additional `tls.ocsp-staple`
     // key for OCSP staple information, `ca.crt` key for CA certificates, and `ca.crl` for a certificate revocation list.</li></ul>
@@ -397,6 +397,13 @@ message TLSConfig {
     //
     // </br>**Configuration constraints**: If `mode` is set to this value, `tlsConfig.secretName` and `tlsConfig.files` must not be set.
     ISTIO_MUTUAL = 4;
+
+    // Similar to MUTUAL mode, except that the client certificate is optional.
+    // Note that a client certificate is explicitly requested during the TLS handshake. However, the client is not required to send a certificate.
+    // If a client certificate is presented, the certificate is validated. To validate client certificates, you must either specify a CA certificate in the `ca_certs` file or add it to your TLS secret as `ca.crt`.
+    //
+    // </br>**Configuration constraints**: If `mode` is set to this value, you must either set `tlsConfig.secretName` or set `tlsConfig.files` and all its subfields.
+    OPTIONAL_MUTUAL = 5;
   }
 
   // Paths to certificates that can be read by the gateway proxy from its local filesystem.
@@ -407,7 +414,7 @@ message TLSConfig {
     //
     // </br>**Configuration constraints**:<ul>
     // <li>This field must be empty if `tlsMode` is `ISTIO_MUTUAL`.</li>
-    // <li>This field is required if `tlsMode` is `SIMPLE` or `MUTUAL`, and `secretName` is not set.</li>
+    // <li>This field is required if `tlsMode` is `SIMPLE`, `MUTUAL`, or `OPTIONAL_MUTUAL`, and `secretName` is not set.</li>
     // <li>This field is ignored if `tlsMode` is `PASSTHROUGH` or `AUTO_PASSTHROUGH`.</li></ul>
     string server_cert = 1;
 
@@ -415,7 +422,7 @@ message TLSConfig {
     //
     // </br>**Configuration constraints**:<ul>
     // <li>This field must be empty if `tlsMode` is `ISTIO_MUTUAL`.</li>
-    // <li>This field is required if `tlsMode` is `SIMPLE` or `MUTUAL`, and `secretName` is not set.</li>
+    // <li>This field is required if `tlsMode` is `SIMPLE`, `MUTUAL`, or `OPTIONAL_MUTUAL`, and `secretName` is not set.</li>
     // <li>This field is ignored if `tlsMode` is `PASSTHROUGH` or `AUTO_PASSTHROUGH`.</li>
     string private_key = 2;
 
@@ -423,7 +430,7 @@ message TLSConfig {
     //
     // </br>**Configuration constraints**:<ul>
     // <li>This field must be empty if `tlsMode` is `ISTIO_MUTUAL`.</li>
-    // <li>This field is required if `tlsMode` is `MUTUAL`, and `secretName` is not set.</li>
+    // <li>This field is required if `tlsMode` is `MUTUAL` or `OPTIONAL_MUTUAL`, and `secretName` is not set.</li>
     // <li>This field is ignored if `tlsMode` is `PASSTHROUGH` or `AUTO_PASSTHROUGH`.</li></ul>
     string ca_certs = 3;
   }
