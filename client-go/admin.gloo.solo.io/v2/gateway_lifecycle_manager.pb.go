@@ -8,8 +8,6 @@
 // When you create the `GatewayLifecycleManager` in your management cluster, Gloo translates the configuration
 // into gateways in your registered workload clusters for you.
 //
-// For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% link path="/setup/install/gloo_mesh_managed/" %}}) guide.
-//
 // ## Examples
 //
 // **East-west**: This example creates an east-west gateway named `istio-eastwestgateway` in the `gloo-mesh-gateways`
