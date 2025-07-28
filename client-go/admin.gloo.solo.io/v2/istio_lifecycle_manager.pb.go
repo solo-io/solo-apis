@@ -8,8 +8,6 @@
 // When you create the `IstioLifecycleManager` in your management cluster, Gloo translates the configuration
 // into `istiod` control planes in your registered workload clusters for you.
 //
-// For more information, see the [Install Istio by using the Istio Lifecycle Manager]({{% link path="/setup/install/gloo_mesh_managed/" %}}) guide.
-//
 // ## Example
 // This example creates an `istiod` control plane in the `istio-system` namespace of two workload clusters
 // (`$REMOTE_CLUSTER1` and `$REMOTE_CLUSTER2`). You supply the repo key for the Solo distribution of Istio (`hub: $REPO`), image tag (`tag: $ISTIO_IMAGE`),
