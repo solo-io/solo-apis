@@ -195,12 +195,6 @@ func (m *SettingsSpec) Clone() proto.Message {
 		target.ConsoleOptions = proto.Clone(m.GetConsoleOptions()).(*ConsoleOptions)
 	}
 
-	if h, ok := interface{}(m.GetGraphqlOptions()).(clone.Cloner); ok {
-		target.GraphqlOptions = h.Clone().(*GraphqlOptions)
-	} else {
-		target.GraphqlOptions = proto.Clone(m.GetGraphqlOptions()).(*GraphqlOptions)
-	}
-
 	if h, ok := interface{}(m.GetExtProc()).(clone.Cloner); ok {
 		target.ExtProc = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.Settings)
 	} else {
@@ -605,18 +599,6 @@ func (m *ConsoleOptions) Clone() proto.Message {
 	}
 	target = &ConsoleOptions{}
 
-	if h, ok := interface{}(m.GetReadOnly()).(clone.Cloner); ok {
-		target.ReadOnly = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
-	} else {
-		target.ReadOnly = proto.Clone(m.GetReadOnly()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
-	}
-
-	if h, ok := interface{}(m.GetApiExplorerEnabled()).(clone.Cloner); ok {
-		target.ApiExplorerEnabled = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
-	} else {
-		target.ApiExplorerEnabled = proto.Clone(m.GetApiExplorerEnabled()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
-	}
-
 	return target
 }
 
@@ -627,12 +609,6 @@ func (m *GraphqlOptions) Clone() proto.Message {
 		return target
 	}
 	target = &GraphqlOptions{}
-
-	if h, ok := interface{}(m.GetSchemaChangeValidationOptions()).(clone.Cloner); ok {
-		target.SchemaChangeValidationOptions = h.Clone().(*GraphqlOptions_SchemaChangeValidationOptions)
-	} else {
-		target.SchemaChangeValidationOptions = proto.Clone(m.GetSchemaChangeValidationOptions()).(*GraphqlOptions_SchemaChangeValidationOptions)
-	}
 
 	return target
 }
@@ -1174,12 +1150,6 @@ func (m *SettingsSpec_DiscoveryOptions_FdsOptions) Clone() proto.Message {
 	}
 	target = &SettingsSpec_DiscoveryOptions_FdsOptions{}
 
-	if h, ok := interface{}(m.GetGraphqlEnabled()).(clone.Cloner); ok {
-		target.GraphqlEnabled = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
-	} else {
-		target.GraphqlEnabled = proto.Clone(m.GetGraphqlEnabled()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
-	}
-
 	return target
 }
 
@@ -1430,21 +1400,6 @@ func (m *GraphqlOptions_SchemaChangeValidationOptions) Clone() proto.Message {
 		return target
 	}
 	target = &GraphqlOptions_SchemaChangeValidationOptions{}
-
-	if h, ok := interface{}(m.GetRejectBreakingChanges()).(clone.Cloner); ok {
-		target.RejectBreakingChanges = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
-	} else {
-		target.RejectBreakingChanges = proto.Clone(m.GetRejectBreakingChanges()).(*google_golang_org_protobuf_types_known_wrapperspb.BoolValue)
-	}
-
-	if m.GetProcessingRules() != nil {
-		target.ProcessingRules = make([]GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule, len(m.GetProcessingRules()))
-		for idx, v := range m.GetProcessingRules() {
-
-			target.ProcessingRules[idx] = v
-
-		}
-	}
 
 	return target
 }

@@ -270,16 +270,6 @@ func (m *SettingsSpec) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetGraphqlOptions()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetGraphqlOptions()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetGraphqlOptions(), target.GetGraphqlOptions()) {
-			return false
-		}
-	}
-
 	if h, ok := interface{}(m.GetExtProc()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetExtProc()) {
 			return false
@@ -941,26 +931,6 @@ func (m *ConsoleOptions) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetReadOnly()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetReadOnly()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetReadOnly(), target.GetReadOnly()) {
-			return false
-		}
-	}
-
-	if h, ok := interface{}(m.GetApiExplorerEnabled()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetApiExplorerEnabled()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetApiExplorerEnabled(), target.GetApiExplorerEnabled()) {
-			return false
-		}
-	}
-
 	return true
 }
 
@@ -983,16 +953,6 @@ func (m *GraphqlOptions) Equal(that interface{}) bool {
 		return m == nil
 	} else if m == nil {
 		return false
-	}
-
-	if h, ok := interface{}(m.GetSchemaChangeValidationOptions()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetSchemaChangeValidationOptions()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetSchemaChangeValidationOptions(), target.GetSchemaChangeValidationOptions()) {
-			return false
-		}
 	}
 
 	return true
@@ -1996,16 +1956,6 @@ func (m *SettingsSpec_DiscoveryOptions_FdsOptions) Equal(that interface{}) bool 
 		return false
 	}
 
-	if h, ok := interface{}(m.GetGraphqlEnabled()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetGraphqlEnabled()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetGraphqlEnabled(), target.GetGraphqlEnabled()) {
-			return false
-		}
-	}
-
 	return true
 }
 
@@ -2469,27 +2419,6 @@ func (m *GraphqlOptions_SchemaChangeValidationOptions) Equal(that interface{}) b
 		return m == nil
 	} else if m == nil {
 		return false
-	}
-
-	if h, ok := interface{}(m.GetRejectBreakingChanges()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetRejectBreakingChanges()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetRejectBreakingChanges(), target.GetRejectBreakingChanges()) {
-			return false
-		}
-	}
-
-	if len(m.GetProcessingRules()) != len(target.GetProcessingRules()) {
-		return false
-	}
-	for idx, v := range m.GetProcessingRules() {
-
-		if v != target.GetProcessingRules()[idx] {
-			return false
-		}
-
 	}
 
 	return true
