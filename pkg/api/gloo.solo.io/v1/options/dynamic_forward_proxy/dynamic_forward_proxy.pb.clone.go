@@ -19,8 +19,6 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_config_core_v3 "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/core/v3"
 
-	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_circuit_breaker "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/circuit_breaker"
-
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/ssl"
 )
 
@@ -55,12 +53,6 @@ func (m *FilterConfig) Clone() proto.Message {
 		target.SslConfig = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.UpstreamSslConfig)
 	} else {
 		target.SslConfig = proto.Clone(m.GetSslConfig()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_ssl.UpstreamSslConfig)
-	}
-
-	if h, ok := interface{}(m.GetCircuitBreakers()).(clone.Cloner); ok {
-		target.CircuitBreakers = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_circuit_breaker.CircuitBreakerConfig)
-	} else {
-		target.CircuitBreakers = proto.Clone(m.GetCircuitBreakers()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_circuit_breaker.CircuitBreakerConfig)
 	}
 
 	return target

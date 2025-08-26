@@ -23,8 +23,6 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_api_v2_core "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/api/v2/core"
 
-	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_circuit_breaker "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/circuit_breaker"
-
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_ai "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/ai"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_gcp "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/gcp"
@@ -78,9 +76,9 @@ func (m *UpstreamSpec) Clone() proto.Message {
 	}
 
 	if h, ok := interface{}(m.GetCircuitBreakers()).(clone.Cloner); ok {
-		target.CircuitBreakers = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_circuit_breaker.CircuitBreakerConfig)
+		target.CircuitBreakers = h.Clone().(*CircuitBreakerConfig)
 	} else {
-		target.CircuitBreakers = proto.Clone(m.GetCircuitBreakers()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_circuit_breaker.CircuitBreakerConfig)
+		target.CircuitBreakers = proto.Clone(m.GetCircuitBreakers()).(*CircuitBreakerConfig)
 	}
 
 	if h, ok := interface{}(m.GetLoadBalancerConfig()).(clone.Cloner); ok {
