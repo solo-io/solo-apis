@@ -215,6 +215,13 @@ func (this *RouteOptionStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for RouteOptionStatus
 func (this *RouteOptionStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into RouteOptionStatus
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), this); err == nil {
+		// Successfully unmarshaled directly, return
+		return nil
+	}
+
+	// Fall back to unmarshaling into RouteOptionNamespacedStatuses
 	namespacedStatuses := RouteOptionNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
