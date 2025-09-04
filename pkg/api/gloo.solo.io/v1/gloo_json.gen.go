@@ -46,9 +46,14 @@ func (this *SettingsStatus) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON is a custom unmarshaler for SettingsStatus
 func (this *SettingsStatus) UnmarshalJSON(b []byte) error {
 	// First try to unmarshal directly into SettingsStatus
-	if err := unmarshaller.Unmarshal(bytes.NewReader(b), this); err == nil {
-		// Successfully unmarshaled directly, return
-		return nil
+	temp := &SettingsStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
 	}
 
 	// Fall back to unmarshaling into SettingsNamespacedStatuses
@@ -87,9 +92,14 @@ func (this *UpstreamStatus) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON is a custom unmarshaler for UpstreamStatus
 func (this *UpstreamStatus) UnmarshalJSON(b []byte) error {
 	// First try to unmarshal directly into UpstreamStatus
-	if err := unmarshaller.Unmarshal(bytes.NewReader(b), this); err == nil {
-		// Successfully unmarshaled directly, return
-		return nil
+	temp := &UpstreamStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
 	}
 
 	// Fall back to unmarshaling into UpstreamNamespacedStatuses
@@ -128,9 +138,14 @@ func (this *UpstreamGroupStatus) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON is a custom unmarshaler for UpstreamGroupStatus
 func (this *UpstreamGroupStatus) UnmarshalJSON(b []byte) error {
 	// First try to unmarshal directly into UpstreamGroupStatus
-	if err := unmarshaller.Unmarshal(bytes.NewReader(b), this); err == nil {
-		// Successfully unmarshaled directly, return
-		return nil
+	temp := &UpstreamGroupStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
 	}
 
 	// Fall back to unmarshaling into UpstreamGroupNamespacedStatuses
@@ -169,9 +184,14 @@ func (this *ProxyStatus) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON is a custom unmarshaler for ProxyStatus
 func (this *ProxyStatus) UnmarshalJSON(b []byte) error {
 	// First try to unmarshal directly into ProxyStatus
-	if err := unmarshaller.Unmarshal(bytes.NewReader(b), this); err == nil {
-		// Successfully unmarshaled directly, return
-		return nil
+	temp := &ProxyStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
 	}
 
 	// Fall back to unmarshaling into ProxyNamespacedStatuses
