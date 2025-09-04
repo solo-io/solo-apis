@@ -16,6 +16,8 @@ import (
 	github_com_solo_io_solo_kit_pkg_api_v1_resources_core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
 	google_golang_org_protobuf_types_known_structpb "google.golang.org/protobuf/types/known/structpb"
+
+	google_golang_org_protobuf_types_known_wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // ensure the imports are used
@@ -424,6 +426,33 @@ func (m *SingleAuthToken_Passthrough) Clone() proto.Message {
 }
 
 // Clone function
+func (m *UpstreamSpec_PathOverride) Clone() proto.Message {
+	var target *UpstreamSpec_PathOverride
+	if m == nil {
+		return target
+	}
+	target = &UpstreamSpec_PathOverride{}
+
+	switch m.OverrideType.(type) {
+
+	case *UpstreamSpec_PathOverride_FullPath:
+
+		target.OverrideType = &UpstreamSpec_PathOverride_FullPath{
+			FullPath: m.GetFullPath(),
+		}
+
+	case *UpstreamSpec_PathOverride_BasePath:
+
+		target.OverrideType = &UpstreamSpec_PathOverride_BasePath{
+			BasePath: m.GetBasePath(),
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
 func (m *UpstreamSpec_CustomHost) Clone() proto.Message {
 	var target *UpstreamSpec_CustomHost
 	if m == nil {
@@ -434,6 +463,18 @@ func (m *UpstreamSpec_CustomHost) Clone() proto.Message {
 	target.Host = m.GetHost()
 
 	target.Port = m.GetPort()
+
+	if h, ok := interface{}(m.GetHostname()).(clone.Cloner); ok {
+		target.Hostname = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
+	} else {
+		target.Hostname = proto.Clone(m.GetHostname()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
+	}
+
+	if h, ok := interface{}(m.GetPathOverride()).(clone.Cloner); ok {
+		target.PathOverride = h.Clone().(*UpstreamSpec_PathOverride)
+	} else {
+		target.PathOverride = proto.Clone(m.GetPathOverride()).(*UpstreamSpec_PathOverride)
+	}
 
 	return target
 }
@@ -546,6 +587,8 @@ func (m *UpstreamSpec_VertexAI) Clone() proto.Message {
 	target.ModelPath = m.GetModelPath()
 
 	target.Publisher = m.GetPublisher()
+
+	target.JsonSchema = m.GetJsonSchema()
 
 	switch m.AuthTokenSource.(type) {
 

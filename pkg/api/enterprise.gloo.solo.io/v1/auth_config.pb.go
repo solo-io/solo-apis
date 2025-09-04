@@ -2352,16 +2352,16 @@ type OidcAuthorizationCode struct {
 	// specifications. Noted [here](https://openid.net/specs/openid-connect-rpinitiated-1_0.html)
 	// in the OIDC documentation.
 	EndSessionProperties *EndSessionProperties `protobuf:"bytes,19,opt,name=end_session_properties,json=endSessionProperties,proto3" json:"end_session_properties,omitempty"`
-	// Map of metadata key to claim. Ie:
-	// dynamic_metadata_from_claims:
-	//
-	//	issuer: iss
-	//	email: email
-	//
-	// When specified, the matching claims from the ID token will be emitted as dynamic metadata.
+	// Map claims to dynamic metadata keys in the authorization response, such as
+	// `dynamic_metadata.issuer=iss` and `dynamic_metadata.email=email`.
+	// Use this approach to enrich the metadata that is passed to upstream services
+	// so that they can be further processed or used for decision-making.
 	// Note that metadata keys must be unique, and the claim names must be alphanumeric and use `-` or `_` as separators.
-	// The metadata will live in a namespace specified by the canonical name of the ext auth filter (in our case `envoy.filters.http.ext_authz`),
-	// and the structure of the claim value will be preserved in the metadata struct.
+	// The metadata live in a namespace specified by the canonical name of the extauth filter (`envoy.filters.http.ext_authz`),
+	// and the structure of the claim value is preserved in the metadata struct. Dynamic metadata can be viewed in the authorization response.
+	// You can view the authorization response in the logs of the extauth pod when debug logging is enabled.
+	// To further process dynamic metadata, you can extract the dynamic metadata keys with an Inja template in a transformation or rate limiting policy.
+	// For example, to extract a nested `sub` key that is stored under `config_0`, use `{{ dynamic_metadata("config_0:sub", "envoy.filters.http.ext_authz")}}`.
 	DynamicMetadataFromClaims map[string]string `protobuf:"bytes,20,rep,name=dynamic_metadata_from_claims,json=dynamicMetadataFromClaims,proto3" json:"dynamic_metadata_from_claims,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// If true, do not check for or use the client secret.
 	// Generally the client secret is required and AuthConfigs will be rejected if it isn't set.
@@ -3058,19 +3058,19 @@ type AccessTokenValidation struct {
 	//
 	//	*AccessTokenValidation_RequiredScopes
 	ScopeValidation isAccessTokenValidation_ScopeValidation `protobuf_oneof:"scope_validation"`
-	// Map of metadata key to claim. Ie:
-	// dynamic_metadata_from_claims:
-	//
-	//	issuer: iss
-	//	email: email
-	//
-	// When specified, the matching claims from the access token will be emitted as dynamic metadata.
+	// Map claims to dynamic metadata keys in the authorization response, such as
+	// 'dynamic_metadata_from_claims.issuer=iss' and 'dynamic_metadata_from_claims.email=email'.
+	// Use this approach to enrich the metadata that is passed to upstream services
+	// so that they can be further processed or used for decision-making.
 	// Note that metadata keys must be unique, and the claim names must be alphanumeric and use `-` or `_` as separators.
-	// Works when the access token is a JWT or when the access token is opaque, in which case the claims will refer to field in the response from the token introspection endpoint.
-	// The metadata will live in a namespace specified by the canonical name of the ext auth filter (in our case `envoy.filters.http.ext_authz`),
-	// and the structure of the claim value will be preserved in the metadata struct.
+	// The metadata live in a namespace specified by the canonical name of the extauth filter (`envoy.filters.http.ext_authz`),
+	// and the structure of the claim value is preserved in the metadata struct. Dynamic metadata can be viewed in the authorization response.
+	// You can view the authorization response in the logs of the extauth pod when debug logging is enabled.
+	// To further process dynamic metadata, you can extract the dynamic metadata keys with an Inja template in a transformation or rate limiting policy.
+	// For example, to extract a nested `sub` key that is stored under `config_0`, use `{{ dynamic_metadata("config_0:sub", "envoy.filters.http.ext_authz")}}`.
 	DynamicMetadataFromClaims map[string]string `protobuf:"bytes,7,rep,name=dynamic_metadata_from_claims,json=dynamicMetadataFromClaims,proto3" json:"dynamic_metadata_from_claims,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination
+	// A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination.
+	// This option is not supported for opaque tokens.
 	ClaimsToHeaders []*ClaimToHeader `protobuf:"bytes,8,rep,name=claims_to_headers,json=claimsToHeaders,proto3" json:"claims_to_headers,omitempty"`
 	// Types that are assignable to Provider:
 	//
@@ -4597,6 +4597,8 @@ type RetryPolicy_RetryBackOff struct {
 func (*RetryPolicy_RetryBackOff) isRetryPolicy_Strategy() {}
 
 // Authorizes requests by querying a custom extauth grpc server
+// To send the request body to the ext-auth service, the settings.extauth.requestBody must be set in the Gloo Edge Settings CRD so that
+// the request body is buffered and sent.
 // Assumes that the server implements the envoy external authorization spec:
 // https://github.com/envoyproxy/envoy/blob/ae1ed1fa74f096dabe8dd5b19fc70333621b0309/api/envoy/service/auth/v3/external_auth.proto#L29
 type PassThroughGrpc struct {
@@ -6101,7 +6103,8 @@ type OidcAuthorizationCode_AccessToken struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination
+	// A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination.
+	// This option is not available for opaque tokens.
 	ClaimsToHeaders []*ClaimToHeader `protobuf:"bytes,1,rep,name=claims_to_headers,json=claimsToHeaders,proto3" json:"claims_to_headers,omitempty"`
 }
 
@@ -6148,7 +6151,8 @@ type OidcAuthorizationCode_IdentityToken struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination
+	// A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination.
+	// This option is not available for opaque tokens.
 	ClaimsToHeaders []*ClaimToHeader `protobuf:"bytes,1,rep,name=claims_to_headers,json=claimsToHeaders,proto3" json:"claims_to_headers,omitempty"`
 }
 
