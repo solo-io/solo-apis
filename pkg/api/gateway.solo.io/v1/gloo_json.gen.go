@@ -45,6 +45,18 @@ func (this *GatewayStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for GatewayStatus
 func (this *GatewayStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into GatewayStatus
+	temp := &GatewayStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
+	}
+
+	// Fall back to unmarshaling into GatewayNamespacedStatuses
 	namespacedStatuses := GatewayNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
@@ -79,6 +91,18 @@ func (this *HttpListenerOptionStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for HttpListenerOptionStatus
 func (this *HttpListenerOptionStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into HttpListenerOptionStatus
+	temp := &HttpListenerOptionStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
+	}
+
+	// Fall back to unmarshaling into HttpListenerOptionNamespacedStatuses
 	namespacedStatuses := HttpListenerOptionNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
@@ -113,6 +137,18 @@ func (this *ListenerOptionStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for ListenerOptionStatus
 func (this *ListenerOptionStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into ListenerOptionStatus
+	temp := &ListenerOptionStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
+	}
+
+	// Fall back to unmarshaling into ListenerOptionNamespacedStatuses
 	namespacedStatuses := ListenerOptionNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
@@ -147,6 +183,18 @@ func (this *MatchableHttpGatewayStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for MatchableHttpGatewayStatus
 func (this *MatchableHttpGatewayStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into MatchableHttpGatewayStatus
+	temp := &MatchableHttpGatewayStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
+	}
+
+	// Fall back to unmarshaling into MatchableHttpGatewayNamespacedStatuses
 	namespacedStatuses := MatchableHttpGatewayNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
@@ -181,6 +229,18 @@ func (this *MatchableTcpGatewayStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for MatchableTcpGatewayStatus
 func (this *MatchableTcpGatewayStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into MatchableTcpGatewayStatus
+	temp := &MatchableTcpGatewayStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
+	}
+
+	// Fall back to unmarshaling into MatchableTcpGatewayNamespacedStatuses
 	namespacedStatuses := MatchableTcpGatewayNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
@@ -215,6 +275,18 @@ func (this *RouteOptionStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for RouteOptionStatus
 func (this *RouteOptionStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into RouteOptionStatus
+	temp := &RouteOptionStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
+	}
+
+	// Fall back to unmarshaling into RouteOptionNamespacedStatuses
 	namespacedStatuses := RouteOptionNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
@@ -249,6 +321,18 @@ func (this *RouteTableStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for RouteTableStatus
 func (this *RouteTableStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into RouteTableStatus
+	temp := &RouteTableStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
+	}
+
+	// Fall back to unmarshaling into RouteTableNamespacedStatuses
 	namespacedStatuses := RouteTableNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
@@ -283,6 +367,18 @@ func (this *VirtualServiceStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for VirtualServiceStatus
 func (this *VirtualServiceStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into VirtualServiceStatus
+	temp := &VirtualServiceStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
+	}
+
+	// Fall back to unmarshaling into VirtualServiceNamespacedStatuses
 	namespacedStatuses := VirtualServiceNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
@@ -317,6 +413,18 @@ func (this *VirtualHostOptionStatus) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for VirtualHostOptionStatus
 func (this *VirtualHostOptionStatus) UnmarshalJSON(b []byte) error {
+	// First try to unmarshal directly into VirtualHostOptionStatus
+	temp := &VirtualHostOptionStatus{}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), temp); err == nil {
+		// Check if the unmarshaled result has meaningful content
+		// If it has non-empty fields, use it; otherwise fall back to NamespacedStatuses
+		if temp.GetReason() != "" || temp.GetReportedBy() != "" {
+			*this = *temp
+			return nil
+		}
+	}
+
+	// Fall back to unmarshaling into VirtualHostOptionNamespacedStatuses
 	namespacedStatuses := VirtualHostOptionNamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
