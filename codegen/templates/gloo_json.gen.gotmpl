@@ -46,6 +46,15 @@ func (this *{{ $resource.Status.Type.Name }}) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for {{ $resource.Status.Type.Name }}
 func (this *{{ $resource.Status.Type.Name }}) UnmarshalJSON(b []byte) error {
+{{- if or (eq $.GroupVersion.Group "gateway.solo.io") (eq $.GroupVersion.Group "gloo.solo.io") }}
+	// First try to unmarshal directly into {{ $resource.Status.Type.Name }}
+	if err := unmarshaller.Unmarshal(bytes.NewReader(b), this); err == nil {
+		// Successfully unmarshaled directly, return
+		return nil
+	}
+
+	// Fall back to unmarshaling into {{ $resource.Kind }}NamespacedStatuses
+{{- end }}
     namespacedStatuses := {{ $resource.Kind }}NamespacedStatuses{}
 	if err := unmarshaller.Unmarshal(bytes.NewReader(b), &namespacedStatuses); err != nil {
 		return unmarshaller.Unmarshal(bytes.NewReader(b), this)
