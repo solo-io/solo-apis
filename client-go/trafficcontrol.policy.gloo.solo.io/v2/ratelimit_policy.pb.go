@@ -39,7 +39,7 @@ type RateLimitPolicySpec struct {
 	// If empty, no rate limits are applied on routes in the workspace.
 	ApplyToRoutes []*v2.RouteSelector `protobuf:"bytes,1,rep,name=apply_to_routes,json=applyToRoutes,proto3" json:"apply_to_routes,omitempty"`
 	// Select the destinations where the policy will be applied.
-	// {{< reuse "conrefs/snippets/field-desc/dest-no-vdest.md" >}}
+	// {{< reuse "conrefs/snippets/field-desc/dest-no-ext-svc-or-vdest.md" >}}
 	// If empty, the rate limit policy applies to all destinations in the workspace.
 	// If the destination selector is empty but the route selector is set, no rate limits are applied on destinations, only on routes.
 	ApplyToDestinations []*v2.DestinationSelector `protobuf:"bytes,2,rep,name=apply_to_destinations,json=applyToDestinations,proto3" json:"apply_to_destinations,omitempty"`
