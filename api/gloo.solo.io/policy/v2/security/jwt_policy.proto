@@ -105,7 +105,6 @@ message JWTPolicySpec {
   repeated .common.gloo.solo.io.RouteSelector apply_to_routes = 1;
 
   // Select the destinations where the policy will be applied.
-  // {{< reuse "conrefs/snippets/field-desc/dest-no-vdest.md" >}}
   // By default if omitted, the policy does not apply to any destinations.
   // If empty (`{}`), the policy applies to all destinations in the workspace.
   repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 3;
