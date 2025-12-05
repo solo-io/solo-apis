@@ -1,6 +1,6 @@
 module github.com/solo-io/solo-apis
 
-go 1.24.9
+go 1.24.11
 
 require (
 	github.com/cncf/xds/go v0.0.0-20250501225837-2ac532fd4443
@@ -92,7 +92,7 @@ require (
 	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/term v0.34.0 // indirect
 	golang.org/x/text v0.28.0 // indirect
-	golang.org/x/time v0.11.0 // indirect
+	golang.org/x/time v0.12.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.5.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20250318190949-c8a335a9a2ff // indirect
