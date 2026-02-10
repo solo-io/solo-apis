@@ -249,6 +249,12 @@ func (m *RouteOptions) Clone() proto.Message {
 		target.ExtProc = proto.Clone(m.GetExtProc()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.RouteSettings)
 	}
 
+	if h, ok := interface{}(m.GetExtProcLate()).(clone.Cloner); ok {
+		target.ExtProcLate = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.RouteSettings)
+	} else {
+		target.ExtProcLate = proto.Clone(m.GetExtProcLate()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.RouteSettings)
+	}
+
 	if h, ok := interface{}(m.GetAi()).(clone.Cloner); ok {
 		target.Ai = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_ai.RouteSettings)
 	} else {
