@@ -195,6 +195,12 @@ func (m *SettingsSpec) Clone() proto.Message {
 		target.ConsoleOptions = proto.Clone(m.GetConsoleOptions()).(*ConsoleOptions)
 	}
 
+	if h, ok := interface{}(m.GetExtProcEarly()).(clone.Cloner); ok {
+		target.ExtProcEarly = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.Settings)
+	} else {
+		target.ExtProcEarly = proto.Clone(m.GetExtProcEarly()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.Settings)
+	}
+
 	if h, ok := interface{}(m.GetExtProc()).(clone.Cloner); ok {
 		target.ExtProc = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.Settings)
 	} else {
