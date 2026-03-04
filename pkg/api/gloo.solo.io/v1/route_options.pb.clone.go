@@ -243,10 +243,22 @@ func (m *RouteOptions) Clone() proto.Message {
 		target.IdleTimeout = proto.Clone(m.GetIdleTimeout()).(*github_com_golang_protobuf_ptypes_duration.Duration)
 	}
 
+	if h, ok := interface{}(m.GetExtProcEarly()).(clone.Cloner); ok {
+		target.ExtProcEarly = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.RouteSettings)
+	} else {
+		target.ExtProcEarly = proto.Clone(m.GetExtProcEarly()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.RouteSettings)
+	}
+
 	if h, ok := interface{}(m.GetExtProc()).(clone.Cloner); ok {
 		target.ExtProc = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.RouteSettings)
 	} else {
 		target.ExtProc = proto.Clone(m.GetExtProc()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.RouteSettings)
+	}
+
+	if h, ok := interface{}(m.GetExtProcLate()).(clone.Cloner); ok {
+		target.ExtProcLate = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.RouteSettings)
+	} else {
+		target.ExtProcLate = proto.Clone(m.GetExtProcLate()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc.RouteSettings)
 	}
 
 	if h, ok := interface{}(m.GetAi()).(clone.Cloner); ok {
