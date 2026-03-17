@@ -25,6 +25,7 @@ import (
 type MockWaypointLifecycleManagerSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerSetMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerSetMockRecorder is the mock recorder for MockWaypointLifecycleManagerSet.
@@ -281,6 +282,7 @@ func (mr *MockWaypointLifecycleManagerSetMockRecorder) UnsortedList(filterResour
 type MockInsightsConfigSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigSetMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigSetMockRecorder is the mock recorder for MockInsightsConfigSet.

@@ -25,6 +25,7 @@ import (
 type MockMirrorPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockMirrorPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockMirrorPolicySetMockRecorder is the mock recorder for MockMirrorPolicySet.
@@ -281,6 +282,7 @@ func (mr *MockMirrorPolicySetMockRecorder) UnsortedList(filterResource ...any) *
 type MockRateLimitPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitPolicySetMockRecorder is the mock recorder for MockRateLimitPolicySet.
@@ -537,6 +539,7 @@ func (mr *MockRateLimitPolicySetMockRecorder) UnsortedList(filterResource ...any
 type MockRateLimitClientConfigSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitClientConfigSetMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitClientConfigSetMockRecorder is the mock recorder for MockRateLimitClientConfigSet.
@@ -793,6 +796,7 @@ func (mr *MockRateLimitClientConfigSetMockRecorder) UnsortedList(filterResource 
 type MockHeaderManipulationPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockHeaderManipulationPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockHeaderManipulationPolicySetMockRecorder is the mock recorder for MockHeaderManipulationPolicySet.
@@ -1049,6 +1053,7 @@ func (mr *MockHeaderManipulationPolicySetMockRecorder) UnsortedList(filterResour
 type MockTransformationPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockTransformationPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockTransformationPolicySetMockRecorder is the mock recorder for MockTransformationPolicySet.
@@ -1305,6 +1310,7 @@ func (mr *MockTransformationPolicySetMockRecorder) UnsortedList(filterResource .
 type MockLoadBalancerPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoadBalancerPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockLoadBalancerPolicySetMockRecorder is the mock recorder for MockLoadBalancerPolicySet.
@@ -1561,6 +1567,7 @@ func (mr *MockLoadBalancerPolicySetMockRecorder) UnsortedList(filterResource ...
 type MockProxyProtocolPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxyProtocolPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockProxyProtocolPolicySetMockRecorder is the mock recorder for MockProxyProtocolPolicySet.
@@ -1817,6 +1824,7 @@ func (mr *MockProxyProtocolPolicySetMockRecorder) UnsortedList(filterResource ..
 type MockHTTPBufferPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPBufferPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPBufferPolicySetMockRecorder is the mock recorder for MockHTTPBufferPolicySet.

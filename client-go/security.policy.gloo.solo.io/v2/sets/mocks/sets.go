@@ -25,6 +25,7 @@ import (
 type MockAccessPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessPolicySetMockRecorder is the mock recorder for MockAccessPolicySet.
@@ -281,6 +282,7 @@ func (mr *MockAccessPolicySetMockRecorder) UnsortedList(filterResource ...any) *
 type MockCORSPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockCORSPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockCORSPolicySetMockRecorder is the mock recorder for MockCORSPolicySet.
@@ -537,6 +539,7 @@ func (mr *MockCORSPolicySetMockRecorder) UnsortedList(filterResource ...any) *go
 type MockCSRFPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockCSRFPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockCSRFPolicySetMockRecorder is the mock recorder for MockCSRFPolicySet.
@@ -793,6 +796,7 @@ func (mr *MockCSRFPolicySetMockRecorder) UnsortedList(filterResource ...any) *go
 type MockExtAuthPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtAuthPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockExtAuthPolicySetMockRecorder is the mock recorder for MockExtAuthPolicySet.
@@ -1049,6 +1053,7 @@ func (mr *MockExtAuthPolicySetMockRecorder) UnsortedList(filterResource ...any) 
 type MockWAFPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockWAFPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockWAFPolicySetMockRecorder is the mock recorder for MockWAFPolicySet.
@@ -1305,6 +1310,7 @@ func (mr *MockWAFPolicySetMockRecorder) UnsortedList(filterResource ...any) *gom
 type MockJWTPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockJWTPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockJWTPolicySetMockRecorder is the mock recorder for MockJWTPolicySet.
@@ -1561,6 +1567,7 @@ func (mr *MockJWTPolicySetMockRecorder) UnsortedList(filterResource ...any) *gom
 type MockClientTLSPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientTLSPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientTLSPolicySetMockRecorder is the mock recorder for MockClientTLSPolicySet.
@@ -1817,6 +1824,7 @@ func (mr *MockClientTLSPolicySetMockRecorder) UnsortedList(filterResource ...any
 type MockGraphQLAllowedQueryPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLAllowedQueryPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLAllowedQueryPolicySetMockRecorder is the mock recorder for MockGraphQLAllowedQueryPolicySet.
@@ -2073,6 +2081,7 @@ func (mr *MockGraphQLAllowedQueryPolicySetMockRecorder) UnsortedList(filterResou
 type MockDLPPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockDLPPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockDLPPolicySetMockRecorder is the mock recorder for MockDLPPolicySet.

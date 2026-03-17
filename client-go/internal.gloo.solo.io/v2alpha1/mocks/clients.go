@@ -23,6 +23,7 @@ import (
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
@@ -61,6 +62,7 @@ func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster any) *gomock.Ca
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientsetMockRecorder is the mock recorder for MockClientset.
@@ -112,6 +114,7 @@ func (mr *MockClientsetMockRecorder) VirtualServiceBackups() *gomock.Call {
 type MockSpireRegistrationEntryReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryReaderMockRecorder is the mock recorder for MockSpireRegistrationEntryReader.
@@ -170,6 +173,7 @@ func (mr *MockSpireRegistrationEntryReaderMockRecorder) ListSpireRegistrationEnt
 type MockSpireRegistrationEntryWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryWriterMockRecorder is the mock recorder for MockSpireRegistrationEntryWriter.
@@ -307,6 +311,7 @@ func (mr *MockSpireRegistrationEntryWriterMockRecorder) UpsertSpireRegistrationE
 type MockSpireRegistrationEntryStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryStatusWriterMockRecorder is the mock recorder for MockSpireRegistrationEntryStatusWriter.
@@ -368,6 +373,7 @@ func (mr *MockSpireRegistrationEntryStatusWriterMockRecorder) UpdateSpireRegistr
 type MockSpireRegistrationEntryClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryClientMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryClientMockRecorder is the mock recorder for MockSpireRegistrationEntryClient.
@@ -578,6 +584,7 @@ func (mr *MockSpireRegistrationEntryClientMockRecorder) UpsertSpireRegistrationE
 type MockMulticlusterSpireRegistrationEntryClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterSpireRegistrationEntryClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterSpireRegistrationEntryClientMockRecorder is the mock recorder for MockMulticlusterSpireRegistrationEntryClient.
@@ -616,6 +623,7 @@ func (mr *MockMulticlusterSpireRegistrationEntryClientMockRecorder) Cluster(clus
 type MockVirtualServiceBackupReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupReaderMockRecorder is the mock recorder for MockVirtualServiceBackupReader.
@@ -674,6 +682,7 @@ func (mr *MockVirtualServiceBackupReaderMockRecorder) ListVirtualServiceBackup(c
 type MockVirtualServiceBackupWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupWriterMockRecorder is the mock recorder for MockVirtualServiceBackupWriter.
@@ -811,6 +820,7 @@ func (mr *MockVirtualServiceBackupWriterMockRecorder) UpsertVirtualServiceBackup
 type MockVirtualServiceBackupStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupStatusWriterMockRecorder is the mock recorder for MockVirtualServiceBackupStatusWriter.
@@ -872,6 +882,7 @@ func (mr *MockVirtualServiceBackupStatusWriterMockRecorder) UpdateVirtualService
 type MockVirtualServiceBackupClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupClientMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupClientMockRecorder is the mock recorder for MockVirtualServiceBackupClient.
@@ -1082,6 +1093,7 @@ func (mr *MockVirtualServiceBackupClientMockRecorder) UpsertVirtualServiceBackup
 type MockMulticlusterVirtualServiceBackupClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualServiceBackupClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualServiceBackupClientMockRecorder is the mock recorder for MockMulticlusterVirtualServiceBackupClient.

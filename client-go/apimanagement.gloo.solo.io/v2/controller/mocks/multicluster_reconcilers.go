@@ -25,6 +25,7 @@ import (
 type MockMulticlusterGraphQLStitchedSchemaReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLStitchedSchemaReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLStitchedSchemaReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLStitchedSchemaReconciler.
@@ -63,6 +64,7 @@ func (mr *MockMulticlusterGraphQLStitchedSchemaReconcilerMockRecorder) Reconcile
 type MockMulticlusterGraphQLStitchedSchemaDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLStitchedSchemaDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLStitchedSchemaDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLStitchedSchemaDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockMulticlusterGraphQLStitchedSchemaDeletionReconcilerMockRecorder) R
 type MockMulticlusterGraphQLStitchedSchemaReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLStitchedSchemaReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLStitchedSchemaReconcileLoopMockRecorder is the mock recorder for MockMulticlusterGraphQLStitchedSchemaReconcileLoop.
@@ -140,6 +143,7 @@ func (mr *MockMulticlusterGraphQLStitchedSchemaReconcileLoopMockRecorder) AddMul
 type MockMulticlusterGraphQLResolverMapReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLResolverMapReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLResolverMapReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLResolverMapReconciler.
@@ -178,6 +182,7 @@ func (mr *MockMulticlusterGraphQLResolverMapReconcilerMockRecorder) ReconcileGra
 type MockMulticlusterGraphQLResolverMapDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLResolverMapDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLResolverMapDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLResolverMapDeletionReconciler.
@@ -215,6 +220,7 @@ func (mr *MockMulticlusterGraphQLResolverMapDeletionReconcilerMockRecorder) Reco
 type MockMulticlusterGraphQLResolverMapReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLResolverMapReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLResolverMapReconcileLoopMockRecorder is the mock recorder for MockMulticlusterGraphQLResolverMapReconcileLoop.
@@ -255,6 +261,7 @@ func (mr *MockMulticlusterGraphQLResolverMapReconcileLoopMockRecorder) AddMultic
 type MockMulticlusterGraphQLSchemaReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLSchemaReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLSchemaReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLSchemaReconciler.
@@ -293,6 +300,7 @@ func (mr *MockMulticlusterGraphQLSchemaReconcilerMockRecorder) ReconcileGraphQLS
 type MockMulticlusterGraphQLSchemaDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLSchemaDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLSchemaDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterGraphQLSchemaDeletionReconciler.
@@ -330,6 +338,7 @@ func (mr *MockMulticlusterGraphQLSchemaDeletionReconcilerMockRecorder) Reconcile
 type MockMulticlusterGraphQLSchemaReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLSchemaReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLSchemaReconcileLoopMockRecorder is the mock recorder for MockMulticlusterGraphQLSchemaReconcileLoop.
@@ -370,6 +379,7 @@ func (mr *MockMulticlusterGraphQLSchemaReconcileLoopMockRecorder) AddMulticluste
 type MockMulticlusterApiDocReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiDocReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiDocReconcilerMockRecorder is the mock recorder for MockMulticlusterApiDocReconciler.
@@ -408,6 +418,7 @@ func (mr *MockMulticlusterApiDocReconcilerMockRecorder) ReconcileApiDoc(clusterN
 type MockMulticlusterApiDocDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiDocDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiDocDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterApiDocDeletionReconciler.
@@ -445,6 +456,7 @@ func (mr *MockMulticlusterApiDocDeletionReconcilerMockRecorder) ReconcileApiDocD
 type MockMulticlusterApiDocReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiDocReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiDocReconcileLoopMockRecorder is the mock recorder for MockMulticlusterApiDocReconcileLoop.
@@ -485,6 +497,7 @@ func (mr *MockMulticlusterApiDocReconcileLoopMockRecorder) AddMulticlusterApiDoc
 type MockMulticlusterPortalReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterPortalReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterPortalReconcilerMockRecorder is the mock recorder for MockMulticlusterPortalReconciler.
@@ -523,6 +536,7 @@ func (mr *MockMulticlusterPortalReconcilerMockRecorder) ReconcilePortal(clusterN
 type MockMulticlusterPortalDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterPortalDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterPortalDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterPortalDeletionReconciler.
@@ -560,6 +574,7 @@ func (mr *MockMulticlusterPortalDeletionReconcilerMockRecorder) ReconcilePortalD
 type MockMulticlusterPortalReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterPortalReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterPortalReconcileLoopMockRecorder is the mock recorder for MockMulticlusterPortalReconcileLoop.
@@ -600,6 +615,7 @@ func (mr *MockMulticlusterPortalReconcileLoopMockRecorder) AddMulticlusterPortal
 type MockMulticlusterApiProductReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiProductReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiProductReconcilerMockRecorder is the mock recorder for MockMulticlusterApiProductReconciler.
@@ -638,6 +654,7 @@ func (mr *MockMulticlusterApiProductReconcilerMockRecorder) ReconcileApiProduct(
 type MockMulticlusterApiProductDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiProductDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiProductDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterApiProductDeletionReconciler.
@@ -675,6 +692,7 @@ func (mr *MockMulticlusterApiProductDeletionReconcilerMockRecorder) ReconcileApi
 type MockMulticlusterApiProductReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiProductReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiProductReconcileLoopMockRecorder is the mock recorder for MockMulticlusterApiProductReconcileLoop.
@@ -715,6 +733,7 @@ func (mr *MockMulticlusterApiProductReconcileLoopMockRecorder) AddMulticlusterAp
 type MockMulticlusterPortalGroupReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterPortalGroupReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterPortalGroupReconcilerMockRecorder is the mock recorder for MockMulticlusterPortalGroupReconciler.
@@ -753,6 +772,7 @@ func (mr *MockMulticlusterPortalGroupReconcilerMockRecorder) ReconcilePortalGrou
 type MockMulticlusterPortalGroupDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterPortalGroupDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterPortalGroupDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterPortalGroupDeletionReconciler.
@@ -790,6 +810,7 @@ func (mr *MockMulticlusterPortalGroupDeletionReconcilerMockRecorder) ReconcilePo
 type MockMulticlusterPortalGroupReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterPortalGroupReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterPortalGroupReconcileLoopMockRecorder is the mock recorder for MockMulticlusterPortalGroupReconcileLoop.
@@ -830,6 +851,7 @@ func (mr *MockMulticlusterPortalGroupReconcileLoopMockRecorder) AddMulticlusterP
 type MockMulticlusterApiSchemaDiscoveryReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiSchemaDiscoveryReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiSchemaDiscoveryReconcilerMockRecorder is the mock recorder for MockMulticlusterApiSchemaDiscoveryReconciler.
@@ -868,6 +890,7 @@ func (mr *MockMulticlusterApiSchemaDiscoveryReconcilerMockRecorder) ReconcileApi
 type MockMulticlusterApiSchemaDiscoveryDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiSchemaDiscoveryDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiSchemaDiscoveryDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterApiSchemaDiscoveryDeletionReconciler.
@@ -905,6 +928,7 @@ func (mr *MockMulticlusterApiSchemaDiscoveryDeletionReconcilerMockRecorder) Reco
 type MockMulticlusterApiSchemaDiscoveryReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiSchemaDiscoveryReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiSchemaDiscoveryReconcileLoopMockRecorder is the mock recorder for MockMulticlusterApiSchemaDiscoveryReconcileLoop.

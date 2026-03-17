@@ -25,6 +25,7 @@ import (
 type MockMulticlusterWorkspaceReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWorkspaceReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWorkspaceReconcilerMockRecorder is the mock recorder for MockMulticlusterWorkspaceReconciler.
@@ -63,6 +64,7 @@ func (mr *MockMulticlusterWorkspaceReconcilerMockRecorder) ReconcileWorkspace(cl
 type MockMulticlusterWorkspaceDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWorkspaceDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWorkspaceDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterWorkspaceDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockMulticlusterWorkspaceDeletionReconcilerMockRecorder) ReconcileWork
 type MockMulticlusterWorkspaceReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWorkspaceReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWorkspaceReconcileLoopMockRecorder is the mock recorder for MockMulticlusterWorkspaceReconcileLoop.
@@ -140,6 +143,7 @@ func (mr *MockMulticlusterWorkspaceReconcileLoopMockRecorder) AddMulticlusterWor
 type MockMulticlusterWorkspaceSettingsReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWorkspaceSettingsReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWorkspaceSettingsReconcilerMockRecorder is the mock recorder for MockMulticlusterWorkspaceSettingsReconciler.
@@ -178,6 +182,7 @@ func (mr *MockMulticlusterWorkspaceSettingsReconcilerMockRecorder) ReconcileWork
 type MockMulticlusterWorkspaceSettingsDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWorkspaceSettingsDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWorkspaceSettingsDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterWorkspaceSettingsDeletionReconciler.
@@ -215,6 +220,7 @@ func (mr *MockMulticlusterWorkspaceSettingsDeletionReconcilerMockRecorder) Recon
 type MockMulticlusterWorkspaceSettingsReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWorkspaceSettingsReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWorkspaceSettingsReconcileLoopMockRecorder is the mock recorder for MockMulticlusterWorkspaceSettingsReconcileLoop.
@@ -255,6 +261,7 @@ func (mr *MockMulticlusterWorkspaceSettingsReconcileLoopMockRecorder) AddMulticl
 type MockMulticlusterKubernetesClusterReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterKubernetesClusterReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterKubernetesClusterReconcilerMockRecorder is the mock recorder for MockMulticlusterKubernetesClusterReconciler.
@@ -293,6 +300,7 @@ func (mr *MockMulticlusterKubernetesClusterReconcilerMockRecorder) ReconcileKube
 type MockMulticlusterKubernetesClusterDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterKubernetesClusterDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterKubernetesClusterDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterKubernetesClusterDeletionReconciler.
@@ -330,6 +338,7 @@ func (mr *MockMulticlusterKubernetesClusterDeletionReconcilerMockRecorder) Recon
 type MockMulticlusterKubernetesClusterReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterKubernetesClusterReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterKubernetesClusterReconcileLoopMockRecorder is the mock recorder for MockMulticlusterKubernetesClusterReconcileLoop.
@@ -370,6 +379,7 @@ func (mr *MockMulticlusterKubernetesClusterReconcileLoopMockRecorder) AddMulticl
 type MockMulticlusterRootTrustPolicyReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRootTrustPolicyReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRootTrustPolicyReconcilerMockRecorder is the mock recorder for MockMulticlusterRootTrustPolicyReconciler.
@@ -408,6 +418,7 @@ func (mr *MockMulticlusterRootTrustPolicyReconcilerMockRecorder) ReconcileRootTr
 type MockMulticlusterRootTrustPolicyDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRootTrustPolicyDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRootTrustPolicyDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterRootTrustPolicyDeletionReconciler.
@@ -445,6 +456,7 @@ func (mr *MockMulticlusterRootTrustPolicyDeletionReconcilerMockRecorder) Reconci
 type MockMulticlusterRootTrustPolicyReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRootTrustPolicyReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRootTrustPolicyReconcileLoopMockRecorder is the mock recorder for MockMulticlusterRootTrustPolicyReconcileLoop.
@@ -485,6 +497,7 @@ func (mr *MockMulticlusterRootTrustPolicyReconcileLoopMockRecorder) AddMulticlus
 type MockMulticlusterExtAuthServerReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExtAuthServerReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExtAuthServerReconcilerMockRecorder is the mock recorder for MockMulticlusterExtAuthServerReconciler.
@@ -523,6 +536,7 @@ func (mr *MockMulticlusterExtAuthServerReconcilerMockRecorder) ReconcileExtAuthS
 type MockMulticlusterExtAuthServerDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExtAuthServerDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExtAuthServerDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterExtAuthServerDeletionReconciler.
@@ -560,6 +574,7 @@ func (mr *MockMulticlusterExtAuthServerDeletionReconcilerMockRecorder) Reconcile
 type MockMulticlusterExtAuthServerReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExtAuthServerReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExtAuthServerReconcileLoopMockRecorder is the mock recorder for MockMulticlusterExtAuthServerReconcileLoop.
@@ -600,6 +615,7 @@ func (mr *MockMulticlusterExtAuthServerReconcileLoopMockRecorder) AddMulticluste
 type MockMulticlusterRateLimitServerSettingsReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRateLimitServerSettingsReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRateLimitServerSettingsReconcilerMockRecorder is the mock recorder for MockMulticlusterRateLimitServerSettingsReconciler.
@@ -638,6 +654,7 @@ func (mr *MockMulticlusterRateLimitServerSettingsReconcilerMockRecorder) Reconci
 type MockMulticlusterRateLimitServerSettingsDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRateLimitServerSettingsDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRateLimitServerSettingsDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterRateLimitServerSettingsDeletionReconciler.
@@ -675,6 +692,7 @@ func (mr *MockMulticlusterRateLimitServerSettingsDeletionReconcilerMockRecorder)
 type MockMulticlusterRateLimitServerSettingsReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRateLimitServerSettingsReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRateLimitServerSettingsReconcileLoopMockRecorder is the mock recorder for MockMulticlusterRateLimitServerSettingsReconcileLoop.
@@ -715,6 +733,7 @@ func (mr *MockMulticlusterRateLimitServerSettingsReconcileLoopMockRecorder) AddM
 type MockMulticlusterRateLimitServerConfigReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRateLimitServerConfigReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRateLimitServerConfigReconcilerMockRecorder is the mock recorder for MockMulticlusterRateLimitServerConfigReconciler.
@@ -753,6 +772,7 @@ func (mr *MockMulticlusterRateLimitServerConfigReconcilerMockRecorder) Reconcile
 type MockMulticlusterRateLimitServerConfigDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRateLimitServerConfigDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRateLimitServerConfigDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterRateLimitServerConfigDeletionReconciler.
@@ -790,6 +810,7 @@ func (mr *MockMulticlusterRateLimitServerConfigDeletionReconcilerMockRecorder) R
 type MockMulticlusterRateLimitServerConfigReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRateLimitServerConfigReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRateLimitServerConfigReconcileLoopMockRecorder is the mock recorder for MockMulticlusterRateLimitServerConfigReconcileLoop.
@@ -830,6 +851,7 @@ func (mr *MockMulticlusterRateLimitServerConfigReconcileLoopMockRecorder) AddMul
 type MockMulticlusterDashboardReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterDashboardReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterDashboardReconcilerMockRecorder is the mock recorder for MockMulticlusterDashboardReconciler.
@@ -868,6 +890,7 @@ func (mr *MockMulticlusterDashboardReconcilerMockRecorder) ReconcileDashboard(cl
 type MockMulticlusterDashboardDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterDashboardDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterDashboardDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterDashboardDeletionReconciler.
@@ -905,6 +928,7 @@ func (mr *MockMulticlusterDashboardDeletionReconcilerMockRecorder) ReconcileDash
 type MockMulticlusterDashboardReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterDashboardReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterDashboardReconcileLoopMockRecorder is the mock recorder for MockMulticlusterDashboardReconcileLoop.
@@ -945,6 +969,7 @@ func (mr *MockMulticlusterDashboardReconcileLoopMockRecorder) AddMulticlusterDas
 type MockMulticlusterIstioLifecycleManagerReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterIstioLifecycleManagerReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterIstioLifecycleManagerReconcilerMockRecorder is the mock recorder for MockMulticlusterIstioLifecycleManagerReconciler.
@@ -983,6 +1008,7 @@ func (mr *MockMulticlusterIstioLifecycleManagerReconcilerMockRecorder) Reconcile
 type MockMulticlusterIstioLifecycleManagerDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterIstioLifecycleManagerDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterIstioLifecycleManagerDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterIstioLifecycleManagerDeletionReconciler.
@@ -1020,6 +1046,7 @@ func (mr *MockMulticlusterIstioLifecycleManagerDeletionReconcilerMockRecorder) R
 type MockMulticlusterIstioLifecycleManagerReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterIstioLifecycleManagerReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterIstioLifecycleManagerReconcileLoopMockRecorder is the mock recorder for MockMulticlusterIstioLifecycleManagerReconcileLoop.
@@ -1060,6 +1087,7 @@ func (mr *MockMulticlusterIstioLifecycleManagerReconcileLoopMockRecorder) AddMul
 type MockMulticlusterGatewayLifecycleManagerReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGatewayLifecycleManagerReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGatewayLifecycleManagerReconcilerMockRecorder is the mock recorder for MockMulticlusterGatewayLifecycleManagerReconciler.
@@ -1098,6 +1126,7 @@ func (mr *MockMulticlusterGatewayLifecycleManagerReconcilerMockRecorder) Reconci
 type MockMulticlusterGatewayLifecycleManagerDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGatewayLifecycleManagerDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGatewayLifecycleManagerDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterGatewayLifecycleManagerDeletionReconciler.
@@ -1135,6 +1164,7 @@ func (mr *MockMulticlusterGatewayLifecycleManagerDeletionReconcilerMockRecorder)
 type MockMulticlusterGatewayLifecycleManagerReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGatewayLifecycleManagerReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGatewayLifecycleManagerReconcileLoopMockRecorder is the mock recorder for MockMulticlusterGatewayLifecycleManagerReconcileLoop.

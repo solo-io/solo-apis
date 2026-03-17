@@ -25,6 +25,7 @@ import (
 type MockIssuedCertificateReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockIssuedCertificateReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockIssuedCertificateReconcilerMockRecorder is the mock recorder for MockIssuedCertificateReconciler.
@@ -63,6 +64,7 @@ func (mr *MockIssuedCertificateReconcilerMockRecorder) ReconcileIssuedCertificat
 type MockIssuedCertificateDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockIssuedCertificateDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockIssuedCertificateDeletionReconcilerMockRecorder is the mock recorder for MockIssuedCertificateDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockIssuedCertificateDeletionReconcilerMockRecorder) ReconcileIssuedCe
 type MockIssuedCertificateFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockIssuedCertificateFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockIssuedCertificateFinalizerMockRecorder is the mock recorder for MockIssuedCertificateFinalizer.
@@ -166,6 +169,7 @@ func (mr *MockIssuedCertificateFinalizerMockRecorder) ReconcileIssuedCertificate
 type MockIssuedCertificateReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockIssuedCertificateReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockIssuedCertificateReconcileLoopMockRecorder is the mock recorder for MockIssuedCertificateReconcileLoop.
@@ -208,6 +212,7 @@ func (mr *MockIssuedCertificateReconcileLoopMockRecorder) RunIssuedCertificateRe
 type MockCertificateRequestReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCertificateRequestReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockCertificateRequestReconcilerMockRecorder is the mock recorder for MockCertificateRequestReconciler.
@@ -246,6 +251,7 @@ func (mr *MockCertificateRequestReconcilerMockRecorder) ReconcileCertificateRequ
 type MockCertificateRequestDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCertificateRequestDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockCertificateRequestDeletionReconcilerMockRecorder is the mock recorder for MockCertificateRequestDeletionReconciler.
@@ -283,6 +289,7 @@ func (mr *MockCertificateRequestDeletionReconcilerMockRecorder) ReconcileCertifi
 type MockCertificateRequestFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockCertificateRequestFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockCertificateRequestFinalizerMockRecorder is the mock recorder for MockCertificateRequestFinalizer.
@@ -349,6 +356,7 @@ func (mr *MockCertificateRequestFinalizerMockRecorder) ReconcileCertificateReque
 type MockCertificateRequestReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockCertificateRequestReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockCertificateRequestReconcileLoopMockRecorder is the mock recorder for MockCertificateRequestReconcileLoop.
@@ -391,6 +399,7 @@ func (mr *MockCertificateRequestReconcileLoopMockRecorder) RunCertificateRequest
 type MockPodBounceDirectiveReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPodBounceDirectiveReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockPodBounceDirectiveReconcilerMockRecorder is the mock recorder for MockPodBounceDirectiveReconciler.
@@ -429,6 +438,7 @@ func (mr *MockPodBounceDirectiveReconcilerMockRecorder) ReconcilePodBounceDirect
 type MockPodBounceDirectiveDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPodBounceDirectiveDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockPodBounceDirectiveDeletionReconcilerMockRecorder is the mock recorder for MockPodBounceDirectiveDeletionReconciler.
@@ -466,6 +476,7 @@ func (mr *MockPodBounceDirectiveDeletionReconcilerMockRecorder) ReconcilePodBoun
 type MockPodBounceDirectiveFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockPodBounceDirectiveFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockPodBounceDirectiveFinalizerMockRecorder is the mock recorder for MockPodBounceDirectiveFinalizer.
@@ -532,6 +543,7 @@ func (mr *MockPodBounceDirectiveFinalizerMockRecorder) ReconcilePodBounceDirecti
 type MockPodBounceDirectiveReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockPodBounceDirectiveReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockPodBounceDirectiveReconcileLoopMockRecorder is the mock recorder for MockPodBounceDirectiveReconcileLoop.
@@ -574,6 +586,7 @@ func (mr *MockPodBounceDirectiveReconcileLoopMockRecorder) RunPodBounceDirective
 type MockXdsConfigReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockXdsConfigReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockXdsConfigReconcilerMockRecorder is the mock recorder for MockXdsConfigReconciler.
@@ -612,6 +625,7 @@ func (mr *MockXdsConfigReconcilerMockRecorder) ReconcileXdsConfig(obj any) *gomo
 type MockXdsConfigDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockXdsConfigDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockXdsConfigDeletionReconcilerMockRecorder is the mock recorder for MockXdsConfigDeletionReconciler.
@@ -649,6 +663,7 @@ func (mr *MockXdsConfigDeletionReconcilerMockRecorder) ReconcileXdsConfigDeletio
 type MockXdsConfigFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockXdsConfigFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockXdsConfigFinalizerMockRecorder is the mock recorder for MockXdsConfigFinalizer.
@@ -715,6 +730,7 @@ func (mr *MockXdsConfigFinalizerMockRecorder) XdsConfigFinalizerName() *gomock.C
 type MockXdsConfigReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockXdsConfigReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockXdsConfigReconcileLoopMockRecorder is the mock recorder for MockXdsConfigReconcileLoop.
@@ -757,6 +773,7 @@ func (mr *MockXdsConfigReconcileLoopMockRecorder) RunXdsConfigReconciler(ctx, re
 type MockDiscoveredGatewayReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredGatewayReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredGatewayReconcilerMockRecorder is the mock recorder for MockDiscoveredGatewayReconciler.
@@ -795,6 +812,7 @@ func (mr *MockDiscoveredGatewayReconcilerMockRecorder) ReconcileDiscoveredGatewa
 type MockDiscoveredGatewayDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredGatewayDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredGatewayDeletionReconcilerMockRecorder is the mock recorder for MockDiscoveredGatewayDeletionReconciler.
@@ -832,6 +850,7 @@ func (mr *MockDiscoveredGatewayDeletionReconcilerMockRecorder) ReconcileDiscover
 type MockDiscoveredGatewayFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredGatewayFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredGatewayFinalizerMockRecorder is the mock recorder for MockDiscoveredGatewayFinalizer.
@@ -898,6 +917,7 @@ func (mr *MockDiscoveredGatewayFinalizerMockRecorder) ReconcileDiscoveredGateway
 type MockDiscoveredGatewayReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredGatewayReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredGatewayReconcileLoopMockRecorder is the mock recorder for MockDiscoveredGatewayReconcileLoop.
@@ -940,6 +960,7 @@ func (mr *MockDiscoveredGatewayReconcileLoopMockRecorder) RunDiscoveredGatewayRe
 type MockMeshReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMeshReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMeshReconcilerMockRecorder is the mock recorder for MockMeshReconciler.
@@ -978,6 +999,7 @@ func (mr *MockMeshReconcilerMockRecorder) ReconcileMesh(obj any) *gomock.Call {
 type MockMeshDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMeshDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMeshDeletionReconcilerMockRecorder is the mock recorder for MockMeshDeletionReconciler.
@@ -1015,6 +1037,7 @@ func (mr *MockMeshDeletionReconcilerMockRecorder) ReconcileMeshDeletion(req any)
 type MockMeshFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockMeshFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockMeshFinalizerMockRecorder is the mock recorder for MockMeshFinalizer.
@@ -1081,6 +1104,7 @@ func (mr *MockMeshFinalizerMockRecorder) ReconcileMesh(obj any) *gomock.Call {
 type MockMeshReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMeshReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMeshReconcileLoopMockRecorder is the mock recorder for MockMeshReconcileLoop.
@@ -1123,6 +1147,7 @@ func (mr *MockMeshReconcileLoopMockRecorder) RunMeshReconciler(ctx, rec any, pre
 type MockDiscoveredCNIReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredCNIReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredCNIReconcilerMockRecorder is the mock recorder for MockDiscoveredCNIReconciler.
@@ -1161,6 +1186,7 @@ func (mr *MockDiscoveredCNIReconcilerMockRecorder) ReconcileDiscoveredCNI(obj an
 type MockDiscoveredCNIDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredCNIDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredCNIDeletionReconcilerMockRecorder is the mock recorder for MockDiscoveredCNIDeletionReconciler.
@@ -1198,6 +1224,7 @@ func (mr *MockDiscoveredCNIDeletionReconcilerMockRecorder) ReconcileDiscoveredCN
 type MockDiscoveredCNIFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredCNIFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredCNIFinalizerMockRecorder is the mock recorder for MockDiscoveredCNIFinalizer.
@@ -1264,6 +1291,7 @@ func (mr *MockDiscoveredCNIFinalizerMockRecorder) ReconcileDiscoveredCNI(obj any
 type MockDiscoveredCNIReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredCNIReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredCNIReconcileLoopMockRecorder is the mock recorder for MockDiscoveredCNIReconcileLoop.
@@ -1306,6 +1334,7 @@ func (mr *MockDiscoveredCNIReconcileLoopMockRecorder) RunDiscoveredCNIReconciler
 type MockPortalConfigReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalConfigReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalConfigReconcilerMockRecorder is the mock recorder for MockPortalConfigReconciler.
@@ -1344,6 +1373,7 @@ func (mr *MockPortalConfigReconcilerMockRecorder) ReconcilePortalConfig(obj any)
 type MockPortalConfigDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalConfigDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalConfigDeletionReconcilerMockRecorder is the mock recorder for MockPortalConfigDeletionReconciler.
@@ -1381,6 +1411,7 @@ func (mr *MockPortalConfigDeletionReconcilerMockRecorder) ReconcilePortalConfigD
 type MockPortalConfigFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalConfigFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalConfigFinalizerMockRecorder is the mock recorder for MockPortalConfigFinalizer.
@@ -1447,6 +1478,7 @@ func (mr *MockPortalConfigFinalizerMockRecorder) ReconcilePortalConfig(obj any) 
 type MockPortalConfigReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalConfigReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalConfigReconcileLoopMockRecorder is the mock recorder for MockPortalConfigReconcileLoop.
@@ -1489,6 +1521,7 @@ func (mr *MockPortalConfigReconcileLoopMockRecorder) RunPortalConfigReconciler(c
 type MockClusterIstioInstallationReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockClusterIstioInstallationReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockClusterIstioInstallationReconcilerMockRecorder is the mock recorder for MockClusterIstioInstallationReconciler.
@@ -1527,6 +1560,7 @@ func (mr *MockClusterIstioInstallationReconcilerMockRecorder) ReconcileClusterIs
 type MockClusterIstioInstallationDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockClusterIstioInstallationDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockClusterIstioInstallationDeletionReconcilerMockRecorder is the mock recorder for MockClusterIstioInstallationDeletionReconciler.
@@ -1564,6 +1598,7 @@ func (mr *MockClusterIstioInstallationDeletionReconcilerMockRecorder) ReconcileC
 type MockClusterIstioInstallationFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockClusterIstioInstallationFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockClusterIstioInstallationFinalizerMockRecorder is the mock recorder for MockClusterIstioInstallationFinalizer.
@@ -1630,6 +1665,7 @@ func (mr *MockClusterIstioInstallationFinalizerMockRecorder) ReconcileClusterIst
 type MockClusterIstioInstallationReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockClusterIstioInstallationReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockClusterIstioInstallationReconcileLoopMockRecorder is the mock recorder for MockClusterIstioInstallationReconcileLoop.

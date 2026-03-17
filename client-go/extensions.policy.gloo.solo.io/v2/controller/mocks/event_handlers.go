@@ -24,6 +24,7 @@ import (
 type MockWasmDeploymentPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyEventHandlerMockRecorder is the mock recorder for MockWasmDeploymentPolicyEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockWasmDeploymentPolicyEventHandlerMockRecorder) UpdateWasmDeployment
 type MockWasmDeploymentPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyEventWatcherMockRecorder is the mock recorder for MockWasmDeploymentPolicyEventWatcher.

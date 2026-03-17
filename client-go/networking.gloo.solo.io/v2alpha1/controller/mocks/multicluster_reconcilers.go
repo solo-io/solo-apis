@@ -25,6 +25,7 @@ import (
 type MockMulticlusterExternalWorkloadReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalWorkloadReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalWorkloadReconcilerMockRecorder is the mock recorder for MockMulticlusterExternalWorkloadReconciler.
@@ -63,6 +64,7 @@ func (mr *MockMulticlusterExternalWorkloadReconcilerMockRecorder) ReconcileExter
 type MockMulticlusterExternalWorkloadDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalWorkloadDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalWorkloadDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterExternalWorkloadDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockMulticlusterExternalWorkloadDeletionReconcilerMockRecorder) Reconc
 type MockMulticlusterExternalWorkloadReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalWorkloadReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalWorkloadReconcileLoopMockRecorder is the mock recorder for MockMulticlusterExternalWorkloadReconcileLoop.
@@ -140,6 +143,7 @@ func (mr *MockMulticlusterExternalWorkloadReconcileLoopMockRecorder) AddMulticlu
 type MockMulticlusterProgressiveDeliveryReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterProgressiveDeliveryReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterProgressiveDeliveryReconcilerMockRecorder is the mock recorder for MockMulticlusterProgressiveDeliveryReconciler.
@@ -178,6 +182,7 @@ func (mr *MockMulticlusterProgressiveDeliveryReconcilerMockRecorder) ReconcilePr
 type MockMulticlusterProgressiveDeliveryDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterProgressiveDeliveryDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterProgressiveDeliveryDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterProgressiveDeliveryDeletionReconciler.
@@ -215,6 +220,7 @@ func (mr *MockMulticlusterProgressiveDeliveryDeletionReconcilerMockRecorder) Rec
 type MockMulticlusterProgressiveDeliveryReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterProgressiveDeliveryReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterProgressiveDeliveryReconcileLoopMockRecorder is the mock recorder for MockMulticlusterProgressiveDeliveryReconcileLoop.

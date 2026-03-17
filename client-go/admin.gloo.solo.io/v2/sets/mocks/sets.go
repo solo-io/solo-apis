@@ -25,6 +25,7 @@ import (
 type MockWorkspaceSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockWorkspaceSetMockRecorder
+	isgomock struct{}
 }
 
 // MockWorkspaceSetMockRecorder is the mock recorder for MockWorkspaceSet.
@@ -281,6 +282,7 @@ func (mr *MockWorkspaceSetMockRecorder) UnsortedList(filterResource ...any) *gom
 type MockWorkspaceSettingsSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockWorkspaceSettingsSetMockRecorder
+	isgomock struct{}
 }
 
 // MockWorkspaceSettingsSetMockRecorder is the mock recorder for MockWorkspaceSettingsSet.
@@ -537,6 +539,7 @@ func (mr *MockWorkspaceSettingsSetMockRecorder) UnsortedList(filterResource ...a
 type MockKubernetesClusterSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockKubernetesClusterSetMockRecorder
+	isgomock struct{}
 }
 
 // MockKubernetesClusterSetMockRecorder is the mock recorder for MockKubernetesClusterSet.
@@ -793,6 +796,7 @@ func (mr *MockKubernetesClusterSetMockRecorder) UnsortedList(filterResource ...a
 type MockRootTrustPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockRootTrustPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockRootTrustPolicySetMockRecorder is the mock recorder for MockRootTrustPolicySet.
@@ -1049,6 +1053,7 @@ func (mr *MockRootTrustPolicySetMockRecorder) UnsortedList(filterResource ...any
 type MockExtAuthServerSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtAuthServerSetMockRecorder
+	isgomock struct{}
 }
 
 // MockExtAuthServerSetMockRecorder is the mock recorder for MockExtAuthServerSet.
@@ -1305,6 +1310,7 @@ func (mr *MockExtAuthServerSetMockRecorder) UnsortedList(filterResource ...any) 
 type MockRateLimitServerSettingsSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitServerSettingsSetMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitServerSettingsSetMockRecorder is the mock recorder for MockRateLimitServerSettingsSet.
@@ -1561,6 +1567,7 @@ func (mr *MockRateLimitServerSettingsSetMockRecorder) UnsortedList(filterResourc
 type MockRateLimitServerConfigSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitServerConfigSetMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitServerConfigSetMockRecorder is the mock recorder for MockRateLimitServerConfigSet.
@@ -1817,6 +1824,7 @@ func (mr *MockRateLimitServerConfigSetMockRecorder) UnsortedList(filterResource 
 type MockDashboardSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockDashboardSetMockRecorder
+	isgomock struct{}
 }
 
 // MockDashboardSetMockRecorder is the mock recorder for MockDashboardSet.
@@ -2073,6 +2081,7 @@ func (mr *MockDashboardSetMockRecorder) UnsortedList(filterResource ...any) *gom
 type MockIstioLifecycleManagerSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockIstioLifecycleManagerSetMockRecorder
+	isgomock struct{}
 }
 
 // MockIstioLifecycleManagerSetMockRecorder is the mock recorder for MockIstioLifecycleManagerSet.
@@ -2329,6 +2338,7 @@ func (mr *MockIstioLifecycleManagerSetMockRecorder) UnsortedList(filterResource 
 type MockGatewayLifecycleManagerSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockGatewayLifecycleManagerSetMockRecorder
+	isgomock struct{}
 }
 
 // MockGatewayLifecycleManagerSetMockRecorder is the mock recorder for MockGatewayLifecycleManagerSet.

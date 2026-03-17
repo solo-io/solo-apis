@@ -25,6 +25,7 @@ import (
 type MockAccessLogPolicyReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyReconcilerMockRecorder is the mock recorder for MockAccessLogPolicyReconciler.
@@ -63,6 +64,7 @@ func (mr *MockAccessLogPolicyReconcilerMockRecorder) ReconcileAccessLogPolicy(ob
 type MockAccessLogPolicyDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyDeletionReconcilerMockRecorder is the mock recorder for MockAccessLogPolicyDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockAccessLogPolicyDeletionReconcilerMockRecorder) ReconcileAccessLogP
 type MockAccessLogPolicyFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyFinalizerMockRecorder is the mock recorder for MockAccessLogPolicyFinalizer.
@@ -166,6 +169,7 @@ func (mr *MockAccessLogPolicyFinalizerMockRecorder) ReconcileAccessLogPolicy(obj
 type MockAccessLogPolicyReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyReconcileLoopMockRecorder is the mock recorder for MockAccessLogPolicyReconcileLoop.

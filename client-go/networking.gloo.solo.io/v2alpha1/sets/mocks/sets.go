@@ -25,6 +25,7 @@ import (
 type MockExternalWorkloadSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalWorkloadSetMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalWorkloadSetMockRecorder is the mock recorder for MockExternalWorkloadSet.
@@ -281,6 +282,7 @@ func (mr *MockExternalWorkloadSetMockRecorder) UnsortedList(filterResource ...an
 type MockProgressiveDeliverySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockProgressiveDeliverySetMockRecorder
+	isgomock struct{}
 }
 
 // MockProgressiveDeliverySetMockRecorder is the mock recorder for MockProgressiveDeliverySet.

@@ -24,6 +24,7 @@ import (
 type MockCloudProviderEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderEventHandlerMockRecorder is the mock recorder for MockCloudProviderEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockCloudProviderEventHandlerMockRecorder) UpdateCloudProvider(old, ne
 type MockCloudProviderEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderEventWatcherMockRecorder is the mock recorder for MockCloudProviderEventWatcher.
@@ -145,6 +147,7 @@ func (mr *MockCloudProviderEventWatcherMockRecorder) AddEventHandler(ctx, h any,
 type MockCloudResourcesEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesEventHandlerMockRecorder is the mock recorder for MockCloudResourcesEventHandler.
@@ -224,6 +227,7 @@ func (mr *MockCloudResourcesEventHandlerMockRecorder) UpdateCloudResources(old, 
 type MockCloudResourcesEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesEventWatcherMockRecorder is the mock recorder for MockCloudResourcesEventWatcher.

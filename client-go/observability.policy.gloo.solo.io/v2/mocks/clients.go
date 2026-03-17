@@ -23,6 +23,7 @@ import (
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
@@ -61,6 +62,7 @@ func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster any) *gomock.Ca
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientsetMockRecorder is the mock recorder for MockClientset.
@@ -98,6 +100,7 @@ func (mr *MockClientsetMockRecorder) AccessLogPolicies() *gomock.Call {
 type MockAccessLogPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyReaderMockRecorder is the mock recorder for MockAccessLogPolicyReader.
@@ -156,6 +159,7 @@ func (mr *MockAccessLogPolicyReaderMockRecorder) ListAccessLogPolicy(ctx any, op
 type MockAccessLogPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyWriterMockRecorder is the mock recorder for MockAccessLogPolicyWriter.
@@ -293,6 +297,7 @@ func (mr *MockAccessLogPolicyWriterMockRecorder) UpsertAccessLogPolicy(ctx, obj 
 type MockAccessLogPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyStatusWriterMockRecorder is the mock recorder for MockAccessLogPolicyStatusWriter.
@@ -354,6 +359,7 @@ func (mr *MockAccessLogPolicyStatusWriterMockRecorder) UpdateAccessLogPolicyStat
 type MockAccessLogPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyClientMockRecorder is the mock recorder for MockAccessLogPolicyClient.
@@ -564,6 +570,7 @@ func (mr *MockAccessLogPolicyClientMockRecorder) UpsertAccessLogPolicy(ctx, obj 
 type MockMulticlusterAccessLogPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterAccessLogPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterAccessLogPolicyClientMockRecorder is the mock recorder for MockMulticlusterAccessLogPolicyClient.

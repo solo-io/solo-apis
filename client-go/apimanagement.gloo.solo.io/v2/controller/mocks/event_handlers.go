@@ -24,6 +24,7 @@ import (
 type MockGraphQLStitchedSchemaEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaEventHandlerMockRecorder is the mock recorder for MockGraphQLStitchedSchemaEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockGraphQLStitchedSchemaEventHandlerMockRecorder) UpdateGraphQLStitch
 type MockGraphQLStitchedSchemaEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaEventWatcherMockRecorder is the mock recorder for MockGraphQLStitchedSchemaEventWatcher.
@@ -145,6 +147,7 @@ func (mr *MockGraphQLStitchedSchemaEventWatcherMockRecorder) AddEventHandler(ctx
 type MockGraphQLResolverMapEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapEventHandlerMockRecorder is the mock recorder for MockGraphQLResolverMapEventHandler.
@@ -224,6 +227,7 @@ func (mr *MockGraphQLResolverMapEventHandlerMockRecorder) UpdateGraphQLResolverM
 type MockGraphQLResolverMapEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapEventWatcherMockRecorder is the mock recorder for MockGraphQLResolverMapEventWatcher.
@@ -266,6 +270,7 @@ func (mr *MockGraphQLResolverMapEventWatcherMockRecorder) AddEventHandler(ctx, h
 type MockGraphQLSchemaEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaEventHandlerMockRecorder is the mock recorder for MockGraphQLSchemaEventHandler.
@@ -345,6 +350,7 @@ func (mr *MockGraphQLSchemaEventHandlerMockRecorder) UpdateGraphQLSchema(old, ne
 type MockGraphQLSchemaEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaEventWatcherMockRecorder is the mock recorder for MockGraphQLSchemaEventWatcher.
@@ -387,6 +393,7 @@ func (mr *MockGraphQLSchemaEventWatcherMockRecorder) AddEventHandler(ctx, h any,
 type MockApiDocEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocEventHandlerMockRecorder is the mock recorder for MockApiDocEventHandler.
@@ -466,6 +473,7 @@ func (mr *MockApiDocEventHandlerMockRecorder) UpdateApiDoc(old, new any) *gomock
 type MockApiDocEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocEventWatcherMockRecorder is the mock recorder for MockApiDocEventWatcher.
@@ -508,6 +516,7 @@ func (mr *MockApiDocEventWatcherMockRecorder) AddEventHandler(ctx, h any, predic
 type MockPortalEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalEventHandlerMockRecorder is the mock recorder for MockPortalEventHandler.
@@ -587,6 +596,7 @@ func (mr *MockPortalEventHandlerMockRecorder) UpdatePortal(old, new any) *gomock
 type MockPortalEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalEventWatcherMockRecorder is the mock recorder for MockPortalEventWatcher.
@@ -629,6 +639,7 @@ func (mr *MockPortalEventWatcherMockRecorder) AddEventHandler(ctx, h any, predic
 type MockApiProductEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductEventHandlerMockRecorder is the mock recorder for MockApiProductEventHandler.
@@ -708,6 +719,7 @@ func (mr *MockApiProductEventHandlerMockRecorder) UpdateApiProduct(old, new any)
 type MockApiProductEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductEventWatcherMockRecorder is the mock recorder for MockApiProductEventWatcher.
@@ -750,6 +762,7 @@ func (mr *MockApiProductEventWatcherMockRecorder) AddEventHandler(ctx, h any, pr
 type MockPortalGroupEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupEventHandlerMockRecorder is the mock recorder for MockPortalGroupEventHandler.
@@ -829,6 +842,7 @@ func (mr *MockPortalGroupEventHandlerMockRecorder) UpdatePortalGroup(old, new an
 type MockPortalGroupEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupEventWatcherMockRecorder is the mock recorder for MockPortalGroupEventWatcher.
@@ -871,6 +885,7 @@ func (mr *MockPortalGroupEventWatcherMockRecorder) AddEventHandler(ctx, h any, p
 type MockApiSchemaDiscoveryEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryEventHandlerMockRecorder is the mock recorder for MockApiSchemaDiscoveryEventHandler.
@@ -950,6 +965,7 @@ func (mr *MockApiSchemaDiscoveryEventHandlerMockRecorder) UpdateApiSchemaDiscove
 type MockApiSchemaDiscoveryEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryEventWatcherMockRecorder is the mock recorder for MockApiSchemaDiscoveryEventWatcher.
