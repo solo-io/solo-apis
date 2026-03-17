@@ -25,6 +25,7 @@ import (
 type MockCloudProviderSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderSetMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderSetMockRecorder is the mock recorder for MockCloudProviderSet.
@@ -281,6 +282,7 @@ func (mr *MockCloudProviderSetMockRecorder) UnsortedList(filterResource ...any) 
 type MockCloudResourcesSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesSetMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesSetMockRecorder is the mock recorder for MockCloudResourcesSet.

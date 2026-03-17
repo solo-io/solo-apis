@@ -24,6 +24,7 @@ import (
 type MockAccessPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessPolicyEventHandlerMockRecorder is the mock recorder for MockAccessPolicyEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockAccessPolicyEventHandlerMockRecorder) UpdateAccessPolicy(old, new 
 type MockAccessPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessPolicyEventWatcherMockRecorder is the mock recorder for MockAccessPolicyEventWatcher.
@@ -145,6 +147,7 @@ func (mr *MockAccessPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h any, 
 type MockCORSPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCORSPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockCORSPolicyEventHandlerMockRecorder is the mock recorder for MockCORSPolicyEventHandler.
@@ -224,6 +227,7 @@ func (mr *MockCORSPolicyEventHandlerMockRecorder) UpdateCORSPolicy(old, new any)
 type MockCORSPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockCORSPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockCORSPolicyEventWatcherMockRecorder is the mock recorder for MockCORSPolicyEventWatcher.
@@ -266,6 +270,7 @@ func (mr *MockCORSPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h any, pr
 type MockCSRFPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCSRFPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockCSRFPolicyEventHandlerMockRecorder is the mock recorder for MockCSRFPolicyEventHandler.
@@ -345,6 +350,7 @@ func (mr *MockCSRFPolicyEventHandlerMockRecorder) UpdateCSRFPolicy(old, new any)
 type MockCSRFPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockCSRFPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockCSRFPolicyEventWatcherMockRecorder is the mock recorder for MockCSRFPolicyEventWatcher.
@@ -387,6 +393,7 @@ func (mr *MockCSRFPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h any, pr
 type MockExtAuthPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtAuthPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockExtAuthPolicyEventHandlerMockRecorder is the mock recorder for MockExtAuthPolicyEventHandler.
@@ -466,6 +473,7 @@ func (mr *MockExtAuthPolicyEventHandlerMockRecorder) UpdateExtAuthPolicy(old, ne
 type MockExtAuthPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtAuthPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockExtAuthPolicyEventWatcherMockRecorder is the mock recorder for MockExtAuthPolicyEventWatcher.
@@ -508,6 +516,7 @@ func (mr *MockExtAuthPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h any,
 type MockWAFPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWAFPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockWAFPolicyEventHandlerMockRecorder is the mock recorder for MockWAFPolicyEventHandler.
@@ -587,6 +596,7 @@ func (mr *MockWAFPolicyEventHandlerMockRecorder) UpdateWAFPolicy(old, new any) *
 type MockWAFPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockWAFPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockWAFPolicyEventWatcherMockRecorder is the mock recorder for MockWAFPolicyEventWatcher.
@@ -629,6 +639,7 @@ func (mr *MockWAFPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h any, pre
 type MockJWTPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockJWTPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockJWTPolicyEventHandlerMockRecorder is the mock recorder for MockJWTPolicyEventHandler.
@@ -708,6 +719,7 @@ func (mr *MockJWTPolicyEventHandlerMockRecorder) UpdateJWTPolicy(old, new any) *
 type MockJWTPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockJWTPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockJWTPolicyEventWatcherMockRecorder is the mock recorder for MockJWTPolicyEventWatcher.
@@ -750,6 +762,7 @@ func (mr *MockJWTPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h any, pre
 type MockClientTLSPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientTLSPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockClientTLSPolicyEventHandlerMockRecorder is the mock recorder for MockClientTLSPolicyEventHandler.
@@ -829,6 +842,7 @@ func (mr *MockClientTLSPolicyEventHandlerMockRecorder) UpdateClientTLSPolicy(old
 type MockClientTLSPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientTLSPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockClientTLSPolicyEventWatcherMockRecorder is the mock recorder for MockClientTLSPolicyEventWatcher.
@@ -871,6 +885,7 @@ func (mr *MockClientTLSPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h an
 type MockGraphQLAllowedQueryPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLAllowedQueryPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLAllowedQueryPolicyEventHandlerMockRecorder is the mock recorder for MockGraphQLAllowedQueryPolicyEventHandler.
@@ -950,6 +965,7 @@ func (mr *MockGraphQLAllowedQueryPolicyEventHandlerMockRecorder) UpdateGraphQLAl
 type MockGraphQLAllowedQueryPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLAllowedQueryPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLAllowedQueryPolicyEventWatcherMockRecorder is the mock recorder for MockGraphQLAllowedQueryPolicyEventWatcher.
@@ -992,6 +1008,7 @@ func (mr *MockGraphQLAllowedQueryPolicyEventWatcherMockRecorder) AddEventHandler
 type MockDLPPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockDLPPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockDLPPolicyEventHandlerMockRecorder is the mock recorder for MockDLPPolicyEventHandler.
@@ -1071,6 +1088,7 @@ func (mr *MockDLPPolicyEventHandlerMockRecorder) UpdateDLPPolicy(old, new any) *
 type MockDLPPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockDLPPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockDLPPolicyEventWatcherMockRecorder is the mock recorder for MockDLPPolicyEventWatcher.

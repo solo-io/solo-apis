@@ -23,6 +23,7 @@ import (
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
@@ -61,6 +62,7 @@ func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster any) *gomock.Ca
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientsetMockRecorder is the mock recorder for MockClientset.
@@ -112,6 +114,7 @@ func (mr *MockClientsetMockRecorder) ProgressiveDeliveries() *gomock.Call {
 type MockExternalWorkloadReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalWorkloadReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalWorkloadReaderMockRecorder is the mock recorder for MockExternalWorkloadReader.
@@ -170,6 +173,7 @@ func (mr *MockExternalWorkloadReaderMockRecorder) ListExternalWorkload(ctx any, 
 type MockExternalWorkloadWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalWorkloadWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalWorkloadWriterMockRecorder is the mock recorder for MockExternalWorkloadWriter.
@@ -307,6 +311,7 @@ func (mr *MockExternalWorkloadWriterMockRecorder) UpsertExternalWorkload(ctx, ob
 type MockExternalWorkloadStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalWorkloadStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalWorkloadStatusWriterMockRecorder is the mock recorder for MockExternalWorkloadStatusWriter.
@@ -368,6 +373,7 @@ func (mr *MockExternalWorkloadStatusWriterMockRecorder) UpdateExternalWorkloadSt
 type MockExternalWorkloadClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalWorkloadClientMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalWorkloadClientMockRecorder is the mock recorder for MockExternalWorkloadClient.
@@ -578,6 +584,7 @@ func (mr *MockExternalWorkloadClientMockRecorder) UpsertExternalWorkload(ctx, ob
 type MockMulticlusterExternalWorkloadClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalWorkloadClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalWorkloadClientMockRecorder is the mock recorder for MockMulticlusterExternalWorkloadClient.
@@ -616,6 +623,7 @@ func (mr *MockMulticlusterExternalWorkloadClientMockRecorder) Cluster(cluster an
 type MockProgressiveDeliveryReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockProgressiveDeliveryReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockProgressiveDeliveryReaderMockRecorder is the mock recorder for MockProgressiveDeliveryReader.
@@ -674,6 +682,7 @@ func (mr *MockProgressiveDeliveryReaderMockRecorder) ListProgressiveDelivery(ctx
 type MockProgressiveDeliveryWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockProgressiveDeliveryWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockProgressiveDeliveryWriterMockRecorder is the mock recorder for MockProgressiveDeliveryWriter.
@@ -811,6 +820,7 @@ func (mr *MockProgressiveDeliveryWriterMockRecorder) UpsertProgressiveDelivery(c
 type MockProgressiveDeliveryStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockProgressiveDeliveryStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockProgressiveDeliveryStatusWriterMockRecorder is the mock recorder for MockProgressiveDeliveryStatusWriter.
@@ -872,6 +882,7 @@ func (mr *MockProgressiveDeliveryStatusWriterMockRecorder) UpdateProgressiveDeli
 type MockProgressiveDeliveryClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockProgressiveDeliveryClientMockRecorder
+	isgomock struct{}
 }
 
 // MockProgressiveDeliveryClientMockRecorder is the mock recorder for MockProgressiveDeliveryClient.
@@ -1082,6 +1093,7 @@ func (mr *MockProgressiveDeliveryClientMockRecorder) UpsertProgressiveDelivery(c
 type MockMulticlusterProgressiveDeliveryClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterProgressiveDeliveryClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterProgressiveDeliveryClientMockRecorder is the mock recorder for MockMulticlusterProgressiveDeliveryClient.

@@ -25,6 +25,7 @@ import (
 type MockWasmDeploymentPolicyReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyReconcilerMockRecorder is the mock recorder for MockWasmDeploymentPolicyReconciler.
@@ -63,6 +64,7 @@ func (mr *MockWasmDeploymentPolicyReconcilerMockRecorder) ReconcileWasmDeploymen
 type MockWasmDeploymentPolicyDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyDeletionReconcilerMockRecorder is the mock recorder for MockWasmDeploymentPolicyDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockWasmDeploymentPolicyDeletionReconcilerMockRecorder) ReconcileWasmD
 type MockWasmDeploymentPolicyFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyFinalizerMockRecorder is the mock recorder for MockWasmDeploymentPolicyFinalizer.
@@ -166,6 +169,7 @@ func (mr *MockWasmDeploymentPolicyFinalizerMockRecorder) WasmDeploymentPolicyFin
 type MockWasmDeploymentPolicyReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyReconcileLoopMockRecorder is the mock recorder for MockWasmDeploymentPolicyReconcileLoop.

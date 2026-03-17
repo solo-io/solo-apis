@@ -25,6 +25,7 @@ import (
 type MockGraphQLStitchedSchemaSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaSetMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaSetMockRecorder is the mock recorder for MockGraphQLStitchedSchemaSet.
@@ -281,6 +282,7 @@ func (mr *MockGraphQLStitchedSchemaSetMockRecorder) UnsortedList(filterResource 
 type MockGraphQLResolverMapSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapSetMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapSetMockRecorder is the mock recorder for MockGraphQLResolverMapSet.
@@ -537,6 +539,7 @@ func (mr *MockGraphQLResolverMapSetMockRecorder) UnsortedList(filterResource ...
 type MockGraphQLSchemaSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaSetMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaSetMockRecorder is the mock recorder for MockGraphQLSchemaSet.
@@ -793,6 +796,7 @@ func (mr *MockGraphQLSchemaSetMockRecorder) UnsortedList(filterResource ...any) 
 type MockApiDocSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocSetMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocSetMockRecorder is the mock recorder for MockApiDocSet.
@@ -1049,6 +1053,7 @@ func (mr *MockApiDocSetMockRecorder) UnsortedList(filterResource ...any) *gomock
 type MockPortalSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalSetMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalSetMockRecorder is the mock recorder for MockPortalSet.
@@ -1305,6 +1310,7 @@ func (mr *MockPortalSetMockRecorder) UnsortedList(filterResource ...any) *gomock
 type MockApiProductSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductSetMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductSetMockRecorder is the mock recorder for MockApiProductSet.
@@ -1561,6 +1567,7 @@ func (mr *MockApiProductSetMockRecorder) UnsortedList(filterResource ...any) *go
 type MockPortalGroupSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupSetMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupSetMockRecorder is the mock recorder for MockPortalGroupSet.
@@ -1817,6 +1824,7 @@ func (mr *MockPortalGroupSetMockRecorder) UnsortedList(filterResource ...any) *g
 type MockApiSchemaDiscoverySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoverySetMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoverySetMockRecorder is the mock recorder for MockApiSchemaDiscoverySet.

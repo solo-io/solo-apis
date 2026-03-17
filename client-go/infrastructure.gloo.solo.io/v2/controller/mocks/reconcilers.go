@@ -25,6 +25,7 @@ import (
 type MockCloudProviderReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderReconcilerMockRecorder is the mock recorder for MockCloudProviderReconciler.
@@ -63,6 +64,7 @@ func (mr *MockCloudProviderReconcilerMockRecorder) ReconcileCloudProvider(obj an
 type MockCloudProviderDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderDeletionReconcilerMockRecorder is the mock recorder for MockCloudProviderDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockCloudProviderDeletionReconcilerMockRecorder) ReconcileCloudProvide
 type MockCloudProviderFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderFinalizerMockRecorder is the mock recorder for MockCloudProviderFinalizer.
@@ -166,6 +169,7 @@ func (mr *MockCloudProviderFinalizerMockRecorder) ReconcileCloudProvider(obj any
 type MockCloudProviderReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderReconcileLoopMockRecorder is the mock recorder for MockCloudProviderReconcileLoop.
@@ -208,6 +212,7 @@ func (mr *MockCloudProviderReconcileLoopMockRecorder) RunCloudProviderReconciler
 type MockCloudResourcesReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesReconcilerMockRecorder is the mock recorder for MockCloudResourcesReconciler.
@@ -246,6 +251,7 @@ func (mr *MockCloudResourcesReconcilerMockRecorder) ReconcileCloudResources(obj 
 type MockCloudResourcesDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesDeletionReconcilerMockRecorder is the mock recorder for MockCloudResourcesDeletionReconciler.
@@ -283,6 +289,7 @@ func (mr *MockCloudResourcesDeletionReconcilerMockRecorder) ReconcileCloudResour
 type MockCloudResourcesFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesFinalizerMockRecorder is the mock recorder for MockCloudResourcesFinalizer.
@@ -349,6 +356,7 @@ func (mr *MockCloudResourcesFinalizerMockRecorder) ReconcileCloudResources(obj a
 type MockCloudResourcesReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesReconcileLoopMockRecorder is the mock recorder for MockCloudResourcesReconcileLoop.

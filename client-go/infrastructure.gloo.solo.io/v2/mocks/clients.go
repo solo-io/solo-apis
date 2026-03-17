@@ -23,6 +23,7 @@ import (
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
@@ -61,6 +62,7 @@ func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster any) *gomock.Ca
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientsetMockRecorder is the mock recorder for MockClientset.
@@ -112,6 +114,7 @@ func (mr *MockClientsetMockRecorder) CloudResources() *gomock.Call {
 type MockCloudProviderReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderReaderMockRecorder is the mock recorder for MockCloudProviderReader.
@@ -170,6 +173,7 @@ func (mr *MockCloudProviderReaderMockRecorder) ListCloudProvider(ctx any, opts .
 type MockCloudProviderWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderWriterMockRecorder is the mock recorder for MockCloudProviderWriter.
@@ -307,6 +311,7 @@ func (mr *MockCloudProviderWriterMockRecorder) UpsertCloudProvider(ctx, obj any,
 type MockCloudProviderStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderStatusWriterMockRecorder is the mock recorder for MockCloudProviderStatusWriter.
@@ -368,6 +373,7 @@ func (mr *MockCloudProviderStatusWriterMockRecorder) UpdateCloudProviderStatus(c
 type MockCloudProviderClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudProviderClientMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudProviderClientMockRecorder is the mock recorder for MockCloudProviderClient.
@@ -578,6 +584,7 @@ func (mr *MockCloudProviderClientMockRecorder) UpsertCloudProvider(ctx, obj any,
 type MockMulticlusterCloudProviderClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterCloudProviderClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterCloudProviderClientMockRecorder is the mock recorder for MockMulticlusterCloudProviderClient.
@@ -616,6 +623,7 @@ func (mr *MockMulticlusterCloudProviderClientMockRecorder) Cluster(cluster any) 
 type MockCloudResourcesReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesReaderMockRecorder is the mock recorder for MockCloudResourcesReader.
@@ -674,6 +682,7 @@ func (mr *MockCloudResourcesReaderMockRecorder) ListCloudResources(ctx any, opts
 type MockCloudResourcesWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesWriterMockRecorder is the mock recorder for MockCloudResourcesWriter.
@@ -811,6 +820,7 @@ func (mr *MockCloudResourcesWriterMockRecorder) UpsertCloudResources(ctx, obj an
 type MockCloudResourcesStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesStatusWriterMockRecorder is the mock recorder for MockCloudResourcesStatusWriter.
@@ -872,6 +882,7 @@ func (mr *MockCloudResourcesStatusWriterMockRecorder) UpdateCloudResourcesStatus
 type MockCloudResourcesClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudResourcesClientMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudResourcesClientMockRecorder is the mock recorder for MockCloudResourcesClient.
@@ -1082,6 +1093,7 @@ func (mr *MockCloudResourcesClientMockRecorder) UpsertCloudResources(ctx, obj an
 type MockMulticlusterCloudResourcesClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterCloudResourcesClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterCloudResourcesClientMockRecorder is the mock recorder for MockMulticlusterCloudResourcesClient.

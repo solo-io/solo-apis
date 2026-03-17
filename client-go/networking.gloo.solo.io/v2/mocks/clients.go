@@ -23,6 +23,7 @@ import (
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
@@ -61,6 +62,7 @@ func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster any) *gomock.Ca
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientsetMockRecorder is the mock recorder for MockClientset.
@@ -154,6 +156,7 @@ func (mr *MockClientsetMockRecorder) VirtualGateways() *gomock.Call {
 type MockExternalServiceReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceReaderMockRecorder is the mock recorder for MockExternalServiceReader.
@@ -212,6 +215,7 @@ func (mr *MockExternalServiceReaderMockRecorder) ListExternalService(ctx any, op
 type MockExternalServiceWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceWriterMockRecorder is the mock recorder for MockExternalServiceWriter.
@@ -349,6 +353,7 @@ func (mr *MockExternalServiceWriterMockRecorder) UpsertExternalService(ctx, obj 
 type MockExternalServiceStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceStatusWriterMockRecorder is the mock recorder for MockExternalServiceStatusWriter.
@@ -410,6 +415,7 @@ func (mr *MockExternalServiceStatusWriterMockRecorder) UpdateExternalServiceStat
 type MockExternalServiceClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceClientMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceClientMockRecorder is the mock recorder for MockExternalServiceClient.
@@ -620,6 +626,7 @@ func (mr *MockExternalServiceClientMockRecorder) UpsertExternalService(ctx, obj 
 type MockMulticlusterExternalServiceClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalServiceClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalServiceClientMockRecorder is the mock recorder for MockMulticlusterExternalServiceClient.
@@ -658,6 +665,7 @@ func (mr *MockMulticlusterExternalServiceClientMockRecorder) Cluster(cluster any
 type MockExternalEndpointReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointReaderMockRecorder is the mock recorder for MockExternalEndpointReader.
@@ -716,6 +724,7 @@ func (mr *MockExternalEndpointReaderMockRecorder) ListExternalEndpoint(ctx any, 
 type MockExternalEndpointWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointWriterMockRecorder is the mock recorder for MockExternalEndpointWriter.
@@ -853,6 +862,7 @@ func (mr *MockExternalEndpointWriterMockRecorder) UpsertExternalEndpoint(ctx, ob
 type MockExternalEndpointStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointStatusWriterMockRecorder is the mock recorder for MockExternalEndpointStatusWriter.
@@ -914,6 +924,7 @@ func (mr *MockExternalEndpointStatusWriterMockRecorder) UpdateExternalEndpointSt
 type MockExternalEndpointClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointClientMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointClientMockRecorder is the mock recorder for MockExternalEndpointClient.
@@ -1124,6 +1135,7 @@ func (mr *MockExternalEndpointClientMockRecorder) UpsertExternalEndpoint(ctx, ob
 type MockMulticlusterExternalEndpointClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalEndpointClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalEndpointClientMockRecorder is the mock recorder for MockMulticlusterExternalEndpointClient.
@@ -1162,6 +1174,7 @@ func (mr *MockMulticlusterExternalEndpointClientMockRecorder) Cluster(cluster an
 type MockRouteTableReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableReaderMockRecorder is the mock recorder for MockRouteTableReader.
@@ -1220,6 +1233,7 @@ func (mr *MockRouteTableReaderMockRecorder) ListRouteTable(ctx any, opts ...any)
 type MockRouteTableWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableWriterMockRecorder is the mock recorder for MockRouteTableWriter.
@@ -1357,6 +1371,7 @@ func (mr *MockRouteTableWriterMockRecorder) UpsertRouteTable(ctx, obj any, trans
 type MockRouteTableStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableStatusWriterMockRecorder is the mock recorder for MockRouteTableStatusWriter.
@@ -1418,6 +1433,7 @@ func (mr *MockRouteTableStatusWriterMockRecorder) UpdateRouteTableStatus(ctx, ob
 type MockRouteTableClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableClientMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableClientMockRecorder is the mock recorder for MockRouteTableClient.
@@ -1628,6 +1644,7 @@ func (mr *MockRouteTableClientMockRecorder) UpsertRouteTable(ctx, obj any, trans
 type MockMulticlusterRouteTableClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRouteTableClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRouteTableClientMockRecorder is the mock recorder for MockMulticlusterRouteTableClient.
@@ -1666,6 +1683,7 @@ func (mr *MockMulticlusterRouteTableClientMockRecorder) Cluster(cluster any) *go
 type MockVirtualDestinationReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationReaderMockRecorder is the mock recorder for MockVirtualDestinationReader.
@@ -1724,6 +1742,7 @@ func (mr *MockVirtualDestinationReaderMockRecorder) ListVirtualDestination(ctx a
 type MockVirtualDestinationWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationWriterMockRecorder is the mock recorder for MockVirtualDestinationWriter.
@@ -1861,6 +1880,7 @@ func (mr *MockVirtualDestinationWriterMockRecorder) UpsertVirtualDestination(ctx
 type MockVirtualDestinationStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationStatusWriterMockRecorder is the mock recorder for MockVirtualDestinationStatusWriter.
@@ -1922,6 +1942,7 @@ func (mr *MockVirtualDestinationStatusWriterMockRecorder) UpdateVirtualDestinati
 type MockVirtualDestinationClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationClientMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationClientMockRecorder is the mock recorder for MockVirtualDestinationClient.
@@ -2132,6 +2153,7 @@ func (mr *MockVirtualDestinationClientMockRecorder) UpsertVirtualDestination(ctx
 type MockMulticlusterVirtualDestinationClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualDestinationClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualDestinationClientMockRecorder is the mock recorder for MockMulticlusterVirtualDestinationClient.
@@ -2170,6 +2192,7 @@ func (mr *MockMulticlusterVirtualDestinationClientMockRecorder) Cluster(cluster 
 type MockVirtualGatewayReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayReaderMockRecorder is the mock recorder for MockVirtualGatewayReader.
@@ -2228,6 +2251,7 @@ func (mr *MockVirtualGatewayReaderMockRecorder) ListVirtualGateway(ctx any, opts
 type MockVirtualGatewayWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayWriterMockRecorder is the mock recorder for MockVirtualGatewayWriter.
@@ -2365,6 +2389,7 @@ func (mr *MockVirtualGatewayWriterMockRecorder) UpsertVirtualGateway(ctx, obj an
 type MockVirtualGatewayStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayStatusWriterMockRecorder is the mock recorder for MockVirtualGatewayStatusWriter.
@@ -2426,6 +2451,7 @@ func (mr *MockVirtualGatewayStatusWriterMockRecorder) UpdateVirtualGatewayStatus
 type MockVirtualGatewayClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayClientMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayClientMockRecorder is the mock recorder for MockVirtualGatewayClient.
@@ -2636,6 +2662,7 @@ func (mr *MockVirtualGatewayClientMockRecorder) UpsertVirtualGateway(ctx, obj an
 type MockMulticlusterVirtualGatewayClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualGatewayClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualGatewayClientMockRecorder is the mock recorder for MockMulticlusterVirtualGatewayClient.

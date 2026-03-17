@@ -25,6 +25,7 @@ import (
 type MockWaypointLifecycleManagerReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerReconcilerMockRecorder is the mock recorder for MockWaypointLifecycleManagerReconciler.
@@ -63,6 +64,7 @@ func (mr *MockWaypointLifecycleManagerReconcilerMockRecorder) ReconcileWaypointL
 type MockWaypointLifecycleManagerDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerDeletionReconcilerMockRecorder is the mock recorder for MockWaypointLifecycleManagerDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockWaypointLifecycleManagerDeletionReconcilerMockRecorder) ReconcileW
 type MockWaypointLifecycleManagerFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerFinalizerMockRecorder is the mock recorder for MockWaypointLifecycleManagerFinalizer.
@@ -166,6 +169,7 @@ func (mr *MockWaypointLifecycleManagerFinalizerMockRecorder) WaypointLifecycleMa
 type MockWaypointLifecycleManagerReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerReconcileLoopMockRecorder is the mock recorder for MockWaypointLifecycleManagerReconcileLoop.
@@ -208,6 +212,7 @@ func (mr *MockWaypointLifecycleManagerReconcileLoopMockRecorder) RunWaypointLife
 type MockInsightsConfigReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigReconcilerMockRecorder is the mock recorder for MockInsightsConfigReconciler.
@@ -246,6 +251,7 @@ func (mr *MockInsightsConfigReconcilerMockRecorder) ReconcileInsightsConfig(obj 
 type MockInsightsConfigDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigDeletionReconcilerMockRecorder is the mock recorder for MockInsightsConfigDeletionReconciler.
@@ -283,6 +289,7 @@ func (mr *MockInsightsConfigDeletionReconcilerMockRecorder) ReconcileInsightsCon
 type MockInsightsConfigFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigFinalizerMockRecorder is the mock recorder for MockInsightsConfigFinalizer.
@@ -349,6 +356,7 @@ func (mr *MockInsightsConfigFinalizerMockRecorder) ReconcileInsightsConfig(obj a
 type MockInsightsConfigReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigReconcileLoopMockRecorder is the mock recorder for MockInsightsConfigReconcileLoop.
