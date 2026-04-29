@@ -310,8 +310,11 @@ type SettingsSpec struct {
 	// Refer to the [Kubernetes selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
 	// for additional detail on selector semantics.
 	WatchNamespaceSelectors []*LabelSelector `protobuf:"bytes,40,rep,name=watch_namespace_selectors,json=watchNamespaceSelectors,proto3" json:"watch_namespace_selectors,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// Set to true to only use ipv4 when creating gateways when running in gateway api mode.
+	// Defaults to false
+	IpV4Only      bool `protobuf:"varint,43,opt,name=ip_v4_only,json=ipV4Only,proto3" json:"ip_v4_only,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SettingsSpec) Reset() {
@@ -635,6 +638,13 @@ func (x *SettingsSpec) GetWatchNamespaceSelectors() []*LabelSelector {
 		return x.WatchNamespaceSelectors
 	}
 	return nil
+}
+
+func (x *SettingsSpec) GetIpV4Only() bool {
+	if x != nil {
+		return x.IpV4Only
+	}
+	return false
 }
 
 type isSettingsSpec_ConfigSource interface {
@@ -3689,7 +3699,7 @@ var File_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto protorefle
 
 const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc = "" +
 	"\n" +
-	"<github.com/solo-io/solo-apis/api/gloo/gloo/v1/settings.proto\x12\fgloo.solo.io\x1a\x1cgoogle/protobuf/struct.proto\x1a\x12extproto/ext.proto\x1a1github.com/solo-io/solo-kit/api/v1/solo-kit.proto\x1a,github.com/solo-io/solo-kit/api/v1/ref.proto\x1a>github.com/solo-io/solo-apis/api/gloo/gloo/v1/extensions.proto\x1aZgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/ratelimit/ratelimit.proto\x1aVgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/caching/caching.proto\x1aJgithub.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto\x1aVgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/extproc/extproc.proto\x1aPgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto\x1aSgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/circuit_breaker/circuit_breaker.proto\x1a;github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl/ssl.proto\x1aUgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/aws/filter.proto\x1aPgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/options/consul/query_options.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\x96;\n" +
+	"<github.com/solo-io/solo-apis/api/gloo/gloo/v1/settings.proto\x12\fgloo.solo.io\x1a\x1cgoogle/protobuf/struct.proto\x1a\x12extproto/ext.proto\x1a1github.com/solo-io/solo-kit/api/v1/solo-kit.proto\x1a,github.com/solo-io/solo-kit/api/v1/ref.proto\x1a>github.com/solo-io/solo-apis/api/gloo/gloo/v1/extensions.proto\x1aZgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/ratelimit/ratelimit.proto\x1aVgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/caching/caching.proto\x1aJgithub.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto\x1aVgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/extproc/extproc.proto\x1aPgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto\x1aSgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/circuit_breaker/circuit_breaker.proto\x1a;github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl/ssl.proto\x1aUgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/aws/filter.proto\x1aPgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/options/consul/query_options.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xb4;\n" +
 	"\fSettingsSpec\x12/\n" +
 	"\x13discovery_namespace\x18\x01 \x01(\tR\x12discoveryNamespace\x12)\n" +
 	"\x10watch_namespaces\x18\x02 \x03(\tR\x0fwatchNamespaces\x12e\n" +
@@ -3731,7 +3741,9 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc 
 	"\x0eext_proc_early\x18* \x01(\v2&.extproc.options.gloo.solo.io.SettingsR\fextProcEarly\x12A\n" +
 	"\bext_proc\x18' \x01(\v2&.extproc.options.gloo.solo.io.SettingsR\aextProc\x12J\n" +
 	"\rext_proc_late\x18) \x01(\v2&.extproc.options.gloo.solo.io.SettingsR\vextProcLate\x12W\n" +
-	"\x19watch_namespace_selectors\x18( \x03(\v2\x1b.gloo.solo.io.LabelSelectorR\x17watchNamespaceSelectors\x1a\xc6\x02\n" +
+	"\x19watch_namespace_selectors\x18( \x03(\v2\x1b.gloo.solo.io.LabelSelectorR\x17watchNamespaceSelectors\x12\x1c\n" +
+	"\n" +
+	"ip_v4_only\x18+ \x01(\bR\bipV4Only\x1a\xc6\x02\n" +
 	"\rSecretOptions\x12I\n" +
 	"\asources\x18\x01 \x03(\v2/.gloo.solo.io.SettingsSpec.SecretOptions.SourceR\asources\x1a\xe9\x01\n" +
 	"\x06Source\x12N\n" +
