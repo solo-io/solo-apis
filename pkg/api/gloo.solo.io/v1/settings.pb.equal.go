@@ -317,6 +317,10 @@ func (m *SettingsSpec) Equal(that interface{}) bool {
 
 	}
 
+	if m.GetIpV4Only() != target.GetIpV4Only() {
+		return false
+	}
+
 	switch m.ConfigSource.(type) {
 
 	case *SettingsSpec_KubernetesConfigSource:
