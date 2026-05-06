@@ -1737,6 +1737,17 @@ func (m *JwtValidation) Equal(that interface{}) bool {
 		return false
 	}
 
+	if len(m.GetAudiences()) != len(target.GetAudiences()) {
+		return false
+	}
+	for idx, v := range m.GetAudiences() {
+
+		if strings.Compare(v, target.GetAudiences()[idx]) != 0 {
+			return false
+		}
+
+	}
+
 	switch m.JwksSourceSpecifier.(type) {
 
 	case *JwtValidation_RemoteJwks_:
