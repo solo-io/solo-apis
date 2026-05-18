@@ -25,6 +25,7 @@ import (
 type MockMulticlusterWaypointLifecycleManagerReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWaypointLifecycleManagerReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWaypointLifecycleManagerReconcilerMockRecorder is the mock recorder for MockMulticlusterWaypointLifecycleManagerReconciler.
@@ -63,6 +64,7 @@ func (mr *MockMulticlusterWaypointLifecycleManagerReconcilerMockRecorder) Reconc
 type MockMulticlusterWaypointLifecycleManagerDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWaypointLifecycleManagerDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWaypointLifecycleManagerDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterWaypointLifecycleManagerDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockMulticlusterWaypointLifecycleManagerDeletionReconcilerMockRecorder
 type MockMulticlusterWaypointLifecycleManagerReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWaypointLifecycleManagerReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWaypointLifecycleManagerReconcileLoopMockRecorder is the mock recorder for MockMulticlusterWaypointLifecycleManagerReconcileLoop.
@@ -140,6 +143,7 @@ func (mr *MockMulticlusterWaypointLifecycleManagerReconcileLoopMockRecorder) Add
 type MockMulticlusterInsightsConfigReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterInsightsConfigReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterInsightsConfigReconcilerMockRecorder is the mock recorder for MockMulticlusterInsightsConfigReconciler.
@@ -178,6 +182,7 @@ func (mr *MockMulticlusterInsightsConfigReconcilerMockRecorder) ReconcileInsight
 type MockMulticlusterInsightsConfigDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterInsightsConfigDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterInsightsConfigDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterInsightsConfigDeletionReconciler.
@@ -215,6 +220,7 @@ func (mr *MockMulticlusterInsightsConfigDeletionReconcilerMockRecorder) Reconcil
 type MockMulticlusterInsightsConfigReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterInsightsConfigReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterInsightsConfigReconcileLoopMockRecorder is the mock recorder for MockMulticlusterInsightsConfigReconcileLoop.

@@ -25,6 +25,7 @@ import (
 type MockMulticlusterExternalServiceReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalServiceReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalServiceReconcilerMockRecorder is the mock recorder for MockMulticlusterExternalServiceReconciler.
@@ -63,6 +64,7 @@ func (mr *MockMulticlusterExternalServiceReconcilerMockRecorder) ReconcileExtern
 type MockMulticlusterExternalServiceDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalServiceDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalServiceDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterExternalServiceDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockMulticlusterExternalServiceDeletionReconcilerMockRecorder) Reconci
 type MockMulticlusterExternalServiceReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalServiceReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalServiceReconcileLoopMockRecorder is the mock recorder for MockMulticlusterExternalServiceReconcileLoop.
@@ -140,6 +143,7 @@ func (mr *MockMulticlusterExternalServiceReconcileLoopMockRecorder) AddMulticlus
 type MockMulticlusterExternalEndpointReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalEndpointReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalEndpointReconcilerMockRecorder is the mock recorder for MockMulticlusterExternalEndpointReconciler.
@@ -178,6 +182,7 @@ func (mr *MockMulticlusterExternalEndpointReconcilerMockRecorder) ReconcileExter
 type MockMulticlusterExternalEndpointDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalEndpointDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalEndpointDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterExternalEndpointDeletionReconciler.
@@ -215,6 +220,7 @@ func (mr *MockMulticlusterExternalEndpointDeletionReconcilerMockRecorder) Reconc
 type MockMulticlusterExternalEndpointReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterExternalEndpointReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterExternalEndpointReconcileLoopMockRecorder is the mock recorder for MockMulticlusterExternalEndpointReconcileLoop.
@@ -255,6 +261,7 @@ func (mr *MockMulticlusterExternalEndpointReconcileLoopMockRecorder) AddMulticlu
 type MockMulticlusterRouteTableReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRouteTableReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRouteTableReconcilerMockRecorder is the mock recorder for MockMulticlusterRouteTableReconciler.
@@ -293,6 +300,7 @@ func (mr *MockMulticlusterRouteTableReconcilerMockRecorder) ReconcileRouteTable(
 type MockMulticlusterRouteTableDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRouteTableDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRouteTableDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterRouteTableDeletionReconciler.
@@ -330,6 +338,7 @@ func (mr *MockMulticlusterRouteTableDeletionReconcilerMockRecorder) ReconcileRou
 type MockMulticlusterRouteTableReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRouteTableReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRouteTableReconcileLoopMockRecorder is the mock recorder for MockMulticlusterRouteTableReconcileLoop.
@@ -370,6 +379,7 @@ func (mr *MockMulticlusterRouteTableReconcileLoopMockRecorder) AddMulticlusterRo
 type MockMulticlusterVirtualDestinationReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualDestinationReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualDestinationReconcilerMockRecorder is the mock recorder for MockMulticlusterVirtualDestinationReconciler.
@@ -408,6 +418,7 @@ func (mr *MockMulticlusterVirtualDestinationReconcilerMockRecorder) ReconcileVir
 type MockMulticlusterVirtualDestinationDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualDestinationDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualDestinationDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterVirtualDestinationDeletionReconciler.
@@ -445,6 +456,7 @@ func (mr *MockMulticlusterVirtualDestinationDeletionReconcilerMockRecorder) Reco
 type MockMulticlusterVirtualDestinationReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualDestinationReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualDestinationReconcileLoopMockRecorder is the mock recorder for MockMulticlusterVirtualDestinationReconcileLoop.
@@ -485,6 +497,7 @@ func (mr *MockMulticlusterVirtualDestinationReconcileLoopMockRecorder) AddMultic
 type MockMulticlusterVirtualGatewayReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualGatewayReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualGatewayReconcilerMockRecorder is the mock recorder for MockMulticlusterVirtualGatewayReconciler.
@@ -523,6 +536,7 @@ func (mr *MockMulticlusterVirtualGatewayReconcilerMockRecorder) ReconcileVirtual
 type MockMulticlusterVirtualGatewayDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualGatewayDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualGatewayDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterVirtualGatewayDeletionReconciler.
@@ -560,6 +574,7 @@ func (mr *MockMulticlusterVirtualGatewayDeletionReconcilerMockRecorder) Reconcil
 type MockMulticlusterVirtualGatewayReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualGatewayReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualGatewayReconcileLoopMockRecorder is the mock recorder for MockMulticlusterVirtualGatewayReconcileLoop.

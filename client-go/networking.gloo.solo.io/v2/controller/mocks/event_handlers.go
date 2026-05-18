@@ -24,6 +24,7 @@ import (
 type MockExternalServiceEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceEventHandlerMockRecorder is the mock recorder for MockExternalServiceEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockExternalServiceEventHandlerMockRecorder) UpdateExternalService(old
 type MockExternalServiceEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceEventWatcherMockRecorder is the mock recorder for MockExternalServiceEventWatcher.
@@ -145,6 +147,7 @@ func (mr *MockExternalServiceEventWatcherMockRecorder) AddEventHandler(ctx, h an
 type MockExternalEndpointEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointEventHandlerMockRecorder is the mock recorder for MockExternalEndpointEventHandler.
@@ -224,6 +227,7 @@ func (mr *MockExternalEndpointEventHandlerMockRecorder) UpdateExternalEndpoint(o
 type MockExternalEndpointEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointEventWatcherMockRecorder is the mock recorder for MockExternalEndpointEventWatcher.
@@ -266,6 +270,7 @@ func (mr *MockExternalEndpointEventWatcherMockRecorder) AddEventHandler(ctx, h a
 type MockRouteTableEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableEventHandlerMockRecorder is the mock recorder for MockRouteTableEventHandler.
@@ -345,6 +350,7 @@ func (mr *MockRouteTableEventHandlerMockRecorder) UpdateRouteTable(old, new any)
 type MockRouteTableEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableEventWatcherMockRecorder is the mock recorder for MockRouteTableEventWatcher.
@@ -387,6 +393,7 @@ func (mr *MockRouteTableEventWatcherMockRecorder) AddEventHandler(ctx, h any, pr
 type MockVirtualDestinationEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationEventHandlerMockRecorder is the mock recorder for MockVirtualDestinationEventHandler.
@@ -466,6 +473,7 @@ func (mr *MockVirtualDestinationEventHandlerMockRecorder) UpdateVirtualDestinati
 type MockVirtualDestinationEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationEventWatcherMockRecorder is the mock recorder for MockVirtualDestinationEventWatcher.
@@ -508,6 +516,7 @@ func (mr *MockVirtualDestinationEventWatcherMockRecorder) AddEventHandler(ctx, h
 type MockVirtualGatewayEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayEventHandlerMockRecorder is the mock recorder for MockVirtualGatewayEventHandler.
@@ -587,6 +596,7 @@ func (mr *MockVirtualGatewayEventHandlerMockRecorder) UpdateVirtualGateway(old, 
 type MockVirtualGatewayEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayEventWatcherMockRecorder is the mock recorder for MockVirtualGatewayEventWatcher.

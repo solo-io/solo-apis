@@ -25,6 +25,7 @@ import (
 type MockMulticlusterCloudProviderReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterCloudProviderReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterCloudProviderReconcilerMockRecorder is the mock recorder for MockMulticlusterCloudProviderReconciler.
@@ -63,6 +64,7 @@ func (mr *MockMulticlusterCloudProviderReconcilerMockRecorder) ReconcileCloudPro
 type MockMulticlusterCloudProviderDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterCloudProviderDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterCloudProviderDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterCloudProviderDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockMulticlusterCloudProviderDeletionReconcilerMockRecorder) Reconcile
 type MockMulticlusterCloudProviderReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterCloudProviderReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterCloudProviderReconcileLoopMockRecorder is the mock recorder for MockMulticlusterCloudProviderReconcileLoop.
@@ -140,6 +143,7 @@ func (mr *MockMulticlusterCloudProviderReconcileLoopMockRecorder) AddMulticluste
 type MockMulticlusterCloudResourcesReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterCloudResourcesReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterCloudResourcesReconcilerMockRecorder is the mock recorder for MockMulticlusterCloudResourcesReconciler.
@@ -178,6 +182,7 @@ func (mr *MockMulticlusterCloudResourcesReconcilerMockRecorder) ReconcileCloudRe
 type MockMulticlusterCloudResourcesDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterCloudResourcesDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterCloudResourcesDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterCloudResourcesDeletionReconciler.
@@ -215,6 +220,7 @@ func (mr *MockMulticlusterCloudResourcesDeletionReconcilerMockRecorder) Reconcil
 type MockMulticlusterCloudResourcesReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterCloudResourcesReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterCloudResourcesReconcileLoopMockRecorder is the mock recorder for MockMulticlusterCloudResourcesReconcileLoop.

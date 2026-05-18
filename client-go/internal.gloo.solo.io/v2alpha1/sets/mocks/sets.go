@@ -25,6 +25,7 @@ import (
 type MockSpireRegistrationEntrySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntrySetMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntrySetMockRecorder is the mock recorder for MockSpireRegistrationEntrySet.
@@ -281,6 +282,7 @@ func (mr *MockSpireRegistrationEntrySetMockRecorder) UnsortedList(filterResource
 type MockVirtualServiceBackupSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupSetMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupSetMockRecorder is the mock recorder for MockVirtualServiceBackupSet.

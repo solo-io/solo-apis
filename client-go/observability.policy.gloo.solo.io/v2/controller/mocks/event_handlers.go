@@ -24,6 +24,7 @@ import (
 type MockAccessLogPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyEventHandlerMockRecorder is the mock recorder for MockAccessLogPolicyEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockAccessLogPolicyEventHandlerMockRecorder) UpdateAccessLogPolicy(old
 type MockAccessLogPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessLogPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessLogPolicyEventWatcherMockRecorder is the mock recorder for MockAccessLogPolicyEventWatcher.

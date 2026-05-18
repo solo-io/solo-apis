@@ -23,6 +23,7 @@ import (
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
@@ -61,6 +62,7 @@ func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster any) *gomock.Ca
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientsetMockRecorder is the mock recorder for MockClientset.
@@ -112,6 +114,7 @@ func (mr *MockClientsetMockRecorder) WaypointLifecycleManagers() *gomock.Call {
 type MockWaypointLifecycleManagerReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerReaderMockRecorder is the mock recorder for MockWaypointLifecycleManagerReader.
@@ -170,6 +173,7 @@ func (mr *MockWaypointLifecycleManagerReaderMockRecorder) ListWaypointLifecycleM
 type MockWaypointLifecycleManagerWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerWriterMockRecorder is the mock recorder for MockWaypointLifecycleManagerWriter.
@@ -307,6 +311,7 @@ func (mr *MockWaypointLifecycleManagerWriterMockRecorder) UpsertWaypointLifecycl
 type MockWaypointLifecycleManagerStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerStatusWriterMockRecorder is the mock recorder for MockWaypointLifecycleManagerStatusWriter.
@@ -368,6 +373,7 @@ func (mr *MockWaypointLifecycleManagerStatusWriterMockRecorder) UpdateWaypointLi
 type MockWaypointLifecycleManagerClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerClientMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerClientMockRecorder is the mock recorder for MockWaypointLifecycleManagerClient.
@@ -578,6 +584,7 @@ func (mr *MockWaypointLifecycleManagerClientMockRecorder) UpsertWaypointLifecycl
 type MockMulticlusterWaypointLifecycleManagerClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWaypointLifecycleManagerClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWaypointLifecycleManagerClientMockRecorder is the mock recorder for MockMulticlusterWaypointLifecycleManagerClient.
@@ -616,6 +623,7 @@ func (mr *MockMulticlusterWaypointLifecycleManagerClientMockRecorder) Cluster(cl
 type MockInsightsConfigReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigReaderMockRecorder is the mock recorder for MockInsightsConfigReader.
@@ -674,6 +682,7 @@ func (mr *MockInsightsConfigReaderMockRecorder) ListInsightsConfig(ctx any, opts
 type MockInsightsConfigWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigWriterMockRecorder is the mock recorder for MockInsightsConfigWriter.
@@ -811,6 +820,7 @@ func (mr *MockInsightsConfigWriterMockRecorder) UpsertInsightsConfig(ctx, obj an
 type MockInsightsConfigStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigStatusWriterMockRecorder is the mock recorder for MockInsightsConfigStatusWriter.
@@ -872,6 +882,7 @@ func (mr *MockInsightsConfigStatusWriterMockRecorder) UpdateInsightsConfigStatus
 type MockInsightsConfigClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigClientMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigClientMockRecorder is the mock recorder for MockInsightsConfigClient.
@@ -1082,6 +1093,7 @@ func (mr *MockInsightsConfigClientMockRecorder) UpsertInsightsConfig(ctx, obj an
 type MockMulticlusterInsightsConfigClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterInsightsConfigClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterInsightsConfigClientMockRecorder is the mock recorder for MockMulticlusterInsightsConfigClient.

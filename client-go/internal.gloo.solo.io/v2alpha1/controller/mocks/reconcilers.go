@@ -25,6 +25,7 @@ import (
 type MockSpireRegistrationEntryReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryReconcilerMockRecorder is the mock recorder for MockSpireRegistrationEntryReconciler.
@@ -63,6 +64,7 @@ func (mr *MockSpireRegistrationEntryReconcilerMockRecorder) ReconcileSpireRegist
 type MockSpireRegistrationEntryDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryDeletionReconcilerMockRecorder is the mock recorder for MockSpireRegistrationEntryDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockSpireRegistrationEntryDeletionReconcilerMockRecorder) ReconcileSpi
 type MockSpireRegistrationEntryFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryFinalizerMockRecorder is the mock recorder for MockSpireRegistrationEntryFinalizer.
@@ -166,6 +169,7 @@ func (mr *MockSpireRegistrationEntryFinalizerMockRecorder) SpireRegistrationEntr
 type MockSpireRegistrationEntryReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryReconcileLoopMockRecorder is the mock recorder for MockSpireRegistrationEntryReconcileLoop.
@@ -208,6 +212,7 @@ func (mr *MockSpireRegistrationEntryReconcileLoopMockRecorder) RunSpireRegistrat
 type MockVirtualServiceBackupReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupReconcilerMockRecorder is the mock recorder for MockVirtualServiceBackupReconciler.
@@ -246,6 +251,7 @@ func (mr *MockVirtualServiceBackupReconcilerMockRecorder) ReconcileVirtualServic
 type MockVirtualServiceBackupDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupDeletionReconcilerMockRecorder is the mock recorder for MockVirtualServiceBackupDeletionReconciler.
@@ -283,6 +289,7 @@ func (mr *MockVirtualServiceBackupDeletionReconcilerMockRecorder) ReconcileVirtu
 type MockVirtualServiceBackupFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupFinalizerMockRecorder is the mock recorder for MockVirtualServiceBackupFinalizer.
@@ -349,6 +356,7 @@ func (mr *MockVirtualServiceBackupFinalizerMockRecorder) VirtualServiceBackupFin
 type MockVirtualServiceBackupReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupReconcileLoopMockRecorder is the mock recorder for MockVirtualServiceBackupReconcileLoop.

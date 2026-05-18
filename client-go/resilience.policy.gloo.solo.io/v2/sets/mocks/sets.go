@@ -25,6 +25,7 @@ import (
 type MockGraphQLPersistedQueryCachePolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLPersistedQueryCachePolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLPersistedQueryCachePolicySetMockRecorder is the mock recorder for MockGraphQLPersistedQueryCachePolicySet.
@@ -281,6 +282,7 @@ func (mr *MockGraphQLPersistedQueryCachePolicySetMockRecorder) UnsortedList(filt
 type MockFailoverPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockFailoverPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockFailoverPolicySetMockRecorder is the mock recorder for MockFailoverPolicySet.
@@ -537,6 +539,7 @@ func (mr *MockFailoverPolicySetMockRecorder) UnsortedList(filterResource ...any)
 type MockOutlierDetectionPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockOutlierDetectionPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockOutlierDetectionPolicySetMockRecorder is the mock recorder for MockOutlierDetectionPolicySet.
@@ -793,6 +796,7 @@ func (mr *MockOutlierDetectionPolicySetMockRecorder) UnsortedList(filterResource
 type MockAdaptiveRequestConcurrencyPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockAdaptiveRequestConcurrencyPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockAdaptiveRequestConcurrencyPolicySetMockRecorder is the mock recorder for MockAdaptiveRequestConcurrencyPolicySet.
@@ -1049,6 +1053,7 @@ func (mr *MockAdaptiveRequestConcurrencyPolicySetMockRecorder) UnsortedList(filt
 type MockFaultInjectionPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockFaultInjectionPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockFaultInjectionPolicySetMockRecorder is the mock recorder for MockFaultInjectionPolicySet.
@@ -1305,6 +1310,7 @@ func (mr *MockFaultInjectionPolicySetMockRecorder) UnsortedList(filterResource .
 type MockRetryTimeoutPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockRetryTimeoutPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockRetryTimeoutPolicySetMockRecorder is the mock recorder for MockRetryTimeoutPolicySet.
@@ -1561,6 +1567,7 @@ func (mr *MockRetryTimeoutPolicySetMockRecorder) UnsortedList(filterResource ...
 type MockConnectionPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockConnectionPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockConnectionPolicySetMockRecorder is the mock recorder for MockConnectionPolicySet.
@@ -1817,6 +1824,7 @@ func (mr *MockConnectionPolicySetMockRecorder) UnsortedList(filterResource ...an
 type MockTrimProxyConfigPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockTrimProxyConfigPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockTrimProxyConfigPolicySetMockRecorder is the mock recorder for MockTrimProxyConfigPolicySet.
@@ -2073,6 +2081,7 @@ func (mr *MockTrimProxyConfigPolicySetMockRecorder) UnsortedList(filterResource 
 type MockActiveHealthCheckPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockActiveHealthCheckPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockActiveHealthCheckPolicySetMockRecorder is the mock recorder for MockActiveHealthCheckPolicySet.
@@ -2329,6 +2338,7 @@ func (mr *MockActiveHealthCheckPolicySetMockRecorder) UnsortedList(filterResourc
 type MockListenerConnectionPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockListenerConnectionPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockListenerConnectionPolicySetMockRecorder is the mock recorder for MockListenerConnectionPolicySet.

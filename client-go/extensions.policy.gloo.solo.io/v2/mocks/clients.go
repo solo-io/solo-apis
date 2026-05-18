@@ -23,6 +23,7 @@ import (
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
@@ -61,6 +62,7 @@ func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster any) *gomock.Ca
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientsetMockRecorder is the mock recorder for MockClientset.
@@ -98,6 +100,7 @@ func (mr *MockClientsetMockRecorder) WasmDeploymentPolicies() *gomock.Call {
 type MockWasmDeploymentPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyReaderMockRecorder is the mock recorder for MockWasmDeploymentPolicyReader.
@@ -156,6 +159,7 @@ func (mr *MockWasmDeploymentPolicyReaderMockRecorder) ListWasmDeploymentPolicy(c
 type MockWasmDeploymentPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyWriterMockRecorder is the mock recorder for MockWasmDeploymentPolicyWriter.
@@ -293,6 +297,7 @@ func (mr *MockWasmDeploymentPolicyWriterMockRecorder) UpsertWasmDeploymentPolicy
 type MockWasmDeploymentPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyStatusWriterMockRecorder is the mock recorder for MockWasmDeploymentPolicyStatusWriter.
@@ -354,6 +359,7 @@ func (mr *MockWasmDeploymentPolicyStatusWriterMockRecorder) UpdateWasmDeployment
 type MockWasmDeploymentPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicyClientMockRecorder is the mock recorder for MockWasmDeploymentPolicyClient.
@@ -564,6 +570,7 @@ func (mr *MockWasmDeploymentPolicyClientMockRecorder) UpsertWasmDeploymentPolicy
 type MockMulticlusterWasmDeploymentPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWasmDeploymentPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWasmDeploymentPolicyClientMockRecorder is the mock recorder for MockMulticlusterWasmDeploymentPolicyClient.

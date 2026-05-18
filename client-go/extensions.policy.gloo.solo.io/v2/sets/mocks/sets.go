@@ -25,6 +25,7 @@ import (
 type MockWasmDeploymentPolicySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockWasmDeploymentPolicySetMockRecorder
+	isgomock struct{}
 }
 
 // MockWasmDeploymentPolicySetMockRecorder is the mock recorder for MockWasmDeploymentPolicySet.
