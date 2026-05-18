@@ -25,6 +25,7 @@ import (
 type MockExternalServiceReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceReconcilerMockRecorder is the mock recorder for MockExternalServiceReconciler.
@@ -63,6 +64,7 @@ func (mr *MockExternalServiceReconcilerMockRecorder) ReconcileExternalService(ob
 type MockExternalServiceDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceDeletionReconcilerMockRecorder is the mock recorder for MockExternalServiceDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockExternalServiceDeletionReconcilerMockRecorder) ReconcileExternalSe
 type MockExternalServiceFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceFinalizerMockRecorder is the mock recorder for MockExternalServiceFinalizer.
@@ -166,6 +169,7 @@ func (mr *MockExternalServiceFinalizerMockRecorder) ReconcileExternalService(obj
 type MockExternalServiceReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceReconcileLoopMockRecorder is the mock recorder for MockExternalServiceReconcileLoop.
@@ -208,6 +212,7 @@ func (mr *MockExternalServiceReconcileLoopMockRecorder) RunExternalServiceReconc
 type MockExternalEndpointReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointReconcilerMockRecorder is the mock recorder for MockExternalEndpointReconciler.
@@ -246,6 +251,7 @@ func (mr *MockExternalEndpointReconcilerMockRecorder) ReconcileExternalEndpoint(
 type MockExternalEndpointDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointDeletionReconcilerMockRecorder is the mock recorder for MockExternalEndpointDeletionReconciler.
@@ -283,6 +289,7 @@ func (mr *MockExternalEndpointDeletionReconcilerMockRecorder) ReconcileExternalE
 type MockExternalEndpointFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointFinalizerMockRecorder is the mock recorder for MockExternalEndpointFinalizer.
@@ -349,6 +356,7 @@ func (mr *MockExternalEndpointFinalizerMockRecorder) ReconcileExternalEndpoint(o
 type MockExternalEndpointReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointReconcileLoopMockRecorder is the mock recorder for MockExternalEndpointReconcileLoop.
@@ -391,6 +399,7 @@ func (mr *MockExternalEndpointReconcileLoopMockRecorder) RunExternalEndpointReco
 type MockRouteTableReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableReconcilerMockRecorder is the mock recorder for MockRouteTableReconciler.
@@ -429,6 +438,7 @@ func (mr *MockRouteTableReconcilerMockRecorder) ReconcileRouteTable(obj any) *go
 type MockRouteTableDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableDeletionReconcilerMockRecorder is the mock recorder for MockRouteTableDeletionReconciler.
@@ -466,6 +476,7 @@ func (mr *MockRouteTableDeletionReconcilerMockRecorder) ReconcileRouteTableDelet
 type MockRouteTableFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableFinalizerMockRecorder is the mock recorder for MockRouteTableFinalizer.
@@ -532,6 +543,7 @@ func (mr *MockRouteTableFinalizerMockRecorder) RouteTableFinalizerName() *gomock
 type MockRouteTableReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableReconcileLoopMockRecorder is the mock recorder for MockRouteTableReconcileLoop.
@@ -574,6 +586,7 @@ func (mr *MockRouteTableReconcileLoopMockRecorder) RunRouteTableReconciler(ctx, 
 type MockVirtualDestinationReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationReconcilerMockRecorder is the mock recorder for MockVirtualDestinationReconciler.
@@ -612,6 +625,7 @@ func (mr *MockVirtualDestinationReconcilerMockRecorder) ReconcileVirtualDestinat
 type MockVirtualDestinationDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationDeletionReconcilerMockRecorder is the mock recorder for MockVirtualDestinationDeletionReconciler.
@@ -649,6 +663,7 @@ func (mr *MockVirtualDestinationDeletionReconcilerMockRecorder) ReconcileVirtual
 type MockVirtualDestinationFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationFinalizerMockRecorder is the mock recorder for MockVirtualDestinationFinalizer.
@@ -715,6 +730,7 @@ func (mr *MockVirtualDestinationFinalizerMockRecorder) VirtualDestinationFinaliz
 type MockVirtualDestinationReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationReconcileLoopMockRecorder is the mock recorder for MockVirtualDestinationReconcileLoop.
@@ -757,6 +773,7 @@ func (mr *MockVirtualDestinationReconcileLoopMockRecorder) RunVirtualDestination
 type MockVirtualGatewayReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayReconcilerMockRecorder is the mock recorder for MockVirtualGatewayReconciler.
@@ -795,6 +812,7 @@ func (mr *MockVirtualGatewayReconcilerMockRecorder) ReconcileVirtualGateway(obj 
 type MockVirtualGatewayDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayDeletionReconcilerMockRecorder is the mock recorder for MockVirtualGatewayDeletionReconciler.
@@ -832,6 +850,7 @@ func (mr *MockVirtualGatewayDeletionReconcilerMockRecorder) ReconcileVirtualGate
 type MockVirtualGatewayFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayFinalizerMockRecorder is the mock recorder for MockVirtualGatewayFinalizer.
@@ -898,6 +917,7 @@ func (mr *MockVirtualGatewayFinalizerMockRecorder) VirtualGatewayFinalizerName()
 type MockVirtualGatewayReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewayReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewayReconcileLoopMockRecorder is the mock recorder for MockVirtualGatewayReconcileLoop.

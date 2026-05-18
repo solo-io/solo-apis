@@ -25,6 +25,7 @@ import (
 type MockMulticlusterSpireRegistrationEntryReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterSpireRegistrationEntryReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterSpireRegistrationEntryReconcilerMockRecorder is the mock recorder for MockMulticlusterSpireRegistrationEntryReconciler.
@@ -63,6 +64,7 @@ func (mr *MockMulticlusterSpireRegistrationEntryReconcilerMockRecorder) Reconcil
 type MockMulticlusterSpireRegistrationEntryDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterSpireRegistrationEntryDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterSpireRegistrationEntryDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterSpireRegistrationEntryDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockMulticlusterSpireRegistrationEntryDeletionReconcilerMockRecorder) 
 type MockMulticlusterSpireRegistrationEntryReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterSpireRegistrationEntryReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterSpireRegistrationEntryReconcileLoopMockRecorder is the mock recorder for MockMulticlusterSpireRegistrationEntryReconcileLoop.
@@ -140,6 +143,7 @@ func (mr *MockMulticlusterSpireRegistrationEntryReconcileLoopMockRecorder) AddMu
 type MockMulticlusterVirtualServiceBackupReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualServiceBackupReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualServiceBackupReconcilerMockRecorder is the mock recorder for MockMulticlusterVirtualServiceBackupReconciler.
@@ -178,6 +182,7 @@ func (mr *MockMulticlusterVirtualServiceBackupReconcilerMockRecorder) ReconcileV
 type MockMulticlusterVirtualServiceBackupDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualServiceBackupDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualServiceBackupDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterVirtualServiceBackupDeletionReconciler.
@@ -215,6 +220,7 @@ func (mr *MockMulticlusterVirtualServiceBackupDeletionReconcilerMockRecorder) Re
 type MockMulticlusterVirtualServiceBackupReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterVirtualServiceBackupReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterVirtualServiceBackupReconcileLoopMockRecorder is the mock recorder for MockMulticlusterVirtualServiceBackupReconcileLoop.

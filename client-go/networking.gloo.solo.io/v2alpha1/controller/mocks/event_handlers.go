@@ -24,6 +24,7 @@ import (
 type MockExternalWorkloadEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalWorkloadEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalWorkloadEventHandlerMockRecorder is the mock recorder for MockExternalWorkloadEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockExternalWorkloadEventHandlerMockRecorder) UpdateExternalWorkload(o
 type MockExternalWorkloadEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalWorkloadEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalWorkloadEventWatcherMockRecorder is the mock recorder for MockExternalWorkloadEventWatcher.
@@ -145,6 +147,7 @@ func (mr *MockExternalWorkloadEventWatcherMockRecorder) AddEventHandler(ctx, h a
 type MockProgressiveDeliveryEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockProgressiveDeliveryEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockProgressiveDeliveryEventHandlerMockRecorder is the mock recorder for MockProgressiveDeliveryEventHandler.
@@ -224,6 +227,7 @@ func (mr *MockProgressiveDeliveryEventHandlerMockRecorder) UpdateProgressiveDeli
 type MockProgressiveDeliveryEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockProgressiveDeliveryEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockProgressiveDeliveryEventWatcherMockRecorder is the mock recorder for MockProgressiveDeliveryEventWatcher.

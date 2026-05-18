@@ -25,6 +25,7 @@ import (
 type MockMulticlusterWasmDeploymentPolicyReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWasmDeploymentPolicyReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWasmDeploymentPolicyReconcilerMockRecorder is the mock recorder for MockMulticlusterWasmDeploymentPolicyReconciler.
@@ -63,6 +64,7 @@ func (mr *MockMulticlusterWasmDeploymentPolicyReconcilerMockRecorder) ReconcileW
 type MockMulticlusterWasmDeploymentPolicyDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWasmDeploymentPolicyDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWasmDeploymentPolicyDeletionReconcilerMockRecorder is the mock recorder for MockMulticlusterWasmDeploymentPolicyDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockMulticlusterWasmDeploymentPolicyDeletionReconcilerMockRecorder) Re
 type MockMulticlusterWasmDeploymentPolicyReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterWasmDeploymentPolicyReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterWasmDeploymentPolicyReconcileLoopMockRecorder is the mock recorder for MockMulticlusterWasmDeploymentPolicyReconcileLoop.

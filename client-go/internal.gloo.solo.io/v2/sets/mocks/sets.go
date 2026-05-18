@@ -25,6 +25,7 @@ import (
 type MockIssuedCertificateSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockIssuedCertificateSetMockRecorder
+	isgomock struct{}
 }
 
 // MockIssuedCertificateSetMockRecorder is the mock recorder for MockIssuedCertificateSet.
@@ -281,6 +282,7 @@ func (mr *MockIssuedCertificateSetMockRecorder) UnsortedList(filterResource ...a
 type MockCertificateRequestSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockCertificateRequestSetMockRecorder
+	isgomock struct{}
 }
 
 // MockCertificateRequestSetMockRecorder is the mock recorder for MockCertificateRequestSet.
@@ -537,6 +539,7 @@ func (mr *MockCertificateRequestSetMockRecorder) UnsortedList(filterResource ...
 type MockPodBounceDirectiveSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockPodBounceDirectiveSetMockRecorder
+	isgomock struct{}
 }
 
 // MockPodBounceDirectiveSetMockRecorder is the mock recorder for MockPodBounceDirectiveSet.
@@ -793,6 +796,7 @@ func (mr *MockPodBounceDirectiveSetMockRecorder) UnsortedList(filterResource ...
 type MockXdsConfigSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockXdsConfigSetMockRecorder
+	isgomock struct{}
 }
 
 // MockXdsConfigSetMockRecorder is the mock recorder for MockXdsConfigSet.
@@ -1049,6 +1053,7 @@ func (mr *MockXdsConfigSetMockRecorder) UnsortedList(filterResource ...any) *gom
 type MockDiscoveredGatewaySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredGatewaySetMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredGatewaySetMockRecorder is the mock recorder for MockDiscoveredGatewaySet.
@@ -1305,6 +1310,7 @@ func (mr *MockDiscoveredGatewaySetMockRecorder) UnsortedList(filterResource ...a
 type MockMeshSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockMeshSetMockRecorder
+	isgomock struct{}
 }
 
 // MockMeshSetMockRecorder is the mock recorder for MockMeshSet.
@@ -1561,6 +1567,7 @@ func (mr *MockMeshSetMockRecorder) UnsortedList(filterResource ...any) *gomock.C
 type MockDiscoveredCNISet struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveredCNISetMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveredCNISetMockRecorder is the mock recorder for MockDiscoveredCNISet.
@@ -1817,6 +1824,7 @@ func (mr *MockDiscoveredCNISetMockRecorder) UnsortedList(filterResource ...any) 
 type MockPortalConfigSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalConfigSetMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalConfigSetMockRecorder is the mock recorder for MockPortalConfigSet.
@@ -2073,6 +2081,7 @@ func (mr *MockPortalConfigSetMockRecorder) UnsortedList(filterResource ...any) *
 type MockClusterIstioInstallationSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockClusterIstioInstallationSetMockRecorder
+	isgomock struct{}
 }
 
 // MockClusterIstioInstallationSetMockRecorder is the mock recorder for MockClusterIstioInstallationSet.

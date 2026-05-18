@@ -25,6 +25,7 @@ import (
 type MockExternalServiceSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalServiceSetMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalServiceSetMockRecorder is the mock recorder for MockExternalServiceSet.
@@ -281,6 +282,7 @@ func (mr *MockExternalServiceSetMockRecorder) UnsortedList(filterResource ...any
 type MockExternalEndpointSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalEndpointSetMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalEndpointSetMockRecorder is the mock recorder for MockExternalEndpointSet.
@@ -537,6 +539,7 @@ func (mr *MockExternalEndpointSetMockRecorder) UnsortedList(filterResource ...an
 type MockRouteTableSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockRouteTableSetMockRecorder
+	isgomock struct{}
 }
 
 // MockRouteTableSetMockRecorder is the mock recorder for MockRouteTableSet.
@@ -793,6 +796,7 @@ func (mr *MockRouteTableSetMockRecorder) UnsortedList(filterResource ...any) *go
 type MockVirtualDestinationSet struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualDestinationSetMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualDestinationSetMockRecorder is the mock recorder for MockVirtualDestinationSet.
@@ -1049,6 +1053,7 @@ func (mr *MockVirtualDestinationSetMockRecorder) UnsortedList(filterResource ...
 type MockVirtualGatewaySet struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualGatewaySetMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualGatewaySetMockRecorder is the mock recorder for MockVirtualGatewaySet.

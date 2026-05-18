@@ -23,6 +23,7 @@ import (
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
@@ -61,6 +62,7 @@ func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster any) *gomock.Ca
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientsetMockRecorder is the mock recorder for MockClientset.
@@ -196,6 +198,7 @@ func (mr *MockClientsetMockRecorder) TransformationPolicies() *gomock.Call {
 type MockMirrorPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockMirrorPolicyReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockMirrorPolicyReaderMockRecorder is the mock recorder for MockMirrorPolicyReader.
@@ -254,6 +257,7 @@ func (mr *MockMirrorPolicyReaderMockRecorder) ListMirrorPolicy(ctx any, opts ...
 type MockMirrorPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockMirrorPolicyWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockMirrorPolicyWriterMockRecorder is the mock recorder for MockMirrorPolicyWriter.
@@ -391,6 +395,7 @@ func (mr *MockMirrorPolicyWriterMockRecorder) UpsertMirrorPolicy(ctx, obj any, t
 type MockMirrorPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockMirrorPolicyStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockMirrorPolicyStatusWriterMockRecorder is the mock recorder for MockMirrorPolicyStatusWriter.
@@ -452,6 +457,7 @@ func (mr *MockMirrorPolicyStatusWriterMockRecorder) UpdateMirrorPolicyStatus(ctx
 type MockMirrorPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMirrorPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMirrorPolicyClientMockRecorder is the mock recorder for MockMirrorPolicyClient.
@@ -662,6 +668,7 @@ func (mr *MockMirrorPolicyClientMockRecorder) UpsertMirrorPolicy(ctx, obj any, t
 type MockMulticlusterMirrorPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterMirrorPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterMirrorPolicyClientMockRecorder is the mock recorder for MockMulticlusterMirrorPolicyClient.
@@ -700,6 +707,7 @@ func (mr *MockMulticlusterMirrorPolicyClientMockRecorder) Cluster(cluster any) *
 type MockRateLimitPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitPolicyReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitPolicyReaderMockRecorder is the mock recorder for MockRateLimitPolicyReader.
@@ -758,6 +766,7 @@ func (mr *MockRateLimitPolicyReaderMockRecorder) ListRateLimitPolicy(ctx any, op
 type MockRateLimitPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitPolicyWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitPolicyWriterMockRecorder is the mock recorder for MockRateLimitPolicyWriter.
@@ -895,6 +904,7 @@ func (mr *MockRateLimitPolicyWriterMockRecorder) UpsertRateLimitPolicy(ctx, obj 
 type MockRateLimitPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitPolicyStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitPolicyStatusWriterMockRecorder is the mock recorder for MockRateLimitPolicyStatusWriter.
@@ -956,6 +966,7 @@ func (mr *MockRateLimitPolicyStatusWriterMockRecorder) UpdateRateLimitPolicyStat
 type MockRateLimitPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitPolicyClientMockRecorder is the mock recorder for MockRateLimitPolicyClient.
@@ -1166,6 +1177,7 @@ func (mr *MockRateLimitPolicyClientMockRecorder) UpsertRateLimitPolicy(ctx, obj 
 type MockMulticlusterRateLimitPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRateLimitPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRateLimitPolicyClientMockRecorder is the mock recorder for MockMulticlusterRateLimitPolicyClient.
@@ -1204,6 +1216,7 @@ func (mr *MockMulticlusterRateLimitPolicyClientMockRecorder) Cluster(cluster any
 type MockRateLimitClientConfigReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitClientConfigReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitClientConfigReaderMockRecorder is the mock recorder for MockRateLimitClientConfigReader.
@@ -1262,6 +1275,7 @@ func (mr *MockRateLimitClientConfigReaderMockRecorder) ListRateLimitClientConfig
 type MockRateLimitClientConfigWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitClientConfigWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitClientConfigWriterMockRecorder is the mock recorder for MockRateLimitClientConfigWriter.
@@ -1399,6 +1413,7 @@ func (mr *MockRateLimitClientConfigWriterMockRecorder) UpsertRateLimitClientConf
 type MockRateLimitClientConfigStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitClientConfigStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitClientConfigStatusWriterMockRecorder is the mock recorder for MockRateLimitClientConfigStatusWriter.
@@ -1460,6 +1475,7 @@ func (mr *MockRateLimitClientConfigStatusWriterMockRecorder) UpdateRateLimitClie
 type MockRateLimitClientConfigClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitClientConfigClientMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitClientConfigClientMockRecorder is the mock recorder for MockRateLimitClientConfigClient.
@@ -1670,6 +1686,7 @@ func (mr *MockRateLimitClientConfigClientMockRecorder) UpsertRateLimitClientConf
 type MockMulticlusterRateLimitClientConfigClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterRateLimitClientConfigClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterRateLimitClientConfigClientMockRecorder is the mock recorder for MockMulticlusterRateLimitClientConfigClient.
@@ -1708,6 +1725,7 @@ func (mr *MockMulticlusterRateLimitClientConfigClientMockRecorder) Cluster(clust
 type MockHeaderManipulationPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockHeaderManipulationPolicyReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockHeaderManipulationPolicyReaderMockRecorder is the mock recorder for MockHeaderManipulationPolicyReader.
@@ -1766,6 +1784,7 @@ func (mr *MockHeaderManipulationPolicyReaderMockRecorder) ListHeaderManipulation
 type MockHeaderManipulationPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockHeaderManipulationPolicyWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockHeaderManipulationPolicyWriterMockRecorder is the mock recorder for MockHeaderManipulationPolicyWriter.
@@ -1903,6 +1922,7 @@ func (mr *MockHeaderManipulationPolicyWriterMockRecorder) UpsertHeaderManipulati
 type MockHeaderManipulationPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockHeaderManipulationPolicyStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockHeaderManipulationPolicyStatusWriterMockRecorder is the mock recorder for MockHeaderManipulationPolicyStatusWriter.
@@ -1964,6 +1984,7 @@ func (mr *MockHeaderManipulationPolicyStatusWriterMockRecorder) UpdateHeaderMani
 type MockHeaderManipulationPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockHeaderManipulationPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockHeaderManipulationPolicyClientMockRecorder is the mock recorder for MockHeaderManipulationPolicyClient.
@@ -2174,6 +2195,7 @@ func (mr *MockHeaderManipulationPolicyClientMockRecorder) UpsertHeaderManipulati
 type MockMulticlusterHeaderManipulationPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterHeaderManipulationPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterHeaderManipulationPolicyClientMockRecorder is the mock recorder for MockMulticlusterHeaderManipulationPolicyClient.
@@ -2212,6 +2234,7 @@ func (mr *MockMulticlusterHeaderManipulationPolicyClientMockRecorder) Cluster(cl
 type MockTransformationPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockTransformationPolicyReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockTransformationPolicyReaderMockRecorder is the mock recorder for MockTransformationPolicyReader.
@@ -2270,6 +2293,7 @@ func (mr *MockTransformationPolicyReaderMockRecorder) ListTransformationPolicy(c
 type MockTransformationPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockTransformationPolicyWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockTransformationPolicyWriterMockRecorder is the mock recorder for MockTransformationPolicyWriter.
@@ -2407,6 +2431,7 @@ func (mr *MockTransformationPolicyWriterMockRecorder) UpsertTransformationPolicy
 type MockTransformationPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockTransformationPolicyStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockTransformationPolicyStatusWriterMockRecorder is the mock recorder for MockTransformationPolicyStatusWriter.
@@ -2468,6 +2493,7 @@ func (mr *MockTransformationPolicyStatusWriterMockRecorder) UpdateTransformation
 type MockTransformationPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockTransformationPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockTransformationPolicyClientMockRecorder is the mock recorder for MockTransformationPolicyClient.
@@ -2678,6 +2704,7 @@ func (mr *MockTransformationPolicyClientMockRecorder) UpsertTransformationPolicy
 type MockMulticlusterTransformationPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterTransformationPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterTransformationPolicyClientMockRecorder is the mock recorder for MockMulticlusterTransformationPolicyClient.
@@ -2716,6 +2743,7 @@ func (mr *MockMulticlusterTransformationPolicyClientMockRecorder) Cluster(cluste
 type MockLoadBalancerPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoadBalancerPolicyReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockLoadBalancerPolicyReaderMockRecorder is the mock recorder for MockLoadBalancerPolicyReader.
@@ -2774,6 +2802,7 @@ func (mr *MockLoadBalancerPolicyReaderMockRecorder) ListLoadBalancerPolicy(ctx a
 type MockLoadBalancerPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoadBalancerPolicyWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockLoadBalancerPolicyWriterMockRecorder is the mock recorder for MockLoadBalancerPolicyWriter.
@@ -2911,6 +2940,7 @@ func (mr *MockLoadBalancerPolicyWriterMockRecorder) UpsertLoadBalancerPolicy(ctx
 type MockLoadBalancerPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoadBalancerPolicyStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockLoadBalancerPolicyStatusWriterMockRecorder is the mock recorder for MockLoadBalancerPolicyStatusWriter.
@@ -2972,6 +3002,7 @@ func (mr *MockLoadBalancerPolicyStatusWriterMockRecorder) UpdateLoadBalancerPoli
 type MockLoadBalancerPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoadBalancerPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockLoadBalancerPolicyClientMockRecorder is the mock recorder for MockLoadBalancerPolicyClient.
@@ -3182,6 +3213,7 @@ func (mr *MockLoadBalancerPolicyClientMockRecorder) UpsertLoadBalancerPolicy(ctx
 type MockMulticlusterLoadBalancerPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterLoadBalancerPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterLoadBalancerPolicyClientMockRecorder is the mock recorder for MockMulticlusterLoadBalancerPolicyClient.
@@ -3220,6 +3252,7 @@ func (mr *MockMulticlusterLoadBalancerPolicyClientMockRecorder) Cluster(cluster 
 type MockProxyProtocolPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxyProtocolPolicyReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockProxyProtocolPolicyReaderMockRecorder is the mock recorder for MockProxyProtocolPolicyReader.
@@ -3278,6 +3311,7 @@ func (mr *MockProxyProtocolPolicyReaderMockRecorder) ListProxyProtocolPolicy(ctx
 type MockProxyProtocolPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxyProtocolPolicyWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockProxyProtocolPolicyWriterMockRecorder is the mock recorder for MockProxyProtocolPolicyWriter.
@@ -3415,6 +3449,7 @@ func (mr *MockProxyProtocolPolicyWriterMockRecorder) UpsertProxyProtocolPolicy(c
 type MockProxyProtocolPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxyProtocolPolicyStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockProxyProtocolPolicyStatusWriterMockRecorder is the mock recorder for MockProxyProtocolPolicyStatusWriter.
@@ -3476,6 +3511,7 @@ func (mr *MockProxyProtocolPolicyStatusWriterMockRecorder) UpdateProxyProtocolPo
 type MockProxyProtocolPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxyProtocolPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockProxyProtocolPolicyClientMockRecorder is the mock recorder for MockProxyProtocolPolicyClient.
@@ -3686,6 +3722,7 @@ func (mr *MockProxyProtocolPolicyClientMockRecorder) UpsertProxyProtocolPolicy(c
 type MockMulticlusterProxyProtocolPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterProxyProtocolPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterProxyProtocolPolicyClientMockRecorder is the mock recorder for MockMulticlusterProxyProtocolPolicyClient.
@@ -3724,6 +3761,7 @@ func (mr *MockMulticlusterProxyProtocolPolicyClientMockRecorder) Cluster(cluster
 type MockHTTPBufferPolicyReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPBufferPolicyReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPBufferPolicyReaderMockRecorder is the mock recorder for MockHTTPBufferPolicyReader.
@@ -3782,6 +3820,7 @@ func (mr *MockHTTPBufferPolicyReaderMockRecorder) ListHTTPBufferPolicy(ctx any, 
 type MockHTTPBufferPolicyWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPBufferPolicyWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPBufferPolicyWriterMockRecorder is the mock recorder for MockHTTPBufferPolicyWriter.
@@ -3919,6 +3958,7 @@ func (mr *MockHTTPBufferPolicyWriterMockRecorder) UpsertHTTPBufferPolicy(ctx, ob
 type MockHTTPBufferPolicyStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPBufferPolicyStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPBufferPolicyStatusWriterMockRecorder is the mock recorder for MockHTTPBufferPolicyStatusWriter.
@@ -3980,6 +4020,7 @@ func (mr *MockHTTPBufferPolicyStatusWriterMockRecorder) UpdateHTTPBufferPolicySt
 type MockHTTPBufferPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPBufferPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPBufferPolicyClientMockRecorder is the mock recorder for MockHTTPBufferPolicyClient.
@@ -4190,6 +4231,7 @@ func (mr *MockHTTPBufferPolicyClientMockRecorder) UpsertHTTPBufferPolicy(ctx, ob
 type MockMulticlusterHTTPBufferPolicyClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterHTTPBufferPolicyClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterHTTPBufferPolicyClientMockRecorder is the mock recorder for MockMulticlusterHTTPBufferPolicyClient.

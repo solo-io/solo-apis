@@ -23,6 +23,7 @@ import (
 type MockMulticlusterClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterClientsetMockRecorder is the mock recorder for MockMulticlusterClientset.
@@ -61,6 +62,7 @@ func (mr *MockMulticlusterClientsetMockRecorder) Cluster(cluster any) *gomock.Ca
 type MockClientset struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientsetMockRecorder
+	isgomock struct{}
 }
 
 // MockClientsetMockRecorder is the mock recorder for MockClientset.
@@ -196,6 +198,7 @@ func (mr *MockClientsetMockRecorder) Portals() *gomock.Call {
 type MockGraphQLStitchedSchemaReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaReaderMockRecorder is the mock recorder for MockGraphQLStitchedSchemaReader.
@@ -254,6 +257,7 @@ func (mr *MockGraphQLStitchedSchemaReaderMockRecorder) ListGraphQLStitchedSchema
 type MockGraphQLStitchedSchemaWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaWriterMockRecorder is the mock recorder for MockGraphQLStitchedSchemaWriter.
@@ -391,6 +395,7 @@ func (mr *MockGraphQLStitchedSchemaWriterMockRecorder) UpsertGraphQLStitchedSche
 type MockGraphQLStitchedSchemaStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaStatusWriterMockRecorder is the mock recorder for MockGraphQLStitchedSchemaStatusWriter.
@@ -452,6 +457,7 @@ func (mr *MockGraphQLStitchedSchemaStatusWriterMockRecorder) UpdateGraphQLStitch
 type MockGraphQLStitchedSchemaClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaClientMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaClientMockRecorder is the mock recorder for MockGraphQLStitchedSchemaClient.
@@ -662,6 +668,7 @@ func (mr *MockGraphQLStitchedSchemaClientMockRecorder) UpsertGraphQLStitchedSche
 type MockMulticlusterGraphQLStitchedSchemaClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLStitchedSchemaClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLStitchedSchemaClientMockRecorder is the mock recorder for MockMulticlusterGraphQLStitchedSchemaClient.
@@ -700,6 +707,7 @@ func (mr *MockMulticlusterGraphQLStitchedSchemaClientMockRecorder) Cluster(clust
 type MockGraphQLResolverMapReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapReaderMockRecorder is the mock recorder for MockGraphQLResolverMapReader.
@@ -758,6 +766,7 @@ func (mr *MockGraphQLResolverMapReaderMockRecorder) ListGraphQLResolverMap(ctx a
 type MockGraphQLResolverMapWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapWriterMockRecorder is the mock recorder for MockGraphQLResolverMapWriter.
@@ -895,6 +904,7 @@ func (mr *MockGraphQLResolverMapWriterMockRecorder) UpsertGraphQLResolverMap(ctx
 type MockGraphQLResolverMapStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapStatusWriterMockRecorder is the mock recorder for MockGraphQLResolverMapStatusWriter.
@@ -956,6 +966,7 @@ func (mr *MockGraphQLResolverMapStatusWriterMockRecorder) UpdateGraphQLResolverM
 type MockGraphQLResolverMapClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapClientMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapClientMockRecorder is the mock recorder for MockGraphQLResolverMapClient.
@@ -1166,6 +1177,7 @@ func (mr *MockGraphQLResolverMapClientMockRecorder) UpsertGraphQLResolverMap(ctx
 type MockMulticlusterGraphQLResolverMapClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLResolverMapClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLResolverMapClientMockRecorder is the mock recorder for MockMulticlusterGraphQLResolverMapClient.
@@ -1204,6 +1216,7 @@ func (mr *MockMulticlusterGraphQLResolverMapClientMockRecorder) Cluster(cluster 
 type MockGraphQLSchemaReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaReaderMockRecorder is the mock recorder for MockGraphQLSchemaReader.
@@ -1262,6 +1275,7 @@ func (mr *MockGraphQLSchemaReaderMockRecorder) ListGraphQLSchema(ctx any, opts .
 type MockGraphQLSchemaWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaWriterMockRecorder is the mock recorder for MockGraphQLSchemaWriter.
@@ -1399,6 +1413,7 @@ func (mr *MockGraphQLSchemaWriterMockRecorder) UpsertGraphQLSchema(ctx, obj any,
 type MockGraphQLSchemaStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaStatusWriterMockRecorder is the mock recorder for MockGraphQLSchemaStatusWriter.
@@ -1460,6 +1475,7 @@ func (mr *MockGraphQLSchemaStatusWriterMockRecorder) UpdateGraphQLSchemaStatus(c
 type MockGraphQLSchemaClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaClientMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaClientMockRecorder is the mock recorder for MockGraphQLSchemaClient.
@@ -1670,6 +1686,7 @@ func (mr *MockGraphQLSchemaClientMockRecorder) UpsertGraphQLSchema(ctx, obj any,
 type MockMulticlusterGraphQLSchemaClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterGraphQLSchemaClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterGraphQLSchemaClientMockRecorder is the mock recorder for MockMulticlusterGraphQLSchemaClient.
@@ -1708,6 +1725,7 @@ func (mr *MockMulticlusterGraphQLSchemaClientMockRecorder) Cluster(cluster any) 
 type MockApiDocReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocReaderMockRecorder is the mock recorder for MockApiDocReader.
@@ -1766,6 +1784,7 @@ func (mr *MockApiDocReaderMockRecorder) ListApiDoc(ctx any, opts ...any) *gomock
 type MockApiDocWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocWriterMockRecorder is the mock recorder for MockApiDocWriter.
@@ -1903,6 +1922,7 @@ func (mr *MockApiDocWriterMockRecorder) UpsertApiDoc(ctx, obj any, transitionFun
 type MockApiDocStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocStatusWriterMockRecorder is the mock recorder for MockApiDocStatusWriter.
@@ -1964,6 +1984,7 @@ func (mr *MockApiDocStatusWriterMockRecorder) UpdateApiDocStatus(ctx, obj any, o
 type MockApiDocClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocClientMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocClientMockRecorder is the mock recorder for MockApiDocClient.
@@ -2174,6 +2195,7 @@ func (mr *MockApiDocClientMockRecorder) UpsertApiDoc(ctx, obj any, transitionFun
 type MockMulticlusterApiDocClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiDocClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiDocClientMockRecorder is the mock recorder for MockMulticlusterApiDocClient.
@@ -2212,6 +2234,7 @@ func (mr *MockMulticlusterApiDocClientMockRecorder) Cluster(cluster any) *gomock
 type MockPortalReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalReaderMockRecorder is the mock recorder for MockPortalReader.
@@ -2270,6 +2293,7 @@ func (mr *MockPortalReaderMockRecorder) ListPortal(ctx any, opts ...any) *gomock
 type MockPortalWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalWriterMockRecorder is the mock recorder for MockPortalWriter.
@@ -2407,6 +2431,7 @@ func (mr *MockPortalWriterMockRecorder) UpsertPortal(ctx, obj any, transitionFun
 type MockPortalStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalStatusWriterMockRecorder is the mock recorder for MockPortalStatusWriter.
@@ -2468,6 +2493,7 @@ func (mr *MockPortalStatusWriterMockRecorder) UpdatePortalStatus(ctx, obj any, o
 type MockPortalClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalClientMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalClientMockRecorder is the mock recorder for MockPortalClient.
@@ -2678,6 +2704,7 @@ func (mr *MockPortalClientMockRecorder) UpsertPortal(ctx, obj any, transitionFun
 type MockMulticlusterPortalClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterPortalClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterPortalClientMockRecorder is the mock recorder for MockMulticlusterPortalClient.
@@ -2716,6 +2743,7 @@ func (mr *MockMulticlusterPortalClientMockRecorder) Cluster(cluster any) *gomock
 type MockApiProductReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductReaderMockRecorder is the mock recorder for MockApiProductReader.
@@ -2774,6 +2802,7 @@ func (mr *MockApiProductReaderMockRecorder) ListApiProduct(ctx any, opts ...any)
 type MockApiProductWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductWriterMockRecorder is the mock recorder for MockApiProductWriter.
@@ -2911,6 +2940,7 @@ func (mr *MockApiProductWriterMockRecorder) UpsertApiProduct(ctx, obj any, trans
 type MockApiProductStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductStatusWriterMockRecorder is the mock recorder for MockApiProductStatusWriter.
@@ -2972,6 +3002,7 @@ func (mr *MockApiProductStatusWriterMockRecorder) UpdateApiProductStatus(ctx, ob
 type MockApiProductClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductClientMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductClientMockRecorder is the mock recorder for MockApiProductClient.
@@ -3182,6 +3213,7 @@ func (mr *MockApiProductClientMockRecorder) UpsertApiProduct(ctx, obj any, trans
 type MockMulticlusterApiProductClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiProductClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiProductClientMockRecorder is the mock recorder for MockMulticlusterApiProductClient.
@@ -3220,6 +3252,7 @@ func (mr *MockMulticlusterApiProductClientMockRecorder) Cluster(cluster any) *go
 type MockPortalGroupReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupReaderMockRecorder is the mock recorder for MockPortalGroupReader.
@@ -3278,6 +3311,7 @@ func (mr *MockPortalGroupReaderMockRecorder) ListPortalGroup(ctx any, opts ...an
 type MockPortalGroupWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupWriterMockRecorder is the mock recorder for MockPortalGroupWriter.
@@ -3415,6 +3449,7 @@ func (mr *MockPortalGroupWriterMockRecorder) UpsertPortalGroup(ctx, obj any, tra
 type MockPortalGroupStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupStatusWriterMockRecorder is the mock recorder for MockPortalGroupStatusWriter.
@@ -3476,6 +3511,7 @@ func (mr *MockPortalGroupStatusWriterMockRecorder) UpdatePortalGroupStatus(ctx, 
 type MockPortalGroupClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupClientMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupClientMockRecorder is the mock recorder for MockPortalGroupClient.
@@ -3686,6 +3722,7 @@ func (mr *MockPortalGroupClientMockRecorder) UpsertPortalGroup(ctx, obj any, tra
 type MockMulticlusterPortalGroupClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterPortalGroupClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterPortalGroupClientMockRecorder is the mock recorder for MockMulticlusterPortalGroupClient.
@@ -3724,6 +3761,7 @@ func (mr *MockMulticlusterPortalGroupClientMockRecorder) Cluster(cluster any) *g
 type MockApiSchemaDiscoveryReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryReaderMockRecorder is the mock recorder for MockApiSchemaDiscoveryReader.
@@ -3782,6 +3820,7 @@ func (mr *MockApiSchemaDiscoveryReaderMockRecorder) ListApiSchemaDiscovery(ctx a
 type MockApiSchemaDiscoveryWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryWriterMockRecorder is the mock recorder for MockApiSchemaDiscoveryWriter.
@@ -3919,6 +3958,7 @@ func (mr *MockApiSchemaDiscoveryWriterMockRecorder) UpsertApiSchemaDiscovery(ctx
 type MockApiSchemaDiscoveryStatusWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryStatusWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryStatusWriterMockRecorder is the mock recorder for MockApiSchemaDiscoveryStatusWriter.
@@ -3980,6 +4020,7 @@ func (mr *MockApiSchemaDiscoveryStatusWriterMockRecorder) UpdateApiSchemaDiscove
 type MockApiSchemaDiscoveryClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryClientMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryClientMockRecorder is the mock recorder for MockApiSchemaDiscoveryClient.
@@ -4190,6 +4231,7 @@ func (mr *MockApiSchemaDiscoveryClientMockRecorder) UpsertApiSchemaDiscovery(ctx
 type MockMulticlusterApiSchemaDiscoveryClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockMulticlusterApiSchemaDiscoveryClientMockRecorder
+	isgomock struct{}
 }
 
 // MockMulticlusterApiSchemaDiscoveryClientMockRecorder is the mock recorder for MockMulticlusterApiSchemaDiscoveryClient.

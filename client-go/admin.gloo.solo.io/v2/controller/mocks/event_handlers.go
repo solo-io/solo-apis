@@ -24,6 +24,7 @@ import (
 type MockWorkspaceEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWorkspaceEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockWorkspaceEventHandlerMockRecorder is the mock recorder for MockWorkspaceEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockWorkspaceEventHandlerMockRecorder) UpdateWorkspace(old, new any) *
 type MockWorkspaceEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockWorkspaceEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockWorkspaceEventWatcherMockRecorder is the mock recorder for MockWorkspaceEventWatcher.
@@ -145,6 +147,7 @@ func (mr *MockWorkspaceEventWatcherMockRecorder) AddEventHandler(ctx, h any, pre
 type MockWorkspaceSettingsEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWorkspaceSettingsEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockWorkspaceSettingsEventHandlerMockRecorder is the mock recorder for MockWorkspaceSettingsEventHandler.
@@ -224,6 +227,7 @@ func (mr *MockWorkspaceSettingsEventHandlerMockRecorder) UpdateWorkspaceSettings
 type MockWorkspaceSettingsEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockWorkspaceSettingsEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockWorkspaceSettingsEventWatcherMockRecorder is the mock recorder for MockWorkspaceSettingsEventWatcher.
@@ -266,6 +270,7 @@ func (mr *MockWorkspaceSettingsEventWatcherMockRecorder) AddEventHandler(ctx, h 
 type MockKubernetesClusterEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockKubernetesClusterEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockKubernetesClusterEventHandlerMockRecorder is the mock recorder for MockKubernetesClusterEventHandler.
@@ -345,6 +350,7 @@ func (mr *MockKubernetesClusterEventHandlerMockRecorder) UpdateKubernetesCluster
 type MockKubernetesClusterEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockKubernetesClusterEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockKubernetesClusterEventWatcherMockRecorder is the mock recorder for MockKubernetesClusterEventWatcher.
@@ -387,6 +393,7 @@ func (mr *MockKubernetesClusterEventWatcherMockRecorder) AddEventHandler(ctx, h 
 type MockRootTrustPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRootTrustPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockRootTrustPolicyEventHandlerMockRecorder is the mock recorder for MockRootTrustPolicyEventHandler.
@@ -466,6 +473,7 @@ func (mr *MockRootTrustPolicyEventHandlerMockRecorder) UpdateRootTrustPolicy(old
 type MockRootTrustPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRootTrustPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockRootTrustPolicyEventWatcherMockRecorder is the mock recorder for MockRootTrustPolicyEventWatcher.
@@ -508,6 +516,7 @@ func (mr *MockRootTrustPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h an
 type MockExtAuthServerEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtAuthServerEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockExtAuthServerEventHandlerMockRecorder is the mock recorder for MockExtAuthServerEventHandler.
@@ -587,6 +596,7 @@ func (mr *MockExtAuthServerEventHandlerMockRecorder) UpdateExtAuthServer(old, ne
 type MockExtAuthServerEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockExtAuthServerEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockExtAuthServerEventWatcherMockRecorder is the mock recorder for MockExtAuthServerEventWatcher.
@@ -629,6 +639,7 @@ func (mr *MockExtAuthServerEventWatcherMockRecorder) AddEventHandler(ctx, h any,
 type MockRateLimitServerSettingsEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitServerSettingsEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitServerSettingsEventHandlerMockRecorder is the mock recorder for MockRateLimitServerSettingsEventHandler.
@@ -708,6 +719,7 @@ func (mr *MockRateLimitServerSettingsEventHandlerMockRecorder) UpdateRateLimitSe
 type MockRateLimitServerSettingsEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitServerSettingsEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitServerSettingsEventWatcherMockRecorder is the mock recorder for MockRateLimitServerSettingsEventWatcher.
@@ -750,6 +762,7 @@ func (mr *MockRateLimitServerSettingsEventWatcherMockRecorder) AddEventHandler(c
 type MockRateLimitServerConfigEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitServerConfigEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitServerConfigEventHandlerMockRecorder is the mock recorder for MockRateLimitServerConfigEventHandler.
@@ -829,6 +842,7 @@ func (mr *MockRateLimitServerConfigEventHandlerMockRecorder) UpdateRateLimitServ
 type MockRateLimitServerConfigEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitServerConfigEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitServerConfigEventWatcherMockRecorder is the mock recorder for MockRateLimitServerConfigEventWatcher.
@@ -871,6 +885,7 @@ func (mr *MockRateLimitServerConfigEventWatcherMockRecorder) AddEventHandler(ctx
 type MockDashboardEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockDashboardEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockDashboardEventHandlerMockRecorder is the mock recorder for MockDashboardEventHandler.
@@ -950,6 +965,7 @@ func (mr *MockDashboardEventHandlerMockRecorder) UpdateDashboard(old, new any) *
 type MockDashboardEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockDashboardEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockDashboardEventWatcherMockRecorder is the mock recorder for MockDashboardEventWatcher.
@@ -992,6 +1008,7 @@ func (mr *MockDashboardEventWatcherMockRecorder) AddEventHandler(ctx, h any, pre
 type MockIstioLifecycleManagerEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockIstioLifecycleManagerEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockIstioLifecycleManagerEventHandlerMockRecorder is the mock recorder for MockIstioLifecycleManagerEventHandler.
@@ -1071,6 +1088,7 @@ func (mr *MockIstioLifecycleManagerEventHandlerMockRecorder) UpdateIstioLifecycl
 type MockIstioLifecycleManagerEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockIstioLifecycleManagerEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockIstioLifecycleManagerEventWatcherMockRecorder is the mock recorder for MockIstioLifecycleManagerEventWatcher.
@@ -1113,6 +1131,7 @@ func (mr *MockIstioLifecycleManagerEventWatcherMockRecorder) AddEventHandler(ctx
 type MockGatewayLifecycleManagerEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGatewayLifecycleManagerEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockGatewayLifecycleManagerEventHandlerMockRecorder is the mock recorder for MockGatewayLifecycleManagerEventHandler.
@@ -1192,6 +1211,7 @@ func (mr *MockGatewayLifecycleManagerEventHandlerMockRecorder) UpdateGatewayLife
 type MockGatewayLifecycleManagerEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockGatewayLifecycleManagerEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockGatewayLifecycleManagerEventWatcherMockRecorder is the mock recorder for MockGatewayLifecycleManagerEventWatcher.

@@ -24,6 +24,7 @@ import (
 type MockSpireRegistrationEntryEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryEventHandlerMockRecorder is the mock recorder for MockSpireRegistrationEntryEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockSpireRegistrationEntryEventHandlerMockRecorder) UpdateSpireRegistr
 type MockSpireRegistrationEntryEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpireRegistrationEntryEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockSpireRegistrationEntryEventWatcherMockRecorder is the mock recorder for MockSpireRegistrationEntryEventWatcher.
@@ -145,6 +147,7 @@ func (mr *MockSpireRegistrationEntryEventWatcherMockRecorder) AddEventHandler(ct
 type MockVirtualServiceBackupEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupEventHandlerMockRecorder is the mock recorder for MockVirtualServiceBackupEventHandler.
@@ -224,6 +227,7 @@ func (mr *MockVirtualServiceBackupEventHandlerMockRecorder) UpdateVirtualService
 type MockVirtualServiceBackupEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockVirtualServiceBackupEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockVirtualServiceBackupEventWatcherMockRecorder is the mock recorder for MockVirtualServiceBackupEventWatcher.

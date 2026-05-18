@@ -24,6 +24,7 @@ import (
 type MockMirrorPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockMirrorPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockMirrorPolicyEventHandlerMockRecorder is the mock recorder for MockMirrorPolicyEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockMirrorPolicyEventHandlerMockRecorder) UpdateMirrorPolicy(old, new 
 type MockMirrorPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockMirrorPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockMirrorPolicyEventWatcherMockRecorder is the mock recorder for MockMirrorPolicyEventWatcher.
@@ -145,6 +147,7 @@ func (mr *MockMirrorPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h any, 
 type MockRateLimitPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitPolicyEventHandlerMockRecorder is the mock recorder for MockRateLimitPolicyEventHandler.
@@ -224,6 +227,7 @@ func (mr *MockRateLimitPolicyEventHandlerMockRecorder) UpdateRateLimitPolicy(old
 type MockRateLimitPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitPolicyEventWatcherMockRecorder is the mock recorder for MockRateLimitPolicyEventWatcher.
@@ -266,6 +270,7 @@ func (mr *MockRateLimitPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h an
 type MockRateLimitClientConfigEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitClientConfigEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitClientConfigEventHandlerMockRecorder is the mock recorder for MockRateLimitClientConfigEventHandler.
@@ -345,6 +350,7 @@ func (mr *MockRateLimitClientConfigEventHandlerMockRecorder) UpdateRateLimitClie
 type MockRateLimitClientConfigEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRateLimitClientConfigEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockRateLimitClientConfigEventWatcherMockRecorder is the mock recorder for MockRateLimitClientConfigEventWatcher.
@@ -387,6 +393,7 @@ func (mr *MockRateLimitClientConfigEventWatcherMockRecorder) AddEventHandler(ctx
 type MockHeaderManipulationPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockHeaderManipulationPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockHeaderManipulationPolicyEventHandlerMockRecorder is the mock recorder for MockHeaderManipulationPolicyEventHandler.
@@ -466,6 +473,7 @@ func (mr *MockHeaderManipulationPolicyEventHandlerMockRecorder) UpdateHeaderMani
 type MockHeaderManipulationPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockHeaderManipulationPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockHeaderManipulationPolicyEventWatcherMockRecorder is the mock recorder for MockHeaderManipulationPolicyEventWatcher.
@@ -508,6 +516,7 @@ func (mr *MockHeaderManipulationPolicyEventWatcherMockRecorder) AddEventHandler(
 type MockTransformationPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockTransformationPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockTransformationPolicyEventHandlerMockRecorder is the mock recorder for MockTransformationPolicyEventHandler.
@@ -587,6 +596,7 @@ func (mr *MockTransformationPolicyEventHandlerMockRecorder) UpdateTransformation
 type MockTransformationPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockTransformationPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockTransformationPolicyEventWatcherMockRecorder is the mock recorder for MockTransformationPolicyEventWatcher.
@@ -629,6 +639,7 @@ func (mr *MockTransformationPolicyEventWatcherMockRecorder) AddEventHandler(ctx,
 type MockLoadBalancerPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoadBalancerPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockLoadBalancerPolicyEventHandlerMockRecorder is the mock recorder for MockLoadBalancerPolicyEventHandler.
@@ -708,6 +719,7 @@ func (mr *MockLoadBalancerPolicyEventHandlerMockRecorder) UpdateLoadBalancerPoli
 type MockLoadBalancerPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoadBalancerPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockLoadBalancerPolicyEventWatcherMockRecorder is the mock recorder for MockLoadBalancerPolicyEventWatcher.
@@ -750,6 +762,7 @@ func (mr *MockLoadBalancerPolicyEventWatcherMockRecorder) AddEventHandler(ctx, h
 type MockProxyProtocolPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxyProtocolPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockProxyProtocolPolicyEventHandlerMockRecorder is the mock recorder for MockProxyProtocolPolicyEventHandler.
@@ -829,6 +842,7 @@ func (mr *MockProxyProtocolPolicyEventHandlerMockRecorder) UpdateProxyProtocolPo
 type MockProxyProtocolPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxyProtocolPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockProxyProtocolPolicyEventWatcherMockRecorder is the mock recorder for MockProxyProtocolPolicyEventWatcher.
@@ -871,6 +885,7 @@ func (mr *MockProxyProtocolPolicyEventWatcherMockRecorder) AddEventHandler(ctx, 
 type MockHTTPBufferPolicyEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPBufferPolicyEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPBufferPolicyEventHandlerMockRecorder is the mock recorder for MockHTTPBufferPolicyEventHandler.
@@ -950,6 +965,7 @@ func (mr *MockHTTPBufferPolicyEventHandlerMockRecorder) UpdateHTTPBufferPolicy(o
 type MockHTTPBufferPolicyEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPBufferPolicyEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPBufferPolicyEventWatcherMockRecorder is the mock recorder for MockHTTPBufferPolicyEventWatcher.

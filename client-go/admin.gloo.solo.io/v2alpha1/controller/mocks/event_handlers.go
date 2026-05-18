@@ -24,6 +24,7 @@ import (
 type MockWaypointLifecycleManagerEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerEventHandlerMockRecorder is the mock recorder for MockWaypointLifecycleManagerEventHandler.
@@ -103,6 +104,7 @@ func (mr *MockWaypointLifecycleManagerEventHandlerMockRecorder) UpdateWaypointLi
 type MockWaypointLifecycleManagerEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockWaypointLifecycleManagerEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockWaypointLifecycleManagerEventWatcherMockRecorder is the mock recorder for MockWaypointLifecycleManagerEventWatcher.
@@ -145,6 +147,7 @@ func (mr *MockWaypointLifecycleManagerEventWatcherMockRecorder) AddEventHandler(
 type MockInsightsConfigEventHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigEventHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigEventHandlerMockRecorder is the mock recorder for MockInsightsConfigEventHandler.
@@ -224,6 +227,7 @@ func (mr *MockInsightsConfigEventHandlerMockRecorder) UpdateInsightsConfig(old, 
 type MockInsightsConfigEventWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockInsightsConfigEventWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockInsightsConfigEventWatcherMockRecorder is the mock recorder for MockInsightsConfigEventWatcher.

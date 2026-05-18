@@ -25,6 +25,7 @@ import (
 type MockGraphQLStitchedSchemaReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaReconcilerMockRecorder is the mock recorder for MockGraphQLStitchedSchemaReconciler.
@@ -63,6 +64,7 @@ func (mr *MockGraphQLStitchedSchemaReconcilerMockRecorder) ReconcileGraphQLStitc
 type MockGraphQLStitchedSchemaDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaDeletionReconcilerMockRecorder is the mock recorder for MockGraphQLStitchedSchemaDeletionReconciler.
@@ -100,6 +102,7 @@ func (mr *MockGraphQLStitchedSchemaDeletionReconcilerMockRecorder) ReconcileGrap
 type MockGraphQLStitchedSchemaFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaFinalizerMockRecorder is the mock recorder for MockGraphQLStitchedSchemaFinalizer.
@@ -166,6 +169,7 @@ func (mr *MockGraphQLStitchedSchemaFinalizerMockRecorder) ReconcileGraphQLStitch
 type MockGraphQLStitchedSchemaReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLStitchedSchemaReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLStitchedSchemaReconcileLoopMockRecorder is the mock recorder for MockGraphQLStitchedSchemaReconcileLoop.
@@ -208,6 +212,7 @@ func (mr *MockGraphQLStitchedSchemaReconcileLoopMockRecorder) RunGraphQLStitched
 type MockGraphQLResolverMapReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapReconcilerMockRecorder is the mock recorder for MockGraphQLResolverMapReconciler.
@@ -246,6 +251,7 @@ func (mr *MockGraphQLResolverMapReconcilerMockRecorder) ReconcileGraphQLResolver
 type MockGraphQLResolverMapDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapDeletionReconcilerMockRecorder is the mock recorder for MockGraphQLResolverMapDeletionReconciler.
@@ -283,6 +289,7 @@ func (mr *MockGraphQLResolverMapDeletionReconcilerMockRecorder) ReconcileGraphQL
 type MockGraphQLResolverMapFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapFinalizerMockRecorder is the mock recorder for MockGraphQLResolverMapFinalizer.
@@ -349,6 +356,7 @@ func (mr *MockGraphQLResolverMapFinalizerMockRecorder) ReconcileGraphQLResolverM
 type MockGraphQLResolverMapReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLResolverMapReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLResolverMapReconcileLoopMockRecorder is the mock recorder for MockGraphQLResolverMapReconcileLoop.
@@ -391,6 +399,7 @@ func (mr *MockGraphQLResolverMapReconcileLoopMockRecorder) RunGraphQLResolverMap
 type MockGraphQLSchemaReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaReconcilerMockRecorder is the mock recorder for MockGraphQLSchemaReconciler.
@@ -429,6 +438,7 @@ func (mr *MockGraphQLSchemaReconcilerMockRecorder) ReconcileGraphQLSchema(obj an
 type MockGraphQLSchemaDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaDeletionReconcilerMockRecorder is the mock recorder for MockGraphQLSchemaDeletionReconciler.
@@ -466,6 +476,7 @@ func (mr *MockGraphQLSchemaDeletionReconcilerMockRecorder) ReconcileGraphQLSchem
 type MockGraphQLSchemaFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaFinalizerMockRecorder is the mock recorder for MockGraphQLSchemaFinalizer.
@@ -532,6 +543,7 @@ func (mr *MockGraphQLSchemaFinalizerMockRecorder) ReconcileGraphQLSchema(obj any
 type MockGraphQLSchemaReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockGraphQLSchemaReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockGraphQLSchemaReconcileLoopMockRecorder is the mock recorder for MockGraphQLSchemaReconcileLoop.
@@ -574,6 +586,7 @@ func (mr *MockGraphQLSchemaReconcileLoopMockRecorder) RunGraphQLSchemaReconciler
 type MockApiDocReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocReconcilerMockRecorder is the mock recorder for MockApiDocReconciler.
@@ -612,6 +625,7 @@ func (mr *MockApiDocReconcilerMockRecorder) ReconcileApiDoc(obj any) *gomock.Cal
 type MockApiDocDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocDeletionReconcilerMockRecorder is the mock recorder for MockApiDocDeletionReconciler.
@@ -649,6 +663,7 @@ func (mr *MockApiDocDeletionReconcilerMockRecorder) ReconcileApiDocDeletion(req 
 type MockApiDocFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocFinalizerMockRecorder is the mock recorder for MockApiDocFinalizer.
@@ -715,6 +730,7 @@ func (mr *MockApiDocFinalizerMockRecorder) ReconcileApiDoc(obj any) *gomock.Call
 type MockApiDocReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiDocReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockApiDocReconcileLoopMockRecorder is the mock recorder for MockApiDocReconcileLoop.
@@ -757,6 +773,7 @@ func (mr *MockApiDocReconcileLoopMockRecorder) RunApiDocReconciler(ctx, rec any,
 type MockPortalReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalReconcilerMockRecorder is the mock recorder for MockPortalReconciler.
@@ -795,6 +812,7 @@ func (mr *MockPortalReconcilerMockRecorder) ReconcilePortal(obj any) *gomock.Cal
 type MockPortalDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalDeletionReconcilerMockRecorder is the mock recorder for MockPortalDeletionReconciler.
@@ -832,6 +850,7 @@ func (mr *MockPortalDeletionReconcilerMockRecorder) ReconcilePortalDeletion(req 
 type MockPortalFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalFinalizerMockRecorder is the mock recorder for MockPortalFinalizer.
@@ -898,6 +917,7 @@ func (mr *MockPortalFinalizerMockRecorder) ReconcilePortal(obj any) *gomock.Call
 type MockPortalReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalReconcileLoopMockRecorder is the mock recorder for MockPortalReconcileLoop.
@@ -940,6 +960,7 @@ func (mr *MockPortalReconcileLoopMockRecorder) RunPortalReconciler(ctx, rec any,
 type MockApiProductReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductReconcilerMockRecorder is the mock recorder for MockApiProductReconciler.
@@ -978,6 +999,7 @@ func (mr *MockApiProductReconcilerMockRecorder) ReconcileApiProduct(obj any) *go
 type MockApiProductDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductDeletionReconcilerMockRecorder is the mock recorder for MockApiProductDeletionReconciler.
@@ -1015,6 +1037,7 @@ func (mr *MockApiProductDeletionReconcilerMockRecorder) ReconcileApiProductDelet
 type MockApiProductFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductFinalizerMockRecorder is the mock recorder for MockApiProductFinalizer.
@@ -1081,6 +1104,7 @@ func (mr *MockApiProductFinalizerMockRecorder) ReconcileApiProduct(obj any) *gom
 type MockApiProductReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiProductReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockApiProductReconcileLoopMockRecorder is the mock recorder for MockApiProductReconcileLoop.
@@ -1123,6 +1147,7 @@ func (mr *MockApiProductReconcileLoopMockRecorder) RunApiProductReconciler(ctx, 
 type MockPortalGroupReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupReconcilerMockRecorder is the mock recorder for MockPortalGroupReconciler.
@@ -1161,6 +1186,7 @@ func (mr *MockPortalGroupReconcilerMockRecorder) ReconcilePortalGroup(obj any) *
 type MockPortalGroupDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupDeletionReconcilerMockRecorder is the mock recorder for MockPortalGroupDeletionReconciler.
@@ -1198,6 +1224,7 @@ func (mr *MockPortalGroupDeletionReconcilerMockRecorder) ReconcilePortalGroupDel
 type MockPortalGroupFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupFinalizerMockRecorder is the mock recorder for MockPortalGroupFinalizer.
@@ -1264,6 +1291,7 @@ func (mr *MockPortalGroupFinalizerMockRecorder) ReconcilePortalGroup(obj any) *g
 type MockPortalGroupReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortalGroupReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockPortalGroupReconcileLoopMockRecorder is the mock recorder for MockPortalGroupReconcileLoop.
@@ -1306,6 +1334,7 @@ func (mr *MockPortalGroupReconcileLoopMockRecorder) RunPortalGroupReconciler(ctx
 type MockApiSchemaDiscoveryReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryReconcilerMockRecorder is the mock recorder for MockApiSchemaDiscoveryReconciler.
@@ -1344,6 +1373,7 @@ func (mr *MockApiSchemaDiscoveryReconcilerMockRecorder) ReconcileApiSchemaDiscov
 type MockApiSchemaDiscoveryDeletionReconciler struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryDeletionReconcilerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryDeletionReconcilerMockRecorder is the mock recorder for MockApiSchemaDiscoveryDeletionReconciler.
@@ -1381,6 +1411,7 @@ func (mr *MockApiSchemaDiscoveryDeletionReconcilerMockRecorder) ReconcileApiSche
 type MockApiSchemaDiscoveryFinalizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryFinalizerMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryFinalizerMockRecorder is the mock recorder for MockApiSchemaDiscoveryFinalizer.
@@ -1447,6 +1478,7 @@ func (mr *MockApiSchemaDiscoveryFinalizerMockRecorder) ReconcileApiSchemaDiscove
 type MockApiSchemaDiscoveryReconcileLoop struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiSchemaDiscoveryReconcileLoopMockRecorder
+	isgomock struct{}
 }
 
 // MockApiSchemaDiscoveryReconcileLoopMockRecorder is the mock recorder for MockApiSchemaDiscoveryReconcileLoop.
