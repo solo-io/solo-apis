@@ -1310,6 +1310,7 @@ type Route struct {
 	//	*Route_RouteAction
 	//	*Route_RedirectAction
 	//	*Route_DirectResponseAction
+	//	*Route_GraphqlApiRef
 	Action isRoute_Action `protobuf_oneof:"action"`
 	// Route Options extend the behavior of routes.
 	// Route options include configuration such as retries, rate limiting, and request/response transformation.
@@ -1397,6 +1398,16 @@ func (x *Route) GetDirectResponseAction() *DirectResponseAction {
 	return nil
 }
 
+// Deprecated: Marked as deprecated in github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto.
+func (x *Route) GetGraphqlApiRef() *core.ResourceRef {
+	if x != nil {
+		if x, ok := x.Action.(*Route_GraphqlApiRef); ok {
+			return x.GraphqlApiRef
+		}
+	}
+	return nil
+}
+
 func (x *Route) GetOptions() *RouteOptions {
 	if x != nil {
 		return x.Options
@@ -1456,11 +1467,24 @@ type Route_DirectResponseAction struct {
 	DirectResponseAction *DirectResponseAction `protobuf:"bytes,4,opt,name=direct_response_action,json=directResponseAction,proto3,oneof"`
 }
 
+type Route_GraphqlApiRef struct {
+	// Deprecated, Enterprise-Only: This feature is deprecated and will be removed in a future release. APIs are versioned as alpha and subject to change.
+	// A reference to a GraphQLApi CR. Resolution of the client request to upstream(s) will be delegated to
+	// the resolution policies defined in the GraphQLApi CR. If configured, the graphql filter will operate
+	// instead of the envoy router filter, so configuration (such as retries) that applies to the router filter
+	// will not be applied.
+	//
+	// Deprecated: Marked as deprecated in github.com/solo-io/solo-apis/api/gloo/gloo/v1/proxy.proto.
+	GraphqlApiRef *core.ResourceRef `protobuf:"bytes,8,opt,name=graphql_api_ref,json=graphqlApiRef,proto3,oneof"`
+}
+
 func (*Route_RouteAction) isRoute_Action() {}
 
 func (*Route_RedirectAction) isRoute_Action() {}
 
 func (*Route_DirectResponseAction) isRoute_Action() {}
+
+func (*Route_GraphqlApiRef) isRoute_Action() {}
 
 type isRoute_OpaqueMetadata interface {
 	isRoute_OpaqueMetadata()
@@ -3062,18 +3086,19 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_rawDesc = "
 	"\aoptions\x18\x04 \x01(\v2 .gloo.solo.io.VirtualHostOptionsR\aoptions\x12;\n" +
 	"\bmetadata\x18\x06 \x01(\v2\x17.google.protobuf.StructB\x04\xb8\xf5\x04\x01H\x00R\bmetadata\x12M\n" +
 	"\x0fmetadata_static\x18\a \x01(\v2\x1c.gloo.solo.io.SourceMetadataB\x04\xb8\xf5\x04\x01H\x00R\x0emetadataStaticB\x11\n" +
-	"\x0fopaque_metadata\"\xb7\x04\n" +
+	"\x0fopaque_metadata\"\xe9\x04\n" +
 	"\x05Route\x12?\n" +
 	"\bmatchers\x18\x01 \x03(\v2#.matchers.core.gloo.solo.io.MatcherR\bmatchers\x12>\n" +
 	"\froute_action\x18\x02 \x01(\v2\x19.gloo.solo.io.RouteActionH\x00R\vrouteAction\x12G\n" +
 	"\x0fredirect_action\x18\x03 \x01(\v2\x1c.gloo.solo.io.RedirectActionH\x00R\x0eredirectAction\x12Z\n" +
-	"\x16direct_response_action\x18\x04 \x01(\v2\".gloo.solo.io.DirectResponseActionH\x00R\x14directResponseAction\x124\n" +
+	"\x16direct_response_action\x18\x04 \x01(\v2\".gloo.solo.io.DirectResponseActionH\x00R\x14directResponseAction\x12G\n" +
+	"\x0fgraphql_api_ref\x18\b \x01(\v2\x19.core.solo.io.ResourceRefB\x02\x18\x01H\x00R\rgraphqlApiRef\x124\n" +
 	"\aoptions\x18\x05 \x01(\v2\x1a.gloo.solo.io.RouteOptionsR\aoptions\x12;\n" +
 	"\bmetadata\x18\x06 \x01(\v2\x17.google.protobuf.StructB\x04\xb8\xf5\x04\x01H\x01R\bmetadata\x12M\n" +
 	"\x0fmetadata_static\x18\t \x01(\v2\x1c.gloo.solo.io.SourceMetadataB\x04\xb8\xf5\x04\x01H\x01R\x0emetadataStatic\x12\x12\n" +
 	"\x04name\x18\a \x01(\tR\x04nameB\b\n" +
 	"\x06actionB\x11\n" +
-	"\x0fopaque_metadataJ\x04\b\b\x10\tR\x0fgraphql_api_ref\"\xd6\x02\n" +
+	"\x0fopaque_metadata\"\xd6\x02\n" +
 	"\vRouteAction\x123\n" +
 	"\x06single\x18\x01 \x01(\v2\x19.gloo.solo.io.DestinationH\x00R\x06single\x126\n" +
 	"\x05multi\x18\x02 \x01(\v2\x1e.gloo.solo.io.MultiDestinationH\x00R\x05multi\x12B\n" +
@@ -3241,8 +3266,8 @@ var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_goTypes = []a
 	(*wrapperspb.UInt32Value)(nil),    // 48: google.protobuf.UInt32Value
 	(*VirtualHostOptions)(nil),        // 49: gloo.solo.io.VirtualHostOptions
 	(*matchers.Matcher)(nil),          // 50: matchers.core.gloo.solo.io.Matcher
-	(*RouteOptions)(nil),              // 51: gloo.solo.io.RouteOptions
-	(*core.ResourceRef)(nil),          // 52: core.solo.io.ResourceRef
+	(*core.ResourceRef)(nil),          // 51: core.solo.io.ResourceRef
+	(*RouteOptions)(nil),              // 52: gloo.solo.io.RouteOptions
 	(*dynamic_forward_proxy.PerRouteConfig)(nil), // 53: dfp.options.gloo.solo.io.PerRouteConfig
 	(*DestinationSpec)(nil),                      // 54: gloo.solo.io.DestinationSpec
 	(*Subset)(nil),                               // 55: gloo.solo.io.Subset
@@ -3297,59 +3322,60 @@ var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_depIdxs = []i
 	15, // 41: gloo.solo.io.Route.route_action:type_name -> gloo.solo.io.RouteAction
 	22, // 42: gloo.solo.io.Route.redirect_action:type_name -> gloo.solo.io.RedirectAction
 	23, // 43: gloo.solo.io.Route.direct_response_action:type_name -> gloo.solo.io.DirectResponseAction
-	51, // 44: gloo.solo.io.Route.options:type_name -> gloo.solo.io.RouteOptions
-	43, // 45: gloo.solo.io.Route.metadata:type_name -> google.protobuf.Struct
-	24, // 46: gloo.solo.io.Route.metadata_static:type_name -> gloo.solo.io.SourceMetadata
-	16, // 47: gloo.solo.io.RouteAction.single:type_name -> gloo.solo.io.Destination
-	20, // 48: gloo.solo.io.RouteAction.multi:type_name -> gloo.solo.io.MultiDestination
-	52, // 49: gloo.solo.io.RouteAction.upstream_group:type_name -> core.solo.io.ResourceRef
-	53, // 50: gloo.solo.io.RouteAction.dynamic_forward_proxy:type_name -> dfp.options.gloo.solo.io.PerRouteConfig
-	52, // 51: gloo.solo.io.Destination.upstream:type_name -> core.solo.io.ResourceRef
-	17, // 52: gloo.solo.io.Destination.kube:type_name -> gloo.solo.io.KubernetesServiceDestination
-	18, // 53: gloo.solo.io.Destination.consul:type_name -> gloo.solo.io.ConsulServiceDestination
-	54, // 54: gloo.solo.io.Destination.destination_spec:type_name -> gloo.solo.io.DestinationSpec
-	55, // 55: gloo.solo.io.Destination.subset:type_name -> gloo.solo.io.Subset
-	52, // 56: gloo.solo.io.KubernetesServiceDestination.ref:type_name -> core.solo.io.ResourceRef
-	21, // 57: gloo.solo.io.UpstreamGroupSpec.destinations:type_name -> gloo.solo.io.WeightedDestination
-	21, // 58: gloo.solo.io.MultiDestination.destinations:type_name -> gloo.solo.io.WeightedDestination
-	16, // 59: gloo.solo.io.WeightedDestination.destination:type_name -> gloo.solo.io.Destination
-	48, // 60: gloo.solo.io.WeightedDestination.weight:type_name -> google.protobuf.UInt32Value
-	56, // 61: gloo.solo.io.WeightedDestination.options:type_name -> gloo.solo.io.WeightedDestinationOptions
-	57, // 62: gloo.solo.io.RedirectAction.regex_rewrite:type_name -> solo.io.envoy.type.matcher.v3.RegexMatchAndSubstitute
-	0,  // 63: gloo.solo.io.RedirectAction.response_code:type_name -> gloo.solo.io.RedirectAction.RedirectResponseCode
-	48, // 64: gloo.solo.io.RedirectAction.port_redirect:type_name -> google.protobuf.UInt32Value
-	35, // 65: gloo.solo.io.SourceMetadata.sources:type_name -> gloo.solo.io.SourceMetadata.SourceRef
-	58, // 66: gloo.solo.io.CustomEnvoyFilter.filter_stage:type_name -> filters.gloo.solo.io.FilterStage
-	59, // 67: gloo.solo.io.CustomEnvoyFilter.config:type_name -> google.protobuf.Any
-	1,  // 68: gloo.solo.io.UpstreamGroupStatus.state:type_name -> gloo.solo.io.UpstreamGroupStatus.State
-	36, // 69: gloo.solo.io.UpstreamGroupStatus.subresource_statuses:type_name -> gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry
-	43, // 70: gloo.solo.io.UpstreamGroupStatus.details:type_name -> google.protobuf.Struct
-	37, // 71: gloo.solo.io.UpstreamGroupNamespacedStatuses.statuses:type_name -> gloo.solo.io.UpstreamGroupNamespacedStatuses.StatusesEntry
-	2,  // 72: gloo.solo.io.ProxyStatus.state:type_name -> gloo.solo.io.ProxyStatus.State
-	38, // 73: gloo.solo.io.ProxyStatus.subresource_statuses:type_name -> gloo.solo.io.ProxyStatus.SubresourceStatusesEntry
-	43, // 74: gloo.solo.io.ProxyStatus.details:type_name -> google.protobuf.Struct
-	39, // 75: gloo.solo.io.ProxyNamespacedStatuses.statuses:type_name -> gloo.solo.io.ProxyNamespacedStatuses.StatusesEntry
-	16, // 76: gloo.solo.io.TcpHost.TcpAction.single:type_name -> gloo.solo.io.Destination
-	20, // 77: gloo.solo.io.TcpHost.TcpAction.multi:type_name -> gloo.solo.io.MultiDestination
-	52, // 78: gloo.solo.io.TcpHost.TcpAction.upstream_group:type_name -> core.solo.io.ResourceRef
-	60, // 79: gloo.solo.io.TcpHost.TcpAction.forward_sni_cluster_name:type_name -> google.protobuf.Empty
-	33, // 80: gloo.solo.io.AggregateListener.HttpResources.virtual_hosts:type_name -> gloo.solo.io.AggregateListener.HttpResources.VirtualHostsEntry
-	34, // 81: gloo.solo.io.AggregateListener.HttpResources.http_options:type_name -> gloo.solo.io.AggregateListener.HttpResources.HttpOptionsEntry
-	11, // 82: gloo.solo.io.AggregateListener.HttpFilterChain.matcher:type_name -> gloo.solo.io.Matcher
-	25, // 83: gloo.solo.io.AggregateListener.HttpFilterChain.custom_http_filters:type_name -> gloo.solo.io.CustomEnvoyFilter
-	25, // 84: gloo.solo.io.AggregateListener.HttpFilterChain.custom_network_filters:type_name -> gloo.solo.io.CustomEnvoyFilter
-	13, // 85: gloo.solo.io.AggregateListener.HttpResources.VirtualHostsEntry.value:type_name -> gloo.solo.io.VirtualHost
-	46, // 86: gloo.solo.io.AggregateListener.HttpResources.HttpOptionsEntry.value:type_name -> gloo.solo.io.HttpListenerOptions
-	52, // 87: gloo.solo.io.SourceMetadata.SourceRef.resource_ref:type_name -> core.solo.io.ResourceRef
-	26, // 88: gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.UpstreamGroupStatus
-	26, // 89: gloo.solo.io.UpstreamGroupNamespacedStatuses.StatusesEntry.value:type_name -> gloo.solo.io.UpstreamGroupStatus
-	28, // 90: gloo.solo.io.ProxyStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.ProxyStatus
-	28, // 91: gloo.solo.io.ProxyNamespacedStatuses.StatusesEntry.value:type_name -> gloo.solo.io.ProxyStatus
-	92, // [92:92] is the sub-list for method output_type
-	92, // [92:92] is the sub-list for method input_type
-	92, // [92:92] is the sub-list for extension type_name
-	92, // [92:92] is the sub-list for extension extendee
-	0,  // [0:92] is the sub-list for field type_name
+	51, // 44: gloo.solo.io.Route.graphql_api_ref:type_name -> core.solo.io.ResourceRef
+	52, // 45: gloo.solo.io.Route.options:type_name -> gloo.solo.io.RouteOptions
+	43, // 46: gloo.solo.io.Route.metadata:type_name -> google.protobuf.Struct
+	24, // 47: gloo.solo.io.Route.metadata_static:type_name -> gloo.solo.io.SourceMetadata
+	16, // 48: gloo.solo.io.RouteAction.single:type_name -> gloo.solo.io.Destination
+	20, // 49: gloo.solo.io.RouteAction.multi:type_name -> gloo.solo.io.MultiDestination
+	51, // 50: gloo.solo.io.RouteAction.upstream_group:type_name -> core.solo.io.ResourceRef
+	53, // 51: gloo.solo.io.RouteAction.dynamic_forward_proxy:type_name -> dfp.options.gloo.solo.io.PerRouteConfig
+	51, // 52: gloo.solo.io.Destination.upstream:type_name -> core.solo.io.ResourceRef
+	17, // 53: gloo.solo.io.Destination.kube:type_name -> gloo.solo.io.KubernetesServiceDestination
+	18, // 54: gloo.solo.io.Destination.consul:type_name -> gloo.solo.io.ConsulServiceDestination
+	54, // 55: gloo.solo.io.Destination.destination_spec:type_name -> gloo.solo.io.DestinationSpec
+	55, // 56: gloo.solo.io.Destination.subset:type_name -> gloo.solo.io.Subset
+	51, // 57: gloo.solo.io.KubernetesServiceDestination.ref:type_name -> core.solo.io.ResourceRef
+	21, // 58: gloo.solo.io.UpstreamGroupSpec.destinations:type_name -> gloo.solo.io.WeightedDestination
+	21, // 59: gloo.solo.io.MultiDestination.destinations:type_name -> gloo.solo.io.WeightedDestination
+	16, // 60: gloo.solo.io.WeightedDestination.destination:type_name -> gloo.solo.io.Destination
+	48, // 61: gloo.solo.io.WeightedDestination.weight:type_name -> google.protobuf.UInt32Value
+	56, // 62: gloo.solo.io.WeightedDestination.options:type_name -> gloo.solo.io.WeightedDestinationOptions
+	57, // 63: gloo.solo.io.RedirectAction.regex_rewrite:type_name -> solo.io.envoy.type.matcher.v3.RegexMatchAndSubstitute
+	0,  // 64: gloo.solo.io.RedirectAction.response_code:type_name -> gloo.solo.io.RedirectAction.RedirectResponseCode
+	48, // 65: gloo.solo.io.RedirectAction.port_redirect:type_name -> google.protobuf.UInt32Value
+	35, // 66: gloo.solo.io.SourceMetadata.sources:type_name -> gloo.solo.io.SourceMetadata.SourceRef
+	58, // 67: gloo.solo.io.CustomEnvoyFilter.filter_stage:type_name -> filters.gloo.solo.io.FilterStage
+	59, // 68: gloo.solo.io.CustomEnvoyFilter.config:type_name -> google.protobuf.Any
+	1,  // 69: gloo.solo.io.UpstreamGroupStatus.state:type_name -> gloo.solo.io.UpstreamGroupStatus.State
+	36, // 70: gloo.solo.io.UpstreamGroupStatus.subresource_statuses:type_name -> gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry
+	43, // 71: gloo.solo.io.UpstreamGroupStatus.details:type_name -> google.protobuf.Struct
+	37, // 72: gloo.solo.io.UpstreamGroupNamespacedStatuses.statuses:type_name -> gloo.solo.io.UpstreamGroupNamespacedStatuses.StatusesEntry
+	2,  // 73: gloo.solo.io.ProxyStatus.state:type_name -> gloo.solo.io.ProxyStatus.State
+	38, // 74: gloo.solo.io.ProxyStatus.subresource_statuses:type_name -> gloo.solo.io.ProxyStatus.SubresourceStatusesEntry
+	43, // 75: gloo.solo.io.ProxyStatus.details:type_name -> google.protobuf.Struct
+	39, // 76: gloo.solo.io.ProxyNamespacedStatuses.statuses:type_name -> gloo.solo.io.ProxyNamespacedStatuses.StatusesEntry
+	16, // 77: gloo.solo.io.TcpHost.TcpAction.single:type_name -> gloo.solo.io.Destination
+	20, // 78: gloo.solo.io.TcpHost.TcpAction.multi:type_name -> gloo.solo.io.MultiDestination
+	51, // 79: gloo.solo.io.TcpHost.TcpAction.upstream_group:type_name -> core.solo.io.ResourceRef
+	60, // 80: gloo.solo.io.TcpHost.TcpAction.forward_sni_cluster_name:type_name -> google.protobuf.Empty
+	33, // 81: gloo.solo.io.AggregateListener.HttpResources.virtual_hosts:type_name -> gloo.solo.io.AggregateListener.HttpResources.VirtualHostsEntry
+	34, // 82: gloo.solo.io.AggregateListener.HttpResources.http_options:type_name -> gloo.solo.io.AggregateListener.HttpResources.HttpOptionsEntry
+	11, // 83: gloo.solo.io.AggregateListener.HttpFilterChain.matcher:type_name -> gloo.solo.io.Matcher
+	25, // 84: gloo.solo.io.AggregateListener.HttpFilterChain.custom_http_filters:type_name -> gloo.solo.io.CustomEnvoyFilter
+	25, // 85: gloo.solo.io.AggregateListener.HttpFilterChain.custom_network_filters:type_name -> gloo.solo.io.CustomEnvoyFilter
+	13, // 86: gloo.solo.io.AggregateListener.HttpResources.VirtualHostsEntry.value:type_name -> gloo.solo.io.VirtualHost
+	46, // 87: gloo.solo.io.AggregateListener.HttpResources.HttpOptionsEntry.value:type_name -> gloo.solo.io.HttpListenerOptions
+	51, // 88: gloo.solo.io.SourceMetadata.SourceRef.resource_ref:type_name -> core.solo.io.ResourceRef
+	26, // 89: gloo.solo.io.UpstreamGroupStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.UpstreamGroupStatus
+	26, // 90: gloo.solo.io.UpstreamGroupNamespacedStatuses.StatusesEntry.value:type_name -> gloo.solo.io.UpstreamGroupStatus
+	28, // 91: gloo.solo.io.ProxyStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.ProxyStatus
+	28, // 92: gloo.solo.io.ProxyNamespacedStatuses.StatusesEntry.value:type_name -> gloo.solo.io.ProxyStatus
+	93, // [93:93] is the sub-list for method output_type
+	93, // [93:93] is the sub-list for method input_type
+	93, // [93:93] is the sub-list for extension type_name
+	93, // [93:93] is the sub-list for extension extendee
+	0,  // [0:93] is the sub-list for field type_name
 }
 
 func init() { file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_init() }
@@ -3390,6 +3416,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_proxy_proto_init() {
 		(*Route_RouteAction)(nil),
 		(*Route_RedirectAction)(nil),
 		(*Route_DirectResponseAction)(nil),
+		(*Route_GraphqlApiRef)(nil),
 		(*Route_Metadata)(nil),
 		(*Route_MetadataStatic)(nil),
 	}

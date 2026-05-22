@@ -225,21 +225,6 @@ func (m *UpstreamSpec) Equal(that interface{}) bool {
 			}
 		}
 
-	case *UpstreamSpec_Bedrock_:
-		if _, ok := target.Llm.(*UpstreamSpec_Bedrock_); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetBedrock()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetBedrock()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetBedrock(), target.GetBedrock()) {
-				return false
-			}
-		}
-
 	default:
 		// m is nil but target is not nil
 		if m.Llm != target.Llm {
@@ -886,16 +871,6 @@ func (m *UpstreamSpec_AzureOpenAI) Equal(that interface{}) bool {
 		return false
 	}
 
-	if h, ok := interface{}(m.GetCustomHost()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetCustomHost()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetCustomHost(), target.GetCustomHost()) {
-			return false
-		}
-	}
-
 	switch m.AuthTokenSource.(type) {
 
 	case *UpstreamSpec_AzureOpenAI_AuthToken:
@@ -950,16 +925,6 @@ func (m *UpstreamSpec_Gemini) Equal(that interface{}) bool {
 
 	if strings.Compare(m.GetApiVersion(), target.GetApiVersion()) != 0 {
 		return false
-	}
-
-	if h, ok := interface{}(m.GetCustomHost()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetCustomHost()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetCustomHost(), target.GetCustomHost()) {
-			return false
-		}
 	}
 
 	switch m.AuthTokenSource.(type) {
@@ -1036,16 +1001,6 @@ func (m *UpstreamSpec_VertexAI) Equal(that interface{}) bool {
 
 	if m.GetJsonSchema() != target.GetJsonSchema() {
 		return false
-	}
-
-	if h, ok := interface{}(m.GetCustomHost()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetCustomHost()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetCustomHost(), target.GetCustomHost()) {
-			return false
-		}
 	}
 
 	switch m.AuthTokenSource.(type) {
@@ -1169,157 +1124,6 @@ func (m *UpstreamSpec_Anthropic) Equal(that interface{}) bool {
 	}
 
 	if strings.Compare(m.GetModel(), target.GetModel()) != 0 {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *UpstreamSpec_Bedrock) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*UpstreamSpec_Bedrock)
-	if !ok {
-		that2, ok := that.(UpstreamSpec_Bedrock)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetCredentialProvider()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetCredentialProvider()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetCredentialProvider(), target.GetCredentialProvider()) {
-			return false
-		}
-	}
-
-	if h, ok := interface{}(m.GetCustomHost()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetCustomHost()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetCustomHost(), target.GetCustomHost()) {
-			return false
-		}
-	}
-
-	if strings.Compare(m.GetModel(), target.GetModel()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetRegion(), target.GetRegion()) != 0 {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *UpstreamSpec_AwsCredentialProvider) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*UpstreamSpec_AwsCredentialProvider)
-	if !ok {
-		that2, ok := that.(UpstreamSpec_AwsCredentialProvider)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	switch m.AuthTokenSource.(type) {
-
-	case *UpstreamSpec_AwsCredentialProvider_SecretRef:
-		if _, ok := target.AuthTokenSource.(*UpstreamSpec_AwsCredentialProvider_SecretRef); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetSecretRef()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetSecretRef()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetSecretRef(), target.GetSecretRef()) {
-				return false
-			}
-		}
-
-	case *UpstreamSpec_AwsCredentialProvider_Inline:
-		if _, ok := target.AuthTokenSource.(*UpstreamSpec_AwsCredentialProvider_Inline); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetInline()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetInline()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetInline(), target.GetInline()) {
-				return false
-			}
-		}
-
-	default:
-		// m is nil but target is not nil
-		if m.AuthTokenSource != target.AuthTokenSource {
-			return false
-		}
-	}
-
-	return true
-}
-
-// Equal function
-func (m *UpstreamSpec_AWSInline) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*UpstreamSpec_AWSInline)
-	if !ok {
-		that2, ok := that.(UpstreamSpec_AWSInline)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetAccessKeyId(), target.GetAccessKeyId()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetSecretAccessKey(), target.GetSecretAccessKey()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetSessionToken(), target.GetSessionToken()) != 0 {
 		return false
 	}
 
@@ -1476,21 +1280,6 @@ func (m *UpstreamSpec_MultiPool_Backend) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetVertexAi(), target.GetVertexAi()) {
-				return false
-			}
-		}
-
-	case *UpstreamSpec_MultiPool_Backend_Bedrock:
-		if _, ok := target.Llm.(*UpstreamSpec_MultiPool_Backend_Bedrock); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetBedrock()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetBedrock()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetBedrock(), target.GetBedrock()) {
 				return false
 			}
 		}

@@ -33,8 +33,6 @@ const (
 	JWTPrincipal_BOOLEAN JWTPrincipal_ClaimMatcher = 1
 	// The JWT claim value is a list that contains a string that exactly matches the value.
 	JWTPrincipal_LIST_CONTAINS JWTPrincipal_ClaimMatcher = 2
-	// The JWT claim value is a regex pattern that matches the value.
-	JWTPrincipal_REGEX_MATCH JWTPrincipal_ClaimMatcher = 3
 )
 
 // Enum value maps for JWTPrincipal_ClaimMatcher.
@@ -43,13 +41,11 @@ var (
 		0: "EXACT_STRING",
 		1: "BOOLEAN",
 		2: "LIST_CONTAINS",
-		3: "REGEX_MATCH",
 	}
 	JWTPrincipal_ClaimMatcher_value = map[string]int32{
 		"EXACT_STRING":  0,
 		"BOOLEAN":       1,
 		"LIST_CONTAINS": 2,
-		"REGEX_MATCH":   3,
 	}
 )
 
@@ -436,19 +432,18 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_enterprise_options_rbac
 	"\vpermissions\x18\x02 \x01(\v2&.rbac.options.gloo.solo.io.PermissionsR\vpermissions\x124\n" +
 	"\x16nested_claim_delimiter\x18\x03 \x01(\tR\x14nestedClaimDelimiter\"Y\n" +
 	"\tPrincipal\x12L\n" +
-	"\rjwt_principal\x18\x01 \x01(\v2'.rbac.options.gloo.solo.io.JWTPrincipalR\fjwtPrincipal\"\xd5\x02\n" +
+	"\rjwt_principal\x18\x01 \x01(\v2'.rbac.options.gloo.solo.io.JWTPrincipalR\fjwtPrincipal\"\xc4\x02\n" +
 	"\fJWTPrincipal\x12K\n" +
 	"\x06claims\x18\x01 \x03(\v23.rbac.options.gloo.solo.io.JWTPrincipal.ClaimsEntryR\x06claims\x12\x1a\n" +
 	"\bprovider\x18\x02 \x01(\tR\bprovider\x12N\n" +
 	"\amatcher\x18\x03 \x01(\x0e24.rbac.options.gloo.solo.io.JWTPrincipal.ClaimMatcherR\amatcher\x1a9\n" +
 	"\vClaimsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"Q\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"@\n" +
 	"\fClaimMatcher\x12\x10\n" +
 	"\fEXACT_STRING\x10\x00\x12\v\n" +
 	"\aBOOLEAN\x10\x01\x12\x11\n" +
-	"\rLIST_CONTAINS\x10\x02\x12\x0f\n" +
-	"\vREGEX_MATCH\x10\x03\"H\n" +
+	"\rLIST_CONTAINS\x10\x02\"H\n" +
 	"\vPermissions\x12\x1f\n" +
 	"\vpath_prefix\x18\x01 \x01(\tR\n" +
 	"pathPrefix\x12\x18\n" +

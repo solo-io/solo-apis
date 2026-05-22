@@ -71,10 +71,6 @@ func (m *FilterTransformations) Equal(that interface{}) bool {
 		return false
 	}
 
-	if m.GetAutoWebsocketPassthrough() != target.GetAutoWebsocketPassthrough() {
-		return false
-	}
-
 	return true
 }
 
