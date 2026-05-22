@@ -1737,17 +1737,6 @@ func (m *JwtValidation) Equal(that interface{}) bool {
 		return false
 	}
 
-	if len(m.GetAudiences()) != len(target.GetAudiences()) {
-		return false
-	}
-	for idx, v := range m.GetAudiences() {
-
-		if strings.Compare(v, target.GetAudiences()[idx]) != 0 {
-			return false
-		}
-
-	}
-
 	switch m.JwksSourceSpecifier.(type) {
 
 	case *JwtValidation_RemoteJwks_:
@@ -2152,26 +2141,6 @@ func (m *ApiKeyAuth) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetDigest()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetDigest()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetDigest(), target.GetDigest()) {
-			return false
-		}
-	}
-
-	if h, ok := interface{}(m.GetMatch()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetMatch()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetMatch(), target.GetMatch()) {
-			return false
-		}
-	}
-
 	switch m.StorageBackend.(type) {
 
 	case *ApiKeyAuth_K8SSecretApikeyStorage:
@@ -2247,103 +2216,6 @@ func (m *ApiKeyHmac) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetSharedSecretRef(), target.GetSharedSecretRef()) {
 			return false
 		}
-	}
-
-	return true
-}
-
-// Equal function
-func (m *ApiKeyDigest) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ApiKeyDigest)
-	if !ok {
-		that2, ok := that.(ApiKeyDigest)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if m.GetAlgorithm() != target.GetAlgorithm() {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *ApiKeyMatch) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ApiKeyMatch)
-	if !ok {
-		that2, ok := that.(ApiKeyMatch)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if len(m.GetHeaders()) != len(target.GetHeaders()) {
-		return false
-	}
-	for idx, v := range m.GetHeaders() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetHeaders()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetHeaders()[idx]) {
-				return false
-			}
-		}
-
-	}
-
-	return true
-}
-
-// Equal function
-func (m *HeaderMatch) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*HeaderMatch)
-	if !ok {
-		that2, ok := that.(HeaderMatch)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetName(), target.GetName()) != 0 {
-		return false
 	}
 
 	return true
@@ -3216,26 +3088,6 @@ func (m *PassThroughHttp) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetTlsConfig(), target.GetTlsConfig()) {
-			return false
-		}
-	}
-
-	if h, ok := interface{}(m.GetResponseHeaderTimeout()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetResponseHeaderTimeout()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetResponseHeaderTimeout(), target.GetResponseHeaderTimeout()) {
-			return false
-		}
-	}
-
-	if h, ok := interface{}(m.GetConnectionPool()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetConnectionPool()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetConnectionPool(), target.GetConnectionPool()) {
 			return false
 		}
 	}
@@ -5170,44 +5022,6 @@ func (m *PassThroughHttp_Response) Equal(that interface{}) bool {
 			return false
 		}
 
-	}
-
-	return true
-}
-
-// Equal function
-func (m *PassThroughHttp_ConnectionPool) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*PassThroughHttp_ConnectionPool)
-	if !ok {
-		that2, ok := that.(PassThroughHttp_ConnectionPool)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if m.GetMaxConns() != target.GetMaxConns() {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetIdleTimeout()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetIdleTimeout()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetIdleTimeout(), target.GetIdleTimeout()) {
-			return false
-		}
 	}
 
 	return true
