@@ -992,10 +992,6 @@ message JwtValidation {
     // Allow only tokens that have been issued by this principal (i.e. whose "iss" claim matches this value).
     // If empty, issuer validation will be skipped.
     string issuer = 3;
-
-    // List of JWT audiences allowed for this provider. The token's "aud" claim
-    // must intersect this list. If empty or unset, audience validation is skipped.
-    repeated string audiences = 4;
 }
 
 // Defines how (opaque) access tokens, received from the oauth authorization endpoint, are validated
@@ -1194,16 +1190,6 @@ message ApiKeyAuth {
     // Optional HMAC digest verification mode for API key validation. When configured, stored API key values
     // are treated as HMAC digests and the request API key is transformed prior to comparison.
     ApiKeyHmac hmac = 9;
-
-    // Optional digest verification mode for API key validation. When configured, stored API key values
-    // are treated as digests and the request API key is transformed prior to comparison.
-    // When omitted, existing raw API key comparison behavior remains unchanged.
-    ApiKeyDigest digest = 10;
-
-    // Optional additional request header matching for digest-based API key validation. This field is only
-    // valid when digest is configured. ext-auth-service should reject configs that set match without digest.
-    // When configured, each header must match a same-named data key on the matched API key secret.
-    ApiKeyMatch match = 11;
 }
 
 // Configuration for HMAC-based API key digest verification.
@@ -1221,33 +1207,6 @@ message ApiKeyHmac {
     // Reference to the shared secret used to compute request-time HMAC digests.
     core.solo.io.ResourceRef shared_secret_ref = 2;
 }
-
-// Configuration for digest-based API key verification.
-message ApiKeyDigest {
-    // Supported digest algorithms for API key verification.
-    enum Algorithm {
-        // When unspecified, ext-auth-service should default to SHA256.
-        ALGORITHM_UNSPECIFIED = 0;
-        SHA256 = 1;
-    }
-
-    // Algorithm used to compute the digest for comparison against stored API key values.
-    Algorithm algorithm = 1;
-}
-
-// Additional request headers that must match same-named data keys on the matched API key secret.
-// This message is only valid when ApiKeyAuth.digest is configured.
-message ApiKeyMatch {
-    repeated HeaderMatch headers = 1;
-}
-
-// A request header that must match the same-named data key on the matched API key secret.
-message HeaderMatch {
-    // Header name to match. Request headers are case-insensitive, but this configured name is also used
-    // as the Secret data key for same-name matching, so operators should use a canonical lowercase name.
-    string name = 1;
-}
-
 message K8sSecretApiKeyStorage {
     // Identify all valid API key secrets that match the provided label selector.<br/>
     // API key secrets must be in one of the watch namespaces for gloo to locate them.
@@ -1641,7 +1600,7 @@ message PassThroughHttp {
         bool pass_through_body = 5;
     }
     // Pass through the incoming request body, ext auth state, and filter metadata.
-    // For more information, see the [PassThrough Http Request description](#passthroughhttp-request).
+    // For more information, see the [PassThrough Http Request description](#request-1).
     Request request = 3;
 
     message Response {
@@ -1673,7 +1632,7 @@ message PassThroughHttp {
         repeated string allowed_upstream_headers_to_overwrite = 4;
     }
     // Pass through response information such as the headers and body to downstream clients.
-    // For more information, see the [PassThrough Http Response description](#passthroughhttp-response).
+    // For more information, see the [PassThrough Http Response description](#response-1).
     Response response = 4;
 
     // Timeout for the auth server to respond. Defaults to 5s
@@ -1682,28 +1641,6 @@ message PassThroughHttp {
     // TLS config for the HTTP passthrough, if not configured the connection will use insecure.
     // When specified, this supports configuration for either simple TLS or mTLS.
     PassThroughHttpTLSConfig tls_config = 9;
-
-    // Maximum time to wait for the passthrough auth server to begin sending
-    // response headers after the request is fully written. Independent from
-    // connection_timeout (the overall request budget) — whichever fires first
-    // wins. Defaults to 0 (unset; only connection_timeout applies).
-    google.protobuf.Duration response_header_timeout = 10;
-
-    // Tuning knobs for the HTTP connection pool maintained to the passthrough
-    // auth server.
-    message ConnectionPool {
-        // Maximum total concurrent connections to the auth server, including
-        // in-flight requests. When reached, additional requests block until a
-        // slot frees. Defaults to 100.
-        uint32 max_conns = 1;
-
-        // How long an idle (keep-alive) connection remains in the pool before
-        // being closed. Defaults to 0 (no idle expiry).
-        google.protobuf.Duration idle_timeout = 2;
-    }
-    // Connection pool tuning. If unset, defaults apply (max_conns=100,
-    // idle_timeout=0).
-    ConnectionPool connection_pool = 11;
 }
 
 // TLS configuration for the extauth gRPC passthrough connection
