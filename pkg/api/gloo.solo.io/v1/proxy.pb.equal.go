@@ -467,45 +467,6 @@ func (m *HttpListener) Equal(that interface{}) bool {
 
 	}
 
-	switch m.OpaqueMetadata.(type) {
-
-	case *HttpListener_Metadata:
-		if _, ok := target.OpaqueMetadata.(*HttpListener_Metadata); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetMetadata()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetMetadata()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetMetadata(), target.GetMetadata()) {
-				return false
-			}
-		}
-
-	case *HttpListener_MetadataStatic:
-		if _, ok := target.OpaqueMetadata.(*HttpListener_MetadataStatic); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetMetadataStatic()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetMetadataStatic()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetMetadataStatic(), target.GetMetadataStatic()) {
-				return false
-			}
-		}
-
-	default:
-		// m is nil but target is not nil
-		if m.OpaqueMetadata != target.OpaqueMetadata {
-			return false
-		}
-	}
-
 	return true
 }
 
@@ -1041,6 +1002,21 @@ func (m *Route) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetDirectResponseAction(), target.GetDirectResponseAction()) {
+				return false
+			}
+		}
+
+	case *Route_GraphqlApiRef:
+		if _, ok := target.Action.(*Route_GraphqlApiRef); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetGraphqlApiRef()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetGraphqlApiRef()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetGraphqlApiRef(), target.GetGraphqlApiRef()) {
 				return false
 			}
 		}

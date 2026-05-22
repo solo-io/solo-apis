@@ -30,7 +30,6 @@ type ProtocolUpgradeConfig struct {
 	//
 	//	*ProtocolUpgradeConfig_Websocket
 	//	*ProtocolUpgradeConfig_Connect
-	//	*ProtocolUpgradeConfig_ConnectTerminate
 	UpgradeType   isProtocolUpgradeConfig_UpgradeType `protobuf_oneof:"upgrade_type"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -91,15 +90,6 @@ func (x *ProtocolUpgradeConfig) GetConnect() *ProtocolUpgradeConfig_ProtocolUpgr
 	return nil
 }
 
-func (x *ProtocolUpgradeConfig) GetConnectTerminate() *ProtocolUpgradeConfig_ProtocolUpgradeSpec {
-	if x != nil {
-		if x, ok := x.UpgradeType.(*ProtocolUpgradeConfig_ConnectTerminate); ok {
-			return x.ConnectTerminate
-		}
-	}
-	return nil
-}
-
 type isProtocolUpgradeConfig_UpgradeType interface {
 	isProtocolUpgradeConfig_UpgradeType()
 }
@@ -110,32 +100,12 @@ type ProtocolUpgradeConfig_Websocket struct {
 }
 
 type ProtocolUpgradeConfig_Connect struct {
-	// Specification for CONNECT upgrade requests.
-	// This enables the CONNECT upgrade type without additional configuration.
-	// This will allow a CONNECT request to be proxied as HTTP request to upstream.
 	Connect *ProtocolUpgradeConfig_ProtocolUpgradeSpec `protobuf:"bytes,2,opt,name=connect,proto3,oneof"`
-}
-
-type ProtocolUpgradeConfig_ConnectTerminate struct {
-	// Specification for CONNECT protocol termination.
-	// When configured, Envoy will terminate CONNECT requests and proxy the payload in the request
-	// body as raw tcp data to upstream.
-	//
-	// NOTE: connect_terminate can only be configured at the route level (RouteOptions).
-	// It is not supported in HttpConnectionManagerSettings.
-	//
-	// SECURITY WARNING: This mode of CONNECT support can create major security holes if not
-	// configured correctly, as the upstream will be forwarded unsanitized headers if they are
-	// in the body payload. Please use with caution! Ensure proper authentication and
-	// authorization are in place before enabling this feature.
-	ConnectTerminate *ProtocolUpgradeConfig_ProtocolUpgradeSpec `protobuf:"bytes,3,opt,name=connect_terminate,json=connectTerminate,proto3,oneof"`
 }
 
 func (*ProtocolUpgradeConfig_Websocket) isProtocolUpgradeConfig_UpgradeType() {}
 
 func (*ProtocolUpgradeConfig_Connect) isProtocolUpgradeConfig_UpgradeType() {}
-
-func (*ProtocolUpgradeConfig_ConnectTerminate) isProtocolUpgradeConfig_UpgradeType() {}
 
 type ProtocolUpgradeConfig_ProtocolUpgradeSpec struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -186,11 +156,10 @@ var File_github_com_solo_io_solo_apis_api_gloo_gloo_v1_options_protocol_upgrade_
 
 const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_options_protocol_upgrade_protocol_upgrade_proto_rawDesc = "" +
 	"\n" +
-	"]github.com/solo-io/solo-apis/api/gloo/gloo/v1/options/protocol_upgrade/protocol_upgrade.proto\x12%protocol_upgrade.options.gloo.solo.io\x1a\x1egoogle/protobuf/wrappers.proto\x1a\x12extproto/ext.proto\"\xd5\x03\n" +
+	"]github.com/solo-io/solo-apis/api/gloo/gloo/v1/options/protocol_upgrade/protocol_upgrade.proto\x12%protocol_upgrade.options.gloo.solo.io\x1a\x1egoogle/protobuf/wrappers.proto\x1a\x12extproto/ext.proto\"\xd4\x02\n" +
 	"\x15ProtocolUpgradeConfig\x12p\n" +
 	"\twebsocket\x18\x01 \x01(\v2P.protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.ProtocolUpgradeSpecH\x00R\twebsocket\x12l\n" +
-	"\aconnect\x18\x02 \x01(\v2P.protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.ProtocolUpgradeSpecH\x00R\aconnect\x12\x7f\n" +
-	"\x11connect_terminate\x18\x03 \x01(\v2P.protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.ProtocolUpgradeSpecH\x00R\x10connectTerminate\x1aK\n" +
+	"\aconnect\x18\x02 \x01(\v2P.protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.ProtocolUpgradeSpecH\x00R\aconnect\x1aK\n" +
 	"\x13ProtocolUpgradeSpec\x124\n" +
 	"\aenabled\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\aenabledB\x0e\n" +
 	"\fupgrade_typeB[\xb8\xf5\x04\x01\xc0\xf5\x04\x01\xd0\xf5\x04\x01ZMgithub.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/options/protocol_upgradeb\x06proto3"
@@ -216,13 +185,12 @@ var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_options_protocol_upgrade_
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_options_protocol_upgrade_protocol_upgrade_proto_depIdxs = []int32{
 	1, // 0: protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.websocket:type_name -> protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.ProtocolUpgradeSpec
 	1, // 1: protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.connect:type_name -> protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.ProtocolUpgradeSpec
-	1, // 2: protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.connect_terminate:type_name -> protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.ProtocolUpgradeSpec
-	2, // 3: protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.ProtocolUpgradeSpec.enabled:type_name -> google.protobuf.BoolValue
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	2, // 2: protocol_upgrade.options.gloo.solo.io.ProtocolUpgradeConfig.ProtocolUpgradeSpec.enabled:type_name -> google.protobuf.BoolValue
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() {
@@ -235,7 +203,6 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_options_protocol_upgrade
 	file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_options_protocol_upgrade_protocol_upgrade_proto_msgTypes[0].OneofWrappers = []any{
 		(*ProtocolUpgradeConfig_Websocket)(nil),
 		(*ProtocolUpgradeConfig_Connect)(nil),
-		(*ProtocolUpgradeConfig_ConnectTerminate)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

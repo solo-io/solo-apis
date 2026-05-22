@@ -2092,14 +2092,6 @@ func (m *JwtValidation) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
-	for _, v := range m.GetAudiences() {
-
-		if _, err = hasher.Write([]byte(v)); err != nil {
-			return 0, err
-		}
-
-	}
-
 	switch m.JwksSourceSpecifier.(type) {
 
 	case *JwtValidation_RemoteJwks_:
@@ -2617,66 +2609,6 @@ func (m *ApiKeyAuth) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
-	if h, ok := interface{}(m.GetHmac()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Hmac")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetHmac(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("Hmac")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	if h, ok := interface{}(m.GetDigest()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Digest")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetDigest(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("Digest")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	if h, ok := interface{}(m.GetMatch()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("Match")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetMatch(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("Match")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
 	switch m.StorageBackend.(type) {
 
 	case *ApiKeyAuth_K8SSecretApikeyStorage:
@@ -2723,144 +2655,6 @@ func (m *ApiKeyAuth) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-//
-// Deprecated: due to hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
-// Prefer the HashUnique function instead.
-func (m *ApiKeyHmac) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ApiKeyHmac")); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetAlgorithm())
-	if err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetSharedSecretRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("SharedSecretRef")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSharedSecretRef(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("SharedSecretRef")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-//
-// Deprecated: due to hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
-// Prefer the HashUnique function instead.
-func (m *ApiKeyDigest) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ApiKeyDigest")); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetAlgorithm())
-	if err != nil {
-		return 0, err
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-//
-// Deprecated: due to hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
-// Prefer the HashUnique function instead.
-func (m *ApiKeyMatch) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ApiKeyMatch")); err != nil {
-		return 0, err
-	}
-
-	for _, v := range m.GetHeaders() {
-
-		if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-//
-// Deprecated: due to hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
-// Prefer the HashUnique function instead.
-func (m *HeaderMatch) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.HeaderMatch")); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetName())); err != nil {
-		return 0, err
 	}
 
 	return hasher.Sum64(), nil
@@ -3831,6 +3625,26 @@ func (m *PassThroughGrpc) Hash(hasher hash.Hash64) (uint64, error) {
 // Deprecated: due to hashing implemention only using field values. The omission
 // of the field name in the hash calculation can lead to hash collisions.
 // Prefer the HashUnique function instead.
+func (m *PassThroughGrpcTLSConfig) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.PassThroughGrpcTLSConfig")); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
 func (m *PassThroughHttp) Hash(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -3905,216 +3719,6 @@ func (m *PassThroughHttp) Hash(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			}
 		}
-	}
-
-	if h, ok := interface{}(m.GetTlsConfig()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("TlsConfig")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTlsConfig(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("TlsConfig")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	if h, ok := interface{}(m.GetResponseHeaderTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ResponseHeaderTimeout")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetResponseHeaderTimeout(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("ResponseHeaderTimeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	if h, ok := interface{}(m.GetConnectionPool()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("ConnectionPool")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetConnectionPool(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("ConnectionPool")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-//
-// Deprecated: due to hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
-// Prefer the HashUnique function instead.
-func (m *PassThroughGrpcTLSConfig) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.PassThroughGrpcTLSConfig")); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetSecretRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("SecretRef")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSecretRef(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("SecretRef")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	if h, ok := interface{}(m.GetSslParams()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("SslParams")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSslParams(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("SslParams")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-//
-// Deprecated: due to hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
-// Prefer the HashUnique function instead.
-func (m *PassThroughHttpTLSConfig) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.PassThroughHttpTLSConfig")); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetSecretRef()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("SecretRef")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSecretRef(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("SecretRef")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	if h, ok := interface{}(m.GetSslParams()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("SslParams")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSslParams(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("SslParams")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-//
-// Deprecated: due to hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
-// Prefer the HashUnique function instead.
-func (m *SslParameters) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.SslParameters")); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetMinimumProtocolVersion())
-	if err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetMaximumProtocolVersion())
-	if err != nil {
-		return 0, err
 	}
 
 	return hasher.Sum64(), nil
@@ -6142,51 +5746,6 @@ func (m *PassThroughHttp_Response) Hash(hasher hash.Hash64) (uint64, error) {
 			return 0, err
 		}
 
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// Hash function
-//
-// Deprecated: due to hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
-// Prefer the HashUnique function instead.
-func (m *PassThroughHttp_ConnectionPool) Hash(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.PassThroughHttp_ConnectionPool")); err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetMaxConns())
-	if err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetIdleTimeout()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("IdleTimeout")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetIdleTimeout(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("IdleTimeout")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
 	}
 
 	return hasher.Sum64(), nil

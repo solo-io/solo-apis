@@ -382,15 +382,8 @@ type Provider struct {
 	ClaimsToHeaders []*ClaimToHeader `protobuf:"bytes,6,rep,name=claims_to_headers,json=claimsToHeaders,proto3" json:"claims_to_headers,omitempty"`
 	// Optional: ClockSkewSeconds is used to verify time constraints, such as `exp` and `npf`. Default is 60s
 	ClockSkewSeconds *wrapperspb.UInt32Value `protobuf:"bytes,8,opt,name=clock_skew_seconds,json=clockSkewSeconds,proto3" json:"clock_skew_seconds,omitempty"`
-	// Optional: When this field is set, the specified value is used as the key in DynamicMetadata to store the JWT failure status code and message under that key. If the value is empty (i.e., ""), it is ignored.
-	// This field is particularly useful when logging the failure status.
-	//
-	// For example, if the value of `attach_failed_status_to_metadata` is 'custom_auth_failure_status' then
-	// the failure status can be accessed in the access log as '%DYNAMIC_METADATA(envoy.filters.http.jwt_authn:custom_auth_failure_status)'
-	// Note: status code and message can be individually accessed as '%DYNAMIC_METADATA(envoy.filters.http.jwt_authn:custom_auth_failure_status.code)' and '%DYNAMIC_METADATA(envoy.filters.http.jwt_authn:custom_auth_failure_status.message)' respectively.
-	AttachFailedStatusToMetadata string `protobuf:"bytes,9,opt,name=attach_failed_status_to_metadata,json=attachFailedStatusToMetadata,proto3" json:"attach_failed_status_to_metadata,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Provider) Reset() {
@@ -470,13 +463,6 @@ func (x *Provider) GetClockSkewSeconds() *wrapperspb.UInt32Value {
 		return x.ClockSkewSeconds
 	}
 	return nil
-}
-
-func (x *Provider) GetAttachFailedStatusToMetadata() string {
-	if x != nil {
-		return x.AttachFailedStatusToMetadata
-	}
-	return ""
 }
 
 type Jwks struct {
@@ -569,9 +555,6 @@ type RemoteJwks struct {
 	// This is used to set the host and path in the request
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// The Upstream representing the Json Web Key Set server
-	//
-	// Note: Setting this to an upstream using an HTTP tunnel (`httpProxyHostname`)
-	// requires also using that upstream in a route.
 	UpstreamRef *core.ResourceRef `protobuf:"bytes,2,opt,name=upstream_ref,json=upstreamRef,proto3" json:"upstream_ref,omitempty"`
 	// Duration after which the cached JWKS should be expired.
 	// If not specified, default cache duration is 5 minutes.
@@ -759,13 +742,8 @@ type ClaimToHeader struct {
 	// Claim name. for example, "sub"
 	Claim string `protobuf:"bytes,1,opt,name=claim,proto3" json:"claim,omitempty"`
 	// The header the claim will be copied to. for example, "x-sub".
-	// If this header exists in the request, it is removed before the claim is added,
-	// regardless of whether the claim exists or not. If the "append" field is set to true,
-	// the existing header is not removed, and the claim is appended to it.
 	Header string `protobuf:"bytes,2,opt,name=header,proto3" json:"header,omitempty"`
 	// If the header exists, append to it (true), or overwrite it (false).
-	// WARNING: Do not set this field to true if the gateway is public-facing, because this explicitly trusts
-	// the header in the incoming request.
 	Append        bool `protobuf:"varint,4,opt,name=append,proto3" json:"append,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -903,7 +881,7 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_enterprise_options_jwt_
 	"\rALLOW_MISSING\x10\x01\x12\x1b\n" +
 	"\x17ALLOW_MISSING_OR_FAILED\x10\x02\"*\n" +
 	"\x0eRouteExtension\x12\x18\n" +
-	"\adisable\x18\x01 \x01(\bR\adisable\"\xc6\x03\n" +
+	"\adisable\x18\x01 \x01(\bR\adisable\"\xfe\x02\n" +
 	"\bProvider\x122\n" +
 	"\x04jwks\x18\x01 \x01(\v2\x1e.jwt.options.gloo.solo.io.JwksR\x04jwks\x12\x1c\n" +
 	"\taudiences\x18\x02 \x03(\tR\taudiences\x12\x16\n" +
@@ -912,8 +890,7 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_enterprise_options_jwt_
 	"\n" +
 	"keep_token\x18\x05 \x01(\bR\tkeepToken\x12S\n" +
 	"\x11claims_to_headers\x18\x06 \x03(\v2'.jwt.options.gloo.solo.io.ClaimToHeaderR\x0fclaimsToHeaders\x12J\n" +
-	"\x12clock_skew_seconds\x18\b \x01(\v2\x1c.google.protobuf.UInt32ValueR\x10clockSkewSeconds\x12F\n" +
-	" attach_failed_status_to_metadata\x18\t \x01(\tR\x1cattachFailedStatusToMetadata\"\x8b\x01\n" +
+	"\x12clock_skew_seconds\x18\b \x01(\v2\x1c.google.protobuf.UInt32ValueR\x10clockSkewSeconds\"\x8b\x01\n" +
 	"\x04Jwks\x12>\n" +
 	"\x06remote\x18\x01 \x01(\v2$.jwt.options.gloo.solo.io.RemoteJwksH\x00R\x06remote\x12;\n" +
 	"\x05local\x18\x02 \x01(\v2#.jwt.options.gloo.solo.io.LocalJwksH\x00R\x05localB\x06\n" +

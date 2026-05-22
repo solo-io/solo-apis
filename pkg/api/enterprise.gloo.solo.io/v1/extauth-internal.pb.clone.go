@@ -1128,29 +1128,6 @@ func (m *ExtAuthConfig_InMemorySecretList) Clone() proto.Message {
 }
 
 // Clone function
-func (m *ExtAuthConfig_PassthroughAuthInternalConfig) Clone() proto.Message {
-	var target *ExtAuthConfig_PassthroughAuthInternalConfig
-	if m == nil {
-		return target
-	}
-	target = &ExtAuthConfig_PassthroughAuthInternalConfig{}
-
-	if h, ok := interface{}(m.GetPassThroughAuth()).(clone.Cloner); ok {
-		target.PassThroughAuth = h.Clone().(*PassThroughAuth)
-	} else {
-		target.PassThroughAuth = proto.Clone(m.GetPassThroughAuth()).(*PassThroughAuth)
-	}
-
-	if h, ok := interface{}(m.GetTlsConfigData()).(clone.Cloner); ok {
-		target.TlsConfigData = h.Clone().(*ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData)
-	} else {
-		target.TlsConfigData = proto.Clone(m.GetTlsConfigData()).(*ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData)
-	}
-
-	return target
-}
-
-// Clone function
 func (m *ExtAuthConfig_Config) Clone() proto.Message {
 	var target *ExtAuthConfig_Config
 	if m == nil {
@@ -1331,18 +1308,6 @@ func (m *ExtAuthConfig_Config) Clone() proto.Message {
 		} else {
 			target.AuthConfig = &ExtAuthConfig_Config_PortalAuth{
 				PortalAuth: proto.Clone(m.GetPortalAuth()).(*ExtAuthConfig_PortalAuthConfig),
-			}
-		}
-
-	case *ExtAuthConfig_Config_PassthroughInternal:
-
-		if h, ok := interface{}(m.GetPassthroughInternal()).(clone.Cloner); ok {
-			target.AuthConfig = &ExtAuthConfig_Config_PassthroughInternal{
-				PassthroughInternal: h.Clone().(*ExtAuthConfig_PassthroughAuthInternalConfig),
-			}
-		} else {
-			target.AuthConfig = &ExtAuthConfig_Config_PassthroughInternal{
-				PassthroughInternal: proto.Clone(m.GetPassthroughInternal()).(*ExtAuthConfig_PassthroughAuthInternalConfig),
 			}
 		}
 
@@ -1565,15 +1530,6 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation) Clone() proto.
 
 	target.Issuer = m.GetIssuer()
 
-	if m.GetAudiences() != nil {
-		target.Audiences = make([]string, len(m.GetAudiences()))
-		for idx, v := range m.GetAudiences() {
-
-			target.Audiences[idx] = v
-
-		}
-	}
-
 	switch m.JwksSourceSpecifier.(type) {
 
 	case *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation_RemoteJwks_:
@@ -1704,29 +1660,6 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Clone() proto.Message {
 			target.Metadata[k] = v
 
 		}
-	}
-
-	return target
-}
-
-// Clone function
-func (m *ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData) Clone() proto.Message {
-	var target *ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData
-	if m == nil {
-		return target
-	}
-	target = &ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData{}
-
-	target.CertPem = m.GetCertPem()
-
-	target.KeyPem = m.GetKeyPem()
-
-	target.RootCaPem = m.GetRootCaPem()
-
-	if h, ok := interface{}(m.GetSslParams()).(clone.Cloner); ok {
-		target.SslParams = h.Clone().(*SslParameters)
-	} else {
-		target.SslParams = proto.Clone(m.GetSslParams()).(*SslParameters)
 	}
 
 	return target

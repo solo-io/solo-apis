@@ -71,10 +71,6 @@ func (m *FilterTransformations) Equal(that interface{}) bool {
 		return false
 	}
 
-	if m.GetAutoWebsocketPassthrough() != target.GetAutoWebsocketPassthrough() {
-		return false
-	}
-
 	return true
 }
 
@@ -356,21 +352,6 @@ func (m *Transformation) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetTransformerConfig(), target.GetTransformerConfig()) {
-				return false
-			}
-		}
-
-	case *Transformation_AiTransformation:
-		if _, ok := target.TransformationType.(*Transformation_AiTransformation); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetAiTransformation()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetAiTransformation()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetAiTransformation(), target.GetAiTransformation()) {
 				return false
 			}
 		}
@@ -808,161 +789,6 @@ func (m *HeaderBodyTransform) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *FieldDefault) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*FieldDefault)
-	if !ok {
-		that2, ok := that.(FieldDefault)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetField(), target.GetField()) != 0 {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetValue()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetValue()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetValue(), target.GetValue()) {
-			return false
-		}
-	}
-
-	if m.GetOverride() != target.GetOverride() {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *PromptEnrichment) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*PromptEnrichment)
-	if !ok {
-		that2, ok := that.(PromptEnrichment)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if len(m.GetPrepend()) != len(target.GetPrepend()) {
-		return false
-	}
-	for idx, v := range m.GetPrepend() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetPrepend()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetPrepend()[idx]) {
-				return false
-			}
-		}
-
-	}
-
-	if len(m.GetAppend()) != len(target.GetAppend()) {
-		return false
-	}
-	for idx, v := range m.GetAppend() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetAppend()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetAppend()[idx]) {
-				return false
-			}
-		}
-
-	}
-
-	return true
-}
-
-// Equal function
-func (m *AiTransformation) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*AiTransformation)
-	if !ok {
-		that2, ok := that.(AiTransformation)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if m.GetEnableChatStreaming() != target.GetEnableChatStreaming() {
-		return false
-	}
-
-	if len(m.GetFieldDefaults()) != len(target.GetFieldDefaults()) {
-		return false
-	}
-	for idx, v := range m.GetFieldDefaults() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetFieldDefaults()[idx]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetFieldDefaults()[idx]) {
-				return false
-			}
-		}
-
-	}
-
-	if h, ok := interface{}(m.GetPromptEnrichment()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetPromptEnrichment()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetPromptEnrichment(), target.GetPromptEnrichment()) {
-			return false
-		}
-	}
-
-	return true
-}
-
-// Equal function
 func (m *TransformationRule_Transformations) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -1339,38 +1165,6 @@ func (m *MergeJsonKeys_OverridableTemplate) Equal(that interface{}) bool {
 	}
 
 	if m.GetOverrideEmpty() != target.GetOverrideEmpty() {
-		return false
-	}
-
-	return true
-}
-
-// Equal function
-func (m *PromptEnrichment_Message) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*PromptEnrichment_Message)
-	if !ok {
-		that2, ok := that.(PromptEnrichment_Message)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetRole(), target.GetRole()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetContent(), target.GetContent()) != 0 {
 		return false
 	}
 

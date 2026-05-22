@@ -2587,65 +2587,6 @@ func (m *ExtAuthConfig_InMemorySecretList) HashUnique(hasher hash.Hash64) (uint6
 // hashing field name and value pairs.
 // Replaces Hash due to original hashing implemention only using field values. The omission
 // of the field name in the hash calculation can lead to hash collisions.
-func (m *ExtAuthConfig_PassthroughAuthInternalConfig) HashUnique(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ExtAuthConfig_PassthroughAuthInternalConfig")); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetPassThroughAuth()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("PassThroughAuth")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetPassThroughAuth(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("PassThroughAuth")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	if h, ok := interface{}(m.GetTlsConfigData()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("TlsConfigData")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetTlsConfigData(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("TlsConfigData")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// HashUnique function generates a hash of the object that is unique to the object by
-// hashing field name and value pairs.
-// Replaces Hash due to original hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
 func (m *ExtAuthConfig_Config) HashUnique(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -2980,28 +2921,6 @@ func (m *ExtAuthConfig_Config) HashUnique(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			} else {
 				if _, err = hasher.Write([]byte("PortalAuth")); err != nil {
-					return 0, err
-				}
-				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-					return 0, err
-				}
-			}
-		}
-
-	case *ExtAuthConfig_Config_PassthroughInternal:
-
-		if h, ok := interface{}(m.GetPassthroughInternal()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("PassthroughInternal")); err != nil {
-				return 0, err
-			}
-			if _, err = h.Hash(hasher); err != nil {
-				return 0, err
-			}
-		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetPassthroughInternal(), nil); err != nil {
-				return 0, err
-			} else {
-				if _, err = hasher.Write([]byte("PassthroughInternal")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -3452,23 +3371,6 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation) HashUnique(has
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte("Audiences")); err != nil {
-		return 0, err
-	}
-	for i, v := range m.GetAudiences() {
-		if _, err = hasher.Write([]byte(strconv.Itoa(i))); err != nil {
-			return 0, err
-		}
-
-		if _, err = hasher.Write([]byte("v")); err != nil {
-			return 0, err
-		}
-		if _, err = hasher.Write([]byte(v)); err != nil {
-			return 0, err
-		}
-
-	}
-
 	switch m.JwksSourceSpecifier.(type) {
 
 	case *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation_RemoteJwks_:
@@ -3744,66 +3646,6 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) HashUnique(hasher hash.Hash
 			return 0, err
 		}
 
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// HashUnique function generates a hash of the object that is unique to the object by
-// hashing field name and value pairs.
-// Replaces Hash due to original hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
-func (m *ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData) HashUnique(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData")); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte("CertPem")); err != nil {
-		return 0, err
-	}
-	if _, err = hasher.Write([]byte(m.GetCertPem())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte("KeyPem")); err != nil {
-		return 0, err
-	}
-	if _, err = hasher.Write([]byte(m.GetKeyPem())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte("RootCaPem")); err != nil {
-		return 0, err
-	}
-	if _, err = hasher.Write([]byte(m.GetRootCaPem())); err != nil {
-		return 0, err
-	}
-
-	if h, ok := interface{}(m.GetSslParams()).(safe_hasher.SafeHasher); ok {
-		if _, err = hasher.Write([]byte("SslParams")); err != nil {
-			return 0, err
-		}
-		if _, err = h.Hash(hasher); err != nil {
-			return 0, err
-		}
-	} else {
-		if fieldValue, err := hashstructure.Hash(m.GetSslParams(), nil); err != nil {
-			return 0, err
-		} else {
-			if _, err = hasher.Write([]byte("SslParams")); err != nil {
-				return 0, err
-			}
-			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
-				return 0, err
-			}
-		}
 	}
 
 	return hasher.Sum64(), nil

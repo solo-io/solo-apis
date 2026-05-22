@@ -1849,50 +1849,6 @@ func (m *ExtAuthConfig_InMemorySecretList) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *ExtAuthConfig_PassthroughAuthInternalConfig) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ExtAuthConfig_PassthroughAuthInternalConfig)
-	if !ok {
-		that2, ok := that.(ExtAuthConfig_PassthroughAuthInternalConfig)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetPassThroughAuth()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetPassThroughAuth()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetPassThroughAuth(), target.GetPassThroughAuth()) {
-			return false
-		}
-	}
-
-	if h, ok := interface{}(m.GetTlsConfigData()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetTlsConfigData()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetTlsConfigData(), target.GetTlsConfigData()) {
-			return false
-		}
-	}
-
-	return true
-}
-
-// Equal function
 func (m *ExtAuthConfig_Config) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -2131,21 +2087,6 @@ func (m *ExtAuthConfig_Config) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetPortalAuth(), target.GetPortalAuth()) {
-				return false
-			}
-		}
-
-	case *ExtAuthConfig_Config_PassthroughInternal:
-		if _, ok := target.AuthConfig.(*ExtAuthConfig_Config_PassthroughInternal); !ok {
-			return false
-		}
-
-		if h, ok := interface{}(m.GetPassthroughInternal()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetPassthroughInternal()) {
-				return false
-			}
-		} else {
-			if !proto.Equal(m.GetPassthroughInternal(), target.GetPassthroughInternal()) {
 				return false
 			}
 		}
@@ -2569,17 +2510,6 @@ func (m *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation) Equal(that int
 		return false
 	}
 
-	if len(m.GetAudiences()) != len(target.GetAudiences()) {
-		return false
-	}
-	for idx, v := range m.GetAudiences() {
-
-		if strings.Compare(v, target.GetAudiences()[idx]) != 0 {
-			return false
-		}
-
-	}
-
 	switch m.JwksSourceSpecifier.(type) {
 
 	case *ExtAuthConfig_AccessTokenValidationConfig_JwtValidation_RemoteJwks_:
@@ -2821,52 +2751,6 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Equal(that interface{}) boo
 			return false
 		}
 
-	}
-
-	return true
-}
-
-// Equal function
-func (m *ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData)
-	if !ok {
-		that2, ok := that.(ExtAuthConfig_PassthroughAuthInternalConfig_PassthroughAuthTlsConfigData)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetCertPem(), target.GetCertPem()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetKeyPem(), target.GetKeyPem()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetRootCaPem(), target.GetRootCaPem()) != 0 {
-		return false
-	}
-
-	if h, ok := interface{}(m.GetSslParams()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetSslParams()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetSslParams(), target.GetSslParams()) {
-			return false
-		}
 	}
 
 	return true

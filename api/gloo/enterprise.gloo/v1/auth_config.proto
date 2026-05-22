@@ -68,7 +68,7 @@ message AuthConfigSpec {
     repeated Config configs = 3;
 
     // How to handle processing of named configs within an auth config chain.
-    // An example config might be: `( basic1 \|\| basic2 \|\| (oidc1 && !oidc2) )`
+    // An example config might be: `( basic1 || basic2 || (oidc1 && !oidc2) )`
     // The boolean expression is evaluated left to right but honors parenthesis and short-circuiting.
     google.protobuf.StringValue boolean_expr = 10;
 
@@ -643,7 +643,7 @@ message Azure {
     // The client secret data must be placed in a k8s secret under a key called 'client-secret'.
     core.solo.io.ResourceRef client_secret = 3;
 
-    // Redis connection details to cache MS Entra claims.
+    // Redis connection details to cache MS Entera claims.
     // This way, you avoid performance issues of accessing the Microsoft Graph API too many times.
     // Note that this setting does NOT turn on Redis caching for the user session.
     // To turn on Redis user session caching, use the `userSessionConfig` field.
@@ -770,17 +770,16 @@ message OidcAuthorizationCode {
     // in the OIDC documentation.
     EndSessionProperties end_session_properties = 19;
 
-    // Map claims to dynamic metadata keys in the authorization response, such as
-    // `dynamic_metadata.issuer=iss` and `dynamic_metadata.email=email`.
-    // Use this approach to enrich the metadata that is passed to upstream services
-    // so that they can be further processed or used for decision-making. 
+    // Map of metadata key to claim. Ie:
+    // dynamic_metadata_from_claims:
+    //   issuer: iss
+    //   email: email
+    // When specified, the matching claims from the ID token will be emitted as dynamic metadata.
     // Note that metadata keys must be unique, and the claim names must be alphanumeric and use `-` or `_` as separators.
-    // The metadata live in a namespace specified by the canonical name of the extauth filter (`envoy.filters.http.ext_authz`),
-    // and the structure of the claim value is preserved in the metadata struct. Dynamic metadata can be viewed in the authorization response.
-    // You can view the authorization response in the logs of the extauth pod when debug logging is enabled. 
-    // To further process dynamic metadata, you can extract the dynamic metadata keys with an Inja template in a transformation or rate limiting policy. 
-    // For example, to extract a nested `sub` key that is stored under `config_0`, use `{{ dynamic_metadata("config_0:sub", "envoy.filters.http.ext_authz")}}`.
+    // The metadata will live in a namespace specified by the canonical name of the ext auth filter (in our case `envoy.filters.http.ext_authz`),
+    // and the structure of the claim value will be preserved in the metadata struct.
     map<string, string> dynamic_metadata_from_claims = 20;
+
     // If true, do not check for or use the client secret.
     // Generally the client secret is required and AuthConfigs will be rejected if it isn't set.
     // However certain implementations of the PKCE flow do not use a client secret (including Okta) so this setting allows configuring Oidc without a client secret.
@@ -799,16 +798,14 @@ message OidcAuthorizationCode {
     // and configure the `clearRouteCache` or `recalculateRoutingDestination` options.
     message AccessToken {
 
-        // A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination.
-        // This option is not available for opaque tokens.
+        // A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination
         repeated ClaimToHeader claims_to_headers = 1;
     }
 
     // Optional: Map a single claim from an OIDC identity token to a header in the request to the upstream destination.
     message IdentityToken {
 
-        // A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination.
-        // This option is not available for opaque tokens.
+        // A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination
         repeated ClaimToHeader claims_to_headers = 1;
     }
 
@@ -992,10 +989,6 @@ message JwtValidation {
     // Allow only tokens that have been issued by this principal (i.e. whose "iss" claim matches this value).
     // If empty, issuer validation will be skipped.
     string issuer = 3;
-
-    // List of JWT audiences allowed for this provider. The token's "aud" claim
-    // must intersect this list. If empty or unset, audience validation is skipped.
-    repeated string audiences = 4;
 }
 
 // Defines how (opaque) access tokens, received from the oauth authorization endpoint, are validated
@@ -1084,20 +1077,18 @@ message AccessTokenValidation {
         // in the future we may add other types of scope validation (e.g. predicate matching)
     }
 
-    // Map claims to dynamic metadata keys in the authorization response, such as
-    // 'dynamic_metadata_from_claims.issuer=iss' and 'dynamic_metadata_from_claims.email=email'.
-    // Use this approach to enrich the metadata that is passed to upstream services
-    // so that they can be further processed or used for decision-making. 
+    // Map of metadata key to claim. Ie:
+    // dynamic_metadata_from_claims:
+    //   issuer: iss
+    //   email: email
+    // When specified, the matching claims from the access token will be emitted as dynamic metadata.
     // Note that metadata keys must be unique, and the claim names must be alphanumeric and use `-` or `_` as separators.
-    // The metadata live in a namespace specified by the canonical name of the extauth filter (`envoy.filters.http.ext_authz`),
-    // and the structure of the claim value is preserved in the metadata struct. Dynamic metadata can be viewed in the authorization response.
-    // You can view the authorization response in the logs of the extauth pod when debug logging is enabled. 
-    // To further process dynamic metadata, you can extract the dynamic metadata keys with an Inja template in a transformation or rate limiting policy. 
-    // For example, to extract a nested `sub` key that is stored under `config_0`, use `{{ dynamic_metadata("config_0:sub", "envoy.filters.http.ext_authz")}}`.
+    // Works when the access token is a JWT or when the access token is opaque, in which case the claims will refer to field in the response from the token introspection endpoint.
+    // The metadata will live in a namespace specified by the canonical name of the ext auth filter (in our case `envoy.filters.http.ext_authz`),
+    // and the structure of the claim value will be preserved in the metadata struct.
     map<string, string> dynamic_metadata_from_claims = 7;
 
-    // A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination.
-    // This option is not supported for opaque tokens. 
+    // A list of claims to be mapped from the JWT token received by ext-auth-service to an upstream destination
     repeated ClaimToHeader claims_to_headers = 8;
 
     oneof Provider {
@@ -1190,64 +1181,7 @@ message ApiKeyAuth {
     // in the data plane and mitigated in a way that provides a consistent experience for the user and visibility for the operator.
     // This validation comes with a performance cost, and can be disabled by setting this field to `true`.
     bool skip_metadata_validation = 8;
-
-    // Optional HMAC digest verification mode for API key validation. When configured, stored API key values
-    // are treated as HMAC digests and the request API key is transformed prior to comparison.
-    ApiKeyHmac hmac = 9;
-
-    // Optional digest verification mode for API key validation. When configured, stored API key values
-    // are treated as digests and the request API key is transformed prior to comparison.
-    // When omitted, existing raw API key comparison behavior remains unchanged.
-    ApiKeyDigest digest = 10;
-
-    // Optional additional request header matching for digest-based API key validation. This field is only
-    // valid when digest is configured. ext-auth-service should reject configs that set match without digest.
-    // When configured, each header must match a same-named data key on the matched API key secret.
-    ApiKeyMatch match = 11;
 }
-
-// Configuration for HMAC-based API key digest verification.
-message ApiKeyHmac {
-    // Supported HMAC algorithms for API key digest verification.
-    enum Algorithm {
-        // When unspecified, ext-auth-service should default to HMAC_SHA256.
-        ALGORITHM_UNSPECIFIED = 0;
-        HMAC_SHA256 = 1;
-    }
-
-    // Algorithm used to compute the digest for comparison against stored API key values.
-    Algorithm algorithm = 1;
-
-    // Reference to the shared secret used to compute request-time HMAC digests.
-    core.solo.io.ResourceRef shared_secret_ref = 2;
-}
-
-// Configuration for digest-based API key verification.
-message ApiKeyDigest {
-    // Supported digest algorithms for API key verification.
-    enum Algorithm {
-        // When unspecified, ext-auth-service should default to SHA256.
-        ALGORITHM_UNSPECIFIED = 0;
-        SHA256 = 1;
-    }
-
-    // Algorithm used to compute the digest for comparison against stored API key values.
-    Algorithm algorithm = 1;
-}
-
-// Additional request headers that must match same-named data keys on the matched API key secret.
-// This message is only valid when ApiKeyAuth.digest is configured.
-message ApiKeyMatch {
-    repeated HeaderMatch headers = 1;
-}
-
-// A request header that must match the same-named data key on the matched API key secret.
-message HeaderMatch {
-    // Header name to match. Request headers are case-insensitive, but this configured name is also used
-    // as the Secret data key for same-name matching, so operators should use a canonical lowercase name.
-    string name = 1;
-}
-
 message K8sSecretApiKeyStorage {
     // Identify all valid API key secrets that match the provided label selector.<br/>
     // API key secrets must be in one of the watch namespaces for gloo to locate them.
@@ -1550,8 +1484,6 @@ message RetryPolicy {
 }
 
 // Authorizes requests by querying a custom extauth grpc server
-// To send the request body to the ext-auth service, the settings.extauth.requestBody must be set in the Gloo Edge Settings CRD so that
-// the request body is buffered and sent.
 // Assumes that the server implements the envoy external authorization spec:
 // https://github.com/envoyproxy/envoy/blob/ae1ed1fa74f096dabe8dd5b19fc70333621b0309/api/envoy/service/auth/v3/external_auth.proto#L29
 message PassThroughGrpc {
@@ -1565,13 +1497,15 @@ message PassThroughGrpc {
     // Timeout for the auth server to respond. Defaults to 5s
     google.protobuf.Duration connection_timeout = 2;
 
-    // TLS config for the gRPC passthrough, if not configured the connection will use insecure.
-    // When specified, this supports configuration for either simple TLS or mTLS.
-    PassThroughGrpcTLSConfig tls_config = 3;
+    // TLS config for the Grpc passthrough, if not configured the connection will use insecure.
+    PassThroughGrpcTLSConfig tlsConfig =3;
 
     // Indicates the retry policy for re-establishing the gRPC stream.
     // This field is optional and failed calls will not retry unless configured.
     RetryPolicy retry_policy = 4;
+}
+// TLS configuration for the extauth grpc passthrough connection
+message PassThroughGrpcTLSConfig {
 }
 
 // Authorizes requests by making a POST HTTP/1 request to a custom HTTP auth server
@@ -1641,7 +1575,7 @@ message PassThroughHttp {
         bool pass_through_body = 5;
     }
     // Pass through the incoming request body, ext auth state, and filter metadata.
-    // For more information, see the [PassThrough Http Request description](#passthroughhttp-request).
+    // For more information, see the [PassThrough Http Request description](#request-1).
     Request request = 3;
 
     message Response {
@@ -1673,84 +1607,11 @@ message PassThroughHttp {
         repeated string allowed_upstream_headers_to_overwrite = 4;
     }
     // Pass through response information such as the headers and body to downstream clients.
-    // For more information, see the [PassThrough Http Response description](#passthroughhttp-response).
+    // For more information, see the [PassThrough Http Response description](#response-1).
     Response response = 4;
 
     // Timeout for the auth server to respond. Defaults to 5s
     google.protobuf.Duration connection_timeout = 8;
-
-    // TLS config for the HTTP passthrough, if not configured the connection will use insecure.
-    // When specified, this supports configuration for either simple TLS or mTLS.
-    PassThroughHttpTLSConfig tls_config = 9;
-
-    // Maximum time to wait for the passthrough auth server to begin sending
-    // response headers after the request is fully written. Independent from
-    // connection_timeout (the overall request budget) — whichever fires first
-    // wins. Defaults to 0 (unset; only connection_timeout applies).
-    google.protobuf.Duration response_header_timeout = 10;
-
-    // Tuning knobs for the HTTP connection pool maintained to the passthrough
-    // auth server.
-    message ConnectionPool {
-        // Maximum total concurrent connections to the auth server, including
-        // in-flight requests. When reached, additional requests block until a
-        // slot frees. Defaults to 100.
-        uint32 max_conns = 1;
-
-        // How long an idle (keep-alive) connection remains in the pool before
-        // being closed. Defaults to 0 (no idle expiry).
-        google.protobuf.Duration idle_timeout = 2;
-    }
-    // Connection pool tuning. If unset, defaults apply (max_conns=100,
-    // idle_timeout=0).
-    ConnectionPool connection_pool = 11;
-}
-
-// TLS configuration for the extauth gRPC passthrough connection
-message PassThroughGrpcTLSConfig {
-    // SecretRef contains the secret ref to a Kubernetes tls secret.
-    // This secret can contain the certificate, key and CA bundle to establish mTLS.
-    // If CA is not provided it will attempt to perform a simple TLS.
-    core.solo.io.ResourceRef secret_ref = 1;
-
-    // Additional TLS parameters
-    SslParameters ssl_params = 2;
-}
-
-// TLS configuration for the extauth HTTP passthrough connection
-message PassThroughHttpTLSConfig {
-    // SecretRef contains the secret ref to a Kubernetes tls secret.
-    // This secret can contain the certificate, key and CA bundle to establish mTLS.
-    // If CA is not provided it will attempt to perform a simple TLS.
-    core.solo.io.ResourceRef secret_ref = 1;
-
-    // Additional TLS parameters
-    SslParameters ssl_params = 2;
-}
-
-message SslParameters {
-    enum ProtocolVersion {
-        // TLS auto select the optimal settings
-        TLS_AUTO = 0;
-
-        // TLS 1.1
-        TLSv1_1 = 1;
-
-        // TLS 1.2
-        TLSv1_2 = 2;
-
-        // TLS 1.3
-        TLSv1_3 = 3;
-    }
-
-    // Minimum TLS protocol version.
-    // If not explicitly set, the default protocol will be TLS 1.2.
-    // Avoid using TLS version earlier than 1.2, as this poses significant security risks. For more details, refer to https://www.ietf.org/rfc/rfc8996.html.
-    ProtocolVersion minimum_protocol_version = 1;
-
-    // Maximum TLS protocol version.
-    // If not explicitly set, the default protocol will be TLS 1.3.
-    ProtocolVersion maximum_protocol_version = 2;
 }
 
 // PortalAuth is used to authorize requests for credentials generated by the portal web server.

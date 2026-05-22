@@ -167,22 +167,8 @@ type JwtProvider struct {
 	// Specify the clock skew in seconds when verifying JWT time constraint,
 	// such as `exp`, and `nbf`. If not specified, default is 60 seconds.
 	ClockSkewSeconds uint32 `protobuf:"varint,10,opt,name=clock_skew_seconds,json=clockSkewSeconds,proto3" json:"clock_skew_seconds,omitempty"`
-	// If non empty, the failure status “::google::jwt_verify::Status“ for a non verified JWT will be written to StreamInfo DynamicMetadata
-	// in the format as: “namespace“ is the jwt_authn filter name as “envoy.filters.http.jwt_authn“
-	// The value is the “protobuf::Struct“. The values of this field will be “code“ and “message“
-	// and they will contain the JWT authentication failure status code and a message describing the failure.
-	//
-	// For example, if failed_status_in_metadata is “my_auth_failure_status“:
-	//
-	// .. code-block:: yaml
-	//
-	//	envoy.filters.http.jwt_authn:
-	//	  my_auth_failure_status:
-	//	    code: 3
-	//	    message: Jwt expired
-	FailedStatusInMetadata string `protobuf:"bytes,11,opt,name=failed_status_in_metadata,json=failedStatusInMetadata,proto3" json:"failed_status_in_metadata,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *JwtProvider) Reset() {
@@ -294,13 +280,6 @@ func (x *JwtProvider) GetClockSkewSeconds() uint32 {
 		return x.ClockSkewSeconds
 	}
 	return 0
-}
-
-func (x *JwtProvider) GetFailedStatusInMetadata() string {
-	if x != nil {
-		return x.FailedStatusInMetadata
-	}
-	return ""
 }
 
 type isJwtProvider_JwksSourceSpecifier interface {
@@ -1376,7 +1355,7 @@ var File_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_extensions_fi
 
 const file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_extensions_filters_http_jwt_authn_v3_config_proto_rawDesc = "" +
 	"\n" +
-	"kgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/filters/http/jwt_authn/v3/config.proto\x122solo.io.envoy.extensions.filters.http.jwt_authn.v3\x1aSgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/core/v3/base.proto\x1aWgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/core/v3/http_uri.proto\x1a`github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/route/v3/route_components.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1dudpa/annotations/status.proto\x1a!udpa/annotations/versioning.proto\x1a\x17validate/validate.proto\"\xc8\x05\n" +
+	"kgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/filters/http/jwt_authn/v3/config.proto\x122solo.io.envoy.extensions.filters.http.jwt_authn.v3\x1aSgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/core/v3/base.proto\x1aWgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/core/v3/http_uri.proto\x1a`github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/route/v3/route_components.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1dudpa/annotations/status.proto\x1a!udpa/annotations/versioning.proto\x1a\x17validate/validate.proto\"\x8d\x05\n" +
 	"\vJwtProvider\x12\x16\n" +
 	"\x06issuer\x18\x01 \x01(\tR\x06issuer\x12\x1c\n" +
 	"\taudiences\x18\x02 \x03(\tR\taudiences\x12a\n" +
@@ -1391,8 +1370,7 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_extensions_
 	"\x16forward_payload_header\x18\b \x01(\tB\v\xfaB\br\x06\xc8\x01\x00\xc0\x01\x01R\x14forwardPayloadHeader\x12.\n" +
 	"\x13payload_in_metadata\x18\t \x01(\tR\x11payloadInMetadata\x12,\n" +
 	"\x12clock_skew_seconds\x18\n" +
-	" \x01(\rR\x10clockSkewSeconds\x129\n" +
-	"\x19failed_status_in_metadata\x18\v \x01(\tR\x16failedStatusInMetadata:>\x8a\xc8ގ\x048\n" +
+	" \x01(\rR\x10clockSkewSeconds:>\x8a\xc8ގ\x048\n" +
 	"6envoy.config.filter.http.jwt_authn.v2alpha.JwtProviderB\x1c\n" +
 	"\x15jwks_source_specifier\x12\x03\xf8B\x01\"\xb4\x02\n" +
 	"\n" +

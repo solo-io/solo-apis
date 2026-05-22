@@ -11,11 +11,15 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	_ "github.com/solo-io/protoc-gen-ext/extproto"
-	_ "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
+	core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	_ "google.golang.org/protobuf/types/known/emptypb"
 	structpb "google.golang.org/protobuf/types/known/structpb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 const (
@@ -83,9 +87,36 @@ func (GraphQLApiStatus_State) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{13, 0}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
+// Defines a configuration for generating outgoing requests for a resolver.
 type RequestTemplate struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Use this attribute to set request headers to your REST service. It consists of a
+	// map of strings to templated value strings. The string key determines the name of the
+	// resulting header, the value provided will be the value.
+	//
+	// The least needed here is the ":method" and ":path" headers.
+	// for example, if a header is an authorization token, taken from the graphql args,
+	// we can use the following configuration:
+	// headers:
+	//
+	//	Authorization: "Bearer {$args.token}"
+	Headers map[string]string `protobuf:"bytes,1,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Use this attribute to set query parameters to your REST service. It consists of a
+	// map of strings to templated value strings. The string key determines the name of the
+	// query param, the provided value will be the value. This value is appended to any
+	// value set to the :path header in `headers`.
+	//
+	// for example, if a query parameter is an id, taken from the graphql parent object,
+	// we can use the following configuration:
+	// queryParams:
+	//
+	//	id: "{$parent.id}"
+	QueryParams map[string]string `protobuf:"bytes,2,rep,name=query_params,json=queryParams,proto3" json:"query_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Used to construct the outgoing body to the upstream from the
+	// graphql value providers.
+	// All string values can be templated strings.
+	Body          *structpb.Value `protobuf:"bytes,3,opt,name=body,proto3" json:"body,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -120,9 +151,65 @@ func (*RequestTemplate) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{0}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *RequestTemplate) GetHeaders() map[string]string {
+	if x != nil {
+		return x.Headers
+	}
+	return nil
+}
+
+func (x *RequestTemplate) GetQueryParams() map[string]string {
+	if x != nil {
+		return x.QueryParams
+	}
+	return nil
+}
+
+func (x *RequestTemplate) GetBody() *structpb.Value {
+	if x != nil {
+		return x.Body
+	}
+	return nil
+}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type ResponseTemplate struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Sets the "root" of the upstream response to be turned into a graphql type by the graphql server.
+	// For example, if the graphql type is:
+	//
+	// type Simple {
+	// name String
+	// }
+	//
+	// and the upstream response is `{"data": {"simple": {"name": "simple name"}}}`,
+	// the graphql server will not be able to marshal the upstream response into the Simple graphql type
+	// because it does not know where the relevant data is. If we set result_root to "data.simple", we can give the
+	// graphql server a hint of where to look in the upstream response for the relevant data that graphql type wants.
+	ResultRoot string `protobuf:"bytes,1,opt,name=result_root,json=resultRoot,proto3" json:"result_root,omitempty"`
+	// Field-specific mapping for a graphql field to a JSON path in the upstream response.
+	// For example, if the graphql type is:
+	//
+	// type Person {
+	// firstname String
+	// lastname String
+	// fullname String
+	// }
+	//
+	// and the upstream response is `{"firstname": "Joe", "details": {"lastname": "Smith"}}`,
+	// the graphql server will not be able to marshal the upstream response into the Person graphql type because of the
+	// nested `lastname` field. We can use a simple setter here:
+	//
+	// setters:
+	// lastname: '{$body.details.lastname}'
+	// fullname: '{$body.details.firstname} {$body.details.lastname}'
+	//
+	// and the graphql server will be able to extract data for a field given the path to the relevant data
+	// in the upstream JSON response. We do not need to have a setter for the `firstname` field because the
+	// JSON response has that field in a position the graphql server can understand automatically.
+	//
+	// So far only the $body keyword is supported, but in the future we may add support for others such as $headers.
+	Setters       map[string]string `protobuf:"bytes,2,rep,name=setters,proto3" json:"setters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -157,11 +244,37 @@ func (*ResponseTemplate) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{1}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *ResponseTemplate) GetResultRoot() string {
+	if x != nil {
+		return x.ResultRoot
+	}
+	return ""
+}
+
+func (x *ResponseTemplate) GetSetters() map[string]string {
+	if x != nil {
+		return x.Setters
+	}
+	return nil
+}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
+// Defines a configuration for generating outgoing requests for a resolver.
 type GrpcRequestTemplate struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// json representation of outgoing gRPC message to be sent to gRPC service
+	OutgoingMessageJson *structpb.Value `protobuf:"bytes,1,opt,name=outgoing_message_json,json=outgoingMessageJson,proto3" json:"outgoing_message_json,omitempty"`
+	// request has shape matching service with name registered in registry
+	// is the full_name(), e.g. main.Bookstore
+	ServiceName string `protobuf:"bytes,2,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
+	// make request to method with this name on the grpc service defined above
+	// is just the name(), e.g. GetBook
+	MethodName string `protobuf:"bytes,3,opt,name=method_name,json=methodName,proto3" json:"method_name,omitempty"`
+	// in the future, we may want to make this a map<string, ValueProvider>
+	// once we know better what the use cases are
+	RequestMetadata map[string]string `protobuf:"bytes,4,rep,name=request_metadata,json=requestMetadata,proto3" json:"request_metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *GrpcRequestTemplate) Reset() {
@@ -194,9 +307,48 @@ func (*GrpcRequestTemplate) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{2}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *GrpcRequestTemplate) GetOutgoingMessageJson() *structpb.Value {
+	if x != nil {
+		return x.OutgoingMessageJson
+	}
+	return nil
+}
+
+func (x *GrpcRequestTemplate) GetServiceName() string {
+	if x != nil {
+		return x.ServiceName
+	}
+	return ""
+}
+
+func (x *GrpcRequestTemplate) GetMethodName() string {
+	if x != nil {
+		return x.MethodName
+	}
+	return ""
+}
+
+func (x *GrpcRequestTemplate) GetRequestMetadata() map[string]string {
+	if x != nil {
+		return x.RequestMetadata
+	}
+	return nil
+}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
+// control-plane API
 type RESTResolver struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	UpstreamRef *core.ResourceRef      `protobuf:"bytes,1,opt,name=upstream_ref,json=upstreamRef,proto3" json:"upstream_ref,omitempty"`
+	// configuration used to compose the outgoing request to a REST API
+	Request *RequestTemplate `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
+	// configuration used to modify the response from the REST API
+	// before being handled by the graphql server.
+	Response *ResponseTemplate `protobuf:"bytes,3,opt,name=response,proto3" json:"response,omitempty"`
+	SpanName string            `protobuf:"bytes,4,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
+	// The timeout to use for this resolver. If unset, the upstream connection timeout
+	// or a default of 1 second will be used.
+	Timeout       *durationpb.Duration `protobuf:"bytes,5,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -231,9 +383,52 @@ func (*RESTResolver) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{3}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *RESTResolver) GetUpstreamRef() *core.ResourceRef {
+	if x != nil {
+		return x.UpstreamRef
+	}
+	return nil
+}
+
+func (x *RESTResolver) GetRequest() *RequestTemplate {
+	if x != nil {
+		return x.Request
+	}
+	return nil
+}
+
+func (x *RESTResolver) GetResponse() *ResponseTemplate {
+	if x != nil {
+		return x.Response
+	}
+	return nil
+}
+
+func (x *RESTResolver) GetSpanName() string {
+	if x != nil {
+		return x.SpanName
+	}
+	return ""
+}
+
+func (x *RESTResolver) GetTimeout() *durationpb.Duration {
+	if x != nil {
+		return x.Timeout
+	}
+	return nil
+}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
+// Defines a configuration for serializing and deserializing requests for a gRPC resolver.
+// Is a Schema Extension
 type GrpcDescriptorRegistry struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to DescriptorSet:
+	//
+	//	*GrpcDescriptorRegistry_ProtoDescriptor
+	//	*GrpcDescriptorRegistry_ProtoDescriptorBin
+	//	*GrpcDescriptorRegistry_ProtoRefsList
+	DescriptorSet isGrpcDescriptorRegistry_DescriptorSet `protobuf_oneof:"descriptor_set"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -268,9 +463,83 @@ func (*GrpcDescriptorRegistry) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{4}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *GrpcDescriptorRegistry) GetDescriptorSet() isGrpcDescriptorRegistry_DescriptorSet {
+	if x != nil {
+		return x.DescriptorSet
+	}
+	return nil
+}
+
+func (x *GrpcDescriptorRegistry) GetProtoDescriptor() string {
+	if x != nil {
+		if x, ok := x.DescriptorSet.(*GrpcDescriptorRegistry_ProtoDescriptor); ok {
+			return x.ProtoDescriptor
+		}
+	}
+	return ""
+}
+
+func (x *GrpcDescriptorRegistry) GetProtoDescriptorBin() []byte {
+	if x != nil {
+		if x, ok := x.DescriptorSet.(*GrpcDescriptorRegistry_ProtoDescriptorBin); ok {
+			return x.ProtoDescriptorBin
+		}
+	}
+	return nil
+}
+
+func (x *GrpcDescriptorRegistry) GetProtoRefsList() *GrpcDescriptorRegistry_ProtoRefs {
+	if x != nil {
+		if x, ok := x.DescriptorSet.(*GrpcDescriptorRegistry_ProtoRefsList); ok {
+			return x.ProtoRefsList
+		}
+	}
+	return nil
+}
+
+type isGrpcDescriptorRegistry_DescriptorSet interface {
+	isGrpcDescriptorRegistry_DescriptorSet()
+}
+
+type GrpcDescriptorRegistry_ProtoDescriptor struct {
+	// Supplies the filename of
+	// the proto descriptor set for the gRPC
+	// services.
+	ProtoDescriptor string `protobuf:"bytes,1,opt,name=proto_descriptor,json=protoDescriptor,proto3,oneof"`
+}
+
+type GrpcDescriptorRegistry_ProtoDescriptorBin struct {
+	// Supplies the binary content of
+	// the proto descriptor set for the gRPC
+	// services.
+	// Note: in yaml, this must be provided as a base64 standard encoded string; yaml cannot handle binary bytes
+	ProtoDescriptorBin []byte `protobuf:"bytes,2,opt,name=proto_descriptor_bin,json=protoDescriptorBin,proto3,oneof"`
+}
+
+type GrpcDescriptorRegistry_ProtoRefsList struct {
+	// Allows the user to put proto descriptor set binary content in configmaps;
+	// The descriptor set binary content in these config maps must be base64 encoded
+	// Generating the proto descriptor binary and base64 encoding it can be done using the following command
+	// `protoc ./your-proto-here.proto --proto_path . --descriptor_set_out="/dev/stdout" --include_imports | base64`
+	ProtoRefsList *GrpcDescriptorRegistry_ProtoRefs `protobuf:"bytes,3,opt,name=proto_refs_list,json=protoRefsList,proto3,oneof"`
+}
+
+func (*GrpcDescriptorRegistry_ProtoDescriptor) isGrpcDescriptorRegistry_DescriptorSet() {}
+
+func (*GrpcDescriptorRegistry_ProtoDescriptorBin) isGrpcDescriptorRegistry_DescriptorSet() {}
+
+func (*GrpcDescriptorRegistry_ProtoRefsList) isGrpcDescriptorRegistry_DescriptorSet() {}
+
+// control-plane API
 type GrpcResolver struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	UpstreamRef *core.ResourceRef      `protobuf:"bytes,1,opt,name=upstream_ref,json=upstreamRef,proto3" json:"upstream_ref,omitempty"`
+	// configuration used to compose the outgoing request to a REST API
+	RequestTransform *GrpcRequestTemplate `protobuf:"bytes,2,opt,name=request_transform,json=requestTransform,proto3" json:"request_transform,omitempty"`
+	SpanName         string               `protobuf:"bytes,4,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
+	// The timeout to use for this resolver. If unset, the upstream connection timeout
+	// or a default of 1 second will be used.
+	Timeout       *durationpb.Duration `protobuf:"bytes,5,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -305,9 +574,39 @@ func (*GrpcResolver) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{5}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *GrpcResolver) GetUpstreamRef() *core.ResourceRef {
+	if x != nil {
+		return x.UpstreamRef
+	}
+	return nil
+}
+
+func (x *GrpcResolver) GetRequestTransform() *GrpcRequestTemplate {
+	if x != nil {
+		return x.RequestTransform
+	}
+	return nil
+}
+
+func (x *GrpcResolver) GetSpanName() string {
+	if x != nil {
+		return x.SpanName
+	}
+	return ""
+}
+
+func (x *GrpcResolver) GetTimeout() *durationpb.Duration {
+	if x != nil {
+		return x.Timeout
+	}
+	return nil
+}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type StitchedSchema struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// List of GraphQLApis that compose this stitched GraphQL schema.
+	Subschemas    []*StitchedSchema_SubschemaConfig `protobuf:"bytes,1,rep,name=subschemas,proto3" json:"subschemas,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -342,9 +641,22 @@ func (*StitchedSchema) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{6}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *StitchedSchema) GetSubschemas() []*StitchedSchema_SubschemaConfig {
+	if x != nil {
+		return x.Subschemas
+	}
+	return nil
+}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type MockResolver struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Response:
+	//
+	//	*MockResolver_SyncResponse
+	//	*MockResolver_AsyncResponse_
+	//	*MockResolver_ErrorResponse
+	Response      isMockResolver_Response `protobuf_oneof:"response"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -379,9 +691,84 @@ func (*MockResolver) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{7}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *MockResolver) GetResponse() isMockResolver_Response {
+	if x != nil {
+		return x.Response
+	}
+	return nil
+}
+
+func (x *MockResolver) GetSyncResponse() *structpb.Value {
+	if x != nil {
+		if x, ok := x.Response.(*MockResolver_SyncResponse); ok {
+			return x.SyncResponse
+		}
+	}
+	return nil
+}
+
+func (x *MockResolver) GetAsyncResponse() *MockResolver_AsyncResponse {
+	if x != nil {
+		if x, ok := x.Response.(*MockResolver_AsyncResponse_); ok {
+			return x.AsyncResponse
+		}
+	}
+	return nil
+}
+
+func (x *MockResolver) GetErrorResponse() string {
+	if x != nil {
+		if x, ok := x.Response.(*MockResolver_ErrorResponse); ok {
+			return x.ErrorResponse
+		}
+	}
+	return ""
+}
+
+type isMockResolver_Response interface {
+	isMockResolver_Response()
+}
+
+type MockResolver_SyncResponse struct {
+	// The JSON response from the resolver that will be "responded" immediately.
+	SyncResponse *structpb.Value `protobuf:"bytes,1,opt,name=sync_response,json=syncResponse,proto3,oneof"`
+}
+
+type MockResolver_AsyncResponse_ struct {
+	// Used to create a asynchronous JSON response from the Mock resolver.
+	AsyncResponse *MockResolver_AsyncResponse `protobuf:"bytes,2,opt,name=async_response,json=asyncResponse,proto3,oneof"`
+}
+
+type MockResolver_ErrorResponse struct {
+	// Responds as an error with the given message. This can be any string message.
+	ErrorResponse string `protobuf:"bytes,3,opt,name=error_response,json=errorResponse,proto3,oneof"`
+}
+
+func (*MockResolver_SyncResponse) isMockResolver_Response() {}
+
+func (*MockResolver_AsyncResponse_) isMockResolver_Response() {}
+
+func (*MockResolver_ErrorResponse) isMockResolver_Response() {}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
+// Define a named resolver which can be then matched to a field using the `resolve` directive.
+// if a field does not have resolver, the default resolver will be used.
+// the default resolver takes the field with the same name from the parent, and uses that value
+// to resolve the field.
+// If a field with the same name does not exist in the parent, null will be used.
 type Resolution struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resolver to use.
+	//
+	// Types that are valid to be assigned to Resolver:
+	//
+	//	*Resolution_RestResolver
+	//	*Resolution_GrpcResolver
+	//	*Resolution_MockResolver
+	Resolver isResolution_Resolver `protobuf_oneof:"resolver"`
+	// The stats prefix which will be used for this resolver.
+	// If empty, will generate a stats prefix ${RESOLVER_NAME}
+	StatPrefix    *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=stat_prefix,json=statPrefix,proto3" json:"stat_prefix,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -416,9 +803,101 @@ func (*Resolution) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{8}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *Resolution) GetResolver() isResolution_Resolver {
+	if x != nil {
+		return x.Resolver
+	}
+	return nil
+}
+
+func (x *Resolution) GetRestResolver() *RESTResolver {
+	if x != nil {
+		if x, ok := x.Resolver.(*Resolution_RestResolver); ok {
+			return x.RestResolver
+		}
+	}
+	return nil
+}
+
+func (x *Resolution) GetGrpcResolver() *GrpcResolver {
+	if x != nil {
+		if x, ok := x.Resolver.(*Resolution_GrpcResolver); ok {
+			return x.GrpcResolver
+		}
+	}
+	return nil
+}
+
+func (x *Resolution) GetMockResolver() *MockResolver {
+	if x != nil {
+		if x, ok := x.Resolver.(*Resolution_MockResolver); ok {
+			return x.MockResolver
+		}
+	}
+	return nil
+}
+
+func (x *Resolution) GetStatPrefix() *wrapperspb.StringValue {
+	if x != nil {
+		return x.StatPrefix
+	}
+	return nil
+}
+
+type isResolution_Resolver interface {
+	isResolution_Resolver()
+}
+
+type Resolution_RestResolver struct {
+	// REST resolver used to translate and send graphql requests
+	// to a REST upstream.
+	RestResolver *RESTResolver `protobuf:"bytes,1,opt,name=rest_resolver,json=restResolver,proto3,oneof"`
+}
+
+type Resolution_GrpcResolver struct {
+	// gRPC resolver used to translate and send graphql requests
+	// to a gRPC upstream.
+	GrpcResolver *GrpcResolver `protobuf:"bytes,2,opt,name=grpc_resolver,json=grpcResolver,proto3,oneof"`
+}
+
+type Resolution_MockResolver struct {
+	// Resolver used to mock responses from an upstream.
+	// This resolver does not make a call out to an upstream, but can mock responses
+	// either synchronously or with a delay.
+	// Additionally, can be used to mock errors from an upstream.
+	MockResolver *MockResolver `protobuf:"bytes,4,opt,name=mock_resolver,json=mockResolver,proto3,oneof"`
+}
+
+func (*Resolution_RestResolver) isResolution_Resolver() {}
+
+func (*Resolution_GrpcResolver) isResolution_Resolver() {}
+
+func (*Resolution_MockResolver) isResolution_Resolver() {}
+
+// Deprecated, Enterprise-Only: THIS FEATURE IS DEPRECATED AND WILL BE REMOVED IN A FUTURE RELEASE. APIs are versioned as alpha and subject to change.
+// User-facing CR config for resolving client requests to graphql schemas.
+// Routes that have this config will execute graphql queries, and will not make it to the router filter. i.e. this
+// filter will terminate the request for these routes.
+// Note: while users can provide this configuration manually, the eventual UX will
+// be to generate the Executable Schema CRs from other sources and just have users
+// configure the routes to point to these schema CRs.
 type GraphQLApiSpec struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Schema:
+	//
+	//	*GraphQLApiSpec_ExecutableSchema
+	//	*GraphQLApiSpec_StitchedSchema
+	Schema isGraphQLApiSpec_Schema `protobuf_oneof:"schema"`
+	// The stats prefix which will be used for this route config.
+	// If empty, will generate a stats prefix ${GRAPHQLAPI_REF}
+	StatPrefix *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=stat_prefix,json=statPrefix,proto3" json:"stat_prefix,omitempty"`
+	// Configuration settings for persisted query cache
+	PersistedQueryCacheConfig *PersistedQueryCacheConfig `protobuf:"bytes,4,opt,name=persisted_query_cache_config,json=persistedQueryCacheConfig,proto3" json:"persisted_query_cache_config,omitempty"`
+	// Safelist: only allow queries to be executed that match these sha256 hashes.
+	// The hash can be computed from the query string or provided (i.e. persisted queries).
+	AllowedQueryHashes []string `protobuf:"bytes,5,rep,name=allowed_query_hashes,json=allowedQueryHashes,proto3" json:"allowed_query_hashes,omitempty"`
+	// Options that apply to this GraphQLApi.
+	Options       *GraphQLApiSpec_GraphQLApiOptions `protobuf:"bytes,8,opt,name=options,proto3" json:"options,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -453,9 +932,84 @@ func (*GraphQLApiSpec) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{9}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *GraphQLApiSpec) GetSchema() isGraphQLApiSpec_Schema {
+	if x != nil {
+		return x.Schema
+	}
+	return nil
+}
+
+func (x *GraphQLApiSpec) GetExecutableSchema() *ExecutableSchema {
+	if x != nil {
+		if x, ok := x.Schema.(*GraphQLApiSpec_ExecutableSchema); ok {
+			return x.ExecutableSchema
+		}
+	}
+	return nil
+}
+
+func (x *GraphQLApiSpec) GetStitchedSchema() *StitchedSchema {
+	if x != nil {
+		if x, ok := x.Schema.(*GraphQLApiSpec_StitchedSchema); ok {
+			return x.StitchedSchema
+		}
+	}
+	return nil
+}
+
+func (x *GraphQLApiSpec) GetStatPrefix() *wrapperspb.StringValue {
+	if x != nil {
+		return x.StatPrefix
+	}
+	return nil
+}
+
+func (x *GraphQLApiSpec) GetPersistedQueryCacheConfig() *PersistedQueryCacheConfig {
+	if x != nil {
+		return x.PersistedQueryCacheConfig
+	}
+	return nil
+}
+
+func (x *GraphQLApiSpec) GetAllowedQueryHashes() []string {
+	if x != nil {
+		return x.AllowedQueryHashes
+	}
+	return nil
+}
+
+func (x *GraphQLApiSpec) GetOptions() *GraphQLApiSpec_GraphQLApiOptions {
+	if x != nil {
+		return x.Options
+	}
+	return nil
+}
+
+type isGraphQLApiSpec_Schema interface {
+	isGraphQLApiSpec_Schema()
+}
+
+type GraphQLApiSpec_ExecutableSchema struct {
+	// An Executable Schema represents a single upstream, which could be a locally resolved
+	// schema, or a remotely resolved schema.
+	ExecutableSchema *ExecutableSchema `protobuf:"bytes,6,opt,name=executable_schema,json=executableSchema,proto3,oneof"`
+}
+
+type GraphQLApiSpec_StitchedSchema struct {
+	// A stitched schema represents the product of stitching multiple graphql subschemas together.
+	StitchedSchema *StitchedSchema `protobuf:"bytes,7,opt,name=stitched_schema,json=stitchedSchema,proto3,oneof"`
+}
+
+func (*GraphQLApiSpec_ExecutableSchema) isGraphQLApiSpec_Schema() {}
+
+func (*GraphQLApiSpec_StitchedSchema) isGraphQLApiSpec_Schema() {}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
+// This message specifies Persisted Query Cache configuration.
 type PersistedQueryCacheConfig struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unit is number of queries to store, default to 1000.
+	CacheSize     uint32 `protobuf:"varint,1,opt,name=cache_size,json=cacheSize,proto3" json:"cache_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -490,11 +1044,43 @@ func (*PersistedQueryCacheConfig) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{10}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *PersistedQueryCacheConfig) GetCacheSize() uint32 {
+	if x != nil {
+		return x.CacheSize
+	}
+	return 0
+}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type ExecutableSchema struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The following directives are supported:
+	// - @resolve(name: string)
+	// - @cacheControl(maxAge: uint32, inheritMaxAge: bool, scope: unset/public/private)
+	//
+	// Define named resolvers on the `Executor.Local.resolutions` message, and reference them here using @resolve:
+	// ```gql
+	// type Query {
+	// author: String @resolve(name: "authorResolver")
+	// }
+	//
+	// Further, fields/types can be annotated with the @cacheControl directive, e.g.
+	// ```gql
+	// type Query @cacheControl(maxAge: 60) {
+	// author: String @resolve(name: "authorResolver") @cacheControl(maxAge: 90, scope: private)
+	// }
+	// ```
+	// Any type-level cache control defaults are overridden by field settings, if provided.
+	// The most restrictive cache control setting (smallest maxAge and scope) across all fields in
+	// an entire query will be returned to the client in the `Cache-Control` header with appropriate
+	// `max-age` and  scope (unset, `public`, or `private`) directives.
+	SchemaDefinition string `protobuf:"bytes,1,opt,name=schema_definition,json=schemaDefinition,proto3" json:"schema_definition,omitempty"`
+	// how to execute the schema
+	Executor *Executor `protobuf:"bytes,2,opt,name=executor,proto3" json:"executor,omitempty"`
+	// Schema extensions
+	GrpcDescriptorRegistry *GrpcDescriptorRegistry `protobuf:"bytes,3,opt,name=grpc_descriptor_registry,json=grpcDescriptorRegistry,proto3" json:"grpc_descriptor_registry,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *ExecutableSchema) Reset() {
@@ -527,9 +1113,35 @@ func (*ExecutableSchema) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{11}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *ExecutableSchema) GetSchemaDefinition() string {
+	if x != nil {
+		return x.SchemaDefinition
+	}
+	return ""
+}
+
+func (x *ExecutableSchema) GetExecutor() *Executor {
+	if x != nil {
+		return x.Executor
+	}
+	return nil
+}
+
+func (x *ExecutableSchema) GetGrpcDescriptorRegistry() *GrpcDescriptorRegistry {
+	if x != nil {
+		return x.GrpcDescriptorRegistry
+	}
+	return nil
+}
+
+// Deprecated: The GraphQL feature of Gloo Gateway will be removed in a future release.
 type Executor struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Executor:
+	//
+	//	*Executor_Local_
+	//	*Executor_Remote_
+	Executor      isExecutor_Executor `protobuf_oneof:"executor"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -563,6 +1175,47 @@ func (x *Executor) ProtoReflect() protoreflect.Message {
 func (*Executor) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{12}
 }
+
+func (x *Executor) GetExecutor() isExecutor_Executor {
+	if x != nil {
+		return x.Executor
+	}
+	return nil
+}
+
+func (x *Executor) GetLocal() *Executor_Local {
+	if x != nil {
+		if x, ok := x.Executor.(*Executor_Local_); ok {
+			return x.Local
+		}
+	}
+	return nil
+}
+
+func (x *Executor) GetRemote() *Executor_Remote {
+	if x != nil {
+		if x, ok := x.Executor.(*Executor_Remote_); ok {
+			return x.Remote
+		}
+	}
+	return nil
+}
+
+type isExecutor_Executor interface {
+	isExecutor_Executor()
+}
+
+type Executor_Local_ struct {
+	Local *Executor_Local `protobuf:"bytes,1,opt,name=local,proto3,oneof"`
+}
+
+type Executor_Remote_ struct {
+	Remote *Executor_Remote `protobuf:"bytes,2,opt,name=remote,proto3,oneof"`
+}
+
+func (*Executor_Local_) isExecutor_Executor() {}
+
+func (*Executor_Remote_) isExecutor_Executor() {}
 
 type GraphQLApiStatus struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -689,16 +1342,20 @@ func (x *GraphQLApiNamespacedStatuses) GetStatuses() map[string]*GraphQLApiStatu
 	return nil
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
 type GrpcDescriptorRegistry_ProtoRefs struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// List of references to config maps that contain proto data for this resolver.
+	// For each of the config maps referenced here, they must contain keys in their data map with valid base64 encoded
+	// proto descriptor set binaries as the values.
+	// Also they must be in a namespace watched by gloo edge.
+	ConfigMapRefs []*core.ResourceRef `protobuf:"bytes,1,rep,name=config_map_refs,json=configMapRefs,proto3" json:"config_map_refs,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GrpcDescriptorRegistry_ProtoRefs) Reset() {
 	*x = GrpcDescriptorRegistry_ProtoRefs{}
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[15]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -710,7 +1367,7 @@ func (x *GrpcDescriptorRegistry_ProtoRefs) String() string {
 func (*GrpcDescriptorRegistry_ProtoRefs) ProtoMessage() {}
 
 func (x *GrpcDescriptorRegistry_ProtoRefs) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[15]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -726,16 +1383,66 @@ func (*GrpcDescriptorRegistry_ProtoRefs) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{4, 0}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *GrpcDescriptorRegistry_ProtoRefs) GetConfigMapRefs() []*core.ResourceRef {
+	if x != nil {
+		return x.ConfigMapRefs
+	}
+	return nil
+}
+
 type StitchedSchema_SubschemaConfig struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// name of the GraphQLApi subschema
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// namespace of the GraphQLApi subschema
+	Namespace string `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Type merge configuration for this subschema. Let's say this subschema is a Users service schema
+	// and provides the User type (with a query to fetch a user given the username)
+	//
+	// ```gql
+	// type Query {
+	// GetUser(username: String): User
+	// }
+	// type User {
+	// username: String
+	// firstName: String
+	// lastName: String
+	// }
+	// ```
+	//
+	// and another subschema, e.g. Reviews schema, may have a partial User type:
+	// ```gql
+	// type Review {
+	// author: User
+	// }
+	//
+	// type User {
+	// username: String
+	// }
+	// ```
+	// We want to provide the relevant information from this Users service schema,
+	// so that another API that can give us a partial User type (with the username) will then
+	// be able to have access to the full user type. With the correct type merging config under the Users subschema, e.g.:
+	//
+	// ```yaml
+	// type_merge:
+	// User:
+	// selection_set: '{ username }'
+	// query_name: 'GetUser'
+	// args:
+	// username: username
+	// ```
+	// the stitched schema will now be able to provide the full user type to all types that require it. In this case,
+	// we can now get the first name of an author from the Review.author field even though the Reviews schema does not
+	// provide the full User type.
+	TypeMerge     map[string]*StitchedSchema_SubschemaConfig_TypeMergeConfig `protobuf:"bytes,3,rep,name=type_merge,json=typeMerge,proto3" json:"type_merge,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StitchedSchema_SubschemaConfig) Reset() {
 	*x = StitchedSchema_SubschemaConfig{}
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[16]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -747,7 +1454,7 @@ func (x *StitchedSchema_SubschemaConfig) String() string {
 func (*StitchedSchema_SubschemaConfig) ProtoMessage() {}
 
 func (x *StitchedSchema_SubschemaConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[16]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -763,16 +1470,44 @@ func (*StitchedSchema_SubschemaConfig) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{6, 0}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *StitchedSchema_SubschemaConfig) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *StitchedSchema_SubschemaConfig) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *StitchedSchema_SubschemaConfig) GetTypeMerge() map[string]*StitchedSchema_SubschemaConfig_TypeMergeConfig {
+	if x != nil {
+		return x.TypeMerge
+	}
+	return nil
+}
+
 type StitchedSchema_SubschemaConfig_TypeMergeConfig struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// This specifies one or more key fields required from other services to perform this query.
+	// Query planning will automatically resolve these fields from other subschemas in dependency order.
+	// This is a graphql selection set specified as a string
+	// e.g. '{ username }'
+	SelectionSet string `protobuf:"bytes,1,opt,name=selection_set,json=selectionSet,proto3" json:"selection_set,omitempty"`
+	// specifies the root field from this subschema used to request the local type
+	QueryName     string            `protobuf:"bytes,2,opt,name=query_name,json=queryName,proto3" json:"query_name,omitempty"`
+	Args          map[string]string `protobuf:"bytes,3,rep,name=args,proto3" json:"args,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StitchedSchema_SubschemaConfig_TypeMergeConfig) Reset() {
 	*x = StitchedSchema_SubschemaConfig_TypeMergeConfig{}
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[17]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -784,7 +1519,7 @@ func (x *StitchedSchema_SubschemaConfig_TypeMergeConfig) String() string {
 func (*StitchedSchema_SubschemaConfig_TypeMergeConfig) ProtoMessage() {}
 
 func (x *StitchedSchema_SubschemaConfig_TypeMergeConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[17]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -800,16 +1535,40 @@ func (*StitchedSchema_SubschemaConfig_TypeMergeConfig) Descriptor() ([]byte, []i
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{6, 0, 0}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *StitchedSchema_SubschemaConfig_TypeMergeConfig) GetSelectionSet() string {
+	if x != nil {
+		return x.SelectionSet
+	}
+	return ""
+}
+
+func (x *StitchedSchema_SubschemaConfig_TypeMergeConfig) GetQueryName() string {
+	if x != nil {
+		return x.QueryName
+	}
+	return ""
+}
+
+func (x *StitchedSchema_SubschemaConfig_TypeMergeConfig) GetArgs() map[string]string {
+	if x != nil {
+		return x.Args
+	}
+	return nil
+}
+
 type MockResolver_AsyncResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The response from the resolver as a JSON.
+	Response *structpb.Value `protobuf:"bytes,1,opt,name=response,proto3" json:"response,omitempty"`
+	// The delay time before this response is sent back to the graphql server
+	Delay         *durationpb.Duration `protobuf:"bytes,2,opt,name=delay,proto3" json:"delay,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *MockResolver_AsyncResponse) Reset() {
 	*x = MockResolver_AsyncResponse{}
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[18]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -821,7 +1580,7 @@ func (x *MockResolver_AsyncResponse) String() string {
 func (*MockResolver_AsyncResponse) ProtoMessage() {}
 
 func (x *MockResolver_AsyncResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[18]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -837,16 +1596,34 @@ func (*MockResolver_AsyncResponse) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{7, 0}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *MockResolver_AsyncResponse) GetResponse() *structpb.Value {
+	if x != nil {
+		return x.Response
+	}
+	return nil
+}
+
+func (x *MockResolver_AsyncResponse) GetDelay() *durationpb.Duration {
+	if x != nil {
+		return x.Delay
+	}
+	return nil
+}
+
 type GraphQLApiSpec_GraphQLApiOptions struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// If true, includes information about request and response in the gateway-proxy debug and trace logs.
+	// This is useful when debugging but is not recommended for security and performance reasons in
+	// production scenarios.
+	// Defaults to false.
+	LogSensitiveInfo bool `protobuf:"varint,1,opt,name=log_sensitive_info,json=logSensitiveInfo,proto3" json:"log_sensitive_info,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *GraphQLApiSpec_GraphQLApiOptions) Reset() {
 	*x = GraphQLApiSpec_GraphQLApiOptions{}
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[19]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -858,7 +1635,7 @@ func (x *GraphQLApiSpec_GraphQLApiOptions) String() string {
 func (*GraphQLApiSpec_GraphQLApiOptions) ProtoMessage() {}
 
 func (x *GraphQLApiSpec_GraphQLApiOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[19]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -874,16 +1651,47 @@ func (*GraphQLApiSpec_GraphQLApiOptions) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{9, 0}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *GraphQLApiSpec_GraphQLApiOptions) GetLogSensitiveInfo() bool {
+	if x != nil {
+		return x.LogSensitiveInfo
+	}
+	return false
+}
+
+// Execute schema using resolvers.
 type Executor_Local struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Mapping of resolver name to resolver definition.
+	// The names are used to reference the resolver in the graphql schema.
+	// For example, a resolver with name "authorResolver" can be defined as
+	// ```yaml
+	// authorResolver:
+	// restResolver:
+	// upstreamRef: ...
+	// request:
+	// ...
+	// response:
+	// ...
+	// ```
+	// and referenced in the graphql schema as
+	// ```gql
+	// type Query {
+	// author: String @resolve(name: "authorResolver")
+	// }
+	// ```
+	Resolutions map[string]*Resolution `protobuf:"bytes,1,rep,name=resolutions,proto3" json:"resolutions,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Do we enable introspection for the schema? general recommendation is to
+	// disable this for production and hence it defaults to false.
+	EnableIntrospection bool `protobuf:"varint,2,opt,name=enable_introspection,json=enableIntrospection,proto3" json:"enable_introspection,omitempty"`
+	// Options that apply to this local executable schema
+	Options       *Executor_Local_LocalExecutorOptions `protobuf:"bytes,3,opt,name=options,proto3" json:"options,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Executor_Local) Reset() {
 	*x = Executor_Local{}
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[20]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -895,7 +1703,7 @@ func (x *Executor_Local) String() string {
 func (*Executor_Local) ProtoMessage() {}
 
 func (x *Executor_Local) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[20]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -911,16 +1719,50 @@ func (*Executor_Local) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{12, 0}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *Executor_Local) GetResolutions() map[string]*Resolution {
+	if x != nil {
+		return x.Resolutions
+	}
+	return nil
+}
+
+func (x *Executor_Local) GetEnableIntrospection() bool {
+	if x != nil {
+		return x.EnableIntrospection
+	}
+	return false
+}
+
+func (x *Executor_Local) GetOptions() *Executor_Local_LocalExecutorOptions {
+	if x != nil {
+		return x.Options
+	}
+	return nil
+}
+
 type Executor_Remote struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	UpstreamRef *core.ResourceRef      `protobuf:"bytes,1,opt,name=upstream_ref,json=upstreamRef,proto3" json:"upstream_ref,omitempty"`
+	// map of header name to extraction type:
+	// e.g.
+	// ':path':   '/hard/coded/path'
+	// ':method': '{$headers.method}'
+	//
+	//	':key':    '{$metadata.io.solo.transformation:endpoint_url}'
+	Headers map[string]string `protobuf:"bytes,2,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// map of query parameter name to extraction type:
+	// e.g.
+	//
+	// 'query': '{$metadata.$KEY_NAME:$KEY_VALUE}'
+	QueryParams   map[string]string `protobuf:"bytes,3,rep,name=query_params,json=queryParams,proto3" json:"query_params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	SpanName      string            `protobuf:"bytes,4,opt,name=span_name,json=spanName,proto3" json:"span_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Executor_Remote) Reset() {
 	*x = Executor_Remote{}
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[21]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -932,7 +1774,7 @@ func (x *Executor_Remote) String() string {
 func (*Executor_Remote) ProtoMessage() {}
 
 func (x *Executor_Remote) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[21]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -948,16 +1790,90 @@ func (*Executor_Remote) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{12, 1}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *Executor_Remote) GetUpstreamRef() *core.ResourceRef {
+	if x != nil {
+		return x.UpstreamRef
+	}
+	return nil
+}
+
+func (x *Executor_Remote) GetHeaders() map[string]string {
+	if x != nil {
+		return x.Headers
+	}
+	return nil
+}
+
+func (x *Executor_Remote) GetQueryParams() map[string]string {
+	if x != nil {
+		return x.QueryParams
+	}
+	return nil
+}
+
+func (x *Executor_Remote) GetSpanName() string {
+	if x != nil {
+		return x.SpanName
+	}
+	return ""
+}
+
 type Executor_Local_LocalExecutorOptions struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Max GraphQL operation (query/mutation/subscription) depth. This sets a limitation on the max nesting on a query that runs against this schema.
+	// any GraphQL operation that runs past the `max_depth` will add an error message to the response and will return as `null`.
+	// As as simple example, if the schema is
+	// ```gql
+	//
+	//	type Query {
+	//	  employee: Employee
+	//	}
+	//
+	//	type Employee {
+	//	  manager: Employee
+	//	  name: String
+	//	}
+	//
+	// ```
+	// and we set a `max_depth` of `3` and we run a query
+	// ```gql
+	// query {             # query depth : 0
+	//
+	//	  employee {        # query depth : 1
+	//	    manager {       # query depth : 2
+	//	      name          # query depth : 3
+	//	      manager {     # query depth : 3
+	//	        name        # query depth : 4
+	//	      }
+	//	    }
+	//	  }
+	//	}
+	//
+	// ```
+	// the graphql server will respond with a response:
+	// ```json
+	//
+	//	{ "data" : {
+	//	    "employee" : {
+	//	      "manager" : {
+	//	        "name" : "Manager 1",
+	//	        "manager"  : {
+	//	          "name" : null
+	//	  }}}},
+	//	  "errors": [
+	//	     {"message": "field 'name' exceeds the max operation depth of 3 for this schema"}
+	//	   ]
+	//	}
+	//
+	// If not configured, or the value is 0, the query depth will be unbounded.
+	MaxDepth      *wrapperspb.UInt32Value `protobuf:"bytes,1,opt,name=max_depth,json=maxDepth,proto3" json:"max_depth,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Executor_Local_LocalExecutorOptions) Reset() {
 	*x = Executor_Local_LocalExecutorOptions{}
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[22]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -969,7 +1885,7 @@ func (x *Executor_Local_LocalExecutorOptions) String() string {
 func (*Executor_Local_LocalExecutorOptions) ProtoMessage() {}
 
 func (x *Executor_Local_LocalExecutorOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[22]
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -985,37 +1901,143 @@ func (*Executor_Local_LocalExecutorOptions) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDescGZIP(), []int{12, 0, 0}
 }
 
+func (x *Executor_Local_LocalExecutorOptions) GetMaxDepth() *wrapperspb.UInt32Value {
+	if x != nil {
+		return x.MaxDepth
+	}
+	return nil
+}
+
 var File_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto protoreflect.FileDescriptor
 
 const file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDesc = "" +
 	"\n" +
-	"Hgithub.com/solo-io/solo-apis/api/gloo/graphql.gloo/v1beta1/graphql.proto\x12\x14graphql.gloo.solo.io\x1a\x1cgoogle/protobuf/struct.proto\x1a\x12extproto/ext.proto\x1a1github.com/solo-io/solo-kit/api/v1/solo-kit.proto\"@\n" +
-	"\x0fRequestTemplateJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04R\aheadersR\fquery_paramsR\x04body\"4\n" +
-	"\x10ResponseTemplateJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03R\vresult_rootR\asetters\"q\n" +
-	"\x13GrpcRequestTemplateJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04J\x04\b\x04\x10\x05R\x15outgoing_message_jsonR\fservice_nameR\vmethod_nameR\x10request_metadata\"a\n" +
-	"\fRESTResolverJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04J\x04\b\x04\x10\x05J\x04\b\x05\x10\x06R\fupstream_refR\arequestR\bresponseR\tspan_nameR\atimeout\"\x87\x01\n" +
-	"\x16GrpcDescriptorRegistry\x1a\"\n" +
-	"\tProtoRefsJ\x04\b\x01\x10\x02R\x0fconfig_map_refsJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04R\x10proto_descriptorR\x14proto_descriptor_binR\x0fproto_refs_list\"a\n" +
-	"\fGrpcResolverJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04J\x04\b\x04\x10\x05J\x04\b\x05\x10\x06R\fupstream_refR\x11request_transformR\tspan_nameR\atimeout\"\xab\x01\n" +
-	"\x0eStitchedSchema\x1a\x86\x01\n" +
-	"\x0fSubschemaConfig\x1aD\n" +
-	"\x0fTypeMergeConfigJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04R\rselection_setR\n" +
-	"query_nameR\x04argsJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04R\x04nameR\tnamespaceR\n" +
-	"type_mergeJ\x04\b\x01\x10\x02R\n" +
-	"subschemas\"}\n" +
-	"\fMockResolver\x1a,\n" +
-	"\rAsyncResponseJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03R\bresponseR\x05delayJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04R\rsync_responseR\x0easync_responseR\x0eerror_response\"^\n" +
+	"Hgithub.com/solo-io/solo-apis/api/gloo/graphql.gloo/v1beta1/graphql.proto\x12\x14graphql.gloo.solo.io\x1a\x12extproto/ext.proto\x1a1github.com/solo-io/solo-kit/api/v1/solo-kit.proto\x1a,github.com/solo-io/solo-kit/api/v1/ref.proto\x1a\x17validate/validate.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xe2\x02\n" +
+	"\x0fRequestTemplate\x12L\n" +
+	"\aheaders\x18\x01 \x03(\v22.graphql.gloo.solo.io.RequestTemplate.HeadersEntryR\aheaders\x12Y\n" +
+	"\fquery_params\x18\x02 \x03(\v26.graphql.gloo.solo.io.RequestTemplate.QueryParamsEntryR\vqueryParams\x12*\n" +
+	"\x04body\x18\x03 \x01(\v2\x16.google.protobuf.ValueR\x04body\x1a:\n" +
+	"\fHeadersEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a>\n" +
+	"\x10QueryParamsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xbe\x01\n" +
+	"\x10ResponseTemplate\x12\x1f\n" +
+	"\vresult_root\x18\x01 \x01(\tR\n" +
+	"resultRoot\x12M\n" +
+	"\asetters\x18\x02 \x03(\v23.graphql.gloo.solo.io.ResponseTemplate.SettersEntryR\asetters\x1a:\n" +
+	"\fSettersEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd4\x02\n" +
+	"\x13GrpcRequestTemplate\x12J\n" +
+	"\x15outgoing_message_json\x18\x01 \x01(\v2\x16.google.protobuf.ValueR\x13outgoingMessageJson\x12!\n" +
+	"\fservice_name\x18\x02 \x01(\tR\vserviceName\x12\x1f\n" +
+	"\vmethod_name\x18\x03 \x01(\tR\n" +
+	"methodName\x12i\n" +
+	"\x10request_metadata\x18\x04 \x03(\v2>.graphql.gloo.solo.io.GrpcRequestTemplate.RequestMetadataEntryR\x0frequestMetadata\x1aB\n" +
+	"\x14RequestMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa3\x02\n" +
+	"\fRESTResolver\x12<\n" +
+	"\fupstream_ref\x18\x01 \x01(\v2\x19.core.solo.io.ResourceRefR\vupstreamRef\x12?\n" +
+	"\arequest\x18\x02 \x01(\v2%.graphql.gloo.solo.io.RequestTemplateR\arequest\x12B\n" +
+	"\bresponse\x18\x03 \x01(\v2&.graphql.gloo.solo.io.ResponseTemplateR\bresponse\x12\x1b\n" +
+	"\tspan_name\x18\x04 \x01(\tR\bspanName\x123\n" +
+	"\atimeout\x18\x05 \x01(\v2\x19.google.protobuf.DurationR\atimeout\"\xc2\x02\n" +
+	"\x16GrpcDescriptorRegistry\x12+\n" +
+	"\x10proto_descriptor\x18\x01 \x01(\tH\x00R\x0fprotoDescriptor\x122\n" +
+	"\x14proto_descriptor_bin\x18\x02 \x01(\fH\x00R\x12protoDescriptorBin\x12`\n" +
+	"\x0fproto_refs_list\x18\x03 \x01(\v26.graphql.gloo.solo.io.GrpcDescriptorRegistry.ProtoRefsH\x00R\rprotoRefsList\x1aN\n" +
+	"\tProtoRefs\x12A\n" +
+	"\x0fconfig_map_refs\x18\x01 \x03(\v2\x19.core.solo.io.ResourceRefR\rconfigMapRefsB\x15\n" +
+	"\x0edescriptor_set\x12\x03\xf8B\x01\"\xfc\x01\n" +
+	"\fGrpcResolver\x12<\n" +
+	"\fupstream_ref\x18\x01 \x01(\v2\x19.core.solo.io.ResourceRefR\vupstreamRef\x12V\n" +
+	"\x11request_transform\x18\x02 \x01(\v2).graphql.gloo.solo.io.GrpcRequestTemplateR\x10requestTransform\x12\x1b\n" +
+	"\tspan_name\x18\x04 \x01(\tR\bspanName\x123\n" +
+	"\atimeout\x18\x05 \x01(\v2\x19.google.protobuf.DurationR\atimeoutJ\x04\b\x03\x10\x04\"\x8a\x05\n" +
+	"\x0eStitchedSchema\x12T\n" +
 	"\n" +
-	"ResolutionJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04J\x04\b\x04\x10\x05R\rrest_resolverR\rgrpc_resolverR\vstat_prefixR\rmock_resolver\"\xfc\x01\n" +
-	"\x0eGraphQLApiSpec\x1a-\n" +
-	"\x11GraphQLApiOptionsJ\x04\b\x01\x10\x02R\x12log_sensitive_infoJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04J\x04\b\x04\x10\x05J\x04\b\x05\x10\x06J\x04\b\x06\x10\aJ\x04\b\a\x10\bJ\x04\b\b\x10\tR\x13namespaced_statusesR\bmetadataR\vstat_prefixR\x1cpersisted_query_cache_configR\x14allowed_query_hashesR\x11executable_schemaR\x0fstitched_schemaR\aoptions\"-\n" +
-	"\x19PersistedQueryCacheConfigJ\x04\b\x01\x10\x02R\n" +
-	"cache_size\"[\n" +
-	"\x10ExecutableSchemaJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04R\x11schema_definitionR\bexecutorR\x18grpc_descriptor_registry\"\xe7\x01\n" +
-	"\bExecutor\x1an\n" +
-	"\x05Local\x1a'\n" +
-	"\x14LocalExecutorOptionsJ\x04\b\x01\x10\x02R\tmax_depthJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04R\vresolutionsR\x14enable_introspectionR\aoptions\x1aP\n" +
-	"\x06RemoteJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04J\x04\b\x04\x10\x05R\fupstream_refR\aheadersR\fquery_paramsR\tspan_nameJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03R\x05localR\x06remote\"\xe5\x03\n" +
+	"subschemas\x18\x01 \x03(\v24.graphql.gloo.solo.io.StitchedSchema.SubschemaConfigR\n" +
+	"subschemas\x1a\xa1\x04\n" +
+	"\x0fSubschemaConfig\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1c\n" +
+	"\tnamespace\x18\x02 \x01(\tR\tnamespace\x12b\n" +
+	"\n" +
+	"type_merge\x18\x03 \x03(\v2C.graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeEntryR\ttypeMerge\x1a\xf2\x01\n" +
+	"\x0fTypeMergeConfig\x12#\n" +
+	"\rselection_set\x18\x01 \x01(\tR\fselectionSet\x12\x1d\n" +
+	"\n" +
+	"query_name\x18\x02 \x01(\tR\tqueryName\x12b\n" +
+	"\x04args\x18\x03 \x03(\v2N.graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeConfig.ArgsEntryR\x04args\x1a7\n" +
+	"\tArgsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\x82\x01\n" +
+	"\x0eTypeMergeEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12Z\n" +
+	"\x05value\x18\x02 \x01(\v2D.graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeConfigR\x05value:\x028\x01\"\xd3\x02\n" +
+	"\fMockResolver\x12=\n" +
+	"\rsync_response\x18\x01 \x01(\v2\x16.google.protobuf.ValueH\x00R\fsyncResponse\x12Y\n" +
+	"\x0easync_response\x18\x02 \x01(\v20.graphql.gloo.solo.io.MockResolver.AsyncResponseH\x00R\rasyncResponse\x12'\n" +
+	"\x0eerror_response\x18\x03 \x01(\tH\x00R\rerrorResponse\x1at\n" +
+	"\rAsyncResponse\x122\n" +
+	"\bresponse\x18\x01 \x01(\v2\x16.google.protobuf.ValueR\bresponse\x12/\n" +
+	"\x05delay\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x05delayB\n" +
+	"\n" +
+	"\bresponse\"\xb8\x02\n" +
+	"\n" +
+	"Resolution\x12I\n" +
+	"\rrest_resolver\x18\x01 \x01(\v2\".graphql.gloo.solo.io.RESTResolverH\x00R\frestResolver\x12I\n" +
+	"\rgrpc_resolver\x18\x02 \x01(\v2\".graphql.gloo.solo.io.GrpcResolverH\x00R\fgrpcResolver\x12I\n" +
+	"\rmock_resolver\x18\x04 \x01(\v2\".graphql.gloo.solo.io.MockResolverH\x00R\fmockResolver\x12=\n" +
+	"\vstat_prefix\x18\x03 \x01(\v2\x1c.google.protobuf.StringValueR\n" +
+	"statPrefixB\n" +
+	"\n" +
+	"\bresolver\"\xba\x04\n" +
+	"\x0eGraphQLApiSpec\x12U\n" +
+	"\x11executable_schema\x18\x06 \x01(\v2&.graphql.gloo.solo.io.ExecutableSchemaH\x00R\x10executableSchema\x12O\n" +
+	"\x0fstitched_schema\x18\a \x01(\v2$.graphql.gloo.solo.io.StitchedSchemaH\x00R\x0estitchedSchema\x12=\n" +
+	"\vstat_prefix\x18\x03 \x01(\v2\x1c.google.protobuf.StringValueR\n" +
+	"statPrefix\x12p\n" +
+	"\x1cpersisted_query_cache_config\x18\x04 \x01(\v2/.graphql.gloo.solo.io.PersistedQueryCacheConfigR\x19persistedQueryCacheConfig\x120\n" +
+	"\x14allowed_query_hashes\x18\x05 \x03(\tR\x12allowedQueryHashes\x12P\n" +
+	"\aoptions\x18\b \x01(\v26.graphql.gloo.solo.io.GraphQLApiSpec.GraphQLApiOptionsR\aoptions\x1aA\n" +
+	"\x11GraphQLApiOptions\x12,\n" +
+	"\x12log_sensitive_info\x18\x01 \x01(\bR\x10logSensitiveInfoB\b\n" +
+	"\x06schema\":\n" +
+	"\x19PersistedQueryCacheConfig\x12\x1d\n" +
+	"\n" +
+	"cache_size\x18\x01 \x01(\rR\tcacheSize\"\xe3\x01\n" +
+	"\x10ExecutableSchema\x12+\n" +
+	"\x11schema_definition\x18\x01 \x01(\tR\x10schemaDefinition\x12:\n" +
+	"\bexecutor\x18\x02 \x01(\v2\x1e.graphql.gloo.solo.io.ExecutorR\bexecutor\x12f\n" +
+	"\x18grpc_descriptor_registry\x18\x03 \x01(\v2,.graphql.gloo.solo.io.GrpcDescriptorRegistryR\x16grpcDescriptorRegistry\"\xc0\a\n" +
+	"\bExecutor\x12<\n" +
+	"\x05local\x18\x01 \x01(\v2$.graphql.gloo.solo.io.Executor.LocalH\x00R\x05local\x12?\n" +
+	"\x06remote\x18\x02 \x01(\v2%.graphql.gloo.solo.io.Executor.RemoteH\x00R\x06remote\x1a\x9d\x03\n" +
+	"\x05Local\x12W\n" +
+	"\vresolutions\x18\x01 \x03(\v25.graphql.gloo.solo.io.Executor.Local.ResolutionsEntryR\vresolutions\x121\n" +
+	"\x14enable_introspection\x18\x02 \x01(\bR\x13enableIntrospection\x12S\n" +
+	"\aoptions\x18\x03 \x01(\v29.graphql.gloo.solo.io.Executor.Local.LocalExecutorOptionsR\aoptions\x1aQ\n" +
+	"\x14LocalExecutorOptions\x129\n" +
+	"\tmax_depth\x18\x01 \x01(\v2\x1c.google.protobuf.UInt32ValueR\bmaxDepth\x1a`\n" +
+	"\x10ResolutionsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x126\n" +
+	"\x05value\x18\x02 \x01(\v2 .graphql.gloo.solo.io.ResolutionR\x05value:\x028\x01\x1a\x88\x03\n" +
+	"\x06Remote\x12<\n" +
+	"\fupstream_ref\x18\x01 \x01(\v2\x19.core.solo.io.ResourceRefR\vupstreamRef\x12L\n" +
+	"\aheaders\x18\x02 \x03(\v22.graphql.gloo.solo.io.Executor.Remote.HeadersEntryR\aheaders\x12Y\n" +
+	"\fquery_params\x18\x03 \x03(\v26.graphql.gloo.solo.io.Executor.Remote.QueryParamsEntryR\vqueryParams\x12\x1b\n" +
+	"\tspan_name\x18\x04 \x01(\tR\bspanName\x1a:\n" +
+	"\fHeadersEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a>\n" +
+	"\x10QueryParamsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\n" +
+	"\n" +
+	"\bexecutor\"\xe5\x03\n" +
 	"\x10GraphQLApiStatus\x12B\n" +
 	"\x05state\x18\x01 \x01(\x0e2,.graphql.gloo.solo.io.GraphQLApiStatus.StateR\x05state\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\x12\x1f\n" +
@@ -1051,48 +2073,105 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_pro
 }
 
 var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
+var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
 var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_goTypes = []any{
-	(GraphQLApiStatus_State)(0),                            // 0: graphql.gloo.solo.io.GraphQLApiStatus.State
-	(*RequestTemplate)(nil),                                // 1: graphql.gloo.solo.io.RequestTemplate
-	(*ResponseTemplate)(nil),                               // 2: graphql.gloo.solo.io.ResponseTemplate
-	(*GrpcRequestTemplate)(nil),                            // 3: graphql.gloo.solo.io.GrpcRequestTemplate
-	(*RESTResolver)(nil),                                   // 4: graphql.gloo.solo.io.RESTResolver
-	(*GrpcDescriptorRegistry)(nil),                         // 5: graphql.gloo.solo.io.GrpcDescriptorRegistry
-	(*GrpcResolver)(nil),                                   // 6: graphql.gloo.solo.io.GrpcResolver
-	(*StitchedSchema)(nil),                                 // 7: graphql.gloo.solo.io.StitchedSchema
-	(*MockResolver)(nil),                                   // 8: graphql.gloo.solo.io.MockResolver
-	(*Resolution)(nil),                                     // 9: graphql.gloo.solo.io.Resolution
-	(*GraphQLApiSpec)(nil),                                 // 10: graphql.gloo.solo.io.GraphQLApiSpec
-	(*PersistedQueryCacheConfig)(nil),                      // 11: graphql.gloo.solo.io.PersistedQueryCacheConfig
-	(*ExecutableSchema)(nil),                               // 12: graphql.gloo.solo.io.ExecutableSchema
-	(*Executor)(nil),                                       // 13: graphql.gloo.solo.io.Executor
-	(*GraphQLApiStatus)(nil),                               // 14: graphql.gloo.solo.io.GraphQLApiStatus
-	(*GraphQLApiNamespacedStatuses)(nil),                   // 15: graphql.gloo.solo.io.GraphQLApiNamespacedStatuses
-	(*GrpcDescriptorRegistry_ProtoRefs)(nil),               // 16: graphql.gloo.solo.io.GrpcDescriptorRegistry.ProtoRefs
-	(*StitchedSchema_SubschemaConfig)(nil),                 // 17: graphql.gloo.solo.io.StitchedSchema.SubschemaConfig
-	(*StitchedSchema_SubschemaConfig_TypeMergeConfig)(nil), // 18: graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeConfig
-	(*MockResolver_AsyncResponse)(nil),                     // 19: graphql.gloo.solo.io.MockResolver.AsyncResponse
-	(*GraphQLApiSpec_GraphQLApiOptions)(nil),               // 20: graphql.gloo.solo.io.GraphQLApiSpec.GraphQLApiOptions
-	(*Executor_Local)(nil),                                 // 21: graphql.gloo.solo.io.Executor.Local
-	(*Executor_Remote)(nil),                                // 22: graphql.gloo.solo.io.Executor.Remote
-	(*Executor_Local_LocalExecutorOptions)(nil),            // 23: graphql.gloo.solo.io.Executor.Local.LocalExecutorOptions
-	nil,                     // 24: graphql.gloo.solo.io.GraphQLApiStatus.SubresourceStatusesEntry
-	nil,                     // 25: graphql.gloo.solo.io.GraphQLApiNamespacedStatuses.StatusesEntry
-	(*structpb.Struct)(nil), // 26: google.protobuf.Struct
+	(GraphQLApiStatus_State)(0),              // 0: graphql.gloo.solo.io.GraphQLApiStatus.State
+	(*RequestTemplate)(nil),                  // 1: graphql.gloo.solo.io.RequestTemplate
+	(*ResponseTemplate)(nil),                 // 2: graphql.gloo.solo.io.ResponseTemplate
+	(*GrpcRequestTemplate)(nil),              // 3: graphql.gloo.solo.io.GrpcRequestTemplate
+	(*RESTResolver)(nil),                     // 4: graphql.gloo.solo.io.RESTResolver
+	(*GrpcDescriptorRegistry)(nil),           // 5: graphql.gloo.solo.io.GrpcDescriptorRegistry
+	(*GrpcResolver)(nil),                     // 6: graphql.gloo.solo.io.GrpcResolver
+	(*StitchedSchema)(nil),                   // 7: graphql.gloo.solo.io.StitchedSchema
+	(*MockResolver)(nil),                     // 8: graphql.gloo.solo.io.MockResolver
+	(*Resolution)(nil),                       // 9: graphql.gloo.solo.io.Resolution
+	(*GraphQLApiSpec)(nil),                   // 10: graphql.gloo.solo.io.GraphQLApiSpec
+	(*PersistedQueryCacheConfig)(nil),        // 11: graphql.gloo.solo.io.PersistedQueryCacheConfig
+	(*ExecutableSchema)(nil),                 // 12: graphql.gloo.solo.io.ExecutableSchema
+	(*Executor)(nil),                         // 13: graphql.gloo.solo.io.Executor
+	(*GraphQLApiStatus)(nil),                 // 14: graphql.gloo.solo.io.GraphQLApiStatus
+	(*GraphQLApiNamespacedStatuses)(nil),     // 15: graphql.gloo.solo.io.GraphQLApiNamespacedStatuses
+	nil,                                      // 16: graphql.gloo.solo.io.RequestTemplate.HeadersEntry
+	nil,                                      // 17: graphql.gloo.solo.io.RequestTemplate.QueryParamsEntry
+	nil,                                      // 18: graphql.gloo.solo.io.ResponseTemplate.SettersEntry
+	nil,                                      // 19: graphql.gloo.solo.io.GrpcRequestTemplate.RequestMetadataEntry
+	(*GrpcDescriptorRegistry_ProtoRefs)(nil), // 20: graphql.gloo.solo.io.GrpcDescriptorRegistry.ProtoRefs
+	(*StitchedSchema_SubschemaConfig)(nil),   // 21: graphql.gloo.solo.io.StitchedSchema.SubschemaConfig
+	(*StitchedSchema_SubschemaConfig_TypeMergeConfig)(nil), // 22: graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeConfig
+	nil,                                      // 23: graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeEntry
+	nil,                                      // 24: graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeConfig.ArgsEntry
+	(*MockResolver_AsyncResponse)(nil),       // 25: graphql.gloo.solo.io.MockResolver.AsyncResponse
+	(*GraphQLApiSpec_GraphQLApiOptions)(nil), // 26: graphql.gloo.solo.io.GraphQLApiSpec.GraphQLApiOptions
+	(*Executor_Local)(nil),                   // 27: graphql.gloo.solo.io.Executor.Local
+	(*Executor_Remote)(nil),                  // 28: graphql.gloo.solo.io.Executor.Remote
+	(*Executor_Local_LocalExecutorOptions)(nil), // 29: graphql.gloo.solo.io.Executor.Local.LocalExecutorOptions
+	nil,                            // 30: graphql.gloo.solo.io.Executor.Local.ResolutionsEntry
+	nil,                            // 31: graphql.gloo.solo.io.Executor.Remote.HeadersEntry
+	nil,                            // 32: graphql.gloo.solo.io.Executor.Remote.QueryParamsEntry
+	nil,                            // 33: graphql.gloo.solo.io.GraphQLApiStatus.SubresourceStatusesEntry
+	nil,                            // 34: graphql.gloo.solo.io.GraphQLApiNamespacedStatuses.StatusesEntry
+	(*structpb.Value)(nil),         // 35: google.protobuf.Value
+	(*core.ResourceRef)(nil),       // 36: core.solo.io.ResourceRef
+	(*durationpb.Duration)(nil),    // 37: google.protobuf.Duration
+	(*wrapperspb.StringValue)(nil), // 38: google.protobuf.StringValue
+	(*structpb.Struct)(nil),        // 39: google.protobuf.Struct
+	(*wrapperspb.UInt32Value)(nil), // 40: google.protobuf.UInt32Value
 }
 var file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_depIdxs = []int32{
-	0,  // 0: graphql.gloo.solo.io.GraphQLApiStatus.state:type_name -> graphql.gloo.solo.io.GraphQLApiStatus.State
-	24, // 1: graphql.gloo.solo.io.GraphQLApiStatus.subresource_statuses:type_name -> graphql.gloo.solo.io.GraphQLApiStatus.SubresourceStatusesEntry
-	26, // 2: graphql.gloo.solo.io.GraphQLApiStatus.details:type_name -> google.protobuf.Struct
-	25, // 3: graphql.gloo.solo.io.GraphQLApiNamespacedStatuses.statuses:type_name -> graphql.gloo.solo.io.GraphQLApiNamespacedStatuses.StatusesEntry
-	14, // 4: graphql.gloo.solo.io.GraphQLApiStatus.SubresourceStatusesEntry.value:type_name -> graphql.gloo.solo.io.GraphQLApiStatus
-	14, // 5: graphql.gloo.solo.io.GraphQLApiNamespacedStatuses.StatusesEntry.value:type_name -> graphql.gloo.solo.io.GraphQLApiStatus
-	6,  // [6:6] is the sub-list for method output_type
-	6,  // [6:6] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	16, // 0: graphql.gloo.solo.io.RequestTemplate.headers:type_name -> graphql.gloo.solo.io.RequestTemplate.HeadersEntry
+	17, // 1: graphql.gloo.solo.io.RequestTemplate.query_params:type_name -> graphql.gloo.solo.io.RequestTemplate.QueryParamsEntry
+	35, // 2: graphql.gloo.solo.io.RequestTemplate.body:type_name -> google.protobuf.Value
+	18, // 3: graphql.gloo.solo.io.ResponseTemplate.setters:type_name -> graphql.gloo.solo.io.ResponseTemplate.SettersEntry
+	35, // 4: graphql.gloo.solo.io.GrpcRequestTemplate.outgoing_message_json:type_name -> google.protobuf.Value
+	19, // 5: graphql.gloo.solo.io.GrpcRequestTemplate.request_metadata:type_name -> graphql.gloo.solo.io.GrpcRequestTemplate.RequestMetadataEntry
+	36, // 6: graphql.gloo.solo.io.RESTResolver.upstream_ref:type_name -> core.solo.io.ResourceRef
+	1,  // 7: graphql.gloo.solo.io.RESTResolver.request:type_name -> graphql.gloo.solo.io.RequestTemplate
+	2,  // 8: graphql.gloo.solo.io.RESTResolver.response:type_name -> graphql.gloo.solo.io.ResponseTemplate
+	37, // 9: graphql.gloo.solo.io.RESTResolver.timeout:type_name -> google.protobuf.Duration
+	20, // 10: graphql.gloo.solo.io.GrpcDescriptorRegistry.proto_refs_list:type_name -> graphql.gloo.solo.io.GrpcDescriptorRegistry.ProtoRefs
+	36, // 11: graphql.gloo.solo.io.GrpcResolver.upstream_ref:type_name -> core.solo.io.ResourceRef
+	3,  // 12: graphql.gloo.solo.io.GrpcResolver.request_transform:type_name -> graphql.gloo.solo.io.GrpcRequestTemplate
+	37, // 13: graphql.gloo.solo.io.GrpcResolver.timeout:type_name -> google.protobuf.Duration
+	21, // 14: graphql.gloo.solo.io.StitchedSchema.subschemas:type_name -> graphql.gloo.solo.io.StitchedSchema.SubschemaConfig
+	35, // 15: graphql.gloo.solo.io.MockResolver.sync_response:type_name -> google.protobuf.Value
+	25, // 16: graphql.gloo.solo.io.MockResolver.async_response:type_name -> graphql.gloo.solo.io.MockResolver.AsyncResponse
+	4,  // 17: graphql.gloo.solo.io.Resolution.rest_resolver:type_name -> graphql.gloo.solo.io.RESTResolver
+	6,  // 18: graphql.gloo.solo.io.Resolution.grpc_resolver:type_name -> graphql.gloo.solo.io.GrpcResolver
+	8,  // 19: graphql.gloo.solo.io.Resolution.mock_resolver:type_name -> graphql.gloo.solo.io.MockResolver
+	38, // 20: graphql.gloo.solo.io.Resolution.stat_prefix:type_name -> google.protobuf.StringValue
+	12, // 21: graphql.gloo.solo.io.GraphQLApiSpec.executable_schema:type_name -> graphql.gloo.solo.io.ExecutableSchema
+	7,  // 22: graphql.gloo.solo.io.GraphQLApiSpec.stitched_schema:type_name -> graphql.gloo.solo.io.StitchedSchema
+	38, // 23: graphql.gloo.solo.io.GraphQLApiSpec.stat_prefix:type_name -> google.protobuf.StringValue
+	11, // 24: graphql.gloo.solo.io.GraphQLApiSpec.persisted_query_cache_config:type_name -> graphql.gloo.solo.io.PersistedQueryCacheConfig
+	26, // 25: graphql.gloo.solo.io.GraphQLApiSpec.options:type_name -> graphql.gloo.solo.io.GraphQLApiSpec.GraphQLApiOptions
+	13, // 26: graphql.gloo.solo.io.ExecutableSchema.executor:type_name -> graphql.gloo.solo.io.Executor
+	5,  // 27: graphql.gloo.solo.io.ExecutableSchema.grpc_descriptor_registry:type_name -> graphql.gloo.solo.io.GrpcDescriptorRegistry
+	27, // 28: graphql.gloo.solo.io.Executor.local:type_name -> graphql.gloo.solo.io.Executor.Local
+	28, // 29: graphql.gloo.solo.io.Executor.remote:type_name -> graphql.gloo.solo.io.Executor.Remote
+	0,  // 30: graphql.gloo.solo.io.GraphQLApiStatus.state:type_name -> graphql.gloo.solo.io.GraphQLApiStatus.State
+	33, // 31: graphql.gloo.solo.io.GraphQLApiStatus.subresource_statuses:type_name -> graphql.gloo.solo.io.GraphQLApiStatus.SubresourceStatusesEntry
+	39, // 32: graphql.gloo.solo.io.GraphQLApiStatus.details:type_name -> google.protobuf.Struct
+	34, // 33: graphql.gloo.solo.io.GraphQLApiNamespacedStatuses.statuses:type_name -> graphql.gloo.solo.io.GraphQLApiNamespacedStatuses.StatusesEntry
+	36, // 34: graphql.gloo.solo.io.GrpcDescriptorRegistry.ProtoRefs.config_map_refs:type_name -> core.solo.io.ResourceRef
+	23, // 35: graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.type_merge:type_name -> graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeEntry
+	24, // 36: graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeConfig.args:type_name -> graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeConfig.ArgsEntry
+	22, // 37: graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeEntry.value:type_name -> graphql.gloo.solo.io.StitchedSchema.SubschemaConfig.TypeMergeConfig
+	35, // 38: graphql.gloo.solo.io.MockResolver.AsyncResponse.response:type_name -> google.protobuf.Value
+	37, // 39: graphql.gloo.solo.io.MockResolver.AsyncResponse.delay:type_name -> google.protobuf.Duration
+	30, // 40: graphql.gloo.solo.io.Executor.Local.resolutions:type_name -> graphql.gloo.solo.io.Executor.Local.ResolutionsEntry
+	29, // 41: graphql.gloo.solo.io.Executor.Local.options:type_name -> graphql.gloo.solo.io.Executor.Local.LocalExecutorOptions
+	36, // 42: graphql.gloo.solo.io.Executor.Remote.upstream_ref:type_name -> core.solo.io.ResourceRef
+	31, // 43: graphql.gloo.solo.io.Executor.Remote.headers:type_name -> graphql.gloo.solo.io.Executor.Remote.HeadersEntry
+	32, // 44: graphql.gloo.solo.io.Executor.Remote.query_params:type_name -> graphql.gloo.solo.io.Executor.Remote.QueryParamsEntry
+	40, // 45: graphql.gloo.solo.io.Executor.Local.LocalExecutorOptions.max_depth:type_name -> google.protobuf.UInt32Value
+	9,  // 46: graphql.gloo.solo.io.Executor.Local.ResolutionsEntry.value:type_name -> graphql.gloo.solo.io.Resolution
+	14, // 47: graphql.gloo.solo.io.GraphQLApiStatus.SubresourceStatusesEntry.value:type_name -> graphql.gloo.solo.io.GraphQLApiStatus
+	14, // 48: graphql.gloo.solo.io.GraphQLApiNamespacedStatuses.StatusesEntry.value:type_name -> graphql.gloo.solo.io.GraphQLApiStatus
+	49, // [49:49] is the sub-list for method output_type
+	49, // [49:49] is the sub-list for method input_type
+	49, // [49:49] is the sub-list for extension type_name
+	49, // [49:49] is the sub-list for extension extendee
+	0,  // [0:49] is the sub-list for field type_name
 }
 
 func init() { file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_init() }
@@ -1100,13 +2179,36 @@ func file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_pro
 	if File_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto != nil {
 		return
 	}
+	file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[4].OneofWrappers = []any{
+		(*GrpcDescriptorRegistry_ProtoDescriptor)(nil),
+		(*GrpcDescriptorRegistry_ProtoDescriptorBin)(nil),
+		(*GrpcDescriptorRegistry_ProtoRefsList)(nil),
+	}
+	file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[7].OneofWrappers = []any{
+		(*MockResolver_SyncResponse)(nil),
+		(*MockResolver_AsyncResponse_)(nil),
+		(*MockResolver_ErrorResponse)(nil),
+	}
+	file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[8].OneofWrappers = []any{
+		(*Resolution_RestResolver)(nil),
+		(*Resolution_GrpcResolver)(nil),
+		(*Resolution_MockResolver)(nil),
+	}
+	file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[9].OneofWrappers = []any{
+		(*GraphQLApiSpec_ExecutableSchema)(nil),
+		(*GraphQLApiSpec_StitchedSchema)(nil),
+	}
+	file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_msgTypes[12].OneofWrappers = []any{
+		(*Executor_Local_)(nil),
+		(*Executor_Remote_)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDesc), len(file_github_com_solo_io_solo_apis_api_gloo_graphql_gloo_v1beta1_graphql_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   25,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

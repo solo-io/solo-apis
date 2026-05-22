@@ -96,6 +96,65 @@ func (SettingsSpec_DiscoveryOptions_FdsMode) EnumDescriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{0, 10, 0}
 }
 
+type GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule int32
+
+const (
+	GraphqlOptions_SchemaChangeValidationOptions_RULE_UNSPECIFIED GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule = 0
+	// Turn every dangerous change into a breaking change.
+	GraphqlOptions_SchemaChangeValidationOptions_RULE_DANGEROUS_TO_BREAKING GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule = 1
+	// Treat the removal of a deprecated field as a dangerous change, instead of a breaking change.
+	GraphqlOptions_SchemaChangeValidationOptions_RULE_DEPRECATED_FIELD_REMOVAL_DANGEROUS GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule = 2
+	// Ignore description changes.
+	GraphqlOptions_SchemaChangeValidationOptions_RULE_IGNORE_DESCRIPTION_CHANGES GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule = 3
+	// Ignore breaking changes on parts of the schema that are not reachable starting from the root types.
+	GraphqlOptions_SchemaChangeValidationOptions_RULE_IGNORE_UNREACHABLE GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule = 4
+)
+
+// Enum value maps for GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule.
+var (
+	GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule_name = map[int32]string{
+		0: "RULE_UNSPECIFIED",
+		1: "RULE_DANGEROUS_TO_BREAKING",
+		2: "RULE_DEPRECATED_FIELD_REMOVAL_DANGEROUS",
+		3: "RULE_IGNORE_DESCRIPTION_CHANGES",
+		4: "RULE_IGNORE_UNREACHABLE",
+	}
+	GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule_value = map[string]int32{
+		"RULE_UNSPECIFIED":                        0,
+		"RULE_DANGEROUS_TO_BREAKING":              1,
+		"RULE_DEPRECATED_FIELD_REMOVAL_DANGEROUS": 2,
+		"RULE_IGNORE_DESCRIPTION_CHANGES":         3,
+		"RULE_IGNORE_UNREACHABLE":                 4,
+	}
+)
+
+func (x GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule) Enum() *GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule {
+	p := new(GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule)
+	*p = x
+	return p
+}
+
+func (x GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule) Descriptor() protoreflect.EnumDescriptor {
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_enumTypes[1].Descriptor()
+}
+
+func (GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule) Type() protoreflect.EnumType {
+	return &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_enumTypes[1]
+}
+
+func (x GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule.Descriptor instead.
+func (GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule) EnumDescriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{8, 0, 0}
+}
+
 type SettingsStatus_State int32
 
 const (
@@ -138,11 +197,11 @@ func (x SettingsStatus_State) String() string {
 }
 
 func (SettingsStatus_State) Descriptor() protoreflect.EnumDescriptor {
-	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_enumTypes[1].Descriptor()
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_enumTypes[2].Descriptor()
 }
 
 func (SettingsStatus_State) Type() protoreflect.EnumType {
-	return &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_enumTypes[1]
+	return &file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_enumTypes[2]
 }
 
 func (x SettingsStatus_State) Number() protoreflect.EnumNumber {
@@ -262,6 +321,11 @@ type SettingsSpec struct {
 	UpstreamOptions *UpstreamOptions `protobuf:"bytes,32,opt,name=upstreamOptions,proto3" json:"upstreamOptions,omitempty"`
 	// Enterprise-only: Settings for the Gloo Edge Enterprise Console (UI)
 	ConsoleOptions *ConsoleOptions `protobuf:"bytes,35,opt,name=console_options,json=consoleOptions,proto3" json:"console_options,omitempty"`
+	// Deprecated: The GraphQL feature will be removed in a future release.
+	// Enterprise-only: GraphQL settings
+	//
+	// Deprecated: Marked as deprecated in github.com/solo-io/solo-apis/api/gloo/gloo/v1/settings.proto.
+	GraphqlOptions *GraphqlOptions `protobuf:"bytes,37,opt,name=graphql_options,json=graphqlOptions,proto3" json:"graphql_options,omitempty"`
 	// Enterprise-only: Early External Processing filter settings. These settings are used as
 	// defaults globally, and can be overridden by HttpListenerOptions, VirtualHostOptions,
 	// or RouteOptions.
@@ -310,11 +374,8 @@ type SettingsSpec struct {
 	// Refer to the [Kubernetes selector docs](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
 	// for additional detail on selector semantics.
 	WatchNamespaceSelectors []*LabelSelector `protobuf:"bytes,40,rep,name=watch_namespace_selectors,json=watchNamespaceSelectors,proto3" json:"watch_namespace_selectors,omitempty"`
-	// Set to true to only use ipv4 when creating gateways when running in gateway api mode.
-	// Defaults to false
-	IpV4Only      bool `protobuf:"varint,43,opt,name=ip_v4_only,json=ipV4Only,proto3" json:"ip_v4_only,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *SettingsSpec) Reset() {
@@ -612,6 +673,14 @@ func (x *SettingsSpec) GetConsoleOptions() *ConsoleOptions {
 	return nil
 }
 
+// Deprecated: Marked as deprecated in github.com/solo-io/solo-apis/api/gloo/gloo/v1/settings.proto.
+func (x *SettingsSpec) GetGraphqlOptions() *GraphqlOptions {
+	if x != nil {
+		return x.GraphqlOptions
+	}
+	return nil
+}
+
 func (x *SettingsSpec) GetExtProcEarly() *extproc.Settings {
 	if x != nil {
 		return x.ExtProcEarly
@@ -638,13 +707,6 @@ func (x *SettingsSpec) GetWatchNamespaceSelectors() []*LabelSelector {
 		return x.WatchNamespaceSelectors
 	}
 	return nil
-}
-
-func (x *SettingsSpec) GetIpV4Only() bool {
-	if x != nil {
-		return x.IpV4Only
-	}
-	return false
 }
 
 type isSettingsSpec_ConfigSource interface {
@@ -975,11 +1037,8 @@ type GlooOptions struct {
 	// This setting can be overridden in individual TransformationTemplates
 	TransformationEscapeCharacters *wrapperspb.BoolValue     `protobuf:"bytes,17,opt,name=transformation_escape_characters,json=transformationEscapeCharacters,proto3" json:"transformation_escape_characters,omitempty"`
 	IstioOptions                   *GlooOptions_IstioOptions `protobuf:"bytes,18,opt,name=istio_options,json=istioOptions,proto3" json:"istio_options,omitempty"`
-	// When enabled, request/response body transformation will be bypassed automatically for websocket request.
-	// Buffering of the body will also be disabled in the mode but header transformation will still be applied.
-	EnableAutoWebsocketTransformationPassthrough *wrapperspb.BoolValue `protobuf:"bytes,19,opt,name=enable_auto_websocket_transformation_passthrough,json=enableAutoWebsocketTransformationPassthrough,proto3" json:"enable_auto_websocket_transformation_passthrough,omitempty"`
-	unknownFields                                protoimpl.UnknownFields
-	sizeCache                                    protoimpl.SizeCache
+	unknownFields                  protoimpl.UnknownFields
+	sizeCache                      protoimpl.SizeCache
 }
 
 func (x *GlooOptions) Reset() {
@@ -1134,13 +1193,6 @@ func (x *GlooOptions) GetTransformationEscapeCharacters() *wrapperspb.BoolValue 
 func (x *GlooOptions) GetIstioOptions() *GlooOptions_IstioOptions {
 	if x != nil {
 		return x.IstioOptions
-	}
-	return nil
-}
-
-func (x *GlooOptions) GetEnableAutoWebsocketTransformationPassthrough() *wrapperspb.BoolValue {
-	if x != nil {
-		return x.EnableAutoWebsocketTransformationPassthrough
 	}
 	return nil
 }
@@ -1339,11 +1391,21 @@ func (x *GatewayOptions) GetTranslateEmptyGateways() *wrapperspb.BoolValue {
 	return nil
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+// Deprecated: The GraphQL feature will be removed in a future release.
+// Settings used by the Enterprise Console (UI)
 type ConsoleOptions struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// If true, then custom resources can only be viewed in read-only mode in the UI.
+	// If false, then resources can be created, updated, and deleted via the UI.
+	// Currently, create/update/delete operations are only supported for GraphQL resources.
+	// This feature requires a Gloo Edge Enterprise license with GraphQL enabled.
+	// Defaults to true.
+	ReadOnly *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=read_only,json=readOnly,proto3" json:"read_only,omitempty"`
+	// Whether to enable the GraphQL API Explorer. This feature requires a Gloo Edge Enterprise license with GraphQL enabled.
+	// Defaults to true.
+	ApiExplorerEnabled *wrapperspb.BoolValue `protobuf:"bytes,2,opt,name=api_explorer_enabled,json=apiExplorerEnabled,proto3" json:"api_explorer_enabled,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *ConsoleOptions) Reset() {
@@ -1376,11 +1438,28 @@ func (*ConsoleOptions) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{7}
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
+func (x *ConsoleOptions) GetReadOnly() *wrapperspb.BoolValue {
+	if x != nil {
+		return x.ReadOnly
+	}
+	return nil
+}
+
+func (x *ConsoleOptions) GetApiExplorerEnabled() *wrapperspb.BoolValue {
+	if x != nil {
+		return x.ApiExplorerEnabled
+	}
+	return nil
+}
+
+// Deprecated: The GraphQL feature will be removed in a future release.
+// GraphQL settings used by the control plane and UI.
 type GraphqlOptions struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Options for how to validate changes to schema definitions.
+	SchemaChangeValidationOptions *GraphqlOptions_SchemaChangeValidationOptions `protobuf:"bytes,1,opt,name=schema_change_validation_options,json=schemaChangeValidationOptions,proto3" json:"schema_change_validation_options,omitempty"`
+	unknownFields                 protoimpl.UnknownFields
+	sizeCache                     protoimpl.SizeCache
 }
 
 func (x *GraphqlOptions) Reset() {
@@ -1411,6 +1490,13 @@ func (x *GraphqlOptions) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GraphqlOptions.ProtoReflect.Descriptor instead.
 func (*GraphqlOptions) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GraphqlOptions) GetSchemaChangeValidationOptions() *GraphqlOptions_SchemaChangeValidationOptions {
+	if x != nil {
+		return x.SchemaChangeValidationOptions
+	}
+	return nil
 }
 
 type SettingsStatus struct {
@@ -2912,9 +2998,14 @@ func (x *SettingsSpec_DiscoveryOptions_UdsOptions) GetWatchLabels() map[string]s
 }
 
 type SettingsSpec_DiscoveryOptions_FdsOptions struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: The GraphQL feature will be removed in a future release.
+	// Enable function discovery service on GraphQL gRPC and OpenApi upstreams. Defaults to true.
+	//
+	// Deprecated: Marked as deprecated in github.com/solo-io/solo-apis/api/gloo/gloo/v1/settings.proto.
+	GraphqlEnabled *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=graphql_enabled,json=graphqlEnabled,proto3" json:"graphql_enabled,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *SettingsSpec_DiscoveryOptions_FdsOptions) Reset() {
@@ -2945,6 +3036,14 @@ func (x *SettingsSpec_DiscoveryOptions_FdsOptions) ProtoReflect() protoreflect.M
 // Deprecated: Use SettingsSpec_DiscoveryOptions_FdsOptions.ProtoReflect.Descriptor instead.
 func (*SettingsSpec_DiscoveryOptions_FdsOptions) Descriptor() ([]byte, []int) {
 	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{0, 10, 1}
+}
+
+// Deprecated: Marked as deprecated in github.com/solo-io/solo-apis/api/gloo/gloo/v1/settings.proto.
+func (x *SettingsSpec_DiscoveryOptions_FdsOptions) GetGraphqlEnabled() *wrapperspb.BoolValue {
+	if x != nil {
+		return x.GraphqlEnabled
+	}
+	return nil
 }
 
 // service discovery options for Consul
@@ -3658,11 +3757,18 @@ func (x *GatewayOptions_ValidationOptions) GetFullEnvoyValidation() *wrapperspb.
 	return nil
 }
 
-// DEPRECATED: This message is deprecated and has been removed from use as of gloo 1.20. Message is being kept to prevent future use of these names and fields
 type GraphqlOptions_SchemaChangeValidationOptions struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Schema definition updates can be considered safe, dangerous, or breaking.
+	// If this field is set to true, then breaking schema updates will be rejected.
+	// Defaults to false.
+	RejectBreakingChanges *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=reject_breaking_changes,json=rejectBreakingChanges,proto3" json:"reject_breaking_changes,omitempty"`
+	// We use [GraphQL Inspector](https://www.graphql-inspector.com/docs/essentials/diff) to detect breaking changes
+	// to GraphQL schemas. This field allows for passing [processing rules](https://www.graphql-inspector.com/docs/essentials/diff#rules)
+	// to GraphQL Inspector to customize how various change types are handled.
+	ProcessingRules []GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule `protobuf:"varint,2,rep,packed,name=processing_rules,json=processingRules,proto3,enum=gloo.solo.io.GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule" json:"processing_rules,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *GraphqlOptions_SchemaChangeValidationOptions) Reset() {
@@ -3695,11 +3801,25 @@ func (*GraphqlOptions_SchemaChangeValidationOptions) Descriptor() ([]byte, []int
 	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZIP(), []int{8, 0}
 }
 
+func (x *GraphqlOptions_SchemaChangeValidationOptions) GetRejectBreakingChanges() *wrapperspb.BoolValue {
+	if x != nil {
+		return x.RejectBreakingChanges
+	}
+	return nil
+}
+
+func (x *GraphqlOptions_SchemaChangeValidationOptions) GetProcessingRules() []GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule {
+	if x != nil {
+		return x.ProcessingRules
+	}
+	return nil
+}
+
 var File_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto protoreflect.FileDescriptor
 
 const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc = "" +
 	"\n" +
-	"<github.com/solo-io/solo-apis/api/gloo/gloo/v1/settings.proto\x12\fgloo.solo.io\x1a\x1cgoogle/protobuf/struct.proto\x1a\x12extproto/ext.proto\x1a1github.com/solo-io/solo-kit/api/v1/solo-kit.proto\x1a,github.com/solo-io/solo-kit/api/v1/ref.proto\x1a>github.com/solo-io/solo-apis/api/gloo/gloo/v1/extensions.proto\x1aZgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/ratelimit/ratelimit.proto\x1aVgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/caching/caching.proto\x1aJgithub.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto\x1aVgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/extproc/extproc.proto\x1aPgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto\x1aSgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/circuit_breaker/circuit_breaker.proto\x1a;github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl/ssl.proto\x1aUgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/aws/filter.proto\x1aPgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/options/consul/query_options.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xb4;\n" +
+	"<github.com/solo-io/solo-apis/api/gloo/gloo/v1/settings.proto\x12\fgloo.solo.io\x1a\x1cgoogle/protobuf/struct.proto\x1a\x12extproto/ext.proto\x1a1github.com/solo-io/solo-kit/api/v1/solo-kit.proto\x1a,github.com/solo-io/solo-kit/api/v1/ref.proto\x1a>github.com/solo-io/solo-apis/api/gloo/gloo/v1/extensions.proto\x1aZgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/ratelimit/ratelimit.proto\x1aVgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/caching/caching.proto\x1aJgithub.com/solo-io/solo-apis/api/gloo/enterprise.gloo/v1/auth_config.proto\x1aVgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/extproc/extproc.proto\x1aPgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/enterprise/options/rbac/rbac.proto\x1aSgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/circuit_breaker/circuit_breaker.proto\x1a;github.com/solo-io/solo-apis/api/gloo/gloo/v1/ssl/ssl.proto\x1aUgithub.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/extensions/aws/filter.proto\x1aPgithub.com/solo-io/solo-apis/api/gloo/gloo/v1/options/consul/query_options.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xfc;\n" +
 	"\fSettingsSpec\x12/\n" +
 	"\x13discovery_namespace\x18\x01 \x01(\tR\x12discoveryNamespace\x12)\n" +
 	"\x10watch_namespaces\x18\x02 \x03(\tR\x0fwatchNamespaces\x12e\n" +
@@ -3737,13 +3857,12 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc 
 	"\x0ecaching_server\x18$ \x01(\v2&.caching.options.gloo.solo.io.SettingsR\rcachingServer\x12c\n" +
 	"\x14observabilityOptions\x18\x1f \x01(\v2/.gloo.solo.io.SettingsSpec.ObservabilityOptionsR\x14observabilityOptions\x12G\n" +
 	"\x0fupstreamOptions\x18  \x01(\v2\x1d.gloo.solo.io.UpstreamOptionsR\x0fupstreamOptions\x12E\n" +
-	"\x0fconsole_options\x18# \x01(\v2\x1c.gloo.solo.io.ConsoleOptionsR\x0econsoleOptions\x12L\n" +
+	"\x0fconsole_options\x18# \x01(\v2\x1c.gloo.solo.io.ConsoleOptionsR\x0econsoleOptions\x12I\n" +
+	"\x0fgraphql_options\x18% \x01(\v2\x1c.gloo.solo.io.GraphqlOptionsB\x02\x18\x01R\x0egraphqlOptions\x12L\n" +
 	"\x0eext_proc_early\x18* \x01(\v2&.extproc.options.gloo.solo.io.SettingsR\fextProcEarly\x12A\n" +
 	"\bext_proc\x18' \x01(\v2&.extproc.options.gloo.solo.io.SettingsR\aextProc\x12J\n" +
 	"\rext_proc_late\x18) \x01(\v2&.extproc.options.gloo.solo.io.SettingsR\vextProcLate\x12W\n" +
-	"\x19watch_namespace_selectors\x18( \x03(\v2\x1b.gloo.solo.io.LabelSelectorR\x17watchNamespaceSelectors\x12\x1c\n" +
-	"\n" +
-	"ip_v4_only\x18+ \x01(\bR\bipV4Only\x1a\xc6\x02\n" +
+	"\x19watch_namespace_selectors\x18( \x03(\v2\x1b.gloo.solo.io.LabelSelectorR\x17watchNamespaceSelectors\x1a\xc6\x02\n" +
 	"\rSecretOptions\x12I\n" +
 	"\asources\x18\x01 \x03(\v2/.gloo.solo.io.SettingsSpec.SecretOptions.SourceR\asources\x1a\xe9\x01\n" +
 	"\x06Source\x12N\n" +
@@ -3803,7 +3922,7 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc 
 	"\x0eKnativeOptions\x12A\n" +
 	"\x1dcluster_ingress_proxy_address\x18\x01 \x01(\tR\x1aclusterIngressProxyAddress\x12C\n" +
 	"\x1eknative_external_proxy_address\x18\x02 \x01(\tR\x1bknativeExternalProxyAddress\x12C\n" +
-	"\x1eknative_internal_proxy_address\x18\x03 \x01(\tR\x1bknativeInternalProxyAddress\x1a\xe1\x04\n" +
+	"\x1eknative_internal_proxy_address\x18\x03 \x01(\tR\x1bknativeInternalProxyAddress\x1a\x93\x05\n" +
 	"\x10DiscoveryOptions\x12N\n" +
 	"\bfds_mode\x18\x01 \x01(\x0e23.gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsModeR\afdsMode\x12W\n" +
 	"\vuds_options\x18\x02 \x01(\v26.gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptionsR\n" +
@@ -3816,9 +3935,10 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc 
 	"\fwatch_labels\x18\x02 \x03(\v2G.gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions.WatchLabelsEntryR\vwatchLabels\x1a>\n" +
 	"\x10WatchLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a#\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1aU\n" +
 	"\n" +
-	"FdsOptionsJ\x04\b\x01\x10\x02R\x0fgraphql_enabled\"5\n" +
+	"FdsOptions\x12G\n" +
+	"\x0fgraphql_enabled\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueB\x02\x18\x01R\x0egraphqlEnabled\"5\n" +
 	"\aFdsMode\x12\r\n" +
 	"\tBLACKLIST\x10\x00\x12\r\n" +
 	"\tWHITELIST\x10\x01\x12\f\n" +
@@ -3883,7 +4003,7 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc 
 	"\x05value\x18\x02 \x01(\v2<.gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabelsR\x05value:\x028\x01B\x0f\n" +
 	"\rconfig_sourceB\x0f\n" +
 	"\rsecret_sourceB\x11\n" +
-	"\x0fartifact_sourceJ\x04\b\x0f\x10\x10J\x04\b%\x10&R\x0fgraphql_options\"\xf5\x01\n" +
+	"\x0fartifact_sourceJ\x04\b\x0f\x10\x10\"\xf5\x01\n" +
 	"\rLabelSelector\x12O\n" +
 	"\fmatch_labels\x18\x01 \x03(\v2,.gloo.solo.io.LabelSelector.MatchLabelsEntryR\vmatchLabels\x12S\n" +
 	"\x11match_expressions\x18\x02 \x03(\v2&.gloo.solo.io.LabelSelectorRequirementR\x10matchExpressions\x1a>\n" +
@@ -3899,7 +4019,7 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc 
 	"\x12global_annotations\x18\x02 \x03(\v24.gloo.solo.io.UpstreamOptions.GlobalAnnotationsEntryR\x11globalAnnotations\x1aD\n" +
 	"\x16GlobalAnnotationsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd3\x13\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xce\x12\n" +
 	"\vGlooOptions\x12\"\n" +
 	"\rxds_bind_addr\x18\x01 \x01(\tR\vxdsBindAddr\x120\n" +
 	"\x14validation_bind_addr\x18\x02 \x01(\tR\x12validationBindAddr\x12M\n" +
@@ -3920,8 +4040,7 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc 
 	"\x15proxy_debug_bind_addr\x18\x0f \x01(\tR\x12proxyDebugBindAddr\x12r\n" +
 	"(log_transformation_request_response_info\x18\x10 \x01(\v2\x1a.google.protobuf.BoolValueR$logTransformationRequestResponseInfo\x12d\n" +
 	" transformation_escape_characters\x18\x11 \x01(\v2\x1a.google.protobuf.BoolValueR\x1etransformationEscapeCharacters\x12K\n" +
-	"\ristio_options\x18\x12 \x01(\v2&.gloo.solo.io.GlooOptions.IstioOptionsR\fistioOptions\x12\x82\x01\n" +
-	"0enable_auto_websocket_transformation_passthrough\x18\x13 \x01(\v2\x1a.google.protobuf.BoolValueR,enableAutoWebsocketTransformationPassthrough\x1a\x83\x04\n" +
+	"\ristio_options\x18\x12 \x01(\v2&.gloo.solo.io.GlooOptions.IstioOptionsR\fistioOptions\x1a\x83\x04\n" +
 	"\n" +
 	"AWSOptions\x12@\n" +
 	"\x1benable_credentials_discovey\x18\x01 \x01(\bH\x00R\x19enableCredentialsDiscovey\x12\x93\x01\n" +
@@ -3967,10 +4086,21 @@ const file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc 
 	"\x0eserver_enabled\x18\f \x01(\v2\x1a.google.protobuf.BoolValueR\rserverEnabled\x12Q\n" +
 	"\x17warn_missing_tls_secret\x18\r \x01(\v2\x1a.google.protobuf.BoolValueR\x14warnMissingTlsSecret\x12N\n" +
 	"\x15full_envoy_validation\x18\x0e \x01(\v2\x1a.google.protobuf.BoolValueR\x13fullEnvoyValidationJ\x04\b\n" +
-	"\x10\v\"=\n" +
-	"\x0eConsoleOptionsJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03R\tread_onlyR\x14api_explorer_enabled\"\x90\x01\n" +
-	"\x0eGraphqlOptions\x1aV\n" +
-	"\x1dSchemaChangeValidationOptionsJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03R\x17reject_breaking_changesR\x10processing_rulesJ\x04\b\x01\x10\x02R schema_change_validation_options\"\xc5\x03\n" +
+	"\x10\v\"\x97\x01\n" +
+	"\x0eConsoleOptions\x127\n" +
+	"\tread_only\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\breadOnly\x12L\n" +
+	"\x14api_explorer_enabled\x18\x02 \x01(\v2\x1a.google.protobuf.BoolValueR\x12apiExplorerEnabled\"\xba\x04\n" +
+	"\x0eGraphqlOptions\x12\x83\x01\n" +
+	" schema_change_validation_options\x18\x01 \x01(\v2:.gloo.solo.io.GraphqlOptions.SchemaChangeValidationOptionsR\x1dschemaChangeValidationOptions\x1a\xa1\x03\n" +
+	"\x1dSchemaChangeValidationOptions\x12R\n" +
+	"\x17reject_breaking_changes\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\x15rejectBreakingChanges\x12t\n" +
+	"\x10processing_rules\x18\x02 \x03(\x0e2I.gloo.solo.io.GraphqlOptions.SchemaChangeValidationOptions.ProcessingRuleR\x0fprocessingRules\"\xb5\x01\n" +
+	"\x0eProcessingRule\x12\x14\n" +
+	"\x10RULE_UNSPECIFIED\x10\x00\x12\x1e\n" +
+	"\x1aRULE_DANGEROUS_TO_BREAKING\x10\x01\x12+\n" +
+	"'RULE_DEPRECATED_FIELD_REMOVAL_DANGEROUS\x10\x02\x12#\n" +
+	"\x1fRULE_IGNORE_DESCRIPTION_CHANGES\x10\x03\x12\x1b\n" +
+	"\x17RULE_IGNORE_UNREACHABLE\x10\x04\"\xc5\x03\n" +
 	"\x0eSettingsStatus\x128\n" +
 	"\x05state\x18\x01 \x01(\x0e2\".gloo.solo.io.SettingsStatus.StateR\x05state\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\x12\x1f\n" +
@@ -4004,188 +4134,195 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescGZ
 	return file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDescData
 }
 
-var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_msgTypes = make([]protoimpl.MessageInfo, 46)
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_goTypes = []any{
-	(SettingsSpec_DiscoveryOptions_FdsMode)(0),                // 0: gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsMode
-	(SettingsStatus_State)(0),                                 // 1: gloo.solo.io.SettingsStatus.State
-	(*SettingsSpec)(nil),                                      // 2: gloo.solo.io.SettingsSpec
-	(*LabelSelector)(nil),                                     // 3: gloo.solo.io.LabelSelector
-	(*LabelSelectorRequirement)(nil),                          // 4: gloo.solo.io.LabelSelectorRequirement
-	(*UpstreamOptions)(nil),                                   // 5: gloo.solo.io.UpstreamOptions
-	(*GlooOptions)(nil),                                       // 6: gloo.solo.io.GlooOptions
-	(*VirtualServiceOptions)(nil),                             // 7: gloo.solo.io.VirtualServiceOptions
-	(*GatewayOptions)(nil),                                    // 8: gloo.solo.io.GatewayOptions
-	(*ConsoleOptions)(nil),                                    // 9: gloo.solo.io.ConsoleOptions
-	(*GraphqlOptions)(nil),                                    // 10: gloo.solo.io.GraphqlOptions
-	(*SettingsStatus)(nil),                                    // 11: gloo.solo.io.SettingsStatus
-	(*SettingsNamespacedStatuses)(nil),                        // 12: gloo.solo.io.SettingsNamespacedStatuses
-	(*SettingsSpec_SecretOptions)(nil),                        // 13: gloo.solo.io.SettingsSpec.SecretOptions
-	(*SettingsSpec_KubernetesCrds)(nil),                       // 14: gloo.solo.io.SettingsSpec.KubernetesCrds
-	(*SettingsSpec_KubernetesSecrets)(nil),                    // 15: gloo.solo.io.SettingsSpec.KubernetesSecrets
-	(*SettingsSpec_VaultSecrets)(nil),                         // 16: gloo.solo.io.SettingsSpec.VaultSecrets
-	(*SettingsSpec_VaultAwsAuth)(nil),                         // 17: gloo.solo.io.SettingsSpec.VaultAwsAuth
-	(*SettingsSpec_VaultTlsConfig)(nil),                       // 18: gloo.solo.io.SettingsSpec.VaultTlsConfig
-	(*SettingsSpec_ConsulKv)(nil),                             // 19: gloo.solo.io.SettingsSpec.ConsulKv
-	(*SettingsSpec_KubernetesConfigmaps)(nil),                 // 20: gloo.solo.io.SettingsSpec.KubernetesConfigmaps
-	(*SettingsSpec_Directory)(nil),                            // 21: gloo.solo.io.SettingsSpec.Directory
-	(*SettingsSpec_KnativeOptions)(nil),                       // 22: gloo.solo.io.SettingsSpec.KnativeOptions
-	(*SettingsSpec_DiscoveryOptions)(nil),                     // 23: gloo.solo.io.SettingsSpec.DiscoveryOptions
-	(*SettingsSpec_ConsulConfiguration)(nil),                  // 24: gloo.solo.io.SettingsSpec.ConsulConfiguration
-	(*SettingsSpec_ConsulUpstreamDiscoveryConfiguration)(nil), // 25: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration
-	(*SettingsSpec_KubernetesConfiguration)(nil),              // 26: gloo.solo.io.SettingsSpec.KubernetesConfiguration
-	nil, // 27: gloo.solo.io.SettingsSpec.NamedExtauthEntry
-	(*SettingsSpec_ObservabilityOptions)(nil),        // 28: gloo.solo.io.SettingsSpec.ObservabilityOptions
-	(*SettingsSpec_SecretOptions_Source)(nil),        // 29: gloo.solo.io.SettingsSpec.SecretOptions.Source
-	(*SettingsSpec_DiscoveryOptions_UdsOptions)(nil), // 30: gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions
-	(*SettingsSpec_DiscoveryOptions_FdsOptions)(nil), // 31: gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsOptions
-	nil, // 32: gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions.WatchLabelsEntry
-	(*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions)(nil), // 33: gloo.solo.io.SettingsSpec.ConsulConfiguration.ServiceDiscoveryOptions
-	(*SettingsSpec_KubernetesConfiguration_RateLimits)(nil),          // 34: gloo.solo.io.SettingsSpec.KubernetesConfiguration.RateLimits
-	(*SettingsSpec_ObservabilityOptions_GrafanaIntegration)(nil),     // 35: gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration
-	(*SettingsSpec_ObservabilityOptions_MetricLabels)(nil),           // 36: gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels
-	nil,                                      // 37: gloo.solo.io.SettingsSpec.ObservabilityOptions.ConfigStatusMetricLabelsEntry
-	nil,                                      // 38: gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels.LabelToPathEntry
-	nil,                                      // 39: gloo.solo.io.LabelSelector.MatchLabelsEntry
-	nil,                                      // 40: gloo.solo.io.UpstreamOptions.GlobalAnnotationsEntry
-	(*GlooOptions_AWSOptions)(nil),           // 41: gloo.solo.io.GlooOptions.AWSOptions
-	(*GlooOptions_InvalidConfigPolicy)(nil),  // 42: gloo.solo.io.GlooOptions.InvalidConfigPolicy
-	(*GlooOptions_IstioOptions)(nil),         // 43: gloo.solo.io.GlooOptions.IstioOptions
-	(*GatewayOptions_ValidationOptions)(nil), // 44: gloo.solo.io.GatewayOptions.ValidationOptions
-	(*GraphqlOptions_SchemaChangeValidationOptions)(nil), // 45: gloo.solo.io.GraphqlOptions.SchemaChangeValidationOptions
-	nil,                               // 46: gloo.solo.io.SettingsStatus.SubresourceStatusesEntry
-	nil,                               // 47: gloo.solo.io.SettingsNamespacedStatuses.StatusesEntry
-	(*durationpb.Duration)(nil),       // 48: google.protobuf.Duration
-	(*Extensions)(nil),                // 49: gloo.solo.io.Extensions
-	(*ratelimit.ServiceSettings)(nil), // 50: ratelimit.options.gloo.solo.io.ServiceSettings
-	(*ratelimit.Settings)(nil),        // 51: ratelimit.options.gloo.solo.io.Settings
-	(*rbac.Settings)(nil),             // 52: rbac.options.gloo.solo.io.Settings
-	(*v1.Settings)(nil),               // 53: enterprise.gloo.solo.io.Settings
-	(*caching.Settings)(nil),          // 54: caching.options.gloo.solo.io.Settings
-	(*extproc.Settings)(nil),          // 55: extproc.options.gloo.solo.io.Settings
-	(*ssl.SslParameters)(nil),         // 56: gloo.solo.io.SslParameters
-	(*circuit_breaker.CircuitBreakerConfig)(nil),          // 57: gloo.solo.io.CircuitBreakerConfig
-	(*wrapperspb.BoolValue)(nil),                          // 58: google.protobuf.BoolValue
-	(*wrapperspb.UInt32Value)(nil),                        // 59: google.protobuf.UInt32Value
-	(*structpb.Struct)(nil),                               // 60: google.protobuf.Struct
-	(*core.ResourceRef)(nil),                              // 61: core.solo.io.ResourceRef
-	(consul.ConsulConsistencyModes)(0),                    // 62: consul.options.gloo.solo.io.ConsulConsistencyModes
-	(*consul.QueryOptions)(nil),                           // 63: consul.options.gloo.solo.io.QueryOptions
-	(*aws.AWSLambdaConfig_ServiceAccountCredentials)(nil), // 64: envoy.config.filter.http.aws_lambda.v2.AWSLambdaConfig.ServiceAccountCredentials
-	(*wrapperspb.Int32Value)(nil),                         // 65: google.protobuf.Int32Value
+	(SettingsSpec_DiscoveryOptions_FdsMode)(0),                       // 0: gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsMode
+	(GraphqlOptions_SchemaChangeValidationOptions_ProcessingRule)(0), // 1: gloo.solo.io.GraphqlOptions.SchemaChangeValidationOptions.ProcessingRule
+	(SettingsStatus_State)(0),                                        // 2: gloo.solo.io.SettingsStatus.State
+	(*SettingsSpec)(nil),                                             // 3: gloo.solo.io.SettingsSpec
+	(*LabelSelector)(nil),                                            // 4: gloo.solo.io.LabelSelector
+	(*LabelSelectorRequirement)(nil),                                 // 5: gloo.solo.io.LabelSelectorRequirement
+	(*UpstreamOptions)(nil),                                          // 6: gloo.solo.io.UpstreamOptions
+	(*GlooOptions)(nil),                                              // 7: gloo.solo.io.GlooOptions
+	(*VirtualServiceOptions)(nil),                                    // 8: gloo.solo.io.VirtualServiceOptions
+	(*GatewayOptions)(nil),                                           // 9: gloo.solo.io.GatewayOptions
+	(*ConsoleOptions)(nil),                                           // 10: gloo.solo.io.ConsoleOptions
+	(*GraphqlOptions)(nil),                                           // 11: gloo.solo.io.GraphqlOptions
+	(*SettingsStatus)(nil),                                           // 12: gloo.solo.io.SettingsStatus
+	(*SettingsNamespacedStatuses)(nil),                               // 13: gloo.solo.io.SettingsNamespacedStatuses
+	(*SettingsSpec_SecretOptions)(nil),                               // 14: gloo.solo.io.SettingsSpec.SecretOptions
+	(*SettingsSpec_KubernetesCrds)(nil),                              // 15: gloo.solo.io.SettingsSpec.KubernetesCrds
+	(*SettingsSpec_KubernetesSecrets)(nil),                           // 16: gloo.solo.io.SettingsSpec.KubernetesSecrets
+	(*SettingsSpec_VaultSecrets)(nil),                                // 17: gloo.solo.io.SettingsSpec.VaultSecrets
+	(*SettingsSpec_VaultAwsAuth)(nil),                                // 18: gloo.solo.io.SettingsSpec.VaultAwsAuth
+	(*SettingsSpec_VaultTlsConfig)(nil),                              // 19: gloo.solo.io.SettingsSpec.VaultTlsConfig
+	(*SettingsSpec_ConsulKv)(nil),                                    // 20: gloo.solo.io.SettingsSpec.ConsulKv
+	(*SettingsSpec_KubernetesConfigmaps)(nil),                        // 21: gloo.solo.io.SettingsSpec.KubernetesConfigmaps
+	(*SettingsSpec_Directory)(nil),                                   // 22: gloo.solo.io.SettingsSpec.Directory
+	(*SettingsSpec_KnativeOptions)(nil),                              // 23: gloo.solo.io.SettingsSpec.KnativeOptions
+	(*SettingsSpec_DiscoveryOptions)(nil),                            // 24: gloo.solo.io.SettingsSpec.DiscoveryOptions
+	(*SettingsSpec_ConsulConfiguration)(nil),                         // 25: gloo.solo.io.SettingsSpec.ConsulConfiguration
+	(*SettingsSpec_ConsulUpstreamDiscoveryConfiguration)(nil),        // 26: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration
+	(*SettingsSpec_KubernetesConfiguration)(nil),                     // 27: gloo.solo.io.SettingsSpec.KubernetesConfiguration
+	nil, // 28: gloo.solo.io.SettingsSpec.NamedExtauthEntry
+	(*SettingsSpec_ObservabilityOptions)(nil),        // 29: gloo.solo.io.SettingsSpec.ObservabilityOptions
+	(*SettingsSpec_SecretOptions_Source)(nil),        // 30: gloo.solo.io.SettingsSpec.SecretOptions.Source
+	(*SettingsSpec_DiscoveryOptions_UdsOptions)(nil), // 31: gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions
+	(*SettingsSpec_DiscoveryOptions_FdsOptions)(nil), // 32: gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsOptions
+	nil, // 33: gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions.WatchLabelsEntry
+	(*SettingsSpec_ConsulConfiguration_ServiceDiscoveryOptions)(nil), // 34: gloo.solo.io.SettingsSpec.ConsulConfiguration.ServiceDiscoveryOptions
+	(*SettingsSpec_KubernetesConfiguration_RateLimits)(nil),          // 35: gloo.solo.io.SettingsSpec.KubernetesConfiguration.RateLimits
+	(*SettingsSpec_ObservabilityOptions_GrafanaIntegration)(nil),     // 36: gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration
+	(*SettingsSpec_ObservabilityOptions_MetricLabels)(nil),           // 37: gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels
+	nil,                                      // 38: gloo.solo.io.SettingsSpec.ObservabilityOptions.ConfigStatusMetricLabelsEntry
+	nil,                                      // 39: gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels.LabelToPathEntry
+	nil,                                      // 40: gloo.solo.io.LabelSelector.MatchLabelsEntry
+	nil,                                      // 41: gloo.solo.io.UpstreamOptions.GlobalAnnotationsEntry
+	(*GlooOptions_AWSOptions)(nil),           // 42: gloo.solo.io.GlooOptions.AWSOptions
+	(*GlooOptions_InvalidConfigPolicy)(nil),  // 43: gloo.solo.io.GlooOptions.InvalidConfigPolicy
+	(*GlooOptions_IstioOptions)(nil),         // 44: gloo.solo.io.GlooOptions.IstioOptions
+	(*GatewayOptions_ValidationOptions)(nil), // 45: gloo.solo.io.GatewayOptions.ValidationOptions
+	(*GraphqlOptions_SchemaChangeValidationOptions)(nil), // 46: gloo.solo.io.GraphqlOptions.SchemaChangeValidationOptions
+	nil,                               // 47: gloo.solo.io.SettingsStatus.SubresourceStatusesEntry
+	nil,                               // 48: gloo.solo.io.SettingsNamespacedStatuses.StatusesEntry
+	(*durationpb.Duration)(nil),       // 49: google.protobuf.Duration
+	(*Extensions)(nil),                // 50: gloo.solo.io.Extensions
+	(*ratelimit.ServiceSettings)(nil), // 51: ratelimit.options.gloo.solo.io.ServiceSettings
+	(*ratelimit.Settings)(nil),        // 52: ratelimit.options.gloo.solo.io.Settings
+	(*rbac.Settings)(nil),             // 53: rbac.options.gloo.solo.io.Settings
+	(*v1.Settings)(nil),               // 54: enterprise.gloo.solo.io.Settings
+	(*caching.Settings)(nil),          // 55: caching.options.gloo.solo.io.Settings
+	(*extproc.Settings)(nil),          // 56: extproc.options.gloo.solo.io.Settings
+	(*ssl.SslParameters)(nil),         // 57: gloo.solo.io.SslParameters
+	(*circuit_breaker.CircuitBreakerConfig)(nil),          // 58: gloo.solo.io.CircuitBreakerConfig
+	(*wrapperspb.BoolValue)(nil),                          // 59: google.protobuf.BoolValue
+	(*wrapperspb.UInt32Value)(nil),                        // 60: google.protobuf.UInt32Value
+	(*structpb.Struct)(nil),                               // 61: google.protobuf.Struct
+	(*core.ResourceRef)(nil),                              // 62: core.solo.io.ResourceRef
+	(consul.ConsulConsistencyModes)(0),                    // 63: consul.options.gloo.solo.io.ConsulConsistencyModes
+	(*consul.QueryOptions)(nil),                           // 64: consul.options.gloo.solo.io.QueryOptions
+	(*aws.AWSLambdaConfig_ServiceAccountCredentials)(nil), // 65: envoy.config.filter.http.aws_lambda.v2.AWSLambdaConfig.ServiceAccountCredentials
+	(*wrapperspb.Int32Value)(nil),                         // 66: google.protobuf.Int32Value
 }
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_depIdxs = []int32{
-	14,  // 0: gloo.solo.io.SettingsSpec.kubernetes_config_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesCrds
-	21,  // 1: gloo.solo.io.SettingsSpec.directory_config_source:type_name -> gloo.solo.io.SettingsSpec.Directory
-	19,  // 2: gloo.solo.io.SettingsSpec.consul_kv_source:type_name -> gloo.solo.io.SettingsSpec.ConsulKv
-	15,  // 3: gloo.solo.io.SettingsSpec.kubernetes_secret_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesSecrets
-	16,  // 4: gloo.solo.io.SettingsSpec.vault_secret_source:type_name -> gloo.solo.io.SettingsSpec.VaultSecrets
-	21,  // 5: gloo.solo.io.SettingsSpec.directory_secret_source:type_name -> gloo.solo.io.SettingsSpec.Directory
-	13,  // 6: gloo.solo.io.SettingsSpec.secret_options:type_name -> gloo.solo.io.SettingsSpec.SecretOptions
-	20,  // 7: gloo.solo.io.SettingsSpec.kubernetes_artifact_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfigmaps
-	21,  // 8: gloo.solo.io.SettingsSpec.directory_artifact_source:type_name -> gloo.solo.io.SettingsSpec.Directory
-	19,  // 9: gloo.solo.io.SettingsSpec.consul_kv_artifact_source:type_name -> gloo.solo.io.SettingsSpec.ConsulKv
-	48,  // 10: gloo.solo.io.SettingsSpec.refresh_rate:type_name -> google.protobuf.Duration
-	22,  // 11: gloo.solo.io.SettingsSpec.knative:type_name -> gloo.solo.io.SettingsSpec.KnativeOptions
-	23,  // 12: gloo.solo.io.SettingsSpec.discovery:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions
-	6,   // 13: gloo.solo.io.SettingsSpec.gloo:type_name -> gloo.solo.io.GlooOptions
-	8,   // 14: gloo.solo.io.SettingsSpec.gateway:type_name -> gloo.solo.io.GatewayOptions
-	24,  // 15: gloo.solo.io.SettingsSpec.consul:type_name -> gloo.solo.io.SettingsSpec.ConsulConfiguration
-	25,  // 16: gloo.solo.io.SettingsSpec.consulDiscovery:type_name -> gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration
-	26,  // 17: gloo.solo.io.SettingsSpec.kubernetes:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfiguration
-	49,  // 18: gloo.solo.io.SettingsSpec.extensions:type_name -> gloo.solo.io.Extensions
-	50,  // 19: gloo.solo.io.SettingsSpec.ratelimit:type_name -> ratelimit.options.gloo.solo.io.ServiceSettings
-	51,  // 20: gloo.solo.io.SettingsSpec.ratelimit_server:type_name -> ratelimit.options.gloo.solo.io.Settings
-	52,  // 21: gloo.solo.io.SettingsSpec.rbac:type_name -> rbac.options.gloo.solo.io.Settings
-	53,  // 22: gloo.solo.io.SettingsSpec.extauth:type_name -> enterprise.gloo.solo.io.Settings
-	27,  // 23: gloo.solo.io.SettingsSpec.named_extauth:type_name -> gloo.solo.io.SettingsSpec.NamedExtauthEntry
-	54,  // 24: gloo.solo.io.SettingsSpec.caching_server:type_name -> caching.options.gloo.solo.io.Settings
-	28,  // 25: gloo.solo.io.SettingsSpec.observabilityOptions:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions
-	5,   // 26: gloo.solo.io.SettingsSpec.upstreamOptions:type_name -> gloo.solo.io.UpstreamOptions
-	9,   // 27: gloo.solo.io.SettingsSpec.console_options:type_name -> gloo.solo.io.ConsoleOptions
-	55,  // 28: gloo.solo.io.SettingsSpec.ext_proc_early:type_name -> extproc.options.gloo.solo.io.Settings
-	55,  // 29: gloo.solo.io.SettingsSpec.ext_proc:type_name -> extproc.options.gloo.solo.io.Settings
-	55,  // 30: gloo.solo.io.SettingsSpec.ext_proc_late:type_name -> extproc.options.gloo.solo.io.Settings
-	3,   // 31: gloo.solo.io.SettingsSpec.watch_namespace_selectors:type_name -> gloo.solo.io.LabelSelector
-	39,  // 32: gloo.solo.io.LabelSelector.match_labels:type_name -> gloo.solo.io.LabelSelector.MatchLabelsEntry
-	4,   // 33: gloo.solo.io.LabelSelector.match_expressions:type_name -> gloo.solo.io.LabelSelectorRequirement
-	56,  // 34: gloo.solo.io.UpstreamOptions.ssl_parameters:type_name -> gloo.solo.io.SslParameters
-	40,  // 35: gloo.solo.io.UpstreamOptions.global_annotations:type_name -> gloo.solo.io.UpstreamOptions.GlobalAnnotationsEntry
-	57,  // 36: gloo.solo.io.GlooOptions.circuit_breakers:type_name -> gloo.solo.io.CircuitBreakerConfig
-	48,  // 37: gloo.solo.io.GlooOptions.endpoints_warming_timeout:type_name -> google.protobuf.Duration
-	41,  // 38: gloo.solo.io.GlooOptions.aws_options:type_name -> gloo.solo.io.GlooOptions.AWSOptions
-	42,  // 39: gloo.solo.io.GlooOptions.invalid_config_policy:type_name -> gloo.solo.io.GlooOptions.InvalidConfigPolicy
-	58,  // 40: gloo.solo.io.GlooOptions.disable_grpc_web:type_name -> google.protobuf.BoolValue
-	58,  // 41: gloo.solo.io.GlooOptions.disable_proxy_garbage_collection:type_name -> google.protobuf.BoolValue
-	59,  // 42: gloo.solo.io.GlooOptions.regex_max_program_size:type_name -> google.protobuf.UInt32Value
-	58,  // 43: gloo.solo.io.GlooOptions.enable_rest_eds:type_name -> google.protobuf.BoolValue
-	48,  // 44: gloo.solo.io.GlooOptions.failover_upstream_dns_polling_interval:type_name -> google.protobuf.Duration
-	58,  // 45: gloo.solo.io.GlooOptions.remove_unused_filters:type_name -> google.protobuf.BoolValue
-	58,  // 46: gloo.solo.io.GlooOptions.log_transformation_request_response_info:type_name -> google.protobuf.BoolValue
-	58,  // 47: gloo.solo.io.GlooOptions.transformation_escape_characters:type_name -> google.protobuf.BoolValue
-	43,  // 48: gloo.solo.io.GlooOptions.istio_options:type_name -> gloo.solo.io.GlooOptions.IstioOptions
-	58,  // 49: gloo.solo.io.GlooOptions.enable_auto_websocket_transformation_passthrough:type_name -> google.protobuf.BoolValue
-	58,  // 50: gloo.solo.io.VirtualServiceOptions.one_way_tls:type_name -> google.protobuf.BoolValue
-	44,  // 51: gloo.solo.io.GatewayOptions.validation:type_name -> gloo.solo.io.GatewayOptions.ValidationOptions
-	7,   // 52: gloo.solo.io.GatewayOptions.virtual_service_options:type_name -> gloo.solo.io.VirtualServiceOptions
-	58,  // 53: gloo.solo.io.GatewayOptions.persist_proxy_spec:type_name -> google.protobuf.BoolValue
-	58,  // 54: gloo.solo.io.GatewayOptions.enable_gateway_controller:type_name -> google.protobuf.BoolValue
-	58,  // 55: gloo.solo.io.GatewayOptions.isolate_virtual_hosts_by_ssl_config:type_name -> google.protobuf.BoolValue
-	58,  // 56: gloo.solo.io.GatewayOptions.translate_empty_gateways:type_name -> google.protobuf.BoolValue
-	1,   // 57: gloo.solo.io.SettingsStatus.state:type_name -> gloo.solo.io.SettingsStatus.State
-	46,  // 58: gloo.solo.io.SettingsStatus.subresource_statuses:type_name -> gloo.solo.io.SettingsStatus.SubresourceStatusesEntry
-	60,  // 59: gloo.solo.io.SettingsStatus.details:type_name -> google.protobuf.Struct
-	47,  // 60: gloo.solo.io.SettingsNamespacedStatuses.statuses:type_name -> gloo.solo.io.SettingsNamespacedStatuses.StatusesEntry
-	29,  // 61: gloo.solo.io.SettingsSpec.SecretOptions.sources:type_name -> gloo.solo.io.SettingsSpec.SecretOptions.Source
-	58,  // 62: gloo.solo.io.SettingsSpec.VaultSecrets.insecure:type_name -> google.protobuf.BoolValue
-	18,  // 63: gloo.solo.io.SettingsSpec.VaultSecrets.tls_config:type_name -> gloo.solo.io.SettingsSpec.VaultTlsConfig
-	17,  // 64: gloo.solo.io.SettingsSpec.VaultSecrets.aws:type_name -> gloo.solo.io.SettingsSpec.VaultAwsAuth
-	58,  // 65: gloo.solo.io.SettingsSpec.VaultTlsConfig.insecure:type_name -> google.protobuf.BoolValue
-	0,   // 66: gloo.solo.io.SettingsSpec.DiscoveryOptions.fds_mode:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsMode
-	30,  // 67: gloo.solo.io.SettingsSpec.DiscoveryOptions.uds_options:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions
-	31,  // 68: gloo.solo.io.SettingsSpec.DiscoveryOptions.fds_options:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsOptions
-	58,  // 69: gloo.solo.io.SettingsSpec.ConsulConfiguration.insecure_skip_verify:type_name -> google.protobuf.BoolValue
-	48,  // 70: gloo.solo.io.SettingsSpec.ConsulConfiguration.wait_time:type_name -> google.protobuf.Duration
-	33,  // 71: gloo.solo.io.SettingsSpec.ConsulConfiguration.service_discovery:type_name -> gloo.solo.io.SettingsSpec.ConsulConfiguration.ServiceDiscoveryOptions
-	48,  // 72: gloo.solo.io.SettingsSpec.ConsulConfiguration.dns_polling_interval:type_name -> google.protobuf.Duration
-	61,  // 73: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.rootCa:type_name -> core.solo.io.ResourceRef
-	62,  // 74: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.consistencyMode:type_name -> consul.options.gloo.solo.io.ConsulConsistencyModes
-	63,  // 75: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.query_options:type_name -> consul.options.gloo.solo.io.QueryOptions
-	58,  // 76: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.eds_blocking_queries:type_name -> google.protobuf.BoolValue
-	34,  // 77: gloo.solo.io.SettingsSpec.KubernetesConfiguration.rate_limits:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfiguration.RateLimits
-	53,  // 78: gloo.solo.io.SettingsSpec.NamedExtauthEntry.value:type_name -> enterprise.gloo.solo.io.Settings
-	35,  // 79: gloo.solo.io.SettingsSpec.ObservabilityOptions.grafanaIntegration:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration
-	37,  // 80: gloo.solo.io.SettingsSpec.ObservabilityOptions.configStatusMetricLabels:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.ConfigStatusMetricLabelsEntry
-	15,  // 81: gloo.solo.io.SettingsSpec.SecretOptions.Source.kubernetes:type_name -> gloo.solo.io.SettingsSpec.KubernetesSecrets
-	16,  // 82: gloo.solo.io.SettingsSpec.SecretOptions.Source.vault:type_name -> gloo.solo.io.SettingsSpec.VaultSecrets
-	21,  // 83: gloo.solo.io.SettingsSpec.SecretOptions.Source.directory:type_name -> gloo.solo.io.SettingsSpec.Directory
-	58,  // 84: gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions.enabled:type_name -> google.protobuf.BoolValue
-	32,  // 85: gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions.watch_labels:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions.WatchLabelsEntry
-	59,  // 86: gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration.default_dashboard_folder_id:type_name -> google.protobuf.UInt32Value
-	38,  // 87: gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels.labelToPath:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels.LabelToPathEntry
-	36,  // 88: gloo.solo.io.SettingsSpec.ObservabilityOptions.ConfigStatusMetricLabelsEntry.value:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels
-	64,  // 89: gloo.solo.io.GlooOptions.AWSOptions.service_account_credentials:type_name -> envoy.config.filter.http.aws_lambda.v2.AWSLambdaConfig.ServiceAccountCredentials
-	58,  // 90: gloo.solo.io.GlooOptions.AWSOptions.propagate_original_routing:type_name -> google.protobuf.BoolValue
-	48,  // 91: gloo.solo.io.GlooOptions.AWSOptions.credential_refresh_delay:type_name -> google.protobuf.Duration
-	58,  // 92: gloo.solo.io.GlooOptions.AWSOptions.fallback_to_first_function:type_name -> google.protobuf.BoolValue
-	58,  // 93: gloo.solo.io.GlooOptions.IstioOptions.append_x_forwarded_host:type_name -> google.protobuf.BoolValue
-	58,  // 94: gloo.solo.io.GlooOptions.IstioOptions.enable_auto_mtls:type_name -> google.protobuf.BoolValue
-	58,  // 95: gloo.solo.io.GlooOptions.IstioOptions.enable_integration:type_name -> google.protobuf.BoolValue
-	58,  // 96: gloo.solo.io.GatewayOptions.ValidationOptions.always_accept:type_name -> google.protobuf.BoolValue
-	58,  // 97: gloo.solo.io.GatewayOptions.ValidationOptions.allow_warnings:type_name -> google.protobuf.BoolValue
-	58,  // 98: gloo.solo.io.GatewayOptions.ValidationOptions.warn_route_short_circuiting:type_name -> google.protobuf.BoolValue
-	58,  // 99: gloo.solo.io.GatewayOptions.ValidationOptions.disable_transformation_validation:type_name -> google.protobuf.BoolValue
-	65,  // 100: gloo.solo.io.GatewayOptions.ValidationOptions.validation_server_grpc_max_size_bytes:type_name -> google.protobuf.Int32Value
-	58,  // 101: gloo.solo.io.GatewayOptions.ValidationOptions.server_enabled:type_name -> google.protobuf.BoolValue
-	58,  // 102: gloo.solo.io.GatewayOptions.ValidationOptions.warn_missing_tls_secret:type_name -> google.protobuf.BoolValue
-	58,  // 103: gloo.solo.io.GatewayOptions.ValidationOptions.full_envoy_validation:type_name -> google.protobuf.BoolValue
-	11,  // 104: gloo.solo.io.SettingsStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.SettingsStatus
-	11,  // 105: gloo.solo.io.SettingsNamespacedStatuses.StatusesEntry.value:type_name -> gloo.solo.io.SettingsStatus
-	106, // [106:106] is the sub-list for method output_type
-	106, // [106:106] is the sub-list for method input_type
-	106, // [106:106] is the sub-list for extension type_name
-	106, // [106:106] is the sub-list for extension extendee
-	0,   // [0:106] is the sub-list for field type_name
+	15,  // 0: gloo.solo.io.SettingsSpec.kubernetes_config_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesCrds
+	22,  // 1: gloo.solo.io.SettingsSpec.directory_config_source:type_name -> gloo.solo.io.SettingsSpec.Directory
+	20,  // 2: gloo.solo.io.SettingsSpec.consul_kv_source:type_name -> gloo.solo.io.SettingsSpec.ConsulKv
+	16,  // 3: gloo.solo.io.SettingsSpec.kubernetes_secret_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesSecrets
+	17,  // 4: gloo.solo.io.SettingsSpec.vault_secret_source:type_name -> gloo.solo.io.SettingsSpec.VaultSecrets
+	22,  // 5: gloo.solo.io.SettingsSpec.directory_secret_source:type_name -> gloo.solo.io.SettingsSpec.Directory
+	14,  // 6: gloo.solo.io.SettingsSpec.secret_options:type_name -> gloo.solo.io.SettingsSpec.SecretOptions
+	21,  // 7: gloo.solo.io.SettingsSpec.kubernetes_artifact_source:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfigmaps
+	22,  // 8: gloo.solo.io.SettingsSpec.directory_artifact_source:type_name -> gloo.solo.io.SettingsSpec.Directory
+	20,  // 9: gloo.solo.io.SettingsSpec.consul_kv_artifact_source:type_name -> gloo.solo.io.SettingsSpec.ConsulKv
+	49,  // 10: gloo.solo.io.SettingsSpec.refresh_rate:type_name -> google.protobuf.Duration
+	23,  // 11: gloo.solo.io.SettingsSpec.knative:type_name -> gloo.solo.io.SettingsSpec.KnativeOptions
+	24,  // 12: gloo.solo.io.SettingsSpec.discovery:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions
+	7,   // 13: gloo.solo.io.SettingsSpec.gloo:type_name -> gloo.solo.io.GlooOptions
+	9,   // 14: gloo.solo.io.SettingsSpec.gateway:type_name -> gloo.solo.io.GatewayOptions
+	25,  // 15: gloo.solo.io.SettingsSpec.consul:type_name -> gloo.solo.io.SettingsSpec.ConsulConfiguration
+	26,  // 16: gloo.solo.io.SettingsSpec.consulDiscovery:type_name -> gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration
+	27,  // 17: gloo.solo.io.SettingsSpec.kubernetes:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfiguration
+	50,  // 18: gloo.solo.io.SettingsSpec.extensions:type_name -> gloo.solo.io.Extensions
+	51,  // 19: gloo.solo.io.SettingsSpec.ratelimit:type_name -> ratelimit.options.gloo.solo.io.ServiceSettings
+	52,  // 20: gloo.solo.io.SettingsSpec.ratelimit_server:type_name -> ratelimit.options.gloo.solo.io.Settings
+	53,  // 21: gloo.solo.io.SettingsSpec.rbac:type_name -> rbac.options.gloo.solo.io.Settings
+	54,  // 22: gloo.solo.io.SettingsSpec.extauth:type_name -> enterprise.gloo.solo.io.Settings
+	28,  // 23: gloo.solo.io.SettingsSpec.named_extauth:type_name -> gloo.solo.io.SettingsSpec.NamedExtauthEntry
+	55,  // 24: gloo.solo.io.SettingsSpec.caching_server:type_name -> caching.options.gloo.solo.io.Settings
+	29,  // 25: gloo.solo.io.SettingsSpec.observabilityOptions:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions
+	6,   // 26: gloo.solo.io.SettingsSpec.upstreamOptions:type_name -> gloo.solo.io.UpstreamOptions
+	10,  // 27: gloo.solo.io.SettingsSpec.console_options:type_name -> gloo.solo.io.ConsoleOptions
+	11,  // 28: gloo.solo.io.SettingsSpec.graphql_options:type_name -> gloo.solo.io.GraphqlOptions
+	56,  // 29: gloo.solo.io.SettingsSpec.ext_proc_early:type_name -> extproc.options.gloo.solo.io.Settings
+	56,  // 30: gloo.solo.io.SettingsSpec.ext_proc:type_name -> extproc.options.gloo.solo.io.Settings
+	56,  // 31: gloo.solo.io.SettingsSpec.ext_proc_late:type_name -> extproc.options.gloo.solo.io.Settings
+	4,   // 32: gloo.solo.io.SettingsSpec.watch_namespace_selectors:type_name -> gloo.solo.io.LabelSelector
+	40,  // 33: gloo.solo.io.LabelSelector.match_labels:type_name -> gloo.solo.io.LabelSelector.MatchLabelsEntry
+	5,   // 34: gloo.solo.io.LabelSelector.match_expressions:type_name -> gloo.solo.io.LabelSelectorRequirement
+	57,  // 35: gloo.solo.io.UpstreamOptions.ssl_parameters:type_name -> gloo.solo.io.SslParameters
+	41,  // 36: gloo.solo.io.UpstreamOptions.global_annotations:type_name -> gloo.solo.io.UpstreamOptions.GlobalAnnotationsEntry
+	58,  // 37: gloo.solo.io.GlooOptions.circuit_breakers:type_name -> gloo.solo.io.CircuitBreakerConfig
+	49,  // 38: gloo.solo.io.GlooOptions.endpoints_warming_timeout:type_name -> google.protobuf.Duration
+	42,  // 39: gloo.solo.io.GlooOptions.aws_options:type_name -> gloo.solo.io.GlooOptions.AWSOptions
+	43,  // 40: gloo.solo.io.GlooOptions.invalid_config_policy:type_name -> gloo.solo.io.GlooOptions.InvalidConfigPolicy
+	59,  // 41: gloo.solo.io.GlooOptions.disable_grpc_web:type_name -> google.protobuf.BoolValue
+	59,  // 42: gloo.solo.io.GlooOptions.disable_proxy_garbage_collection:type_name -> google.protobuf.BoolValue
+	60,  // 43: gloo.solo.io.GlooOptions.regex_max_program_size:type_name -> google.protobuf.UInt32Value
+	59,  // 44: gloo.solo.io.GlooOptions.enable_rest_eds:type_name -> google.protobuf.BoolValue
+	49,  // 45: gloo.solo.io.GlooOptions.failover_upstream_dns_polling_interval:type_name -> google.protobuf.Duration
+	59,  // 46: gloo.solo.io.GlooOptions.remove_unused_filters:type_name -> google.protobuf.BoolValue
+	59,  // 47: gloo.solo.io.GlooOptions.log_transformation_request_response_info:type_name -> google.protobuf.BoolValue
+	59,  // 48: gloo.solo.io.GlooOptions.transformation_escape_characters:type_name -> google.protobuf.BoolValue
+	44,  // 49: gloo.solo.io.GlooOptions.istio_options:type_name -> gloo.solo.io.GlooOptions.IstioOptions
+	59,  // 50: gloo.solo.io.VirtualServiceOptions.one_way_tls:type_name -> google.protobuf.BoolValue
+	45,  // 51: gloo.solo.io.GatewayOptions.validation:type_name -> gloo.solo.io.GatewayOptions.ValidationOptions
+	8,   // 52: gloo.solo.io.GatewayOptions.virtual_service_options:type_name -> gloo.solo.io.VirtualServiceOptions
+	59,  // 53: gloo.solo.io.GatewayOptions.persist_proxy_spec:type_name -> google.protobuf.BoolValue
+	59,  // 54: gloo.solo.io.GatewayOptions.enable_gateway_controller:type_name -> google.protobuf.BoolValue
+	59,  // 55: gloo.solo.io.GatewayOptions.isolate_virtual_hosts_by_ssl_config:type_name -> google.protobuf.BoolValue
+	59,  // 56: gloo.solo.io.GatewayOptions.translate_empty_gateways:type_name -> google.protobuf.BoolValue
+	59,  // 57: gloo.solo.io.ConsoleOptions.read_only:type_name -> google.protobuf.BoolValue
+	59,  // 58: gloo.solo.io.ConsoleOptions.api_explorer_enabled:type_name -> google.protobuf.BoolValue
+	46,  // 59: gloo.solo.io.GraphqlOptions.schema_change_validation_options:type_name -> gloo.solo.io.GraphqlOptions.SchemaChangeValidationOptions
+	2,   // 60: gloo.solo.io.SettingsStatus.state:type_name -> gloo.solo.io.SettingsStatus.State
+	47,  // 61: gloo.solo.io.SettingsStatus.subresource_statuses:type_name -> gloo.solo.io.SettingsStatus.SubresourceStatusesEntry
+	61,  // 62: gloo.solo.io.SettingsStatus.details:type_name -> google.protobuf.Struct
+	48,  // 63: gloo.solo.io.SettingsNamespacedStatuses.statuses:type_name -> gloo.solo.io.SettingsNamespacedStatuses.StatusesEntry
+	30,  // 64: gloo.solo.io.SettingsSpec.SecretOptions.sources:type_name -> gloo.solo.io.SettingsSpec.SecretOptions.Source
+	59,  // 65: gloo.solo.io.SettingsSpec.VaultSecrets.insecure:type_name -> google.protobuf.BoolValue
+	19,  // 66: gloo.solo.io.SettingsSpec.VaultSecrets.tls_config:type_name -> gloo.solo.io.SettingsSpec.VaultTlsConfig
+	18,  // 67: gloo.solo.io.SettingsSpec.VaultSecrets.aws:type_name -> gloo.solo.io.SettingsSpec.VaultAwsAuth
+	59,  // 68: gloo.solo.io.SettingsSpec.VaultTlsConfig.insecure:type_name -> google.protobuf.BoolValue
+	0,   // 69: gloo.solo.io.SettingsSpec.DiscoveryOptions.fds_mode:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsMode
+	31,  // 70: gloo.solo.io.SettingsSpec.DiscoveryOptions.uds_options:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions
+	32,  // 71: gloo.solo.io.SettingsSpec.DiscoveryOptions.fds_options:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsOptions
+	59,  // 72: gloo.solo.io.SettingsSpec.ConsulConfiguration.insecure_skip_verify:type_name -> google.protobuf.BoolValue
+	49,  // 73: gloo.solo.io.SettingsSpec.ConsulConfiguration.wait_time:type_name -> google.protobuf.Duration
+	34,  // 74: gloo.solo.io.SettingsSpec.ConsulConfiguration.service_discovery:type_name -> gloo.solo.io.SettingsSpec.ConsulConfiguration.ServiceDiscoveryOptions
+	49,  // 75: gloo.solo.io.SettingsSpec.ConsulConfiguration.dns_polling_interval:type_name -> google.protobuf.Duration
+	62,  // 76: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.rootCa:type_name -> core.solo.io.ResourceRef
+	63,  // 77: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.consistencyMode:type_name -> consul.options.gloo.solo.io.ConsulConsistencyModes
+	64,  // 78: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.query_options:type_name -> consul.options.gloo.solo.io.QueryOptions
+	59,  // 79: gloo.solo.io.SettingsSpec.ConsulUpstreamDiscoveryConfiguration.eds_blocking_queries:type_name -> google.protobuf.BoolValue
+	35,  // 80: gloo.solo.io.SettingsSpec.KubernetesConfiguration.rate_limits:type_name -> gloo.solo.io.SettingsSpec.KubernetesConfiguration.RateLimits
+	54,  // 81: gloo.solo.io.SettingsSpec.NamedExtauthEntry.value:type_name -> enterprise.gloo.solo.io.Settings
+	36,  // 82: gloo.solo.io.SettingsSpec.ObservabilityOptions.grafanaIntegration:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration
+	38,  // 83: gloo.solo.io.SettingsSpec.ObservabilityOptions.configStatusMetricLabels:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.ConfigStatusMetricLabelsEntry
+	16,  // 84: gloo.solo.io.SettingsSpec.SecretOptions.Source.kubernetes:type_name -> gloo.solo.io.SettingsSpec.KubernetesSecrets
+	17,  // 85: gloo.solo.io.SettingsSpec.SecretOptions.Source.vault:type_name -> gloo.solo.io.SettingsSpec.VaultSecrets
+	22,  // 86: gloo.solo.io.SettingsSpec.SecretOptions.Source.directory:type_name -> gloo.solo.io.SettingsSpec.Directory
+	59,  // 87: gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions.enabled:type_name -> google.protobuf.BoolValue
+	33,  // 88: gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions.watch_labels:type_name -> gloo.solo.io.SettingsSpec.DiscoveryOptions.UdsOptions.WatchLabelsEntry
+	59,  // 89: gloo.solo.io.SettingsSpec.DiscoveryOptions.FdsOptions.graphql_enabled:type_name -> google.protobuf.BoolValue
+	60,  // 90: gloo.solo.io.SettingsSpec.ObservabilityOptions.GrafanaIntegration.default_dashboard_folder_id:type_name -> google.protobuf.UInt32Value
+	39,  // 91: gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels.labelToPath:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels.LabelToPathEntry
+	37,  // 92: gloo.solo.io.SettingsSpec.ObservabilityOptions.ConfigStatusMetricLabelsEntry.value:type_name -> gloo.solo.io.SettingsSpec.ObservabilityOptions.MetricLabels
+	65,  // 93: gloo.solo.io.GlooOptions.AWSOptions.service_account_credentials:type_name -> envoy.config.filter.http.aws_lambda.v2.AWSLambdaConfig.ServiceAccountCredentials
+	59,  // 94: gloo.solo.io.GlooOptions.AWSOptions.propagate_original_routing:type_name -> google.protobuf.BoolValue
+	49,  // 95: gloo.solo.io.GlooOptions.AWSOptions.credential_refresh_delay:type_name -> google.protobuf.Duration
+	59,  // 96: gloo.solo.io.GlooOptions.AWSOptions.fallback_to_first_function:type_name -> google.protobuf.BoolValue
+	59,  // 97: gloo.solo.io.GlooOptions.IstioOptions.append_x_forwarded_host:type_name -> google.protobuf.BoolValue
+	59,  // 98: gloo.solo.io.GlooOptions.IstioOptions.enable_auto_mtls:type_name -> google.protobuf.BoolValue
+	59,  // 99: gloo.solo.io.GlooOptions.IstioOptions.enable_integration:type_name -> google.protobuf.BoolValue
+	59,  // 100: gloo.solo.io.GatewayOptions.ValidationOptions.always_accept:type_name -> google.protobuf.BoolValue
+	59,  // 101: gloo.solo.io.GatewayOptions.ValidationOptions.allow_warnings:type_name -> google.protobuf.BoolValue
+	59,  // 102: gloo.solo.io.GatewayOptions.ValidationOptions.warn_route_short_circuiting:type_name -> google.protobuf.BoolValue
+	59,  // 103: gloo.solo.io.GatewayOptions.ValidationOptions.disable_transformation_validation:type_name -> google.protobuf.BoolValue
+	66,  // 104: gloo.solo.io.GatewayOptions.ValidationOptions.validation_server_grpc_max_size_bytes:type_name -> google.protobuf.Int32Value
+	59,  // 105: gloo.solo.io.GatewayOptions.ValidationOptions.server_enabled:type_name -> google.protobuf.BoolValue
+	59,  // 106: gloo.solo.io.GatewayOptions.ValidationOptions.warn_missing_tls_secret:type_name -> google.protobuf.BoolValue
+	59,  // 107: gloo.solo.io.GatewayOptions.ValidationOptions.full_envoy_validation:type_name -> google.protobuf.BoolValue
+	59,  // 108: gloo.solo.io.GraphqlOptions.SchemaChangeValidationOptions.reject_breaking_changes:type_name -> google.protobuf.BoolValue
+	1,   // 109: gloo.solo.io.GraphqlOptions.SchemaChangeValidationOptions.processing_rules:type_name -> gloo.solo.io.GraphqlOptions.SchemaChangeValidationOptions.ProcessingRule
+	12,  // 110: gloo.solo.io.SettingsStatus.SubresourceStatusesEntry.value:type_name -> gloo.solo.io.SettingsStatus
+	12,  // 111: gloo.solo.io.SettingsNamespacedStatuses.StatusesEntry.value:type_name -> gloo.solo.io.SettingsStatus
+	112, // [112:112] is the sub-list for method output_type
+	112, // [112:112] is the sub-list for method input_type
+	112, // [112:112] is the sub-list for extension type_name
+	112, // [112:112] is the sub-list for extension extendee
+	0,   // [0:112] is the sub-list for field type_name
 }
 
 func init() { file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() }
@@ -4223,7 +4360,7 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc), len(file_github_com_solo_io_solo_apis_api_gloo_gloo_v1_settings_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   46,
 			NumExtensions: 0,
 			NumServices:   0,

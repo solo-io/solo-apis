@@ -326,34 +326,6 @@ func (m *HttpListener) Clone() proto.Message {
 		}
 	}
 
-	switch m.OpaqueMetadata.(type) {
-
-	case *HttpListener_Metadata:
-
-		if h, ok := interface{}(m.GetMetadata()).(clone.Cloner); ok {
-			target.OpaqueMetadata = &HttpListener_Metadata{
-				Metadata: h.Clone().(*google_golang_org_protobuf_types_known_structpb.Struct),
-			}
-		} else {
-			target.OpaqueMetadata = &HttpListener_Metadata{
-				Metadata: proto.Clone(m.GetMetadata()).(*google_golang_org_protobuf_types_known_structpb.Struct),
-			}
-		}
-
-	case *HttpListener_MetadataStatic:
-
-		if h, ok := interface{}(m.GetMetadataStatic()).(clone.Cloner); ok {
-			target.OpaqueMetadata = &HttpListener_MetadataStatic{
-				MetadataStatic: h.Clone().(*SourceMetadata),
-			}
-		} else {
-			target.OpaqueMetadata = &HttpListener_MetadataStatic{
-				MetadataStatic: proto.Clone(m.GetMetadataStatic()).(*SourceMetadata),
-			}
-		}
-
-	}
-
 	return target
 }
 
@@ -696,6 +668,18 @@ func (m *Route) Clone() proto.Message {
 		} else {
 			target.Action = &Route_DirectResponseAction{
 				DirectResponseAction: proto.Clone(m.GetDirectResponseAction()).(*DirectResponseAction),
+			}
+		}
+
+	case *Route_GraphqlApiRef:
+
+		if h, ok := interface{}(m.GetGraphqlApiRef()).(clone.Cloner); ok {
+			target.Action = &Route_GraphqlApiRef{
+				GraphqlApiRef: h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef),
+			}
+		} else {
+			target.Action = &Route_GraphqlApiRef{
+				GraphqlApiRef: proto.Clone(m.GetGraphqlApiRef()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef),
 			}
 		}
 

@@ -170,18 +170,6 @@ func (m *UpstreamSpec) Clone() proto.Message {
 			}
 		}
 
-	case *UpstreamSpec_Bedrock_:
-
-		if h, ok := interface{}(m.GetBedrock()).(clone.Cloner); ok {
-			target.Llm = &UpstreamSpec_Bedrock_{
-				Bedrock: h.Clone().(*UpstreamSpec_Bedrock),
-			}
-		} else {
-			target.Llm = &UpstreamSpec_Bedrock_{
-				Bedrock: proto.Clone(m.GetBedrock()).(*UpstreamSpec_Bedrock),
-			}
-		}
-
 	}
 
 	return target
@@ -438,33 +426,6 @@ func (m *SingleAuthToken_Passthrough) Clone() proto.Message {
 }
 
 // Clone function
-func (m *UpstreamSpec_PathOverride) Clone() proto.Message {
-	var target *UpstreamSpec_PathOverride
-	if m == nil {
-		return target
-	}
-	target = &UpstreamSpec_PathOverride{}
-
-	switch m.OverrideType.(type) {
-
-	case *UpstreamSpec_PathOverride_FullPath:
-
-		target.OverrideType = &UpstreamSpec_PathOverride_FullPath{
-			FullPath: m.GetFullPath(),
-		}
-
-	case *UpstreamSpec_PathOverride_BasePath:
-
-		target.OverrideType = &UpstreamSpec_PathOverride_BasePath{
-			BasePath: m.GetBasePath(),
-		}
-
-	}
-
-	return target
-}
-
-// Clone function
 func (m *UpstreamSpec_CustomHost) Clone() proto.Message {
 	var target *UpstreamSpec_CustomHost
 	if m == nil {
@@ -480,12 +441,6 @@ func (m *UpstreamSpec_CustomHost) Clone() proto.Message {
 		target.Hostname = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
 	} else {
 		target.Hostname = proto.Clone(m.GetHostname()).(*google_golang_org_protobuf_types_known_wrapperspb.StringValue)
-	}
-
-	if h, ok := interface{}(m.GetPathOverride()).(clone.Cloner); ok {
-		target.PathOverride = h.Clone().(*UpstreamSpec_PathOverride)
-	} else {
-		target.PathOverride = proto.Clone(m.GetPathOverride()).(*UpstreamSpec_PathOverride)
 	}
 
 	return target
@@ -530,12 +485,6 @@ func (m *UpstreamSpec_AzureOpenAI) Clone() proto.Message {
 
 	target.ApiVersion = m.GetApiVersion()
 
-	if h, ok := interface{}(m.GetCustomHost()).(clone.Cloner); ok {
-		target.CustomHost = h.Clone().(*UpstreamSpec_CustomHost)
-	} else {
-		target.CustomHost = proto.Clone(m.GetCustomHost()).(*UpstreamSpec_CustomHost)
-	}
-
 	switch m.AuthTokenSource.(type) {
 
 	case *UpstreamSpec_AzureOpenAI_AuthToken:
@@ -566,12 +515,6 @@ func (m *UpstreamSpec_Gemini) Clone() proto.Message {
 	target.Model = m.GetModel()
 
 	target.ApiVersion = m.GetApiVersion()
-
-	if h, ok := interface{}(m.GetCustomHost()).(clone.Cloner); ok {
-		target.CustomHost = h.Clone().(*UpstreamSpec_CustomHost)
-	} else {
-		target.CustomHost = proto.Clone(m.GetCustomHost()).(*UpstreamSpec_CustomHost)
-	}
 
 	switch m.AuthTokenSource.(type) {
 
@@ -611,14 +554,6 @@ func (m *UpstreamSpec_VertexAI) Clone() proto.Message {
 	target.ModelPath = m.GetModelPath()
 
 	target.Publisher = m.GetPublisher()
-
-	target.JsonSchema = m.GetJsonSchema()
-
-	if h, ok := interface{}(m.GetCustomHost()).(clone.Cloner); ok {
-		target.CustomHost = h.Clone().(*UpstreamSpec_CustomHost)
-	} else {
-		target.CustomHost = proto.Clone(m.GetCustomHost()).(*UpstreamSpec_CustomHost)
-	}
 
 	switch m.AuthTokenSource.(type) {
 
@@ -687,89 +622,6 @@ func (m *UpstreamSpec_Anthropic) Clone() proto.Message {
 	target.Version = m.GetVersion()
 
 	target.Model = m.GetModel()
-
-	return target
-}
-
-// Clone function
-func (m *UpstreamSpec_Bedrock) Clone() proto.Message {
-	var target *UpstreamSpec_Bedrock
-	if m == nil {
-		return target
-	}
-	target = &UpstreamSpec_Bedrock{}
-
-	if h, ok := interface{}(m.GetCredentialProvider()).(clone.Cloner); ok {
-		target.CredentialProvider = h.Clone().(*UpstreamSpec_AwsCredentialProvider)
-	} else {
-		target.CredentialProvider = proto.Clone(m.GetCredentialProvider()).(*UpstreamSpec_AwsCredentialProvider)
-	}
-
-	if h, ok := interface{}(m.GetCustomHost()).(clone.Cloner); ok {
-		target.CustomHost = h.Clone().(*UpstreamSpec_CustomHost)
-	} else {
-		target.CustomHost = proto.Clone(m.GetCustomHost()).(*UpstreamSpec_CustomHost)
-	}
-
-	target.Model = m.GetModel()
-
-	target.Region = m.GetRegion()
-
-	return target
-}
-
-// Clone function
-func (m *UpstreamSpec_AwsCredentialProvider) Clone() proto.Message {
-	var target *UpstreamSpec_AwsCredentialProvider
-	if m == nil {
-		return target
-	}
-	target = &UpstreamSpec_AwsCredentialProvider{}
-
-	switch m.AuthTokenSource.(type) {
-
-	case *UpstreamSpec_AwsCredentialProvider_SecretRef:
-
-		if h, ok := interface{}(m.GetSecretRef()).(clone.Cloner); ok {
-			target.AuthTokenSource = &UpstreamSpec_AwsCredentialProvider_SecretRef{
-				SecretRef: h.Clone().(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef),
-			}
-		} else {
-			target.AuthTokenSource = &UpstreamSpec_AwsCredentialProvider_SecretRef{
-				SecretRef: proto.Clone(m.GetSecretRef()).(*github_com_solo_io_solo_kit_pkg_api_v1_resources_core.ResourceRef),
-			}
-		}
-
-	case *UpstreamSpec_AwsCredentialProvider_Inline:
-
-		if h, ok := interface{}(m.GetInline()).(clone.Cloner); ok {
-			target.AuthTokenSource = &UpstreamSpec_AwsCredentialProvider_Inline{
-				Inline: h.Clone().(*UpstreamSpec_AWSInline),
-			}
-		} else {
-			target.AuthTokenSource = &UpstreamSpec_AwsCredentialProvider_Inline{
-				Inline: proto.Clone(m.GetInline()).(*UpstreamSpec_AWSInline),
-			}
-		}
-
-	}
-
-	return target
-}
-
-// Clone function
-func (m *UpstreamSpec_AWSInline) Clone() proto.Message {
-	var target *UpstreamSpec_AWSInline
-	if m == nil {
-		return target
-	}
-	target = &UpstreamSpec_AWSInline{}
-
-	target.AccessKeyId = m.GetAccessKeyId()
-
-	target.SecretAccessKey = m.GetSecretAccessKey()
-
-	target.SessionToken = m.GetSessionToken()
 
 	return target
 }
@@ -877,18 +729,6 @@ func (m *UpstreamSpec_MultiPool_Backend) Clone() proto.Message {
 		} else {
 			target.Llm = &UpstreamSpec_MultiPool_Backend_VertexAi{
 				VertexAi: proto.Clone(m.GetVertexAi()).(*UpstreamSpec_VertexAI),
-			}
-		}
-
-	case *UpstreamSpec_MultiPool_Backend_Bedrock:
-
-		if h, ok := interface{}(m.GetBedrock()).(clone.Cloner); ok {
-			target.Llm = &UpstreamSpec_MultiPool_Backend_Bedrock{
-				Bedrock: h.Clone().(*UpstreamSpec_Bedrock),
-			}
-		} else {
-			target.Llm = &UpstreamSpec_MultiPool_Backend_Bedrock{
-				Bedrock: proto.Clone(m.GetBedrock()).(*UpstreamSpec_Bedrock),
 			}
 		}
 
