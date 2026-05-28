@@ -81,6 +81,10 @@ const (
 	RateLimit_MINUTE  RateLimit_Unit = 2
 	RateLimit_HOUR    RateLimit_Unit = 3
 	RateLimit_DAY     RateLimit_Unit = 4
+	// Staying consistent with the ordering used in Envoy's RLS, despite it being non-chronological.
+	RateLimit_MONTH RateLimit_Unit = 5
+	RateLimit_YEAR  RateLimit_Unit = 6
+	RateLimit_WEEK  RateLimit_Unit = 7
 )
 
 // Enum value maps for RateLimit_Unit.
@@ -91,6 +95,9 @@ var (
 		2: "MINUTE",
 		3: "HOUR",
 		4: "DAY",
+		5: "MONTH",
+		6: "YEAR",
+		7: "WEEK",
 	}
 	RateLimit_Unit_value = map[string]int32{
 		"UNKNOWN": 0,
@@ -98,6 +105,9 @@ var (
 		"MINUTE":  2,
 		"HOUR":    3,
 		"DAY":     4,
+		"MONTH":   5,
+		"YEAR":    6,
+		"WEEK":    7,
 	}
 )
 
