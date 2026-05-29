@@ -110,47 +110,6 @@ func (m *RateLimitConfigStatus) Equal(that interface{}) bool {
 }
 
 // Equal function
-func (m *RateLimitConfigNamespacedStatuses) Equal(that interface{}) bool {
-	if that == nil {
-		return m == nil
-	}
-
-	target, ok := that.(*RateLimitConfigNamespacedStatuses)
-	if !ok {
-		that2, ok := that.(RateLimitConfigNamespacedStatuses)
-		if ok {
-			target = &that2
-		} else {
-			return false
-		}
-	}
-	if target == nil {
-		return m == nil
-	} else if m == nil {
-		return false
-	}
-
-	if len(m.GetStatuses()) != len(target.GetStatuses()) {
-		return false
-	}
-	for k, v := range m.GetStatuses() {
-
-		if h, ok := interface{}(v).(equality.Equalizer); ok {
-			if !h.Equal(target.GetStatuses()[k]) {
-				return false
-			}
-		} else {
-			if !proto.Equal(v, target.GetStatuses()[k]) {
-				return false
-			}
-		}
-
-	}
-
-	return true
-}
-
-// Equal function
 func (m *Descriptor) Equal(that interface{}) bool {
 	if that == nil {
 		return m == nil
@@ -369,6 +328,10 @@ func (m *RateLimitActions) Equal(that interface{}) bool {
 		}
 	}
 
+	if m.GetType() != target.GetType() {
+		return false
+	}
+
 	return true
 }
 
@@ -528,6 +491,21 @@ func (m *Action) Equal(that interface{}) bool {
 			}
 		} else {
 			if !proto.Equal(m.GetMetadata(), target.GetMetadata()) {
+				return false
+			}
+		}
+
+	case *Action_Cel:
+		if _, ok := target.ActionSpecifier.(*Action_Cel); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetCel()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetCel()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetCel(), target.GetCel()) {
 				return false
 			}
 		}
@@ -893,6 +871,38 @@ func (m *Action_HeaderValueMatch) Equal(that interface{}) bool {
 			}
 		}
 
+	}
+
+	return true
+}
+
+// Equal function
+func (m *Action_CEL) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*Action_CEL)
+	if !ok {
+		that2, ok := that.(Action_CEL)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetExpression(), target.GetExpression()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetKey(), target.GetKey()) != 0 {
+		return false
 	}
 
 	return true
