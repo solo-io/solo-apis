@@ -118,67 +118,6 @@ func (m *RateLimitConfigStatus) HashUnique(hasher hash.Hash64) (uint64, error) {
 // hashing field name and value pairs.
 // Replaces Hash due to original hashing implemention only using field values. The omission
 // of the field name in the hash calculation can lead to hash collisions.
-func (m *RateLimitConfigNamespacedStatuses) HashUnique(hasher hash.Hash64) (uint64, error) {
-	if m == nil {
-		return 0, nil
-	}
-	if hasher == nil {
-		hasher = fnv.New64()
-	}
-	var err error
-	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1.RateLimitConfigNamespacedStatuses")); err != nil {
-		return 0, err
-	}
-
-	{
-		var result uint64
-		innerHash := fnv.New64()
-		for k, v := range m.GetStatuses() {
-			innerHash.Reset()
-
-			if h, ok := interface{}(v).(safe_hasher.SafeHasher); ok {
-				if _, err = innerHash.Write([]byte("v")); err != nil {
-					return 0, err
-				}
-				if _, err = h.Hash(innerHash); err != nil {
-					return 0, err
-				}
-			} else {
-				if fieldValue, err := hashstructure.Hash(v, nil); err != nil {
-					return 0, err
-				} else {
-					if _, err = innerHash.Write([]byte("v")); err != nil {
-						return 0, err
-					}
-					if err := binary.Write(innerHash, binary.LittleEndian, fieldValue); err != nil {
-						return 0, err
-					}
-				}
-			}
-
-			if _, err = innerHash.Write([]byte("k")); err != nil {
-				return 0, err
-			}
-			if _, err = innerHash.Write([]byte(k)); err != nil {
-				return 0, err
-			}
-
-			result = result ^ innerHash.Sum64()
-		}
-		err = binary.Write(hasher, binary.LittleEndian, result)
-		if err != nil {
-			return 0, err
-		}
-
-	}
-
-	return hasher.Sum64(), nil
-}
-
-// HashUnique function generates a hash of the object that is unique to the object by
-// hashing field name and value pairs.
-// Replaces Hash due to original hashing implemention only using field values. The omission
-// of the field name in the hash calculation can lead to hash collisions.
 func (m *Descriptor) HashUnique(hasher hash.Hash64) (uint64, error) {
 	if m == nil {
 		return 0, nil
@@ -480,6 +419,14 @@ func (m *RateLimitActions) HashUnique(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	if _, err = hasher.Write([]byte("Type")); err != nil {
+		return 0, err
+	}
+	err = binary.Write(hasher, binary.LittleEndian, m.GetType())
+	if err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -682,6 +629,28 @@ func (m *Action) HashUnique(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			} else {
 				if _, err = hasher.Write([]byte("Metadata")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *Action_Cel:
+
+		if h, ok := interface{}(m.GetCel()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("Cel")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetCel(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("Cel")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
@@ -1097,6 +1066,39 @@ func (m *Action_HeaderValueMatch) HashUnique(hasher hash.Hash64) (uint64, error)
 			}
 		}
 
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// HashUnique function generates a hash of the object that is unique to the object by
+// hashing field name and value pairs.
+// Replaces Hash due to original hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+func (m *Action_CEL) HashUnique(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("ratelimit.api.solo.io.github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1.Action_CEL")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte("Expression")); err != nil {
+		return 0, err
+	}
+	if _, err = hasher.Write([]byte(m.GetExpression())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte("Key")); err != nil {
+		return 0, err
+	}
+	if _, err = hasher.Write([]byte(m.GetKey())); err != nil {
+		return 0, err
 	}
 
 	return hasher.Sum64(), nil
