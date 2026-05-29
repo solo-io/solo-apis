@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package common.gloo.solo.io;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/common.gloo.solo.io/v2";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+
+message Condition {
+  // The type of the condition in CamelCase.
+  string type = 1;
+  // The status of the condition. Commonly used values are `True`, `False`, and `Unknown`, but can contain controller-specific values too.
+  string status = 2;
+  // Optional. The `metadata.generation` that the condition is based on.
+  int64 observed_generation = 3;
+  // The timestamp when the condition last transitioned from one status to another.
+  .google.protobuf.Timestamp last_transition_time = 4;
+  // The programmatic identifier that represents the reason the condition transitioned to the current status in CamelCase format.  
+  string reason = 5;
+  // A human readable message that includes the details about why the condition transitioned to the current status. 
+  string message = 6;
+}

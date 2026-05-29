@@ -1,0 +1,181 @@
+// {{% reuse "conrefs/snippets/policies/ov_failover.md" %}} 
+// If a backing service in a virtual destination is unhealthy, Gloo Mesh re-routes 
+// traffic to another healthy backing service by locality, as specified 
+// in the FailoverPolicy config.
+// FailoverPolicies are applied at the *Destination* level.
+// 
+// ## About failover policies
+//
+// Note that you can use failover policies in combination with other policies, 
+// such as [outlier detection]({{< link path="/resiliency/outlier-detection/" >}}) 
+// or [retry]({{< link path="/policies/retry-timeout/">}}) policies.
+// * FailoverPolicy: Choose where to direct traffic to, based on locality.
+// * OutlierDetectionPolicy: Determine when and for how long to remove unhealthy
+// destinations from the pool of healthy destinations. 
+// * RetryTimeoutPolicy: Decide how many times to retry requests before the outlier detection policy
+// considers the request as failing and removes the service
+// from the pool of healthy destinations.
+//
+// To fine-tune traffic flow according to your operational needs,
+// Istio has several locality settings that you can configure via the FailoverPolicy,
+// as shown in the following example configurations.
+//
+// ### Distribute with weight example
+// Distribute traffic based on locality to enhance user experience in terms of performance,
+// or to manage the load across resources more efficiently. 
+// Note that this setting does not fail over traffic, 
+// but instead distributes traffic.
+// ```yaml
+// {{% readfile file="/static/content/examples/generated/int/virtual_dest_locality_based_failover/cluster-1/failover-policy_bookinfo_locality-based-failover.yaml" %}}
+//         weight: 50
+//       - region: us-east
+//         weight: 50
+// ```
+//
+// ### Failover example
+// This example selects all virtual destinations in the workspace, 
+// and fails over traffic from any destinations served in the `us-east` region
+// to any matching destinations only in the `us-west` region.
+// ```yaml
+// {{% readfile file="static/content/examples/generated/int/virtual_dest_locality_based_failover/cluster-1/failover-policy_bookinfo_locality-based-failover.yaml" %}}
+// ```
+//
+// ### Failover priority example
+// The following example prioritizes destinations for failover traffic based on key-value labels.
+// Destinations that match the most labels are prioritized first.
+// For more information, including about important limitations
+// especially in multicluster scenarios, see the [failover guide]({{% link path="/resiliency/failover/" %}}).
+// ```yaml
+// {{% readfile file="/static/content/examples/generated/int/virtual_dest_locality_based_failover_priority_labels_and_values_with_helloworld/cluster-1/failover-policy_bookinfo_locality-based-failover-with-priority.yaml" %}}
+// ```
+syntax = "proto3";
+
+package resilience.policy.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/selectors.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/resilience.policy.gloo.solo.io/v2";
+
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+option (extproto.clone_all) = true;
+
+// Specifications for the policy.
+message FailoverPolicySpec {
+
+  // Select the destinations to apply the policy to by using labels.
+  // If empty, the policy applies to all destinations in the workspace.
+  repeated .common.gloo.solo.io.DestinationSelector apply_to_destinations = 1;
+
+  // The details of the failover policy to apply to the selected virtual destinations.
+  Config config = 2;
+
+  message Config {
+
+    // Map the localities to fail over traffic from one region, zone, 
+    // or subzone to another in case of failure. The locality is determined
+    // by the Kubernetes labels on the node where the destination's app runs.
+    // For more information, see the [Istio docs](https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/).
+    //
+    // You can exclude this setting to enable the locality load balancer
+    // settings without mappings.
+    //
+    // Only priority labels or locality mappings can be specified, not both.
+    repeated LocalityMappings locality_mappings = 2;
+
+    oneof priority_levels {
+      // Prioritize destinations to fail over traffic to by configuring priority labels. In general, destinations that match the most labels have higher priority during failover.
+      // For more information, see the [Istio docs](https://istio.io/latest/docs/reference/config/networking/destination-rule/#:~:text=No-,failoverPriority,-string%5B%5D).
+      // 
+      // When using priority labels, you must specify either an ordered list of label keys or an ordered list of label key-value pairs.
+      // For example, you can specify `["region"]` or `["region=us-east-1", "availabilityzone=1a", "datacenter=4"]`.
+      // You cannot have an ordered list that includes both label keys and label key-value pairs.
+      //
+      // Only priority labels or locality mappings can be specified, not both. If you specify both, Gloo Mesh will give precedence to the locality mappings.
+      // You can use locality labels in your list of priority labels, such as the Kubernetes `topology.kubernetes.io/region` node label.
+      PriorityLabels priority_labels = 3;
+    }
+
+    message PriorityLabels {
+      repeated string labels = 1;
+    }
+
+    message LocalityMappings {
+      // The locality of the destination where Gloo Mesh originally 
+      // tried to fulfill the request.
+      OriginatingLocality from = 1;
+
+      // The localities of the destination where Gloo Mesh can reroute requests.
+      // You must specify the region, and optionally the zone and subzone.
+      // If you have multiple `to` destinations, you can optionally set a weight.
+      repeated DestinationLocality to = 2;
+
+      // A geographic location defined by a region, zone, and sub-zone.
+      message OriginatingLocality {
+        // The locality's region.
+        string region = 1;
+
+        // (Optional) The locality's zone.
+        string zone = 2;
+
+        // (Optional) The locality's sub-zone.
+        string sub_zone = 3;
+      }
+
+      // A geographic location defined by a region, zone, and sub-zone
+      // along with the weight for the destination.
+      message DestinationLocality {
+
+        // The locality's region.
+        string region = 1;
+
+        // (Optional) The locality's zone.
+        string zone = 2;
+
+        // (Optional) The locality's sub-zone.
+        string sub_zone = 3;
+
+        // (Optional) Weight for destination locality. All weights must add up to 100.
+        // If not provided, weight is determined based on other destination locality weights.
+        // For information about the value format, see the 
+        // [Google protocol buffer documentation](https://protobuf.dev/reference/protobuf/google.protobuf/#u-int32-value).
+        google.protobuf.UInt32Value weight = 4;
+      }
+    }
+
+  }
+
+}
+
+// The status of the policy after it is applied to your Gloo environment.
+message FailoverPolicyStatus {
+  // The state and workspace conditions of the applied resource.
+  .common.gloo.solo.io.Status common = 1;
+
+  // The number of destination ports selected by the policy.
+  uint32 num_selected_destination_ports = 2;
+}
+
+// The report shows the resources that the policy selects after the policy is successfully applied.
+message FailoverPolicyReport {
+  // A list of workloads selected by the policy.
+  map<string, .common.gloo.solo.io.Report> workspaces = 1;
+
+  // A list of destination ports selected by the policy.
+  repeated .common.gloo.solo.io.DestinationReference selected_destination_ports = 2;
+
+  // A list of selected outlier detection policies.
+  repeated DestinationToSelectedOutlierDetection corresponding_outlier_detection_policies = 3;
+}
+
+message DestinationToSelectedOutlierDetection {
+  // The destination to which the selected outlier detection policy is applied.
+  .common.gloo.solo.io.DestinationReference destination = 1;
+
+  // The selected outlier detection policy.
+  .common.gloo.solo.io.ObjectReference selected_outlier_detection = 2;
+}
