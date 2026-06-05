@@ -1,0 +1,77 @@
+syntax = "proto3";
+package networking.gloo.solo.io;
+
+import "extproto/ext.proto";
+import "istio.io/api/networking/v1alpha3/virtual_service.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/status.proto";
+import "github.com/solo-io/solo-apis/api/gloo.solo.io/common/v2/references.proto";
+
+option go_package = "github.com/solo-io/solo-apis/client-go/networking.gloo.solo.io/v2alpha1";
+
+option (extproto.equal_all) = true;
+option (extproto.clone_all) = true;
+option (extproto.hash_all) = true;
+
+// $hide_from_docs
+message ProgressiveDeliverySpec {
+
+  // +kubebuilder:validation:Required
+  .common.gloo.solo.io.ObjectReference route_table_ref = 1;
+
+  // +kubebuilder:validation:MinItems=1
+  repeated VirtualServiceRoute virtual_service_patch = 2;
+
+  // $hide_from_docs
+  message VirtualServiceRoute {
+    string name = 1;
+
+    // +kubebuilder:validation:MinItems=1
+    // +kubebuilder:validation:Required
+    repeated HttpRouteDestination route = 2;
+  }
+
+  // $hide_from_docs
+  message HttpRouteDestination {
+    // +kubebuilder:validation:Required
+    Destination destination = 1;
+
+    // +kubebuilder:default=0
+    int32 weight = 2;
+  }
+}
+
+// $hide_from_docs
+message ProgressiveDeliveryStatus {
+  // The state of the applied resource
+  .common.gloo.solo.io.Status common = 1;
+
+  // Any Virtual Service that was successfully patched
+  repeated .common.gloo.solo.io.ObjectReference patchedVirtualServices = 2;
+
+  // Any Virtual Service that failed to patch
+  repeated .common.gloo.solo.io.ObjectReference failedToPatchVirtualServices = 3;
+}
+
+// $hide_from_docs
+message Destination {
+  // The name of a service from the service registry. Service
+	// names are looked up from the platform's service registry (e.g.,
+	// Kubernetes services, Consul services, etc.) and from the hosts
+	// declared by ServiceEntry.
+  // +kubebuilder:validation:Required
+  string host = 1;
+
+	// Either the name or labels of a subset within the service, only one can be set. 
+  // +kubebuilder:validation:Required
+  // +kubebuilder:validation:XValidation:rule="has(self.name) ? !has(self.labels) : has(self.labels)",message="either name or labels must be set, but not both."
+  SubsetSelector subset = 2;
+  
+  // Specifies the port on the host that is being addressed.
+  istio.networking.v1alpha3.PortSelector port = 3;
+}
+
+// $hide_from_docs
+message SubsetSelector {
+  string name = 1;
+  map<string, string> labels = 2;
+}
