@@ -3,7 +3,6 @@ package ratelimit.api.solo.io;
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1";
 
-
 import "google/protobuf/wrappers.proto";
 import "extproto/ext.proto";
 option (extproto.hash_all) = true;
@@ -57,10 +56,6 @@ message RateLimitConfigStatus {
   // The observed generation of the resource.
   // When this matches the metadata.generation of the resource, it indicates the status is up-to-date.
   int64 observed_generation = 3;
-}
-
-message RateLimitConfigNamespacedStatuses {
-  map<string, RateLimitConfigStatus> statuses = 1;
 }
 
 // A descriptor is a list of key/value pairs that the rate limit server uses to select
@@ -262,6 +257,20 @@ message RateLimitActions {
   repeated Action set_actions = 2;
   // An optional limit override to be appended to the descriptor produced by this rate limit configuration. If the override value is invalid or cannot be resolved from metadata, no override is provided.
   Override limit = 3;
+  // Optional type defining the rate limit metric, such as requests or token counts.
+  // The TOKEN type is only relevant for AI backends that emit a token count and is used by agentgateway. 
+  // Defaults to REQUEST if not specified.
+  LimitType type = 4;
+}
+
+// LimitType specifies whether the global rate limit applies to requests or tokens.
+// Defaults to REQUEST if not specified.
+enum LimitType {
+    // Count the number of requests to apply ratelimit. 
+    REQUEST = 0;
+    // Count the LLM tokens to apply ratelimit.
+    // This field is only used for ratelimiting AI backends that emit a token count and is used by agentgateway. 
+    TOKEN = 1;
 }
 
 // A `RateLimit` specifies the actual rate limit that will be used when there is a match.
@@ -273,6 +282,9 @@ message RateLimit {
     MINUTE = 2;
     HOUR = 3;
     DAY = 4;
+    MONTH = 5; // Staying consistent with the ordering used in Envoy's RLS, despite it being non-chronological
+    YEAR = 6;
+    WEEK = 7;
   }
 
   Unit unit = 1;
@@ -453,6 +465,15 @@ message Action {
     repeated HeaderMatcher headers = 3; // [(validate.rules).repeated .min_items = 1];
   }
 
+  // CEL expression and key to ratelimit on. Only supported for agentgateway ratelimiting.
+  message CEL {
+    // The CEL expression to evaluate.
+    string expression = 1;  // [(validate.rules).string.min_bytes = 1];
+
+    // The key to use in the descriptor entry.
+    string key = 2; // [(validate.rules).string.min_bytes = 1];
+  }
+
   oneof action_specifier {
 
     // Rate limit on source cluster.
@@ -475,6 +496,9 @@ message Action {
 
     // Rate limit on metadata.
     MetaData metadata = 8;
+
+    // Rate limit on CEL expression. Only supported for agentgateway ratelimiting.
+    CEL cel = 9;
   }
 }
 
