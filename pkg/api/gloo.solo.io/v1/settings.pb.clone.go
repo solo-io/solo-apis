@@ -23,8 +23,6 @@ import (
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_external_envoy_extensions_aws "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/extensions/aws"
 
-	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_circuit_breaker "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/circuit_breaker"
-
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_caching "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/caching"
 
 	github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_enterprise_options_extproc "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/v1/enterprise/options/extproc"
@@ -451,9 +449,9 @@ func (m *GlooOptions) Clone() proto.Message {
 	target.ValidationBindAddr = m.GetValidationBindAddr()
 
 	if h, ok := interface{}(m.GetCircuitBreakers()).(clone.Cloner); ok {
-		target.CircuitBreakers = h.Clone().(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_circuit_breaker.CircuitBreakerConfig)
+		target.CircuitBreakers = h.Clone().(*CircuitBreakerConfig)
 	} else {
-		target.CircuitBreakers = proto.Clone(m.GetCircuitBreakers()).(*github_com_solo_io_solo_apis_pkg_api_gloo_solo_io_v1_circuit_breaker.CircuitBreakerConfig)
+		target.CircuitBreakers = proto.Clone(m.GetCircuitBreakers()).(*CircuitBreakerConfig)
 	}
 
 	if h, ok := interface{}(m.GetEndpointsWarmingTimeout()).(clone.Cloner); ok {

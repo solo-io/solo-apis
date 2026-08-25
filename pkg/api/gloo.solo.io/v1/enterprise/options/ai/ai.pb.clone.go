@@ -15,8 +15,6 @@ import (
 
 	github_com_golang_protobuf_ptypes_struct "github.com/golang/protobuf/ptypes/struct"
 
-	github_com_golang_protobuf_ptypes_wrappers "github.com/golang/protobuf/ptypes/wrappers"
-
 	github_com_solo_io_solo_kit_pkg_api_v1_resources_core "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
@@ -324,8 +322,6 @@ func (m *SemanticCache) Clone() proto.Message {
 
 	target.Mode = m.GetMode()
 
-	target.DistanceThreshold = m.GetDistanceThreshold()
-
 	return target
 }
 
@@ -436,12 +432,6 @@ func (m *UpstreamSpec_CustomHost) Clone() proto.Message {
 	target.Host = m.GetHost()
 
 	target.Port = m.GetPort()
-
-	if h, ok := interface{}(m.GetHostname()).(clone.Cloner); ok {
-		target.Hostname = h.Clone().(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
-	} else {
-		target.Hostname = proto.Clone(m.GetHostname()).(*github_com_golang_protobuf_ptypes_wrappers.StringValue)
-	}
 
 	return target
 }
