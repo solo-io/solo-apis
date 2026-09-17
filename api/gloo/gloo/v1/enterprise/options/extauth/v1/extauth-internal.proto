@@ -702,6 +702,17 @@ message ExtAuthConfig {
         google.protobuf.Duration cache_duration = 4;
         // Timeout for the portal web server to respond. Defaults to 200ms
         google.protobuf.Duration request_timeout = 5;
+
+        // Read a client ID and a client secret from two request headers and have the portal
+        // web server verify the pair. Mutually exclusive with api_key_header.
+        ClientCredentials client_credentials = 6;
+
+        message ClientCredentials {
+        // Request header carrying the public client identifier, e.g. x-ibm-client-id.
+        string client_id_header = 1;
+        // Request header carrying the plaintext client secret, e.g. x-ibm-client-secret.
+        string client_secret_header = 2;
+    }
     }
 
     message InMemorySecretList {
