@@ -1104,6 +1104,12 @@ func (m *ExtAuthConfig_PortalAuthConfig) Clone() proto.Message {
 		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
+	if h, ok := interface{}(m.GetClientCredentials()).(clone.Cloner); ok {
+		target.ClientCredentials = h.Clone().(*ExtAuthConfig_PortalAuthConfig_ClientCredentials)
+	} else {
+		target.ClientCredentials = proto.Clone(m.GetClientCredentials()).(*ExtAuthConfig_PortalAuthConfig_ClientCredentials)
+	}
+
 	return target
 }
 
@@ -1705,6 +1711,21 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Clone() proto.Message {
 
 		}
 	}
+
+	return target
+}
+
+// Clone function
+func (m *ExtAuthConfig_PortalAuthConfig_ClientCredentials) Clone() proto.Message {
+	var target *ExtAuthConfig_PortalAuthConfig_ClientCredentials
+	if m == nil {
+		return target
+	}
+	target = &ExtAuthConfig_PortalAuthConfig_ClientCredentials{}
+
+	target.ClientIdHeader = m.GetClientIdHeader()
+
+	target.ClientSecretHeader = m.GetClientSecretHeader()
 
 	return target
 }

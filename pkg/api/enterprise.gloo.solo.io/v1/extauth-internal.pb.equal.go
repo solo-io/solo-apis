@@ -1810,6 +1810,16 @@ func (m *ExtAuthConfig_PortalAuthConfig) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetClientCredentials()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetClientCredentials()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetClientCredentials(), target.GetClientCredentials()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -2821,6 +2831,38 @@ func (m *ExtAuthConfig_ApiKeyAuthConfig_KeyMetadata) Equal(that interface{}) boo
 			return false
 		}
 
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ExtAuthConfig_PortalAuthConfig_ClientCredentials) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ExtAuthConfig_PortalAuthConfig_ClientCredentials)
+	if !ok {
+		that2, ok := that.(ExtAuthConfig_PortalAuthConfig_ClientCredentials)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetClientIdHeader(), target.GetClientIdHeader()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetClientSecretHeader(), target.GetClientSecretHeader()) != 0 {
+		return false
 	}
 
 	return true
