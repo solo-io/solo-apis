@@ -4205,6 +4205,26 @@ func (m *PortalAuth) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	if h, ok := interface{}(m.GetClientCredentials()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("ClientCredentials")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetClientCredentials(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("ClientCredentials")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -6144,6 +6164,14 @@ func (m *PassThroughHttp_Response) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	for _, v := range m.GetAllowedClientHeadersOnSuccess() {
+
+		if _, err = hasher.Write([]byte(v)); err != nil {
+			return 0, err
+		}
+
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -6187,6 +6215,34 @@ func (m *PassThroughHttp_ConnectionPool) Hash(hasher hash.Hash64) (uint64, error
 				return 0, err
 			}
 		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
+func (m *PortalAuth_ClientCredentials) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("enterprise.gloo.solo.io.github.com/solo-io/solo-apis/pkg/api/enterprise.gloo.solo.io/v1.PortalAuth_ClientCredentials")); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetClientIdHeader())); err != nil {
+		return 0, err
+	}
+
+	if _, err = hasher.Write([]byte(m.GetClientSecretHeader())); err != nil {
+		return 0, err
 	}
 
 	return hasher.Sum64(), nil
