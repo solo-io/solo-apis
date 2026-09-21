@@ -3422,6 +3422,16 @@ func (m *PortalAuth) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetClientCredentials()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetClientCredentials()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetClientCredentials(), target.GetClientCredentials()) {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -5172,6 +5182,17 @@ func (m *PassThroughHttp_Response) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetAllowedClientHeadersOnSuccess()) != len(target.GetAllowedClientHeadersOnSuccess()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedClientHeadersOnSuccess() {
+
+		if strings.Compare(v, target.GetAllowedClientHeadersOnSuccess()[idx]) != 0 {
+			return false
+		}
+
+	}
+
 	return true
 }
 
@@ -5208,6 +5229,38 @@ func (m *PassThroughHttp_ConnectionPool) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetIdleTimeout(), target.GetIdleTimeout()) {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *PortalAuth_ClientCredentials) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PortalAuth_ClientCredentials)
+	if !ok {
+		that2, ok := that.(PortalAuth_ClientCredentials)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetClientIdHeader(), target.GetClientIdHeader()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetClientSecretHeader(), target.GetClientSecretHeader()) != 0 {
+		return false
 	}
 
 	return true
