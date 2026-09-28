@@ -1671,6 +1671,15 @@ message PassThroughHttp {
         // If this and allowed_upstream_headers are empty, by default, no authorization response headers will be added to the upstream request.
         // Header names may not be included in both allowed_upstream_headers and allowed_upstream_headers_to_overwrite.
         repeated string allowed_upstream_headers_to_overwrite = 4;
+
+        // When this is set, authorization response headers in this list will be added to the response to the downstream client
+        // when the auth request is successful. Only headers that are present on the authorization response are added.
+        // If an added header already exists on the client response, it will be overwritten.
+        // If a listed header is absent from the authorization response, the client response is not modified: an existing
+        // client response header with the same name is preserved, not cleared.
+        // If this is empty, by default, no authorization response headers will be added to the response to the downstream client
+        // on success.
+        repeated string allowed_client_headers_on_success = 5;
     }
     // Pass through response information such as the headers and body to downstream clients.
     // For more information, see the [PassThrough Http Response description](#passthroughhttp-response).
@@ -1760,7 +1769,8 @@ message PortalAuth {
     string url = 1;
     // The api key header name used to find the api key in the request headers.
     // If provided will not authorize requests without the api key in the request headers.
-    // If not provided, will authorize requests with a Bearer token but must be chained with an AccessTokenValidation AuthConfig which will validate the token.
+    // Mutually exclusive with clientCredentials.
+    // If neither clientCredentials or apiKeyHeader is provided, will authorize requests with a Bearer token but must be chained with an AccessTokenValidation AuthConfig which will validate the token.
     string api_key_header = 2;
     // Options to connect to redis. If not provided, data will be cached in memory.
     RedisOptions redis_options = 3;
@@ -1768,6 +1778,21 @@ message PortalAuth {
     google.protobuf.Duration cache_duration = 4;
     // Timeout for the portal web server to respond. Defaults to 200ms
     google.protobuf.Duration request_timeout = 5;
+
+    // Read a client ID and a client secret from two request headers and have the portal
+    // web server verify the pair. Mutually exclusive with apiKeyHeader.
+    // If neither clientCredentials or apiKeyHeader is provided, will authorize requests with a Bearer token but must be chained with an AccessTokenValidation AuthConfig which will validate the token.
+    // Only supported in Portal 2.4.0 and greater.
+    ClientCredentials client_credentials = 6;
+
+    message ClientCredentials {
+        // Request header carrying the public client identifier, e.g. x-client-id.
+        // Must differ (case-insensitive) from client_secret_header.
+        string client_id_header = 1;
+        // Request header carrying the plaintext client secret, e.g. x-client-secret.
+        // Must differ (case-insensitive) from client_id_header.
+        string client_secret_header = 2;
+    }
 }
 
 
