@@ -2005,6 +2005,12 @@ func (m *PortalAuth) Clone() proto.Message {
 		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
+	if h, ok := interface{}(m.GetClientCredentials()).(clone.Cloner); ok {
+		target.ClientCredentials = h.Clone().(*PortalAuth_ClientCredentials)
+	} else {
+		target.ClientCredentials = proto.Clone(m.GetClientCredentials()).(*PortalAuth_ClientCredentials)
+	}
+
 	return target
 }
 
@@ -3018,6 +3024,15 @@ func (m *PassThroughHttp_Response) Clone() proto.Message {
 		}
 	}
 
+	if m.GetAllowedClientHeadersOnSuccess() != nil {
+		target.AllowedClientHeadersOnSuccess = make([]string, len(m.GetAllowedClientHeadersOnSuccess()))
+		for idx, v := range m.GetAllowedClientHeadersOnSuccess() {
+
+			target.AllowedClientHeadersOnSuccess[idx] = v
+
+		}
+	}
+
 	return target
 }
 
@@ -3036,6 +3051,21 @@ func (m *PassThroughHttp_ConnectionPool) Clone() proto.Message {
 	} else {
 		target.IdleTimeout = proto.Clone(m.GetIdleTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
+
+	return target
+}
+
+// Clone function
+func (m *PortalAuth_ClientCredentials) Clone() proto.Message {
+	var target *PortalAuth_ClientCredentials
+	if m == nil {
+		return target
+	}
+	target = &PortalAuth_ClientCredentials{}
+
+	target.ClientIdHeader = m.GetClientIdHeader()
+
+	target.ClientSecretHeader = m.GetClientSecretHeader()
 
 	return target
 }
