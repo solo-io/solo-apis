@@ -3422,6 +3422,45 @@ func (m *PortalAuth) Equal(that interface{}) bool {
 		}
 	}
 
+	switch m.Credential.(type) {
+
+	case *PortalAuth_ApiKey_:
+		if _, ok := target.Credential.(*PortalAuth_ApiKey_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetApiKey()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetApiKey()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetApiKey(), target.GetApiKey()) {
+				return false
+			}
+		}
+
+	case *PortalAuth_AccessToken_:
+		if _, ok := target.Credential.(*PortalAuth_AccessToken_); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetAccessToken()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAccessToken()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetAccessToken(), target.GetAccessToken()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Credential != target.Credential {
+			return false
+		}
+	}
+
 	return true
 }
 
@@ -5172,6 +5211,17 @@ func (m *PassThroughHttp_Response) Equal(that interface{}) bool {
 
 	}
 
+	if len(m.GetAllowedClientHeadersOnSuccess()) != len(target.GetAllowedClientHeadersOnSuccess()) {
+		return false
+	}
+	for idx, v := range m.GetAllowedClientHeadersOnSuccess() {
+
+		if strings.Compare(v, target.GetAllowedClientHeadersOnSuccess()[idx]) != 0 {
+			return false
+		}
+
+	}
+
 	return true
 }
 
@@ -5208,6 +5258,62 @@ func (m *PassThroughHttp_ConnectionPool) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetIdleTimeout(), target.GetIdleTimeout()) {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *PortalAuth_ApiKey) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PortalAuth_ApiKey)
+	if !ok {
+		that2, ok := that.(PortalAuth_ApiKey)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetHeader(), target.GetHeader()) != 0 {
+		return false
+	}
+
+	if strings.Compare(m.GetClientIdHeader(), target.GetClientIdHeader()) != 0 {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *PortalAuth_AccessToken) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*PortalAuth_AccessToken)
+	if !ok {
+		that2, ok := that.(PortalAuth_AccessToken)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
 	}
 
 	return true
