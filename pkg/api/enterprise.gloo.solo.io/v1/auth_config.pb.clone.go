@@ -2005,6 +2005,34 @@ func (m *PortalAuth) Clone() proto.Message {
 		target.RequestTimeout = proto.Clone(m.GetRequestTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
 
+	switch m.Credential.(type) {
+
+	case *PortalAuth_ApiKey_:
+
+		if h, ok := interface{}(m.GetApiKey()).(clone.Cloner); ok {
+			target.Credential = &PortalAuth_ApiKey_{
+				ApiKey: h.Clone().(*PortalAuth_ApiKey),
+			}
+		} else {
+			target.Credential = &PortalAuth_ApiKey_{
+				ApiKey: proto.Clone(m.GetApiKey()).(*PortalAuth_ApiKey),
+			}
+		}
+
+	case *PortalAuth_AccessToken_:
+
+		if h, ok := interface{}(m.GetAccessToken()).(clone.Cloner); ok {
+			target.Credential = &PortalAuth_AccessToken_{
+				AccessToken: h.Clone().(*PortalAuth_AccessToken),
+			}
+		} else {
+			target.Credential = &PortalAuth_AccessToken_{
+				AccessToken: proto.Clone(m.GetAccessToken()).(*PortalAuth_AccessToken),
+			}
+		}
+
+	}
+
 	return target
 }
 
@@ -3018,6 +3046,15 @@ func (m *PassThroughHttp_Response) Clone() proto.Message {
 		}
 	}
 
+	if m.GetAllowedClientHeadersOnSuccess() != nil {
+		target.AllowedClientHeadersOnSuccess = make([]string, len(m.GetAllowedClientHeadersOnSuccess()))
+		for idx, v := range m.GetAllowedClientHeadersOnSuccess() {
+
+			target.AllowedClientHeadersOnSuccess[idx] = v
+
+		}
+	}
+
 	return target
 }
 
@@ -3036,6 +3073,32 @@ func (m *PassThroughHttp_ConnectionPool) Clone() proto.Message {
 	} else {
 		target.IdleTimeout = proto.Clone(m.GetIdleTimeout()).(*google_golang_org_protobuf_types_known_durationpb.Duration)
 	}
+
+	return target
+}
+
+// Clone function
+func (m *PortalAuth_ApiKey) Clone() proto.Message {
+	var target *PortalAuth_ApiKey
+	if m == nil {
+		return target
+	}
+	target = &PortalAuth_ApiKey{}
+
+	target.Header = m.GetHeader()
+
+	target.ClientIdHeader = m.GetClientIdHeader()
+
+	return target
+}
+
+// Clone function
+func (m *PortalAuth_AccessToken) Clone() proto.Message {
+	var target *PortalAuth_AccessToken
+	if m == nil {
+		return target
+	}
+	target = &PortalAuth_AccessToken{}
 
 	return target
 }
