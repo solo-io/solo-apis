@@ -92,7 +92,7 @@ message RateLimitVhostExtension {
   // These options provide the ability to locally rate limit the connections in envoy. Each request processed by the filter consumes a single token.
   // If the token is available, the request will be allowed. If no tokens are available, the request will receive the configured rate limit status.
   // This overrides any local rate limit configured on the gateway and requests to this vHost do not count against requests to the gateway's http local rate limit.
-  // All routes that are part of this vHost will share this rate limit unless explicity configured with another limit.
+  // All routes that are part of this vHost will share this rate limit unless explicitly configured with another limit.
   local_ratelimit.options.gloo.solo.io.TokenBucket local_ratelimit = 2;
 }
 

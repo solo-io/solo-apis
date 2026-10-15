@@ -1175,7 +1175,7 @@ type MergeJsonKeys struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Map of key name -> template to render into the JSON body.
 	// Specified keys which don't exist in the JSON body will be set,
-	// keys which do exist will be overriden.
+	// keys which do exist will be overridden.
 	//
 	// For example, given the following JSON body:
 	// {
