@@ -26,7 +26,7 @@ const (
 )
 
 // Same as HTTP health checker, but allows a custom path per endpoint
-// The http path to use can be overriden using endpoint metadata. The endpoint specific path should
+// The http path to use can be overridden using endpoint metadata. The endpoint specific path should
 // be in the "io.solo.health_checkers.http_path" namespace, under a string value named "path".
 type HttpPath struct {
 	state protoimpl.MessageState `protogen:"open.v1"`

@@ -17,7 +17,7 @@ option java_multiple_files = true;
 option (solo.io.udpa.annotations.file_status).package_version_status = ACTIVE;
 
 // Same as HTTP health checker, but allows a custom path per endpoint
-// The http path to use can be overriden using endpoint metadata. The endpoint specific path should
+// The http path to use can be overridden using endpoint metadata. The endpoint specific path should
 // be in the "io.solo.health_checkers.http_path" namespace, under a string value named "path".
 message HttpPath {
   // Http health check.

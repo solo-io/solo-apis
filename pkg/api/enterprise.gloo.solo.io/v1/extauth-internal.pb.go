@@ -2465,7 +2465,7 @@ type ExtAuthConfig_PortalAuthConfig struct {
 	ApiKeyHeader string `protobuf:"bytes,2,opt,name=api_key_header,json=apiKeyHeader,proto3" json:"api_key_header,omitempty"`
 	// Options to connect to redis. If not provided, data will be cached in memory.
 	RedisOptions *RedisOptions `protobuf:"bytes,3,opt,name=redis_options,json=redisOptions,proto3" json:"redis_options,omitempty"`
-	// The frequency at which the validated credential data should be refreshed by quering the portal web server. Defaults to 60s
+	// The frequency at which the validated credential data should be refreshed by querying the portal web server. Defaults to 60s
 	CacheDuration *durationpb.Duration `protobuf:"bytes,4,opt,name=cache_duration,json=cacheDuration,proto3" json:"cache_duration,omitempty"`
 	// Timeout for the portal web server to respond. Defaults to 200ms
 	RequestTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=request_timeout,json=requestTimeout,proto3" json:"request_timeout,omitempty"`

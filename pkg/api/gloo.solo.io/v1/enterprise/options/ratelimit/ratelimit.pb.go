@@ -417,7 +417,7 @@ type RateLimitVhostExtension struct {
 	// These options provide the ability to locally rate limit the connections in envoy. Each request processed by the filter consumes a single token.
 	// If the token is available, the request will be allowed. If no tokens are available, the request will receive the configured rate limit status.
 	// This overrides any local rate limit configured on the gateway and requests to this vHost do not count against requests to the gateway's http local rate limit.
-	// All routes that are part of this vHost will share this rate limit unless explicity configured with another limit.
+	// All routes that are part of this vHost will share this rate limit unless explicitly configured with another limit.
 	LocalRatelimit *local_ratelimit.TokenBucket `protobuf:"bytes,2,opt,name=local_ratelimit,json=localRatelimit,proto3" json:"local_ratelimit,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
