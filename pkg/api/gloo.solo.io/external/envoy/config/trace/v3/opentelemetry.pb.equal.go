@@ -60,6 +60,16 @@ func (m *OpenTelemetryConfig) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetSampler()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetSampler()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetSampler(), target.GetSampler()) {
+			return false
+		}
+	}
+
 	switch m.CollectorCluster.(type) {
 
 	case *OpenTelemetryConfig_CollectorUpstreamRef:
@@ -143,6 +153,205 @@ func (m *GrpcService) Equal(that interface{}) bool {
 
 	if strings.Compare(m.GetAuthority(), target.GetAuthority()) != 0 {
 		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *OpenTelemetrySampler) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*OpenTelemetrySampler)
+	if !ok {
+		that2, ok := that.(OpenTelemetrySampler)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.Sampler.(type) {
+
+	case *OpenTelemetrySampler_AlwaysOn:
+		if _, ok := target.Sampler.(*OpenTelemetrySampler_AlwaysOn); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetAlwaysOn()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAlwaysOn()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetAlwaysOn(), target.GetAlwaysOn()) {
+				return false
+			}
+		}
+
+	case *OpenTelemetrySampler_TraceIdRatioBased:
+		if _, ok := target.Sampler.(*OpenTelemetrySampler_TraceIdRatioBased); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetTraceIdRatioBased()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetTraceIdRatioBased()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetTraceIdRatioBased(), target.GetTraceIdRatioBased()) {
+				return false
+			}
+		}
+
+	case *OpenTelemetrySampler_ParentBased:
+		if _, ok := target.Sampler.(*OpenTelemetrySampler_ParentBased); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetParentBased()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetParentBased()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetParentBased(), target.GetParentBased()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.Sampler != target.Sampler {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *AlwaysOnSampler) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*AlwaysOnSampler)
+	if !ok {
+		that2, ok := that.(AlwaysOnSampler)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	return true
+}
+
+// Equal function
+func (m *TraceIdRatioBasedSampler) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*TraceIdRatioBasedSampler)
+	if !ok {
+		that2, ok := that.(TraceIdRatioBasedSampler)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetSamplingPercentage()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetSamplingPercentage()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetSamplingPercentage(), target.GetSamplingPercentage()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *ParentBasedSampler) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*ParentBasedSampler)
+	if !ok {
+		that2, ok := that.(ParentBasedSampler)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	switch m.RootSampler.(type) {
+
+	case *ParentBasedSampler_AlwaysOn:
+		if _, ok := target.RootSampler.(*ParentBasedSampler_AlwaysOn); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetAlwaysOn()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetAlwaysOn()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetAlwaysOn(), target.GetAlwaysOn()) {
+				return false
+			}
+		}
+
+	case *ParentBasedSampler_TraceIdRatioBased:
+		if _, ok := target.RootSampler.(*ParentBasedSampler_TraceIdRatioBased); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetTraceIdRatioBased()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetTraceIdRatioBased()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetTraceIdRatioBased(), target.GetTraceIdRatioBased()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.RootSampler != target.RootSampler {
+			return false
+		}
 	}
 
 	return true
