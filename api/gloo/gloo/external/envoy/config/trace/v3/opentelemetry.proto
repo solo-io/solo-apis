@@ -52,11 +52,57 @@ message OpenTelemetryConfig {
   // decide their preferences on resource usage vs. data loss.
   // If not specified, the default is 1024.
   google.protobuf.UInt32Value max_cache_size = 5;
+
+  // Optional. The sampler the OpenTelemetry tracer uses to decide whether a span is recorded.
+  // If not set, Envoy honors the sampled flag of an incoming trace context (e.g. the `trace-flags`
+  // of a W3C `traceparent` header) and only applies the `tracePercentages` to requests that arrive
+  // without one. `tracePercentages` cannot override an inbound parent's sampling decision; use the
+  // `alwaysOn` sampler to record spans regardless of the parent's `trace-flags`.
+  OpenTelemetrySampler sampler = 6;
 }
 
 message GrpcService {
   // Set the authority header when calling the gRPC service.
   string authority = 1;
+}
+
+// Sampler configuration for the OpenTelemetry tracer.
+message OpenTelemetrySampler {
+  oneof sampler {
+    // Record every span, ignoring the sampling decision of an incoming trace context.
+    // See https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/tracers/opentelemetry/samplers/v3/always_on_sampler.proto
+    AlwaysOnSampler always_on = 1;
+    // Sample a deterministic percentage of traces based on the trace ID, so the decision is consistent across hops.
+    // See https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/tracers/opentelemetry/samplers/v3/trace_id_ratio_based_sampler.proto
+    TraceIdRatioBasedSampler trace_id_ratio_based = 2;
+    // Honor the sampling decision of an incoming trace context when present, and delegate to a root sampler otherwise.
+    // See https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/tracers/opentelemetry/samplers/v3/parent_based_sampler.proto
+    ParentBasedSampler parent_based = 3;
+  }
+}
+
+// A sampler that records every span.
+message AlwaysOnSampler {}
+
+// A sampler that records a percentage of traces based on the trace ID.
+message TraceIdRatioBasedSampler {
+  // Percentage of traces that should be sampled.
+  // optional, defaults to 100.0
+  // This should be a value between 0.0 and 100.0, with up to 6 significant digits.
+  google.protobuf.FloatValue sampling_percentage = 1;
+}
+
+// A sampler that honors the sampling decision of an incoming trace context, and uses
+// the root sampler for requests that arrive without one.
+message ParentBasedSampler {
+  // The sampler used when the request has no parent trace context.
+  // optional, defaults to `alwaysOn`.
+  oneof root_sampler {
+    // Record every root span.
+    AlwaysOnSampler always_on = 1;
+    // Sample a percentage of root spans based on the trace ID.
+    TraceIdRatioBasedSampler trace_id_ratio_based = 2;
+  }
 }
 
 option go_package = "github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/trace/v3";

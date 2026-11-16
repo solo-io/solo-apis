@@ -66,6 +66,26 @@ func (m *OpenTelemetryConfig) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	if h, ok := interface{}(m.GetSampler()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("Sampler")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetSampler(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("Sampler")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	switch m.CollectorCluster.(type) {
 
 	case *OpenTelemetryConfig_CollectorUpstreamRef:
@@ -146,6 +166,224 @@ func (m *GrpcService) Hash(hasher hash.Hash64) (uint64, error) {
 
 	if _, err = hasher.Write([]byte(m.GetAuthority())); err != nil {
 		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
+func (m *OpenTelemetrySampler) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("solo.io.envoy.config.trace.v3.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/trace/v3.OpenTelemetrySampler")); err != nil {
+		return 0, err
+	}
+
+	switch m.Sampler.(type) {
+
+	case *OpenTelemetrySampler_AlwaysOn:
+
+		if h, ok := interface{}(m.GetAlwaysOn()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("AlwaysOn")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetAlwaysOn(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("AlwaysOn")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *OpenTelemetrySampler_TraceIdRatioBased:
+
+		if h, ok := interface{}(m.GetTraceIdRatioBased()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("TraceIdRatioBased")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetTraceIdRatioBased(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("TraceIdRatioBased")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *OpenTelemetrySampler_ParentBased:
+
+		if h, ok := interface{}(m.GetParentBased()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("ParentBased")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetParentBased(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("ParentBased")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
+func (m *AlwaysOnSampler) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("solo.io.envoy.config.trace.v3.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/trace/v3.AlwaysOnSampler")); err != nil {
+		return 0, err
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
+func (m *TraceIdRatioBasedSampler) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("solo.io.envoy.config.trace.v3.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/trace/v3.TraceIdRatioBasedSampler")); err != nil {
+		return 0, err
+	}
+
+	if h, ok := interface{}(m.GetSamplingPercentage()).(safe_hasher.SafeHasher); ok {
+		if _, err = hasher.Write([]byte("SamplingPercentage")); err != nil {
+			return 0, err
+		}
+		if _, err = h.Hash(hasher); err != nil {
+			return 0, err
+		}
+	} else {
+		if fieldValue, err := hashstructure.Hash(m.GetSamplingPercentage(), nil); err != nil {
+			return 0, err
+		} else {
+			if _, err = hasher.Write([]byte("SamplingPercentage")); err != nil {
+				return 0, err
+			}
+			if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return hasher.Sum64(), nil
+}
+
+// Hash function
+//
+// Deprecated: due to hashing implemention only using field values. The omission
+// of the field name in the hash calculation can lead to hash collisions.
+// Prefer the HashUnique function instead.
+func (m *ParentBasedSampler) Hash(hasher hash.Hash64) (uint64, error) {
+	if m == nil {
+		return 0, nil
+	}
+	if hasher == nil {
+		hasher = fnv.New64()
+	}
+	var err error
+	if _, err = hasher.Write([]byte("solo.io.envoy.config.trace.v3.github.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/trace/v3.ParentBasedSampler")); err != nil {
+		return 0, err
+	}
+
+	switch m.RootSampler.(type) {
+
+	case *ParentBasedSampler_AlwaysOn:
+
+		if h, ok := interface{}(m.GetAlwaysOn()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("AlwaysOn")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetAlwaysOn(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("AlwaysOn")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
+	case *ParentBasedSampler_TraceIdRatioBased:
+
+		if h, ok := interface{}(m.GetTraceIdRatioBased()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("TraceIdRatioBased")); err != nil {
+				return 0, err
+			}
+			if _, err = h.Hash(hasher); err != nil {
+				return 0, err
+			}
+		} else {
+			if fieldValue, err := hashstructure.Hash(m.GetTraceIdRatioBased(), nil); err != nil {
+				return 0, err
+			} else {
+				if _, err = hasher.Write([]byte("TraceIdRatioBased")); err != nil {
+					return 0, err
+				}
+				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {
+					return 0, err
+				}
+			}
+		}
+
 	}
 
 	return hasher.Sum64(), nil

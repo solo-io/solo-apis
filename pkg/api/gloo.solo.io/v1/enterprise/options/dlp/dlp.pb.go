@@ -134,29 +134,29 @@ func (Config_EnableFor) EnumDescriptor() ([]byte, []int) {
 // The following pre-made action types map to subgroup 1 of the listed regex patterns:
 //
 // SSN:
-// - '(?:^|\D)([0-9]{9})(?:\D|$)'
-// - '(?:^|\D)([0-9]{3}\-[0-9]{2}\-[0-9]{4})(?:\D|$)'
-// - '(?:^|\D)([0-9]{3}\ [0-9]{2}\ [0-9]{4})(?:\D|$)'
+// - '(?:^|\D)([0-9]{9})(?=\D|$)'
+// - '(?:^|\D)([0-9]{3}\-[0-9]{2}\-[0-9]{4})(?=\D|$)'
+// - '(?:^|\D)([0-9]{3}\ [0-9]{2}\ [0-9]{4})(?=\D|$)'
 //
 // MASTERCARD:
-// - '(?:^|\D)(5[1-5][0-9]{2}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4})(?:\D|$)'
+// - '(?:^|\D)(5[1-5][0-9]{2}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4})(?=\D|$)'
 //
 // VISA:
-// - '(?:^|\D)(4[0-9]{3}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4})(?:\D|$)'
+// - '(?:^|\D)(4[0-9]{3}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4})(?=\D|$)'
 //
 // AMEX:
-// - '(?:^|\D)((?:34|37)[0-9]{2}(?:\ |\-|)[0-9]{6}(?:\ |\-|)[0-9]{5})(?:\D|$)'
+// - '(?:^|\D)((?:34|37)[0-9]{2}(?:\ |\-|)[0-9]{6}(?:\ |\-|)[0-9]{5})(?=\D|$)'
 //
 // DISCOVER:
-// - '(?:^|\D)(6011(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4})(?:\D|$)'
+// - '(?:^|\D)(6011(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4})(?=\D|$)'
 //
 // JCB:
-// - '(?:^|\D)(3[0-9]{3}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4})(?:\D|$)'
-// - '(?:^|\D)((?:2131|1800)[0-9]{11})(?:\D|$)'
+// - '(?:^|\D)(3[0-9]{3}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4}(?:\ |\-|)[0-9]{4})(?=\D|$)'
+// - '(?:^|\D)((?:2131|1800)[0-9]{11})(?=\D|$)'
 //
 // DINERS_CLUB:
-// - '(?:^|\D)(30[0-5][0-9](?:\ |\-|)[0-9]{6}(?:\ |\-|)[0-9]{4})(?:\D|$)'
-// - '(?:^|\D)((?:36|38)[0-9]{2}(?:\ |\-|)[0-9]{6}(?:\ |\-|)[0-9]{4})(?:\D|$)'
+// - '(?:^|\D)(30[0-5][0-9](?:\ |\-|)[0-9]{6}(?:\ |\-|)[0-9]{4})(?=\D|$)'
+// - '(?:^|\D)((?:36|38)[0-9]{2}(?:\ |\-|)[0-9]{6}(?:\ |\-|)[0-9]{4})(?=\D|$)'
 //
 // CREDIT_CARD_TRACKERS:
 // - '([1-9][0-9]{2}\-[0-9]{2}\-[0-9]{4}\^\d)'
@@ -164,10 +164,12 @@ func (Config_EnableFor) EnumDescriptor() ([]byte, []int) {
 // - '(?:^|\D)(\;\d{13,19}\=(?:\d{3}|)(?:\d{4}|\=))'
 //
 // ALL_CREDIT_CARDS:
-// - (All credit card related regexes from above)
+// - (All credit card related regexes from above, applied in the order
+// MASTERCARD, VISA, AMEX, DISCOVER, JCB, DINERS_CLUB, CREDIT_CARD_TRACKERS)
 //
 // ALL_CREDIT_CARDS_COMBINED:
-// - Same as ALL_CREDIT_CARDS but using a single action instead of multiple which should be marginally faster
+// - Same as ALL_CREDIT_CARDS but using a single action instead of multiple which should be marginally faster.
+// The first CREDIT_CARD_TRACKERS regex runs separately, after the others.
 type Action_ActionType int32
 
 const (
@@ -309,7 +311,9 @@ type DlpRule struct {
 	// if omitted, will it match all (i.e., default to / prefix matcher)
 	Matcher *matchers.Matcher `protobuf:"bytes,1,opt,name=matcher,proto3" json:"matcher,omitempty"`
 	// List of data loss prevention actions to be applied.
-	// These actions will be applied in order, one at a time.
+	// These actions will be applied in order, one at a time. Each action sees the
+	// text left by the actions before it, so text masked by an earlier action may
+	// no longer match a later action.
 	Actions       []*Action `protobuf:"bytes,2,rep,name=actions,proto3" json:"actions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -366,7 +370,9 @@ func (x *DlpRule) GetActions() []*Action {
 type Config struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// List of data loss prevention actions to be applied.
-	// These actions will be applied in order, one at a time.
+	// These actions will be applied in order, one at a time. Each action sees the
+	// text left by the actions before it, so text masked by an earlier action may
+	// no longer match a later action.
 	Actions []*Action `protobuf:"bytes,1,rep,name=actions,proto3" json:"actions,omitempty"`
 	// Whether responses, access logs, or both should be masked by the applied actions.
 	// If not defined, masking will only be enabled for responses bodies.
@@ -424,6 +430,8 @@ func (x *Config) GetEnabledFor() Config_EnableFor {
 // as well as the ability to create custom actions.
 // These actions can also be shadowed, a shadowed action will be recorded
 // in the statistics, and debug logs, but not actually committed in the response body.
+// A shadowed action sees the text left by the actions before it, so list it before
+// any masking actions to check it against the unmasked text.
 //
 // To use a pre-made action simply set the action type to anything other than `CUSTOM`
 //
@@ -455,6 +463,8 @@ type Action struct {
 	// will only affect access logs and response headers, not response bodies
 	KeyValueAction *KeyValueAction `protobuf:"bytes,4,opt,name=key_value_action,json=keyValueAction,proto3" json:"key_value_action,omitempty"`
 	// Shadow represents whether the action should be taken, or just recorded.
+	// A shadowed action checks the text left by the actions before it, not the
+	// original text.
 	Shadow        bool `protobuf:"varint,3,opt,name=shadow,proto3" json:"shadow,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -519,6 +529,9 @@ func (x *Action) GetShadow() bool {
 }
 
 // A user defined custom action to carry out on the response body.
+//
+// Regexes use ECMAScript syntax (C++ std::regex), not RE2. Lookaheads are supported;
+// lookbehinds, named groups, and inline flags such as `(?i)` are not.
 //
 // The list of regex strings are applied in order. So for instance, if there is a response body with the content:
 // `hello world`

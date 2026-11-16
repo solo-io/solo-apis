@@ -45,6 +45,12 @@ func (m *OpenTelemetryConfig) Clone() proto.Message {
 		target.MaxCacheSize = proto.Clone(m.GetMaxCacheSize()).(*google_golang_org_protobuf_types_known_wrapperspb.UInt32Value)
 	}
 
+	if h, ok := interface{}(m.GetSampler()).(clone.Cloner); ok {
+		target.Sampler = h.Clone().(*OpenTelemetrySampler)
+	} else {
+		target.Sampler = proto.Clone(m.GetSampler()).(*OpenTelemetrySampler)
+	}
+
 	switch m.CollectorCluster.(type) {
 
 	case *OpenTelemetryConfig_CollectorUpstreamRef:
@@ -95,6 +101,124 @@ func (m *GrpcService) Clone() proto.Message {
 	target = &GrpcService{}
 
 	target.Authority = m.GetAuthority()
+
+	return target
+}
+
+// Clone function
+func (m *OpenTelemetrySampler) Clone() proto.Message {
+	var target *OpenTelemetrySampler
+	if m == nil {
+		return target
+	}
+	target = &OpenTelemetrySampler{}
+
+	switch m.Sampler.(type) {
+
+	case *OpenTelemetrySampler_AlwaysOn:
+
+		if h, ok := interface{}(m.GetAlwaysOn()).(clone.Cloner); ok {
+			target.Sampler = &OpenTelemetrySampler_AlwaysOn{
+				AlwaysOn: h.Clone().(*AlwaysOnSampler),
+			}
+		} else {
+			target.Sampler = &OpenTelemetrySampler_AlwaysOn{
+				AlwaysOn: proto.Clone(m.GetAlwaysOn()).(*AlwaysOnSampler),
+			}
+		}
+
+	case *OpenTelemetrySampler_TraceIdRatioBased:
+
+		if h, ok := interface{}(m.GetTraceIdRatioBased()).(clone.Cloner); ok {
+			target.Sampler = &OpenTelemetrySampler_TraceIdRatioBased{
+				TraceIdRatioBased: h.Clone().(*TraceIdRatioBasedSampler),
+			}
+		} else {
+			target.Sampler = &OpenTelemetrySampler_TraceIdRatioBased{
+				TraceIdRatioBased: proto.Clone(m.GetTraceIdRatioBased()).(*TraceIdRatioBasedSampler),
+			}
+		}
+
+	case *OpenTelemetrySampler_ParentBased:
+
+		if h, ok := interface{}(m.GetParentBased()).(clone.Cloner); ok {
+			target.Sampler = &OpenTelemetrySampler_ParentBased{
+				ParentBased: h.Clone().(*ParentBasedSampler),
+			}
+		} else {
+			target.Sampler = &OpenTelemetrySampler_ParentBased{
+				ParentBased: proto.Clone(m.GetParentBased()).(*ParentBasedSampler),
+			}
+		}
+
+	}
+
+	return target
+}
+
+// Clone function
+func (m *AlwaysOnSampler) Clone() proto.Message {
+	var target *AlwaysOnSampler
+	if m == nil {
+		return target
+	}
+	target = &AlwaysOnSampler{}
+
+	return target
+}
+
+// Clone function
+func (m *TraceIdRatioBasedSampler) Clone() proto.Message {
+	var target *TraceIdRatioBasedSampler
+	if m == nil {
+		return target
+	}
+	target = &TraceIdRatioBasedSampler{}
+
+	if h, ok := interface{}(m.GetSamplingPercentage()).(clone.Cloner); ok {
+		target.SamplingPercentage = h.Clone().(*google_golang_org_protobuf_types_known_wrapperspb.FloatValue)
+	} else {
+		target.SamplingPercentage = proto.Clone(m.GetSamplingPercentage()).(*google_golang_org_protobuf_types_known_wrapperspb.FloatValue)
+	}
+
+	return target
+}
+
+// Clone function
+func (m *ParentBasedSampler) Clone() proto.Message {
+	var target *ParentBasedSampler
+	if m == nil {
+		return target
+	}
+	target = &ParentBasedSampler{}
+
+	switch m.RootSampler.(type) {
+
+	case *ParentBasedSampler_AlwaysOn:
+
+		if h, ok := interface{}(m.GetAlwaysOn()).(clone.Cloner); ok {
+			target.RootSampler = &ParentBasedSampler_AlwaysOn{
+				AlwaysOn: h.Clone().(*AlwaysOnSampler),
+			}
+		} else {
+			target.RootSampler = &ParentBasedSampler_AlwaysOn{
+				AlwaysOn: proto.Clone(m.GetAlwaysOn()).(*AlwaysOnSampler),
+			}
+		}
+
+	case *ParentBasedSampler_TraceIdRatioBased:
+
+		if h, ok := interface{}(m.GetTraceIdRatioBased()).(clone.Cloner); ok {
+			target.RootSampler = &ParentBasedSampler_TraceIdRatioBased{
+				TraceIdRatioBased: h.Clone().(*TraceIdRatioBasedSampler),
+			}
+		} else {
+			target.RootSampler = &ParentBasedSampler_TraceIdRatioBased{
+				TraceIdRatioBased: proto.Clone(m.GetTraceIdRatioBased()).(*TraceIdRatioBasedSampler),
+			}
+		}
+
+	}
 
 	return target
 }
