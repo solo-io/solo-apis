@@ -55,7 +55,13 @@ type OpenTelemetryConfig struct {
 	// Users should tune the setting based on their environment's expected telemetry volume and
 	// decide their preferences on resource usage vs. data loss.
 	// If not specified, the default is 1024.
-	MaxCacheSize  *wrapperspb.UInt32Value `protobuf:"bytes,5,opt,name=max_cache_size,json=maxCacheSize,proto3" json:"max_cache_size,omitempty"`
+	MaxCacheSize *wrapperspb.UInt32Value `protobuf:"bytes,5,opt,name=max_cache_size,json=maxCacheSize,proto3" json:"max_cache_size,omitempty"`
+	// Optional. The sampler the OpenTelemetry tracer uses to decide whether a span is recorded.
+	// If not set, Envoy honors the sampled flag of an incoming trace context (e.g. the `trace-flags`
+	// of a W3C `traceparent` header) and only applies the `tracePercentages` to requests that arrive
+	// without one. `tracePercentages` cannot override an inbound parent's sampling decision; use the
+	// `alwaysOn` sampler to record spans regardless of the parent's `trace-flags`.
+	Sampler       *OpenTelemetrySampler `protobuf:"bytes,6,opt,name=sampler,proto3" json:"sampler,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -145,6 +151,13 @@ func (x *OpenTelemetryConfig) GetMaxCacheSize() *wrapperspb.UInt32Value {
 	return nil
 }
 
+func (x *OpenTelemetryConfig) GetSampler() *OpenTelemetrySampler {
+	if x != nil {
+		return x.Sampler
+	}
+	return nil
+}
+
 type isOpenTelemetryConfig_CollectorCluster interface {
 	isOpenTelemetryConfig_CollectorCluster()
 }
@@ -220,22 +233,314 @@ func (x *GrpcService) GetAuthority() string {
 	return ""
 }
 
+// Sampler configuration for the OpenTelemetry tracer.
+type OpenTelemetrySampler struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Sampler:
+	//
+	//	*OpenTelemetrySampler_AlwaysOn
+	//	*OpenTelemetrySampler_TraceIdRatioBased
+	//	*OpenTelemetrySampler_ParentBased
+	Sampler       isOpenTelemetrySampler_Sampler `protobuf_oneof:"sampler"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OpenTelemetrySampler) Reset() {
+	*x = OpenTelemetrySampler{}
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OpenTelemetrySampler) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OpenTelemetrySampler) ProtoMessage() {}
+
+func (x *OpenTelemetrySampler) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OpenTelemetrySampler.ProtoReflect.Descriptor instead.
+func (*OpenTelemetrySampler) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *OpenTelemetrySampler) GetSampler() isOpenTelemetrySampler_Sampler {
+	if x != nil {
+		return x.Sampler
+	}
+	return nil
+}
+
+func (x *OpenTelemetrySampler) GetAlwaysOn() *AlwaysOnSampler {
+	if x != nil {
+		if x, ok := x.Sampler.(*OpenTelemetrySampler_AlwaysOn); ok {
+			return x.AlwaysOn
+		}
+	}
+	return nil
+}
+
+func (x *OpenTelemetrySampler) GetTraceIdRatioBased() *TraceIdRatioBasedSampler {
+	if x != nil {
+		if x, ok := x.Sampler.(*OpenTelemetrySampler_TraceIdRatioBased); ok {
+			return x.TraceIdRatioBased
+		}
+	}
+	return nil
+}
+
+func (x *OpenTelemetrySampler) GetParentBased() *ParentBasedSampler {
+	if x != nil {
+		if x, ok := x.Sampler.(*OpenTelemetrySampler_ParentBased); ok {
+			return x.ParentBased
+		}
+	}
+	return nil
+}
+
+type isOpenTelemetrySampler_Sampler interface {
+	isOpenTelemetrySampler_Sampler()
+}
+
+type OpenTelemetrySampler_AlwaysOn struct {
+	// Record every span, ignoring the sampling decision of an incoming trace context.
+	// See https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/tracers/opentelemetry/samplers/v3/always_on_sampler.proto
+	AlwaysOn *AlwaysOnSampler `protobuf:"bytes,1,opt,name=always_on,json=alwaysOn,proto3,oneof"`
+}
+
+type OpenTelemetrySampler_TraceIdRatioBased struct {
+	// Sample a deterministic percentage of traces based on the trace ID, so the decision is consistent across hops.
+	// See https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/tracers/opentelemetry/samplers/v3/trace_id_ratio_based_sampler.proto
+	TraceIdRatioBased *TraceIdRatioBasedSampler `protobuf:"bytes,2,opt,name=trace_id_ratio_based,json=traceIdRatioBased,proto3,oneof"`
+}
+
+type OpenTelemetrySampler_ParentBased struct {
+	// Honor the sampling decision of an incoming trace context when present, and delegate to a root sampler otherwise.
+	// See https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/tracers/opentelemetry/samplers/v3/parent_based_sampler.proto
+	ParentBased *ParentBasedSampler `protobuf:"bytes,3,opt,name=parent_based,json=parentBased,proto3,oneof"`
+}
+
+func (*OpenTelemetrySampler_AlwaysOn) isOpenTelemetrySampler_Sampler() {}
+
+func (*OpenTelemetrySampler_TraceIdRatioBased) isOpenTelemetrySampler_Sampler() {}
+
+func (*OpenTelemetrySampler_ParentBased) isOpenTelemetrySampler_Sampler() {}
+
+// A sampler that records every span.
+type AlwaysOnSampler struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AlwaysOnSampler) Reset() {
+	*x = AlwaysOnSampler{}
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AlwaysOnSampler) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AlwaysOnSampler) ProtoMessage() {}
+
+func (x *AlwaysOnSampler) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AlwaysOnSampler.ProtoReflect.Descriptor instead.
+func (*AlwaysOnSampler) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_rawDescGZIP(), []int{3}
+}
+
+// A sampler that records a percentage of traces based on the trace ID.
+type TraceIdRatioBasedSampler struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Percentage of traces that should be sampled.
+	// optional, defaults to 100.0
+	// This should be a value between 0.0 and 100.0, with up to 6 significant digits.
+	SamplingPercentage *wrapperspb.FloatValue `protobuf:"bytes,1,opt,name=sampling_percentage,json=samplingPercentage,proto3" json:"sampling_percentage,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *TraceIdRatioBasedSampler) Reset() {
+	*x = TraceIdRatioBasedSampler{}
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TraceIdRatioBasedSampler) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TraceIdRatioBasedSampler) ProtoMessage() {}
+
+func (x *TraceIdRatioBasedSampler) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TraceIdRatioBasedSampler.ProtoReflect.Descriptor instead.
+func (*TraceIdRatioBasedSampler) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *TraceIdRatioBasedSampler) GetSamplingPercentage() *wrapperspb.FloatValue {
+	if x != nil {
+		return x.SamplingPercentage
+	}
+	return nil
+}
+
+// A sampler that honors the sampling decision of an incoming trace context, and uses
+// the root sampler for requests that arrive without one.
+type ParentBasedSampler struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The sampler used when the request has no parent trace context.
+	// optional, defaults to `alwaysOn`.
+	//
+	// Types that are valid to be assigned to RootSampler:
+	//
+	//	*ParentBasedSampler_AlwaysOn
+	//	*ParentBasedSampler_TraceIdRatioBased
+	RootSampler   isParentBasedSampler_RootSampler `protobuf_oneof:"root_sampler"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ParentBasedSampler) Reset() {
+	*x = ParentBasedSampler{}
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ParentBasedSampler) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ParentBasedSampler) ProtoMessage() {}
+
+func (x *ParentBasedSampler) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ParentBasedSampler.ProtoReflect.Descriptor instead.
+func (*ParentBasedSampler) Descriptor() ([]byte, []int) {
+	return file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ParentBasedSampler) GetRootSampler() isParentBasedSampler_RootSampler {
+	if x != nil {
+		return x.RootSampler
+	}
+	return nil
+}
+
+func (x *ParentBasedSampler) GetAlwaysOn() *AlwaysOnSampler {
+	if x != nil {
+		if x, ok := x.RootSampler.(*ParentBasedSampler_AlwaysOn); ok {
+			return x.AlwaysOn
+		}
+	}
+	return nil
+}
+
+func (x *ParentBasedSampler) GetTraceIdRatioBased() *TraceIdRatioBasedSampler {
+	if x != nil {
+		if x, ok := x.RootSampler.(*ParentBasedSampler_TraceIdRatioBased); ok {
+			return x.TraceIdRatioBased
+		}
+	}
+	return nil
+}
+
+type isParentBasedSampler_RootSampler interface {
+	isParentBasedSampler_RootSampler()
+}
+
+type ParentBasedSampler_AlwaysOn struct {
+	// Record every root span.
+	AlwaysOn *AlwaysOnSampler `protobuf:"bytes,1,opt,name=always_on,json=alwaysOn,proto3,oneof"`
+}
+
+type ParentBasedSampler_TraceIdRatioBased struct {
+	// Sample a percentage of root spans based on the trace ID.
+	TraceIdRatioBased *TraceIdRatioBasedSampler `protobuf:"bytes,2,opt,name=trace_id_ratio_based,json=traceIdRatioBased,proto3,oneof"`
+}
+
+func (*ParentBasedSampler_AlwaysOn) isParentBasedSampler_RootSampler() {}
+
+func (*ParentBasedSampler_TraceIdRatioBased) isParentBasedSampler_RootSampler() {}
+
 var File_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto protoreflect.FileDescriptor
 
 const file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_rawDesc = "" +
 	"\n" +
-	"]github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/trace/v3/opentelemetry.proto\x12\x1dsolo.io.envoy.config.trace.v3\x1a\x1eudpa/annotations/migrate.proto\x1a\x1dudpa/annotations/status.proto\x1a!udpa/annotations/versioning.proto\x1a\x17validate/validate.proto\x1a\x1egoogle/protobuf/wrappers.proto\x1a,github.com/solo-io/solo-kit/api/v1/ref.proto\x1a\x12extproto/ext.proto\"\x9d\x03\n" +
+	"]github.com/solo-io/solo-apis/api/gloo/gloo/external/envoy/config/trace/v3/opentelemetry.proto\x12\x1dsolo.io.envoy.config.trace.v3\x1a\x1eudpa/annotations/migrate.proto\x1a\x1dudpa/annotations/status.proto\x1a!udpa/annotations/versioning.proto\x1a\x17validate/validate.proto\x1a\x1egoogle/protobuf/wrappers.proto\x1a,github.com/solo-io/solo-kit/api/v1/ref.proto\x1a\x12extproto/ext.proto\"\xec\x03\n" +
 	"\x13OpenTelemetryConfig\x12Q\n" +
 	"\x16collector_upstream_ref\x18\x01 \x01(\v2\x19.core.solo.io.ResourceRefH\x00R\x14collectorUpstreamRef\x12#\n" +
 	"\fcluster_name\x18\x02 \x01(\tH\x00R\vclusterName\x12!\n" +
 	"\fservice_name\x18\x03 \x01(\tR\vserviceName\x12O\n" +
 	"\fgrpc_service\x18\x04 \x01(\v2*.solo.io.envoy.config.trace.v3.GrpcServiceH\x01R\vgrpcService\x12B\n" +
-	"\x0emax_cache_size\x18\x05 \x01(\v2\x1c.google.protobuf.UInt32ValueR\fmaxCacheSize:1\x8a\xc8ގ\x04+\n" +
+	"\x0emax_cache_size\x18\x05 \x01(\v2\x1c.google.protobuf.UInt32ValueR\fmaxCacheSize\x12M\n" +
+	"\asampler\x18\x06 \x01(\v23.solo.io.envoy.config.trace.v3.OpenTelemetrySamplerR\asampler:1\x8a\xc8ގ\x04+\n" +
 	")envoy.config.trace.v2.OpenTelemetryConfigB\x13\n" +
 	"\x11collector_clusterB\x0e\n" +
 	"\fservice_type\"+\n" +
 	"\vGrpcService\x12\x1c\n" +
-	"\tauthority\x18\x01 \x01(\tR\tauthorityB\xdf\x01\xb8\xf5\x04\x01\xc0\xf5\x04\x01\xd0\xf5\x04\x01\x82\x8a\u05ed\x040\x12.envoy.extensions.tracers.opentelemetry.v4alpha\xe2\xb5\xdf\xcb\a\x02\x10\x02\n" +
+	"\tauthority\x18\x01 \x01(\tR\tauthority\"\xb4\x02\n" +
+	"\x14OpenTelemetrySampler\x12M\n" +
+	"\talways_on\x18\x01 \x01(\v2..solo.io.envoy.config.trace.v3.AlwaysOnSamplerH\x00R\balwaysOn\x12j\n" +
+	"\x14trace_id_ratio_based\x18\x02 \x01(\v27.solo.io.envoy.config.trace.v3.TraceIdRatioBasedSamplerH\x00R\x11traceIdRatioBased\x12V\n" +
+	"\fparent_based\x18\x03 \x01(\v21.solo.io.envoy.config.trace.v3.ParentBasedSamplerH\x00R\vparentBasedB\t\n" +
+	"\asampler\"\x11\n" +
+	"\x0fAlwaysOnSampler\"h\n" +
+	"\x18TraceIdRatioBasedSampler\x12L\n" +
+	"\x13sampling_percentage\x18\x01 \x01(\v2\x1b.google.protobuf.FloatValueR\x12samplingPercentage\"\xdf\x01\n" +
+	"\x12ParentBasedSampler\x12M\n" +
+	"\talways_on\x18\x01 \x01(\v2..solo.io.envoy.config.trace.v3.AlwaysOnSamplerH\x00R\balwaysOn\x12j\n" +
+	"\x14trace_id_ratio_based\x18\x02 \x01(\v27.solo.io.envoy.config.trace.v3.TraceIdRatioBasedSamplerH\x00R\x11traceIdRatioBasedB\x0e\n" +
+	"\froot_samplerB\xdf\x01\xb8\xf5\x04\x01\xc0\xf5\x04\x01\xd0\xf5\x04\x01\x82\x8a\u05ed\x040\x12.envoy.extensions.tracers.opentelemetry.v4alpha\xe2\xb5\xdf\xcb\a\x02\x10\x02\n" +
 	"+io.envoyproxy.solo.io.envoy.config.trace.v3B\x12OpentelemetryProtoP\x01ZPgithub.com/solo-io/solo-apis/pkg/api/gloo.solo.io/external/envoy/config/trace/v3b\x06proto3"
 
 var (
@@ -250,22 +555,34 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace
 	return file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_rawDescData
 }
 
-var file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_goTypes = []any{
-	(*OpenTelemetryConfig)(nil),    // 0: solo.io.envoy.config.trace.v3.OpenTelemetryConfig
-	(*GrpcService)(nil),            // 1: solo.io.envoy.config.trace.v3.GrpcService
-	(*core.ResourceRef)(nil),       // 2: core.solo.io.ResourceRef
-	(*wrapperspb.UInt32Value)(nil), // 3: google.protobuf.UInt32Value
+	(*OpenTelemetryConfig)(nil),      // 0: solo.io.envoy.config.trace.v3.OpenTelemetryConfig
+	(*GrpcService)(nil),              // 1: solo.io.envoy.config.trace.v3.GrpcService
+	(*OpenTelemetrySampler)(nil),     // 2: solo.io.envoy.config.trace.v3.OpenTelemetrySampler
+	(*AlwaysOnSampler)(nil),          // 3: solo.io.envoy.config.trace.v3.AlwaysOnSampler
+	(*TraceIdRatioBasedSampler)(nil), // 4: solo.io.envoy.config.trace.v3.TraceIdRatioBasedSampler
+	(*ParentBasedSampler)(nil),       // 5: solo.io.envoy.config.trace.v3.ParentBasedSampler
+	(*core.ResourceRef)(nil),         // 6: core.solo.io.ResourceRef
+	(*wrapperspb.UInt32Value)(nil),   // 7: google.protobuf.UInt32Value
+	(*wrapperspb.FloatValue)(nil),    // 8: google.protobuf.FloatValue
 }
 var file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_depIdxs = []int32{
-	2, // 0: solo.io.envoy.config.trace.v3.OpenTelemetryConfig.collector_upstream_ref:type_name -> core.solo.io.ResourceRef
-	1, // 1: solo.io.envoy.config.trace.v3.OpenTelemetryConfig.grpc_service:type_name -> solo.io.envoy.config.trace.v3.GrpcService
-	3, // 2: solo.io.envoy.config.trace.v3.OpenTelemetryConfig.max_cache_size:type_name -> google.protobuf.UInt32Value
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	6,  // 0: solo.io.envoy.config.trace.v3.OpenTelemetryConfig.collector_upstream_ref:type_name -> core.solo.io.ResourceRef
+	1,  // 1: solo.io.envoy.config.trace.v3.OpenTelemetryConfig.grpc_service:type_name -> solo.io.envoy.config.trace.v3.GrpcService
+	7,  // 2: solo.io.envoy.config.trace.v3.OpenTelemetryConfig.max_cache_size:type_name -> google.protobuf.UInt32Value
+	2,  // 3: solo.io.envoy.config.trace.v3.OpenTelemetryConfig.sampler:type_name -> solo.io.envoy.config.trace.v3.OpenTelemetrySampler
+	3,  // 4: solo.io.envoy.config.trace.v3.OpenTelemetrySampler.always_on:type_name -> solo.io.envoy.config.trace.v3.AlwaysOnSampler
+	4,  // 5: solo.io.envoy.config.trace.v3.OpenTelemetrySampler.trace_id_ratio_based:type_name -> solo.io.envoy.config.trace.v3.TraceIdRatioBasedSampler
+	5,  // 6: solo.io.envoy.config.trace.v3.OpenTelemetrySampler.parent_based:type_name -> solo.io.envoy.config.trace.v3.ParentBasedSampler
+	8,  // 7: solo.io.envoy.config.trace.v3.TraceIdRatioBasedSampler.sampling_percentage:type_name -> google.protobuf.FloatValue
+	3,  // 8: solo.io.envoy.config.trace.v3.ParentBasedSampler.always_on:type_name -> solo.io.envoy.config.trace.v3.AlwaysOnSampler
+	4,  // 9: solo.io.envoy.config.trace.v3.ParentBasedSampler.trace_id_ratio_based:type_name -> solo.io.envoy.config.trace.v3.TraceIdRatioBasedSampler
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() {
@@ -280,13 +597,22 @@ func file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace
 		(*OpenTelemetryConfig_ClusterName)(nil),
 		(*OpenTelemetryConfig_GrpcService)(nil),
 	}
+	file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[2].OneofWrappers = []any{
+		(*OpenTelemetrySampler_AlwaysOn)(nil),
+		(*OpenTelemetrySampler_TraceIdRatioBased)(nil),
+		(*OpenTelemetrySampler_ParentBased)(nil),
+	}
+	file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_msgTypes[5].OneofWrappers = []any{
+		(*ParentBasedSampler_AlwaysOn)(nil),
+		(*ParentBasedSampler_TraceIdRatioBased)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_rawDesc), len(file_github_com_solo_io_solo_apis_api_gloo_gloo_external_envoy_config_trace_v3_opentelemetry_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
